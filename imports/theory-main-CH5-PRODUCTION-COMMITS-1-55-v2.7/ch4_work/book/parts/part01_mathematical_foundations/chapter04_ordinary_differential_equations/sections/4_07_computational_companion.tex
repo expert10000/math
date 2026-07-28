@@ -1,0 +1,26 @@
+\section{Computational Companion}
+\label{sec:ch4-computational}
+Numerical integration is indispensable for nonlinear, coupled, and driven systems. The companion compares Euler and fourth-order Runge--Kutta methods, tests convergence, draws a nonlinear phase portrait, and computes resonance.
+\subsection{Python workflow}
+The executable file \texttt{examples/python/ch04/dynamical\_systems\_companion.py} generates the four figures below and prints numerical error checks.
+\begin{lstlisting}[language=Python,caption={Core explicit time-stepping algorithms.}]
+def euler(f, t, y0):
+    y = np.empty_like(t); y[0] = y0
+    for n in range(len(t)-1):
+        h = t[n+1]-t[n]
+        y[n+1] = y[n] + h*f(t[n], y[n])
+    return y
+\end{lstlisting}
+\begin{bookfigure}{Computational dynamics gallery: numerical decay, convergence, nonlinear phase flow, and resonance.}\label{fig:ch4-computational-gallery}
+\begin{minipage}{\textwidth}\centering
+\includegraphics[width=0.47\textwidth]{generated/ch04/numerical_decay.pdf}\hfill
+\includegraphics[width=0.47\textwidth]{generated/ch04/convergence.pdf}\par\medskip
+\includegraphics[width=0.47\textwidth]{generated/ch04/phase_portrait.pdf}\hfill
+\includegraphics[width=0.47\textwidth]{generated/ch04/resonance_curve.pdf}
+\end{minipage}
+\end{bookfigure}
+\subsection{Wolfram Language workflow}
+The matching file \texttt{examples/wolfram/ch04/dynamical\_systems\_companion.wl} uses \texttt{DSolve}, \texttt{NDSolve}, and \texttt{ParametricPlot}.
+\begin{warningbox}
+Always test convergence under step refinement and compare against an analytic case. A smooth plot is not proof of numerical correctness.
+\end{warningbox}

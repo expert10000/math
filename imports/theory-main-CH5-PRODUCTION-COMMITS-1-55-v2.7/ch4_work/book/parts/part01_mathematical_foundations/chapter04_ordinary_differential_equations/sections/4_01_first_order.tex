@@ -1,0 +1,113 @@
+\section{First-Order Differential Equations}
+\label{sec:ch4-first-order}
+
+A first-order ODE relates a function to its first derivative. Although simple in form, such equations already model decay, charging, cooling, relaxation, transport, and population growth.
+
+\subsection{Separable equations}
+An equation is separable when it can be written
+\[
+\frac{dy}{dt}=g(t)h(y).
+\]
+Where $h(y)\neq0$, rearrange and integrate:
+\[
+\int \frac{dy}{h(y)}=\int g(t)\,dt+C.
+\]
+The method is justified by the chain rule, not by treating $dy$ and $dt$ as independent numbers.
+
+\begin{workedexample}
+A sample contains $N_0$ unstable nuclei and obeys $\dot N=-\lambda N$ with $\lambda>0$. Find $N(t)$ and the half-life.
+\begin{solution}
+Separate variables:
+\[
+\frac{dN}{N}=-\lambda\,dt.
+\]
+Integrating gives $\ln N=-\lambda t+C$, hence
+\[
+N(t)=N_0e^{-\lambda t}.
+\]
+The half-life $t_{1/2}$ satisfies $N(t_{1/2})=N_0/2$, so
+\[
+\boxed{t_{1/2}=\frac{\ln2}{\lambda}}.
+\]
+\end{solution}
+The inverse rate $\tau=1/\lambda$ is the characteristic decay time.
+\end{workedexample}
+
+\subsection{First-order linear equations}
+The standard form is
+\[
+\dot y+p(t)y=q(t).
+\]
+Multiplication by the integrating factor
+\[
+\mu(t)=\exp\left(\int p(t)\,dt\right)
+\]
+turns the left side into a product derivative:
+\[
+\frac{d}{dt}\bigl(\mu y\bigr)=\mu q.
+\]
+Therefore
+\[
+\boxed{y(t)=\frac{1}{\mu(t)}\left[C+\int^t\mu(s)q(s)\,ds\right]}.
+\]
+
+\begin{workedexample}
+A body at temperature $T(t)$ is placed in an environment at constant temperature $T_a$. Newton's cooling law is
+\[
+\dot T=-k(T-T_a),\qquad k>0.
+\]
+For $T(0)=T_0$, determine $T(t)$.
+\begin{solution}
+Set $u=T-T_a$. Then $\dot u=-ku$, so
+\[
+u(t)=(T_0-T_a)e^{-kt}.
+\]
+Hence
+\[
+\boxed{T(t)=T_a+(T_0-T_a)e^{-kt}}.
+\]
+\end{solution}
+The difference from equilibrium decays exponentially; the ambient temperature is a stable fixed point.
+\end{workedexample}
+
+\subsection{Equilibria and qualitative behavior}
+For an autonomous equation $\dot y=f(y)$, an equilibrium $y_*$ satisfies $f(y_*)=0$. The sign of $f$ on either side determines whether neighboring solutions move toward or away from $y_*$. This one-dimensional phase-line analysis anticipates the stability theory of systems.
+
+For the logistic equation
+\[
+\dot P=rP\left(1-\frac{P}{K}\right),
+\]
+the equilibria are $P=0$ and $P=K$. For $r>0$, small positive populations grow away from zero and toward the carrying capacity $K$.
+
+\begin{workedexample}
+Solve the logistic initial-value problem $\dot P=rP(1-P/K)$, $P(0)=P_0>0$.
+\begin{solution}
+Partial fractions give
+\[
+\frac{1}{P(1-P/K)}=\frac{1}{P}+\frac{1}{K-P}.
+\]
+Integration yields
+\[
+\ln\frac{P}{K-P}=rt+C.
+\]
+Using the initial condition,
+\[
+\boxed{P(t)=\frac{K}{1+\left(\frac{K-P_0}{P_0}\right)e^{-rt}}}.
+\]
+\end{solution}
+The early-time behavior is approximately exponential, while nonlinear feedback produces saturation.
+\end{workedexample}
+
+\subsection{Direction fields}
+The differential equation $\dot y=f(t,y)$ assigns a slope to every point in the $(t,y)$ plane. Drawing short line segments of slope $f(t,y)$ produces a direction field. A solution curve is tangent to this field everywhere.
+
+\begin{figure}[htbp]
+\centering
+\input{figures/ch04/slope_field.tex}
+\caption{A direction field for $\dot y=-y$ and representative solution curves. Local slopes organize the global family.}
+\label{fig:ch4-slope-field}
+\end{figure}
+
+\begin{physicalbox}[Relaxation as universal behavior]
+Many systems near stable equilibrium obey $\dot u=-u/\tau$: a capacitor voltage, a temperature difference, a chemical imbalance, or a small perturbation of a damped device. The microscopic mechanisms differ, but the same linear relaxation equation produces the same exponential law.
+\end{physicalbox}

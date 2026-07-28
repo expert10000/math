@@ -1,0 +1,668 @@
+\documentclass[11pt,a4paper,openany]{book}
+
+% =============================================================================
+% Professional textbook foundation
+% =============================================================================
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=27mm,headheight=15pt]{geometry}
+\usepackage{setspace}
+\setstretch{1.05}
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{0pt}
+\raggedbottom
+
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,tabularx,array,longtable}
+\usepackage{graphicx}
+\usepackage{listings}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{adjustbox}
+\usetikzlibrary{
+  arrows.meta,
+  angles,
+  quotes,
+  calc,
+  positioning,
+  intersections,
+  decorations.pathmorphing,
+  decorations.markings,
+  backgrounds,
+  fit,
+  shapes.geometric,
+  patterns,
+  3d
+}
+\pgfplotsset{compat=1.18}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\usepackage{xcolor}
+\definecolor{chapterblue}{RGB}{35,75,120}
+\definecolor{softblue}{RGB}{240,246,252}
+\definecolor{softgreen}{RGB}{241,249,244}
+\definecolor{softgold}{RGB}{252,248,236}
+\definecolor{softred}{RGB}{252,242,242}
+\definecolor{softgray}{RGB}{246,247,249}
+\definecolor{rulegray}{RGB}{185,190,198}
+
+\lstdefinestyle{prbookpython}{
+  language=Python,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\bfseries,
+  commentstyle=\itshape,
+  stringstyle=\ttfamily,
+  numbers=left,
+  numberstyle=\scriptsize,
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{rulegray},
+  backgroundcolor=\color{softgray},
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true
+}
+\lstdefinestyle{prbookwolfram}{
+  basicstyle=\ttfamily\small,
+  numbers=left,
+  numberstyle=\scriptsize,
+  numbersep=8pt,
+  frame=single,
+  rulecolor=\color{rulegray},
+  backgroundcolor=\color{softgray},
+  breaklines=true,
+  showstringspaces=false,
+  columns=fullflexible,
+  keepspaces=true
+}
+
+\usepackage[most]{tcolorbox}
+\tcbset{
+  enhanced,
+  breakable,
+  boxrule=0.6pt,
+  arc=1.4mm,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm,
+  before skip=7pt,after skip=7pt
+}
+
+\newtcolorbox{keyidea}[1][Key Idea]{
+  title=#1,colback=softblue,colframe=chapterblue,fonttitle=\bfseries
+}
+\newtcolorbox{definitionbox}[1][Definition]{
+  title=#1,colback=softgreen,colframe=green!45!black,fonttitle=\bfseries
+}
+\newtcolorbox{physicalbox}[1][Physical Interpretation]{
+  title=#1,colback=softgold,colframe=orange!55!black,fonttitle=\bfseries
+}
+\newtcolorbox{mistakebox}[1][Common Mistake]{
+  title=#1,colback=softred,colframe=red!55!black,fonttitle=\bfseries
+}
+\newtcolorbox{historybox}[1][Historical Note]{
+  title=#1,colback=softgray,colframe=rulegray,fonttitle=\bfseries
+}
+\newtcolorbox{examplebox}[1][Worked Example]{
+  title=#1,colback=white,colframe=chapterblue,fonttitle=\bfseries
+}
+\newtcolorbox{solutionbox}[1][Solution]{
+  title=#1,colback=softgray,colframe=rulegray,fonttitle=\bfseries
+}
+\newtcolorbox{roadmapbox}[1][Chapter Roadmap]{
+  title=#1,colback=softgray,colframe=chapterblue,fonttitle=\bfseries
+}
+
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.8em,topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{leftmargin=2em,topsep=4pt,itemsep=3pt,parsep=0pt}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\color{chapterblue}}
+  {\filleft\Large\chaptername\ \thechapter}
+  {0.7ex}
+  {\titlerule\vspace{1.1ex}\Huge}
+  [\vspace{0.7ex}\titlerule]
+\titlespacing*{\chapter}{0pt}{-16pt}{20pt}
+
+\titleformat{\section}
+  {\Large\bfseries\color{chapterblue}}
+  {\thesection}{0.7em}{}
+\titlespacing*{\section}{0pt}{2.1ex plus .5ex minus .2ex}{0.7ex}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection}{0.7em}{}
+\titlespacing*{\subsection}{0pt}{1.7ex plus .4ex minus .2ex}{0.5ex}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\itshape Theory of Quantum Mechanics}
+\fancyhead[RO]{\small\itshape\nouppercase{\rightmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+
+\usepackage{tocloft}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\setlength{\cftbeforechapskip}{7pt}
+\setlength{\cftbeforesecskip}{1pt}
+\renewcommand{\cftdotsep}{1.5}
+
+\usepackage[hidelinks,hypertexnames=false]{hyperref}
+
+\newcommand{\chapterquote}[2]{%
+  \begin{center}
+    \begin{minipage}{0.86\textwidth}
+      \centering\itshape\small #1
+      \if\relax\detokenize{#2}\relax
+      \else
+        \par\vspace{0.45em}\raggedleft\normalfont\footnotesize--- #2
+      \fi
+    \end{minipage}
+  \end{center}
+  \vspace{0.7em}
+}
+
+\newcommand{\learningobjectives}{%
+  \section*{Learning Objectives}
+  \addcontentsline{toc}{section}{Learning Objectives}
+  \noindent After completing this chapter, the reader should be able to:
+}
+
+\newcommand{\chaptersummary}{%
+  \section*{Chapter Summary}
+  \addcontentsline{toc}{section}{Chapter Summary}
+}
+
+\newcommand{\nextchapter}{%
+  \section*{Looking Ahead}
+  \addcontentsline{toc}{section}{Looking Ahead}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-12 : Editorial hierarchy and short-concept environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Numbered hierarchy: Part -> Chapter -> Section -> Subsection.
+% Shorter concepts use an unnumbered editorial heading or a semantic box.
+\newcommand{\booktopic}[1]{%
+  \par\addvspace{1.05\baselineskip}%
+  \noindent{\large\bfseries #1}\par\nobreak
+  \vspace{0.28\baselineskip}%
+}
+
+\newtcolorbox{propertybox}[1][Property]{
+  enhanced,breakable,colback=blue!2,colframe=blue!45!black,
+  fonttitle=\bfseries,title=#1,boxrule=0.45pt,arc=1.2mm,
+  left=1.5mm,right=1.5mm,top=1mm,bottom=1mm
+}
+\newtcolorbox{rulebox}[1][Rule]{
+  enhanced,breakable,colback=cyan!3,colframe=cyan!45!black,
+  fonttitle=\bfseries,title=#1,boxrule=0.45pt,arc=1.2mm,
+  left=1.5mm,right=1.5mm,top=1mm,bottom=1mm
+}
+\newtcolorbox{remarkbox}[1][Remark]{
+  enhanced,breakable,colback=black!2,colframe=black!35,
+  fonttitle=\bfseries,title=#1,boxrule=0.4pt,arc=1.2mm,
+  left=1.5mm,right=1.5mm,top=1mm,bottom=1mm
+}
+
+\newenvironment{property}[1][Property]{\begin{propertybox}[#1]}{\end{propertybox}}
+\newenvironment{bookrule}[1][Rule]{\begin{rulebox}[#1]}{\end{rulebox}}
+\newenvironment{bookremark}[1][Remark]{\begin{remarkbox}[#1]}{\end{remarkbox}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-02 : Professional textbook environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{definition}[chapter]
+\renewcommand{\thedefinition}{\thechapter.\arabic{definition}}
+
+\newcounter{example}[chapter]
+\renewcommand{\theexample}{\thechapter.\arabic{example}}
+
+\newcounter{remark}[chapter]
+\renewcommand{\theremark}{\thechapter.\arabic{remark}}
+
+\newenvironment{definition}{
+\refstepcounter{definition}
+\begin{definitionbox}[Definition \thedefinition]
+}{
+\end{definitionbox}
+}
+
+\newenvironment{workedexample}{
+\refstepcounter{example}
+\begin{examplebox}[Example \theexample]
+}{
+\end{examplebox}
+}
+
+\newenvironment{solution}{
+\begin{solutionbox}[Solution]
+}{
+\end{solutionbox}
+}
+
+\newenvironment{physical}{
+\begin{physicalbox}[Physical Interpretation]
+}{
+\end{physicalbox}
+}
+
+\newenvironment{warningbox}{
+\begin{mistakebox}[Common Mistake]
+}{
+\end{mistakebox}
+}
+
+\newenvironment{historicalnote}{
+\begin{historybox}[Historical Note]
+}{
+\end{historybox}
+}
+
+\newcommand{\ImportantEquation}[1]{
+\begin{keyidea}[Key Equation]
+\[
+#1
+\]
+\end{keyidea}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-03 : Complete educational framework
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Additional counters ---------------------------------------------------------
+\newcounter{keyequation}[chapter]
+\renewcommand{\thekeyequation}{\thechapter.\arabic{keyequation}}
+
+\newcounter{exercise}[chapter]
+\renewcommand{\theexercise}{\thechapter.\arabic{exercise}}
+
+\newcounter{historicalnote}[chapter]
+\renewcommand{\thehistoricalnote}{\thechapter.\arabic{historicalnote}}
+
+% Additional colours ----------------------------------------------------------
+\definecolor{summaryblue}{RGB}{232,241,250}
+\definecolor{notationgray}{RGB}{248,249,251}
+\definecolor{exercisegreen}{RGB}{239,248,241}
+\definecolor{outcomegold}{RGB}{253,248,229}
+\definecolor{lookaheadviolet}{RGB}{247,242,251}
+
+% Educational boxes -----------------------------------------------------------
+\newtcolorbox{keyequationbox}[1]{
+  title={Key Equation \thekeyequation: #1},
+  colback=softblue,
+  colframe=chapterblue,
+  fonttitle=\bfseries,
+  borderline west={2.2pt}{0pt}{chapterblue}
+}
+
+\newtcolorbox{summarybox}[1][Chapter Summary]{
+  title=#1,
+  colback=summaryblue,
+  colframe=chapterblue,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{formulasheetbox}[1][Quick Formula Sheet]{
+  title=#1,
+  colback=white,
+  colframe=chapterblue,
+  fonttitle=\bfseries\large,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{notationbox}[1][Notation and Units]{
+  title=#1,
+  colback=notationgray,
+  colframe=rulegray,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{outcomesbox}[1][Learning Outcomes Check]{
+  title=#1,
+  colback=outcomegold,
+  colframe=orange!60!black,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{lookingaheadbox}[1][Looking Ahead]{
+  title=#1,
+  colback=lookaheadviolet,
+  colframe=violet!55!black,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{exercisebox}[2][]{
+  title={Exercise \theexercise\if\relax\detokenize{#2}\relax\else: #2\fi},
+  colback=exercisegreen,
+  colframe=green!45!black,
+  fonttitle=\bfseries,
+  #1
+}
+
+\newtcolorbox{dashboardbox}[1][Chapter Dashboard]{
+  title=#1,
+  colback=softgray,
+  colframe=rulegray,
+  fonttitle=\bfseries\large
+}
+
+% Semantic environments -------------------------------------------------------
+\newenvironment{keyequation}[1]{%
+  \refstepcounter{keyequation}%
+  \begin{keyequationbox}{#1}%
+}{%
+  \end{keyequationbox}%
+}
+
+\newenvironment{chapterexercise}[1][]{%
+  \refstepcounter{exercise}%
+  \begin{exercisebox}{#1}%
+}{%
+  \end{exercisebox}%
+}
+
+\newenvironment{chapterhistorical}[1][]{%
+  \refstepcounter{historicalnote}%
+  \begin{historybox}[Historical Note \thehistoricalnote%
+  \if\relax\detokenize{#1}\relax\else: #1\fi]%
+}{%
+  \end{historybox}%
+}
+
+% Structured worked-example helpers ------------------------------------------
+\newcommand{\problempart}{\par\medskip\noindent\textbf{Problem.}\ }
+\newcommand{\givenpart}{\par\medskip\noindent\textbf{Given.}\ }
+\newcommand{\findpart}{\par\medskip\noindent\textbf{Find.}\ }
+\newcommand{\solutionpart}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\verificationpart}{\par\medskip\noindent\textbf{Verification.}\ }
+\newcommand{\meaningpart}{\par\medskip\noindent\textbf{Physical meaning.}\ }
+
+% Difficulty tags -------------------------------------------------------------
+\newcommand{\difficulty}[1]{%
+  \hfill\textbf{Difficulty: }%
+  \ifcase#1\or$\star\circ\circ\circ\circ$%
+  \or$\star\star\circ\circ\circ$%
+  \or$\star\star\star\circ\circ$%
+  \or$\star\star\star\star\circ$%
+  \or$\star\star\star\star\star$\fi
+}
+
+% Consistent chapter-ending headings ------------------------------------------
+\newcommand{\chapterformulaheading}{%
+  \section*{Quick Formula Sheet}
+  \addcontentsline{toc}{section}{Quick Formula Sheet}
+}
+\newcommand{\chapternotationheading}{%
+  \section*{Notation and Units}
+  \addcontentsline{toc}{section}{Notation and Units}
+}
+\newcommand{\chapteroutcomesheading}{%
+  \section*{Learning Outcomes Check}
+  \addcontentsline{toc}{section}{Learning Outcomes Check}
+}
+\newcommand{\chapterexercisesheading}{%
+  \section*{Exercises}
+  \addcontentsline{toc}{section}{Exercises}
+}
+\newcommand{\chapterlookaheadheading}{%
+  \section*{Looking Ahead}
+  \addcontentsline{toc}{section}{Looking Ahead}
+}
+
+% Compact reusable tables -----------------------------------------------------
+\newenvironment{notationtable}{%
+  \begin{tabular}{>{\centering\arraybackslash}p{0.16\textwidth}
+                  >{\raggedright\arraybackslash}p{0.48\textwidth}
+                  >{\raggedright\arraybackslash}p{0.23\textwidth}}
+  \toprule
+  \textbf{Symbol} & \textbf{Meaning} & \textbf{SI unit}\\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+}
+
+\newenvironment{formulatable}{%
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.29\textwidth}
+                  >{\raggedright\arraybackslash}p{0.61\textwidth}}
+  \toprule
+  \textbf{Quantity or operation} & \textbf{Formula}\\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-04 : Visual identity and TikZ illustration system
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Visual palette ----------------------------------------------------------------
+\definecolor{visualblue}{RGB}{35,75,120}
+\definecolor{visualcyan}{RGB}{54,135,170}
+\definecolor{visualgold}{RGB}{193,139,46}
+\definecolor{visualred}{RGB}{164,63,63}
+\definecolor{visualgreen}{RGB}{58,126,86}
+\definecolor{visualink}{RGB}{38,45,54}
+\definecolor{visualgrid}{RGB}{210,218,226}
+
+% Global TikZ styles ------------------------------------------------------------
+\tikzset{
+  physics axis/.style={
+    -{Latex[length=3mm]},
+    line width=0.9pt,
+    draw=visualink
+  },
+  physics vector/.style={
+    -{Latex[length=3.2mm]},
+    line width=1.5pt,
+    draw=visualblue
+  },
+  physics vector secondary/.style={
+    -{Latex[length=3mm]},
+    line width=1.25pt,
+    draw=visualcyan
+  },
+  force vector/.style={
+    -{Latex[length=3.2mm]},
+    line width=1.45pt,
+    draw=visualred
+  },
+  field vector/.style={
+    -{Latex[length=2.8mm]},
+    line width=1.1pt,
+    draw=visualgreen
+  },
+  construction line/.style={
+    dashed,
+    line width=0.75pt,
+    draw=visualgrid
+  },
+  trajectory/.style={
+    line width=1.5pt,
+    draw=visualblue
+  },
+  visual label/.style={
+    font=\small,
+    text=visualink,
+    fill=white,
+    inner sep=1.5pt
+  },
+  concept node/.style={
+    rounded corners=2pt,
+    draw=visualblue,
+    fill=softblue,
+    line width=0.8pt,
+    align=center,
+    inner sep=5pt,
+    font=\small
+  }
+}
+
+% Figure caption system ---------------------------------------------------------
+\captionsetup{
+  font=small,
+  labelfont={bf,color=visualblue},
+  textfont={color=visualink},
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=6pt
+}
+
+\InputIfFileExists{figures/common/chapter_figure_styles.tex}{}{}
+
+\newcommand{\figsource}[1]{%
+  \par\smallskip
+  {\footnotesize\color{gray}\textit{Source/Construction:} #1}
+}
+
+\newenvironment{bookfigure}[2][tbp]{%
+  \def\bookfigurecaption{#2}%
+  \gdef\bookfigurelabel{}%
+  \let\bookfigureoriginallabel\label
+  \renewcommand{\label}[1]{\gdef\bookfigurelabel{##1}}%
+  \begin{figure}[#1]
+  \centering
+  \begin{adjustbox}{max width=\textwidth}
+}{%
+  \end{adjustbox}
+  \caption{\bookfigurecaption}%
+  \if\relax\detokenize\expandafter{\bookfigurelabel}\relax\else
+    \bookfigureoriginallabel{\bookfigurelabel}%
+  \fi
+  \end{figure}
+}
+
+% Compact visual callout --------------------------------------------------------
+\newtcolorbox{visualguidebox}[1][How to read the figure]{
+  title=#1,
+  colback=white,
+  colframe=visualcyan,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{visualcyan}
+}
+
+% Chapter-opening artwork -------------------------------------------------------
+\newcommand{\chapteropeningart}[2]{%
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[softblue] (0,0) rectangle (12.6,2.65);
+  \draw[visualblue,line width=1pt] (0,0) rectangle (12.6,2.65);
+  \draw[visualgrid,line width=0.5pt] (0.45,0.35) grid[xstep=0.55,ystep=0.55] (12.1,2.3);
+  \node[anchor=west,font=\bfseries\Large,text=visualblue] at (0.7,1.78) {#1};
+  \node[anchor=west,align=left,text width=7.2cm,font=\small,text=visualink]
+    at (0.72,0.88) {#2};
+  \draw[physics axis] (9.1,0.62) -- (11.85,0.62) node[right] {$x$};
+  \draw[physics axis] (9.1,0.62) -- (9.1,2.18) node[above] {$y$};
+  \draw[physics vector] (9.1,0.62) -- (11.08,1.73)
+    node[above right,visual label] {$\mathbf q$};
+  \fill[visualgold] (9.1,0.62) circle (1.7pt);
+\end{tikzpicture}
+\end{center}
+\vspace{0.4cm}
+}
+
+% Future-ready visual templates -------------------------------------------------
+\newcommand{\wavefunctionplot}{%
+\begin{tikzpicture}
+  \begin{axis}[
+    width=10.5cm,
+    height=5.2cm,
+    axis lines=middle,
+    xlabel={$x$},
+    ylabel={$\psi(x)$},
+    ticks=none,
+    domain=-3.3:3.3,
+    samples=180,
+    ymin=-0.75,
+    ymax=1.15
+  ]
+    \addplot[visualblue,very thick] {exp(-x^2/2)};
+    \addplot[visualcyan,thick,dashed] {0.72*x*exp(-x^2/2)};
+  \end{axis}
+\end{tikzpicture}
+}
+
+\newcommand{\quantumhalltemplate}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[softblue] (0,0) rectangle (9.8,4.3);
+  \draw[visualblue,line width=0.9pt] (0,0) rectangle (9.8,4.3);
+  \foreach \x in {0.7,1.7,...,9.2}
+    \foreach \y in {0.6,1.6,...,3.8}
+      \draw[visualcyan!55,line width=0.5pt] (\x,\y) circle (0.16);
+  \draw[force vector] (0.55,3.75) -- (9.15,3.75)
+    node[midway,above,visual label] {upper chiral edge state};
+  \draw[force vector] (9.15,0.55) -- (0.55,0.55)
+    node[midway,below,visual label] {lower chiral edge state};
+  \node[font=\small] at (4.9,2.15) {2DEG bulk: Landau-level states};
+  \draw[physics vector] (8.85,1.5) -- (8.85,2.85)
+    node[above] {$\mathbf B$};
+\end{tikzpicture}
+}
+
+\title{\Huge\bfseries Theory of Quantum Mechanics\\[0.55em]
+\Large From Mathematical Foundations to the Quantum Hall Effect}
+\author{}
+\date{PR-BOOK v1.8 - Chapters 1--2 Publication Foundation\\\today}
+
+% =============================================================================
+% PR-BOOK-08.0 publishing services
+% =============================================================================
+\usepackage{amsthm}
+\usepackage[noautomatic]{imakeidx}
+\makeindex[title=Subject Index,columns=2]
+
+\usepackage[acronym,toc,nonumberlist]{glossaries}
+\makeglossaries
+
+% Bibliography is optional until citations are populated.
+\usepackage[numbers,sort&compress]{natbib}
+
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{postulate}[theorem]{Postulate}
+\newtheorem{principle}[theorem]{Principle}
+\theoremstyle{remark}
+\newtheorem{remarktheorem}[theorem]{Remark}
+
+\newcommand{\term}[1]{\textbf{#1}\index{#1}}
+\newcommand{\notation}[2]{\ensuremath{#1} & #2\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-13 : Repository cleanup and publication typography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{styles/book_typography.tex}
+\input{styles/book_environments.tex}
+\input{styles/book_references.tex}

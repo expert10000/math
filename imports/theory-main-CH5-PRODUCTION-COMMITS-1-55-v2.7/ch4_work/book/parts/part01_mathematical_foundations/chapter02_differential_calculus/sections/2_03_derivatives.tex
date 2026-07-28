@@ -1,0 +1,869 @@
+\section{Derivatives}
+\label{sec:derivatives}
+
+A function describes how one quantity depends upon another, but in physics we are usually interested in more than the values of that function. We want to know how rapidly the quantity changes, whether it is increasing or decreasing, and how accurately it can be approximated near a chosen point. The derivative answers all of these questions.
+
+The central idea is local. A finite interval gives an average rate of change; a limiting process then shrinks that interval toward zero and extracts the instantaneous rate of change. The same construction underlies velocity and acceleration in mechanics, current in electrodynamics, growth and decay laws, wave propagation, and the differential operators of quantum mechanics.
+
+\begin{bookhistory}[The Tangent and Motion Problems]
+The derivative emerged historically from two closely related questions. The geometric problem asked for the tangent to a curve at a specified point. The physical problem asked for the instantaneous velocity of a moving body. Newton emphasized changing quantities and motion, while Leibniz developed a powerful differential notation. Modern calculus unifies both viewpoints through the concept of a limit.
+\end{bookhistory}
+
+\subsection{Average Rate of Change}
+
+Let $y=f(x)$. Suppose the independent variable changes from $x$ to $x+\Delta x$. The corresponding change in the function is
+
+\[
+\Delta f=f(x+\Delta x)-f(x).
+\]
+
+The average rate of change of $f$ over the interval is
+
+\begin{equation}
+\boxed{
+\frac{\Delta f}{\Delta x}
+=
+\frac{f(x+\Delta x)-f(x)}{\Delta x}
+}
+\label{eq:average-rate-change}
+\end{equation}
+
+provided $\Delta x\neq0$.
+
+Geometrically, Eq.~\eqref{eq:average-rate-change} is the slope of the secant line joining the two points
+
+\[
+P=(x,f(x)),
+\qquad
+Q=(x+\Delta x,f(x+\Delta x)).
+\]
+
+In mechanics, if $x(t)$ denotes position, then
+
+\[
+\frac{x(t+\Delta t)-x(t)}{\Delta t}
+\]
+
+is the average velocity during the time interval $\Delta t$.
+
+\begin{bookexample}[Average Velocity]
+A particle moves along a line according to
+
+\[
+x(t)=t^2+2t,
+\]
+
+where $x$ is measured in metres and $t$ in seconds. Between $t=1$ and $t=1.5$,
+
+\[
+\Delta x=x(1.5)-x(1)
+=5.25-3
+=2.25\ \mathrm{m},
+\]
+
+and therefore
+
+\[
+\overline v
+=
+\frac{\Delta x}{\Delta t}
+=
+\frac{2.25}{0.5}
+=4.5\ \mathrm{m\,s^{-1}}.
+\]
+
+This number characterizes the motion over the entire interval. It does not yet give the velocity at one precise instant.
+\end{bookexample}
+
+\subsection{From Secant Line to Tangent Line}
+
+To obtain a local rate of change at $x$, the second point $Q$ is moved toward $P$. Algebraically, this means allowing
+
+\[
+\Delta x\to0.
+\]
+
+The secant line then approaches a limiting line: the tangent line at $P$.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[scale=0.95]
+\draw[->] (-0.3,0) -- (6.2,0) node[right] {$x$};
+\draw[->] (0,-0.3) -- (0,4.7) node[above] {$y$};
+\draw[domain=0.4:5.6,smooth,variable=\x,thick] plot ({\x},{0.12*(\x-1.0)^2+0.8});
+\coordinate (P) at (2.0,0.92);
+\coordinate (Q) at (4.7,2.44);
+\fill (P) circle (2pt) node[below left] {$P$};
+\fill (Q) circle (2pt) node[above right] {$Q$};
+\draw[dashed] (P) -- (2.0,0) node[below] {$x$};
+\draw[dashed] (Q) -- (4.7,0) node[below] {$x+\Delta x$};
+\draw[thick] ($(P)!-0.45!(Q)$) -- ($(P)!1.35!(Q)$) node[right] {secant};
+\draw[thick,densely dashed] (0.8,0.35) -- (5.6,2.65) node[right] {tangent limit};
+\end{tikzpicture}
+\caption{The derivative is obtained by allowing the secant line through $P$ and $Q$ to approach the tangent line at $P$.}
+\label{fig:secant-to-tangent}
+\end{figure}
+
+Directly substituting $\Delta x=0$ into the difference quotient would produce
+
+\[
+\frac{f(x)-f(x)}{0}=\frac00.
+\]
+
+The expression $0/0$ is indeterminate: it is not a number and it does not mean that the derivative is zero. The point of the limiting process is to simplify or analyze the quotient for nonzero $\Delta x$ and only then determine the value approached as $\Delta x$ tends to zero.
+
+\begin{bookwarning}[Do Not Substitute Too Early]
+In a derivative calculation, $\Delta x$ remains nonzero while algebraic cancellation is performed. Only after the quotient has been simplified do we take the limit $\Delta x\to0$.
+\end{bookwarning}
+
+\subsection{Definition of the Derivative}
+
+\begin{bookdefinition}[Derivative at a Point]
+Let $f$ be defined on an open interval containing $x$. The derivative of $f$ at $x$ is
+
+\begin{equation}
+\boxed{
+f'(x)
+=
+\lim_{h\to0}
+\frac{f(x+h)-f(x)}{h}
+}
+\label{eq:derivative-definition}
+\end{equation}
+
+provided the limit exists and is finite. In that case, $f$ is said to be differentiable at $x$.
+\end{bookdefinition}
+
+The increment is often denoted by $h$ rather than $\Delta x$. Both notations express the same idea. In Eq.~\eqref{eq:derivative-definition},
+
+\begin{itemize}
+\item $f(x+h)-f(x)$ is the change in the output;
+\item $h$ is the change in the input;
+\item the quotient is an average rate of change over a finite interval;
+\item the limit extracts the local rate of change at $x$.
+\end{itemize}
+
+Equivalent notations are
+
+\[
+f'(x),
+\qquad
+\frac{df}{dx},
+\qquad
+D_x f,
+\qquad
+\left.\frac{df}{dx}\right|_x.
+\]
+
+When the independent variable is time, Newton's dot notation is especially common:
+
+\[
+\dot x=\frac{dx}{dt},
+\qquad
+\ddot x=\frac{d^2x}{dt^2}.
+\]
+
+\begin{bookprinciple}[Local Meaning of the Derivative]
+The derivative is simultaneously:
+
+\begin{itemize}
+\item an instantaneous rate of change;
+\item the slope of the tangent line;
+\item the coefficient of the best linear approximation near a point.
+\end{itemize}
+\end{bookprinciple}
+
+\subsection{Differentiability and Continuity}
+
+Differentiability is stronger than continuity.
+
+\begin{bookproperty}[Differentiability Implies Continuity]
+If $f$ is differentiable at $x=a$, then $f$ is continuous at $a$.
+\end{bookproperty}
+
+To see why, write
+
+\[
+f(a+h)-f(a)
+=
+h\frac{f(a+h)-f(a)}{h}.
+\]
+
+If $f'(a)$ exists, then as $h\to0$ the quotient approaches the finite number $f'(a)$, while $h\to0$. Hence
+
+\[
+\lim_{h\to0}[f(a+h)-f(a)]=0,
+\]
+
+so
+
+\[
+\lim_{h\to0}f(a+h)=f(a).
+\]
+
+The converse is false. A continuous function need not be differentiable.
+
+\begin{bookexample}[A Corner]
+The function
+
+\[
+f(x)=|x|
+\]
+
+is continuous at $x=0$, but its one-sided slopes are
+
+\[
+\lim_{h\to0^-}\frac{|h|}{h}=-1,
+\qquad
+\lim_{h\to0^+}\frac{|h|}{h}=1.
+\]
+
+Because the one-sided limits disagree, $f'(0)$ does not exist. The graph has a sharp corner at the origin.
+\end{bookexample}
+
+Other obstructions to differentiability include jumps, cusps, vertical tangents, and sufficiently irregular oscillation.
+
+\subsection{Derivatives from First Principles}
+
+The definition should be understood as a computational procedure, not merely memorized as a formula.
+
+\booktopic{Example 1: The Derivative of $x^2$}
+
+Let $f(x)=x^2$. Then
+
+\begin{align*}
+f'(x)
+&=
+\lim_{h\to0}\frac{(x+h)^2-x^2}{h}\\
+&=
+\lim_{h\to0}\frac{x^2+2xh+h^2-x^2}{h}\\
+&=
+\lim_{h\to0}\frac{h(2x+h)}{h}\\
+&=
+\lim_{h\to0}(2x+h)\\
+&=2x.
+\end{align*}
+
+Therefore
+
+\[
+\boxed{\frac{d}{dx}x^2=2x.}
+\]
+
+The cancellation of $h$ is valid because the difference quotient is evaluated for $h\neq0$. Only afterward is the limit taken.
+
+\booktopic{Example 2: The Derivative of $x^3$}
+
+For $f(x)=x^3$,
+
+\begin{align*}
+f'(x)
+&=
+\lim_{h\to0}\frac{(x+h)^3-x^3}{h}\\
+&=
+\lim_{h\to0}\frac{x^3+3x^2h+3xh^2+h^3-x^3}{h}\\
+&=
+\lim_{h\to0}\left(3x^2+3xh+h^2\right)\\
+&=3x^2.
+\end{align*}
+
+Thus
+
+\[
+\boxed{\frac{d}{dx}x^3=3x^2.}
+\]
+
+\booktopic{Example 3: The Derivative of $1/x$}
+
+For $x\neq0$,
+
+\begin{align*}
+\frac{d}{dx}\left(\frac1x\right)
+&=
+\lim_{h\to0}
+\frac{\frac{1}{x+h}-\frac1x}{h}\\
+&=
+\lim_{h\to0}
+\frac{x-(x+h)}{hx(x+h)}\\
+&=
+\lim_{h\to0}
+\frac{-h}{hx(x+h)}\\
+&=
+\lim_{h\to0}
+\left[-\frac{1}{x(x+h)}\right]\\
+&=-\frac1{x^2}.
+\end{align*}
+
+Hence
+
+\[
+\boxed{\frac{d}{dx}\left(\frac1x\right)=-\frac1{x^2}.}
+\]
+
+\booktopic{Example 4: The Derivative of $\sqrt{x}$}
+
+For $x>0$,
+
+\begin{align*}
+\frac{d}{dx}\sqrt{x}
+&=
+\lim_{h\to0}\frac{\sqrt{x+h}-\sqrt{x}}{h}\\
+&=
+\lim_{h\to0}
+\frac{(\sqrt{x+h}-\sqrt{x})(\sqrt{x+h}+\sqrt{x})}
+{h(\sqrt{x+h}+\sqrt{x})}\\
+&=
+\lim_{h\to0}
+\frac{1}{\sqrt{x+h}+\sqrt{x}}\\
+&=
+\frac1{2\sqrt{x}}.
+\end{align*}
+
+Therefore
+
+\[
+\boxed{\frac{d}{dx}\sqrt{x}=\frac1{2\sqrt{x}}.}
+\]
+
+\subsection{Tangent Lines and Local Linearization}
+
+If $f$ is differentiable at $x=a$, the tangent line has slope $f'(a)$ and passes through $(a,f(a))$. Its equation is
+
+\begin{equation}
+\boxed{
+y-f(a)=f'(a)(x-a)
+}
+\label{eq:tangent-line}
+\end{equation}
+
+or equivalently
+
+\begin{equation}
+\boxed{
+L(x)=f(a)+f'(a)(x-a).
+}
+\label{eq:linearization}
+\end{equation}
+
+The function $L(x)$ is the linearization of $f$ at $a$. For $x$ sufficiently close to $a$,
+
+\[
+f(x)\approx f(a)+f'(a)(x-a).
+\]
+
+This approximation is more than a convenient geometrical picture. Differentiability means precisely that the error is small compared with the displacement:
+
+\[
+f(a+h)=f(a)+f'(a)h+r(h),
+\]
+
+where
+
+\[
+\lim_{h\to0}\frac{r(h)}{h}=0.
+\]
+
+\begin{bookexample}[Approximating a Square Root]
+Linearize $f(x)=\sqrt{x}$ at $a=4$. Since
+
+\[
+f(4)=2,
+\qquad
+f'(4)=\frac14,
+\]
+
+we obtain
+
+\[
+\sqrt{x}\approx2+\frac14(x-4).
+\]
+
+For $x=4.1$,
+
+\[
+\sqrt{4.1}\approx2+\frac14(0.1)=2.025.
+\]
+
+The exact value is approximately $2.02485$, so the local linear approximation is already accurate.
+\end{bookexample}
+
+\subsection{Differentials}
+
+If $y=f(x)$, the differential of $y$ is defined by
+
+\begin{equation}
+\boxed{
+dy=f'(x)\,dx.
+}
+\label{eq:differential}
+\end{equation}
+
+Here $dx$ represents a small change in the independent variable, while $dy$ is the corresponding change predicted by the tangent-line approximation. The actual finite change is
+
+\[
+\Delta y=f(x+\Delta x)-f(x),
+\]
+
+whereas
+
+\[
+dy=f'(x)\Delta x
+\]
+
+is its leading linear approximation. Thus
+
+\[
+\Delta y=dy+\text{higher-order error}.
+\]
+
+Leibniz notation is especially useful because it displays the variables and transforms naturally under the chain rule. Nevertheless, $dy/dx$ should be understood as a derivative operator or limiting ratio, not automatically as an ordinary fraction.
+
+\subsection{Physical Meaning of the Derivative}
+
+Suppose a particle moves along a line with position $x=x(t)$. Its average velocity over a finite time interval is
+
+\[
+\overline v
+=
+\frac{x(t+\Delta t)-x(t)}{\Delta t}.
+\]
+
+Taking the limit yields the instantaneous velocity:
+
+\begin{equation}
+\boxed{
+v(t)=\frac{dx}{dt}.
+}
+\label{eq:velocity-derivative}
+\end{equation}
+
+Differentiating again gives the acceleration:
+
+\begin{equation}
+\boxed{
+a(t)=\frac{dv}{dt}=\frac{d^2x}{dt^2}.
+}
+\label{eq:acceleration-derivative}
+\end{equation}
+
+The same mathematical structure occurs throughout physics:
+
+\[
+I=\frac{dQ}{dt}
+\]
+
+for electric current,
+
+\[
+P=\frac{dE}{dt}
+\]
+
+for power, and
+
+\[
+\mathbf F=\frac{d\mathbf p}{dt}
+\]
+
+for force in its momentum form.
+
+\begin{bookinsight}[A Derivative Requires Units]
+The derivative inherits units from the ratio of the dependent and independent variables. If $x$ is measured in metres and $t$ in seconds, then $dx/dt$ has units of metres per second. Dimensional analysis therefore provides a quick consistency check on derivative formulas.
+\end{bookinsight}
+
+\begin{bookexample}[Position to Velocity and Acceleration]
+Let
+
+\[
+x(t)=t^3-3t^2+2t.
+\]
+
+Then
+
+\[
+v(t)=\frac{dx}{dt}=3t^2-6t+2,
+\]
+
+and
+
+\[
+a(t)=\frac{dv}{dt}=6t-6.
+\]
+
+At $t=2$,
+
+\[
+v(2)=2,
+\qquad
+a(2)=6.
+\]
+
+The position function, its slope, and the rate of change of that slope encode three different levels of the motion.
+\end{bookexample}
+
+\subsection{Basic Differentiation Rules}
+
+The limit definition is fundamental, but repeated calculations are made efficient by general rules.
+
+\booktopic{Constant and Sum Rules}
+
+If $c$ is constant, then
+
+\[
+\boxed{\frac{d}{dx}c=0.}
+\]
+
+If $f$ and $g$ are differentiable and $\alpha,\beta$ are constants, then
+
+\begin{equation}
+\boxed{
+\frac{d}{dx}[\alpha f(x)+\beta g(x)]
+=
+\alpha f'(x)+\beta g'(x).
+}
+\label{eq:linearity-derivative}
+\end{equation}
+
+This is the linearity of differentiation.
+
+\booktopic{Power Rule}
+
+For positive integers $n$, the binomial theorem gives
+
+\[
+(x+h)^n=x^n+nx^{n-1}h+\binom n2x^{n-2}h^2+\cdots+h^n.
+\]
+
+Substituting into the difference quotient and dividing by $h$ yields
+
+\[
+nx^{n-1}+\binom n2x^{n-2}h+\cdots+h^{n-1}.
+\]
+
+Taking $h\to0$ leaves
+
+\begin{equation}
+\boxed{
+\frac{d}{dx}x^n=nx^{n-1}.
+}
+\label{eq:power-rule}
+\end{equation}
+
+The rule extends, under appropriate domain restrictions, to real powers.
+
+\booktopic{Product Rule}
+
+Let $F(x)=f(x)g(x)$. Then
+
+\begin{align*}
+F'(x)
+&=
+\lim_{h\to0}
+\frac{f(x+h)g(x+h)-f(x)g(x)}{h}.
+\end{align*}
+
+Add and subtract $f(x+h)g(x)$ in the numerator:
+
+\begin{align*}
+F'(x)
+&=
+\lim_{h\to0}
+\left[
+\frac{f(x+h)-f(x)}{h}g(x)
++f(x+h)\frac{g(x+h)-g(x)}{h}
+\right].
+\end{align*}
+
+Because differentiability implies continuity, $f(x+h)\to f(x)$. Therefore
+
+\begin{equation}
+\boxed{
+\frac{d}{dx}[f(x)g(x)]
+=f'(x)g(x)+f(x)g'(x).
+}
+\label{eq:product-rule}
+\end{equation}
+
+\begin{bookwarning}[The Derivative of a Product]
+In general,
+
+\[
+(fg)'\neq f'g'.
+\]
+
+Both terms in Eq.~\eqref{eq:product-rule} are required.
+\end{bookwarning}
+
+\booktopic{Quotient Rule}
+
+For $g(x)\neq0$,
+
+\begin{equation}
+\boxed{
+\frac{d}{dx}\left(\frac{f}{g}\right)
+=
+\frac{f'g-fg'}{g^2}.
+}
+\label{eq:quotient-rule}
+\end{equation}
+
+One derivation writes $f/g=f\,g^{-1}$ and applies the product rule together with
+
+\[
+\frac{d}{dx}g^{-1}=-g^{-2}g'.
+\]
+
+\booktopic{Chain Rule}
+
+Suppose $y=f(u)$ and $u=g(x)$. A change in $x$ first changes $u$, and the change in $u$ then changes $y$. The derivative of the composition is
+
+\begin{equation}
+\boxed{
+\frac{d}{dx}f(g(x))
+=f'(g(x))g'(x).
+}
+\label{eq:chain-rule}
+\end{equation}
+
+In Leibniz notation,
+
+\[
+\boxed{
+\frac{dy}{dx}
+=
+\frac{dy}{du}\frac{du}{dx}.
+}
+\]
+
+This notation resembles cancellation, but the chain rule is a theorem about limits and composition. The apparent cancellation is a reliable mnemonic when the differentiability assumptions are satisfied.
+
+\begin{bookexample}[Using the Chain Rule]
+For
+
+\[
+y=(3x^2+1)^5,
+\]
+
+let $u=3x^2+1$. Then
+
+\[
+\frac{dy}{du}=5u^4,
+\qquad
+\frac{du}{dx}=6x.
+\]
+
+Hence
+
+\[
+\frac{dy}{dx}
+=5(3x^2+1)^4(6x)
+=30x(3x^2+1)^4.
+\]
+\end{bookexample}
+
+\subsection{Derivatives of Common Functions}
+
+The most frequently used elementary derivatives include
+
+\[
+\frac{d}{dx}e^x=e^x,
+\qquad
+\frac{d}{dx}\ln x=\frac1x,
+\]
+
+\[
+\frac{d}{dx}\sin x=\cos x,
+\qquad
+\frac{d}{dx}\cos x=-\sin x,
+\]
+
+and
+
+\[
+\frac{d}{dx}\tan x=\sec^2x.
+\]
+
+The trigonometric formulas assume that angles are measured in radians. This is essential: only in radian measure does the fundamental limit
+
+\[
+\lim_{h\to0}\frac{\sin h}{h}=1
+\]
+
+lead directly to $d(\sin x)/dx=\cos x$.
+
+\subsection{Implicit Differentiation}
+
+Some relations define $y$ as a function of $x$ without solving explicitly for $y$. Consider the circle
+
+\[
+x^2+y^2=R^2.
+\]
+
+Differentiate both sides with respect to $x$:
+
+\[
+2x+2y\frac{dy}{dx}=0.
+\]
+
+Therefore
+
+\begin{equation}
+\boxed{
+\frac{dy}{dx}=-\frac{x}{y}.
+}
+\label{eq:circle-implicit-derivative}
+\end{equation}
+
+The factor $dy/dx$ appears because $y$ depends on $x$ and the chain rule must be applied to $y^2$.
+
+\begin{bookexample}[Implicitly Defined Curve]
+Differentiate
+
+\[
+x^3+y^3=6xy.
+\]
+
+We obtain
+
+\[
+3x^2+3y^2\frac{dy}{dx}
+=6y+6x\frac{dy}{dx}.
+\]
+
+Collecting the derivative terms gives
+
+\[
+(3y^2-6x)\frac{dy}{dx}=6y-3x^2,
+\]
+
+so
+
+\[
+\boxed{
+\frac{dy}{dx}
+=
+\frac{2y-x^2}{y^2-2x}.
+}
+\]
+\end{bookexample}
+
+\subsection{Higher-Order Derivatives}
+
+Repeated differentiation produces
+
+\[
+f''(x),
+\qquad
+f'''(x),
+\qquad
+f^{(n)}(x).
+\]
+
+For motion in one dimension,
+
+\[
+\dot x=v,
+\qquad
+\ddot x=a,
+\qquad
+\dddot x=\text{jerk}.
+\]
+
+Higher derivatives describe increasingly detailed aspects of change. In differential equations, the highest derivative present often reflects the amount of initial data required to determine a solution. For example, a second-order equation for $x(t)$ generally requires both an initial position and an initial velocity.
+
+The second derivative also describes curvature of a graph locally:
+
+\begin{itemize}
+\item $f''(x)>0$: the graph is locally concave upward;
+\item $f''(x)<0$: the graph is locally concave downward;
+\item $f''(x)=0$: a possible inflection point, though further analysis is required.
+\end{itemize}
+
+\subsection{Derivative Notation}
+
+Several notational systems coexist because each emphasizes a different aspect.
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Notation & Example & Typical use\\
+\midrule
+Lagrange & $f'(x), f''(x)$ & functions and elementary analysis\\
+Leibniz & $\dfrac{dy}{dx}$ & variable dependence and chain rules\\
+Newton & $\dot x,\ddot x$ & time evolution in mechanics\\
+Operator & $D_x f$ & analysis and differential operators\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+No notation is universally superior. A mature calculation often moves between them.
+
+\subsection{Common Errors and Diagnostic Checks}
+
+\begin{bookwarning}[Typical Differentiation Errors]
+Common mistakes include:
+
+\begin{itemize}
+\item substituting $h=0$ before simplifying the difference quotient;
+\item writing $(fg)'=f'g'$ instead of using the product rule;
+\item forgetting the inner derivative in the chain rule;
+\item omitting $dy/dx$ during implicit differentiation;
+\item ignoring the domain on which a derivative formula is valid;
+\item dropping physical units.
+\end{itemize}
+\end{bookwarning}
+
+Three quick checks are especially useful:
+
+\begin{enumerate}
+\item \emph{Units:} do the derivative units equal output units divided by input units?
+\item \emph{Scale:} does the answer have a plausible magnitude and sign?
+\item \emph{Structure:} were all product, quotient, and nested-function dependencies differentiated?
+\end{enumerate}
+
+\subsection{Connection to Quantum Mechanics}
+
+Derivatives become operators in quantum theory. The time-dependent Schrödinger equation contains a time derivative,
+
+\begin{equation}
+ i\hbar\frac{\partial\psi}{\partial t}=\hat H\psi,
+\label{eq:schrodinger-preview-derivative}
+\end{equation}
+
+while the momentum operator in position space is
+
+\begin{equation}
+\boxed{
+\hat{\mathbf p}=-i\hbar\nabla.
+}
+\label{eq:momentum-operator-preview}
+\end{equation}
+
+For a particle in one spatial dimension, the kinetic-energy operator contains a second derivative:
+
+\[
+\hat T
+=-\frac{\hbar^2}{2m}\frac{d^2}{dx^2}.
+\]
+
+Thus the first derivative measures local variation of a wavefunction, while the second derivative measures its local curvature. These operations later determine momentum, kinetic energy, probability flow, and wave propagation.
+
+\begin{bookinsight}[From Number to Operator]
+In elementary calculus, differentiation maps one function to another. In quantum mechanics, the same mapping is promoted to a linear operator acting on state functions. The mathematics introduced here therefore becomes part of the observable structure of the theory.
+\end{bookinsight}
+
+\subsection{Section Summary}
+
+\begin{booksummary}[Derivatives]
+\begin{itemize}
+\item The average rate of change is the slope of a secant line.
+\item The derivative is the limit of the difference quotient as the interval shrinks to zero.
+\item Geometrically, the derivative is the tangent-line slope.
+\item Analytically, it gives the best local linear approximation.
+\item Differentiability implies continuity, but continuity alone does not guarantee differentiability.
+\item Product, quotient, and chain rules encode how derivatives behave under algebraic operations and composition.
+\item Higher derivatives describe higher-order change, including acceleration and curvature.
+\item In quantum mechanics, derivatives become operators such as momentum and kinetic energy.
+\end{itemize}
+\end{booksummary}
+
+Ordinary derivatives apply when a function depends on a single independent variable. Physical fields generally depend on several coordinates at once. The next section introduces partial derivatives, which isolate the rate of change with respect to one variable while the others are held fixed.

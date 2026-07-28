@@ -1,0 +1,680 @@
+\section{The Gradient}
+\label{sec:gradient}
+
+A scalar field assigns one number to every point in a region of space. A mountain landscape assigns a height $h(x,y)$, a laboratory assigns a temperature $T(x,y,z)$, and electrostatics assigns a potential $V(x,y,z)$. A single partial derivative describes change only along one coordinate direction. Physical space, however, contains infinitely many directions. We therefore need one object that gathers all first-order directional information into a coordinate-independent geometric statement. That object is the \emph{gradient}.
+
+\booktopic{Motivation: Why One Partial Derivative Is Not Enough}
+
+Suppose that $h(x,y)$ gives the height of a mountain above a horizontal map. The derivative $\partial h/\partial x$ tells a hiker how rapidly the height changes while walking east, and $\partial h/\partial y$ gives the rate while walking north. Neither derivative alone answers the more natural question:
+
+\begin{quote}
+In which direction should the hiker walk to climb as rapidly as possible?
+\end{quote}
+
+The same question appears throughout physics. At a given point, in which direction does temperature rise fastest? In which direction does electric potential decrease fastest? Which way does pressure push a fluid element? The gradient answers all of these questions at once.
+
+\begin{bookfigure}{A scalar field may be represented by a surface or by level curves. The gradient points uphill and crosses each level curve orthogonally.}
+\label{fig:gradient-mountain}
+\begin{tikzpicture}[scale=0.92]
+  \begin{scope}[xshift=-4.4cm]
+    \draw[->] (-2.8,-1.9)--(2.8,-1.9) node[right] {$x$};
+    \draw[->] (-2.3,-2.2)--(-2.3,2.2) node[above] {$h$};
+    \draw[visualcyan,line width=1.1pt,smooth] plot coordinates {(-2.2,-1.5)(-1.6,-0.9)(-1.1,0.2)(-0.5,1.3)(0,1.8)(0.5,1.45)(1.1,0.4)(1.8,-0.55)(2.3,-1.1)};
+    \fill[visualgold] (-0.9,0.55) circle (2.2pt);
+    \draw[force vector] (-0.9,0.55)--(-0.15,1.55) node[right] {steepest ascent};
+    \node[font=\small] at (0,-2.45) {surface profile};
+  \end{scope}
+  \begin{scope}[xshift=4.1cm]
+    \foreach \a/\b in {0.8/0.48,1.45/0.86,2.1/1.25,2.75/1.63}{
+      \draw[visualcyan!80,line width=0.9pt] (0,0) ellipse ({\a} and {\b});
+    }
+    \fill[visualgold] (1.15,0.62) circle (2.2pt);
+    \draw[force vector] (1.15,0.62)--(2.45,1.32) node[above right] {$\nabla h$};
+    \draw[dashed] (0,0)--(2.65,1.43);
+    \node[font=\small] at (0,-2.45) {level-curve map};
+  \end{scope}
+\end{tikzpicture}
+\end{bookfigure}
+
+\booktopic{Definition of the Gradient}
+
+Let $f:\mathbb R^3\to\mathbb R$ be differentiable. In Cartesian coordinates the del operator is written
+\[
+\nabla
+=
+\hat{\mathbf x}\frac{\partial}{\partial x}
++
+\hat{\mathbf y}\frac{\partial}{\partial y}
++
+\hat{\mathbf z}\frac{\partial}{\partial z}.
+\]
+It is an operator: it instructs us to differentiate whatever scalar field follows it. Acting on $f$ gives the gradient.
+
+\begin{bookdefinition}[Gradient]
+For a differentiable scalar field $f(x,y,z)$,
+\[
+\boxed{
+\nabla f
+=
+\frac{\partial f}{\partial x}\hat{\mathbf x}
++
+\frac{\partial f}{\partial y}\hat{\mathbf y}
++
+\frac{\partial f}{\partial z}\hat{\mathbf z}
+}
+\]
+or, in component form,
+\[
+\boxed{
+\nabla f
+=
+\left(
+\frac{\partial f}{\partial x},
+\frac{\partial f}{\partial y},
+\frac{\partial f}{\partial z}
+\right).
+}
+\]
+\end{bookdefinition}
+
+Each component measures the rate of change when only one coordinate varies. The three components together form a vector because first-order change depends linearly on displacement. For a small displacement
+\[
+d\mathbf r=dx\,\hat{\mathbf x}+dy\,\hat{\mathbf y}+dz\,\hat{\mathbf z},
+\]
+the total differential becomes
+\[
+df
+=
+\frac{\partial f}{\partial x}dx
++
+\frac{\partial f}{\partial y}dy
++
+\frac{\partial f}{\partial z}dz
+=
+\boxed{\nabla f\cdot d\mathbf r}.
+\]
+Thus the gradient is the vector representation of the differential of $f$ in Euclidean coordinates.
+
+\begin{bookinsight}[Units]
+If $f$ has units $[f]$ and the spatial coordinates have units of length, then $\nabla f$ has units $[f]/\text{length}$. A temperature gradient is measured in kelvin per metre, a pressure gradient in pascals per metre, and an electric-potential gradient in volts per metre.
+\end{bookinsight}
+
+\booktopic{Geometric Interpretation}
+
+Let $\hat{\mathbf u}$ be a unit vector. A line through $\mathbf r_0$ in direction $\hat{\mathbf u}$ is
+\[
+\mathbf r(s)=\mathbf r_0+s\hat{\mathbf u}.
+\]
+The rate at which $f$ changes along this line is obtained with the chain rule:
+\begin{align*}
+\frac{d}{ds}f(\mathbf r(s))
+&=
+\frac{\partial f}{\partial x}\frac{dx}{ds}
++
+\frac{\partial f}{\partial y}\frac{dy}{ds}
++
+\frac{\partial f}{\partial z}\frac{dz}{ds}\\
+&=
+\nabla f\cdot\hat{\mathbf u}.
+\end{align*}
+This is the directional derivative.
+
+\begin{bookdefinition}[Directional Derivative]
+For a differentiable scalar field $f$ and a unit vector $\hat{\mathbf u}$,
+\[
+\boxed{D_{\hat{\mathbf u}}f=\nabla f\cdot\hat{\mathbf u}.}
+\]
+\end{bookdefinition}
+
+The dot product appears because it extracts the component of $\nabla f$ along the chosen direction. If $\theta$ is the angle between $\nabla f$ and $\hat{\mathbf u}$, then
+\[
+D_{\hat{\mathbf u}}f
+=
+\lVert\nabla f\rVert\cos\theta.
+\]
+Because $-1\leq\cos\theta\leq1$,
+\[
+-\lVert\nabla f\rVert
+\leq
+D_{\hat{\mathbf u}}f
+\leq
+\lVert\nabla f\rVert.
+\]
+The largest value occurs for $\hat{\mathbf u}=\nabla f/\lVert\nabla f\rVert$.
+
+\begin{bookproperty}[Steepest-Ascent Theorem]
+At a point where $\nabla f\neq\mathbf0$:
+\begin{itemize}
+\item $\nabla f$ points in the direction of maximum increase of $f$;
+\item $\lVert\nabla f\rVert$ is the maximum directional derivative;
+\item $-\nabla f$ points in the direction of maximum decrease;
+\item every direction perpendicular to $\nabla f$ has zero first-order change.
+\end{itemize}
+\end{bookproperty}
+
+\booktopic{Level Curves and Level Surfaces}
+
+A level surface of $f$ is defined by
+\[
+f(x,y,z)=c,
+\]
+where $c$ is constant. Let $\mathbf r(s)$ be any curve lying within this surface. Since $f(\mathbf r(s))=c$,
+\[
+\frac{d}{ds}f(\mathbf r(s))=0.
+\]
+Using the chain rule,
+\[
+\nabla f\cdot\frac{d\mathbf r}{ds}=0.
+\]
+The tangent vector $d\mathbf r/ds$ may point in any tangent direction within the surface. Therefore $\nabla f$ is perpendicular to the whole tangent plane.
+
+\begin{bookproperty}[Orthogonality to Level Sets]
+At a regular point of the level surface $f=c$, the gradient $\nabla f$ is a normal vector to that surface. In two dimensions, it is normal to the level curve.
+\end{bookproperty}
+
+This gives the tangent-plane equation immediately. If $f(x_0,y_0,z_0)=c$, then
+\[
+\boxed{
+\nabla f(x_0,y_0,z_0)\cdot
+\bigl[(x,y,z)-(x_0,y_0,z_0)\bigr]=0.
+}
+\]
+
+\begin{bookfigure}{The gradient is normal to a level surface, while tangent vectors lie in the tangent plane.}
+\label{fig:gradient-level-surface}
+\begin{tikzpicture}[scale=0.95]
+  \draw[visualcyan!65,fill=visualcyan!10] (-3,-0.8) .. controls (-1.5,1.1) and (1.4,-1.1) .. (3,0.55)
+    .. controls (1.4,2.0) and (-1.5,1.7) .. cycle;
+  \fill[visualgold] (0,0.55) circle (2.4pt) node[below left] {$P$};
+  \draw[field vector] (0,0.55)--(0.5,2.45) node[above] {$\nabla f(P)$};
+  \draw[force vector] (0,0.55)--(2.0,0.95) node[right] {$\mathbf t_1$};
+  \draw[force vector] (0,0.55)--(-1.45,1.3) node[left] {$\mathbf t_2$};
+  \node[font=\small] at (0,-1.45) {$f(x,y,z)=c$};
+  \draw[dashed] (-2.8,1.2)--(2.8,0.1);
+  \node[font=\small] at (3.35,0.05) {tangent plane};
+\end{tikzpicture}
+\end{bookfigure}
+
+\booktopic{Worked Examples}
+
+\begin{bookexample}[Polynomial Surface]
+Let
+\[
+f(x,y)=x^2+3xy-2y^2.
+\]
+Then
+\[
+\nabla f=(2x+3y,\,3x-4y).
+\]
+At $(1,-1)$,
+\[
+\nabla f(1,-1)=(-1,7),
+\qquad
+\lVert\nabla f\rVert=\sqrt{50}=5\sqrt2.
+\]
+The unit direction of steepest ascent is
+\[
+\hat{\mathbf u}_{\max}=\frac{1}{5\sqrt2}(-1,7),
+\]
+and the maximum rate of increase is $5\sqrt2$.
+\end{bookexample}
+
+\begin{bookexample}[Directional Change Toward a Point]
+For $f(x,y,z)=x^2+y^2+z^2$, find the directional derivative at $P=(1,2,2)$ toward $Q=(3,1,6)$. First,
+\[
+\nabla f=(2x,2y,2z),
+\qquad
+\nabla f(P)=(2,4,4).
+\]
+The displacement is $Q-P=(2,-1,4)$, so
+\[
+\hat{\mathbf u}=\frac{(2,-1,4)}{\sqrt{21}}.
+\]
+Therefore
+\[
+D_{\hat{\mathbf u}}f(P)
+=(2,4,4)\cdot\frac{(2,-1,4)}{\sqrt{21}}
+=\frac{16}{\sqrt{21}}.
+\]
+The normalization of $Q-P$ is essential; otherwise the result would depend on how the direction vector happened to be scaled.
+\end{bookexample}
+
+\begin{bookexample}[Gaussian Field]
+Consider
+\[
+f(x,y)=A\exp\!\left[-\frac{x^2+y^2}{2\sigma^2}\right].
+\]
+Differentiation gives
+\[
+\nabla f
+=-\frac{f}{\sigma^2}(x,y).
+\]
+For $A>0$, the gradient points radially inward, toward the maximum at the origin. Its magnitude is
+\[
+\lVert\nabla f\rVert
+=\frac{r}{\sigma^2}A e^{-r^2/(2\sigma^2)},
+\qquad r=\sqrt{x^2+y^2}.
+\]
+The field is flat at the center, becomes steepest at $r=\sigma$, and then decays at large radius.
+\end{bookexample}
+
+\begin{bookexample}[Tangent Plane to a Level Surface]
+The ellipsoid
+\[
+F(x,y,z)=\frac{x^2}{4}+\frac{y^2}{9}+z^2=1
+\]
+contains the point $P=(1,3/2,1/\sqrt2)$. Its normal vector is
+\[
+\nabla F(P)
+=
+\left(\frac12,\frac13,\sqrt2\right).
+\]
+Hence the tangent plane is
+\[
+\frac12(x-1)+\frac13\left(y-\frac32\right)
++\sqrt2\left(z-\frac{1}{\sqrt2}\right)=0.
+\]
+\end{bookexample}
+
+\booktopic{Temperature Fields and Heat Flow}
+
+Let $T(\mathbf r,t)$ be temperature. At fixed time, $\nabla T$ points toward increasing temperature. Heat flows in the opposite direction, from hot regions toward cold regions. Fourier's law is
+\[
+\boxed{\mathbf q=-k\nabla T,}
+\]
+where $\mathbf q$ is heat flux and $k>0$ is thermal conductivity. The minus sign is physical: if temperature increases to the right, heat flows to the left.
+
+\begin{bookexample}[A Three-Dimensional Temperature Field]
+Suppose
+\[
+T(x,y,z)=T_0+ax-by^2-cz^2,
+\qquad a,b,c>0.
+\]
+Then
+\[
+\nabla T=(a,-2by,-2cz),
+\qquad
+\mathbf q=(-ka,2kby,2kcz).
+\]
+At points with $y,z>0$, temperature increases in the negative $y$ and negative $z$ directions; accordingly, heat flux points toward positive $y$ and positive $z$.
+\end{bookexample}
+
+Combining Fourier's law with conservation of energy leads to the heat equation. If $\rho$ is density and $c_p$ is specific heat,
+\[
+\rho c_p\frac{\partial T}{\partial t}
+=-\nabla\cdot\mathbf q
+=k\nabla^2T.
+\]
+Thus the gradient generates the heat flux, while the divergence measures the net flux leaving a small region.
+
+\booktopic{Potential Energy and Conservative Forces}
+
+For a conservative system, the potential energy $U(\mathbf r)$ determines the force:
+\[
+\boxed{\mathbf F=-\nabla U.}
+\]
+To understand the sign, displace the particle by $d\mathbf r$. The potential-energy change is
+\[
+dU=\nabla U\cdot d\mathbf r.
+\]
+The work done by the force is $dW=\mathbf F\cdot d\mathbf r=-dU$. Because this must hold for every displacement,
+\[
+\mathbf F=-\nabla U.
+\]
+
+\begin{bookexample}[Isotropic Harmonic Oscillator]
+For
+\[
+U(x,y,z)=\frac12k(x^2+y^2+z^2),
+\]
+we obtain
+\[
+\nabla U=k(x,y,z),
+\qquad
+\mathbf F=-k(x,y,z)=-k\mathbf r.
+\]
+The potential rises radially outward, while the restoring force points back toward equilibrium.
+\end{bookexample}
+
+\begin{bookexample}[Newtonian Gravitational Potential]
+Outside a spherical mass $M$,
+\[
+\Phi(r)=-\frac{GM}{r}.
+\]
+Since $\nabla r=\hat{\mathbf r}$ and $d(-GM/r)/dr=GM/r^2$,
+\[
+\nabla\Phi=\frac{GM}{r^2}\hat{\mathbf r}.
+\]
+The gravitational acceleration is
+\[
+\mathbf g=-\nabla\Phi
+=-\frac{GM}{r^2}\hat{\mathbf r},
+\]
+which points inward. The gradient itself points toward increasing potential, namely outward toward the less negative values of $\Phi$.
+\end{bookexample}
+
+\booktopic{Electric Potential and Electromagnetism}
+
+In electrostatics the electric field is the negative gradient of electric potential:
+\[
+\boxed{\mathbf E=-\nabla V.}
+\]
+Equipotential surfaces satisfy $V=\text{constant}$. Since $\nabla V$ is normal to them, electric field lines cross equipotential surfaces orthogonally. A positive test charge accelerates toward decreasing potential energy $qV$.
+
+\begin{bookexample}[Point-Charge Potential]
+For a point charge $Q$,
+\[
+V(r)=\frac{1}{4\pi\varepsilon_0}\frac{Q}{r}.
+\]
+Using $\nabla(1/r)=-\hat{\mathbf r}/r^2$,
+\[
+\nabla V
+=-\frac{1}{4\pi\varepsilon_0}\frac{Q}{r^2}\hat{\mathbf r},
+\]
+so
+\[
+\mathbf E=-\nabla V
+=\frac{1}{4\pi\varepsilon_0}\frac{Q}{r^2}\hat{\mathbf r}.
+\]
+For $Q>0$ the field points outward; for $Q<0$ it points inward.
+\end{bookexample}
+
+In time-dependent electromagnetism the electric field is more generally
+\[
+\mathbf E=-\nabla V-\frac{\partial\mathbf A}{\partial t},
+\]
+where $\mathbf A$ is the vector potential. The gradient part remains the conservative, potential-derived contribution.
+
+\booktopic{Pressure Gradients in Fluids}
+
+Pressure is a scalar field $p(\mathbf r,t)$. A small fluid element experiences greater force on the high-pressure side than on the low-pressure side. The net pressure force per unit volume is
+\[
+\boxed{\mathbf f_p=-\nabla p.}
+\]
+Accordingly, the pressure contribution to the acceleration is
+\[
+\mathbf a_p=-\frac{1}{\rho}\nabla p.
+\]
+This term appears in Euler's equation and in the Navier--Stokes equations.
+
+\begin{bookexample}[Hydrostatic Equilibrium]
+Let $z$ increase upward in a fluid at rest under gravity $\mathbf g=-g\hat{\mathbf z}$. Force balance requires
+\[
+\mathbf0=-\nabla p+\rho\mathbf g.
+\]
+Therefore
+\[
+\frac{dp}{dz}=-\rho g.
+\]
+Pressure decreases upward and increases with depth. The pressure gradient points upward, while $-\nabla p$ points downward and balances the gravitational body force in the chosen sign convention.
+\end{bookexample}
+
+\booktopic{Curvilinear Coordinates}
+
+The geometric gradient is independent of coordinates, but its component formula changes because coordinate basis directions have different scale factors. In orthogonal coordinates $(q_1,q_2,q_3)$ with scale factors $h_1,h_2,h_3$,
+\[
+\boxed{
+\nabla f
+=
+\hat{\mathbf e}_1\frac{1}{h_1}\frac{\partial f}{\partial q_1}
++
+\hat{\mathbf e}_2\frac{1}{h_2}\frac{\partial f}{\partial q_2}
++
+\hat{\mathbf e}_3\frac{1}{h_3}\frac{\partial f}{\partial q_3}.
+}
+\]
+For cylindrical coordinates $(\rho,\phi,z)$,
+\[
+\nabla f
+=
+\hat{\boldsymbol\rho}\frac{\partial f}{\partial\rho}
++
+\hat{\boldsymbol\phi}\frac{1}{\rho}\frac{\partial f}{\partial\phi}
++
+\hat{\mathbf z}\frac{\partial f}{\partial z}.
+\]
+For spherical coordinates $(r,\theta,\phi)$,
+\[
+\nabla f
+=
+\hat{\mathbf r}\frac{\partial f}{\partial r}
++
+\hat{\boldsymbol\theta}\frac{1}{r}\frac{\partial f}{\partial\theta}
++
+\hat{\boldsymbol\phi}\frac{1}{r\sin\theta}\frac{\partial f}{\partial\phi}.
+\]
+The factors $1/\rho$, $1/r$, and $1/(r\sin\theta)$ are not optional decorations; they compensate for the physical lengths associated with changes in angular coordinates.
+
+\begin{bookexample}[Radial Scalar Field]
+If $f=f(r)$ depends only on distance from the origin, then all angular derivatives vanish and
+\[
+\boxed{\nabla f=\frac{df}{dr}\hat{\mathbf r}.}
+\]
+This identity underlies the gravitational and electrostatic examples above.
+\end{bookexample}
+
+\booktopic{Critical Points and Optimization}
+
+A critical point satisfies
+\[
+\nabla f=\mathbf0.
+\]
+At such a point there is no first-order direction of increase or decrease. The point may be a local maximum, local minimum, saddle point, or a degenerate point. The Hessian matrix, introduced in the previous section, supplies the second-order information needed for classification.
+
+Gradient ascent and gradient descent use the local linear model
+\[
+f(\mathbf x+\Delta\mathbf x)
+\approx
+f(\mathbf x)+\nabla f(\mathbf x)\cdot\Delta\mathbf x.
+\]
+Choosing
+\[
+\Delta\mathbf x=+\eta\nabla f
+\]
+raises $f$ locally, while
+\[
+\boxed{\mathbf x_{n+1}=\mathbf x_n-\eta\nabla f(\mathbf x_n)}
+\]
+implements gradient descent. The step size $\eta$ must be chosen carefully: a very small value converges slowly, whereas a large value can overshoot or diverge.
+
+\booktopic{The Del Operator and the Laplacian}
+
+The symbol $\nabla$ is used to construct several differential operators. Acting on a scalar field, it produces the gradient. Taking the divergence of that gradient produces the Laplacian:
+\[
+\boxed{
+\nabla^2f
+\equiv
+\nabla\cdot(\nabla f)
+=
+\frac{\partial^2f}{\partial x^2}
++
+\frac{\partial^2f}{\partial y^2}
++
+\frac{\partial^2f}{\partial z^2}.
+}
+\]
+The gradient measures first-order spatial variation. The Laplacian compares a field value with its local surroundings and measures a form of net curvature or local spreading.
+
+\begin{bookinsight}[Do Not Treat $\nabla$ as an Ordinary Vector]
+The notation resembles a vector, and many vector-algebra mnemonics are useful, but $\nabla$ contains derivatives. Product rules, coordinate dependence, and the object on which it acts must always be respected.
+\end{bookinsight}
+
+\booktopic{Connection to Quantum Mechanics}
+
+A nonrelativistic wavefunction $\psi(\mathbf r,t)$ is a complex scalar field. Its gradient
+\[
+\nabla\psi
+=
+\left(
+\frac{\partial\psi}{\partial x},
+\frac{\partial\psi}{\partial y},
+\frac{\partial\psi}{\partial z}
+\right)
+\]
+encodes how both amplitude and phase vary in space. The momentum operator is
+\[
+\boxed{\hat{\mathbf p}=-i\hbar\nabla.}
+\]
+Applying momentum twice gives
+\[
+\hat{\mathbf p}^{\,2}
+=(-i\hbar)^2\nabla^2
+=-\hbar^2\nabla^2.
+\]
+Therefore the kinetic-energy operator is
+\[
+\boxed{
+\hat T=\frac{\hat{\mathbf p}^{\,2}}{2m}
+=-\frac{\hbar^2}{2m}\nabla^2.
+}
+\]
+The time-dependent Schr\"odinger equation is consequently
+\[
+\boxed{
+i\hbar\frac{\partial\psi}{\partial t}
+=
+\left[-\frac{\hbar^2}{2m}\nabla^2+V(\mathbf r,t)\right]\psi.
+}
+\]
+Thus the gradient is not merely a geometric convenience. It is the first step toward the differential operators that generate momentum, kinetic energy, probability current, and wave propagation.
+
+For a wavefunction written in polar form,
+\[
+\psi=R e^{iS/\hbar},
+\]
+its gradient is
+\[
+\nabla\psi
+=e^{iS/\hbar}
+\left(\nabla R+\frac{i}{\hbar}R\nabla S\right).
+\]
+The two terms distinguish amplitude variation from phase variation. In semiclassical mechanics, $\nabla S$ is identified with momentum, illustrating again that spatial phase gradients carry dynamical information.
+
+\booktopic{Further Fully Solved Problems}
+
+\begin{bookexample}[Maximum Increase Under a Constraint on Direction]
+Let $f(x,y,z)=xy+yz+zx$. At $P=(1,2,-1)$,
+\[
+\nabla f=(y+z,z+x,x+y)=(1,0,3).
+\]
+The maximum directional derivative is
+\[
+\lVert\nabla f(P)\rVert=\sqrt{10},
+\]
+and it occurs along
+\[
+\hat{\mathbf u}=\frac{1}{\sqrt{10}}(1,0,3).
+\]
+Any unit vector orthogonal to $(1,0,3)$ gives zero first-order change.
+\end{bookexample}
+
+\begin{bookexample}[Direction of No Temperature Change]
+For $T(x,y)=x^2+4y^2$, at $(2,1)$ we have
+\[
+\nabla T=(4,8).
+\]
+A tangent direction to the level curve must satisfy
+\[
+(4,8)\cdot(u_x,u_y)=0.
+\]
+One choice is $(2,-1)$, so a unit direction is
+\[
+\hat{\mathbf u}=\frac{1}{\sqrt5}(2,-1).
+\]
+Indeed,
+\[
+D_{\hat{\mathbf u}}T
+=(4,8)\cdot\frac{1}{\sqrt5}(2,-1)=0.
+\]
+\end{bookexample}
+
+\begin{bookexample}[Electric Field from a Nonradial Potential]
+Let
+\[
+V(x,y,z)=V_0\frac{z}{a}+\alpha xy.
+\]
+Then
+\[
+\nabla V=(\alpha y,\alpha x,V_0/a),
+\]
+so
+\[
+\mathbf E=(-\alpha y,-\alpha x,-V_0/a).
+\]
+The constant $z$-component describes a uniform field, while the $x$ and $y$ components vary linearly across space.
+\end{bookexample}
+
+\begin{bookexample}[Quantum Plane Wave]
+For
+\[
+\psi(\mathbf r,t)=A e^{i(\mathbf k\cdot\mathbf r-\omega t)},
+\]
+we find
+\[
+\nabla\psi=i\mathbf k\psi.
+\]
+Therefore
+\[
+\hat{\mathbf p}\psi
+=-i\hbar\nabla\psi
+=\hbar\mathbf k\psi.
+\]
+The plane wave is an eigenfunction of momentum with eigenvalue $\hbar\mathbf k$.
+\end{bookexample}
+
+\begin{bookexample}[Laplacian of a Gaussian]
+For the three-dimensional Gaussian
+\[
+f(r)=e^{-\alpha r^2},
+\]
+radial symmetry gives
+\[
+\nabla f=-2\alpha\mathbf r\,e^{-\alpha r^2}.
+\]
+Taking the divergence,
+\[
+\nabla^2f
+=\left(4\alpha^2r^2-6\alpha\right)e^{-\alpha r^2}.
+\]
+This expression is central in Gaussian trial wavefunctions and in the ground state of the harmonic oscillator.
+\end{bookexample}
+
+\booktopic{Common Mistakes}
+
+\begin{enumerate}
+\item \textbf{Forgetting to normalize a direction vector.} A directional derivative per unit distance requires a unit vector.
+\item \textbf{Confusing $\nabla f$ with $df$.} The gradient is a vector; the differential is the scalar $df=\nabla f\cdot d\mathbf r$.
+\item \textbf{Assuming the gradient points downhill.} It points toward increasing $f$; forces and fluxes often involve $-\nabla f$.
+\item \textbf{Ignoring units.} The components of a gradient carry field units divided by coordinate units.
+\item \textbf{Using Cartesian formulas in curvilinear coordinates.} Angular coordinates require scale factors.
+\item \textbf{Concluding that $\nabla f=0$ implies a minimum.} It identifies a critical point, not its type.
+\item \textbf{Treating $\nabla$ as an ordinary algebraic vector.} It is a differential operator and obeys product rules.
+\end{enumerate}
+
+\booktopic{Exercises and Interpretation Questions}
+
+\begin{enumerate}
+\item Compute $\nabla f$ for $f=x^3y-yz^2+e^{xz}$ and evaluate it at $(1,1,0)$.
+\item Find the direction and rate of greatest increase of $T=x^2+2y^2+3z^2$ at $(1,-1,2)$.
+\item Determine the tangent plane to $x^2+y^2+z^2=9$ at $(1,2,2)$.
+\item A potential is $V=V_0e^{-z/a}\cos(kx)$. Find $\mathbf E=-\nabla V$.
+\item Show that if $f=f(r)$, then $\nabla f=f'(r)\hat{\mathbf r}$.
+\item Explain geometrically why walking along a contour line gives zero directional derivative.
+\item For $U=\tfrac12(k_xx^2+k_yy^2+k_zz^2)$, find the force and identify the equilibrium point.
+\item For $\psi=Ae^{i(kx-\omega t)}$, verify both $\hat p_x\psi=\hbar k\psi$ and $\hat T\psi=(\hbar^2k^2/2m)\psi$.
+\end{enumerate}
+
+\begin{booksummary}[The Gradient]
+\begin{itemize}
+\item The gradient packages all first-order spatial derivatives of a scalar field into one vector.
+\item $\nabla f$ points in the direction of steepest increase, and $\lVert\nabla f\rVert$ is the maximum rate of increase.
+\item The directional derivative is $D_{\hat{\mathbf u}}f=\nabla f\cdot\hat{\mathbf u}$.
+\item Gradients are normal to level curves and level surfaces.
+\item Conservative forces, electric fields, heat fluxes, and pressure forces are generated by negative gradients.
+\item The del operator leads to the Laplacian $\nabla^2$, the momentum operator $-i\hbar\nabla$, and the quantum kinetic-energy operator $-(\hbar^2/2m)\nabla^2$.
+\end{itemize}
+\end{booksummary}
+
+\booktopic{Looking Ahead}
+
+The gradient converts a scalar field into a vector field. The next chapter studies two complementary ways to differentiate vector fields. The divergence measures local source or sink strength, while the curl measures local rotational tendency. Together with the gradient and Laplacian, these operators form the language of Maxwell's equations, fluid mechanics, diffusion theory, general relativity in local coordinates, and quantum mechanics.
