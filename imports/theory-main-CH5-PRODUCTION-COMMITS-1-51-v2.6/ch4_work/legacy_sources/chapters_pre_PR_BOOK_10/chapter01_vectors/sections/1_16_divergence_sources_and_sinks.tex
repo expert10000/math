@@ -1,0 +1,366 @@
+\section{Divergence---Measuring Sources and Sinks}
+\label{sec:divergence}
+
+When studying vector fields, we naturally ask not only how individual vectors
+point, but also how the field behaves collectively in the neighbourhood of a
+point.
+
+Imagine rainwater flowing across a landscape. In some regions water appears to
+emerge from underground springs and spread outward. In others it converges into
+drains or sinkholes and disappears. Even without tracking every droplet, we can
+identify places where the flow behaves locally like a source, a sink, or a
+through-flow with no net creation or removal.
+
+The mathematical quantity that measures this behaviour is the
+\term{divergence}.
+
+\subsection{Motivation}
+
+Consider a fluid flowing through a small region of space. If exactly as much
+fluid enters as leaves, the amount of fluid inside remains unchanged. If more
+fluid leaves than enters, the region behaves as though fluid were being created
+inside it. If more enters than leaves, the region behaves like a sink.
+
+Divergence measures this local balance. It answers the question:
+
+\begin{quote}
+How strongly does the vector field spread outward from this point?
+\end{quote}
+
+\subsection{Flux Through a Closed Surface}
+
+To understand divergence geometrically, imagine surrounding a point with a tiny
+closed surface. Every vector crossing that surface contributes outward,
+inward, or tangential flow.
+
+If outward flow exceeds inward flow, the point behaves as a source. If inward
+flow dominates, it behaves as a sink. If the two balance, there is no net source
+or sink.
+
+\begin{figure}[htbp]
+\centering
+\begingroup
+\tikzset{
+  axis/.style={physics axis},
+  vector secondary/.style={physics vector secondary},
+  field/.style={field vector},
+  force/.style={force vector},
+  construction/.style={construction line},
+  label/.style={visual label}
+}
+\input{chapters/chapter01_vectors/fig29_divergence_source_sink_neutral.tex}
+\endgroup
+\caption{Representative source, sink, and divergence-free flow patterns.}
+\label{fig:divergence-source-sink-neutral}
+\end{figure}
+
+\subsection{Formal Definition}
+
+For a differentiable vector field
+\[
+\mathbf F(x,y,z)
+=
+F_x(x,y,z)\,\mathbf e_x
++
+F_y(x,y,z)\,\mathbf e_y
++
+F_z(x,y,z)\,\mathbf e_z,
+\]
+the divergence is defined by
+\[
+\boxed{
+\nabla\cdot\mathbf F
+=
+\frac{\partial F_x}{\partial x}
++
+\frac{\partial F_y}{\partial y}
++
+\frac{\partial F_z}{\partial z}.
+}
+\]
+
+Divergence transforms a vector field into a scalar field:
+\[
+\boxed{
+\text{vector field}
+\longrightarrow
+\text{scalar field}.
+}
+\]
+
+At every point, the result is a single number describing the local net outflow.
+
+\subsection{Why This Formula Works}
+
+Suppose the $x$-component of the field increases as we move in the positive
+$x$-direction. Then slightly more flow leaves one face of a tiny rectangular
+box than enters through the opposite face. The quantity
+\[
+\frac{\partial F_x}{\partial x}
+\]
+measures that imbalance per unit length in the $x$-direction.
+
+The same reasoning applies independently to the $y$- and $z$-directions.
+Adding the three contributions gives the total net outward flow per unit
+volume:
+\[
+\nabla\cdot\mathbf F
+=
+\frac{\partial F_x}{\partial x}
++
+\frac{\partial F_y}{\partial y}
++
+\frac{\partial F_z}{\partial z}.
+\]
+
+Thus, divergence is the local outward flux density.
+
+\subsection{Physical Meaning of the Sign}
+
+The sign of the divergence immediately reveals the local behaviour of the
+field.
+
+\paragraph{Positive divergence}
+\[
+\nabla\cdot\mathbf F>0.
+\]
+More field flows outward than inward. The point behaves like a source.
+
+\paragraph{Negative divergence}
+\[
+\nabla\cdot\mathbf F<0.
+\]
+More field flows inward than outward. The point behaves like a sink.
+
+\paragraph{Zero divergence}
+\[
+\nabla\cdot\mathbf F=0.
+\]
+Equal amounts enter and leave. There is no net local source or sink.
+
+Zero divergence does not mean that the field itself vanishes. A field may be
+strong, curved, or rotational while still having zero net outflow.
+
+\subsection{Worked Example 1: Uniform Expansion}
+
+Consider
+\[
+\mathbf F(x,y,z)=(x,y,z).
+\]
+Then
+\[
+\nabla\cdot\mathbf F
+=
+\frac{\partial x}{\partial x}
++
+\frac{\partial y}{\partial y}
++
+\frac{\partial z}{\partial z}
+=
+1+1+1.
+\]
+Therefore,
+\[
+\boxed{
+\nabla\cdot\mathbf F=3.
+}
+\]
+
+The divergence is positive everywhere. The field expands uniformly, with
+vectors pointing away from the origin.
+
+\subsection{Worked Example 2: Rotational Flow}
+
+Consider the rotational field
+\[
+\mathbf F(x,y)=(-y,x).
+\]
+Its divergence is
+\[
+\nabla\cdot\mathbf F
+=
+\frac{\partial(-y)}{\partial x}
++
+\frac{\partial x}{\partial y}
+=
+0+0.
+\]
+Hence
+\[
+\boxed{
+\nabla\cdot\mathbf F=0.
+}
+\]
+
+The field circulates around the origin, yet it has no local expansion or
+contraction. This example demonstrates that divergence measures sources and
+sinks, not rotation.
+
+\subsection{Worked Example 3: Incompressible Fluid Flow}
+
+For a fluid with velocity field $\mathbf v(\mathbf r,t)$, local conservation of
+mass is expressed by the continuity equation
+\[
+\frac{\partial\rho}{\partial t}
++
+\nabla\cdot(\rho\mathbf v)
+=
+0,
+\]
+where $\rho$ is the mass density.
+
+For a fluid of constant density, this reduces to
+\[
+\boxed{
+\nabla\cdot\mathbf v=0.
+}
+\]
+
+Such a flow is called incompressible. The fluid may curve, accelerate, or form
+vortices, but it is not locally compressed or expanded.
+
+\subsection{Worked Example 4: Electric Charge as a Source}
+
+One of Maxwell's equations is Gauss's law in differential form:
+\[
+\boxed{
+\nabla\cdot\mathbf E
+=
+\frac{\rho}{\varepsilon_0},
+}
+\]
+where $\mathbf E$ is the electric field and $\rho$ is the charge density.
+
+Positive charge produces positive divergence, negative charge produces negative
+divergence, and in a region with no charge,
+\[
+\rho=0
+\qquad\Longrightarrow\qquad
+\nabla\cdot\mathbf E=0.
+\]
+
+This equation gives a direct physical interpretation of electric charge:
+charge is the source of the electric field.
+
+\subsection{Integral Interpretation}
+
+Let $V$ be a small volume surrounding a point, and let $\partial V$ denote its
+closed boundary surface. The total outward flux is
+\[
+\oint_{\partial V}\mathbf F\cdot d\mathbf A.
+\]
+
+Dividing by the volume and shrinking the region to the point gives
+\[
+\boxed{
+\nabla\cdot\mathbf F
+=
+\lim_{V\to 0}
+\frac{1}{V}
+\oint_{\partial V}
+\mathbf F\cdot d\mathbf A.
+}
+\]
+
+This expression shows that divergence is the net outward flux per unit volume.
+
+For a finite region, the same idea becomes the divergence theorem:
+\[
+\boxed{
+\iiint_V
+(\nabla\cdot\mathbf F)\,dV
+=
+\oint_{\partial V}
+\mathbf F\cdot d\mathbf A.
+}
+\]
+
+The theorem connects local information inside a volume to the total flux
+through its boundary.
+
+\subsection{Physical Interpretation}
+
+Divergence describes the local creation, removal, expansion, or compression of
+a transported quantity. It appears in:
+
+\begin{itemize}
+\item mass conservation in fluid mechanics;
+\item electric fields sourced by charge;
+\item gravitational fields sourced by matter;
+\item heat and energy transport;
+\item particle transport in plasmas;
+\item probability-current conservation in quantum mechanics.
+\end{itemize}
+
+These systems differ physically, but they share the same mathematical
+structure: a local balance law expressed through divergence.
+
+\subsection{Historical Note}
+
+The modern concept of divergence emerged from nineteenth-century work on flux,
+potential theory, and vector analysis. Carl Friedrich Gauss established the
+integral relation now known as the divergence theorem. Maxwell later used
+divergence as one of the central operators in the compact mathematical
+formulation of electromagnetism.
+
+\subsection{Common Mistakes}
+
+Zero divergence does not imply
+\[
+\mathbf F=\mathbf 0.
+\]
+It means only that there is no net local source or sink.
+
+Divergence measures expansion or contraction, not rotation. A field may have
+zero divergence while exhibiting strong circulation.
+
+Divergence acts on a vector field and produces a scalar field. It should not be
+confused with the gradient, which acts on a scalar field and produces a vector
+field.
+
+Finally, derivatives must be matched with their corresponding components:
+\[
+\frac{\partial F_x}{\partial x},
+\qquad
+\frac{\partial F_y}{\partial y},
+\qquad
+\frac{\partial F_z}{\partial z}.
+\]
+
+\subsection{Summary}
+
+Divergence measures the local net outward flux of a vector field. Positive
+divergence indicates source-like behaviour, negative divergence indicates
+sink-like behaviour, and zero divergence indicates no net local creation or
+removal. In Cartesian coordinates,
+\[
+\nabla\cdot\mathbf F
+=
+\frac{\partial F_x}{\partial x}
++
+\frac{\partial F_y}{\partial y}
++
+\frac{\partial F_z}{\partial z}.
+\]
+
+Its differential and integral forms connect local field behaviour to flux
+through closed surfaces.
+
+\subsection*{Looking Ahead}
+
+Divergence detects local expansion and contraction, but it cannot detect
+rotation. A stirred fluid may circulate strongly while maintaining
+\[
+\nabla\cdot\mathbf v=0.
+\]
+
+To describe rotational behaviour, we introduce the curl. Curl measures the
+local tendency of a vector field to circulate about a point and completes the
+central trio of vector-calculus operators: gradient, divergence, and curl.
+
+\subsection*{Building Toward Advanced Physics}
+
+Divergence supplies the language of local conservation laws. It will reappear
+in Maxwell's equations, fluid dynamics, gravitation, continuum mechanics, and
+quantum probability conservation. Together with gradient and curl, it forms
+part of the differential framework used throughout the remainder of the book.

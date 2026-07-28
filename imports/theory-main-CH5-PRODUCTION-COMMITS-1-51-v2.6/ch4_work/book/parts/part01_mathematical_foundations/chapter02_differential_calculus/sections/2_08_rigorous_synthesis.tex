@@ -1,0 +1,110 @@
+\section{Rigorous Synthesis: Differentiability as Local Linearity}
+\label{sec:differentiability-local-linearity}
+
+The most economical way to unify one-variable and multivariable calculus is to define differentiability through approximation by a linear map.
+
+\begin{bookdefinition}[Fr\'echet Differentiability in Euclidean Space]
+A function $F:\mathbb R^n\to\mathbb R^m$ is differentiable at $\mathbf a$ if there exists a linear map $L:\mathbb R^n\to\mathbb R^m$ such that
+\[
+F(\mathbf a+\mathbf h)=F(\mathbf a)+L\mathbf h+\mathbf r(\mathbf h),
+\]
+where
+\[
+\lim_{\mathbf h\to\mathbf0}\frac{\lVert\mathbf r(\mathbf h)\rVert}{\lVert\mathbf h\rVert}=0.
+\]
+The linear map $L$ is the derivative $DF(\mathbf a)$ and is represented in Cartesian coordinates by the Jacobian matrix.
+\end{bookdefinition}
+
+This definition says more than the existence of coordinate partial derivatives. It says that one linear transformation predicts every sufficiently small displacement, regardless of the direction from which the point is approached.
+
+\begin{bookproperty}[Uniqueness of the Derivative]
+If a derivative $DF(\mathbf a)$ exists, it is unique.
+\end{bookproperty}
+
+\begin{proof}
+Suppose $L_1$ and $L_2$ both satisfy the definition. Then
+\[
+(L_1-L_2)\mathbf h=\mathbf r_2(\mathbf h)-\mathbf r_1(\mathbf h).
+\]
+Choose $\mathbf h=t\mathbf u$ with $\lVert\mathbf u\rVert=1$ and $t\neq0$. Dividing by $|t|$ gives
+\[
+\lVert(L_1-L_2)\mathbf u\rVert
+\leq
+\frac{\lVert\mathbf r_1(t\mathbf u)\rVert}{|t|}
++
+\frac{\lVert\mathbf r_2(t\mathbf u)\rVert}{|t|}.
+\]
+The right-hand side tends to zero as $t\to0$, so $(L_1-L_2)\mathbf u=0$ for every unit vector $\mathbf u$. Hence $L_1=L_2$.
+\end{proof}
+
+\begin{bookproperty}[Differentiability Implies Continuity]
+If $F$ is differentiable at $\mathbf a$, then $F$ is continuous at $\mathbf a$.
+\end{bookproperty}
+
+\begin{proof}
+From the definition,
+\[
+F(\mathbf a+\mathbf h)-F(\mathbf a)=DF(\mathbf a)\mathbf h+\mathbf r(\mathbf h).
+\]
+A linear map on finite-dimensional Euclidean space is bounded, so for some $C>0$,
+\[
+\lVert DF(\mathbf a)\mathbf h\rVert\leq C\lVert\mathbf h\rVert.
+\]
+Therefore
+\[
+\lVert F(\mathbf a+\mathbf h)-F(\mathbf a)\rVert
+\leq C\lVert\mathbf h\rVert+\lVert\mathbf r(\mathbf h)\rVert\to0.
+\]
+Thus $F(\mathbf a+\mathbf h)\to F(\mathbf a)$.
+\end{proof}
+
+\begin{bookproperty}[Multivariable Chain Rule]
+If $F:\mathbb R^n\to\mathbb R^m$ is differentiable at $\mathbf a$ and $G:\mathbb R^m\to\mathbb R^p$ is differentiable at $F(\mathbf a)$, then $G\circ F$ is differentiable at $\mathbf a$ and
+\[
+\boxed{D(G\circ F)(\mathbf a)=DG(F(\mathbf a))\,DF(\mathbf a).}
+\]
+
+displayed in coordinates as multiplication of Jacobian matrices.
+\end{bookproperty}
+
+\begin{proof}
+Write
+\[
+F(\mathbf a+\mathbf h)=F(\mathbf a)+A\mathbf h+\mathbf r_F(\mathbf h)
+\]
+and, with $\mathbf k=A\mathbf h+\mathbf r_F(\mathbf h)$,
+\[
+G(F(\mathbf a)+\mathbf k)=G(F(\mathbf a))+B\mathbf k+\mathbf r_G(\mathbf k).
+\]
+Substitution yields
+\[
+G(F(\mathbf a+\mathbf h))=G(F(\mathbf a))+BA\mathbf h+B\mathbf r_F(\mathbf h)+\mathbf r_G(\mathbf k).
+\]
+Both remaining terms are $o(\lVert\mathbf h\rVert)$ because $\mathbf k=O(\lVert\mathbf h\rVert)$. Therefore the derivative is $BA$.
+\end{proof}
+
+\begin{bookproperty}[Steepest-Ascent Result]
+For a differentiable scalar field $f$ at a point where $\nabla f\neq\mathbf0$,
+\[
+\max_{\lVert\hat{\mathbf u}\rVert=1}D_{\hat{\mathbf u}}f=\lVert\nabla f\rVert,
+\]
+attained uniquely at $\hat{\mathbf u}=\nabla f/\lVert\nabla f\rVert$.
+\end{bookproperty}
+
+\begin{proof}
+By the Cauchy--Schwarz inequality from Chapter~\ref{ch:mathematical-language-of-physics},
+\[
+D_{\hat{\mathbf u}}f=\nabla f\cdot\hat{\mathbf u}
+\leq\lVert\nabla f\rVert\lVert\hat{\mathbf u}\rVert
+=\lVert\nabla f\rVert.
+\]
+Equality holds exactly when the two vectors are parallel with the same orientation.
+\end{proof}
+
+\begin{mistakebox}[Partial derivatives are not the whole derivative]
+The existence of every first partial derivative at a point does not by itself guarantee differentiability there. Differentiability requires one linear approximation that controls the error in all directions simultaneously. Continuity of the first partial derivatives in a neighborhood is a widely used sufficient condition.
+\end{mistakebox}
+
+\begin{bookinsight}[Why physicists should care]
+Local linearity is the hidden structure behind tangent lines, response coefficients, stability matrices, normal-mode analysis, coordinate transformations, error propagation, and perturbation theory. The Jacobian is not merely a table of partial derivatives; it is the best first-order linear model of a nonlinear map.
+\end{bookinsight}

@@ -1,0 +1,3320 @@
+\documentclass[11pt,a4paper,openany]{book}
+
+% =============================================================================
+% Professional textbook foundation
+% =============================================================================
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=27mm,headheight=15pt]{geometry}
+\usepackage{setspace}
+\setstretch{1.05}
+\setlength{\parindent}{1.15em}
+\setlength{\parskip}{0pt}
+\raggedbottom
+
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs,tabularx,array}
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{adjustbox}
+\usetikzlibrary{
+  arrows.meta,
+  angles,
+  quotes,
+  calc,
+  positioning,
+  intersections,
+  decorations.pathmorphing,
+  decorations.markings,
+  backgrounds,
+  fit,
+  shapes.geometric,
+  patterns,
+  3d
+}
+\pgfplotsset{compat=1.18}
+
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+\usepackage{xcolor}
+\definecolor{chapterblue}{RGB}{35,75,120}
+\definecolor{softblue}{RGB}{240,246,252}
+\definecolor{softgreen}{RGB}{241,249,244}
+\definecolor{softgold}{RGB}{252,248,236}
+\definecolor{softred}{RGB}{252,242,242}
+\definecolor{softgray}{RGB}{246,247,249}
+\definecolor{rulegray}{RGB}{185,190,198}
+
+\usepackage[most]{tcolorbox}
+\tcbset{
+  enhanced,
+  breakable,
+  boxrule=0.6pt,
+  arc=1.4mm,
+  left=2mm,right=2mm,top=1.5mm,bottom=1.5mm,
+  before skip=7pt,after skip=7pt
+}
+
+\newtcolorbox{keyidea}[1][Key Idea]{
+  title=#1,colback=softblue,colframe=chapterblue,fonttitle=\bfseries
+}
+\newtcolorbox{definitionbox}[1][Definition]{
+  title=#1,colback=softgreen,colframe=green!45!black,fonttitle=\bfseries
+}
+\newtcolorbox{physicalbox}[1][Physical Interpretation]{
+  title=#1,colback=softgold,colframe=orange!55!black,fonttitle=\bfseries
+}
+\newtcolorbox{mistakebox}[1][Common Mistake]{
+  title=#1,colback=softred,colframe=red!55!black,fonttitle=\bfseries
+}
+\newtcolorbox{historybox}[1][Historical Note]{
+  title=#1,colback=softgray,colframe=rulegray,fonttitle=\bfseries
+}
+\newtcolorbox{examplebox}[1][Worked Example]{
+  title=#1,colback=white,colframe=chapterblue,fonttitle=\bfseries
+}
+\newtcolorbox{solutionbox}[1][Solution]{
+  title=#1,colback=softgray,colframe=rulegray,fonttitle=\bfseries
+}
+\newtcolorbox{roadmapbox}[1][Chapter Roadmap]{
+  title=#1,colback=softgray,colframe=chapterblue,fonttitle=\bfseries
+}
+
+\usepackage{enumitem}
+\setlist[itemize]{leftmargin=1.8em,topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{leftmargin=2em,topsep=4pt,itemsep=3pt,parsep=0pt}
+
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\bfseries\color{chapterblue}}
+  {\filleft\Large\chaptername\ \thechapter}
+  {0.7ex}
+  {\titlerule\vspace{1.1ex}\Huge}
+  [\vspace{0.7ex}\titlerule]
+\titlespacing*{\chapter}{0pt}{-16pt}{20pt}
+
+\titleformat{\section}
+  {\Large\bfseries\color{chapterblue}}
+  {\thesection}{0.7em}{}
+\titlespacing*{\section}{0pt}{2.1ex plus .5ex minus .2ex}{0.7ex}
+
+\titleformat{\subsection}
+  {\large\bfseries}
+  {\thesubsection}{0.7em}{}
+\titlespacing*{\subsection}{0pt}{1.7ex plus .4ex minus .2ex}{0.5ex}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE]{\small\itshape Theory of Quantum Mechanics}
+\fancyhead[RO]{\small\itshape\nouppercase{\rightmark}}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0pt}
+\renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{\thesection.\ #1}}
+
+\usepackage{tocloft}
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{3}
+\renewcommand{\contentsname}{Table of Contents}
+\renewcommand{\cftchapfont}{\bfseries}
+\renewcommand{\cftchappagefont}{\bfseries}
+\setlength{\cftbeforechapskip}{7pt}
+\setlength{\cftbeforesecskip}{1pt}
+\renewcommand{\cftdotsep}{1.5}
+
+\usepackage[hidelinks]{hyperref}
+
+\newcommand{\chapterquote}[2]{%
+  \begin{center}
+    \begin{minipage}{0.86\textwidth}
+      \centering\itshape\small #1
+      \if\relax\detokenize{#2}\relax
+      \else
+        \par\vspace{0.45em}\raggedleft\normalfont\footnotesize--- #2
+      \fi
+    \end{minipage}
+  \end{center}
+  \vspace{0.7em}
+}
+
+\newcommand{\learningobjectives}{%
+  \section*{Learning Objectives}
+  \addcontentsline{toc}{section}{Learning Objectives}
+  \noindent After completing this chapter, the reader should be able to:
+}
+
+\newcommand{\chaptersummary}{%
+  \section*{Chapter Summary}
+  \addcontentsline{toc}{section}{Chapter Summary}
+}
+
+\newcommand{\nextchapter}{%
+  \section*{Looking Ahead}
+  \addcontentsline{toc}{section}{Looking Ahead}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-02 : Professional textbook environments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcounter{definition}[chapter]
+\renewcommand{\thedefinition}{\thechapter.\arabic{definition}}
+
+\newcounter{example}[chapter]
+\renewcommand{\theexample}{\thechapter.\arabic{example}}
+
+\newcounter{remark}[chapter]
+\renewcommand{\theremark}{\thechapter.\arabic{remark}}
+
+\newenvironment{definition}{
+\refstepcounter{definition}
+\begin{definitionbox}[Definition \thedefinition]
+}{
+\end{definitionbox}
+}
+
+\newenvironment{workedexample}{
+\refstepcounter{example}
+\begin{examplebox}[Example \theexample]
+}{
+\end{examplebox}
+}
+
+\newenvironment{solution}{
+\begin{solutionbox}[Solution]
+}{
+\end{solutionbox}
+}
+
+\newenvironment{physical}{
+\begin{physicalbox}[Physical Interpretation]
+}{
+\end{physicalbox}
+}
+
+\newenvironment{warningbox}{
+\begin{mistakebox}[Common Mistake]
+}{
+\end{mistakebox}
+}
+
+\newenvironment{historicalnote}{
+\begin{historybox}[Historical Note]
+}{
+\end{historybox}
+}
+
+\newcommand{\ImportantEquation}[1]{
+\begin{keyidea}[Key Equation]
+\[
+#1
+\]
+\end{keyidea}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-03 : Complete educational framework
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Additional counters ---------------------------------------------------------
+\newcounter{keyequation}[chapter]
+\renewcommand{\thekeyequation}{\thechapter.\arabic{keyequation}}
+
+\newcounter{exercise}[chapter]
+\renewcommand{\theexercise}{\thechapter.\arabic{exercise}}
+
+\newcounter{historicalnote}[chapter]
+\renewcommand{\thehistoricalnote}{\thechapter.\arabic{historicalnote}}
+
+% Additional colours ----------------------------------------------------------
+\definecolor{summaryblue}{RGB}{232,241,250}
+\definecolor{notationgray}{RGB}{248,249,251}
+\definecolor{exercisegreen}{RGB}{239,248,241}
+\definecolor{outcomegold}{RGB}{253,248,229}
+\definecolor{lookaheadviolet}{RGB}{247,242,251}
+
+% Educational boxes -----------------------------------------------------------
+\newtcolorbox{keyequationbox}[1]{
+  title={Key Equation \thekeyequation: #1},
+  colback=softblue,
+  colframe=chapterblue,
+  fonttitle=\bfseries,
+  borderline west={2.2pt}{0pt}{chapterblue}
+}
+
+\newtcolorbox{summarybox}[1][Chapter Summary]{
+  title=#1,
+  colback=summaryblue,
+  colframe=chapterblue,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{formulasheetbox}[1][Quick Formula Sheet]{
+  title=#1,
+  colback=white,
+  colframe=chapterblue,
+  fonttitle=\bfseries\large,
+  boxrule=0.8pt
+}
+
+\newtcolorbox{notationbox}[1][Notation and Units]{
+  title=#1,
+  colback=notationgray,
+  colframe=rulegray,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{outcomesbox}[1][Learning Outcomes Check]{
+  title=#1,
+  colback=outcomegold,
+  colframe=orange!60!black,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{lookingaheadbox}[1][Looking Ahead]{
+  title=#1,
+  colback=lookaheadviolet,
+  colframe=violet!55!black,
+  fonttitle=\bfseries\large
+}
+
+\newtcolorbox{exercisebox}[2][]{
+  title={Exercise \theexercise\if\relax\detokenize{#2}\relax\else: #2\fi},
+  colback=exercisegreen,
+  colframe=green!45!black,
+  fonttitle=\bfseries,
+  #1
+}
+
+\newtcolorbox{dashboardbox}[1][Chapter Dashboard]{
+  title=#1,
+  colback=softgray,
+  colframe=rulegray,
+  fonttitle=\bfseries\large
+}
+
+% Semantic environments -------------------------------------------------------
+\newenvironment{keyequation}[1]{%
+  \refstepcounter{keyequation}%
+  \begin{keyequationbox}{#1}%
+}{%
+  \end{keyequationbox}%
+}
+
+\newenvironment{chapterexercise}[1][]{%
+  \refstepcounter{exercise}%
+  \begin{exercisebox}{#1}%
+}{%
+  \end{exercisebox}%
+}
+
+\newenvironment{chapterhistorical}[1][]{%
+  \refstepcounter{historicalnote}%
+  \begin{historybox}[Historical Note \thehistoricalnote%
+  \if\relax\detokenize{#1}\relax\else: #1\fi]%
+}{%
+  \end{historybox}%
+}
+
+% Structured worked-example helpers ------------------------------------------
+\newcommand{\problempart}{\par\medskip\noindent\textbf{Problem.}\ }
+\newcommand{\givenpart}{\par\medskip\noindent\textbf{Given.}\ }
+\newcommand{\findpart}{\par\medskip\noindent\textbf{Find.}\ }
+\newcommand{\solutionpart}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\verificationpart}{\par\medskip\noindent\textbf{Verification.}\ }
+\newcommand{\meaningpart}{\par\medskip\noindent\textbf{Physical meaning.}\ }
+
+% Difficulty tags -------------------------------------------------------------
+\newcommand{\difficulty}[1]{%
+  \hfill\textbf{Difficulty: }%
+  \ifcase#1\or$\star\circ\circ\circ\circ$%
+  \or$\star\star\circ\circ\circ$%
+  \or$\star\star\star\circ\circ$%
+  \or$\star\star\star\star\circ$%
+  \or$\star\star\star\star\star$\fi
+}
+
+% Consistent chapter-ending headings ------------------------------------------
+\newcommand{\chapterformulaheading}{%
+  \section*{Quick Formula Sheet}
+  \addcontentsline{toc}{section}{Quick Formula Sheet}
+}
+\newcommand{\chapternotationheading}{%
+  \section*{Notation and Units}
+  \addcontentsline{toc}{section}{Notation and Units}
+}
+\newcommand{\chapteroutcomesheading}{%
+  \section*{Learning Outcomes Check}
+  \addcontentsline{toc}{section}{Learning Outcomes Check}
+}
+\newcommand{\chapterexercisesheading}{%
+  \section*{Exercises}
+  \addcontentsline{toc}{section}{Exercises}
+}
+\newcommand{\chapterlookaheadheading}{%
+  \section*{Looking Ahead}
+  \addcontentsline{toc}{section}{Looking Ahead}
+}
+
+% Compact reusable tables -----------------------------------------------------
+\newenvironment{notationtable}{%
+  \begin{tabular}{>{\centering\arraybackslash}p{0.16\textwidth}
+                  >{\raggedright\arraybackslash}p{0.48\textwidth}
+                  >{\raggedright\arraybackslash}p{0.23\textwidth}}
+  \toprule
+  \textbf{Symbol} & \textbf{Meaning} & \textbf{SI unit}\\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+}
+
+\newenvironment{formulatable}{%
+  \begin{tabular}{>{\raggedright\arraybackslash}p{0.29\textwidth}
+                  >{\raggedright\arraybackslash}p{0.61\textwidth}}
+  \toprule
+  \textbf{Quantity or operation} & \textbf{Formula}\\
+  \midrule
+}{%
+  \bottomrule
+  \end{tabular}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% PR-BOOK-04 : Visual identity and TikZ illustration system
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Visual palette ----------------------------------------------------------------
+\definecolor{visualblue}{RGB}{35,75,120}
+\definecolor{visualcyan}{RGB}{54,135,170}
+\definecolor{visualgold}{RGB}{193,139,46}
+\definecolor{visualred}{RGB}{164,63,63}
+\definecolor{visualgreen}{RGB}{58,126,86}
+\definecolor{visualink}{RGB}{38,45,54}
+\definecolor{visualgrid}{RGB}{210,218,226}
+
+% Global TikZ styles ------------------------------------------------------------
+\tikzset{
+  physics axis/.style={
+    -{Latex[length=3mm]},
+    line width=0.9pt,
+    draw=visualink
+  },
+  physics vector/.style={
+    -{Latex[length=3.2mm]},
+    line width=1.5pt,
+    draw=visualblue
+  },
+  physics vector secondary/.style={
+    -{Latex[length=3mm]},
+    line width=1.25pt,
+    draw=visualcyan
+  },
+  force vector/.style={
+    -{Latex[length=3.2mm]},
+    line width=1.45pt,
+    draw=visualred
+  },
+  field vector/.style={
+    -{Latex[length=2.8mm]},
+    line width=1.1pt,
+    draw=visualgreen
+  },
+  construction line/.style={
+    dashed,
+    line width=0.75pt,
+    draw=visualgrid
+  },
+  trajectory/.style={
+    line width=1.5pt,
+    draw=visualblue
+  },
+  visual label/.style={
+    font=\small,
+    text=visualink,
+    fill=white,
+    inner sep=1.5pt
+  },
+  concept node/.style={
+    rounded corners=2pt,
+    draw=visualblue,
+    fill=softblue,
+    line width=0.8pt,
+    align=center,
+    inner sep=5pt,
+    font=\small
+  }
+}
+
+% Figure caption system ---------------------------------------------------------
+\captionsetup{
+  font=small,
+  labelfont={bf,color=visualblue},
+  textfont={color=visualink},
+  justification=raggedright,
+  singlelinecheck=false,
+  skip=6pt
+}
+
+\newcommand{\figsource}[1]{%
+  \par\smallskip
+  {\footnotesize\color{gray}\textit{Source/Construction:} #1}
+}
+
+\newenvironment{bookfigure}[2][tbp]{%
+  \def\bookfigurecaption{#2}%
+  \begin{figure}[#1]
+  \centering
+  \begin{adjustbox}{max width=\textwidth}
+}{%
+  \end{adjustbox}
+  \caption{\bookfigurecaption}
+  \end{figure}
+}
+
+% Compact visual callout --------------------------------------------------------
+\newtcolorbox{visualguidebox}[1][How to read the figure]{
+  title=#1,
+  colback=white,
+  colframe=visualcyan,
+  fonttitle=\bfseries,
+  borderline west={2pt}{0pt}{visualcyan}
+}
+
+% Chapter-opening artwork -------------------------------------------------------
+\newcommand{\chapteropeningart}[2]{%
+\begin{center}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[softblue] (0,0) rectangle (12.6,2.65);
+  \draw[visualblue,line width=1pt] (0,0) rectangle (12.6,2.65);
+  \draw[visualgrid,line width=0.5pt] (0.45,0.35) grid[xstep=0.55,ystep=0.55] (12.1,2.3);
+  \node[anchor=west,font=\bfseries\Large,text=visualblue] at (0.7,1.78) {#1};
+  \node[anchor=west,align=left,text width=7.2cm,font=\small,text=visualink]
+    at (0.72,0.88) {#2};
+  \draw[physics axis] (9.1,0.62) -- (11.85,0.62) node[right] {$x$};
+  \draw[physics axis] (9.1,0.62) -- (9.1,2.18) node[above] {$y$};
+  \draw[physics vector] (9.1,0.62) -- (11.08,1.73)
+    node[above right,visual label] {$\mathbf q$};
+  \fill[visualgold] (9.1,0.62) circle (1.7pt);
+\end{tikzpicture}
+\end{center}
+\vspace{0.4cm}
+}
+
+% Future-ready visual templates -------------------------------------------------
+\newcommand{\wavefunctionplot}{%
+\begin{tikzpicture}
+  \begin{axis}[
+    width=10.5cm,
+    height=5.2cm,
+    axis lines=middle,
+    xlabel={$x$},
+    ylabel={$\psi(x)$},
+    ticks=none,
+    domain=-3.3:3.3,
+    samples=180,
+    ymin=-0.75,
+    ymax=1.15
+  ]
+    \addplot[visualblue,very thick] {exp(-x^2/2)};
+    \addplot[visualcyan,thick,dashed] {0.72*x*exp(-x^2/2)};
+  \end{axis}
+\end{tikzpicture}
+}
+
+\newcommand{\quantumhalltemplate}{%
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \fill[softblue] (0,0) rectangle (9.8,4.3);
+  \draw[visualblue,line width=0.9pt] (0,0) rectangle (9.8,4.3);
+  \foreach \x in {0.7,1.7,...,9.2}
+    \foreach \y in {0.6,1.6,...,3.8}
+      \draw[visualcyan!55,line width=0.5pt] (\x,\y) circle (0.16);
+  \draw[force vector] (0.55,3.75) -- (9.15,3.75)
+    node[midway,above,visual label] {upper chiral edge state};
+  \draw[force vector] (9.15,0.55) -- (0.55,0.55)
+    node[midway,below,visual label] {lower chiral edge state};
+  \node[font=\small] at (4.9,2.15) {2DEG bulk: Landau-level states};
+  \draw[physics vector] (8.85,1.5) -- (8.85,2.85)
+    node[above] {$\mathbf B$};
+\end{tikzpicture}
+}
+
+\title{\Huge\bfseries Theory of Quantum Mechanics\\[0.55em]
+\Large From Mathematical Foundations to the Quantum Hall Effect}
+\author{}
+\date{PR-BOOK-04 Visual System\\\today}
+
+\begin{document}
+	
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Front Matter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\frontmatter
+
+\maketitle
+
+\clearpage
+
+\pdfbookmark[0]{Table of Contents}{toc}
+\tableofcontents
+
+\clearpage
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+This book develops the mathematical and physical ideas needed to understand
+modern quantum mechanics and the Quantum Hall Effect. It begins with vectors,
+motion, and calculus, then advances through classical mechanics,
+electromagnetism, analytical mechanics, and quantum theory.
+
+The presentation emphasizes geometric intuition, careful derivation, and
+explicit links between classical and quantum descriptions. Each chapter uses a
+consistent structure: learning objectives, conceptual development, physical
+interpretation, worked examples, common mistakes, a summary, and a preview of
+the next chapter.
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Main Matter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+%==============================================================================
+% PR-BOOK-01 : Front Matter
+%==============================================================================
+
+\frontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Half Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	\centering
+	\vspace*{\fill}
+	
+	{\Huge\bfseries Theory of Quantum Mechanics\par}
+	
+	\vspace{1cm}
+	
+	{\Large Volume I}
+	
+	\vspace*{\fill}
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Full Title
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{titlepage}
+	
+	\centering
+	
+	\vspace*{2cm}
+	
+	{\Huge\bfseries Theory of Quantum Mechanics\par}
+	
+	\vspace{0.8cm}
+	
+	{\Large From Mathematical Foundations\\[0.2cm]
+		to the Quantum Hall Effect\par}
+	
+	\vspace{1cm}
+	
+	{\Large Volume I\\
+		Mathematical Foundations\par}
+	
+	\vspace{2cm}
+	
+	Version 0.9 Draft
+	
+	\vfill
+	
+	Author
+	
+	\vspace{0.5cm}
+	
+	\today
+	
+\end{titlepage}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Copyright
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cleardoublepage
+
+\thispagestyle{empty}
+
+\section*{Copyright}
+
+Copyright \copyright\ 2026.
+
+All rights reserved.
+
+This manuscript is a working draft intended for educational and research
+purposes.
+
+Future editions may contain additional chapters, figures, exercises and
+historical notes.
+
+\vfill
+
+ISBN: XXX-X-XXXX-XXXX-X
+
+Publisher: To be assigned
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dedication
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\cleardoublepage
+
+\thispagestyle{empty}
+
+\vspace*{\fill}
+
+\begin{center}
+	\itshape
+	
+	Dedicated to everyone who wants to understand\\
+	Nature through mathematics.
+	
+\end{center}
+
+\vspace*{\fill}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Preface
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Preface}
+\addcontentsline{toc}{chapter}{Preface}
+
+Quantum mechanics is one of the greatest intellectual achievements in science.
+Rather than presenting the subject as a collection of formulas, this book
+builds the theory from first principles.
+
+The journey begins with vectors, geometry and calculus before progressing to
+
+\begin{itemize}
+	\item classical mechanics,
+	\item electromagnetism,
+	\item analytical mechanics,
+	\item quantum mechanics,
+	\item Landau levels,
+	\item the Quantum Hall Effect,
+	\item modern topological physics.
+\end{itemize}
+
+Every chapter follows the same educational structure:
+
+\begin{enumerate}
+	\item Learning Objectives
+	\item Conceptual Motivation
+	\item Definitions
+	\item Theory
+	\item Worked Examples
+	\item Physical Interpretation
+	\item Historical Notes
+	\item Common Mistakes
+	\item Summary
+	\item Exercises
+	\item Looking Ahead
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% How to Use This Book
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{How to Use This Book}
+\addcontentsline{toc}{chapter}{How to Use This Book}
+
+Different readers may use this text in different ways.
+
+\begin{description}
+	\item[First reading:] Focus on intuition and worked examples.
+	\item[Second reading:] Study the mathematical derivations.
+	\item[Reference:] Use the notation tables, summaries and index to locate concepts quickly.
+\end{description}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Frequently Used Symbols
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Frequently Used Symbols}
+\addcontentsline{toc}{chapter}{Frequently Used Symbols}
+
+\begin{tabular}{lll}
+	\textbf{Symbol} & \textbf{Meaning} & \textbf{SI Unit}\\
+	\hline
+	$\mathbf r$ & Position vector & m\\
+	$\mathbf v$ & Velocity & m/s\\
+	$\mathbf a$ & Acceleration & m/s$^2$\\
+	$\mathbf F$ & Force & N\\
+	$\mathbf p$ & Momentum & kg\,m/s\\
+	$\nabla$ & Nabla operator & --\\
+	$\psi$ & Wavefunction & --\\
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Physical Constants
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Fundamental Physical Constants}
+\addcontentsline{toc}{chapter}{Fundamental Physical Constants}
+
+\begin{tabular}{lll}
+	Constant & Symbol & Value\\
+	\hline
+	Speed of light & $c$ & $2.99792458\times10^8$ m/s\\
+	Planck constant & $h$ & $6.62607015\times10^{-34}$ J\,s\\
+	Reduced Planck constant & $\hbar$ & $1.054571817\times10^{-34}$ J\,s\\
+	Elementary charge & $e$ & $1.602176634\times10^{-19}$ C\\
+	Electron mass & $m_e$ & $9.1093837015\times10^{-31}$ kg\\
+	Vacuum permittivity & $\varepsilon_0$ & $8.8541878128\times10^{-12}$ F/m\\
+\end{tabular}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Roadmap
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Roadmap of the Book}
+\addcontentsline{toc}{chapter}{Roadmap}
+
+Part I --- Mathematical Foundations
+
+Part II --- Classical Mechanics
+
+Part III --- Electromagnetism
+
+Part IV --- Analytical Mechanics
+
+Part V --- Quantum Mechanics
+
+Part VI --- Quantum Hall Effect
+
+Part VII --- Topology and Modern Quantum Matter
+
+\cleardoublepage
+	
+	
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\mainmatter
+
+\chapter{Vectors and Coordinate Systems}
+\chapteropeningart
+{Geometry becomes physics}
+{Vectors encode magnitude and direction. Coordinate systems provide numerical
+components, while the underlying geometric object remains independent of the
+chosen axes.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapterquote
+{``The laws of physics take the same form in every coordinate system.
+Coordinates are chosen by us; nature does not know them.''}
+{Adapted from Albert Einstein}
+
+\begin{roadmapbox}
+Scalars $\longrightarrow$ vectors $\longrightarrow$ coordinates
+$\longrightarrow$ vector operations $\longrightarrow$ physical fields.
+\end{roadmapbox}
+
+\learningobjectives
+
+
+\begin{itemize}
+	\item understand why vectors are necessary in physics;
+	\item distinguish scalar and vector quantities;
+	\item work with Cartesian coordinate systems;
+	\item calculate vector magnitudes;
+	\item perform vector addition and subtraction;
+	\item calculate dot and cross products;
+	\item understand the right-hand rule;
+	\item interpret vectors geometrically;
+	\item understand basis vectors;
+	\item transform between coordinate systems;
+	\item appreciate why vectors appear naturally in Maxwell's equations,
+	Newton's laws and Schrödinger's equation.
+\end{itemize}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Why Do We Need Vectors?}
+
+Suppose someone tells you
+
+\[
+v=20\ \mathrm{m/s}.
+\]
+
+Has the motion been completely described?
+
+No.
+
+The object could move
+
+east,
+
+west,
+
+north,
+
+south,
+
+up,
+
+or any other direction.
+
+Speed alone is insufficient.
+
+Now suppose someone writes
+
+\[
+\mathbf v=
+20\,\mathrm{m/s}
+\ \hat{\mathbf x}.
+\]
+
+Now the motion is completely specified.
+
+The velocity has
+
+\begin{itemize}
+	\item magnitude,
+	\item direction.
+\end{itemize}
+
+This simple observation motivates one of the most important concepts in
+physics: the vector.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Scalars}
+
+A scalar possesses only magnitude.
+
+Examples include
+
+\begin{itemize}
+	\item mass,
+	\item temperature,
+	\item electric potential,
+	\item pressure,
+	\item energy,
+	\item probability density.
+\end{itemize}
+
+Scalars do not possess direction.
+
+Examples
+
+\[
+T=300\ {\rm K},
+\]
+
+\[
+m=9.11\times10^{-31}\ {\rm kg}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Vectors}
+
+Vectors possess both
+
+\begin{itemize}
+	\item magnitude,
+	\item direction.
+\end{itemize}
+
+Examples include
+
+\begin{itemize}
+	\item displacement,
+	\item velocity,
+	\item acceleration,
+	\item force,
+	\item momentum,
+	\item electric field,
+	\item magnetic field,
+	\item probability current.
+\end{itemize}
+
+Vectors are usually written in boldface,
+
+\[
+\mathbf A,
+\]
+
+or with an arrow,
+
+\[
+\vec A.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{bookfigure}{A vector resolved into Cartesian components. The same
+geometric vector can be described by different components after a change of
+coordinates.}
+\begin{tikzpicture}[scale=1.05]
+  \draw[physics axis] (-0.2,0) -- (5.6,0) node[right] {$x$};
+  \draw[physics axis] (0,-0.2) -- (0,4.2) node[above] {$y$};
+  \draw[physics vector] (0,0) -- (4.4,3.15)
+    node[above right,visual label] {$\mathbf A$};
+  \draw[construction line] (4.4,0) -- (4.4,3.15);
+  \draw[construction line] (0,3.15) -- (4.4,3.15);
+  \draw[physics vector secondary] (0,-0.25) -- (4.4,-0.25)
+    node[midway,below] {$A_x$};
+  \draw[physics vector secondary] (-0.25,0) -- (-0.25,3.15)
+    node[midway,left] {$A_y$};
+  \draw[visualgold,line width=0.9pt,-{Latex[length=1.5mm]}]
+    (0.9,0) arc[start angle=0,end angle=35.6,radius=0.9];
+  \node[text=visualgold,font=\small] at (1.12,0.36) {$\theta$};
+\end{tikzpicture}
+\end{bookfigure}
+
+\begin{visualguidebox}
+The diagonal arrow is the vector itself. The horizontal and vertical arrows are
+its components relative to the selected Cartesian basis.
+\end{visualguidebox}
+
+
+\section{Space}
+
+Physics takes place in space.
+
+To describe position we choose coordinates.
+
+Nature itself has no coordinate axes.
+
+Coordinates are introduced only to help us describe observations.
+
+The most commonly used coordinate system is Cartesian coordinates.
+
+A point is represented by
+
+\[
+(x,y,z).
+\]
+
+These numbers describe
+
+\begin{itemize}
+	\item distance along the x-axis,
+	\item distance along the y-axis,
+	\item distance along the z-axis.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Cartesian Coordinate System}
+
+Define three mutually perpendicular axes.
+
+\[
+x,
+\qquad
+y,
+\qquad
+z.
+\]
+
+Their associated unit vectors are
+
+\[
+\hat{\mathbf x},
+\qquad
+\hat{\mathbf y},
+\qquad
+\hat{\mathbf z}.
+\]
+
+Each has unit length
+
+\[
+|\hat{\mathbf x}|=
+|\hat{\mathbf y}|=
+|\hat{\mathbf z}|=1.
+\]
+
+They satisfy
+
+\[
+\hat{\mathbf x}\cdot\hat{\mathbf y}=0,
+\]
+
+etc.
+
+Therefore they are orthonormal.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Position Vector}
+
+A point
+
+\[
+(x,y,z)
+\]
+
+can also be written as
+
+\[
+\boxed{
+	\mathbf r
+	=
+	x\hat{\mathbf x}
+	+
+	y\hat{\mathbf y}
+	+
+	z\hat{\mathbf z}
+}
+\]
+
+This is called the position vector.
+
+Notice that the coordinates depend on the chosen axes.
+
+The physical point does not.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Magnitude of a Vector}
+
+Consider
+
+\[
+\mathbf A=
+A_x\hat x
++
+A_y\hat y
++
+A_z\hat z.
+\]
+
+The magnitude is
+
+\[
+|\mathbf A|
+=
+\sqrt{
+	A_x^2
+	+
+	A_y^2
+	+
+	A_z^2
+}.
+\]
+
+This is simply the three-dimensional Pythagorean theorem.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Unit Vectors}
+
+A unit vector has length one.
+
+Every vector can be written as
+
+\[
+\mathbf A
+=
+|\mathbf A|
+\hat{\mathbf A}.
+\]
+
+Therefore
+
+\[
+\hat{\mathbf A}
+=
+\frac{\mathbf A}{|\mathbf A|}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Vector Addition}
+
+Vectors add component by component.
+
+\[
+\mathbf C
+=
+\mathbf A+\mathbf B.
+\]
+
+Therefore
+
+\[
+C_x=A_x+B_x,
+\]
+
+etc.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Dot Product}
+
+The scalar product is
+
+\[
+\boxed{
+	\mathbf A\cdot\mathbf B
+	=
+	A_xB_x
+	+
+	A_yB_y
+	+
+	A_zB_z
+}
+\]
+
+or
+
+\[
+\boxed{
+	\mathbf A\cdot\mathbf B
+	=
+	|\mathbf A|
+	|\mathbf B|
+	\cos\theta.
+}
+\]
+
+Applications include
+
+\begin{itemize}
+	\item work,
+	\item projections,
+	\item orthogonality.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Cross Product}
+
+The vector product is
+
+\[
+\boxed{
+	\mathbf A\times\mathbf B
+}
+\]
+
+whose magnitude equals
+
+\[
+|\mathbf A\times\mathbf B|
+=
+AB\sin\theta.
+\]
+
+Its direction follows the right-hand rule.
+
+The result is perpendicular to both vectors.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Right-Hand Rule}
+
+The right-hand rule appears throughout electromagnetism.
+
+Examples include
+
+\[
+\mathbf F=q\mathbf v\times\mathbf B,
+\]
+
+\[
+\mathbf B=\nabla\times\mathbf A,
+\]
+
+and angular momentum
+
+\[
+\mathbf L
+=
+\mathbf r\times\mathbf p.
+\]
+
+Later, this rule will determine the direction of the Lorentz force in the Hall effect.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% PR-BOOK-07.2: canonical modular section
+\input{chapters/chapter01_vectors/sections/01_09_vector_projection_and_decomposition.tex}
+
+\section{Preview of Quantum Mechanics}
+
+Although wavefunctions are complex-valued rather than ordinary vectors,
+many quantum quantities are vectors:
+
+\[
+\nabla,
+\qquad
+\mathbf p,
+\qquad
+\mathbf A,
+\qquad
+\mathbf j.
+\]
+
+Understanding vectors is therefore essential before studying the Schrödinger equation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary}
+
+This chapter introduced the mathematical language used throughout the remainder of the book.
+
+The reader should now understand
+
+\begin{itemize}
+	\item scalar quantities,
+	\item vectors,
+	\item coordinate systems,
+	\item basis vectors,
+	\item vector magnitude,
+	\item vector addition,
+	\item dot product,
+	\item cross product,
+	\item the right-hand rule.
+\end{itemize}
+
+These concepts will be used immediately in the next chapter, where we introduce derivatives, vector calculus, and the differential operator
+
+\[
+\nabla.
+\]
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{bookfigure}{Geometric meanings of the dot and cross products.}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  % Dot product panel
+  \node[font=\bfseries,text=visualblue] at (2.3,3.3) {Dot product};
+  \draw[physics vector] (0.4,0.6) -- (3.8,0.6) node[right] {$\mathbf A$};
+  \draw[physics vector secondary] (0.4,0.6) -- (3.05,2.55) node[above] {$\mathbf B$};
+  \draw[construction line] (3.05,2.55) -- (3.05,0.6);
+  \draw[line width=2.2pt,draw=visualgold] (0.4,0.35) -- (3.05,0.35);
+  \node[font=\small] at (1.75,0.05) {projection of $\mathbf B$ on $\mathbf A$};
+
+  % Cross product panel
+  \node[font=\bfseries,text=visualblue] at (7.7,3.3) {Cross product};
+  \draw[physics vector] (5.4,0.65) -- (9.2,0.65) node[right] {$\mathbf A$};
+  \draw[physics vector secondary] (5.4,0.65) -- (7.7,2.65) node[above] {$\mathbf B$};
+  \fill[visualcyan!18] (5.4,0.65) -- (9.2,0.65) -- (11.5,2.65) -- (7.7,2.65) -- cycle;
+  \draw[visualcyan,line width=0.8pt] (5.4,0.65) -- (9.2,0.65) -- (11.5,2.65) -- (7.7,2.65) -- cycle;
+  \draw[force vector] (8.1,1.55) -- (8.1,3.05)
+    node[above] {$\mathbf A\times\mathbf B$};
+  \node[font=\small] at (8.4,0.15) {magnitude = parallelogram area};
+\end{tikzpicture}
+\end{bookfigure}
+
+
+\clearpage
+\chapterformulaheading
+\begin{formulasheetbox}
+\begin{formulatable}
+Position vector & $\mathbf r=x\mathbf e_x+y\mathbf e_y+z\mathbf e_z$\\
+Magnitude & $\lVert\mathbf A\rVert=\sqrt{A_x^2+A_y^2+A_z^2}$\\
+Dot product & $\mathbf A\cdot\mathbf B=A_xB_x+A_yB_y+A_zB_z
+=\lVert\mathbf A\rVert\lVert\mathbf B\rVert\cos\theta$\\
+Cross product magnitude &
+$\lVert\mathbf A\times\mathbf B\rVert
+=\lVert\mathbf A\rVert\lVert\mathbf B\rVert\sin\theta$\\
+Unit vector & $\widehat{\mathbf A}=\mathbf A/\lVert\mathbf A\rVert$\\
+\end{formulatable}
+\end{formulasheetbox}
+
+\chapternotationheading
+\begin{notationbox}
+\begin{notationtable}
+$\mathbf r$ & Position vector & m\\
+$\mathbf A,\mathbf B$ & General vectors & depends on quantity\\
+$\mathbf e_x,\mathbf e_y,\mathbf e_z$ & Cartesian basis vectors & dimensionless\\
+$\theta$ & Angle between vectors & rad\\
+$\lVert\mathbf A\rVert$ & Magnitude of $\mathbf A$ & same as $\mathbf A$\\
+\end{notationtable}
+\end{notationbox}
+
+\begin{warningbox}
+A vector is not determined by magnitude alone. A speed of
+$20\,\mathrm{m\,s^{-1}}$ is a scalar; a velocity of
+$20\,\mathrm{m\,s^{-1}}$ east is a vector.
+\end{warningbox}
+
+\begin{chapterhistorical}[Cartesian geometry]
+René Descartes and Pierre de Fermat developed analytic geometry in the
+seventeenth century. Their central idea was to represent geometry using
+coordinates and algebra, creating the language later used throughout mechanics,
+electromagnetism, relativity, and quantum theory.
+\end{chapterhistorical}
+
+\chapteroutcomesheading
+\begin{outcomesbox}
+After studying this chapter, the reader should be able to:
+\begin{itemize}
+\item distinguish scalar and vector quantities;
+\item resolve vectors into Cartesian components;
+\item calculate magnitudes, dot products, and cross products;
+\item use the right-hand rule;
+\item explain why coordinate choices do not change physical laws.
+\end{itemize}
+\end{outcomesbox}
+
+\chapterexercisesheading
+\subsection*{Basic}
+\begin{chapterexercise}[Vector magnitude]\difficulty{1}
+For $\mathbf A=3\mathbf e_x-4\mathbf e_y+12\mathbf e_z$, calculate
+$\lVert\mathbf A\rVert$ and the corresponding unit vector.
+\end{chapterexercise}
+
+\begin{chapterexercise}[Dot product]\difficulty{1}
+For $\mathbf A=(2,-1,3)$ and $\mathbf B=(1,4,-2)$, calculate
+$\mathbf A\cdot\mathbf B$ and determine whether the vectors are perpendicular.
+\end{chapterexercise}
+
+\subsection*{Intermediate}
+\begin{chapterexercise}[Cross product and area]\difficulty{2}
+Calculate $\mathbf A\times\mathbf B$ for
+$\mathbf A=(1,2,0)$ and $\mathbf B=(0,1,3)$.
+Interpret its magnitude geometrically.
+\end{chapterexercise}
+
+\subsection*{Advanced}
+\begin{chapterexercise}[Coordinate independence]\difficulty{3}
+Explain why the components of a vector change under a rotation of axes while
+its magnitude does not.
+\end{chapterexercise}
+
+\chapterlookaheadheading
+\begin{lookingaheadbox}
+Vectors describe where an object is and in which direction it moves.
+The next chapter makes these vectors functions of time and introduces
+trajectory, velocity, and acceleration.
+\[
+\mathbf r
+\longrightarrow
+\mathbf r(t)
+\longrightarrow
+\mathbf v(t)
+\longrightarrow
+\mathbf a(t).
+\]
+\end{lookingaheadbox}
+
+
+\chapter{Motion in Space and Time}
+\chapteropeningart
+{A trajectory is a curve through space}
+{Position becomes a function of time. Its first and second derivatives produce
+velocity and acceleration, the fundamental kinematic vectors.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapterquote
+{``Nothing in physics is truly static. Every physical system evolves with time,
+and understanding motion is the first step toward understanding nature.''}
+{}
+
+\begin{roadmapbox}
+Position $\longrightarrow$ displacement $\longrightarrow$ velocity
+$\longrightarrow$ acceleration $\longrightarrow$ trajectory.
+\end{roadmapbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\learningobjectives
+
+
+\begin{itemize}
+	\item understand the concept of motion;
+	\item describe position as a function of time;
+	\item distinguish between average and instantaneous quantities;
+	\item calculate velocity and acceleration;
+	\item understand derivative notation;
+	\item describe motion using vectors;
+	\item interpret graphs of position, velocity and acceleration;
+	\item understand parametric curves and trajectories.
+\end{itemize}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{What is Motion?}
+
+One of the most fundamental questions in physics is:
+
+\begin{center}
+	\emph{What does it mean for an object to move?}
+\end{center}
+
+Suppose we observe an electron.
+
+At time
+
+\[
+t_1
+\]
+
+its position is
+
+\[
+\mathbf r_1
+=
+(2,1,0)\ {\rm nm}.
+\]
+
+A short time later,
+
+\[
+t_2,
+\]
+
+its position becomes
+
+\[
+\mathbf r_2
+=
+(2.3,1.1,0)\ {\rm nm}.
+\]
+
+The position has changed.
+
+Therefore,
+
+\begin{keyidea}
+Motion is the change of position with time.
+\end{keyidea}
+
+Motion is therefore not a property of space alone.
+
+It requires two ingredients:
+
+\begin{itemize}
+	\item position,
+	\item time.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Time}
+
+Time is represented by
+
+\[
+t.
+\]
+
+Unlike spatial coordinates, time is an independent variable.
+
+Instead of writing
+
+\[
+\mathbf r,
+\]
+
+we now write
+
+\[
+\boxed{
+	\mathbf r(t).
+}
+\]
+
+This notation means
+
+\begin{quote}
+	``The position depends on time.''
+\end{quote}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Functions}
+
+A function assigns exactly one output to every input.
+
+Examples include
+
+\[
+x(t),
+\]
+
+\[
+y(t),
+\]
+
+and
+
+\[
+z(t).
+\]
+
+Together they define the complete position vector
+
+\[
+\boxed{
+	\mathbf r(t)
+	=
+	x(t)\hat{\mathbf x}
+	+
+	y(t)\hat{\mathbf y}
+	+
+	z(t)\hat{\mathbf z}.
+}
+\]
+
+Every moving particle therefore traces a curve through space.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Trajectory}
+
+The collection of all positions occupied by a moving particle is called its
+trajectory.
+
+Examples include
+
+\begin{itemize}
+	\item a straight line,
+	\item a circle,
+	\item an ellipse,
+	\item a spiral,
+	\item a completely irregular path.
+\end{itemize}
+
+Later, quantum mechanics will replace these classical trajectories by
+wavefunctions, but the geometric picture remains an important intuition.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Average Velocity}
+
+Suppose a particle moves
+
+\[
+\Delta x
+=
+10\ {\rm m}
+\]
+
+during
+
+\[
+\Delta t
+=
+2\ {\rm s}.
+\]
+
+Its average velocity is
+
+\[
+\boxed{
+	v_{\rm avg}
+	=
+	\frac{\Delta x}{\Delta t}.
+}
+\]
+
+For the above example,
+
+\[
+v_{\rm avg}
+=
+5\ {\rm m/s}.
+\]
+
+Average velocity tells us only what happened over an interval.
+
+It does not describe the motion at every instant.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Instantaneous Velocity}
+
+Imagine measuring the motion over smaller and smaller time intervals.
+
+As
+
+\[
+\Delta t\rightarrow0,
+\]
+
+the average velocity becomes the instantaneous velocity.
+
+Therefore,
+
+\[
+\boxed{
+	v
+	=
+	\frac{dx}{dt}.
+}
+\]
+
+In three dimensions,
+
+\[
+\boxed{
+	\mathbf v
+	=
+	\frac{d\mathbf r}{dt}.
+}
+\]
+
+Expanding into components,
+
+\[
+\boxed{
+	\mathbf v
+	=
+	\frac{dx}{dt}\hat{\mathbf x}
+	+
+	\frac{dy}{dt}\hat{\mathbf y}
+	+
+	\frac{dz}{dt}\hat{\mathbf z}.
+}
+\]
+
+Velocity therefore points in the direction of motion.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Speed}
+
+Velocity is a vector.
+
+Speed is a scalar.
+
+The speed is simply the magnitude of the velocity vector,
+
+\[
+\boxed{
+	v
+	=
+	|\mathbf v|.
+}
+\]
+
+Thus,
+
+\[
+v
+=
+\sqrt{
+	v_x^2
+	+
+	v_y^2
+	+
+	v_z^2
+}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Acceleration}
+
+Velocity itself may change.
+
+The rate of change of velocity is called acceleration.
+
+Average acceleration is
+
+\[
+\boxed{
+	a_{\rm avg}
+	=
+	\frac{\Delta v}{\Delta t}.
+}
+\]
+
+Instantaneous acceleration is
+
+\[
+\boxed{
+	\mathbf a
+	=
+	\frac{d\mathbf v}{dt}.
+}
+\]
+
+Since
+
+\[
+\mathbf v
+=
+\frac{d\mathbf r}{dt},
+\]
+
+we obtain
+
+\[
+\boxed{
+	\mathbf a
+	=
+	\frac{d^2\mathbf r}{dt^2}.
+}
+\]
+
+Acceleration measures how rapidly the velocity changes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Dot Notation}
+
+In analytical mechanics it is common to use Newton's dot notation.
+
+Instead of writing
+
+\[
+\frac{dx}{dt},
+\]
+
+we write
+
+\[
+\boxed{
+	\dot x.
+}
+\]
+
+Similarly,
+
+\[
+\boxed{
+	\ddot x
+	=
+	\frac{d^2x}{dt^2}.
+}
+\]
+
+For vectors,
+
+\[
+\boxed{
+	\dot{\mathbf r}
+	=
+	\mathbf v,
+}
+\]
+
+and
+
+\[
+\boxed{
+	\ddot{\mathbf r}
+	=
+	\mathbf a.
+}
+\]
+
+This notation will be used extensively in the Lagrangian and Hamiltonian
+formulations developed later in this book.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Uniform Circular Motion}
+
+One of the most important examples of motion is uniform circular motion.
+
+A particle moving around a circle of radius
+
+\[
+R
+\]
+
+with angular velocity
+
+\[
+\omega
+\]
+
+has position
+
+\[
+x(t)=R\cos(\omega t),
+\]
+
+\[
+y(t)=R\sin(\omega t).
+\]
+
+Differentiating,
+
+\[
+v_x
+=
+-R\omega\sin(\omega t),
+\]
+
+\[
+v_y
+=
+R\omega\cos(\omega t).
+\]
+
+The speed is constant,
+
+\[
+v
+=
+R\omega,
+\]
+
+while the direction changes continuously.
+
+The acceleration always points toward the centre of the circle,
+
+\[
+\boxed{
+	a
+	=
+	\frac{v^2}{R}.
+}
+\]
+
+Later, we shall discover that electrons in a magnetic field naturally execute
+cyclotron motion, which is closely related to this simple example.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{bookfigure}{A parametric trajectory with instantaneous velocity tangent
+to the curve and acceleration changing the velocity vector.}
+\begin{tikzpicture}[scale=1.0]
+  \draw[physics axis] (-0.3,0) -- (9.2,0) node[right] {$x$};
+  \draw[physics axis] (0,-0.3) -- (0,4.7) node[above] {$y$};
+  \draw[trajectory]
+    plot[smooth] coordinates {(0.4,0.5) (1.5,1.25) (2.6,2.45)
+      (3.9,2.9) (5.1,2.3) (6.3,1.4) (7.5,1.65) (8.5,3.0)};
+  \fill[visualgold] (5.1,2.3) circle (2.2pt);
+  \node[below,visual label] at (5.1,2.3) {$\mathbf r(t)$};
+  \draw[physics vector] (5.1,2.3) -- (6.65,1.38)
+    node[right,visual label] {$\mathbf v(t)$};
+  \draw[force vector] (5.1,2.3) -- (4.55,3.65)
+    node[above,visual label] {$\mathbf a(t)$};
+\end{tikzpicture}
+\end{bookfigure}
+
+\begin{visualguidebox}
+The position vector identifies the point on the curve. Velocity is tangent to
+the trajectory. Acceleration need not point along the direction of motion.
+\end{visualguidebox}
+
+
+\section{Motion as Parametric Curves}
+
+The position vector
+
+\[
+\mathbf r(t)
+\]
+
+defines a parametric curve.
+
+The velocity vector is tangent to this curve,
+
+\[
+\mathbf v
+=
+\frac{d\mathbf r}{dt},
+\]
+
+while the acceleration describes how the tangent vector changes.
+
+These geometric ideas later become central in differential geometry and
+general relativity.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Connection to Future Chapters}
+
+The concepts introduced here appear everywhere in physics.
+
+Newton's Second Law uses
+
+\[
+\mathbf a.
+\]
+
+The Lagrangian depends upon
+
+\[
+\mathbf r
+\quad\text{and}\quad
+\dot{\mathbf r}.
+\]
+
+The Hamiltonian depends upon
+
+\[
+\mathbf r
+\quad\text{and}\quad
+\mathbf p.
+\]
+
+Quantum mechanics introduces
+
+\[
+\psi(\mathbf r,t),
+\]
+
+which also depends on position and time.
+
+Thus, understanding motion is an essential prerequisite for all later chapters.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary}
+
+In this chapter we introduced
+
+\begin{itemize}
+	\item motion,
+	\item time,
+	\item functions,
+	\item trajectories,
+	\item average velocity,
+	\item instantaneous velocity,
+	\item speed,
+	\item acceleration,
+	\item dot notation,
+	\item circular motion,
+	\item parametric curves.
+\end{itemize}
+
+The next chapter develops the mathematical tools needed to describe changing
+quantities rigorously. We shall introduce limits, derivatives, partial
+derivatives and the differential operators that form the language of
+electromagnetism and quantum mechanics.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\chapterformulaheading
+\begin{formulasheetbox}
+\begin{formulatable}
+Displacement & $\Delta\mathbf r=\mathbf r(t_2)-\mathbf r(t_1)$\\
+Average velocity & $\overline{\mathbf v}=\Delta\mathbf r/\Delta t$\\
+Instantaneous velocity & $\mathbf v=d\mathbf r/dt$\\
+Speed & $v=\lVert\mathbf v\rVert$\\
+Acceleration & $\mathbf a=d\mathbf v/dt=d^2\mathbf r/dt^2$\\
+Uniform circular motion & $\lVert\mathbf a\rVert=v^2/R=\omega^2R$\\
+\end{formulatable}
+\end{formulasheetbox}
+
+\chapternotationheading
+\begin{notationbox}
+\begin{notationtable}
+$t$ & Time & s\\
+$\mathbf r(t)$ & Position as a function of time & m\\
+$\Delta\mathbf r$ & Displacement & m\\
+$\mathbf v$ & Velocity & m\,s$^{-1}$\\
+$v$ & Speed & m\,s$^{-1}$\\
+$\mathbf a$ & Acceleration & m\,s$^{-2}$\\
+$\omega$ & Angular velocity & rad\,s$^{-1}$\\
+\end{notationtable}
+\end{notationbox}
+
+\begin{physical}
+Velocity is tangent to the trajectory, whereas acceleration describes how that
+tangent vector changes. Consequently, an object may accelerate even when its
+speed remains constant, as in uniform circular motion.
+\end{physical}
+
+\begin{warningbox}
+Average velocity and instantaneous velocity are different concepts.
+The average uses a finite time interval; the instantaneous value is obtained
+from the limiting derivative at one time.
+\end{warningbox}
+
+\begin{chapterhistorical}[Galileo and mathematical motion]
+Galileo's studies of falling bodies and projectiles helped replace qualitative
+Aristotelian descriptions with mathematical laws involving distance, time, and
+acceleration. This transition prepared the way for Newtonian mechanics.
+\end{chapterhistorical}
+
+\chapteroutcomesheading
+\begin{outcomesbox}
+The reader should now be able to:
+\begin{itemize}
+\item interpret a trajectory $\mathbf r(t)$;
+\item distinguish distance, displacement, speed, and velocity;
+\item obtain velocity and acceleration by differentiation;
+\item describe circular and parametric motion;
+\item connect kinematics to later Lagrangian and Hamiltonian descriptions.
+\end{itemize}
+\end{outcomesbox}
+
+\chapterexercisesheading
+\subsection*{Basic}
+\begin{chapterexercise}[One-dimensional motion]\difficulty{1}
+Let $x(t)=4t^2-2t+1$. Determine the velocity and acceleration.
+\end{chapterexercise}
+
+\begin{chapterexercise}[Average and instantaneous velocity]\difficulty{2}
+For $\mathbf r(t)=(t^2,2t,t^3)$, calculate the average velocity from
+$t=1$ to $t=2$ and the instantaneous velocity at $t=2$.
+\end{chapterexercise}
+
+\subsection*{Intermediate}
+\begin{chapterexercise}[Circular trajectory]\difficulty{2}
+For $\mathbf r(t)=R(\cos\omega t,\sin\omega t,0)$, derive
+$\mathbf v(t)$ and $\mathbf a(t)$ and show that
+$\mathbf a=-\omega^2\mathbf r$.
+\end{chapterexercise}
+
+\subsection*{Programming}
+\begin{chapterexercise}[Numerical trajectory]\difficulty{3}
+Sample a three-dimensional parametric trajectory at discrete times, estimate
+its velocity using finite differences, and compare the estimate with the
+analytic derivative.
+\end{chapterexercise}
+
+\chapterlookaheadheading
+\begin{lookingaheadbox}
+Kinematics uses derivatives, but a rigorous understanding of derivatives
+requires limits and multivariable calculus. The next chapter develops these
+tools and introduces $\nabla$, divergence, curl, and the Laplacian.
+\end{lookingaheadbox}
+
+
+\chapter{Calculus and Differential Operators}
+\chapteropeningart
+{Local change reveals global structure}
+{Derivatives measure change; gradient, divergence, curl, and the Laplacian
+describe the local geometry of scalar and vector fields.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapterquote
+{``Nature is written in the language of mathematics, and calculus is the language
+used to describe continuous change.''}
+{}
+
+\begin{roadmapbox}
+Functions $\longrightarrow$ limits $\longrightarrow$ derivatives
+$\longrightarrow$ partial derivatives $\longrightarrow$
+gradient, divergence, curl, and Laplacian.
+\end{roadmapbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\learningobjectives
+
+\begin{itemize}
+	\item understand why calculus was invented;
+	\item explain the concept of a limit;
+	\item define the derivative from first principles;
+	\item distinguish average and instantaneous rates of change;
+	\item calculate first and second derivatives;
+	\item understand partial derivatives;
+	\item distinguish total and partial derivatives;
+	\item understand the differential operator $\nabla$;
+	\item calculate gradients, divergences, curls and Laplacians;
+	\item recognize these operators in physics.
+\end{itemize}
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Why Calculus?}
+
+Imagine observing an electron moving along a straight line.
+
+At different moments we measure
+
+\[
+\begin{array}{c|c}
+	t\;(\mathrm{s}) & x\;(\mathrm{m})\\
+	\hline
+	0 & 0\\
+	1 & 2\\
+	2 & 5\\
+	3 & 9
+\end{array}
+\]
+
+The particle is clearly moving.
+
+More importantly, its speed is changing.
+
+The natural question is
+
+\begin{center}
+	\emph{How can we describe continuous change mathematically?}
+\end{center}
+
+The answer is calculus.
+
+Calculus was independently developed by Isaac Newton and Gottfried Wilhelm
+Leibniz during the seventeenth century to describe continuously changing
+physical systems.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Limits}
+
+Before defining a derivative, we must understand the idea of a limit.
+
+Consider
+
+\[
+f(x)=\frac{x^2-1}{x-1}.
+\]
+
+At
+
+\[
+x=1,
+\]
+
+the denominator becomes zero.
+
+At first sight the function appears undefined.
+
+However,
+
+\[
+x^2-1=(x-1)(x+1),
+\]
+
+therefore
+
+\[
+f(x)=x+1,
+\qquad x\neq1.
+\]
+
+As
+
+\[
+x\rightarrow1,
+\]
+
+the function approaches
+
+\[
+2.
+\]
+
+Therefore
+
+\[
+\boxed{
+	\lim_{x\rightarrow1}
+	\frac{x^2-1}{x-1}
+	=2.
+}
+\]
+
+A limit describes the behaviour of a function as the input approaches
+a particular value.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Average Rate of Change}
+
+Suppose the value of a function changes from
+
+\[
+f(x)
+\]
+
+to
+
+\[
+f(x+\Delta x).
+\]
+
+The average rate of change is
+
+\[
+\boxed{
+	\frac{\Delta f}{\Delta x}
+	=
+	\frac{f(x+\Delta x)-f(x)}
+	{\Delta x}.
+}
+\]
+
+This is exactly the average velocity introduced in the previous chapter.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Derivative}
+
+To obtain the instantaneous rate of change, we make the interval
+smaller and smaller.
+
+Mathematically,
+
+\[
+\Delta x\rightarrow0.
+\]
+
+The derivative is therefore defined as
+
+\[
+\boxed{
+	\frac{df}{dx}
+	=
+	\lim_{\Delta x\rightarrow0}
+	\frac{f(x+\Delta x)-f(x)}
+	{\Delta x}.
+}
+\]
+
+\begin{keyidea}
+The derivative is an instantaneous rate of change. Geometrically, it is the
+slope of the tangent line to the graph.
+\end{keyidea}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Physical Meaning of the Derivative}
+
+If
+
+\[
+x=x(t),
+\]
+
+then
+
+\[
+\boxed{
+	v=\frac{dx}{dt}
+}
+\]
+
+is the velocity.
+
+Differentiating once again,
+
+\[
+\boxed{
+	a=\frac{d^2x}{dt^2},
+}
+\]
+
+which represents the acceleration.
+
+Thus,
+
+\[
+\boxed{
+	\text{Derivative}
+	=
+	\text{Rate of change.}
+}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Higher Derivatives}
+
+The first derivative measures how rapidly a quantity changes.
+
+The second derivative measures how rapidly the first derivative changes.
+
+Examples include
+
+\[
+\frac{d^2x}{dt^2},
+\]
+
+\[
+\frac{d^3x}{dt^3},
+\]
+
+and higher-order derivatives.
+
+These appear naturally in mechanics, elasticity and wave propagation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Partial Derivatives}
+
+Many physical quantities depend on several variables.
+
+Suppose
+
+\[
+f(x,y,z)=x^2+y^2+z.
+\]
+
+Differentiating only with respect to
+
+\[
+x,
+\]
+
+while treating
+
+\[
+y,z
+\]
+
+as constants gives
+
+\[
+\boxed{
+	\frac{\partial f}{\partial x}=2x.
+}
+\]
+
+Similarly,
+
+\[
+\frac{\partial f}{\partial y}=2y,
+\]
+
+and
+
+\[
+\frac{\partial f}{\partial z}=1.
+\]
+
+Partial derivatives describe how a function changes along one coordinate
+direction while all other coordinates remain fixed.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Total Derivative}
+
+Suppose
+
+\[
+f=f(x(t),y(t)).
+\]
+
+Now every variable depends upon time.
+
+The total derivative becomes
+
+\[
+\boxed{
+	\frac{df}{dt}
+	=
+	\frac{\partial f}{\partial x}
+	\frac{dx}{dt}
+	+
+	\frac{\partial f}{\partial y}
+	\frac{dy}{dt}.
+}
+\]
+
+This is the multivariable chain rule.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Differential Operator}
+
+The symbol
+
+\[
+\boxed{
+	\nabla
+}
+\]
+
+is called
+
+\begin{itemize}
+	\item the del operator,
+	\item the nabla operator,
+	\item the vector differential operator.
+\end{itemize}
+
+It is defined as
+
+\[
+\boxed{
+	\nabla
+	=
+	\hat{\mathbf x}\frac{\partial}{\partial x}
+	+
+	\hat{\mathbf y}\frac{\partial}{\partial y}
+	+
+	\hat{\mathbf z}\frac{\partial}{\partial z}.
+}
+\]
+
+Unlike an ordinary vector,
+
+\[
+\nabla
+\]
+
+contains differentiation operators instead of numerical components.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Gradient}
+
+
+\begin{bookfigure}{Gradient vectors are perpendicular to level curves and point
+toward the steepest local increase of the scalar field.}
+\begin{tikzpicture}[scale=1.0]
+  \foreach \r/\lab in {0.8/1,1.5/2,2.25/3,3.05/4}{
+    \draw[visualcyan!75,line width=0.9pt] (0,0) ellipse ({1.35*\r} and {\r});
+    \node[visual label] at ({1.35*\r},0.2) {$f=\lab$};
+  }
+  \foreach \a in {20,65,115,165,215,265,315}{
+    \draw[field vector] ({1.3*cos(\a)},{0.95*sin(\a)})
+      -- ({2.25*cos(\a)},{1.65*sin(\a)});
+  }
+  \fill[visualgold] (1.15,0.52) circle (2pt);
+  \draw[force vector] (1.15,0.52) -- (2.4,1.08)
+    node[above right,visual label] {$\nabla f$};
+  \node[font=\small,align=center,text width=4.2cm] at (7.2,0.4)
+    {Level curves connect points of equal field value.\\[2mm]
+     The gradient crosses them orthogonally.};
+\end{tikzpicture}
+\end{bookfigure}
+
+
+If
+
+\[
+f(x,y,z)
+\]
+
+is a scalar field,
+
+then
+
+\[
+\boxed{
+	\nabla f
+	=
+	\left(
+	\frac{\partial f}{\partial x},
+	\frac{\partial f}{\partial y},
+	\frac{\partial f}{\partial z}
+	\right).
+}
+\]
+
+The gradient points toward the direction of greatest increase of the function.
+
+For example,
+
+\[
+T(x,y)
+\]
+
+may represent temperature.
+
+Then
+
+\[
+\nabla T
+\]
+
+points in the direction where the temperature rises most rapidly.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Divergence}
+
+For a vector field
+
+\[
+\mathbf A
+=
+(A_x,A_y,A_z),
+\]
+
+the divergence is
+
+\[
+\boxed{
+	\nabla\cdot\mathbf A
+	=
+	\frac{\partial A_x}{\partial x}
+	+
+	\frac{\partial A_y}{\partial y}
+	+
+	\frac{\partial A_z}{\partial z}.
+}
+\]
+
+The divergence measures the strength of local sources or sinks.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Curl}
+
+The curl is
+
+\[
+\boxed{
+	\nabla\times\mathbf A.
+}
+\]
+
+Explicitly,
+
+\[
+\nabla\times\mathbf A
+=
+\begin{pmatrix}
+	\partial_yA_z-\partial_zA_y\\
+	\partial_zA_x-\partial_xA_z\\
+	\partial_xA_y-\partial_yA_x
+\end{pmatrix}.
+\]
+
+The curl measures local rotation.
+
+In electromagnetism,
+
+\[
+\boxed{
+	\mathbf B
+	=
+	\nabla\times\mathbf A.
+}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Laplacian}
+
+Applying the divergence to the gradient gives
+
+\[
+\boxed{
+	\nabla^2f
+	=
+	\nabla\cdot(\nabla f).
+}
+\]
+
+In Cartesian coordinates,
+
+\[
+\boxed{
+	\nabla^2f
+	=
+	\frac{\partial^2f}{\partial x^2}
+	+
+	\frac{\partial^2f}{\partial y^2}
+	+
+	\frac{\partial^2f}{\partial z^2}.
+}
+\]
+
+The Laplacian measures the local curvature of a scalar field.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Important Vector Identities}
+
+Several identities appear repeatedly in physics.
+
+\[
+\boxed{
+	\nabla\times(\nabla f)=0.
+}
+\]
+
+The curl of a gradient always vanishes.
+
+Similarly,
+
+\[
+\boxed{
+	\nabla\cdot(\nabla\times\mathbf A)=0.
+}
+\]
+
+The divergence of a curl is always zero.
+
+These identities play a central role in Maxwell's equations.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Applications in Physics}
+
+Calculus appears throughout physics.
+
+Examples include
+
+\[
+v=\frac{dx}{dt},
+\]
+
+\[
+a=\frac{d^2x}{dt^2},
+\]
+
+\[
+\mathbf E=-\nabla\phi,
+\]
+
+\[
+\mathbf B=\nabla\times\mathbf A,
+\]
+
+\[
+\hat{\mathbf p}
+=
+-i\hbar\nabla,
+\]
+
+and
+
+\[
+\hat H
+=
+-\frac{\hbar^2}{2m}\nabla^2+V.
+\]
+
+Thus a single mathematical idea—the derivative—connects mechanics,
+electromagnetism and quantum mechanics.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary}
+
+In this chapter we introduced
+
+\begin{itemize}
+	\item limits;
+	\item derivatives;
+	\item higher derivatives;
+	\item partial derivatives;
+	\item total derivatives;
+	\item the differential operator $\nabla$;
+	\item the gradient;
+	\item divergence;
+	\item curl;
+	\item the Laplacian.
+\end{itemize}
+
+These operators form the mathematical foundation of nearly every field of
+theoretical physics. In the next chapter we shall apply them to classical
+mechanics and derive Newton's laws of motion in a mathematically rigorous way.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage
+\chapterformulaheading
+\begin{formulasheetbox}
+\begin{formulatable}
+Derivative & $f'(x)=\displaystyle\lim_{h\to0}\frac{f(x+h)-f(x)}{h}$\\
+Gradient & $\nabla f=
+\mathbf e_x\partial_x f+\mathbf e_y\partial_y f+\mathbf e_z\partial_z f$\\
+Divergence & $\nabla\cdot\mathbf A=
+\partial_xA_x+\partial_yA_y+\partial_zA_z$\\
+Curl & $\nabla\times\mathbf A$\\
+Laplacian & $\nabla^2 f=
+\partial_x^2f+\partial_y^2f+\partial_z^2f$\\
+Total derivative & $\displaystyle\frac{df}{dt}
+=\partial_t f+\dot x\,\partial_xf+\dot y\,\partial_yf+\dot z\,\partial_zf$\\
+\end{formulatable}
+\end{formulasheetbox}
+
+\chapternotationheading
+\begin{notationbox}
+\begin{notationtable}
+$d/dx$ & Ordinary derivative operator & inverse unit of $x$\\
+$\partial/\partial x$ & Partial derivative operator & inverse unit of $x$\\
+$\nabla$ & Vector differential operator & m$^{-1}$ in space\\
+$\nabla f$ & Gradient of scalar field & unit of $f$ per m\\
+$\nabla\cdot\mathbf A$ & Divergence of vector field & unit of $\mathbf A$ per m\\
+$\nabla\times\mathbf A$ & Curl of vector field & unit of $\mathbf A$ per m\\
+$\nabla^2$ & Laplacian & m$^{-2}$ in space\\
+\end{notationtable}
+\end{notationbox}
+
+\begin{physical}
+The gradient points toward the steepest local increase of a scalar field.
+Divergence measures local source or sink behaviour. Curl measures local
+circulation. The Laplacian compares a value with its spatial neighbourhood.
+These interpretations reappear in electrostatics, fluid mechanics, diffusion,
+and the Schrödinger equation.
+\end{physical}
+
+\begin{warningbox}
+A partial derivative changes one independent variable while holding the others
+fixed. A total derivative follows the complete dependence of a quantity,
+including indirect dependence through variables such as $x(t)$, $y(t)$,
+and $z(t)$.
+\end{warningbox}
+
+\begin{chapterhistorical}[Newton and Leibniz]
+Isaac Newton and Gottfried Wilhelm Leibniz developed calculus independently in
+the seventeenth century. Newton emphasized changing physical quantities, while
+Leibniz introduced notation that remains central to modern analysis.
+\end{chapterhistorical}
+
+\chapteroutcomesheading
+\begin{outcomesbox}
+The reader should now be able to:
+\begin{itemize}
+\item define a derivative using a limit;
+\item distinguish ordinary, partial, and total derivatives;
+\item compute gradients, divergence, curl, and Laplacians;
+\item give geometric and physical interpretations of these operators;
+\item recognize the same operators in classical and quantum field equations.
+\end{itemize}
+\end{outcomesbox}
+
+\chapterexercisesheading
+\subsection*{Basic}
+\begin{chapterexercise}[Derivative from first principles]\difficulty{2}
+Use the limit definition to derive $d(x^2)/dx=2x$.
+\end{chapterexercise}
+
+\begin{chapterexercise}[Gradient]\difficulty{1}
+Calculate $\nabla f$ for $f(x,y,z)=x^2y+yz^2$.
+\end{chapterexercise}
+
+\subsection*{Intermediate}
+\begin{chapterexercise}[Divergence and curl]\difficulty{2}
+For $\mathbf A=(xy,yz,zx)$, calculate
+$\nabla\cdot\mathbf A$ and $\nabla\times\mathbf A$.
+\end{chapterexercise}
+
+\subsection*{Advanced}
+\begin{chapterexercise}[Laplacian and waves]\difficulty{3}
+Calculate $\nabla^2 e^{i\mathbf k\cdot\mathbf r}$ and interpret the result.
+\end{chapterexercise}
+
+\chapterlookaheadheading
+\begin{lookingaheadbox}
+The next chapter applies derivatives to momentum and acceleration. Kinematics
+becomes dynamics when forces determine how motion changes:
+\[
+\mathbf a
+\longrightarrow
+m\mathbf a
+\longrightarrow
+\mathbf F.
+\]
+\end{lookingaheadbox}
+
+
+\chapter{Newton's Laws of Motion}
+\chapteropeningart
+{Forces determine the evolution of motion}
+{Newton's laws connect interactions to momentum and acceleration, turning
+kinematics into predictive dynamics.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapterquote
+{``To every action there is always opposed an equal reaction.''}
+{Isaac Newton, \emph{Philosophiae Naturalis Principia Mathematica} (1687)}
+
+\begin{roadmapbox}
+Inertia $\longrightarrow$ force $\longrightarrow$ momentum
+$\longrightarrow$ equations of motion $\longrightarrow$ free-body analysis.
+\end{roadmapbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\learningobjectives
+
+\begin{itemize}
+	\item understand the concept of force;
+	\item distinguish between mass and weight;
+	\item explain Newton's three laws of motion;
+	\item calculate the motion of particles under applied forces;
+	\item understand inertia and momentum;
+	\item appreciate why Newtonian mechanics is an approximation to relativity
+	and quantum mechanics.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Classical Mechanics}
+
+Classical mechanics describes the motion of macroscopic objects.
+
+Examples include
+
+\begin{itemize}
+	\item planets,
+	\item automobiles,
+	\item projectiles,
+	\item pendulums,
+	\item satellites.
+\end{itemize}
+
+For objects moving much slower than the speed of light and much larger than
+atoms, Newton's laws provide an extremely accurate description of nature.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The Concept of Force}
+
+In everyday language we often speak of pushing or pulling an object.
+
+Physics introduces the more general concept of a force.
+
+A force is any interaction capable of changing the motion of an object.
+
+Examples include
+
+\begin{itemize}
+	\item gravity,
+	\item electric forces,
+	\item magnetic forces,
+	\item friction,
+	\item tension,
+	\item spring forces.
+\end{itemize}
+
+The SI unit of force is the newton (N),
+
+\[
+1\;\mathrm N
+=
+1\;\mathrm{kg\,m/s^2}.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Newton's First Law}
+
+Newton's first law states
+
+\begin{quote}
+	Every body remains at rest or continues moving with constant velocity unless
+	acted upon by a net external force.
+\end{quote}
+
+This law introduces the concept of inertia.
+
+Objects naturally resist changes in their state of motion.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Inertial Reference Frames}
+
+Newton's laws are valid only in inertial reference frames.
+
+An inertial frame is one in which an isolated object moves with constant velocity.
+
+Accelerating reference frames require additional fictitious forces such as
+
+\begin{itemize}
+	\item centrifugal force,
+	\item Coriolis force.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Mass}
+
+Mass measures inertia.
+
+Objects with larger mass require larger forces to produce the same acceleration.
+
+Mass should not be confused with weight. Mass measures inertia, whereas
+weight is the gravitational force acting on that mass.
+
+\begin{mistakebox}
+Mass is measured in kilograms; weight is a force measured in newtons.
+\end{mistakebox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Newton's Second Law}
+
+
+\begin{bookfigure}{Free-body diagram for a block on a horizontal surface. Only
+forces acting on the selected body are shown.}
+\begin{tikzpicture}[x=1cm,y=1cm]
+  \draw[line width=1pt,draw=visualink] (-0.5,0) -- (8.5,0);
+  \foreach \x in {-0.4,0.1,...,8.2}
+    \draw[visualgrid] (\x,0) -- ++(-0.25,-0.25);
+  \fill[softblue] (2.7,0) rectangle (5.6,1.75);
+  \draw[visualblue,line width=1pt] (2.7,0) rectangle (5.6,1.75);
+  \node at (4.15,0.88) {$m$};
+
+  \draw[force vector] (4.15,1.75) -- (4.15,3.45)
+    node[above,visual label] {$\mathbf N$};
+  \draw[force vector] (4.15,0) -- (4.15,-1.65)
+    node[below,visual label] {$m\mathbf g$};
+  \draw[force vector] (5.6,0.9) -- (7.55,0.9)
+    node[right,visual label] {$\mathbf F_{\mathrm{applied}}$};
+  \draw[force vector] (2.7,0.55) -- (1.25,0.55)
+    node[left,visual label] {$\mathbf f$};
+
+  \node[concept node,text width=3.2cm] at (9.8,2.6)
+    {$\sum\mathbf F=m\mathbf a$\\Vector sum first; acceleration second.};
+\end{tikzpicture}
+\end{bookfigure}
+
+\begin{visualguidebox}
+The normal force and weight cancel vertically when there is no vertical
+acceleration. The horizontal net force determines the horizontal acceleration.
+\end{visualguidebox}
+
+
+The most famous equation in classical mechanics is
+
+\[
+\boxed{
+	\mathbf F
+	=
+	m\mathbf a.
+}
+\]
+
+Since
+
+\[
+\mathbf a
+=
+\frac{d^2\mathbf r}{dt^2},
+\]
+
+we may also write
+
+\[
+\boxed{
+	m
+	\frac{d^2\mathbf r}{dt^2}
+	=
+	\mathbf F.
+}
+\]
+
+This is a second-order differential equation.
+
+Given the force, solving this equation determines the particle's motion.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Momentum}
+
+Momentum is defined by
+
+\[
+\boxed{
+	\mathbf p
+	=
+	m\mathbf v.
+}
+\]
+
+Using momentum,
+
+Newton's second law becomes
+
+\[
+\boxed{
+	\mathbf F
+	=
+	\frac{d\mathbf p}{dt}.
+}
+\]
+
+This form remains valid even when the mass changes.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Newton's Third Law}
+
+Newton's third law states
+
+\begin{quote}
+	For every action there exists an equal and opposite reaction.
+\end{quote}
+
+If object A exerts a force upon object B,
+
+then object B simultaneously exerts an equal and opposite force upon object A.
+
+Mathematically,
+
+\[
+\boxed{
+	\mathbf F_{AB}
+	=
+	-
+	\mathbf F_{BA}.
+}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Free-Body Diagrams}
+
+To analyse motion, all forces acting on an object should first be identified.
+
+Typical forces include
+
+\begin{itemize}
+	\item gravity,
+	\item normal force,
+	\item friction,
+	\item tension,
+	\item external applied forces.
+\end{itemize}
+
+The vector sum of these forces determines the acceleration.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Worked Example}
+
+\begin{examplebox}
+A force \(\mathbf F=(10,0,0)\,\mathrm N\) acts on a \(2\,\mathrm{kg}\) mass.
+Find the acceleration.
+\end{examplebox}
+
+\begin{solutionbox}
+Newton's second law gives
+\[
+\mathbf a=\frac{\mathbf F}{m}
+=\frac{(10,0,0)}{2}
+=(5,0,0)\,\mathrm{m/s^2}.
+\]
+\end{solutionbox}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Limitations of Newtonian Mechanics}
+
+Although remarkably successful, Newton's theory is not universal.
+
+For
+
+\begin{itemize}
+	\item velocities approaching the speed of light,
+	\item atomic dimensions,
+	\item strong gravitational fields,
+\end{itemize}
+
+more advanced theories become necessary.
+
+These include
+
+\begin{itemize}
+	\item Special Relativity,
+	\item General Relativity,
+	\item Quantum Mechanics.
+\end{itemize}
+
+Nevertheless, Newtonian mechanics remains the starting point of nearly every
+modern physical theory.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Connection to the Next Chapter}
+
+Newton's equation
+
+\[
+m\mathbf a=\mathbf F
+\]
+
+describes motion once the force is known.
+
+In the next chapter we shall study the most important forces in nature,
+beginning with gravitational, electric and magnetic interactions.
+
+Eventually we shall derive the Lorentz force,
+
+\begin{keyequation}{Lorentz force}
+\[
+\mathbf F=q(\mathbf E+\mathbf v\times\mathbf B).
+\]
+\end{keyequation}
+
+which forms the classical foundation of the Quantum Hall Effect.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Summary}
+
+This chapter introduced
+
+\begin{itemize}
+	\item force;
+	\item inertia;
+	\item inertial frames;
+	\item mass;
+	\item Newton's three laws;
+	\item momentum;
+	\item free-body diagrams;
+	\item limitations of classical mechanics.
+\end{itemize}
+
+These ideas provide the bridge between elementary kinematics and the
+electromagnetic forces that govern charged particles.
+
+
+\clearpage
+\chapterformulaheading
+\begin{formulasheetbox}
+\begin{formulatable}
+Momentum & $\mathbf p=m\mathbf v$\\
+Newton's second law & $\mathbf F_{\mathrm{net}}=d\mathbf p/dt$\\
+Constant-mass form & $\mathbf F_{\mathrm{net}}=m\mathbf a$\\
+Weight near Earth's surface & $\mathbf W=m\mathbf g$\\
+Action--reaction pair & $\mathbf F_{A\to B}=-\mathbf F_{B\to A}$\\
+Impulse & $\mathbf J=\displaystyle\int_{t_1}^{t_2}\mathbf F\,dt=\Delta\mathbf p$\\
+\end{formulatable}
+\end{formulasheetbox}
+
+\chapternotationheading
+\begin{notationbox}
+\begin{notationtable}
+$m$ & Inertial mass & kg\\
+$\mathbf F$ & Force & N\\
+$\mathbf F_{\mathrm{net}}$ & Vector sum of forces & N\\
+$\mathbf p$ & Momentum & kg\,m\,s$^{-1}$\\
+$\mathbf g$ & Gravitational acceleration & m\,s$^{-2}$\\
+$\mathbf J$ & Impulse & N\,s\\
+\end{notationtable}
+\end{notationbox}
+
+\begin{physical}
+Newton's second law does not merely state that force causes motion. It states
+that net force controls the rate of change of momentum. The familiar equation
+$\mathbf F=m\mathbf a$ is the constant-mass special case.
+\end{physical}
+
+\begin{warningbox}
+Mass and weight are not interchangeable. Mass measures inertia and is expressed
+in kilograms. Weight is a gravitational force and is expressed in newtons.
+Also, the two forces in an action--reaction pair act on different bodies, so
+they do not cancel in a free-body diagram of one body.
+\end{warningbox}
+
+\begin{chapterhistorical}[The \emph{Principia}]
+Newton published the \emph{Philosophiae Naturalis Principia Mathematica} in
+1687. It unified terrestrial and celestial motion using a small set of
+mathematical laws and became the foundation of classical mechanics.
+\end{chapterhistorical}
+
+\chapteroutcomesheading
+\begin{outcomesbox}
+The reader should now be able to:
+\begin{itemize}
+\item identify inertial frames;
+\item distinguish mass, weight, momentum, and force;
+\item apply Newton's three laws;
+\item construct and interpret free-body diagrams;
+\item derive equations of motion from a specified net force;
+\item state the limits of Newtonian mechanics.
+\end{itemize}
+\end{outcomesbox}
+
+\chapterexercisesheading
+\subsection*{Basic}
+\begin{chapterexercise}[Net force]\difficulty{1}
+A $4\,\mathrm{kg}$ body experiences forces
+$12\,\mathrm N$ east and $5\,\mathrm N$ west. Determine its acceleration.
+\end{chapterexercise}
+
+\begin{chapterexercise}[Mass and weight]\difficulty{1}
+Calculate the weight of a $70\,\mathrm{kg}$ person on Earth using
+$g=9.81\,\mathrm{m\,s^{-2}}$.
+\end{chapterexercise}
+
+\subsection*{Intermediate}
+\begin{chapterexercise}[Inclined plane]\difficulty{2}
+A block slides without friction down an incline of angle $\theta$.
+Draw the free-body diagram and derive its acceleration along the plane.
+\end{chapterexercise}
+
+\subsection*{Advanced}
+\begin{chapterexercise}[Momentum form]\difficulty{3}
+Starting from $\mathbf F=d\mathbf p/dt$, explain why
+$\mathbf F=m\mathbf a$ requires constant mass.
+\end{chapterexercise}
+
+\subsection*{Challenge}
+\begin{chapterexercise}[Magnetic force preview]\difficulty{4}
+The magnetic force is $\mathbf F=q\mathbf v\times\mathbf B$.
+Explain why it can change the direction of velocity without changing the
+particle's speed.
+\end{chapterexercise}
+
+\chapterlookaheadheading
+\begin{lookingaheadbox}
+The next stage identifies the forces that enter Newton's equation. Of special
+importance is the Lorentz force,
+\[
+\mathbf F=q(\mathbf E+\mathbf v\times\mathbf B),
+\]
+which later leads to cyclotron motion, Landau quantization, and the Quantum
+Hall Effect.
+\end{lookingaheadbox}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Visual language preview for later volumes
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\clearpage
+\chapter*{Visual Language Preview for Quantum Mechanics}
+\addcontentsline{toc}{chapter}{Visual Language Preview}
+
+This unnumbered design page fixes the visual conventions that later chapters
+will use. It is a template, not a substitute for the full physics discussion.
+
+\section*{Wavefunctions}
+
+\begin{bookfigure}{Template for one-dimensional wavefunctions. Solid and dashed
+curves may represent different stationary states, components, or comparison
+solutions, provided each use is explicitly identified in the accompanying text.}
+\wavefunctionplot
+\end{bookfigure}
+
+\section*{Quantum Hall Geometry}
+
+\begin{bookfigure}{Template for a Hall bar or two-dimensional electron gas.
+The magnetic field is perpendicular to the plane; edge-state arrows indicate
+opposite propagation directions on opposite boundaries.}
+\quantumhalltemplate
+\end{bookfigure}
+
+\begin{visualguidebox}[Future consistency rules]
+Later quantum figures should preserve a fixed coordinate convention:
+the sample lies in the $xy$ plane, the magnetic field points along $z$,
+source--drain transport is labelled explicitly, and bulk states are visually
+distinguished from boundary-localized edge states.
+\end{visualguidebox}
+
+
+\end{document}
+

@@ -1,0 +1,463 @@
+\section{Curl --- Measuring Rotation}
+\label{sec:curl}
+
+We now arrive at the third and final fundamental differential operator of vector
+calculus. Together with the gradient and divergence, the curl completes the
+mathematical language needed to describe local change in vector fields. It is
+indispensable in fluid dynamics, electromagnetism, plasma physics, continuum
+mechanics, and many parts of modern theoretical physics.
+
+Suppose that a tiny paddle wheel is placed into a flowing stream. If the water
+moves uniformly in one direction, the wheel is carried downstream without
+spinning. If the water swirls around a whirlpool, however, the wheel begins to
+rotate. The amount of water entering and leaving a small region may remain
+balanced, yet the local flow can still possess rotation. The mathematical
+quantity that measures this rotational tendency is the \emph{curl}.
+
+Unlike divergence, which measures whether a field spreads outward from or
+converges inward toward a point, curl measures how strongly the field circulates
+around that point.
+
+\subsection{Motivation}
+
+Imagine stirring a cup of coffee. Near the spoon, the liquid rotates rapidly;
+farther away, the rotational motion becomes weaker. Nothing need be created or
+destroyed, so the divergence may be approximately zero. Nevertheless, each
+small fluid element can experience rotational motion.
+
+This illustrates an important distinction. A vector field may possess
+
+\begin{itemize}
+  \item divergence without rotation,
+  \item rotation without divergence,
+  \item both divergence and rotation,
+  \item or neither.
+\end{itemize}
+
+To distinguish these possibilities, vector calculus introduces the curl
+operator.
+
+\subsection{Local Rotation and the Paddle-Wheel Test}
+
+Consider placing an infinitesimally small paddle wheel into a vector field
+$\mathbf F$.
+
+\begin{itemize}
+  \item If the wheel does not rotate, the local curl vanishes:
+  \[
+    \nabla\times\mathbf F=\mathbf 0.
+  \]
+  \item If the wheel spins counterclockwise in the $xy$-plane, the curl points
+  upward, in the positive $z$-direction, according to the right-hand rule.
+  \item If the wheel spins clockwise, the curl points downward, in the negative
+  $z$-direction.
+\end{itemize}
+
+\begin{bookfigure}{A small paddle wheel distinguishes uniform translation from
+local rotational flow. The direction of the curl follows the right-hand rule.}
+\begin{tikzpicture}[scale=0.92]
+  \begin{scope}[xshift=-5.2cm]
+    \foreach \y in {-1.2,-0.6,0,0.6,1.2}{
+      \draw[field vector] (-1.8,\y) -- (1.8,\y);
+    }
+    \draw[thick] (0,0) circle (0.5);
+    \foreach \a in {0,90,180,270}{
+      \draw[thick] (0,0) -- ({0.75*cos(\a)},{0.75*sin(\a)});
+    }
+    \node[font=\small,align=center] at (0,-2.0)
+      {Uniform flow\\$\nabla\times\mathbf F=\mathbf 0$};
+  \end{scope}
+  \begin{scope}[xshift=0cm]
+    \foreach \r in {0.7,1.2,1.7}{
+      \draw[visualcyan!75,line width=0.9pt,->]
+        (\r,0) arc[start angle=0,end angle=310,radius=\r];
+    }
+    \draw[thick] (0,0) circle (0.5);
+    \foreach \a in {0,90,180,270}{
+      \draw[thick] (0,0) -- ({0.75*cos(\a)},{0.75*sin(\a)});
+    }
+    \draw[force vector] (0,0) -- (0,1.65)
+      node[above,visual label] {$\nabla\times\mathbf F$};
+    \node[font=\small,align=center] at (0,-2.0)
+      {Counterclockwise rotation\\curl points upward};
+  \end{scope}
+  \begin{scope}[xshift=5.2cm]
+    \foreach \r in {0.7,1.2,1.7}{
+      \draw[visualcyan!75,line width=0.9pt,<-]
+        (\r,0) arc[start angle=0,end angle=310,radius=\r];
+    }
+    \draw[thick] (0,0) circle (0.5);
+    \foreach \a in {0,90,180,270}{
+      \draw[thick] (0,0) -- ({0.75*cos(\a)},{0.75*sin(\a)});
+    }
+    \draw[force vector] (0,0) -- (0,-1.65)
+      node[below,visual label] {$\nabla\times\mathbf F$};
+    \node[font=\small,align=center] at (0,-2.0)
+      {Clockwise rotation\\curl points downward};
+  \end{scope}
+\end{tikzpicture}
+\end{bookfigure}
+
+\subsection{Definition in Cartesian Coordinates}
+
+Let
+\[
+\mathbf F(x,y,z)
+=
+F_x\,\mathbf e_x+F_y\,\mathbf e_y+F_z\,\mathbf e_z.
+\]
+The curl of $\mathbf F$ is defined by
+\[
+\boxed{
+\nabla\times\mathbf F
+=
+\left(
+\frac{\partial F_z}{\partial y}-\frac{\partial F_y}{\partial z}
+\right)\mathbf e_x
++
+\left(
+\frac{\partial F_x}{\partial z}-\frac{\partial F_z}{\partial x}
+\right)\mathbf e_y
++
+\left(
+\frac{\partial F_y}{\partial x}-\frac{\partial F_x}{\partial y}
+\right)\mathbf e_z.
+}
+\]
+Equivalently, in column-vector notation,
+\[
+\boxed{
+\nabla\times\mathbf F
+=
+\begin{pmatrix}
+\partial_yF_z-\partial_zF_y\\[2mm]
+\partial_zF_x-\partial_xF_z\\[2mm]
+\partial_xF_y-\partial_yF_x
+\end{pmatrix}.
+}
+\]
+
+Unlike the divergence, which maps a vector field to a scalar field, the curl
+maps a vector field to another vector field:
+\[
+\boxed{
+\text{vector field}\longrightarrow\text{vector field}.
+}
+\]
+Its direction specifies the local axis of rotation, while its magnitude measures
+the strength of that rotation.
+
+\subsection{Determinant Mnemonic}
+
+Many physicists remember the Cartesian formula using the symbolic determinant
+\[
+\boxed{
+\nabla\times\mathbf F
+=
+\begin{vmatrix}
+\mathbf e_x & \mathbf e_y & \mathbf e_z\\[1mm]
+\dfrac{\partial}{\partial x} &
+\dfrac{\partial}{\partial y} &
+\dfrac{\partial}{\partial z}\\[3mm]
+F_x & F_y & F_z
+\end{vmatrix}.
+}
+\]
+This expression is a mnemonic rather than an ordinary numerical determinant,
+because its first row contains basis vectors and its second row contains
+differential operators. Expanding it along the first row reproduces the
+component formula above.
+
+\subsection{Physical Meaning}
+
+The curl measures \emph{local circulation}. A large magnitude
+$\lvert\nabla\times\mathbf F\rvert$ indicates strong local rotational motion.
+Zero curl means that the field is locally irrotational:
+\[
+\nabla\times\mathbf F=\mathbf 0.
+\]
+This does not imply that the field itself vanishes. It means only that an
+infinitesimal paddle wheel placed at that point would not spin.
+
+The word \emph{local} is essential. A field can possess curved streamlines and
+yet have zero curl in a region. Conversely, a field may look nearly straight
+on a large scale while still having nonzero local curl.
+
+\subsection{Example 1: A Rotational Field}
+
+Consider
+\[
+\mathbf F(x,y,z)=(-y,x,0).
+\]
+Then
+\[
+\nabla\times\mathbf F
+=
+\begin{pmatrix}
+0\\[1mm]
+0\\[1mm]
+\dfrac{\partial x}{\partial x}
+-
+\dfrac{\partial(-y)}{\partial y}
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\0\\2
+\end{pmatrix}
+=2\mathbf e_z.
+\]
+The positive $z$-component indicates counterclockwise rotation in the
+$xy$-plane. The vectors circulate around the origin while the curl points
+perpendicular to the plane of motion.
+
+\begin{bookfigure}{The rotational field $\mathbf F=(-y,x,0)$ circulates around
+the origin. Its curl is uniform and points in the positive $z$-direction.}
+\begin{tikzpicture}[scale=0.92]
+  \draw[->] (-3.2,0)--(3.2,0) node[right] {$x$};
+  \draw[->] (0,-3.2)--(0,3.2) node[above] {$y$};
+  \foreach \x in {-2.4,-1.6,-0.8,0.8,1.6,2.4}{
+    \foreach \y in {-2.4,-1.6,-0.8,0.8,1.6,2.4}{
+      \pgfmathsetmacro{\m}{sqrt(\x*\x+\y*\y)}
+      \draw[field vector] (\x,\y) -- ++({-0.52*\y/\m},{0.52*\x/\m});
+    }
+  }
+  \fill (0,0) circle (1.5pt);
+  \node[draw,circle,inner sep=1.2pt,font=\small] at (0.35,0.35) {$\odot$};
+  \node[visual label,align=left] at (5.2,1.0)
+    {$\nabla\times\mathbf F=2\mathbf e_z$\\points out of the page};
+\end{tikzpicture}
+\end{bookfigure}
+
+\subsection{Example 2: A Radial Field}
+
+Consider the radial field
+\[
+\mathbf F(x,y,z)=(x,y,z).
+\]
+Its curl is
+\[
+\nabla\times\mathbf F
+=
+\begin{pmatrix}
+\partial_y z-\partial_z y\\
+\partial_z x-\partial_x z\\
+\partial_x y-\partial_y x
+\end{pmatrix}
+=
+\begin{pmatrix}
+0\\0\\0
+\end{pmatrix}.
+\]
+Although the vectors point outward from the origin, there is no local rotation.
+This field possesses positive divergence,
+\[
+\nabla\cdot\mathbf F=3,
+\]
+but zero curl.
+
+\subsection{Example 3: A Rotating Fluid}
+
+Suppose a fluid undergoes rigid rotation about the $z$-axis with angular
+velocity $\boldsymbol\omega=\omega\mathbf e_z$. Its velocity field is
+\[
+\mathbf v=\boldsymbol\omega\times\mathbf r
+=(-\omega y,\omega x,0).
+\]
+Therefore,
+\[
+\nabla\times\mathbf v
+=
+\begin{pmatrix}
+0\\0\\2\omega
+\end{pmatrix}
+=2\boldsymbol\omega.
+\]
+Thus, for rigid-body rotation, the curl of the velocity field equals twice the
+local angular velocity. In fluid mechanics the quantity
+\[
+\boldsymbol\zeta=\nabla\times\mathbf v
+\]
+is called the \emph{vorticity}. Meteorologists use vorticity to study
+hurricanes, tornadoes, cyclones, and atmospheric circulation.
+
+\subsection{Example 4: Electromagnetism}
+
+Two of Maxwell's equations are curl equations. Faraday's law states
+\[
+\boxed{
+\nabla\times\mathbf E
+=-\frac{\partial\mathbf B}{\partial t}.
+}
+\]
+A changing magnetic field therefore generates a circulating electric field.
+The Amp\`ere--Maxwell law states
+\[
+\boxed{
+\nabla\times\mathbf B
+=
+\mu_0\mathbf J
++
+\mu_0\varepsilon_0
+\frac{\partial\mathbf E}{\partial t}.
+}
+\]
+Electric current density and changing electric fields generate circulating
+magnetic fields. These equations underlie the operation of
+
+\begin{itemize}
+  \item electric generators,
+  \item transformers,
+  \item electric motors,
+  \item radio antennas,
+  \item and electromagnetic waves.
+\end{itemize}
+
+Without curl, Maxwell's equations could not be written in their compact and
+geometrically transparent differential form.
+
+A further important example is the magnetic vector potential $\mathbf A$, for
+which
+\[
+\boxed{
+\mathbf B=\nabla\times\mathbf A.
+}
+\]
+This representation automatically implies $\nabla\cdot\mathbf B=0$, because
+the divergence of a curl vanishes wherever the fields are sufficiently smooth.
+
+\subsection{Integral Interpretation: Circulation Density}
+
+Let $C$ be a small closed curve surrounding a point, and let $S$ be the small
+surface bounded by $C$. The circulation of $\mathbf F$ around $C$ is
+\[
+\oint_C \mathbf F\cdot d\mathbf l.
+\]
+For a chosen unit normal $\hat{\mathbf n}$, the normal component of the curl is
+obtained by shrinking the loop toward the point:
+\[
+\boxed{
+(\nabla\times\mathbf F)\cdot\hat{\mathbf n}
+=
+\lim_{A\to0}
+\frac{1}{A}
+\oint_C \mathbf F\cdot d\mathbf l.
+}
+\]
+Here $A$ is the area of $S$, and the positive orientation of $C$ is related to
+$\hat{\mathbf n}$ by the right-hand rule. This formula shows that curl is the
+local circulation per unit area.
+
+The finite-surface version is Stokes' theorem:
+\[
+\boxed{
+\oint_{\partial S}\mathbf F\cdot d\mathbf l
+=
+\iint_S(\nabla\times\mathbf F)\cdot d\mathbf A.
+}
+\]
+Thus the differential concept of curl and the integral concept of circulation
+are two descriptions of the same geometry.
+
+\subsection{Comparing Gradient, Divergence, and Curl}
+
+The three fundamental differential operators have complementary roles.
+
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{llll}
+\textbf{Operator} & \textbf{Acts on} & \textbf{Produces} & \textbf{Interpretation}\\
+\hline
+$\nabla f$ & scalar field & vector field & direction of greatest increase\\
+$\nabla\cdot\mathbf F$ & vector field & scalar field & local sources and sinks\\
+$\nabla\times\mathbf F$ & vector field & vector field & local circulation or rotation
+\end{tabular}
+\end{center}
+
+Together, these operators form the foundation of classical field theory and
+provide the local differential language used throughout mathematical physics.
+
+\booktopic{Curl Is Not the Same as a Curved Trajectory}
+
+A common misconception is that curl measures whether individual trajectories
+are curved. It does not. Curl measures the local rotation of the field itself.
+A particle may follow a curved path in an irrotational field, and a field with
+nonzero curl need not force every particle to move on a closed circular orbit.
+The paddle-wheel test concerns the relative motion of neighboring parts of the
+field, not merely the shape of one path.
+
+\subsection{Historical Note}
+
+The modern formulation of curl emerged during the nineteenth century through
+the work of William Rowan Hamilton, Peter Guthrie Tait, and Josiah Willard
+Gibbs. James Clerk Maxwell incorporated rotational derivatives into his theory
+of electricity and magnetism, revealing that electromagnetic phenomena are
+governed by an interplay between divergence and curl. Later developments in
+fluid mechanics, plasma physics, continuum mechanics, and quantum field theory
+established curl as one of the central tools of mathematical physics.
+
+\subsection{Common Mistakes}
+
+Several misconceptions should be avoided.
+
+\begin{enumerate}
+  \item \textbf{Curl measures local rotation, not merely circular-looking
+  trajectories.} A particle may move along a curved path even where the curl is
+  zero.
+
+  \item \textbf{Zero divergence does not imply zero curl.} The field
+  $\mathbf F=(-y,x,0)$ has zero divergence but nonzero curl.
+
+  \item \textbf{Zero curl does not imply zero divergence.} The radial field
+  $\mathbf F=(x,y,z)$ has nonzero divergence but zero curl.
+
+  \item \textbf{Curl is a vector.} Its direction is fixed by the right-hand
+  rule and identifies the axis of local rotation.
+
+  \item \textbf{The determinant expression is only a mnemonic.} It must be
+  expanded with the signs and component order used in the cross product.
+
+  \item \textbf{The circulation limit determines a component of the curl.}
+  The expression must include a chosen surface normal; curl is not obtained by
+  dividing a scalar circulation by area without specifying orientation.
+\end{enumerate}
+
+\subsection{Connection to Modern Physics}
+
+The operators developed in this chapter appear throughout theoretical physics.
+The Schr\"odinger equation contains the Laplacian, which can be written as the
+divergence of the gradient. Maxwell's equations are expressed almost entirely
+through divergence and curl. In quantum mechanics, the magnetic field is the
+curl of the vector potential, and the vector potential enters the Hamiltonian
+through minimal coupling. In relativistic field theory, these ideas are
+reorganized into antisymmetric tensors and exterior derivatives. In general
+relativity they are extended to differentiable manifolds and curved spacetime.
+
+By mastering gradient, divergence, and curl in ordinary three-dimensional
+space, the reader develops geometric intuition for the more abstract
+differential structures used later in advanced mechanics, electromagnetism,
+quantum theory, and geometry.
+
+\subsection{Looking Ahead}
+
+With gradient, divergence, and curl established, we possess the three
+fundamental first-order differential operators of vector calculus. The next
+section introduces the Laplacian, a second-order operator constructed from the
+divergence of the gradient:
+\[
+\nabla^2 f=\nabla\cdot(\nabla f).
+\]
+The Laplacian appears in diffusion, wave propagation, electrostatics, fluid
+mechanics, and, most importantly for this book, the kinetic-energy term of the
+Schr\"odinger equation. Later chapters will also express these operators in
+cylindrical and spherical coordinates, where they become especially useful for
+wires, planets, central-force systems, and atomic wavefunctions.
+
+\begin{summarybox}
+The curl $\nabla\times\mathbf F$ is a vector field that measures local
+circulation. Its direction gives the local axis of rotation by the right-hand
+rule, and its magnitude gives the strength of that rotation. In Cartesian
+coordinates it is built from antisymmetric combinations of first partial
+derivatives. Its integral interpretation is circulation per unit area, and its
+global form is Stokes' theorem. Curl is central to vorticity, Faraday induction,
+the Amp\`ere--Maxwell law, and the relation $\mathbf B=\nabla\times\mathbf A$.
+\end{summarybox}
