@@ -1,0 +1,2444 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Encoding, fonts, layout
+% ------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[a4paper,margin=1in]{geometry}
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+% ------------------------------------------------------------
+% Tables, lists, graphics
+% ------------------------------------------------------------
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{adjustbox}
+\usepackage{enumitem}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+
+% ------------------------------------------------------------
+% Math
+% ------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\allowdisplaybreaks
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator*{\colim}{colim}
+
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\PreSh}{\mathbf{PreSh}}
+\newcommand{\Sh}{\mathbf{Sh}}
+\newcommand{\AffSch}{\mathbf{AffSch}}
+\newcommand{\Sch}{\mathrm{Sch}}
+\newcommand{\Rings}{\mathrm{Rings}}
+
+\newcommand{\A}{\mathbb A}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\GG}{\mathbb G}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\Pj}{\mathbb P}
+\newcommand{\RR}{\mathbb R}
+\newcommand{\ZZ}{\mathbb Z}
+\newcommand{\Z}{\mathbb Z}
+
+\newcommand{\B}{\mathcal B}
+\newcommand{\C}{\mathcal C}
+\newcommand{\F}{\mathcal F}
+\newcommand{\G}{\mathcal G}
+\newcommand{\I}{\mathcal I}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\OOX}{\mathcal O_X}
+\newcommand{\Czero}{\mathcal C^0}
+\newcommand{\CzeroX}{\mathcal C^0_X}
+\newcommand{\Cinfty}{\mathcal C^\infty}
+\newcommand{\CinftyM}{\mathcal C^\infty_M}
+\newcommand{\Fp}{\mathcal F'}
+\newcommand{\Fpp}{\mathcal F''}
+
+\newcommand{\GammaX}{\Gamma(X,\mathcal O_X)}
+\newcommand{\GammaU}[1]{\Gamma(U,#1)}
+\newcommand{\kappares}{\kappa}
+\newcommand{\nilrad}{\sqrt{(0)}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\codim}{\operatorname{codim}}
+\newcommand{\trdeg}{\operatorname{trdeg}}
+\newcommand{\height}{\operatorname{height}}
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\divisor}{\operatorname{div}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\SSone}{S^1}
+
+% ------------------------------------------------------------
+% TikZ and diagrams
+% ------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,decorations.pathreplacing,fit,positioning,shapes.geometric}
+\usepackage{tikz-cd}
+
+% ------------------------------------------------------------
+% Links
+% ------------------------------------------------------------
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black,
+  pdftitle={Algebraic Geometry 20},
+  pdfauthor={},
+  pdfsubject={Lecture notes (reorganized)},
+  pdfcreator={TeXstudio / LaTeX}
+}
+
+% ------------------------------------------------------------
+% Theorem environments
+% ------------------------------------------------------------
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[subsection]
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{warning}[definition]{Warning}
+
+% ------------------------------------------------------------
+% Section numbering and headers
+% ------------------------------------------------------------
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Theory of Algebraic Geometry 21}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+
+
+\begin{document}
+
+
+\title{Algebraic Geometry 21\\
+	\large Riemann surfaces}
+\author{}
+\date{}
+
+	\maketitle
+	
+
+	\setcounter{section}{0}
+
+\tableofcontents
+
+	\clearpage
+
+
+\section{Positive Definiteness: Riemannian versus Lorentzian Metrics}
+
+One of the most important properties of a metric tensor is
+\emph{positive definiteness}. This property distinguishes
+ordinary geometry (Riemannian geometry) from the geometry of
+space--time (Lorentzian geometry).
+
+\bigskip
+
+The metric tensor determines locally
+
+\begin{itemize}
+	\item lengths,
+	\item angles,
+	\item areas,
+	\item volumes,
+	\item the shape of infinitesimal geometric objects.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{A Small Cube Around a Point}
+
+Imagine an infinitesimally small cube centered at a point of a manifold.
+
+\bigskip
+
+\begin{center}
+	\begin{verbatim}
+		+--------+
+		/|       /|
+		+--------+ |
+		| |      | |
+		| +------|-+
+		|/       |/
+		+--------+
+	\end{verbatim}
+\end{center}
+
+The metric determines the lengths of the edges and the angles between
+them.
+
+If the metric varies from point to point, this cube may become
+
+\begin{itemize}
+	\item stretched,
+	\item compressed,
+	\item sheared,
+	\item rotated.
+\end{itemize}
+
+In Riemannian geometry it always remains a genuine geometric object
+with positive edge lengths and positive volume.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Metric as an Inner Product}
+
+For every tangent vector
+
+\[
+v=(v_1,v_2,\ldots,v_n),
+\]
+
+the metric computes
+
+\[
+g(v,v).
+\]
+
+This quantity plays the role of the squared length of the vector.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Positive Definiteness}
+
+\begin{definition}
+	A symmetric metric tensor is called \textbf{positive definite} if
+	
+	\[
+	g(v,v)>0
+	\]
+	
+	for every nonzero vector
+	
+	\[
+	v\neq0.
+	\]
+	
+	Furthermore,
+	
+	\[
+	g(0,0)=0.
+	\]
+\end{definition}
+
+Thus every nonzero direction has positive squared length.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Example: Euclidean Space}
+
+The standard Euclidean metric is
+
+\[
+g=
+\begin{pmatrix}
+	1&0&0\\
+	0&1&0\\
+	0&0&1
+\end{pmatrix}.
+\]
+
+Hence
+
+\[
+g(v,v)
+=
+x^2+y^2+z^2.
+\]
+
+Since
+
+\[
+x^2+y^2+z^2>0
+\]
+
+for every nonzero vector,
+
+the metric is positive definite.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Stretching the Geometry}
+
+Suppose instead
+
+\[
+g=
+\begin{pmatrix}
+	4&0&0\\
+	0&1&0\\
+	0&0&9
+\end{pmatrix}.
+\]
+
+Then
+
+\[
+g(v,v)
+=
+4x^2+y^2+9z^2.
+\]
+
+Geometrically,
+
+\begin{itemize}
+	\item the $x$ direction is measured twice as long,
+	\item the $z$ direction three times as long,
+	\item the $y$ direction is unchanged.
+\end{itemize}
+
+The infinitesimal cube becomes an infinitesimal rectangular box.
+
+\bigskip
+
+\begin{center}
+	\begin{verbatim}
+		Original cube
+		
+		+------+
+		|      |
+		|      |
+		+------+
+		
+		↓
+		
+		Metric deformation
+		
+		+------------+
+		|            |
+		|            |
+		|            |
+		+------------+
+	\end{verbatim}
+\end{center}
+
+All lengths remain positive.
+
+The local volume remains positive.
+
+Orientation is preserved.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Why the Name "Positive Definite"?}
+
+Imagine trying every possible direction.
+
+\bigskip
+
+\begin{center}
+	\begin{tikzpicture}[>=Stealth,scale=1.2]
+		
+		\fill (0,0) circle (2pt);
+		
+		\draw[->] (0,0)--(1,0);
+		\draw[->] (0,0)--(-1,0);
+		\draw[->] (0,0)--(0,1);
+		\draw[->] (0,0)--(0,-1);
+		
+		\draw[->] (0,0)--(0.75,0.75);
+		\draw[->] (0,0)--(-0.75,0.75);
+		\draw[->] (0,0)--(0.75,-0.75);
+		\draw[->] (0,0)--(-0.75,-0.75);
+		
+	\end{tikzpicture}
+\end{center}
+
+For every nonzero arrow,
+
+\[
+g(v,v)>0.
+\]
+
+There are no exceptions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Riemannian Metrics}
+
+A \textbf{Riemannian metric} is a metric tensor satisfying
+
+\begin{enumerate}
+	\item symmetry,
+	
+	\[
+	g_{ij}=g_{ji},
+	\]
+	
+	\item positive definiteness.
+\end{enumerate}
+
+Consequently,
+
+\begin{itemize}
+	\item every tangent space looks locally like Euclidean space,
+	\item distances are always positive,
+	\item infinitesimal balls become ellipsoids,
+	\item infinitesimal cubes become distorted boxes.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Example: The Sphere}
+
+The unit sphere has metric
+
+\[
+ds^2
+=
+d\theta^2
++
+\sin^2\theta\,d\phi^2.
+\]
+
+Thus
+
+\[
+g=
+\begin{pmatrix}
+	1&0\\
+	0&\sin^2\theta
+\end{pmatrix}.
+\]
+
+For every tangent vector
+
+\[
+v=(v_\theta,v_\phi),
+\]
+
+we obtain
+
+\[
+g(v,v)
+=
+v_\theta^2
++
+\sin^2\theta\,v_\phi^2.
+\]
+
+Away from the poles,
+
+\[
+\sin\theta>0,
+\]
+
+therefore
+
+\[
+g(v,v)>0
+\]
+
+for every nonzero tangent vector.
+
+Hence the sphere is a Riemannian manifold.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Lorentzian Metrics}
+
+Space--time geometry is fundamentally different.
+
+Instead of
+
+\[
+(+,+,+,+),
+\]
+
+the metric has signature
+
+\[
+(-,+,+,+)
+\]
+
+(or equivalently $(+,-,-,-)$).
+
+The Minkowski metric is
+
+\[
+g=
+\begin{pmatrix}
+	-1&0&0&0\\
+	0&1&0&0\\
+	0&0&1&0\\
+	0&0&0&1
+\end{pmatrix}.
+\]
+
+For a vector
+
+\[
+v=(t,x,y,z),
+\]
+
+we compute
+
+\[
+g(v,v)
+=
+-t^2+x^2+y^2+z^2.
+\]
+
+Notice the minus sign.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Loss of Positive Definiteness}
+
+Now three possibilities exist.
+
+\bigskip
+
+\textbf{Timelike vectors}
+
+\[
+g(v,v)<0.
+\]
+
+Example:
+
+\[
+v=(1,0,0,0),
+\]
+
+gives
+
+\[
+g(v,v)=-1.
+\]
+
+\bigskip
+
+\textbf{Spacelike vectors}
+
+\[
+g(v,v)>0.
+\]
+
+Example:
+
+\[
+v=(0,1,0,0),
+\]
+
+gives
+
+\[
+g(v,v)=1.
+\]
+
+\bigskip
+
+\textbf{Lightlike (null) vectors}
+
+\[
+g(v,v)=0.
+\]
+
+Example:
+
+\[
+v=(1,1,0,0),
+\]
+
+gives
+
+\[
+g(v,v)
+=
+-1+1
+=
+0.
+\]
+
+Therefore the Lorentz metric is \emph{not} positive definite.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Geometric Picture}
+
+In Euclidean geometry,
+
+vectors of equal length form a sphere.
+
+\bigskip
+
+\begin{center}
+	\begin{verbatim}
+		•••
+		•         •
+		•             •
+		•      O        •
+		•             •
+		•         •
+		•••
+	\end{verbatim}
+\end{center}
+
+Every direction behaves in essentially the same way.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+In Lorentzian geometry,
+
+the distinguished object is the light cone.
+
+\bigskip
+
+\begin{center}
+	\begin{verbatim}
+		Time
+		
+		^
+		/\
+		/  \
+		------------O------------> Space
+		\  /
+		\/
+	\end{verbatim}
+\end{center}
+
+The light cone divides vectors into
+
+\begin{itemize}
+	\item timelike,
+	\item lightlike,
+	\item spacelike.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{What Happens to the Infinitesimal Cube?}
+
+\subsubsection*{Riemannian Metric}
+
+A small Euclidean ball becomes an ellipsoid.
+
+\bigskip
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.1]
+		
+		% Circle
+		\draw (0,2) circle (0.6);
+		\node at (0,3) {\textbf{Euclidean Ball}};
+		
+		% Arrow
+		\draw[->,thick] (0,1.3)--(0,0.3);
+		\node[right] at (0.1,0.8) {\small Metric deformation};
+		
+		% Ellipse
+		\draw (0,-1) ellipse (0.9 and 0.45);
+		\node at (0,-2) {\textbf{Ellipsoid}};
+		
+	\end{tikzpicture}
+\end{center}
+
+Likewise,
+
+a small cube becomes a skewed or stretched box.
+
+All principal directions have positive lengths.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{Lorentzian Metric}
+
+There is no ordinary infinitesimal ball.
+
+Instead, the local geometry is organized by the light cone.
+
+Time behaves differently from spatial directions.
+
+Rather than ellipsoids, Lorentzian geometry naturally produces
+
+\begin{itemize}
+	\item light cones,
+	\item hyperboloids,
+	\item causal regions.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Comparison}
+
+\renewcommand{\arraystretch}{1.4}
+
+\begin{center}
+	\begin{tabular}{|p{4cm}|p{5cm}|p{5cm}|}
+		\hline
+		&
+		\textbf{Riemannian Metric}
+		&
+		\textbf{Lorentzian Metric}
+		\\
+		\hline
+		
+		Signature
+		&
+		$(+,+,+)$ or $(+,+,+,+)$
+		&
+		$(-,+,+,+)$
+		\\
+		\hline
+		
+		Positive definite
+		&
+		Yes
+		&
+		No
+		\\
+		\hline
+		
+		Possible values of $g(v,v)$
+		&
+		Always positive for $v\neq0$
+		&
+		Positive, zero, or negative
+		\\
+		\hline
+		
+		Local geometry
+		&
+		Ellipsoids
+		&
+		Light cones and hyperboloids
+		\\
+		\hline
+		
+		Distances
+		&
+		Always positive
+		&
+		Space--time intervals
+		\\
+		\hline
+		
+		Physical interpretation
+		&
+		Ordinary geometry
+		&
+		General relativity
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Main Idea}
+
+Positive definiteness guarantees that every nonzero direction has a
+strictly positive squared length,
+
+\[
+g(v,v)>0.
+\]
+
+Therefore all infinitesimal geometric objects remain ordinary Euclidean
+objects, only stretched or compressed.
+
+Lorentzian geometry intentionally abandons positive definiteness.
+
+The metric distinguishes time from space, allowing
+
+\[
+g(v,v)
+<
+0,\qquad
+=
+0,\qquad
+>
+0,
+\]
+
+which gives rise to the causal structure of spacetime, light cones,
+timelike curves, and the geometry used in Einstein's theory of general
+relativity.
+
+\section{What Does a Negative Length Mean in a Lorentzian Metric?}
+
+One of the most common misconceptions is that a negative value of
+
+\[
+g(v,v)
+\]
+
+means a ``negative length.''
+
+It does \emph{not}.
+
+Instead, the quantity
+
+\[
+g(v,v)
+\]
+
+is called the \textbf{Lorentzian norm squared} or the
+\textbf{space--time interval squared}.
+
+Unlike Euclidean geometry, it is not always positive.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Euclidean Geometry}
+
+In Euclidean space,
+
+\[
+g(v,v)
+=
+x^2+y^2+z^2.
+\]
+
+Since this quantity is always positive,
+
+we define the length
+
+\[
+|v|
+=
+\sqrt{g(v,v)}.
+\]
+
+Everything behaves as expected.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Lorentzian Geometry}
+
+In Minkowski space,
+
+\[
+g=
+\operatorname{diag}(-1,1,1,1),
+\]
+
+so that
+
+\[
+g(v,v)
+=
+-t^2+x^2+y^2+z^2.
+\]
+
+Notice that the time coordinate contributes negatively.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Example 1: Standing Still}
+
+Suppose
+
+\[
+v=(1,0,0,0).
+\]
+
+Then
+
+\[
+g(v,v)
+=
+-1.
+\]
+
+This does \emph{not} mean that the vector has negative length.
+
+Instead, it means the displacement is entirely through time.
+
+The physically meaningful quantity is the
+\textbf{proper time}
+
+\[
+d\tau
+=
+\sqrt{-g(v,v)}.
+\]
+
+Thus
+
+\[
+d\tau
+=
+1.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Example 2: Pure Spatial Motion}
+
+Suppose
+
+\[
+v=(0,3,4,0).
+\]
+
+Then
+
+\[
+g(v,v)
+=
+25.
+\]
+
+The interval is positive and corresponds to an ordinary spatial distance,
+
+\[
+\sqrt{25}=5.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Example 3: Light}
+
+Suppose
+
+\[
+v=(5,5,0,0).
+\]
+
+Then
+
+\[
+g(v,v)
+=
+-25+25
+=
+0.
+\]
+
+This vector lies on the light cone.
+
+Such vectors are called
+
+\begin{itemize}
+	\item null,
+	\item lightlike,
+	\item isotropic.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Meaning of the Sign}
+
+The sign of
+
+\[
+g(v,v)
+\]
+
+classifies vectors into three fundamentally different types.
+
+\bigskip
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Value of $g(v,v)$ &
+		Type &
+		Meaning
+		\\
+		\hline
+		
+		$g(v,v)<0$
+		&
+		Timelike
+		&
+		Motion mainly through time
+		\\
+		\hline
+		
+		$g(v,v)=0$
+		&
+		Lightlike
+		&
+		Motion of light
+		\\
+		\hline
+		
+		$g(v,v)>0$
+		&
+		Spacelike
+		&
+		Separation mainly through space
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Light Cone Interpretation}
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.2,>=Stealth]
+		
+		% axes
+		\draw[->,thick] (0,-2.2)--(0,2.2) node[above]{Time};
+		\draw[->,thick] (-3,0)--(3,0) node[right]{Space};
+		
+		% light cone
+		\draw[thick] (0,0)--(1.7,1.7);
+		\draw[thick] (0,0)--(-1.7,1.7);
+		\draw[thick] (0,0)--(1.7,-1.7);
+		\draw[thick] (0,0)--(-1.7,-1.7);
+		
+		% event
+		\fill (0,0) circle (2.2pt);
+		\node[right=2mm] at (0,0) {$O$};
+		
+		% labels
+		\node[above] at (0,2.25) {Future};
+		\node[below] at (0,-2.25) {Past};
+		
+	\end{tikzpicture}
+\end{center}
+The light cone divides vectors into
+
+\begin{itemize}
+	\item timelike vectors (inside the cone),
+	\item lightlike vectors (on the cone),
+	\item spacelike vectors (outside the cone).
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Why Is Time Negative?}
+
+The negative sign is a matter of convention.
+
+Many books instead use
+
+\[
+(+,-,-,-).
+\]
+
+Then
+
+\begin{itemize}
+	\item timelike vectors become positive,
+	\item spacelike vectors become negative.
+\end{itemize}
+
+The geometry and physics remain exactly the same.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Physical Interpretation}
+
+The Lorentz metric compares the contributions of time and space.
+
+Using the convention
+
+\[
+(-,+,+,+),
+\]
+
+we compute
+
+\[
+g(v,v)
+=
+-(\text{time})^2
++
+(\text{space})^2.
+\]
+
+Therefore
+
+\begin{itemize}
+	\item if the time contribution dominates,
+	
+	\[
+	g(v,v)<0,
+	\]
+	
+	the vector is timelike;
+	
+	\item if the space contribution dominates,
+	
+	\[
+	g(v,v)>0,
+	\]
+	
+	the vector is spacelike;
+	
+	\item if they are exactly equal,
+	
+	\[
+	g(v,v)=0,
+	\]
+	
+	the vector is lightlike.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Main Idea}
+
+In Euclidean geometry the metric answers
+
+\begin{quote}
+	``How long is this vector?''
+\end{quote}
+
+In Lorentzian geometry it answers
+
+\begin{quote}
+	``Is this displacement mainly through time,
+	mainly through space,
+	or exactly at the speed of light?''
+\end{quote}
+
+Thus a negative Lorentzian norm does \emph{not}
+represent a negative physical length.
+
+Instead it indicates a timelike displacement.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Do We Move Through Space and Time at the Same Time?}
+
+The answer is
+
+\[
+\boxed{\text{Yes.}}
+\]
+
+Every physical object always moves through both space and time.
+
+The difference is only in the proportion.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Standing Still}
+
+Suppose you are sitting in a chair.
+
+Relative to the Earth,
+
+\[
+dx=dy=dz=0,
+\]
+
+while
+
+\[
+dt>0.
+\]
+
+Your displacement vector is
+
+\[
+(dt,0,0,0).
+\]
+
+Therefore
+
+\[
+ds^2
+=
+-c^2dt^2.
+\]
+
+Since
+
+\[
+ds^2<0,
+\]
+
+your motion is timelike.
+
+Although you are not moving through space,
+you are continuously moving forward through time.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Walking}
+
+Suppose during one second you walk one metre.
+
+Now
+
+\[
+dx>0,
+\]
+
+and
+
+\[
+dt>0.
+\]
+
+Hence
+
+\[
+ds^2
+=
+-c^2dt^2
++
+dx^2.
+\]
+
+Because
+
+\[
+c
+=
+3\times10^8
+\ \mathrm{m/s},
+\]
+
+the quantity
+
+\[
+c^2dt^2
+\]
+
+is enormously larger than
+
+\[
+dx^2.
+\]
+
+Therefore
+
+\[
+ds^2<0.
+\]
+
+You are still moving mainly through time.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Travelling Near the Speed of Light}
+
+Suppose a spacecraft moves with
+
+\[
+v=0.99c.
+\]
+
+Now
+
+\[
+dx
+\approx
+c\,dt.
+\]
+
+Hence
+
+\[
+-c^2dt^2
++
+dx^2
+\]
+
+is much closer to zero.
+
+The worldline tilts toward the light cone.
+
+The astronaut experiences less proper time.
+
+This is the geometric origin of time dilation.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Light}
+
+For light,
+
+\[
+dx
+=
+c\,dt.
+\]
+
+Thus
+
+\[
+ds^2
+=
+-c^2dt^2
++
+c^2dt^2
+=
+0.
+\]
+
+Light always follows null (lightlike) directions.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Geometric Picture}
+
+Standing still:
+
+\begin{center}
+	\begin{tikzpicture}[>=Stealth,scale=1.3]
+		
+		% Axes
+		\draw[->,very thick] (0,0)--(0,3.2);
+		\draw[->,very thick] (0,0)--(4.5,0);
+		
+		% Origin
+		\fill (0,0) circle (2pt);
+		
+		% Labels
+		\node[left] at (0,3.2) {\textbf{Time}};
+		\node[below] at (4.5,0) {\textbf{Space}};
+		\node[below left] at (0,0) {$O$};
+		
+	\end{tikzpicture}
+\end{center}
+
+Almost all motion is through time.
+
+\bigskip
+
+Walking:
+
+\begin{center}
+	\begin{tikzpicture}[>=Stealth,scale=1.2]
+		\draw[->,thick] (0,0)--(0,3) node[above]{Time};
+		\draw[->,thick] (0,0)--(4,0) node[right]{Space};
+		
+		\draw[very thick] (0,0)--(1.1,2.4);
+		\node[right] at (1.1,2.4) {walking};
+		
+		\fill (0,0) circle (2pt);
+	\end{tikzpicture}
+\end{center}
+
+Part of the motion is through space.
+
+Part is through time.
+
+\bigskip
+
+Near light speed:
+
+\begin{center}
+	\begin{tikzpicture}[>=Stealth,scale=1.2]
+		\draw[->,thick] (0,0)--(0,3) node[above]{Time};
+		\draw[->,thick] (0,0)--(4,0) node[right]{Space};
+		
+		\draw[very thick] (0,0)--(2.4,2.4);
+		\node[right] at (2.4,2.4) {near light speed};
+		
+		\fill (0,0) circle (2pt);
+	\end{tikzpicture}
+\end{center}
+
+More motion is through space.
+
+Less proper time elapses.
+
+\bigskip
+
+Light:
+
+\begin{center}
+	\begin{tikzpicture}[>=Stealth,scale=1.2]
+		\draw[->,thick] (0,0)--(0,3) node[above]{Time};
+		\draw[->,thick] (0,0)--(4,0) node[right]{Space};
+		
+		\draw[very thick] (0,0)--(2.8,2.8);
+		\node[right] at (2.8,2.8) {light};
+		
+		\fill (0,0) circle (2pt);
+	\end{tikzpicture}
+\end{center}
+
+Light travels exactly on the light cone.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Four-Velocity}
+
+Every massive particle has a four-velocity
+
+\[
+U^\mu.
+\]
+
+Its Lorentzian norm is always
+
+\[
+g(U,U)
+=
+-c^2
+\]
+
+(using the signature $(-,+,+,+)$).
+
+This remarkable equation means that every massive object
+moves through spacetime with the same invariant spacetime
+``speed.''
+
+Different observers disagree about the decomposition into
+space and time, but they all agree on the invariant norm
+
+\[
+g(U,U).
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Final Interpretation}
+
+Every object always moves through spacetime.
+
+The Lorentz metric tells us how that motion is divided between
+
+\begin{itemize}
+	\item motion through time,
+	\item motion through space.
+\end{itemize}
+
+Moving faster through space causes the worldline to tilt
+toward the light cone.
+
+Consequently,
+
+\begin{itemize}
+	\item less proper time elapses,
+	\item clocks run slower,
+	\item time dilation naturally appears.
+\end{itemize}
+
+This is one of the most beautiful geometric consequences
+of the Lorentzian metric.
+
+
+\section{How Does the Lorentzian Metric Change in General Relativity?}
+
+A very natural question is:
+
+\begin{quote}
+	If mass curves space--time, does this simply mean that the off-diagonal
+	entries of the Lorentzian metric become nonzero?
+\end{quote}
+
+The answer is
+
+\[
+\boxed{\text{Sometimes yes, but not always.}}
+\]
+
+There are two independent ways in which the metric may differ from the
+flat Minkowski metric.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Flat Space--Time (Special Relativity)}
+
+In special relativity the metric is the same everywhere.
+
+The Minkowski metric is
+
+\[
+g_{\mu\nu}
+=
+\begin{pmatrix}
+	-1&0&0&0\\
+	0&1&0&0\\
+	0&0&1&0\\
+	0&0&0&1
+\end{pmatrix}.
+\]
+
+Notice that
+
+\begin{itemize}
+	\item all diagonal entries are constant,
+	\item every off-diagonal entry is zero,
+	\item every point of space--time has exactly the same metric.
+\end{itemize}
+
+\bigskip
+
+Graphically,
+
+\begin{center}
+	\setlength{\fboxsep}{10pt}
+	\fbox{
+		\begin{minipage}{0.75\textwidth}
+			\centering
+			
+			\Large
+			Every point of spacetime carries the same
+			
+			\vspace{3mm}
+			
+			\[
+			(-,+,+,+)
+			\]
+			
+			\large
+			Lorentzian signature
+			
+		\end{minipage}
+	}
+\end{center}
+
+There is
+
+\begin{itemize}
+	\item no curvature,
+	\item no gravity,
+	\item no preferred location.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{General Relativity}
+
+Einstein's revolutionary idea was
+
+\begin{quote}
+	Mass and energy do not change the Lorentzian signature.
+	
+	Instead, they change the metric coefficients.
+\end{quote}
+
+Instead of a constant matrix,
+
+\[
+g_{\mu\nu},
+\]
+
+we now have
+
+\[
+g_{\mu\nu}(x),
+\]
+
+whose entries depend on the point
+
+\[
+x=(t,x,y,z).
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Case 1: The Diagonal Entries Change}
+
+The most common situation is that only the diagonal coefficients change.
+
+A famous example is the Schwarzschild metric,
+
+\[
+g_{\mu\nu}
+=
+\begin{pmatrix}
+	-\left(1-\dfrac{2GM}{rc^2}\right)
+	&
+	0
+	&
+	0
+	&
+	0
+	\\
+	0
+	&
+	\left(1-\dfrac{2GM}{rc^2}\right)^{-1}
+	&
+	0
+	&
+	0
+	\\
+	0
+	&
+	0
+	&
+	r^2
+	&
+	0
+	\\
+	0
+	&
+	0
+	&
+	0
+	&
+	r^2\sin^2\theta
+\end{pmatrix}.
+\]
+
+Notice
+
+\[
+\boxed{
+	\text{All off-diagonal entries are still zero.}
+}
+\]
+
+Nevertheless,
+
+space--time is already curved.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{What Changes?}
+
+Compared with flat space,
+
+the diagonal entries are no longer
+
+\[
+(-1,1,1,1).
+\]
+
+Instead they depend on
+
+\[
+r.
+\]
+
+Therefore
+
+\begin{itemize}
+	\item clocks run at different speeds,
+	\item measured distances change,
+	\item light bends,
+	\item free particles follow curved geodesics.
+\end{itemize}
+
+Thus curvature does not require nonzero off-diagonal terms.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Case 2: Off-Diagonal Entries Become Nonzero}
+
+A second possibility is that some off-diagonal entries appear.
+
+For example,
+
+around a rotating body,
+
+\[
+g_{t\phi}\neq0.
+\]
+
+Schematically,
+
+\[
+g_{\mu\nu}
+=
+\begin{pmatrix}
+	-0.8&0&0&-a\\
+	0&1.2&0&0\\
+	0&0&r^2&0\\
+	-a&0&0&\cdots
+\end{pmatrix}.
+\]
+
+where
+
+\[
+g_{t\phi}
+=
+g_{\phi t}
+=
+-a.
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Meaning of Off-Diagonal Entries}
+
+Recall that
+
+\[
+ds^2
+=
+g_{\mu\nu}
+dx^\mu
+dx^\nu.
+\]
+
+If the metric is diagonal,
+
+\[
+ds^2
+=
+g_{tt}dt^2
++
+g_{xx}dx^2
++
+g_{yy}dy^2
++
+g_{zz}dz^2.
+\]
+
+Every coordinate contributes independently.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Suppose instead
+
+\[
+g_{tx}\neq0.
+\]
+
+Then
+
+\[
+ds^2
+=
+g_{tt}dt^2
++
+2g_{tx}\,dt\,dx
++
+g_{xx}dx^2
++\cdots
+\]
+
+Now
+
+time and the spatial coordinate
+
+\[
+x
+\]
+
+become coupled.
+
+Moving in one direction affects measurements in the other.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Euclidean Analogy}
+
+Suppose we have ordinary Cartesian coordinates.
+
+\begin{center}
+	\begin{tikzpicture}[>=Stealth,scale=1.1]
+		
+		% Grid
+		\draw[step=0.5cm,gray!20] (0,0) grid (4,3);
+		
+		% Axes
+		\draw[->,very thick] (0,0)--(4.2,0) node[right] {$x$};
+		\draw[->,very thick] (0,0)--(0,3.2) node[above] {$y$};
+		
+		% Origin
+		\fill (0,0) circle (2pt);
+		\node[below left] at (0,0) {$O$};
+		
+	\end{tikzpicture}
+\end{center}
+
+The metric is
+
+\[
+\begin{pmatrix}
+	1&0\\
+	0&1
+\end{pmatrix}.
+\]
+
+The coordinate axes are perpendicular.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Now suppose we choose skew coordinates.
+
+\begin{center}
+	\begin{tikzpicture}[>=Stealth,scale=1.2]
+		
+		% axes
+		\draw[->,thick] (0,0)--(0,3.2) node[above]{$y$};
+		\draw[->,thick] (0,0)--(4.2,0) node[right]{$x$};
+		
+		% ticks
+		\foreach \x in {1,2,3,4}
+		\draw (\x,0.06)--(\x,-0.06);
+		
+		\foreach \y in {1,2,3}
+		\draw (0.06,\y)--(-0.06,\y);
+		
+		% origin
+		\fill (0,0) circle (2pt);
+		\node[below left] at (0,0) {$O$};
+		
+	\end{tikzpicture}
+\end{center}
+Now the metric becomes
+
+\[
+\begin{pmatrix}
+	1&a\\
+	a&1
+\end{pmatrix},
+\]
+
+where
+
+\[
+a\neq0.
+\]
+
+The off-diagonal entries indicate that the basis vectors are no longer
+orthogonal.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Lorentzian Interpretation}
+
+Exactly the same phenomenon occurs in General Relativity.
+
+The only difference is that one coordinate is time.
+
+If
+
+\[
+g_{t\phi}\neq0,
+\]
+
+then
+
+time and rotation become geometrically coupled.
+
+This produces
+
+\begin{itemize}
+	\item frame dragging,
+	\item rotational effects,
+	\item twisting of inertial frames.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Mass Does Not Change the Signature}
+
+One of Einstein's deepest discoveries is
+
+\[
+\boxed{
+	\text{Mass changes the metric, but not its Lorentzian signature.}
+}
+\]
+
+At every point of space--time,
+
+the metric still has
+
+\[
+(-,+,+,+),
+\]
+
+meaning
+
+\begin{itemize}
+	\item one timelike direction,
+	\item three spacelike directions.
+\end{itemize}
+
+Thus every infinitesimal neighbourhood still looks locally like
+Minkowski space.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Local Flatness}
+
+An excellent analogy is the Earth's surface.
+
+Globally,
+
+the Earth is curved.
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.2]
+		
+		% Earth
+		\draw[thick] (0,0) circle (1);
+		
+		% Longitude lines
+		\draw (-0.5,-0.87) .. controls (-0.2,0) .. (-0.5,0.87);
+		\draw (0.5,-0.87) .. controls (0.2,0) .. (0.5,0.87);
+		
+		% Equator
+		\draw (-1,0) arc (180:360:1 and 0.35);
+		
+		% Latitude lines
+		\draw (-0.85,0.45) arc (180:360:0.85 and 0.18);
+		\draw (-0.85,-0.45) arc (180:360:0.85 and 0.18);
+		
+		\node at (0,-1.45) {\small Earth};
+		
+	\end{tikzpicture}
+\end{center}
+
+However,
+
+standing in your garden,
+
+everything appears flat.
+
+Likewise,
+
+space--time may be globally curved,
+
+yet every sufficiently small neighbourhood admits coordinates in which
+
+\[
+g_{\mu\nu}
+\approx
+\begin{pmatrix}
+	-1&0&0&0\\
+	0&1&0&0\\
+	0&0&1&0\\
+	0&0&0&1
+\end{pmatrix}.
+\]
+
+This is the principle of \emph{local flatness}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Einstein's Equation}
+
+Matter tells space--time how to curve.
+
+Space--time tells matter how to move.
+
+Einstein's field equation is
+
+\[
+G_{\mu\nu}
+=
+\frac{8\pi G}{c^4}
+T_{\mu\nu}.
+\]
+
+Here
+
+\begin{itemize}
+	\item
+	\(T_{\mu\nu}\) is the energy--momentum tensor,
+	
+	\item
+	\(G_{\mu\nu}\) is the Einstein curvature tensor,
+	
+	\item
+	the unknown quantity is the metric
+	
+	\[
+	g_{\mu\nu}(x).
+	\]
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Comparison}
+
+\renewcommand{\arraystretch}{1.4}
+
+\begin{center}
+	\begin{tabular}{|p{5cm}|p{4.2cm}|p{5.2cm}|}
+		\hline
+		&
+		\textbf{Special Relativity}
+		&
+		\textbf{General Relativity}
+		\\
+		\hline
+		
+		Metric coefficients
+		&
+		Constant
+		&
+		Depend on position
+		\\
+		\hline
+		
+		Diagonal entries
+		&
+		Constant
+		&
+		Usually vary
+		\\
+		\hline
+		
+		Off-diagonal entries
+		&
+		Zero
+		&
+		May be zero or nonzero
+		\\
+		\hline
+		
+		Curvature
+		&
+		Zero
+		&
+		Usually nonzero
+		\\
+		\hline
+		
+		Gravity
+		&
+		Absent
+		&
+		Produced by curved metric
+		\\
+		\hline
+		
+		Signature
+		&
+		$(-,+,+,+)$
+		&
+		Still $(-,+,+,+)$ locally
+		\\
+		\hline
+		
+		Local geometry
+		&
+		Exactly Minkowski
+		&
+		Infinitesimally Minkowski
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Main Ideas}
+
+The key facts are
+
+\begin{enumerate}
+	\item The Lorentzian signature never changes.
+	
+	\item Mass and energy modify the metric coefficients
+	\(g_{\mu\nu}(x)\).
+	
+	\item Curvature already appears when only the diagonal entries vary.
+	
+	\item Nonzero off-diagonal entries represent couplings between different
+	coordinate directions.
+	
+	\item In rotating space--times, these couplings produce phenomena such as
+	frame dragging.
+	
+	\item Every sufficiently small neighbourhood of space--time is locally
+	indistinguishable from flat Minkowski space.
+\end{enumerate}
+
+The Lorentzian metric therefore remains the fundamental local geometry
+of space--time, while gravity is encoded in the way its coefficients vary
+from point to point.
+
+```latex
+\section{Lorentzian Signature vs. Lorentzian Metric}
+
+One of the most important distinctions in differential geometry and general relativity is between a \emph{Lorentzian signature} and a \emph{Lorentzian metric}. These notions are closely related but are not identical.
+
+\subsection{The Signed Identity Matrix}
+
+Consider the matrix
+
+\[
+\eta=
+\begin{pmatrix}
+	-1&0&0&0\\
+	0&1&0&0\\
+	0&0&1&0\\
+	0&0&0&1
+\end{pmatrix}.
+\]
+
+This matrix is called the \textbf{Minkowski metric} (written in standard inertial coordinates).
+
+It is
+
+\begin{itemize}
+	\item a Lorentzian metric,
+	\item has Lorentzian signature,
+	\item is constant throughout spacetime,
+	\item represents flat spacetime.
+\end{itemize}
+
+It is the simplest example of a Lorentzian metric.
+
+\bigskip
+
+Notice that this matrix is \emph{one particular metric}; it is not the definition of every Lorentzian metric.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Lorentzian Signature}
+
+A metric tensor is called \textbf{Lorentzian} if, at every point of the manifold, its matrix has
+
+\[
+\boxed{\text{one negative eigenvalue and three positive eigenvalues}}
+\]
+
+(or equivalently one positive and three negative, depending on convention).
+
+Thus the signature is
+
+\[
+(-,+,+,+),
+\]
+
+or equivalently
+
+\[
+(+,-,-,-).
+\]
+
+The signature specifies only the signs of the eigenvalues.
+
+It does \emph{not} determine the numerical values of the entries of the metric tensor.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Many Different Lorentzian Metrics}
+
+There are infinitely many matrices having Lorentzian signature.
+
+For example,
+
+\[
+\begin{pmatrix}
+	-2&0&0&0\\
+	0&5&0&0\\
+	0&0&1&0\\
+	0&0&0&7
+\end{pmatrix}
+\]
+
+is Lorentzian because its eigenvalues are
+
+\[
+(-2,5,1,7),
+\]
+
+which contain exactly one negative value.
+
+Likewise,
+
+\[
+\begin{pmatrix}
+	-1&0.3&0&0\\
+	0.3&2&0&0\\
+	0&0&4&1\\
+	0&0&1&3
+\end{pmatrix}
+\]
+
+is also Lorentzian provided its eigenvalues still consist of
+
+\[
+1\text{ negative}+3\text{ positive}.
+\]
+
+Notice that off-diagonal entries are perfectly allowed.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Examples of Lorentzian Metrics}
+
+\subsubsection*{1. Minkowski Metric}
+
+Flat spacetime:
+
+\[
+g=
+\begin{pmatrix}
+	-1&0&0&0\\
+	0&1&0&0\\
+	0&0&1&0\\
+	0&0&0&1
+\end{pmatrix}.
+\]
+
+Properties:
+
+\begin{itemize}
+	\item flat,
+	\item constant,
+	\item zero curvature,
+	\item describes special relativity.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{2. Schwarzschild Metric}
+
+Outside a non-rotating spherical body,
+
+\[
+g=
+\begin{pmatrix}
+	-\left(1-\frac{2M}{r}\right)&0&0&0\\
+	0&\left(1-\frac{2M}{r}\right)^{-1}&0&0\\
+	0&0&r^2&0\\
+	0&0&0&r^2\sin^2\theta
+\end{pmatrix}.
+\]
+
+Unlike the Minkowski metric,
+
+\begin{itemize}
+	\item the entries depend on position,
+	\item spacetime is curved,
+	\item gravity appears through the changing coefficients.
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{3. Kerr Metric}
+
+A rotating black hole has metric
+
+\[
+g=(g_{\mu\nu}(x)).
+\]
+
+Unlike Schwarzschild,
+
+\[
+g_{t\phi}\neq0,
+\]
+
+which represents the coupling between time and angular direction caused by frame dragging.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsubsection*{4. FLRW Metric}
+
+In cosmology,
+
+\[
+g=
+\begin{pmatrix}
+	-1&0&0&0\\
+	0&a(t)^2&0&0\\
+	0&0&a(t)^2&0\\
+	0&0&0&a(t)^2
+\end{pmatrix}.
+\]
+
+Here
+
+\[
+a(t)
+\]
+
+is the scale factor describing the expansion of the Universe.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{General Lorentzian Metric}
+
+In differential geometry, the metric is not a single matrix.
+
+Instead,
+
+\[
+g=(g_{ij}(p)),
+\]
+
+where
+
+\[
+p\in M
+\]
+
+is a point of the manifold.
+
+Thus every point has its own matrix
+
+\[
+g(p).
+\]
+
+The entries may change continuously from point to point.
+
+The only requirement is
+
+\[
+\boxed{\text{every matrix }g(p)\text{ has Lorentzian signature}.}
+\]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Analogy with Riemannian Metrics}
+
+A Riemannian metric satisfies
+
+\[
+(+,+,+,+),
+\]
+
+meaning all eigenvalues are positive.
+
+Again, there are infinitely many examples:
+
+\begin{itemize}
+	\item Euclidean metric,
+	\item sphere metric,
+	\item hyperbolic metric,
+	\item metrics on arbitrary manifolds.
+\end{itemize}
+
+Each has different entries while sharing the same positive-definite signature.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Visualization}
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=2.1cm,
+		every node/.style={
+			draw,
+			rounded corners,
+			align=center,
+			minimum width=4.3cm,
+			fill=blue!6
+		},
+		>=latex
+		]
+		
+		\node (sig) {Lorentzian Signature\\[2mm]
+			$(-,+,+,+)$};
+		
+		\node (class) [below=of sig,fill=green!10]
+		{All Lorentzian Metrics};
+		
+		\node (mink) [below left=of class,fill=yellow!20]
+		{Minkowski};
+		
+		\node (sch) [below=of class,fill=orange!20]
+		{Schwarzschild};
+		
+		\node (kerr) [below right=of class,fill=red!15]
+		{Kerr};
+		
+		\node (flrw) [below=of sch,yshift=-1.2cm,fill=cyan!15]
+		{FLRW};
+		
+		\draw[->,thick] (sig)--(class);
+		
+		\draw[->,thick] (class)--(mink);
+		\draw[->,thick] (class)--(sch);
+		\draw[->,thick] (class)--(kerr);
+		\draw[->,thick] (class)--(flrw);
+		
+	\end{tikzpicture}
+\end{center}
+
+The diagram emphasizes that one signature defines an entire family of Lorentzian metrics.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Comparison Table}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{|p{4cm}|c|c|}
+		\hline
+		\rowcolor{blue!15}
+		\textbf{Property} & \textbf{Riemannian} & \textbf{Lorentzian}\\
+		\hline
+		Signature &
+		$(+,+,+,+)$ &
+		$(-,+,+,+)$\\
+		\hline
+		Positive definite &
+		Yes &
+		No\\
+		\hline
+		Flat example &
+		$I$ &
+		$\eta=\mathrm{diag}(-1,1,1,1)$\\
+		\hline
+		Curved examples &
+		Sphere, Hyperbolic &
+		Schwarzschild, Kerr, FLRW\\
+		\hline
+		Entries may vary &
+		Yes &
+		Yes\\
+		\hline
+		Off-diagonal terms allowed &
+		Yes &
+		Yes\\
+		\hline
+		Infinitely many metrics &
+		Yes &
+		Yes\\
+		\hline
+	\end{tabular}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Key Takeaway}
+
+The matrix
+
+\[
+\eta=\mathrm{diag}(-1,1,1,1)
+\]
+
+is \textbf{not merely a Lorentzian signature}.
+
+It is a specific Lorentzian metric—the \textbf{Minkowski metric}.
+
+The term \emph{Lorentzian metric} refers to the entire class of metrics whose matrices have Lorentzian signature at every point.
+
+Therefore,
+
+\[
+\boxed{
+	\text{One Lorentzian signature}
+	\;\Longrightarrow\;
+	\text{Infinitely many Lorentzian metrics.}
+}
+\]
+
+Different Lorentzian metrics describe different spacetimes and different gravitational fields while preserving the same fundamental distinction between one timelike direction and three spacelike directions.
+
+
+\end{document}
+

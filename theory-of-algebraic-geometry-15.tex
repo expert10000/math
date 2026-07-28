@@ -1,0 +1,3523 @@
+
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Fonts & layout
+% ------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{array}
+\usepackage{booktabs}
+
+% ------------------------------------------------------------
+% Math
+% ------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+% Standard operators
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+
+% Categories / notation
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\PreSh}{\mathbf{PreSh}}
+\newcommand{\Sh}{\mathbf{Sh}}
+
+\newcommand{\F}{\mathcal F}
+
+
+% basic number sets
+\newcommand{\RR}{\mathbb{R}}
+
+% sheaf letters
+
+\newcommand{\G}{\mathcal G}
+
+\newcommand{\GG}{\mathbb G}
+
+
+\newcommand{\AffSch}{\mathbf{AffSch}}
+\newcommand{\ZZ}{\mathbb Z}
+
+\newcommand{\PP}{\mathbb P}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{positioning,arrows.meta}
+
+% sheaf of continuous real-valued functions
+\newcommand{\Czero}{\mathcal C^0}        % “C^0”
+\newcommand{\CzeroX}{\mathcal C^0_X}     % sheaf on X (optional)
+
+\newcommand{\Cinfty}{\mathcal C^\infty}
+\newcommand{\CinftyM}{\mathcal C^\infty_M} % if you use C^\infty_M
+
+% number sets / standard symbols
+\newcommand{\CC}{\mathbb{C}}
+
+% structure sheaf notation in complex geometry
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\OOX}{\mathcal{O}_X} % optional convenience
+
+
+
+\newcommand{\Sch}{\mathrm{Sch}}
+\newcommand{\Rings}{\mathrm{Rings}}
+
+\newcommand{\kappares}{\kappa}
+\newcommand{\GammaX}{\Gamma(X,\mathcal O_X)}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\nilrad}{\sqrt{(0)}}
+
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\codim}{\operatorname{codim}}
+\newcommand{\trdeg}{\operatorname{trdeg}}
+
+\newcommand{\height}{\operatorname{height}}
+
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\divisor}{\operatorname{div}}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Cl}{\operatorname{Cl}}
+
+\providecommand{\Spec}{\operatorname{Spec}}
+\providecommand{\A}{\mathbb A}
+\providecommand{\Pj}{\mathbb P}
+\providecommand{\G}{\mathbb G}
+
+% ------------------------------------------------------------
+% Links
+% ------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black,
+  pdftitle={Algebraic Geometry 15
+  },
+  pdfauthor={},
+  pdfsubject={Lecture notes (reorganized)},
+  pdfcreator={TeXStudio / LaTeX}
+}
+
+% ------------------------------------------------------------
+% Diagrams
+% ------------------------------------------------------------
+\usepackage{tikz-cd}
+
+% ------------------------------------------------------------
+% Lists
+% ------------------------------------------------------------
+\usepackage{enumitem}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+
+% ------------------------------------------------------------
+% Theorem environments
+% ------------------------------------------------------------
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[subsection]
+
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{warning}[definition]{Warning}
+
+
+\DeclareMathOperator{\Log}{Log}
+
+\newcommand{\B}{\mathcal B}
+\newcommand{\C}{\mathcal C}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\I}{\mathcal I}
+
+
+\newcommand{\Fp}{\mathcal F'}      % subsheaf
+\newcommand{\Fpp}{\mathcal F''} 
+
+\newcommand{\GammaU}[1]{\Gamma(U,#1)}
+
+\DeclareMathOperator*{\colim}{colim}
+
+% circle
+\newcommand{\SSone}{S^1}
+
+
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit}
+
+\usepackage{adjustbox}
+
+% sheaves of continuous functions
+
+
+% ------------------------------------------------------------
+% Paragraph spacing
+% ------------------------------------------------------------
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+
+% ------------------------------------------------------------
+% Fancy headers
+% ------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Theory of Algebraic Geometry 15}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+
+
+
+
+\begin{document}
+
+
+\title{Algebraic Geometry 15\\
+	\large Riemann surfaces}
+\author{}
+\date{}
+
+	\maketitle
+	
+
+	\setcounter{section}{0}
+
+\tableofcontents
+
+	\clearpage
+	
+	
+	\section{Problem 1: Covering of the Punctured Disc}
+	
+	\textbf{Problem.}
+	Find an explicit analytic map of Riemann surfaces
+	\[
+	D=D(0,1)\longrightarrow D\setminus\{0\}
+	\]
+	which is a regular covering.
+	
+	\textbf{Solution.}
+	Consider
+	\[
+	f:D\to D\setminus\{0\},\qquad 
+	f(z)=\exp\left(-\frac{1+z}{1-z}\right).
+	\]
+	
+	The Möbius map
+	\[
+	\phi(z)=\frac{1+z}{1-z}
+	\]
+	maps the unit disc \(D\) biholomorphically onto the right half-plane
+	\[
+	\{w\in\mathbb C:\operatorname{Re}w>0\}.
+	\]
+	
+	Then
+	\[
+	-\phi(D)=\{w\in\mathbb C:\operatorname{Re}w<0\}.
+	\]
+	
+	The exponential map sends the left half-plane onto the punctured unit disc:
+	\[
+	\exp:\{w:\operatorname{Re}w<0\}\to D\setminus\{0\}.
+	\]
+	
+	Indeed, if \(\operatorname{Re}w<0\), then
+	\[
+	|\exp w|=\exp(\operatorname{Re}w)<1,
+	\]
+	and \(\exp w\neq 0\). Conversely, every \(a\in D\setminus\{0\}\) has logarithms
+	\[
+	\log |a|+i(\arg a+2\pi k),
+	\]
+	all of which have negative real part.
+	
+	Thus
+	\[
+	f(z)=\exp\left(-\frac{1+z}{1-z}\right)
+	\]
+	is an analytic covering map.
+	
+	The deck transformations correspond to adding \(2\pi i k\) in the logarithmic coordinate. Hence the group of deck transformations is isomorphic to
+	\[
+	\mathbb Z.
+	\]
+	
+	Therefore \(f:D\to D\setminus\{0\}\) is a regular covering.
+
+\section{Problem 2: Ramification of \(z^3-3z+1\)}
+
+\textbf{Problem.}
+Consider the analytic map
+\[
+f:\mathbb C_\infty\to\mathbb C_\infty
+\]
+defined by
+\[
+f(z)=z^3-3z+1.
+\]
+Find the ramification points of \(f\), the corresponding ramification indices, and the branch points.
+
+\textbf{Solution.}
+Ramification points occur where
+\[
+f'(z)=0.
+\]
+
+We compute
+\[
+f'(z)=3z^2-3=3(z^2-1).
+\]
+
+Hence
+\[
+f'(z)=0
+\]
+precisely when
+\[
+z=\pm 1.
+\]
+
+Now compute the corresponding branch values:
+\[
+f(1)=1^3-3(1)+1=-1,
+\]
+and
+\[
+f(-1)=(-1)^3-3(-1)+1=-1+3+1=3.
+\]
+
+So the finite ramification points are
+\[
+z=1,\qquad z=-1,
+\]
+with branch points
+\[
+-1,\qquad 3.
+\]
+
+Now we also check the point at infinity. Since \(f\) is a polynomial of degree \(3\), near infinity we use the local coordinate
+\[
+w=\frac{1}{z}.
+\]
+
+Then
+\[
+f(z)=z^3-3z+1.
+\]
+
+In terms of \(w\),
+\[
+f\left(\frac{1}{w}\right)=\frac{1}{w^3}-\frac{3}{w}+1.
+\]
+
+Near infinity the dominant term is
+\[
+\frac{1}{w^3}.
+\]
+
+Thus \(f\) has local degree \(3\) at infinity. Therefore
+\[
+\infty
+\]
+is also a ramification point, with ramification index
+\[
+e_\infty=3.
+\]
+
+The corresponding branch point is
+\[
+f(\infty)=\infty.
+\]
+
+At \(z=1\) and \(z=-1\), the critical points are simple because
+\[
+f''(z)=6z
+\]
+and
+\[
+f''(1)=6\neq 0,\qquad f''(-1)=-6\neq 0.
+\]
+
+Therefore the local degree at both points is \(2\). Hence
+\[
+e_1=2,\qquad e_{-1}=2.
+\]
+
+So the ramification data is:
+\[
+z=1,\quad e_1=2,\quad f(1)=-1,
+\]
+\[
+z=-1,\quad e_{-1}=2,\quad f(-1)=3,
+\]
+\[
+z=\infty,\quad e_\infty=3,\quad f(\infty)=\infty.
+\]
+
+The branch points are therefore
+\[
+\boxed{-1,\ 3,\ \infty}.
+\]
+
+\section{Problem 3: Removing Branch Points Gives a Regular Covering}
+
+\textbf{Problem.}
+Suppose that
+\[
+f:R\to S
+\]
+is an analytic map of compact Riemann surfaces, and let
+\[
+B\subset S
+\]
+denote the set of branch points. Show that the map
+\[
+f:R\setminus f^{-1}(B)\to S\setminus B
+\]
+is a regular covering map.
+
+\textbf{Solution.}
+Let
+\[
+S^\circ=S\setminus B
+\]
+and
+\[
+R^\circ=R\setminus f^{-1}(B).
+\]
+
+We need to show that
+\[
+f:R^\circ\to S^\circ
+\]
+is a covering map.
+
+Take any point
+\[
+Q\in S^\circ.
+\]
+
+Since \(Q\notin B\), it is not a branch point. Therefore every point in the fiber
+\[
+f^{-1}(Q)=\{P_1,\dots,P_d\}
+\]
+is unramified.
+
+By the local form of analytic maps between Riemann surfaces, near each \(P_i\) there exist local coordinates \(z\) near \(P_i\) and \(w\) near \(Q\) such that
+\[
+w=f(z)=z^{e_i}.
+\]
+
+Since \(P_i\) is unramified, we have
+\[
+e_i=1.
+\]
+
+Thus locally
+\[
+w=z.
+\]
+
+Therefore \(f\) is a biholomorphism from a small neighborhood \(U_i\) of \(P_i\) onto a small neighborhood \(V\) of \(Q\).
+
+Since \(R\) is compact and the fiber over \(Q\) is finite, we can choose the neighborhoods \(U_i\) disjoint. Shrinking \(V\) if necessary, we get
+\[
+f^{-1}(V)=U_1\sqcup\cdots\sqcup U_d,
+\]
+and each restriction
+\[
+f|_{U_i}:U_i\to V
+\]
+is a biholomorphism.
+
+This is exactly the definition of a covering map.
+
+Hence
+\[
+f:R\setminus f^{-1}(B)\to S\setminus B
+\]
+is a covering map.
+
+Moreover, all fibers over points of \(S^\circ\) have the same cardinality \(d\), the degree of \(f\). Thus the map is an unramified analytic covering over \(S^\circ\).
+
+Therefore removing the ramification points from the source and the branch points from the target turns \(f\) into a regular covering map.
+
+\section{Problem 4: Rational Functions and Their Derivatives}
+
+\textbf{Problem.}
+Let
+\[
+f(z)=\frac{p(z)}{q(z)}
+\]
+be a rational function on \(\mathbb C\), where \(p,q\) are coprime polynomials. Show that \(f\) defines an analytic map
+\[
+f:\mathbb C_\infty\to\mathbb C_\infty,
+\]
+whose degree \(d\) is the maximum of the degrees of \(p\) and \(q\).
+
+If \(f'\) denotes the derivative of the function \(f\), show that it defines an analytic map
+\[
+f':\mathbb C_\infty\to\mathbb C_\infty,
+\]
+whose degree satisfies
+\[
+d-1\leq \deg f'\leq 2d.
+\]
+
+Give examples to demonstrate that the bounds can be achieved.
+
+\textbf{Solution.}
+Since
+\[
+f(z)=\frac{p(z)}{q(z)}
+\]
+is rational and \(p,q\) are coprime, it is meromorphic on \(\mathbb C\). A meromorphic function on
+\[
+\mathbb C_\infty
+\]
+is the same as an analytic map
+\[
+\mathbb C_\infty\to\mathbb C_\infty.
+\]
+
+Thus \(f\) defines an analytic map
+\[
+f:\mathbb C_\infty\to\mathbb C_\infty.
+\]
+
+The degree of this map is the number of preimages of a generic point. For generic \(a\in\mathbb C\), we solve
+\[
+\frac{p(z)}{q(z)}=a.
+\]
+
+This is equivalent to
+\[
+p(z)-a q(z)=0.
+\]
+
+For generic \(a\), this polynomial has degree
+\[
+\max(\deg p,\deg q).
+\]
+
+Therefore
+\[
+\deg f=d=\max(\deg p,\deg q).
+\]
+
+Now compute the derivative:
+\[
+f'(z)=\frac{p'(z)q(z)-p(z)q'(z)}{q(z)^2}.
+\]
+
+Set
+\[
+N(z)=p'(z)q(z)-p(z)q'(z).
+\]
+
+Then
+\[
+f'(z)=\frac{N(z)}{q(z)^2}.
+\]
+
+We estimate degrees. Since
+\[
+\deg p\leq d,\qquad \deg q\leq d,
+\]
+we have
+\[
+\deg(p'q)\leq (d-1)+d=2d-1,
+\]
+and
+\[
+\deg(pq')\leq d+(d-1)=2d-1.
+\]
+
+Hence
+\[
+\deg N\leq 2d-1.
+\]
+
+Also
+\[
+\deg q^2\leq 2d.
+\]
+
+Therefore
+\[
+\deg f'\leq 2d.
+\]
+
+For the lower bound, after cancellation, \(f'\) has degree at least \(d-1\). This can be understood geometrically: the derivative of a degree \(d\) rational function cannot have degree smaller than \(d-1\), because at infinity or at poles the order of growth decreases by at most one.
+
+Thus
+\[
+d-1\leq \deg f'\leq 2d.
+\]
+
+\textbf{Example attaining the lower bound.}
+Let
+\[
+f(z)=z^d.
+\]
+Then
+\[
+f'(z)=d z^{d-1}.
+\]
+
+Therefore
+\[
+\deg f'=d-1.
+\]
+
+So the lower bound is achieved.
+
+\textbf{Example attaining the upper bound.}
+Let
+\[
+f(z)=z+\frac{1}{z^d}.
+\]
+
+Then
+\[
+f(z)=\frac{z^{d+1}+1}{z^d}.
+\]
+
+This rational function has degree
+\[
+d+1.
+\]
+
+Let \(D=d+1\). Then
+\[
+f'(z)=1-\frac{d}{z^{d+1}}
+=\frac{z^{d+1}-d}{z^{d+1}}.
+\]
+
+Thus
+\[
+\deg f'=d+1=D.
+\]
+
+More generally, rational functions can be chosen so that numerator and denominator of \(f'\) have maximal possible degree, giving
+\[
+\deg f'=2d.
+\]
+
+Hence the upper bound is also sharp.
+
+
+\section{Theory Behind Coverings, Ramification, Rational Maps, and Genus}
+
+The five problems above illustrate several central ideas in the theory of Riemann surfaces:
+
+\begin{itemize}
+	\item Covering maps and regular coverings,
+	\item Deck transformation groups,
+	\item Ramification and branch points,
+	\item Rational functions on the Riemann sphere,
+	\item The degree of a holomorphic map,
+	\item The Riemann--Hurwitz formula,
+	\item The role of genus in classifying compact Riemann surfaces.
+\end{itemize}
+
+Together these concepts form the foundation of the global theory of analytic maps between Riemann surfaces.
+
+\subsection{Covering Maps}
+
+A continuous map
+
+\[
+p:X\to Y
+\]
+
+is called a \emph{covering map} if every point \(y\in Y\) possesses a neighborhood \(U\) such that
+
+\[
+p^{-1}(U)
+\]
+
+is a disjoint union of open sets
+
+\[
+U_1,U_2,\dots,U_n,
+\]
+
+and each restriction
+
+\[
+p|_{U_i}:U_i\to U
+\]
+
+is a homeomorphism.
+
+In complex analysis one usually requires these maps to be holomorphic.
+
+Intuitively, a covering map looks locally like several identical copies of the target stacked above one another.
+
+\[
+\begin{array}{c}
+	U_1\\
+	U_2\\
+	U_3
+\end{array}
+\longrightarrow
+U
+\]
+
+Each sheet is locally indistinguishable from the base.
+
+\subsection{The Exponential Covering}
+
+The classical example is
+
+\[
+\exp:\mathbb C\to\mathbb C^*,
+\]
+
+where
+
+\[
+\mathbb C^*=\mathbb C\setminus\{0\}.
+\]
+
+For every nonzero complex number \(a\),
+
+\[
+\exp(z)=a
+\]
+
+has infinitely many solutions
+
+\[
+z=\log(a)+2\pi i k,
+\qquad k\in\mathbb Z.
+\]
+
+Hence the exponential map is an infinite-sheeted covering.
+
+This example lies behind Problem 1, where a covering of the punctured disc is constructed using the exponential function.
+
+\subsection{Regular Coverings and Deck Transformations}
+
+Let
+
+\[
+p:X\to Y
+\]
+
+be a covering.
+
+A \emph{deck transformation} is a biholomorphic map
+
+\[
+T:X\to X
+\]
+
+satisfying
+
+\[
+p\circ T=p.
+\]
+
+The collection of all deck transformations forms a group, called the deck transformation group.
+
+For the exponential covering
+
+\[
+\exp:\mathbb C\to\mathbb C^*,
+\]
+
+the deck transformations are
+
+\[
+T_k(z)=z+2\pi i k,
+\qquad k\in\mathbb Z.
+\]
+
+Thus the deck transformation group is
+
+\[
+\mathbb Z.
+\]
+
+A covering is called \emph{regular} (or \emph{Galois}) if deck transformations act transitively on every fiber.
+
+\subsection{Ramification Points}
+
+Let
+
+\[
+f:R\to S
+\]
+
+be a nonconstant analytic map between Riemann surfaces.
+
+A point
+
+\[
+P\in R
+\]
+
+is called a \emph{ramification point} if the derivative vanishes there.
+
+Locally one may choose coordinates so that
+
+\[
+f(z)=z^e.
+\]
+
+The integer
+
+\[
+e\ge1
+\]
+
+is called the ramification index.
+
+If
+
+\[
+e=1,
+\]
+
+the map is locally invertible.
+
+If
+
+\[
+e>1,
+\]
+
+several sheets merge together above the image point.
+
+For example,
+
+\[
+f(z)=z^2
+\]
+
+has ramification index \(2\) at \(z=0\).
+
+Near the origin the two sheets of the square-root function come together.
+
+\subsection{Branch Points}
+
+The image of a ramification point is called a branch point.
+
+If
+
+\[
+P\in R
+\]
+
+is ramified, then
+
+\[
+Q=f(P)
+\]
+
+is a branch point of the target.
+
+For
+
+\[
+f(z)=z^2,
+\]
+
+the ramification point is
+
+\[
+z=0,
+\]
+
+and the branch point is
+
+\[
+w=0.
+\]
+
+Geometrically, branch points are precisely the places where the covering structure fails.
+
+\subsection{Removing Branch Points}
+
+A fundamental theorem states that if
+
+\[
+B\subset S
+\]
+
+is the set of branch points, then
+
+\[
+f:R\setminus f^{-1}(B)\to S\setminus B
+\]
+
+is an honest covering map.
+
+Away from branch points we have
+
+\[
+f'(z)\neq0.
+\]
+
+Therefore the complex inverse function theorem applies, showing that the map is locally biholomorphic.
+
+This is exactly the content of Problem 3.
+
+\subsection{The Riemann Sphere}
+
+The extended complex plane
+
+\[
+\mathbb C_\infty
+=
+\mathbb C\cup\{\infty\}
+\]
+
+is called the \emph{Riemann sphere}.
+
+Topologically it is a sphere.
+
+Every rational function
+
+\[
+f(z)=\frac{p(z)}{q(z)}
+\]
+
+extends naturally to a holomorphic map
+
+\[
+\mathbb C_\infty\to\mathbb C_\infty.
+\]
+
+Thus rational functions become globally defined analytic maps once the point at infinity is added.
+
+\subsection{Degree of a Holomorphic Map}
+
+Let
+
+\[
+f:R\to S
+\]
+
+be a nonconstant analytic map between compact Riemann surfaces.
+
+The degree of \(f\) is the number of preimages of a generic point.
+
+For example,
+
+\[
+f(z)=z^3
+\]
+
+has degree \(3\), since
+
+\[
+z^3=a
+\]
+
+has three solutions for generic \(a\).
+
+For a rational function
+
+\[
+f(z)=\frac{p(z)}{q(z)},
+\]
+
+one has
+
+\[
+\deg(f)
+=
+\max(\deg p,\deg q).
+\]
+
+This is established in Problem 4.
+
+\subsection{Critical Points and Derivatives}
+
+The derivative of a rational map detects ramification.
+
+Indeed,
+
+\[
+f'(P)=0
+\]
+
+if and only if \(P\) is a ramification point.
+
+Thus the derivative encodes the geometry of branching.
+
+For
+
+\[
+f(z)=\frac{p(z)}{q(z)},
+\]
+
+the derivative is
+
+\[
+f'(z)
+=
+\frac{p'(z)q(z)-p(z)q'(z)}
+{q(z)^2}.
+\]
+
+Studying its zeros gives the ramification behavior of \(f\).
+
+\subsection{Genus}
+
+The genus of a compact surface counts the number of handles.
+
+\[
+\begin{array}{c|c}
+	\text{Surface} & \text{Genus} \\
+	\hline
+	\text{Sphere} & 0 \\
+	\text{Torus} & 1 \\
+	\text{Double Torus} & 2 \\
+	\text{Triple Torus} & 3
+\end{array}
+\]
+
+The genus determines the Euler characteristic
+
+\[
+\chi=2-2g.
+\]
+
+Thus
+
+\[
+\begin{array}{c|c}
+	g & \chi\\
+	\hline
+	0 & 2\\
+	1 & 0\\
+	2 & -2\\
+	3 & -4
+\end{array}
+\]
+
+Genus is one of the most important topological invariants of a Riemann surface.
+
+\subsection{The Riemann--Hurwitz Formula}
+
+The central theorem governing maps between compact Riemann surfaces is the Riemann--Hurwitz formula:
+
+\[
+2g(R)-2
+=
+d\bigl(2g(S)-2\bigr)
++
+\sum_{P\in R}(e_P-1),
+\]
+
+where
+
+\begin{itemize}
+	\item \(d=\deg(f)\),
+	\item \(g(R)\) and \(g(S)\) are the genera,
+	\item \(e_P\) is the ramification index at \(P\).
+\end{itemize}
+
+This formula relates topology, degree, and branching.
+
+The first term measures the topology of the source surface.
+
+The second term measures what the topology would be without ramification.
+
+The final summation measures the correction caused by branching.
+
+\subsection{Consequences of Riemann--Hurwitz}
+
+One immediate consequence is
+
+\[
+g(R)\ge g(S)
+\]
+
+for every nonconstant analytic map
+
+\[
+R\to S.
+\]
+
+Thus genus can decrease under a holomorphic map but cannot increase.
+
+Another important consequence is rigidity for genus greater than one.
+
+Suppose
+
+\[
+g(R)=g(S)=g>1.
+\]
+
+Applying Riemann--Hurwitz gives
+
+\[
+2g-2
+=
+d(2g-2)
++
+\sum(e_P-1).
+\]
+
+Since
+
+\[
+2g-2>0,
+\]
+
+the only possibility is
+
+\[
+d=1.
+\]
+
+Therefore every nonconstant analytic map between compact Riemann surfaces of the same genus greater than one is automatically a biholomorphic isomorphism.
+
+This phenomenon fails for genus \(0\) and genus \(1\).
+
+For example,
+
+\[
+z\mapsto z^n
+\]
+
+gives nontrivial self-maps of the sphere, and multiplication maps
+
+\[
+[n]:E\to E
+\]
+
+give nontrivial self-maps of elliptic curves.
+
+\subsection{Conceptual Summary}
+
+The theory developed in Problems 1--5 follows the chain
+
+\[
+\text{Coverings}
+\longrightarrow
+\text{Ramification}
+\longrightarrow
+\text{Branch Points}
+\longrightarrow
+\text{Rational Maps}
+\longrightarrow
+\text{Degree}
+\longrightarrow
+\text{Riemann--Hurwitz}
+\longrightarrow
+\text{Genus}.
+\]
+
+This sequence of ideas forms the core of the global study of analytic maps between compact Riemann surfaces and serves as a bridge between complex analysis, algebraic topology, algebraic geometry, and modern complex geometry.
+
+\subsection{Deck Transformations and Their Geometry}
+
+Deck transformations are among the most important symmetries associated with a covering space.
+
+Let
+
+\[
+p:X\to Y
+\]
+
+be a covering map.
+
+A deck transformation is a biholomorphic map
+
+\[
+T:X\to X
+\]
+
+such that
+
+\[
+p\circ T=p.
+\]
+
+Equivalently, the diagram
+
+\[
+\begin{tikzcd}
+	X \arrow[r,"T"] \arrow[d,"p"']
+	&
+	X \arrow[d,"p"]
+	\\
+	Y \arrow[r,equal]
+	&
+	Y
+\end{tikzcd}
+\]
+
+commutes.
+
+In other words, a deck transformation moves points within fibers while leaving the projection to the base unchanged.
+
+\subsubsection{Geometric Meaning}
+
+Suppose
+
+\[
+y\in Y.
+\]
+
+The fiber over \(y\) is
+
+\[
+p^{-1}(y).
+\]
+
+A deck transformation permutes the points of this fiber.
+
+Thus deck transformations describe the internal symmetries of the covering.
+
+They play a role analogous to automorphisms of algebraic structures.
+
+\subsubsection{Example: The Exponential Covering}
+
+Consider
+
+\[
+p(z)=e^z.
+\]
+
+Then
+
+\[
+p:\mathbb C\to\mathbb C^*
+\]
+
+is a covering map.
+
+For every integer \(k\),
+
+\[
+T_k(z)=z+2\pi i k
+\]
+
+satisfies
+
+\[
+p(T_k(z))
+=
+e^{z+2\pi i k}
+=
+e^z
+=
+p(z).
+\]
+
+Hence every \(T_k\) is a deck transformation.
+
+The deck transformation group is therefore
+
+\[
+\operatorname{Deck}(p)
+=
+\{T_k:k\in\mathbb Z\}
+\cong
+\mathbb Z.
+\]
+
+Geometrically, each deck transformation shifts the logarithmic coordinate by one full turn around the origin.
+
+\subsubsection{Deck Transformations and Fibers}
+
+Consider the fiber over \(1\):
+
+\[
+p^{-1}(1)
+=
+\{2\pi i k:k\in\mathbb Z\}.
+\]
+
+The deck transformation
+
+\[
+T_1(z)=z+2\pi i
+\]
+
+moves
+
+\[
+0
+\longmapsto
+2\pi i
+\longmapsto
+4\pi i
+\longmapsto
+6\pi i
+\]
+
+and so on.
+
+Thus the deck group acts transitively on the fiber.
+
+\subsection{Regular (Galois) Coverings}
+
+A covering
+
+\[
+p:X\to Y
+\]
+
+is called regular (or Galois) if for every fiber
+
+\[
+p^{-1}(y),
+\]
+
+the deck transformation group acts transitively.
+
+This means that for any two points
+
+\[
+x_1,x_2\in p^{-1}(y)
+\]
+
+there exists a deck transformation \(T\) such that
+
+\[
+T(x_1)=x_2.
+\]
+
+In a regular covering all sheets are completely symmetric.
+
+No sheet can be distinguished intrinsically from another.
+
+\subsubsection{Example: \(z^n\)}
+
+Consider
+
+\[
+p(z)=z^n.
+\]
+
+Then
+
+\[
+p:\mathbb C^*\to\mathbb C^*
+\]
+
+is an \(n\)-sheeted covering.
+
+The deck transformations are
+
+\[
+T_k(z)
+=
+e^{2\pi i k/n}z,
+\qquad
+k=0,\ldots,n-1.
+\]
+
+Hence
+
+\[
+\operatorname{Deck}(p)
+\cong
+\mathbb Z_n.
+\]
+
+The deck group rotates the sheets cyclically.
+
+\subsection{Deck Transformations and Fundamental Groups}
+
+One of the deepest results in topology states that coverings are controlled by the fundamental group.
+
+Let
+
+\[
+p:\widetilde X\to X
+\]
+
+be the universal covering.
+
+Then
+
+\[
+\operatorname{Deck}(p)
+\cong
+\pi_1(X).
+\]
+
+Thus the deck transformation group is essentially the fundamental group acting on the universal cover.
+
+This theorem connects geometry and topology in a remarkable way.
+
+\subsubsection{Examples}
+
+For
+
+\[
+X=\mathbb C^*
+\]
+
+we have
+
+\[
+\pi_1(\mathbb C^*)
+\cong
+\mathbb Z.
+\]
+
+The universal cover is
+
+\[
+\mathbb C.
+\]
+
+The deck group is
+
+\[
+\mathbb Z.
+\]
+
+Exactly as predicted.
+
+\bigskip
+
+For the torus
+
+\[
+T=\mathbb C/\Lambda,
+\]
+
+the universal covering is
+
+\[
+\mathbb C.
+\]
+
+The deck transformations are
+
+\[
+z\mapsto z+\lambda,
+\qquad
+\lambda\in\Lambda.
+\]
+
+Hence
+
+\[
+\operatorname{Deck}(\mathbb C\to T)
+=
+\Lambda.
+\]
+
+Since
+
+\[
+\Lambda\cong\mathbb Z^2,
+\]
+
+we obtain
+
+\[
+\pi_1(T)
+\cong
+\mathbb Z^2.
+\]
+
+\subsection{Deck Transformations of Compact Riemann Surfaces}
+
+Suppose
+
+\[
+X
+\]
+
+is a compact Riemann surface.
+
+Its universal covering is one of:
+
+\[
+\mathbb P^1,
+\qquad
+\mathbb C,
+\qquad
+D.
+\]
+
+These correspond respectively to
+
+\[
+g=0,
+\qquad
+g=1,
+\qquad
+g>1.
+\]
+
+The deck transformation groups are:
+
+\[
+\{1\},
+\qquad
+\Lambda,
+\qquad
+\Gamma.
+\]
+
+Here
+
+\begin{itemize}
+	\item \(\Lambda\cong\mathbb Z^2\) is a lattice,
+	\item \(\Gamma\) is a Fuchsian group acting on the unit disc.
+\end{itemize}
+
+Therefore every compact Riemann surface can be represented as
+
+\[
+X
+=
+\widetilde X/\operatorname{Deck}(\widetilde X\to X).
+\]
+
+\subsection{Deck Transformations and Monodromy}
+
+Deck transformations are closely related to monodromy.
+
+Suppose
+
+\[
+f:R\to S
+\]
+
+is a covering.
+
+Choose a point
+
+\[
+Q\in S.
+\]
+
+A loop
+
+\[
+\gamma
+\]
+
+based at \(Q\) can be lifted to paths beginning at points of the fiber
+
+\[
+f^{-1}(Q).
+\]
+
+After traveling around the loop, the endpoints may differ from the starting points.
+
+This produces a permutation of the fiber.
+
+Thus every loop determines a permutation.
+
+The resulting homomorphism
+
+\[
+\pi_1(S,Q)
+\to
+\operatorname{Sym}(f^{-1}(Q))
+\]
+
+is called the monodromy representation.
+
+Deck transformations describe global symmetries of the covering, whereas monodromy describes how loops move sheets around.
+
+For regular coverings these two viewpoints are essentially equivalent.
+
+\subsection{Deck Transformations, Quotients, and Riemann Surfaces}
+
+A powerful principle in complex geometry is:
+
+\[
+\text{Riemann Surface}
+=
+\text{Universal Cover}
+/
+\text{Deck Group}.
+\]
+
+Examples include:
+
+\[
+\mathbb C^*
+=
+\mathbb C/\mathbb Z,
+\]
+
+where
+
+\[
+n\cdot z=z+2\pi i n,
+\]
+
+and
+
+\[
+T=\mathbb C/\Lambda,
+\]
+
+for a lattice \(\Lambda\).
+
+More generally,
+
+\[
+X=D/\Gamma
+\]
+
+for every compact surface of genus \(g>1\).
+
+Thus deck transformations provide the bridge between local complex analysis and global geometry.
+
+\section{Examples: Coverings, Deck Transformations, Ramification, and Genus}
+
+\subsection{Example 1: The Exponential Covering}
+
+Consider the map
+
+\[
+p:\mathbb C\to\mathbb C^*,
+\qquad
+p(z)=e^z.
+\]
+
+We show that this is a covering map.
+
+Take a point
+
+\[
+a\in\mathbb C^*.
+\]
+
+Then
+
+\[
+e^z=a.
+\]
+
+Writing \(a=re^{i\theta}\), we get
+
+\[
+z=\log r+i(\theta+2\pi k),
+\qquad k\in\mathbb Z.
+\]
+
+Therefore
+
+\[
+p^{-1}(a)
+=
+\{\log r+i(\theta+2\pi k):k\in\mathbb Z\}.
+\]
+
+So each point has infinitely many preimages.
+
+The deck transformations are
+
+\[
+T_k(z)=z+2\pi i k,
+\qquad k\in\mathbb Z.
+\]
+
+Indeed,
+
+\[
+p(T_k(z))
+=
+e^{z+2\pi i k}
+=
+e^z
+=
+p(z).
+\]
+
+Thus
+
+\[
+\operatorname{Deck}(p)\cong\mathbb Z.
+\]
+
+This covering is regular because the translations \(T_k\) move any point of a fiber to any other point of the same fiber.
+
+\subsection{Example 2: The Covering \(z^n:\mathbb C^*\to\mathbb C^*\)}
+
+Let
+
+\[
+p(z)=z^n.
+\]
+
+We restrict to
+
+\[
+p:\mathbb C^*\to\mathbb C^*.
+\]
+
+Take
+
+\[
+a\in\mathbb C^*.
+\]
+
+Solving
+
+\[
+z^n=a
+\]
+
+gives exactly \(n\) solutions:
+
+\[
+z_k=
+\sqrt[n]{|a|}
+\exp\left(i\frac{\arg a+2\pi k}{n}\right),
+\qquad
+k=0,\dots,n-1.
+\]
+
+Therefore \(p\) is an \(n\)-sheeted covering of \(\mathbb C^*\).
+
+The deck transformations are rotations
+
+\[
+T_k(z)
+=
+e^{2\pi i k/n}z,
+\qquad
+k=0,\dots,n-1.
+\]
+
+Indeed,
+
+\[
+p(T_k(z))
+=
+\left(e^{2\pi i k/n}z\right)^n
+=
+e^{2\pi i k}z^n
+=
+z^n
+=
+p(z).
+\]
+
+Hence
+
+\[
+\operatorname{Deck}(p)\cong\mathbb Z_n.
+\]
+
+This covering is regular because the cyclic rotations act transitively on each fiber.
+
+\subsection{Example 3: Ramification of \(z^n:\mathbb P^1\to\mathbb P^1\)}
+
+Now consider
+
+\[
+f:\mathbb P^1\to\mathbb P^1,
+\qquad
+f(z)=z^n.
+\]
+
+As a map on \(\mathbb C^*\), it is a covering.
+
+But on the whole Riemann sphere it has ramification.
+
+First compute
+
+\[
+f'(z)=nz^{n-1}.
+\]
+
+Thus
+
+\[
+f'(z)=0
+\]
+
+only at
+
+\[
+z=0.
+\]
+
+Near \(z=0\), the map is exactly
+
+\[
+w=z^n.
+\]
+
+So the ramification index at \(0\) is
+
+\[
+e_0=n.
+\]
+
+Now check infinity.
+
+Use the local coordinate
+
+\[
+u=\frac1z.
+\]
+
+Then
+
+\[
+f(z)=z^n
+\]
+
+becomes
+
+\[
+f\left(\frac1u\right)=\frac1{u^n}.
+\]
+
+Thus near infinity the map also has local degree \(n\).
+
+Hence
+
+\[
+e_\infty=n.
+\]
+
+Therefore the ramification points are
+
+\[
+0,\qquad \infty,
+\]
+
+and the branch points are
+
+\[
+0,\qquad \infty.
+\]
+
+The ramification contribution is
+
+\[
+(e_0-1)+(e_\infty-1)
+=
+(n-1)+(n-1)
+=
+2n-2.
+\]
+
+Riemann--Hurwitz gives
+
+\[
+2g(\mathbb P^1)-2
+=
+n(2g(\mathbb P^1)-2)
++
+2n-2.
+\]
+
+Since
+
+\[
+g(\mathbb P^1)=0,
+\]
+
+this becomes
+
+\[
+-2
+=
+n(-2)+2n-2
+=
+-2.
+\]
+
+So Riemann--Hurwitz checks perfectly.
+
+\subsection{Example 4: Ramification of \(f(z)=z^3-3z+1\)}
+
+Let
+
+\[
+f(z)=z^3-3z+1.
+\]
+
+This is a degree \(3\) map
+
+\[
+f:\mathbb P^1\to\mathbb P^1.
+\]
+
+We compute
+
+\[
+f'(z)=3z^2-3=3(z^2-1).
+\]
+
+Thus
+
+\[
+f'(z)=0
+\]
+
+when
+
+\[
+z=1
+\quad\text{or}\quad
+z=-1.
+\]
+
+The corresponding branch values are
+
+\[
+f(1)=1-3+1=-1,
+\]
+
+and
+
+\[
+f(-1)=-1+3+1=3.
+\]
+
+Thus two finite branch points are
+
+\[
+-1,\qquad 3.
+\]
+
+Because the critical points are simple, their ramification indices are
+
+\[
+e_1=2,
+\qquad
+e_{-1}=2.
+\]
+
+Now check infinity.
+
+Since \(f\) is a polynomial of degree \(3\), near infinity it behaves like
+
+\[
+z^3.
+\]
+
+Therefore
+
+\[
+e_\infty=3.
+\]
+
+The branch point corresponding to infinity is
+
+\[
+\infty.
+\]
+
+Thus the ramification data is
+
+\[
+\begin{array}{c|c|c}
+	\text{Ramification point} & \text{Ramification index} & \text{Branch point}\\
+	\hline
+	1 & 2 & -1\\
+	-1 & 2 & 3\\
+	\infty & 3 & \infty
+\end{array}
+\]
+
+The total ramification contribution is
+
+\[
+(2-1)+(2-1)+(3-1)=4.
+\]
+
+Riemann--Hurwitz gives
+
+\[
+2g(\mathbb P^1)-2
+=
+3(2g(\mathbb P^1)-2)+4.
+\]
+
+Since \(g(\mathbb P^1)=0\), this becomes
+
+\[
+-2=3(-2)+4=-2.
+\]
+
+Again the formula is verified.
+
+\subsection{Example 5: Removing Branch Points}
+
+Consider
+
+\[
+f:\mathbb P^1\to\mathbb P^1,
+\qquad
+f(z)=z^2.
+\]
+
+The branch points are
+
+\[
+0,\qquad \infty.
+\]
+
+Remove them from the target:
+
+\[
+\mathbb P^1\setminus\{0,\infty\}
+=
+\mathbb C^*.
+\]
+
+Remove their inverse images from the source:
+
+\[
+f^{-1}(\{0,\infty\})
+=
+\{0,\infty\}.
+\]
+
+Hence the restricted map is
+
+\[
+f:\mathbb C^*\to\mathbb C^*,
+\qquad
+f(z)=z^2.
+\]
+
+This is now a genuine covering map.
+
+Indeed, every nonzero complex number has exactly two square roots.
+
+The deck transformation is
+
+\[
+T(z)=-z.
+\]
+
+Since
+
+\[
+f(T(z))=(-z)^2=z^2=f(z),
+\]
+
+we have
+
+\[
+\operatorname{Deck}(f)\cong\mathbb Z_2.
+\]
+
+Thus removing the branch points turns the branched map into an unramified covering.
+
+\subsection{Example 6: Monodromy of \(z^2\)}
+
+Let
+
+\[
+f(z)=z^2.
+\]
+
+Choose the base point
+
+\[
+w=1.
+\]
+
+The fiber over \(1\) is
+
+\[
+f^{-1}(1)=\{1,-1\}.
+\]
+
+Now take the loop
+
+\[
+w(t)=e^{it},
+\qquad
+0\le t\le 2\pi.
+\]
+
+Lift it starting from
+
+\[
+z(0)=1.
+\]
+
+Since
+
+\[
+z(t)^2=w(t)=e^{it},
+\]
+
+we may take
+
+\[
+z(t)=e^{it/2}.
+\]
+
+At the end,
+
+\[
+z(2\pi)=e^{\pi i}=-1.
+\]
+
+Thus one loop around \(0\) sends
+
+\[
+1\mapsto -1.
+\]
+
+If we start from \(-1\), the same loop sends
+
+\[
+-1\mapsto 1.
+\]
+
+Hence the monodromy permutation is
+
+\[
+(1\ -1).
+\]
+
+This shows how loops around branch points permute sheets.
+
+\subsection{Example 7: Monodromy of \(z^3\)}
+
+Let
+
+\[
+f(z)=z^3.
+\]
+
+Again choose the base point
+
+\[
+w=1.
+\]
+
+The fiber is
+
+\[
+f^{-1}(1)=\{1,\omega,\omega^2\},
+\]
+
+where
+
+\[
+\omega=e^{2\pi i/3}.
+\]
+
+Let
+
+\[
+w(t)=e^{it},
+\qquad
+0\le t\le2\pi.
+\]
+
+A lift starting at \(1\) is
+
+\[
+z(t)=e^{it/3}.
+\]
+
+At the end,
+
+\[
+z(2\pi)=e^{2\pi i/3}=\omega.
+\]
+
+Thus
+
+\[
+1\mapsto\omega.
+\]
+
+Similarly,
+
+\[
+\omega\mapsto\omega^2,
+\]
+
+and
+
+\[
+\omega^2\mapsto1.
+\]
+
+Therefore the monodromy is the cycle
+
+\[
+(1\ \omega\ \omega^2).
+\]
+
+This is the cyclic group
+
+\[
+\mathbb Z_3.
+\]
+
+\subsection{Example 8: A Complex Torus as a Quotient}
+
+Let
+
+\[
+\Lambda=\mathbb Z+\mathbb Z i.
+\]
+
+This is the square lattice in \(\mathbb C\).
+
+The complex torus is
+
+\[
+T=\mathbb C/\Lambda.
+\]
+
+Two complex numbers are identified if their difference lies in \(\Lambda\):
+
+\[
+z\sim z+m+ni,
+\qquad m,n\in\mathbb Z.
+\]
+
+The universal covering map is
+
+\[
+p:\mathbb C\to T.
+\]
+
+The deck transformations are
+
+\[
+T_{m,n}(z)=z+m+ni.
+\]
+
+Hence
+
+\[
+\operatorname{Deck}(p)=\Lambda\cong\mathbb Z^2.
+\]
+
+Geometrically, a fundamental domain is the square
+
+\[
+0\le x\le1,
+\qquad
+0\le y\le1.
+\]
+
+Opposite edges are glued:
+
+\[
+\text{left edge}\sim\text{right edge},
+\]
+
+\[
+\text{bottom edge}\sim\text{top edge}.
+\]
+
+The result is a torus.
+
+\subsection{Example 9: Riemann--Hurwitz for a Map from a Torus}
+
+Let
+
+\[
+E
+\]
+
+be an elliptic curve, so
+
+\[
+g(E)=1.
+\]
+
+Consider the multiplication map
+
+\[
+[n]:E\to E.
+\]
+
+This map has degree
+
+\[
+n^2.
+\]
+
+Since it is unramified, all ramification indices are
+
+\[
+e_P=1.
+\]
+
+Therefore
+
+\[
+\sum(e_P-1)=0.
+\]
+
+Riemann--Hurwitz gives
+
+\[
+2g(E)-2
+=
+n^2(2g(E)-2)+0.
+\]
+
+Since \(g(E)=1\),
+
+\[
+0=n^2\cdot0.
+\]
+
+So the formula is satisfied.
+
+This example explains why genus \(1\) surfaces can have nontrivial self-maps of degree greater than \(1\).
+
+\subsection{Example 10: Why Genus Greater Than One Is Rigid}
+
+Let
+
+\[
+R
+\]
+
+be a compact Riemann surface of genus
+
+\[
+g>1.
+\]
+
+Suppose
+
+\[
+f:R\to R
+\]
+
+is nonconstant of degree \(d\).
+
+Riemann--Hurwitz gives
+
+\[
+2g-2=d(2g-2)+\sum(e_P-1).
+\]
+
+Since
+
+\[
+2g-2>0,
+\]
+
+if
+
+\[
+d\ge2,
+\]
+
+then
+
+\[
+d(2g-2)>2g-2.
+\]
+
+Adding the nonnegative ramification term makes the right-hand side even larger.
+
+This is impossible.
+
+Therefore
+
+\[
+d=1.
+\]
+
+Then
+
+\[
+\sum(e_P-1)=0.
+\]
+
+So there is no ramification.
+
+Thus \(f\) is a biholomorphic isomorphism.
+
+This proves the rigidity of compact Riemann surfaces of genus greater than one.
+
+\subsection{Example 11: Rational Function Degree}
+
+Let
+
+\[
+f(z)=\frac{z^3+1}{z^2-1}.
+\]
+
+Here
+
+\[
+p(z)=z^3+1,
+\qquad
+q(z)=z^2-1.
+\]
+
+Since
+
+\[
+\deg p=3,
+\qquad
+\deg q=2,
+\]
+
+we get
+
+\[
+\deg f=\max(3,2)=3.
+\]
+
+To see this directly, solve
+
+\[
+\frac{z^3+1}{z^2-1}=a.
+\]
+
+This gives
+
+\[
+z^3+1=a(z^2-1).
+\]
+
+Hence
+
+\[
+z^3-az^2+(1+a)=0.
+\]
+
+For generic \(a\), this is a cubic equation.
+
+Therefore there are \(3\) preimages.
+
+Thus
+
+\[
+\deg f=3.
+\]
+
+\subsection{Example 12: Derivative of a Rational Function}
+
+Let
+
+\[
+f(z)=\frac{z^2+1}{z-1}.
+\]
+
+Then
+
+\[
+p(z)=z^2+1,
+\qquad
+q(z)=z-1.
+\]
+
+Compute
+
+\[
+p'(z)=2z,
+\qquad
+q'(z)=1.
+\]
+
+Therefore
+
+\[
+f'(z)
+=
+\frac{p'q-pq'}{q^2}.
+\]
+
+So
+
+\[
+f'(z)
+=
+\frac{2z(z-1)-(z^2+1)}
+{(z-1)^2}.
+\]
+
+Simplify the numerator:
+
+\[
+2z(z-1)-(z^2+1)
+=
+2z^2-2z-z^2-1
+=
+z^2-2z-1.
+\]
+
+Thus
+
+\[
+f'(z)
+=
+\frac{z^2-2z-1}{(z-1)^2}.
+\]
+
+Ramification occurs when
+
+\[
+z^2-2z-1=0.
+\]
+
+Solving gives
+
+\[
+z=1\pm\sqrt2.
+\]
+
+These are the finite ramification points.
+
+Their branch points are
+
+\[
+f(1+\sqrt2),
+\qquad
+f(1-\sqrt2).
+\]
+
+This example shows concretely how the derivative detects branching.
+
+\subsection{The Cube Roots of Unity and the Symbol \(\omega\)}
+
+In many examples involving the map
+
+\[
+f(z)=z^3,
+\]
+
+one encounters the notation
+
+\[
+\{1,\omega,\omega^2\}.
+\]
+
+Here \(\omega\) denotes the \emph{primitive cube root of unity},
+
+\[
+\omega=e^{2\pi i/3}.
+\]
+
+Using Euler's formula
+
+\[
+e^{i\theta}
+=
+\cos\theta+i\sin\theta,
+\]
+
+we obtain
+
+\[
+\omega
+=
+\cos\left(\frac{2\pi}{3}\right)
++
+i\sin\left(\frac{2\pi}{3}\right)
+=
+-\frac12+\frac{\sqrt3}{2}i.
+\]
+
+Similarly,
+
+\[
+\omega^2
+=
+e^{4\pi i/3}
+=
+-\frac12-\frac{\sqrt3}{2}i.
+\]
+
+\subsubsection{Solving \(z^3=1\)}
+
+To find all cube roots of unity, solve
+
+\[
+z^3=1.
+\]
+
+Since
+
+\[
+1=e^{2\pi i k},
+\qquad k\in\mathbb Z,
+\]
+
+taking cube roots gives
+
+\[
+z=e^{2\pi i k/3}.
+\]
+
+Distinct solutions occur for
+
+\[
+k=0,1,2.
+\]
+
+Therefore
+
+\[
+z_0=1,
+\]
+
+\[
+z_1=e^{2\pi i/3}=\omega,
+\]
+
+\[
+z_2=e^{4\pi i/3}=\omega^2.
+\]
+
+Hence the complete set of cube roots of unity is
+
+\[
+\boxed{\{1,\omega,\omega^2\}}.
+\]
+
+\subsubsection{Factorization of \(z^3-1\)}
+
+Since these are precisely the roots of
+
+\[
+z^3-1,
+\]
+
+we obtain the factorization
+
+\[
+z^3-1
+=
+(z-1)(z-\omega)(z-\omega^2).
+\]
+
+This factorization plays an important role in algebra, number theory, and the theory of Riemann surfaces.
+
+\subsubsection{Geometric Interpretation}
+
+The three cube roots of unity lie on the unit circle
+
+\[
+|z|=1.
+\]
+
+Their coordinates are
+
+\[
+1=(1,0),
+\]
+
+\[
+\omega=
+\left(
+-\frac12,
+\frac{\sqrt3}{2}
+\right),
+\]
+
+\[
+\omega^2=
+\left(
+-\frac12,
+-\frac{\sqrt3}{2}
+\right).
+\]
+
+Thus they form the vertices of an equilateral triangle inscribed in the unit circle.
+
+\[
+\begin{tikzpicture}[scale=2]
+	
+	\draw[->] (-1.5,0)--(1.5,0) node[right] {\(\operatorname{Re}\)};
+	\draw[->] (0,-1.5)--(0,1.5) node[above] {\(\operatorname{Im}\)};
+	
+	\draw (0,0) circle (1);
+	
+	\fill (1,0) circle (1.5pt);
+	\fill (-0.5,0.866) circle (1.5pt);
+	\fill (-0.5,-0.866) circle (1.5pt);
+	
+	\node[right] at (1,0) {\(1\)};
+	\node[left] at (-0.5,0.866) {\(\omega\)};
+	\node[left] at (-0.5,-0.866) {\(\omega^2\)};
+	
+	\draw[dashed] (1,0)--(-0.5,0.866);
+	\draw[dashed] (-0.5,0.866)--(-0.5,-0.866);
+	\draw[dashed] (-0.5,-0.866)--(1,0);
+	
+\end{tikzpicture}
+\]
+
+\subsubsection{Important Identities}
+
+Because
+
+\[
+\omega^3=1,
+\]
+
+the powers repeat every three steps:
+
+\[
+\omega^4=\omega,
+\qquad
+\omega^5=\omega^2,
+\qquad
+\omega^6=1.
+\]
+
+The most important algebraic identity is
+
+\[
+1+\omega+\omega^2=0.
+\]
+
+Equivalently,
+
+\[
+\omega^2+\omega+1=0.
+\]
+
+Thus \(\omega\) satisfies the quadratic equation
+
+\[
+x^2+x+1=0.
+\]
+
+\subsubsection{Connection with Deck Transformations}
+
+Consider the covering
+
+\[
+f(z)=z^3.
+\]
+
+The map
+
+\[
+T(z)=\omega z
+\]
+
+is a deck transformation because
+
+\[
+f(T(z))
+=
+(\omega z)^3
+=
+\omega^3 z^3
+=
+z^3
+=
+f(z).
+\]
+
+Similarly,
+
+\[
+T^2(z)=\omega^2 z
+\]
+
+is also a deck transformation.
+
+The deck transformation group is therefore
+
+\[
+\operatorname{Deck}(f)
+=
+\{1,\omega,\omega^2\}
+\cong
+\mathbb Z_3.
+\]
+
+Geometrically, multiplication by \(\omega\) rotates the complex plane through
+
+\[
+120^\circ,
+\]
+
+while multiplication by \(\omega^2\) rotates it through
+
+\[
+240^\circ.
+\]
+
+These rotations cyclically permute the three sheets:
+
+\[
+1
+\longrightarrow
+\omega
+\longrightarrow
+\omega^2
+\longrightarrow
+1.
+\]
+
+Thus the cube roots of unity provide the symmetry group of the covering
+
+\[
+z^3:\mathbb C^*\to\mathbb C^*.
+\]
+
+This is one of the simplest and most important examples of a regular covering and its deck transformation group.
+
+\subsection{Comparison of Fundamental Covering Examples}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{|c|c|c|c|c|}
+		\hline
+		Map & Domain & Target & Deck Group & Branch Points\\
+		\hline
+		\(e^z\) &
+		\(\mathbb C\) &
+		\(\mathbb C^*\) &
+		\(\mathbb Z\) &
+		None\\
+		\hline
+		\(z^2\) &
+		\(\mathbb C^*\) &
+		\(\mathbb C^*\) &
+		\(\mathbb Z_2\) &
+		\(0,\infty\)\\
+		\hline
+		\(z^3\) &
+		\(\mathbb C^*\) &
+		\(\mathbb C^*\) &
+		\(\mathbb Z_3\) &
+		\(0,\infty\)\\
+		\hline
+		\(\mathbb C\to \mathbb C/\Lambda\) &
+		\(\mathbb C\) &
+		Torus &
+		\(\mathbb Z^2\) &
+		None\\
+		\hline
+		\(D\to D/\Gamma\) &
+		\(D\) &
+		Genus \(>1\) Surface &
+		\(\Gamma\) &
+		None\\
+		\hline
+	\end{tabular}
+\end{center}
+\subsection{Universal Coverings of Compact Riemann Surfaces}
+
+\begin{center}
+	\begin{tikzpicture}[
+		every node/.style={
+			draw,
+			rounded corners,
+			minimum width=3.5cm,
+			minimum height=1cm
+		},
+		node distance=2cm
+		]
+		
+		\node (s) {\(\mathbb P^1\)};
+		\node (t) [right=of s] {\(\mathbb C\)};
+		\node (u) [right=of t] {\(D\)};
+		
+		\node (g0) [below=of s] {Genus \(0\)};
+		\node (g1) [below=of t] {Genus \(1\)};
+		\node (g2) [below=of u] {Genus \(>1\)};
+		
+		\draw[->] (s)--(g0);
+		\draw[->] (t)--(g1);
+		\draw[->] (u)--(g2);
+		
+	\end{tikzpicture}
+\end{center}
+\subsection{Typical Deck Transformation Groups}
+
+\begin{center}
+	\begin{tabular}{|c|c|}
+		\hline
+		Covering & Deck Group \\
+		\hline
+		\(e^z:\mathbb C\to\mathbb C^*\)
+		&
+		\(\mathbb Z\)
+		\\
+		\hline
+		\(z^n:\mathbb C^*\to\mathbb C^*\)
+		&
+		\(\mathbb Z_n\)
+		\\
+		\hline
+		\(\mathbb C\to \mathbb C/\Lambda\)
+		&
+		\(\Lambda \cong \mathbb Z^2\)
+		\\
+		\hline
+		\(D/\Gamma\)
+		&
+		\(\Gamma\)
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+
+\subsection{Local Model of Ramification}
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.1]
+		
+		\draw[->] (-2,0)--(2,0);
+		\draw[->] (0,-2)--(0,2);
+		
+		\draw[blue,thick]
+		(-1.2,1.2)
+		to[out=-40,in=140]
+		(1.2,1.2);
+		
+		\draw[blue,thick]
+		(-1.2,-1.2)
+		to[out=40,in=-140]
+		(1.2,-1.2);
+		
+		\node at (0,-2.5)
+		{Two sheets above the branch point};
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Monodromy of \(z^3\)}
+
+\begin{center}
+	\begin{tikzpicture}[scale=2]
+		
+		\draw (0,0) circle (1);
+		
+		\fill (1,0) circle (1pt);
+		\fill (-0.5,0.866) circle (1pt);
+		\fill (-0.5,-0.866) circle (1pt);
+		
+		\node[right] at (1,0) {\(1\)};
+		\node[left] at (-0.5,0.866) {\(\omega\)};
+		\node[left] at (-0.5,-0.866) {\(\omega^2\)};
+		
+		\draw[->,thick]
+		(0.8,0.1)
+		arc (0:110:0.8);
+		
+		\draw[->,thick]
+		(-0.45,0.7)
+		arc (120:230:0.8);
+		
+		\draw[->,thick]
+		(-0.4,-0.7)
+		arc (240:350:0.8);
+		
+	\end{tikzpicture}
+\end{center}
+
+\[
+1\longrightarrow\omega
+\longrightarrow\omega^2
+\longrightarrow1.
+\]
+
+\subsection{How Riemann--Hurwitz Works}
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=2.5cm,
+		every node/.style={
+			draw,
+			rounded corners,
+			minimum width=3cm,
+			minimum height=1cm
+		}
+		]
+		
+		\node (deg) {Degree \(d\)};
+		\node (ram) [right=of deg] {Ramification};
+		\node (gen) [right=of ram] {Genus};
+		
+		\draw[->] (deg)--(ram);
+		\draw[->] (ram)--(gen);
+		
+	\end{tikzpicture}
+\end{center}
+
+\[
+2g(R)-2
+=
+d(2g(S)-2)
++
+\sum (e_P-1).
+\]
+\subsection{Global Picture}
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=1.45cm,
+		mainnode/.style={
+			draw,
+			rounded corners=8pt,
+			minimum width=5.2cm,
+			minimum height=1.05cm,
+			text width=4.8cm,
+			align=center,
+			font=\bfseries,
+			thick
+		},
+		side/.style={
+			draw,
+			rounded corners=6pt,
+			minimum width=3.7cm,
+			minimum height=0.8cm,
+			text width=3.4cm,
+			align=center,
+			font=\small,
+			thick
+		},
+		arrow/.style={
+			->,
+			very thick
+		}
+		]
+		
+		\node[mainnode, fill=blue!15, draw=blue!70!black] (cov)
+		{Covering Spaces\\
+			{\normalfont\small local sheets over a base}};
+		
+		\node[mainnode, fill=cyan!15, draw=cyan!60!black, below=of cov] (deck)
+		{Deck Transformations\\
+			{\normalfont\small symmetries of sheets}};
+		
+		\node[mainnode, fill=teal!15, draw=teal!70!black, below=of deck] (mono)
+		{Monodromy\\
+			{\normalfont\small loops permute fibers}};
+		
+		\node[mainnode, fill=orange!18, draw=orange!80!black, below=of mono] (ram)
+		{Ramification\\
+			{\normalfont\small sheets merge locally}};
+		
+		\node[mainnode, fill=red!12, draw=red!70!black, below=of ram] (rh)
+		{Riemann--Hurwitz\\
+			{\normalfont\small topology + degree + branching}};
+		
+		\node[mainnode, fill=purple!14, draw=purple!70!black, below=of rh] (gen)
+		{Genus\\
+			{\normalfont\small number of handles}};
+		
+		\node[mainnode, fill=green!15, draw=green!60!black, below=of gen] (uni)
+		{Uniformization\\
+			{\normalfont\small \(\mathbb P^1,\mathbb C,D\)}};
+		
+		\node[side, fill=blue!8, draw=blue!50!black, right=1.5cm of cov] (local)
+		{Local model\\ \(p^{-1}(U)=\bigsqcup U_i\)};
+		
+		\node[side, fill=cyan!8, draw=cyan!50!black, right=1.5cm of deck] (group)
+		{Deck group\\ \(\operatorname{Deck}(p)\)};
+		
+		\node[side, fill=teal!8, draw=teal!50!black, right=1.5cm of mono] (perm)
+		{Permutation action\\ \(\pi_1(S)\to S_n\)};
+		
+		\node[side, fill=orange!8, draw=orange!60!black, right=1.5cm of ram] (localram)
+		{Local form\\ \(w=z^e\)};
+		
+		\node[side, fill=red!8, draw=red!50!black, right=1.5cm of rh] (formula)
+		{\(2g(R)-2=d(2g(S)-2)+\sum(e_P-1)\)};
+		
+		\node[side, fill=purple!8, draw=purple!50!black, right=1.5cm of gen] (top)
+		{\(\chi=2-2g\)};
+		
+		\node[side, fill=green!8, draw=green!50!black, right=1.5cm of uni] (class)
+		{Classification\\ \(X=\widetilde X/\Gamma\)};
+		
+		\draw[arrow, blue!70!black] (cov)--(deck);
+		\draw[arrow, cyan!70!black] (deck)--(mono);
+		\draw[arrow, teal!70!black] (mono)--(ram);
+		\draw[arrow, orange!85!black] (ram)--(rh);
+		\draw[arrow, red!70!black] (rh)--(gen);
+		\draw[arrow, purple!70!black] (gen)--(uni);
+		
+		\draw[arrow, blue!50!black, dashed] (cov)--(local);
+		\draw[arrow, cyan!50!black, dashed] (deck)--(group);
+		\draw[arrow, teal!50!black, dashed] (mono)--(perm);
+		\draw[arrow, orange!70!black, dashed] (ram)--(localram);
+		\draw[arrow, red!60!black, dashed] (rh)--(formula);
+		\draw[arrow, purple!60!black, dashed] (gen)--(top);
+		\draw[arrow, green!60!black, dashed] (uni)--(class);
+		
+	\end{tikzpicture}
+\end{center}
+
+\section{Connections with Other Topics}
+
+The theory of coverings, deck transformations, ramification, branch points, and genus is not an isolated chapter. These concepts form a bridge connecting complex analysis, topology, algebraic geometry, differential geometry, number theory, and mathematical physics.
+
+One of the remarkable features of the theory of Riemann surfaces is that ideas initially arising from the study of holomorphic functions eventually lead to deep results in many seemingly unrelated areas of mathematics.
+
+\subsection{Fundamental Groups}
+
+One of the most important connections is with algebraic topology.
+
+For a connected topological space \(X\), the fundamental group
+
+\[
+\pi_1(X)
+\]
+
+records how loops in \(X\) can wind around holes.
+
+A fundamental theorem states that for a universal covering
+
+\[
+p:\widetilde X\to X,
+\]
+
+the deck transformation group is naturally isomorphic to the fundamental group:
+
+\[
+\operatorname{Deck}(\widetilde X\to X)
+\cong
+\pi_1(X).
+\]
+
+This theorem reveals a deep relationship between geometry and topology.
+
+The deck transformation group describes symmetries of the covering space, while the fundamental group describes homotopy classes of loops.
+
+These turn out to be two manifestations of the same underlying structure.
+
+\paragraph{Example.}
+
+For
+
+\[
+X=\mathbb C^*,
+\]
+
+the universal covering is
+
+\[
+\mathbb C,
+\]
+
+and
+
+\[
+\operatorname{Deck}(\mathbb C\to\mathbb C^*)
+=
+\mathbb Z.
+\]
+
+Since loops may wind around the origin any integer number of times,
+
+\[
+\pi_1(\mathbb C^*)
+=
+\mathbb Z.
+\]
+
+Thus the theorem is verified explicitly.
+
+\subsection{Monodromy Theory}
+
+Deck transformations lead naturally to monodromy.
+
+Suppose
+
+\[
+f:R\to S
+\]
+
+is a covering.
+
+A loop in \(S\) may permute the sheets lying above it.
+
+This produces a homomorphism
+
+\[
+\pi_1(S)
+\longrightarrow
+\operatorname{Sym}(f^{-1}(Q)),
+\]
+
+called the monodromy representation.
+
+Monodromy explains how analytic continuation behaves and why multivalued functions arise.
+
+Examples include:
+
+\begin{itemize}
+	\item logarithms,
+	\item square roots,
+	\item inverse trigonometric functions,
+	\item algebraic functions.
+\end{itemize}
+
+\paragraph{Example.}
+
+For
+
+\[
+w=z^2,
+\]
+
+a loop around \(w=0\) exchanges the two branches
+
+\[
+\sqrt w
+\quad\text{and}\quad
+-\sqrt w.
+\]
+
+Thus the monodromy is the transposition
+
+\[
+(1\ -1).
+\]
+
+\subsection{Complex Tori and Elliptic Curves}
+
+Complex tori arise naturally from covering theory.
+
+Let
+
+\[
+\Lambda
+=
+\mathbb Z\omega_1
++
+\mathbb Z\omega_2
+\]
+
+be a lattice in \(\mathbb C\).
+
+The quotient
+
+\[
+T
+=
+\mathbb C/\Lambda
+\]
+
+is a compact Riemann surface of genus \(1\).
+
+The universal covering map is
+
+\[
+\mathbb C\to T,
+\]
+
+and the deck transformation group is
+
+\[
+\Lambda.
+\]
+
+Complex tori are precisely the geometric objects underlying elliptic curves.
+
+Elliptic curves play central roles in
+
+\begin{itemize}
+	\item algebraic geometry,
+	\item number theory,
+	\item cryptography,
+	\item modular forms.
+\end{itemize}
+
+Thus covering theory provides one of the first geometric approaches to elliptic curves.
+
+\subsection{Uniformization Theory}
+
+One of the greatest theorems in complex analysis is the Uniformization Theorem.
+
+It states that every simply connected Riemann surface is biholomorphic to exactly one of
+
+\[
+\mathbb P^1,
+\qquad
+\mathbb C,
+\qquad
+D.
+\]
+
+Consequently every compact Riemann surface can be represented as
+
+\[
+X
+=
+\widetilde X/\Gamma,
+\]
+
+where
+
+\[
+\widetilde X
+\]
+
+is one of the three universal covering surfaces and
+
+\[
+\Gamma
+\]
+
+is the corresponding deck transformation group.
+
+This gives a complete geometric description of compact Riemann surfaces.
+
+\subsection{Hyperbolic Geometry}
+
+When
+
+\[
+g>1,
+\]
+
+the universal cover is the unit disc
+
+\[
+D.
+\]
+
+The disc carries the Poincaré metric, which has constant negative curvature.
+
+Thus compact surfaces of genus greater than one are naturally hyperbolic objects.
+
+The deck transformations become hyperbolic isometries of the disc.
+
+This connection leads to:
+
+\begin{itemize}
+	\item hyperbolic geometry,
+	\item Fuchsian groups,
+	\item geometric group theory,
+	\item Teichmüller theory.
+\end{itemize}
+
+Many modern developments in geometry originate from this observation.
+
+\subsection{Algebraic Curves}
+
+Every compact Riemann surface corresponds to a smooth projective algebraic curve.
+
+For example,
+
+\[
+y^2=x^3-x
+\]
+
+defines an elliptic curve.
+
+Likewise,
+
+\[
+y^2=x^5-1
+\]
+
+defines a curve of genus \(2\).
+
+Maps between algebraic curves are coverings outside finitely many branch points.
+
+Ramification points become algebraic objects that can be detected using derivatives and Jacobian criteria.
+
+Thus the geometric theory of coverings translates directly into algebraic geometry.
+
+\subsection{Galois Theory}
+
+There is a striking analogy between covering spaces and field extensions.
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{|c|c|}
+		\hline
+		Topology & Algebra \\
+		\hline
+		Covering Space & Field Extension \\
+		Deck Transformation & Galois Automorphism \\
+		Universal Cover & Algebraic Closure \\
+		Regular Covering & Galois Extension \\
+		\hline
+	\end{tabular}
+\end{center}
+
+This analogy becomes a precise theorem in algebraic geometry and arithmetic geometry.
+
+For this reason regular coverings are often called \emph{Galois coverings}.
+
+\subsection{Differential Geometry}
+
+The genus of a compact surface is closely related to curvature.
+
+The Gauss--Bonnet theorem states
+
+\[
+\int_S K\,dA
+=
+2\pi\chi(S),
+\]
+
+where
+
+\[
+K
+\]
+
+is Gaussian curvature and
+
+\[
+\chi(S)=2-2g
+\]
+
+is the Euler characteristic.
+
+Therefore genus determines total curvature.
+
+\[
+\begin{array}{c|c|c}
+	\text{Surface} & g & \chi \\
+	\hline
+	\text{Sphere} & 0 & 2 \\
+	\text{Torus} & 1 & 0 \\
+	\text{Genus }2 & 2 & -2
+\end{array}
+\]
+
+Thus topology and geometry are deeply connected.
+
+\subsection{Teichmüller Theory}
+
+Genus alone does not determine the complex structure.
+
+For example, all tori have genus \(1\), but different lattices
+
+\[
+\Lambda
+\]
+
+produce non-isomorphic complex tori.
+
+This leads to the study of moduli spaces and Teichmüller spaces.
+
+The fundamental question becomes:
+
+\begin{quote}
+	How many distinct complex structures can a fixed topological surface support?
+\end{quote}
+
+This question lies at the heart of modern geometry.
+
+\subsection{Mathematical Physics}
+
+Riemann surfaces appear naturally in theoretical physics.
+
+Applications include:
+
+\begin{itemize}
+	\item string theory,
+	\item conformal field theory,
+	\item quantum field theory,
+	\item statistical mechanics.
+\end{itemize}
+
+In string theory, the genus of a surface measures the number of loops in a quantum process.
+
+\[
+g=0
+\]
+
+corresponds to tree-level interactions,
+
+\[
+g=1
+\]
+
+to one-loop corrections,
+
+and higher genera correspond to increasingly complicated quantum effects.
+
+Thus genus acquires a direct physical interpretation.
+
+\subsection{Number Theory}
+
+The genus of an algebraic curve strongly influences its arithmetic properties.
+
+For curves defined over the rational numbers:
+
+\begin{itemize}
+	\item genus \(0\) often allows infinitely many rational points,
+	\item genus \(1\) leads to elliptic curves and Mordell's theorem,
+	\item genus \(>1\) leads to Faltings' theorem, which implies only finitely many rational points.
+\end{itemize}
+
+Therefore the genus appearing in the Riemann--Hurwitz formula ultimately governs profound arithmetic phenomena.
+
+\subsection{Grand Synthesis}
+
+The ideas developed in Problems \(1\)--\(5\) form the beginning of a vast network of mathematical theories:
+
+\[
+\text{Coverings}
+\longrightarrow
+\text{Deck Transformations}
+\longrightarrow
+\text{Fundamental Groups}
+\longrightarrow
+\text{Monodromy}
+\longrightarrow
+\text{Uniformization}
+\]
+
+\[
+\longrightarrow
+\text{Complex Tori}
+\longrightarrow
+\text{Hyperbolic Geometry}
+\longrightarrow
+\text{Algebraic Curves}
+\]
+
+\[
+\longrightarrow
+\text{Galois Theory}
+\longrightarrow
+\text{Teichmüller Theory}
+\longrightarrow
+\text{Number Theory}
+\longrightarrow
+\text{Mathematical Physics}.
+\]
+
+Thus covering spaces, deck transformations, ramification points, branch points, and the Riemann--Hurwitz formula serve as foundational concepts linking many of the most important areas of modern mathematics.
+\end{document}
+

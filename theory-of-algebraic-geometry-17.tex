@@ -1,0 +1,3351 @@
+
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Fonts & layout
+% ------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+% ------------------------------------------------------------
+% Math
+% ------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+% Standard operators
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+
+% Categories / notation
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\PreSh}{\mathbf{PreSh}}
+\newcommand{\Sh}{\mathbf{Sh}}
+
+\newcommand{\F}{\mathcal F}
+
+
+% basic number sets
+\newcommand{\RR}{\mathbb{R}}
+
+% sheaf letters
+
+\newcommand{\G}{\mathcal G}
+
+\newcommand{\GG}{\mathbb G}
+
+
+\newcommand{\AffSch}{\mathbf{AffSch}}
+\newcommand{\ZZ}{\mathbb Z}
+
+\newcommand{\PP}{\mathbb P}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{positioning,arrows.meta}
+
+% sheaf of continuous real-valued functions
+\newcommand{\Czero}{\mathcal C^0}        % “C^0”
+\newcommand{\CzeroX}{\mathcal C^0_X}     % sheaf on X (optional)
+
+\newcommand{\Cinfty}{\mathcal C^\infty}
+\newcommand{\CinftyM}{\mathcal C^\infty_M} % if you use C^\infty_M
+
+% number sets / standard symbols
+\newcommand{\CC}{\mathbb{C}}
+
+% structure sheaf notation in complex geometry
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\OOX}{\mathcal{O}_X} % optional convenience
+
+
+
+\newcommand{\Sch}{\mathrm{Sch}}
+\newcommand{\Rings}{\mathrm{Rings}}
+
+\newcommand{\kappares}{\kappa}
+\newcommand{\GammaX}{\Gamma(X,\mathcal O_X)}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\nilrad}{\sqrt{(0)}}
+
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\codim}{\operatorname{codim}}
+\newcommand{\trdeg}{\operatorname{trdeg}}
+
+\newcommand{\height}{\operatorname{height}}
+
+\newcommand{\Pic}{\operatorname{Pic}}
+\newcommand{\divisor}{\operatorname{div}}
+
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Cl}{\operatorname{Cl}}
+
+\providecommand{\Spec}{\operatorname{Spec}}
+\providecommand{\A}{\mathbb A}
+\providecommand{\Pj}{\mathbb P}
+\providecommand{\G}{\mathbb G}
+
+% ------------------------------------------------------------
+% Links
+% ------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black,
+  pdftitle={Algebraic Geometry 17
+  },
+  pdfauthor={},
+  pdfsubject={Lecture notes (reorganized)},
+  pdfcreator={TeXStudio / LaTeX}
+}
+
+% ------------------------------------------------------------
+% Diagrams
+% ------------------------------------------------------------
+\usepackage{tikz-cd}
+
+% ------------------------------------------------------------
+% Lists
+% ------------------------------------------------------------
+\usepackage{enumitem}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+
+% ------------------------------------------------------------
+% Theorem environments
+% ------------------------------------------------------------
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[subsection]
+
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{warning}[definition]{Warning}
+
+
+\DeclareMathOperator{\Log}{Log}
+
+\newcommand{\B}{\mathcal B}
+\newcommand{\C}{\mathcal C}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\I}{\mathcal I}
+
+
+\newcommand{\Fp}{\mathcal F'}      % subsheaf
+\newcommand{\Fpp}{\mathcal F''} 
+
+\newcommand{\GammaU}[1]{\Gamma(U,#1)}
+
+\DeclareMathOperator*{\colim}{colim}
+
+% circle
+\newcommand{\SSone}{S^1}
+
+
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit}
+
+\usepackage{adjustbox}
+
+% sheaves of continuous functions
+
+
+% ------------------------------------------------------------
+% Paragraph spacing
+% ------------------------------------------------------------
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+
+% ------------------------------------------------------------
+% Fancy headers
+% ------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Theory of Algebraic Geometry 17}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+
+
+
+
+\begin{document}
+
+
+\title{Algebraic Geometry 17\\
+	\large Riemann surfaces}
+\author{}
+\date{}
+
+	\maketitle
+	
+
+	\setcounter{section}{0}
+
+\tableofcontents
+
+	\clearpage
+
+\section{Problem 10: Sum of Zeros Minus Sum of Poles of an Elliptic Function}
+
+\textbf{Problem Statement.}
+
+With the notation of the previous question, let the degree of an elliptic function \(f\) be \(n\), let
+
+\[
+a_1,\dots,a_n
+\]
+
+denote the zeros of \(f\) in a fundamental parallelogram \(P\), and let
+
+\[
+b_1,\dots,b_n
+\]
+
+denote the poles of \(f\), both counted with multiplicity.
+
+By considering the integral
+
+\[
+\frac{1}{2\pi i}
+\int_{\partial P}
+z\frac{f'(z)}{f(z)}\,dz,
+\]
+
+and, if necessary, slightly perturbing \(P\), show that
+
+\[
+\sum_{j=1}^{n}a_j-\sum_{j=1}^{n}b_j
+\in \Lambda.
+\]
+
+\bigskip
+
+\textbf{Solution.}
+
+Let
+
+\[
+I=
+\frac{1}{2\pi i}
+\int_{\partial P}
+z\frac{f'(z)}{f(z)}\,dz.
+\]
+
+Assume first that no zero or pole of \(f\) lies on the boundary of \(P\). If necessary, translate the fundamental parallelogram slightly.
+
+The logarithmic derivative
+
+\[
+\frac{f'(z)}{f(z)}
+\]
+
+has simple poles at the zeros and poles of \(f\).
+
+If \(a\) is a zero of multiplicity \(m\), then locally
+
+\[
+f(z)=(z-a)^m h(z),
+\qquad
+h(a)\neq 0,
+\]
+
+and therefore
+
+\[
+\frac{f'(z)}{f(z)}
+=
+\frac{m}{z-a}
++\frac{h'(z)}{h(z)}.
+\]
+
+Hence
+
+\[
+\operatorname{Res}_{z=a}
+\left(
+z\frac{f'(z)}{f(z)}
+\right)
+=
+ma.
+\]
+
+Similarly, if \(b\) is a pole of multiplicity \(m\),
+
+\[
+f(z)=\frac{h(z)}{(z-b)^m},
+\qquad
+h(b)\neq 0,
+\]
+
+then
+
+\[
+\frac{f'(z)}{f(z)}
+=
+-\frac{m}{z-b}
++\frac{h'(z)}{h(z)},
+\]
+
+and
+
+\[
+\operatorname{Res}_{z=b}
+\left(
+z\frac{f'(z)}{f(z)}
+\right)
+=
+-mb.
+\]
+
+Applying the residue theorem gives
+
+\[
+I
+=
+\sum_{j=1}^{n}a_j
+-
+\sum_{j=1}^{n}b_j.
+\]
+
+Thus it suffices to compute \(I\) from the geometry of the fundamental parallelogram.
+
+Let
+
+\[
+L(z)=\frac{f'(z)}{f(z)}.
+\]
+
+Since \(f\) is elliptic,
+
+\[
+f(z+\omega_i)=f(z),
+\qquad i=1,2,
+\]
+
+and therefore
+
+\[
+L(z+\omega_i)=L(z).
+\]
+
+Let \(P\) have vertices
+
+\[
+z_0,\quad
+z_0+\omega_1,\quad
+z_0+\omega_1+\omega_2,\quad
+z_0+\omega_2.
+\]
+
+The contributions of opposite sides may be paired.
+
+For the horizontal sides one obtains
+
+\[
+-\omega_2
+\int_{z_0}^{z_0+\omega_1}
+L(z)\,dz.
+\]
+
+For the vertical sides one obtains
+
+\[
+\omega_1
+\int_{z_0}^{z_0+\omega_2}
+L(z)\,dz.
+\]
+
+Hence
+
+\[
+\int_{\partial P}
+zL(z)\,dz
+=
+\omega_1
+\int_{z_0}^{z_0+\omega_2}
+L(z)\,dz
+-
+\omega_2
+\int_{z_0}^{z_0+\omega_1}
+L(z)\,dz.
+\]
+
+Since
+
+\[
+L(z)=\frac{d}{dz}\log f(z),
+\]
+
+we have
+
+\[
+\int_{z_0}^{z_0+\omega_i}
+L(z)\,dz
+=
+2\pi i\,k_i,
+\qquad
+k_i\in\mathbb Z,
+\]
+
+because
+
+\[
+f(z_0+\omega_i)=f(z_0)
+\]
+
+and the logarithm changes by an integral multiple of \(2\pi i\).
+
+Therefore
+
+\[
+\int_{\partial P}
+zL(z)\,dz
+=
+2\pi i
+\left(
+k_2\omega_1-k_1\omega_2
+\right).
+\]
+
+Dividing by \(2\pi i\) yields
+
+\[
+I
+=
+k_2\omega_1-k_1\omega_2.
+\]
+
+Since \(k_1,k_2\in\mathbb Z\),
+
+\[
+I\in
+\mathbb Z\omega_1+\mathbb Z\omega_2
+=
+\Lambda.
+\]
+
+Combining this with the residue computation gives
+
+\[
+\boxed{
+	\sum_{j=1}^{n}a_j
+	-
+	\sum_{j=1}^{n}b_j
+	\in \Lambda.
+}
+\]
+
+\hfill\(\square\)
+
+\newpage
+
+\section{Problem 11: Algebraic Dependence of Meromorphic Functions}
+
+\textbf{Problem Statement.}
+
+Let \(f,g\) be non-constant meromorphic functions on a compact Riemann surface \(R\).
+
+Show that there exists a non-zero polynomial
+
+\[
+P(w_1,w_2)
+\]
+
+such that
+
+\[
+P(f,g)=0.
+\]
+
+\bigskip
+
+\textbf{Solution.}
+
+Let the valencies of \(f\) and \(g\) be
+
+\[
+m
+\qquad\text{and}\qquad
+n,
+\]
+
+respectively, and put
+
+\[
+d=m+n.
+\]
+
+Consider functions of the form
+
+\[
+F(z)
+=
+\sum_{j=0}^{d}
+\sum_{k=0}^{d}
+a_{jk}
+f(z)^j g(z)^k,
+\]
+
+where the coefficients \(a_{jk}\in\mathbb C\) are to be chosen.
+
+There are
+
+\[
+(d+1)^2
+=
+d^2+2d+1
+\]
+
+unknown coefficients.
+
+Choose
+
+\[
+d^2+2d
+\]
+
+distinct points
+
+\[
+p_1,\dots,p_{d^2+2d}
+\]
+
+on \(R\), avoiding all poles of \(f\) and \(g\).
+
+Impose the conditions
+
+\[
+F(p_\ell)=0,
+\qquad
+\ell=1,\dots,d^2+2d.
+\]
+
+These are homogeneous linear equations in the coefficients \(a_{jk}\).
+
+Since the number of unknowns exceeds the number of equations by one,
+
+\[
+(d+1)^2
+>
+d^2+2d,
+\]
+
+there exists a non-trivial solution
+
+\[
+(a_{jk})\neq 0.
+\]
+
+Hence we may choose \(F\) so that it has at least
+
+\[
+d^2+2d
+\]
+
+distinct zeros.
+
+\medskip
+
+Next we estimate the poles of \(F\).
+
+Each monomial
+
+\[
+f^j g^k
+\]
+
+has poles only where \(f\) or \(g\) has poles.
+
+The total pole order of \(f\) is \(m\), and the total pole order of \(g\) is \(n\).
+
+Therefore
+
+\[
+f^j
+\]
+
+has total pole order at most
+
+\[
+jm,
+\]
+
+and
+
+\[
+g^k
+\]
+
+has total pole order at most
+
+\[
+kn.
+\]
+
+Consequently
+
+\[
+f^j g^k
+\]
+
+has total pole order at most
+
+\[
+jm+kn.
+\]
+
+Since
+
+\[
+0\le j,k\le d,
+\]
+
+we obtain
+
+\[
+jm+kn
+\le
+dm+dn
+=
+d(m+n)
+=
+d^2.
+\]
+
+Thus every monomial \(f^jg^k\) has at most \(d^2\) poles, counted with multiplicity.
+
+Hence the same is true for their linear combination \(F\):
+
+\[
+\#(\text{poles of }F)
+\le d^2.
+\]
+
+On the other hand, \(F\) has at least
+
+\[
+d^2+2d
+\]
+
+distinct zeros.
+
+For a non-zero meromorphic function on a compact Riemann surface, the total number of zeros equals the total number of poles, both counted with multiplicity. Therefore a non-zero meromorphic function cannot possess more zeros than poles.
+
+Since
+
+\[
+d^2+2d>d^2,
+\]
+
+the function \(F\) cannot be non-zero.
+
+Therefore
+
+\[
+F\equiv 0.
+\]
+
+Hence
+
+\[
+\sum_{j=0}^{d}
+\sum_{k=0}^{d}
+a_{jk}
+f^j g^k
+=
+0.
+\]
+
+Define
+
+\[
+P(w_1,w_2)
+=
+\sum_{j=0}^{d}
+\sum_{k=0}^{d}
+a_{jk}
+w_1^j w_2^k.
+\]
+
+Because the coefficients are not all zero, \(P\) is a non-zero polynomial.
+
+Substituting
+
+\[
+w_1=f,
+\qquad
+w_2=g,
+\]
+
+gives
+
+\[
+P(f,g)=0.
+\]
+
+Therefore
+
+\[
+\boxed{
+	\exists\,P\in\mathbb C[w_1,w_2],
+	\quad
+	P\neq 0,
+	\quad
+	P(f,g)=0.
+}
+\]
+
+Thus any two non-constant meromorphic functions on a compact Riemann surface are algebraically dependent.
+
+\hfill\(\square\)	
+	
+\section{Theory Behind Problems 10 and 11}
+
+These two problems occupy a central position in the theory of elliptic functions and compact Riemann surfaces.
+
+Problem 10 concerns divisors on elliptic curves and the structure of principal divisors on a complex torus.
+
+Problem 11 establishes one of the fundamental results of the theory of compact Riemann surfaces: the field of meromorphic functions has transcendence degree one over \(\mathbb C\). This theorem forms the bridge between complex analysis and algebraic geometry.
+
+\subsection{Elliptic Functions and Lattices}
+
+A lattice in the complex plane is a subgroup
+
+\[
+\Lambda
+=
+\mathbb Z\omega_1+\mathbb Z\omega_2,
+\]
+
+where
+
+\[
+\frac{\omega_1}{\omega_2}
+\notin
+\mathbb R.
+\]
+
+The quotient space
+
+\[
+E=\mathbb C/\Lambda
+\]
+
+is a compact Riemann surface of genus one, called a
+\emph{complex torus} or \emph{elliptic curve}.
+
+A meromorphic function
+
+\[
+f:\mathbb C\to\widehat{\mathbb C}
+\]
+
+is called an elliptic function if
+
+\[
+f(z+\omega)=f(z)
+\qquad
+(\omega\in\Lambda).
+\]
+
+Thus elliptic functions are precisely the meromorphic functions on the torus \(E\).
+
+\subsection{Fundamental Parallelogram}
+
+A fundamental parallelogram is
+
+\[
+P=
+\{
+s\omega_1+t\omega_2:
+0\le s,t<1
+\}.
+\]
+
+Every point of \(\mathbb C\) is congruent modulo \(\Lambda\) to a unique point of \(P\).
+
+The opposite sides of \(P\) are identified:
+
+\[
+z
+\sim
+z+\omega_1,
+\qquad
+z
+\sim
+z+\omega_2.
+\]
+
+Consequently \(P\) may be viewed as a torus.
+
+\subsection{Degree of an Elliptic Function}
+
+For an elliptic function \(f\), the argument principle gives
+
+\[
+\frac{1}{2\pi i}
+\int_{\partial P}
+\frac{f'(z)}{f(z)}\,dz
+=
+0.
+\]
+
+Therefore
+
+\[
+\sum \operatorname{ord}_a(f)
+=
+0.
+\]
+
+Equivalently,
+
+\[
+\#(\text{zeros})
+=
+\#(\text{poles}),
+\]
+
+counted with multiplicity.
+
+This common number is called the degree of the elliptic function.
+
+\subsection{Divisors}
+
+A divisor on a Riemann surface is a formal finite sum
+
+\[
+D
+=
+\sum n_p[p],
+\qquad
+n_p\in\mathbb Z.
+\]
+
+For a meromorphic function \(f\),
+
+\[
+\operatorname{div}(f)
+=
+\sum_a
+\operatorname{ord}_a(f)[a].
+\]
+
+Zeros contribute positively and poles contribute negatively.
+
+For example,
+
+\[
+f(z)
+=
+\frac{\sigma(z-a)\sigma(z-b)}
+{\sigma(z-c)\sigma(z-d)}
+\]
+
+has divisor
+
+\[
+(a)+(b)-(c)-(d).
+\]
+
+The degree of a divisor is
+
+\[
+\deg(D)
+=
+\sum n_p.
+\]
+
+For every principal divisor,
+
+\[
+\deg(\operatorname{div}(f))
+=
+0.
+\]
+
+\subsection{Abel's Theorem for Elliptic Curves}
+
+Problem 10 proves the relation
+
+\[
+\sum_{j=1}^{n}a_j
+-
+\sum_{j=1}^{n}b_j
+\in
+\Lambda.
+\]
+
+Equivalently,
+
+\[
+\sum_{j=1}^{n}a_j
+\equiv
+\sum_{j=1}^{n}b_j
+\pmod{\Lambda}.
+\]
+
+This is the genus-one form of Abel's theorem.
+
+It says that every principal divisor on an elliptic curve satisfies two conditions:
+
+\[
+\deg(D)=0,
+\]
+
+and
+
+\[
+\sum n_p\,p
+=
+0
+\quad\text{in }E.
+\]
+
+Thus the torus group structure controls which divisors arise from meromorphic functions.
+
+\subsection{Group Law on the Torus}
+
+Since
+
+\[
+E=\mathbb C/\Lambda,
+\]
+
+points can be added:
+
+\[
+[z_1]+[z_2]
+=
+[z_1+z_2].
+\]
+
+Problem 10 may therefore be rewritten as
+
+\[
+a_1+\cdots+a_n
+=
+b_1+\cdots+b_n
+\]
+
+inside the group \(E\).
+
+Hence principal divisors correspond to balanced configurations of points on the torus.
+
+\subsection{The Weierstrass \texorpdfstring{\(\wp\)}{wp} Function}
+
+The fundamental elliptic function is
+
+\[
+\wp(z)
+=
+\frac1{z^2}
++
+\sum_{\omega\in\Lambda\setminus\{0\}}
+\left(
+\frac1{(z-\omega)^2}
+-
+\frac1{\omega^2}
+\right).
+\]
+
+It satisfies
+
+\[
+\wp(z+\omega)=\wp(z).
+\]
+
+The derivative
+
+\[
+\wp'(z)
+\]
+
+vanishes at the three half-periods
+
+\[
+\frac{\omega_1}{2},
+\qquad
+\frac{\omega_2}{2},
+\qquad
+\frac{\omega_1+\omega_2}{2}.
+\]
+
+Their sum is
+
+\[
+\omega_1+\omega_2,
+\]
+
+which belongs to \(\Lambda\), illustrating the statement of Problem 10.
+
+\subsection{Meromorphic Functions on Compact Riemann Surfaces}
+
+Let \(R\) be a compact Riemann surface.
+
+A meromorphic function
+
+\[
+f:R\to\widehat{\mathbb C}
+\]
+
+is a holomorphic map to the Riemann sphere.
+
+Typical examples are:
+
+\begin{itemize}
+	\item rational functions on \(\mathbb P^1\),
+	\item elliptic functions on complex tori,
+	\item algebraic functions on algebraic curves.
+\end{itemize}
+
+\subsection{The Function Field}
+
+All meromorphic functions on \(R\) form a field
+
+\[
+\mathcal M(R).
+\]
+
+The operations are
+
+\[
+f+g,
+\qquad
+fg,
+\qquad
+\frac fg.
+\]
+
+This field is called the function field of \(R\).
+
+Understanding its algebraic structure is one of the central goals of algebraic geometry.
+
+\subsection{Algebraic Dependence}
+
+Two meromorphic functions \(f\) and \(g\) are said to be algebraically dependent if there exists a non-zero polynomial
+
+\[
+P(X,Y)
+\]
+
+such that
+
+\[
+P(f,g)=0.
+\]
+
+For example,
+
+\[
+f=z,
+\qquad
+g=z^2,
+\]
+
+satisfy
+
+\[
+g-f^2=0.
+\]
+
+Thus
+
+\[
+P(X,Y)=Y-X^2.
+\]
+
+\subsection{Compactness Forces Dependence}
+
+On the complex plane \(\mathbb C\), the functions
+
+\[
+z
+\quad\text{and}\quad
+e^z
+\]
+
+are algebraically independent.
+
+No polynomial relation exists between them.
+
+Problem 11 shows that this phenomenon cannot occur on compact Riemann surfaces.
+
+Every pair of non-constant meromorphic functions must satisfy some polynomial relation.
+
+\subsection{Transcendence Degree One}
+
+A fundamental consequence of Problem 11 is
+
+\[
+\operatorname{trdeg}_{\mathbb C}
+\mathcal M(R)
+=
+1.
+\]
+
+This means that the function field behaves like a one-variable algebraic extension of
+
+\[
+\mathbb C(x).
+\]
+
+In particular, all meromorphic functions are algebraically related.
+
+\subsection{From Analysis to Algebraic Geometry}
+
+Problem 11 provides the crucial bridge
+
+\[
+\text{Compact Riemann Surface}
+\Longleftrightarrow
+\text{Algebraic Curve}.
+\]
+
+Indeed, if \(f\) and \(g\) are non-constant meromorphic functions on \(R\), then
+
+\[
+P(f,g)=0
+\]
+
+for some polynomial \(P\).
+
+Hence the image of
+
+\[
+z\mapsto(f(z),g(z))
+\]
+
+lies on the algebraic curve
+
+\[
+P(x,y)=0.
+\]
+
+Thus every compact Riemann surface can be described by algebraic equations.
+
+\subsection{Elliptic Curves as Algebraic Curves}
+
+For the torus
+
+\[
+E=\mathbb C/\Lambda,
+\]
+
+the functions
+
+\[
+\wp(z)
+\qquad\text{and}\qquad
+\wp'(z)
+\]
+
+satisfy the famous relation
+
+\[
+(\wp'(z))^2
+=
+4\wp(z)^3
+-
+g_2\wp(z)
+-
+g_3.
+\]
+
+Equivalently,
+
+\[
+Y^2
+=
+4X^3-g_2X-g_3.
+\]
+
+This is the Weierstrass equation of the elliptic curve.
+
+Problem 11 guarantees the existence of such a polynomial relation; elliptic curve theory provides it explicitly.
+
+\subsection{Conceptual Summary}
+
+Problem 10 describes principal divisors on a torus:
+
+\[
+\boxed{
+	\sum a_i-\sum b_i\in\Lambda.
+}
+\]
+
+Problem 11 describes the algebraic structure of meromorphic functions:
+
+\[
+\boxed{
+	P(f,g)=0.
+}
+\]
+
+Together they lead to the chain
+
+\[
+\text{Elliptic Functions}
+\longrightarrow
+\text{Divisors}
+\longrightarrow
+\text{Abel's Theorem}
+\longrightarrow
+\text{Jacobians}
+\longrightarrow
+\text{Riemann--Roch}
+\longrightarrow
+\text{Algebraic Curves}
+\longrightarrow
+\text{Modern Algebraic Geometry}.
+\]
+
+These results form one of the principal bridges between classical complex analysis and modern algebraic geometry.
+	
+\section{Examples for Problems 10 and 11}
+
+This section presents detailed examples illustrating the main ideas behind Problems 10 and 11. These examples demonstrate both the divisor-theoretic interpretation of elliptic functions and the algebraic dependence of meromorphic functions on compact Riemann surfaces.
+
+\subsection{Example 1: The Function \texorpdfstring{\(\wp'(z)\)}{wp'(z)}}
+
+Let
+
+\[
+E=\mathbb C/\Lambda,
+\qquad
+\Lambda=\mathbb Z\omega_1+\mathbb Z\omega_2.
+\]
+
+Consider the elliptic function
+
+\[
+f(z)=\wp'(z).
+\]
+
+The function \(\wp'(z)\) has a pole of order \(3\) at the origin.
+
+Thus its poles are
+
+\[
+0,0,0.
+\]
+
+The zeros occur at the three half-periods
+
+\[
+\frac{\omega_1}{2},
+\qquad
+\frac{\omega_2}{2},
+\qquad
+\frac{\omega_1+\omega_2}{2}.
+\]
+
+Hence
+
+\[
+a_1=\frac{\omega_1}{2},
+\qquad
+a_2=\frac{\omega_2}{2},
+\qquad
+a_3=\frac{\omega_1+\omega_2}{2}.
+\]
+
+Computing the sum of the zeros gives
+
+\[
+a_1+a_2+a_3
+=
+\frac{\omega_1}{2}
++
+\frac{\omega_2}{2}
++
+\frac{\omega_1+\omega_2}{2}
+=
+\omega_1+\omega_2.
+\]
+
+The sum of the poles equals
+
+\[
+0+0+0=0.
+\]
+
+Therefore
+
+\[
+(a_1+a_2+a_3)
+-
+(0+0+0)
+=
+\omega_1+\omega_2.
+\]
+
+Since
+
+\[
+\omega_1+\omega_2\in\Lambda,
+\]
+
+Problem 10 is verified.
+
+\[
+\boxed{
+	\sum a_j-\sum b_j
+	=
+	\omega_1+\omega_2
+	\in\Lambda.
+}
+\]
+
+\subsection{Example 2: Quotients of Sigma Functions}
+
+Consider
+
+\[
+f(z)
+=
+\frac{\sigma(z-a)\sigma(z-b)}
+{\sigma(z-c)\sigma(z-d)}.
+\]
+
+The zeros occur at
+
+\[
+a,b,
+\]
+
+while the poles occur at
+
+\[
+c,d.
+\]
+
+Hence
+
+\[
+\operatorname{div}(f)
+=
+(a)+(b)-(c)-(d).
+\]
+
+Applying Problem 10 yields
+
+\[
+a+b-c-d\in\Lambda.
+\]
+
+Thus the quotient is elliptic precisely when
+
+\[
+a+b\equiv c+d
+\pmod{\Lambda}.
+\]
+
+Geometrically this means
+
+\[
+[a]+[b]
+=
+[c]+[d]
+\]
+
+in the group law of the torus.
+
+\subsection{Example 3: Why One Zero and One Pole Cannot Occur}
+
+Suppose
+
+\[
+\operatorname{div}(f)
+=
+(a)-(b).
+\]
+
+Then Problem 10 implies
+
+\[
+a-b\in\Lambda.
+\]
+
+Therefore
+
+\[
+[a]=[b]
+\]
+
+on the torus.
+
+Consequently the zero and pole represent the same point of
+
+\[
+\mathbb C/\Lambda.
+\]
+
+Thus a nonconstant elliptic function cannot possess exactly one simple zero and one simple pole at distinct points.
+
+This phenomenon is fundamentally different from the situation on
+
+\[
+\mathbb P^1.
+\]
+
+\subsection{Example 4: A Concrete Lattice Calculation}
+
+Let
+
+\[
+\Lambda=\mathbb Z+\mathbb Zi.
+\]
+
+Take zeros
+
+\[
+a_1=\frac14,
+\qquad
+a_2=\frac34+\frac{i}{2},
+\]
+
+and poles
+
+\[
+b_1=\frac{i}{2},
+\qquad
+b_2=0.
+\]
+
+The sum of the zeros is
+
+\[
+a_1+a_2
+=
+\frac14+\frac34+\frac{i}{2}
+=
+1+\frac{i}{2}.
+\]
+
+The sum of the poles is
+
+\[
+b_1+b_2
+=
+\frac{i}{2}.
+\]
+
+Therefore
+
+\[
+(a_1+a_2)-(b_1+b_2)
+=
+1.
+\]
+
+Since
+
+\[
+1\in\Lambda,
+\]
+
+the divisor satisfies the condition of Problem 10.
+
+\subsection{Example 5: Algebraic Dependence on the Riemann Sphere}
+
+Let
+
+\[
+R=\mathbb P^1.
+\]
+
+Choose
+
+\[
+f(z)=z,
+\qquad
+g(z)=z^2.
+\]
+
+Then
+
+\[
+g=f^2.
+\]
+
+Hence
+
+\[
+g-f^2=0.
+\]
+
+Define
+
+\[
+P(X,Y)=Y-X^2.
+\]
+
+Then
+
+\[
+P(f,g)=0.
+\]
+
+Thus \(f\) and \(g\) are algebraically dependent.
+
+\subsection{Example 6: A Less Trivial Rational Example}
+
+Let
+
+\[
+f(z)=z+\frac1z,
+\qquad
+g(z)=z^2+\frac1{z^2}.
+\]
+
+Compute
+
+\[
+f^2
+=
+\left(z+\frac1z\right)^2
+=
+z^2+2+\frac1{z^2}.
+\]
+
+Therefore
+
+\[
+g
+=
+f^2-2.
+\]
+
+Rearranging gives
+
+\[
+g-f^2+2=0.
+\]
+
+Hence
+
+\[
+P(X,Y)=Y-X^2+2
+\]
+
+satisfies
+
+\[
+P(f,g)=0.
+\]
+
+\subsection{Example 7: The Weierstrass Equation}
+
+Let
+
+\[
+f(z)=\wp(z),
+\qquad
+g(z)=\wp'(z).
+\]
+
+The Weierstrass differential equation states
+
+\[
+(\wp'(z))^2
+=
+4\wp(z)^3-g_2\wp(z)-g_3.
+\]
+
+Substituting \(f\) and \(g\) gives
+
+\[
+g^2
+=
+4f^3-g_2f-g_3.
+\]
+
+Equivalently,
+
+\[
+g^2-4f^3+g_2f+g_3=0.
+\]
+
+Thus
+
+\[
+P(X,Y)
+=
+Y^2-4X^3+g_2X+g_3
+\]
+
+satisfies
+
+\[
+P(f,g)=0.
+\]
+
+This is one of the most important examples of Problem 11.
+
+\subsection{Example 8: The Linear Algebra Argument}
+
+Suppose
+
+\[
+m=2,
+\qquad
+n=3.
+\]
+
+Then
+
+\[
+d=m+n=5.
+\]
+
+Consider
+
+\[
+F(z)
+=
+\sum_{j=0}^{5}
+\sum_{k=0}^{5}
+a_{jk}f(z)^jg(z)^k.
+\]
+
+The number of coefficients is
+
+\[
+(d+1)^2
+=
+6^2
+=
+36.
+\]
+
+Choose
+
+\[
+d^2+2d
+=
+25+10
+=
+35
+\]
+
+points
+
+\[
+p_1,\dots,p_{35}.
+\]
+
+Require
+
+\[
+F(p_i)=0
+\]
+
+for all \(i\).
+
+This produces \(35\) homogeneous linear equations in \(36\) unknowns.
+
+Therefore a nontrivial solution exists.
+
+Consequently there exists a nonzero expression \(F\) with at least \(35\) zeros.
+
+On the other hand every monomial
+
+\[
+f^jg^k
+\]
+
+has total pole order at most
+
+\[
+2j+3k.
+\]
+
+Since
+
+\[
+j,k\le 5,
+\]
+
+the total pole order is bounded by
+
+\[
+10+15=25.
+\]
+
+Thus \(F\) has at most \(25\) poles.
+
+Since a nonzero meromorphic function on a compact Riemann surface must have equally many zeros and poles (counted with multiplicity), \(F\) must vanish identically.
+
+Hence
+
+\[
+P(f,g)=0.
+\]
+
+\subsection{Example 9: Why Compactness Matters}
+
+Consider the noncompact surface
+
+\[
+R=\mathbb C.
+\]
+
+Let
+
+\[
+f(z)=z,
+\qquad
+g(z)=e^z.
+\]
+
+There is no nonzero polynomial
+
+\[
+P(X,Y)
+\]
+
+such that
+
+\[
+P(z,e^z)=0.
+\]
+
+Thus \(z\) and \(e^z\) are algebraically independent.
+
+The proof of Problem 11 fails because \(\mathbb C\) is not compact.
+
+For example,
+
+\[
+\sin z
+\]
+
+has infinitely many zeros and no poles.
+
+The equality between zeros and poles is therefore no longer available.
+
+\subsection{Example 10: Geometric Interpretation}
+
+Let
+
+\[
+f,g\in\mathcal M(R).
+\]
+
+Together they define a map
+
+\[
+R
+\longrightarrow
+\mathbb C^2,
+\qquad
+p
+\longmapsto
+(f(p),g(p)).
+\]
+
+Problem 11 states that the image must satisfy an equation
+
+\[
+P(x,y)=0.
+\]
+
+Hence the image is contained in an algebraic curve.
+
+The analytic object \(R\) therefore produces an algebraic variety.
+
+This is one of the fundamental bridges between complex analysis and algebraic geometry.
+
+\subsection{Summary Table}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		Surface & Functions & Polynomial Relation \\
+		\hline
+		\(\mathbb P^1\)
+		&
+		\(z,\;z^2\)
+		&
+		\(Y-X^2=0\)
+		\\
+		\hline
+		\(\mathbb P^1\)
+		&
+		\(z+\frac1z,\;
+		z^2+\frac1{z^2}\)
+		&
+		\(Y-X^2+2=0\)
+		\\
+		\hline
+		\(\mathbb C/\Lambda\)
+		&
+		\(\wp,\;\wp'\)
+		&
+		\(Y^2-4X^3+g_2X+g_3=0\)
+		\\
+		\hline
+		General Compact Surface
+		&
+		\(f,g\)
+		&
+		\(P(f,g)=0\)
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+	
+\section{The Weierstrass \texorpdfstring{\(\sigma\)}{sigma},
+	\texorpdfstring{\(\zeta\)}{zeta},
+	and \texorpdfstring{\(\wp\)}{wp} Functions}
+
+The classical theory of elliptic functions is built from three fundamental functions
+
+\[
+\sigma(z),
+\qquad
+\zeta(z),
+\qquad
+\wp(z),
+\]
+
+associated with a lattice
+
+\[
+\Lambda
+=
+\mathbb Z\omega_1+\mathbb Z\omega_2.
+\]
+
+All elliptic functions can ultimately be expressed in terms of these functions.
+
+\subsection{The Sigma Function}
+
+The Weierstrass sigma function is defined by the infinite product
+
+\[
+\sigma(z)
+=
+z
+\prod_{\omega\in\Lambda\setminus\{0\}}
+\left(
+1-\frac{z}{\omega}
+\right)
+\exp
+\left(
+\frac{z}{\omega}
++
+\frac{z^2}{2\omega^2}
+\right).
+\]
+
+Properties:
+
+\begin{enumerate}
+	\item \(\sigma(z)\) is entire.
+	
+	\item Zeros occur precisely at lattice points.
+	
+	\item Every zero is simple.
+	
+	\item \(\sigma(z)\) is not elliptic.
+\end{enumerate}
+
+Its divisor is
+
+\[
+\operatorname{div}(\sigma)
+=
+\sum_{\omega\in\Lambda}
+(\omega).
+\]
+
+Inside a fundamental parallelogram:
+
+\[
+\operatorname{div}(\sigma)
+=
+(0).
+\]
+
+Thus \(\sigma\) behaves like the function \(z\) on the complex plane.
+
+\subsection{The Zeta Function}
+
+The Weierstrass zeta function is
+
+\[
+\zeta(z)
+=
+\frac{\sigma'(z)}{\sigma(z)}.
+\]
+
+Hence
+
+\[
+\boxed{
+	\zeta(z)
+	=
+	\frac{d}{dz}
+	\log\sigma(z)
+}
+\]
+
+and therefore
+
+\[
+\zeta(z)
+=
+\frac1z+O(z).
+\]
+
+Properties:
+
+\begin{enumerate}
+	\item \(\zeta(z)\) is meromorphic.
+	
+	\item It has a simple pole at each lattice point.
+	
+	\item Residue \(=1\).
+	
+	\item It is not elliptic.
+\end{enumerate}
+
+The failure of periodicity is measured by
+
+\[
+\zeta(z+\omega_i)
+=
+\zeta(z)+\eta_i.
+\]
+
+The constants
+
+\[
+\eta_1,\eta_2
+\]
+
+are called the quasi-periods.
+
+\subsection{The Weierstrass \texorpdfstring{\(\wp\)}{wp} Function}
+
+Differentiating again gives
+
+\[
+\wp(z)
+=
+-\zeta'(z).
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	\wp(z)
+	=
+	\frac1{z^2}
+	+
+	\sum_{\omega\in\Lambda\setminus\{0\}}
+	\left[
+	\frac1{(z-\omega)^2}
+	-
+	\frac1{\omega^2}
+	\right].
+}
+\]
+
+Properties:
+
+\begin{enumerate}
+	\item \(\wp(z)\) is elliptic.
+	
+	\item \(\wp(z+\omega)=\wp(z)\).
+	
+	\item \(\wp(z)\) is even.
+	
+	\item \(\wp'(z)\) is odd.
+	
+	\item \(\wp(z)\) has a double pole at every lattice point.
+\end{enumerate}
+
+Near the origin
+
+\[
+\wp(z)
+=
+\frac1{z^2}
++
+O(z^2).
+\]
+
+\subsection{Differential Equation}
+
+The most important formula in elliptic function theory is
+
+\[
+\boxed{
+	(\wp'(z))^2
+	=
+	4\wp(z)^3
+	-
+	g_2\wp(z)
+	-
+	g_3.
+}
+\]
+
+The constants
+
+\[
+g_2
+=
+60
+\sum_{\omega\neq 0}
+\frac1{\omega^4},
+\]
+
+\[
+g_3
+=
+140
+\sum_{\omega\neq 0}
+\frac1{\omega^6}
+\]
+
+depend only on the lattice.
+
+This equation defines the elliptic curve
+
+\[
+Y^2
+=
+4X^3-g_2X-g_3.
+\]
+
+\subsection{The Three Half-Periods}
+
+The derivative \(\wp'(z)\) vanishes at
+
+\[
+\frac{\omega_1}{2},
+\qquad
+\frac{\omega_2}{2},
+\qquad
+\frac{\omega_1+\omega_2}{2}.
+\]
+
+Let
+
+\[
+e_1
+=
+\wp\!\left(\frac{\omega_1}{2}\right),
+\]
+
+\[
+e_2
+=
+\wp\!\left(\frac{\omega_2}{2}\right),
+\]
+
+\[
+e_3
+=
+\wp\!\left(\frac{\omega_1+\omega_2}{2}\right).
+\]
+
+Then
+
+\[
+e_1+e_2+e_3=0.
+\]
+
+The differential equation factors as
+
+\[
+(\wp')^2
+=
+4
+(\wp-e_1)
+(\wp-e_2)
+(\wp-e_3).
+\]
+
+\subsection{Constructing Elliptic Functions with Sigma Functions}
+
+One of the most useful formulas is
+
+\[
+f(z)
+=
+C
+\frac{
+	\prod_{j=1}^{n}
+	\sigma(z-a_j)
+}{
+	\prod_{j=1}^{n}
+	\sigma(z-b_j)
+}.
+\]
+
+This function is elliptic precisely when
+
+\[
+\boxed{
+	\sum_{j=1}^{n}a_j
+	-
+	\sum_{j=1}^{n}b_j
+	\in\Lambda.
+}
+\]
+
+This is exactly the statement proved in Problem 10.
+
+Thus every divisor satisfying Abel's condition can be realized by an elliptic function.
+
+\subsection{Divisor Example}
+
+Consider
+
+\[
+D
+=
+(a)+(b)-(c)-(d).
+\]
+
+Assume
+
+\[
+a+b-c-d\in\Lambda.
+\]
+
+Then
+
+\[
+f(z)
+=
+\frac{
+	\sigma(z-a)\sigma(z-b)
+}{
+	\sigma(z-c)\sigma(z-d)
+}
+\]
+
+has divisor
+
+\[
+\operatorname{div}(f)
+=
+(a)+(b)-(c)-(d).
+\]
+
+This gives an explicit realization of Abel's theorem on the torus.
+
+\subsection{Connection with Problem 11}
+
+Take
+
+\[
+f(z)=\wp(z),
+\qquad
+g(z)=\wp'(z).
+\]
+
+Then
+
+\[
+g^2
+=
+4f^3-g_2f-g_3.
+\]
+
+Therefore
+
+\[
+P(f,g)=0
+\]
+
+with
+
+\[
+P(X,Y)
+=
+Y^2-4X^3+g_2X+g_3.
+\]
+
+This is the concrete polynomial relation predicted by Problem 11.
+
+\subsection{Hierarchy of the Classical Functions}
+
+\[
+\sigma(z)
+\quad
+\longrightarrow
+\quad
+\zeta(z)
+=
+\frac{\sigma'}{\sigma}
+\quad
+\longrightarrow
+\quad
+\wp(z)
+=
+-\zeta'(z).
+\]
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=4cm,
+		every node/.style={
+			draw,
+			rounded corners,
+			align=center,
+			minimum width=3.5cm
+		}
+		]
+		
+		\node (sigma)
+		{\(\sigma(z)\)\\Entire};
+		
+		\node (zeta)
+		[right=of sigma]
+		{\(\zeta(z)\)\\Meromorphic};
+		
+		\node (wp)
+		[right=of zeta]
+		{\(\wp(z)\)\\Elliptic};
+		
+		\draw[->,thick]
+		(sigma)
+		--
+		node[above]
+		{\(\frac{d}{dz}\log\)}
+		(zeta);
+		
+		\draw[->,thick]
+		(zeta)
+		--
+		node[above]
+		{\(-\frac{d}{dz}\)}
+		(wp);
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Summary}
+
+\[
+\boxed{
+	\sigma
+	\Rightarrow
+	\zeta
+	\Rightarrow
+	\wp
+}
+\]
+
+\[
+\boxed{
+	\text{Problem 10}
+	\Longleftrightarrow
+	\text{Divisors on } \mathbb C/\Lambda
+}
+\]
+
+\[
+\boxed{
+	\text{Problem 11}
+	\Longleftrightarrow
+	\mathbb C(\wp,\wp')
+}
+\]
+
+The functions \(\sigma\), \(\zeta\), and \(\wp\) form the analytic foundation of the theory of elliptic curves, Abel's theorem, divisors, Jacobians, and algebraic curves.
+
+\section{Tables, Diagrams, and Charts for Problems 10 and 11}
+
+\subsection{Color Legend}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.35}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\rowcolor{blue!15}
+		Object & Meaning & Role \\
+		\hline
+		\cellcolor{green!15} Zeros \(a_j\) & Positive divisor points & Contribute \(+\sum a_j\) \\
+		\hline
+		\cellcolor{red!15} Poles \(b_j\) & Negative divisor points & Contribute \(-\sum b_j\) \\
+		\hline
+		\cellcolor{yellow!20} Lattice \(\Lambda\) & Period lattice & Measures equality modulo periods \\
+		\hline
+		\cellcolor{purple!15} Polynomial relation & \(P(f,g)=0\) & Algebraic dependence \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Problem 10: Divisor Balance on a Torus}
+
+\begin{center}
+	\begin{tikzpicture}[
+		scale=1.1,
+		point/.style={circle,fill,inner sep=2pt},
+		zero/.style={point,green!60!black},
+		pole/.style={point,red!70!black},
+		every node/.style={font=\small}
+		]
+		
+		\coordinate (O) at (0,0);
+		\coordinate (A) at (5,0);
+		\coordinate (B) at (6.2,3);
+		\coordinate (C) at (1.2,3);
+		
+		\fill[blue!5] (O)--(A)--(B)--(C)--cycle;
+		\draw[thick,blue!70!black] (O)--(A)--(B)--(C)--cycle;
+		
+		\draw[->,thick] (O)--(A) node[midway,below] {\(\omega_1\)};
+		\draw[->,thick] (O)--(C) node[midway,left] {\(\omega_2\)};
+		
+		\node[zero,label=above:{\(a_1\)}] at (1.4,0.9) {};
+		\node[zero,label=above:{\(a_2\)}] at (4.1,2.1) {};
+		\node[pole,label=below:{\(b_1\)}] at (2.8,1.3) {};
+		\node[pole,label=below:{\(b_2\)}] at (5.0,2.5) {};
+		
+		\node[align=center,draw,rounded corners,fill=yellow!20,text width=5cm] at (3,-1.2)
+		{
+			Problem 10 says:
+			\[
+			a_1+a_2-b_1-b_2\in\Lambda.
+			\]
+		};
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Principal Divisor Test}
+
+\[
+D=\sum_{j=1}^{n}(a_j)-\sum_{j=1}^{n}(b_j)
+\]
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.45}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\rowcolor{blue!15}
+		Condition & Formula & Meaning \\
+		\hline
+		
+		Degree zero
+		&
+		\(\deg D=n-n=0\)
+		&
+		Zeros and poles balance numerically
+		\\
+		\hline
+		
+		Abel condition
+		&
+		\(\sum a_j-\sum b_j\in\Lambda\)
+		&
+		Zeros and poles balance on the torus
+		\\
+		\hline
+		
+		Principal divisor
+		&
+		\(D=\operatorname{div}(f)\)
+		&
+		\(D\) comes from an elliptic function
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+\subsection{Sigma Construction Chart}
+
+\[
+f(z)
+=
+C
+\frac{
+	\prod_{j=1}^{n}\sigma(z-a_j)
+}{
+	\prod_{j=1}^{n}\sigma(z-b_j)
+}
+\]
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=2cm,
+		box/.style={
+			draw,
+			rounded corners,
+			align=center,
+			text width=4.2cm,
+			minimum height=1.1cm
+		},
+		arrow/.style={->,thick}
+		]
+		
+		\node[box,fill=green!15] (zeros)
+		{Choose zeros\\
+			\[
+			a_1,\dots,a_n
+			\]};
+		
+		\node[box,fill=red!15,right=of zeros] (poles)
+		{Choose poles\\
+			\[
+			b_1,\dots,b_n
+			\]};
+		
+		\node[box,fill=yellow!20,below=of zeros] (abel)
+		{Check Abel condition\\
+			\[
+			\sum a_j-\sum b_j\in\Lambda
+			\]};
+		
+		\node[box,fill=blue!15,right=of abel] (function)
+		{Build elliptic function\\
+			\[
+			f(z)=C\frac{\prod\sigma(z-a_j)}{\prod\sigma(z-b_j)}
+			\]};
+		
+		\draw[arrow] (zeros)--(poles);
+		\draw[arrow] (zeros)--(abel);
+		\draw[arrow] (poles)--(abel);
+		\draw[arrow] (abel)--(function);
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Comparison of \texorpdfstring{\(\sigma\), \(\zeta\), and \(\wp\)}{sigma, zeta, wp}}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.45}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\rowcolor{blue!15}
+		Function & Definition & Periodicity & Main Role \\
+		\hline
+		
+		\cellcolor{green!10}
+		\(\sigma(z)\)
+		&
+		\(
+		z\prod_{\omega\neq 0}
+		\left(1-\frac z\omega\right)
+		e^{z/\omega+z^2/(2\omega^2)}
+		\)
+		&
+		Quasi-periodic
+		&
+		Builds prescribed divisors
+		\\
+		\hline
+		
+		\cellcolor{yellow!15}
+		\(\zeta(z)\)
+		&
+		\(
+		\zeta(z)=\frac{\sigma'(z)}{\sigma(z)}
+		\)
+		&
+		\(
+		\zeta(z+\omega_i)=\zeta(z)+\eta_i
+		\)
+		&
+		Logarithmic derivative
+		\\
+		\hline
+		
+		\cellcolor{purple!10}
+		\(\wp(z)\)
+		&
+		\(
+		\wp(z)=-\zeta'(z)
+		\)
+		&
+		Elliptic
+		&
+		Generates elliptic functions
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+\subsection{Function Hierarchy Diagram}
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=3cm,
+		box/.style={
+			draw,
+			rounded corners,
+			minimum width=3.5cm,
+			minimum height=1.2cm,
+			align=center
+		},
+		arrow/.style={->,thick}
+		]
+		
+		\node[box,fill=green!15] (sigma)
+		{\(\sigma(z)\)\\Entire\\Zeros at \(\Lambda\)};
+		
+		\node[box,fill=yellow!20,right=of sigma] (zeta)
+		{\(\zeta(z)\)\\Meromorphic\\Simple poles};
+		
+		\node[box,fill=purple!15,right=of zeta] (wp)
+		{\(\wp(z)\)\\Elliptic\\Double poles};
+		
+		\draw[arrow] (sigma)--node[above]{\(\frac{d}{dz}\log\)}(zeta);
+		\draw[arrow] (zeta)--node[above]{\(-\frac{d}{dz}\)}(wp);
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Problem 11: Algebraic Dependence Diagram}
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=2.2cm,
+		box/.style={
+			draw,
+			rounded corners,
+			align=center,
+			text width=4.4cm,
+			minimum height=1.2cm
+		},
+		arrow/.style={->,thick}
+		]
+		
+		\node[box,fill=blue!10] (R)
+		{Compact Riemann surface\\
+			\[
+			R
+			\]};
+		
+		\node[box,fill=green!15,right=of R] (fg)
+		{Two meromorphic functions\\
+			\[
+			f,g\in\mathcal M(R)
+			\]};
+		
+		\node[box,fill=yellow!20,below=of fg] (map)
+		{Map to the plane\\
+			\[
+			p\mapsto(f(p),g(p))
+			\]};
+		
+		\node[box,fill=purple!15,left=of map] (curve)
+		{Image lies on an algebraic curve\\
+			\[
+			P(X,Y)=0
+			\]};
+		
+		\draw[arrow] (R)--(fg);
+		\draw[arrow] (fg)--(map);
+		\draw[arrow] (map)--(curve);
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Linear Algebra Count in Problem 11}
+
+Let the valencies of \(f\) and \(g\) be
+
+\[
+m,\qquad n,
+\]
+
+and set
+
+\[
+d=m+n.
+\]
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.5}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\rowcolor{blue!15}
+		Quantity & Formula & Meaning \\
+		\hline
+		
+		Unknown coefficients
+		&
+		\((d+1)^2=d^2+2d+1\)
+		&
+		Coefficients \(a_{jk}\) in \(P(X,Y)\)
+		\\
+		\hline
+		
+		Chosen vanishing points
+		&
+		\(d^2+2d\)
+		&
+		Linear conditions \(F(p_i)=0\)
+		\\
+		\hline
+		
+		Extra freedom
+		&
+		\((d^2+2d+1)-(d^2+2d)=1\)
+		&
+		Nontrivial solution exists
+		\\
+		\hline
+		
+		Pole bound
+		&
+		\(d^2\)
+		&
+		Maximum pole order of \(F\)
+		\\
+		\hline
+		
+		Conclusion
+		&
+		\(F\equiv 0\)
+		&
+		Therefore \(P(f,g)=0\)
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+\subsection{Zeros Versus Poles Chart}
+
+\begin{center}
+	\begin{tikzpicture}[
+		x=1cm,
+		y=0.35cm,
+		every node/.style={font=\small}
+		]
+		
+		\draw[->] (0,0)--(8,0) node[right]{Quantity};
+		\draw[->] (0,0)--(0,12) node[above]{Count};
+		
+		\fill[green!50] (1,0) rectangle (2.5,10);
+		\node at (1.75,10.8) {\(d^2+2d\)};
+		\node[align=center] at (1.75,-1.1) {Zeros\\of \(F\)};
+		
+		\fill[red!50] (4.5,0) rectangle (6,7);
+		\node at (5.25,7.8) {\(d^2\)};
+		\node[align=center] at (5.25,-1.1) {Poles\\of \(F\)};
+		
+		\draw[dashed,thick] (0,7)--(7,7);
+		\node[right] at (7,7) {Pole bound};
+		
+		\draw[dashed,thick] (0,10)--(7,10);
+		\node[right] at (7,10) {Forced zeros};
+		
+		\node[draw,rounded corners,fill=yellow!20,text width=5cm,align=center] at (4,12)
+		{
+			Since a nonzero meromorphic function on compact \(R\) cannot have more zeros than poles, \(F\equiv 0\).
+		};
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Examples Summary Table}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.45}
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\rowcolor{blue!15}
+		Surface & Functions & Relation & Interpretation \\
+		\hline
+		
+		\(\mathbb P^1\)
+		&
+		\(\begin{array}{c}
+			f=z\\
+			g=z^2
+		\end{array}\)
+		&
+		\(Y-X^2=0\)
+		&
+		Elementary algebraic dependence
+		\\
+		\hline
+		
+		\(\mathbb P^1\)
+		&
+		\(\begin{array}{c}
+			f=z+\frac1z\\
+			g=z^2+\frac1{z^2}
+		\end{array}\)
+		&
+		\(Y-X^2+2=0\)
+		&
+		Rational dependence
+		\\
+		\hline
+		
+		\(\mathbb C/\Lambda\)
+		&
+		\(\begin{array}{c}
+			f=\wp\\
+			g=\wp'
+		\end{array}\)
+		&
+		\(Y^2-4X^3+g_2X+g_3=0\)
+		&
+		Elliptic curve equation
+		\\
+		\hline
+		
+		Compact \(R\)
+		&
+		\(\begin{array}{c}
+			f,g\in\mathcal M(R)
+		\end{array}\)
+		&
+		\(P(f,g)=0\)
+		&
+		General algebraic dependence
+		\\
+		\hline
+		
+	\end{tabular}
+\end{center}
+
+\subsection{Big Concept Map}
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=1.6cm,
+		box/.style={
+			draw,
+			rounded corners,
+			align=center,
+			text width=4cm,
+			minimum height=1cm
+		},
+		arrow/.style={->,thick}
+		]
+		
+		\node[box,fill=blue!15] (torus)
+		{Complex torus\\
+			\[
+			\mathbb C/\Lambda
+			\]};
+		
+		\node[box,fill=green!15,below left=of torus] (div)
+		{Divisors\\
+			\[
+			\sum n_p[p]
+			\]};
+		
+		\node[box,fill=yellow!20,below right=of torus] (ell)
+		{Elliptic functions\\
+			\[
+			f(z+\omega)=f(z)
+			\]};
+		
+		\node[box,fill=orange!20,below=of div] (abel)
+		{Abel condition\\
+			\[
+			\sum a_j-\sum b_j\in\Lambda
+			\]};
+		
+		\node[box,fill=purple!15,below=of ell] (wp)
+		{Weierstrass equation\\
+			\[
+			Y^2=4X^3-g_2X-g_3
+			\]};
+		
+		\node[box,fill=red!15,below=of abel,xshift=3cm] (alg)
+		{Algebraic curves\\
+			\[
+			P(X,Y)=0
+			\]};
+		
+		\draw[arrow] (torus)--(div);
+		\draw[arrow] (torus)--(ell);
+		\draw[arrow] (div)--(abel);
+		\draw[arrow] (ell)--(wp);
+		\draw[arrow] (abel)--(alg);
+		\draw[arrow] (wp)--(alg);
+		
+	\end{tikzpicture}
+\end{center}
+	
+\section{Connections of Problems 10 and 11 with Other Areas of Mathematics}
+
+Problems 10 and 11 are far more than isolated results about elliptic functions and meromorphic functions. They occupy a central position in the theory of Riemann surfaces and form one of the principal bridges between complex analysis, topology, algebraic geometry, number theory, and mathematical physics.
+
+Historically, these ideas emerged from the study of elliptic integrals and eventually led to the modern theories of algebraic curves, Jacobians, Abelian varieties, and schemes.
+
+\subsection{Connection with Divisor Theory}
+
+Problem 10 is fundamentally a theorem about divisors on an elliptic curve.
+
+For a meromorphic function \(f\), its divisor is
+
+\[
+\operatorname{div}(f)
+=
+\sum_i m_i[a_i]
+-
+\sum_j n_j[b_j].
+\]
+
+The theorem shows that every principal divisor on a torus satisfies two conditions:
+
+\[
+\deg(\operatorname{div}(f))=0,
+\]
+
+and
+
+\[
+\sum_i m_i a_i
+-
+\sum_j n_j b_j
+\in \Lambda.
+\]
+
+Thus principal divisors are characterized not only by degree but also by a geometric balancing condition on the torus.
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=1.8cm,
+		every node/.style={
+			draw,
+			rounded corners,
+			align=center,
+			text width=4cm
+		}
+		]
+		
+		\node[fill=green!15] (d)
+		{Divisor \(D\)};
+		
+		\node[fill=yellow!20,below=of d] (deg)
+		{\(\deg(D)=0\)};
+		
+		\node[fill=orange!20,below=of deg] (abel)
+		{\(\sum a_i-\sum b_i\in\Lambda\)};
+		
+		\node[fill=blue!15,below=of abel] (prin)
+		{\(D=\operatorname{div}(f)\)};
+		
+		\draw[->,thick] (d) -- (deg);
+		\draw[->,thick] (deg) -- (abel);
+		\draw[->,thick] (abel) -- (prin);
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Connection with Abel's Theorem}
+
+Problem 10 is essentially the genus-one version of Abel's theorem.
+
+For a general compact Riemann surface \(R\) of genus \(g\), Abel's theorem states that a divisor
+
+\[
+D=\sum a_i-\sum b_i
+\]
+
+is principal if and only if
+
+\[
+\sum_i
+\int_{P_0}^{a_i}
+\omega_k
+-
+\sum_i
+\int_{P_0}^{b_i}
+\omega_k
+=
+0
+\]
+
+for every basis
+
+\[
+\omega_1,\dots,\omega_g
+\]
+
+of holomorphic differentials.
+
+When \(g=1\), there is only one differential, and Abel's theorem reduces exactly to
+
+\[
+\sum a_i-\sum b_i\in\Lambda.
+\]
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=1.8cm,
+		every node/.style={
+			draw,
+			rounded corners,
+			align=center,
+			text width=4cm
+		}
+		]
+		
+		\node[fill=blue!10]
+		(gen0)
+		{Genus \(0\)};
+		
+		\node[fill=green!10,right=of gen0]
+		(gen1)
+		{Genus \(1\)};
+		
+		\node[fill=red!10,right=of gen1]
+		(genG)
+		{Genus \(g\)};
+		
+		\draw[->,thick] (gen0)--(gen1);
+		\draw[->,thick] (gen1)--(genG);
+		
+		\node[below=0.7cm of gen0]
+		{No condition};
+		
+		\node[below=0.7cm of gen1]
+		{\(\sum a_i-\sum b_i\in\Lambda\)};
+		
+		\node[below=0.7cm of genG]
+		{Abel--Jacobi conditions};
+		
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Connection with Jacobians}
+
+The Jacobian of a compact Riemann surface is
+
+\[
+J(R)
+=
+\mathbb C^g/\Lambda.
+\]
+
+For an elliptic curve
+
+\[
+E=\mathbb C/\Lambda,
+\]
+
+the Jacobian is the curve itself:
+
+\[
+J(E)=E.
+\]
+
+Problem 10 shows that principal divisors map to the identity element of the Jacobian.
+
+This yields the fundamental exact sequence
+
+\[
+\operatorname{Prin}(E)
+\subset
+\operatorname{Div}^0(E)
+\longrightarrow
+E.
+\]
+
+This construction generalizes to all compact Riemann surfaces and becomes one of the cornerstones of modern algebraic geometry.
+
+\subsection{Connection with the Riemann--Roch Theorem}
+
+A central question in geometry is:
+
+\begin{quote}
+	Which divisors arise from meromorphic functions?
+\end{quote}
+
+Problem 10 gives a complete answer for genus one.
+
+The general answer is provided by the Riemann--Roch theorem:
+
+\[
+\ell(D)-\ell(K-D)
+=
+\deg(D)+1-g.
+\]
+
+Thus Problem 10 can be viewed as one of the earliest concrete manifestations of Riemann--Roch theory.
+
+\subsection{Connection with Algebraic Curves}
+
+Problem 11 states that any two nonconstant meromorphic functions satisfy
+
+\[
+P(f,g)=0
+\]
+
+for some polynomial \(P\).
+
+Consequently, the image of
+
+\[
+p\mapsto(f(p),g(p))
+\]
+
+lies on an algebraic curve.
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=2cm,
+		every node/.style={
+			draw,
+			rounded corners,
+			align=center,
+			text width=4cm
+		}
+		]
+		
+		\node[fill=blue!15] (R)
+		{Compact Riemann Surface};
+		
+		\node[fill=green!15,right=of R] (M)
+		{Meromorphic Functions};
+		
+		\node[fill=yellow!20,right=of M] (P)
+		{Polynomial Relation};
+		
+		\node[fill=red!15,right=of P] (C)
+		{Algebraic Curve};
+		
+		\draw[->,thick] (R) -- (M);
+		\draw[->,thick] (M) -- (P);
+		\draw[->,thick] (P) -- (C);
+		
+	\end{tikzpicture}
+\end{center}
+
+This theorem forms one of the deepest bridges between analysis and algebraic geometry.
+
+\subsection{Connection with Function Fields}
+
+The set of meromorphic functions on \(R\),
+
+\[
+\mathcal M(R),
+\]
+
+forms a field.
+
+Problem 11 implies
+
+\[
+\operatorname{trdeg}_{\mathbb C}
+\mathcal M(R)
+=
+1.
+\]
+
+Therefore \(\mathcal M(R)\) behaves like a one-variable algebraic function field.
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.4}
+	\begin{tabular}{|c|c|}
+		\hline
+		\rowcolor{blue!15}
+		Surface & Function Field\\
+		\hline
+		\(\mathbb P^1\)
+		&
+		\(\mathbb C(z)\)
+		\\
+		\hline
+		Elliptic Curve
+		&
+		\(\mathbb C(\wp,\wp')\)
+		\\
+		\hline
+		Hyperelliptic Curve
+		&
+		\(\mathbb C(x,y)\)
+		\\
+		\hline
+		General Curve
+		&
+		Finite extension of \(\mathbb C(x)\)
+		\\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Connection with Elliptic Curves}
+
+Applying Problem 11 to
+
+\[
+f=\wp,
+\qquad
+g=\wp'
+\]
+
+produces the classical relation
+
+\[
+(\wp')^2
+=
+4\wp^3-g_2\wp-g_3.
+\]
+
+This is precisely the Weierstrass equation of an elliptic curve:
+
+\[
+Y^2
+=
+4X^3-g_2X-g_3.
+\]
+
+Thus the analytic theory of lattices naturally produces algebraic curves.
+
+\subsection{Connection with Abelian Varieties}
+
+The torus
+
+\[
+\mathbb C/\Lambda
+\]
+
+is the simplest example of an Abelian variety.
+
+Higher-dimensional Abelian varieties are quotients
+
+\[
+\mathbb C^g/\Lambda.
+\]
+
+Problem 10 is therefore the first example of a general phenomenon occurring throughout the theory of Abelian varieties.
+
+\subsection{Connection with Differential Forms and Periods}
+
+The proof of Problem 10 uses
+
+\[
+\frac{f'(z)}{f(z)}\,dz.
+\]
+
+This is a meromorphic differential.
+
+More generally, one studies integrals
+
+\[
+\int_\gamma \omega
+\]
+
+of holomorphic differentials.
+
+These period integrals determine:
+
+\begin{itemize}
+	\item Jacobians,
+	\item Hodge structures,
+	\item Period mappings,
+	\item Torelli-type theorems.
+\end{itemize}
+
+\subsection{Connection with Topology}
+
+The torus has fundamental group
+
+\[
+\pi_1(E)
+=
+\mathbb Z\oplus\mathbb Z.
+\]
+
+The generators correspond to loops around the periods
+
+\[
+\omega_1,
+\qquad
+\omega_2.
+\]
+
+Thus the lattice appearing in Problem 10 is ultimately a topological invariant.
+
+\begin{center}
+	\begin{tikzpicture}
+		\draw[thick] (0,0) ellipse (2 and 1.2);
+		
+		\draw[blue,very thick]
+		(-1.2,0)
+		arc(180:540:1.2 and 0.45);
+		
+		\draw[red,very thick]
+		(0,-1.2)
+		arc(-90:270:0.45 and 1.2);
+		
+		\node at (2.8,0.6)
+		{\(\omega_1\)};
+		
+		\node at (0.8,1.7)
+		{\(\omega_2\)};
+	\end{tikzpicture}
+\end{center}
+
+\subsection{Connection with Covering Spaces}
+
+Every torus is obtained from the universal covering
+
+\[
+\mathbb C
+\longrightarrow
+\mathbb C/\Lambda.
+\]
+
+The deck transformation group is
+
+\[
+\Lambda.
+\]
+
+Hence Problem 10 can also be interpreted in terms of covering-space theory and deck transformations.
+
+\subsection{Connection with Modular Forms}
+
+The coefficients
+
+\[
+g_2
+\qquad\text{and}\qquad
+g_3
+\]
+
+are modular forms.
+
+More precisely,
+
+\[
+g_2 \propto E_4,
+\qquad
+g_3 \propto E_6.
+\]
+
+Thus Problems 10 and 11 connect naturally to:
+
+\begin{itemize}
+	\item Eisenstein series,
+	\item modular forms,
+	\item modular curves,
+	\item the modular \(j\)-invariant.
+\end{itemize}
+
+\subsection{Connection with Number Theory}
+
+Elliptic curves play a central role in modern number theory.
+
+Applications include:
+
+\begin{itemize}
+	\item Mordell's theorem,
+	\item the Birch--Swinnerton--Dyer conjecture,
+	\item Fermat's Last Theorem,
+	\item elliptic curve cryptography.
+\end{itemize}
+
+The analytic origin of these curves lies in the theory developed around Problems 10 and 11.
+
+\subsection{Connection with Mathematical Physics}
+
+Elliptic functions occur naturally in:
+
+\begin{itemize}
+	\item pendulum motion,
+	\item rigid body dynamics,
+	\item integrable systems,
+	\item soliton equations,
+	\item string theory.
+\end{itemize}
+
+The Weierstrass function \(\wp(z)\) frequently appears as an exact solution of nonlinear differential equations.
+
+\subsection{Global Synthesis}
+
+\begin{center}
+	\begin{tikzpicture}[
+		node distance=1.5cm,
+		every node/.style={
+			draw,
+			rounded corners,
+			align=center,
+			text width=4.2cm
+		}
+		]
+		
+		\node[fill=green!15] (ell)
+		{Elliptic Functions};
+		
+		\node[fill=yellow!20,below=of ell] (p10)
+		{Problem 10};
+		
+		\node[fill=orange!20,below=of p10] (abel)
+		{Abel's Theorem};
+		
+		\node[fill=red!15,below=of abel] (jac)
+		{Jacobians};
+		
+		\node[fill=blue!15,right=4cm of ell] (p11)
+		{Problem 11};
+		
+		\node[fill=purple!15,below=of p11] (field)
+		{Function Fields};
+		
+		\node[fill=cyan!15,below=of field] (curves)
+		{Algebraic Curves};
+		
+		\node[fill=gray!20,below=2cm of abel,xshift=2cm] (modern)
+		{Modern Algebraic Geometry};
+		
+		\draw[->,thick] (ell) -- (p10);
+		\draw[->,thick] (p10) -- (abel);
+		\draw[->,thick] (abel) -- (jac);
+		
+		\draw[->,thick] (ell) -- (p11);
+		\draw[->,thick] (p11) -- (field);
+		\draw[->,thick] (field) -- (curves);
+		
+		\draw[->,thick] (jac) -- (modern);
+		\draw[->,thick] (curves) -- (modern);
+		
+	\end{tikzpicture}
+\end{center}
+
+Problems 10 and 11 therefore represent a remarkable meeting point of complex analysis, topology, algebraic geometry, arithmetic geometry, and mathematical physics. They provide the conceptual gateway from classical elliptic function theory to the modern language of Jacobians, Abelian varieties, moduli spaces, and schemes.	
+	
+\end{document}
+
