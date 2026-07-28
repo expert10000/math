@@ -4,8 +4,8 @@ $halt_on_error = 1;
 $out_dir = 'build';
 $aux_dir = 'build';
 $bibtex_use = 2;
-$bibtex = '/usr/bin/bibtex.original %O %B';
-$makeindex = '/usr/bin/makeindex %O -o %D %S';
+$bibtex = 'bibtex %O %B';
+$makeindex = 'makeindex %O -o %D %S';
 $clean_ext .= ' acr acn alg glg glo gls glsdefs ist xdy';
 
 # Build glossaries inside the configured output directory.
