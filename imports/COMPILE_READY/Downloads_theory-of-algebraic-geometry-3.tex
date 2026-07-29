@@ -1,0 +1,3922 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Fonts & layout
+% ------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{array}
+\usepackage{booktabs}
+
+% ------------------------------------------------------------
+% Math
+% ------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+% Standard operators
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Hom}{Hom}
+
+% Categories / notation
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\PreSh}{\mathbf{PreSh}}
+\newcommand{\Sh}{\mathbf{Sh}}
+
+\newcommand{\F}{\mathcal F}
+
+
+% basic number sets
+\newcommand{\RR}{\mathbb{R}}
+
+% sheaf letters
+
+\newcommand{\G}{\mathcal G}
+
+\newcommand{\GG}{\mathbb G}
+
+
+\newcommand{\AffSch}{\mathbf{AffSch}}
+\newcommand{\ZZ}{\mathbb Z}
+
+\newcommand{\PP}{\mathbb P}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{positioning,arrows.meta}
+
+% sheaf of continuous real-valued functions
+\newcommand{\Czero}{\mathcal C^0}        % “C^0”
+\newcommand{\CzeroX}{\mathcal C^0_X}     % sheaf on X (optional)
+
+\newcommand{\Cinfty}{\mathcal C^\infty}
+\newcommand{\CinftyM}{\mathcal C^\infty_M} % if you use C^\infty_M
+
+% number sets / standard symbols
+\newcommand{\CC}{\mathbb{C}}
+
+% structure sheaf notation in complex geometry
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\OOX}{\mathcal{O}_X} % optional convenience
+
+\newcommand{\Spec}{\operatorname{Spec}}
+
+\newcommand{\Sch}{\mathrm{Sch}}
+\newcommand{\Rings}{\mathrm{Rings}}
+
+\newcommand{\kappares}{\kappa}
+\newcommand{\GammaX}{\Gamma(X,\mathcal O_X)}
+
+% ------------------------------------------------------------
+% Links
+% ------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black,
+  pdftitle={Algebraic Geometry 3},
+  pdfauthor={},
+  pdfsubject={Lecture notes (reorganized)},
+  pdfcreator={TeXStudio / LaTeX}
+}
+
+% ------------------------------------------------------------
+% Diagrams
+% ------------------------------------------------------------
+\usepackage{tikz-cd}
+
+% ------------------------------------------------------------
+% Lists
+% ------------------------------------------------------------
+\usepackage{enumitem}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+
+% ------------------------------------------------------------
+% Theorem environments
+% ------------------------------------------------------------
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[subsection]
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{warning}[definition]{Warning}
+
+
+
+
+\newcommand{\B}{\mathcal B}
+\newcommand{\C}{\mathcal C}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\I}{\mathcal I}
+
+\newcommand{\A}{\mathcal A}
+
+\newcommand{\Ccal}{\mathcal C}
+
+\newcommand{\Fp}{\mathcal F'}      % subsheaf
+\newcommand{\Fpp}{\mathcal F''} 
+
+\newcommand{\GammaU}[1]{\Gamma(U,#1)}
+
+\DeclareMathOperator*{\colim}{colim}
+
+% circle
+\newcommand{\SSone}{S^1}
+
+
+% sheaves of continuous functions
+
+
+% ------------------------------------------------------------
+% Paragraph spacing
+% ------------------------------------------------------------
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+
+% ------------------------------------------------------------
+% Fancy headers
+% ------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Theory of Algebraic Geometry 3}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+
+
+
+\title{\bfseries Algebraic Geometry 3\\
+
+
+\large Lecture notes with examples}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+
+\section{Problem 11. The basic open subscheme \(D(f)\)}
+
+Let \(A\) be a ring, let \(f\in A\), and let
+\[
+X=\Spec A.
+\]
+Show that, as locally ringed spaces,
+\[
+\bigl(D(f),\mathcal O_X|_{D(f)}\bigr)\cong \Spec A_f .
+\]
+
+\textbf{Solution.}
+
+The statement says that passing from \(A\) to the localization \(A_f\) is geometrically the same as restricting \(\Spec A\) to the basic open set \(D(f)\).
+
+Recall that
+\[
+D(f)=\{\mathfrak p\in \Spec A : f\notin \mathfrak p\}.
+\]
+
+We first compare the underlying topological spaces.
+
+Prime ideals of \(A_f\) correspond exactly to prime ideals of \(A\) which do not contain \(f\). More precisely, we have mutually inverse maps
+\[
+\mathfrak p \longmapsto \mathfrak pA_f,
+\]
+and
+\[
+\mathfrak q \longmapsto \mathfrak q\cap A,
+\]
+where
+\[
+\mathfrak p\in \Spec A,\qquad f\notin \mathfrak p,
+\]
+and
+\[
+\mathfrak q\in \Spec A_f.
+\]
+Therefore there is a bijection
+\[
+\Spec A_f \longrightarrow D(f),
+\qquad
+\mathfrak q\longmapsto \mathfrak q\cap A.
+\]
+
+We now show that this bijection is a homeomorphism.
+
+A basic open subset of \(\Spec A_f\) has the form
+\[
+D\left(\frac g1\right)
+\]
+for some \(g\in A\). Under the above correspondence, this subset maps to
+\[
+D(g)\cap D(f)\subseteq \Spec A.
+\]
+But
+\[
+D(g)\cap D(f)=D(fg).
+\]
+Therefore basic opens in \(\Spec A_f\) correspond exactly to basic opens inside \(D(f)\). Hence the bijection
+\[
+\Spec A_f \cong D(f)
+\]
+is a homeomorphism.
+
+It remains to compare the structure sheaves.
+
+Let
+\[
+D(g)\cap D(f)=D(fg)
+\]
+be a basic open subset of \(D(f)\). On the restricted structure sheaf, we have
+\[
+\mathcal O_X|_{D(f)}(D(fg))
+=
+\mathcal O_X(D(fg))
+=
+A_{fg}.
+\]
+On the other hand, the corresponding basic open subset of \(\Spec A_f\) is
+\[
+D\left(\frac g1\right),
+\]
+and therefore
+\[
+\mathcal O_{\Spec A_f}\left(D\left(\frac g1\right)\right)
+=
+(A_f)_{g/1}.
+\]
+But localization is associative, so there is a canonical isomorphism
+\[
+(A_f)_{g/1}\cong A_{fg}.
+\]
+Explicitly,
+\[
+\frac{a/f^m}{(g/1)^n}
+\longmapsto
+\frac{a}{f^mg^n}.
+\]
+Thus the two sheaves agree on a basis of open sets.
+
+Moreover, these identifications are compatible with restriction maps. Indeed, if
+\[
+D(h)\cap D(f)\subseteq D(g)\cap D(f),
+\]
+then the restriction maps are exactly the usual localization maps
+\[
+A_{fg}\longrightarrow A_{fh}.
+\]
+Therefore the sheaves are canonically isomorphic.
+
+Finally, the stalks agree. If \(\mathfrak p\in D(f)\), then the corresponding prime of \(A_f\) is \(\mathfrak pA_f\), and
+\[
+(A_f)_{\mathfrak pA_f}\cong A_{\mathfrak p}.
+\]
+Hence the induced morphism on stalks is an isomorphism of local rings.
+
+Therefore
+\[
+\boxed{
+	\bigl(D(f),\mathcal O_X|_{D(f)}\bigr)\cong \Spec A_f
+}
+\]
+as locally ringed spaces.
+
+\section{Problem 12. The universal property of affine schemes}
+
+Let \(A\) be a ring and let \((X,\mathcal O_X)\) be a scheme. Show that there is a bijection
+\[
+\alpha:
+\Hom_{\Sch}(X,\Spec A)
+\longrightarrow
+\Hom_{\Rings}\bigl(A,\Gamma(X,\mathcal O_X)\bigr)
+\]
+given by associating to a morphism
+\[
+f:X\to \Spec A
+\]
+the induced map on global sections
+\[
+f^\#:
+\Gamma(\Spec A,\mathcal O_{\Spec A})
+\longrightarrow
+\Gamma(X,\mathcal O_X).
+\]
+
+Since
+\[
+\Gamma(\Spec A,\mathcal O_{\Spec A})\cong A,
+\]
+this gives a ring homomorphism
+\[
+A\to \Gamma(X,\mathcal O_X).
+\]
+
+\textbf{Solution.}
+
+We prove that the construction
+\[
+f\longmapsto f^\#
+\]
+gives a bijection
+\[
+\Hom_{\Sch}(X,\Spec A)
+\cong
+\Hom_{\Rings}(A,\Gamma(X,\mathcal O_X)).
+\]
+
+First, let
+\[
+f:X\to \Spec A
+\]
+be a morphism of schemes. A morphism of schemes consists of a continuous map of spaces together with a morphism of sheaves of rings
+\[
+f^\#:\mathcal O_{\Spec A}\to f_*\mathcal O_X.
+\]
+Taking global sections gives
+\[
+\Gamma(\Spec A,\mathcal O_{\Spec A})
+\longrightarrow
+\Gamma(\Spec A,f_*\mathcal O_X).
+\]
+But
+\[
+\Gamma(\Spec A,f_*\mathcal O_X)
+=
+\Gamma(X,\mathcal O_X).
+\]
+Also,
+\[
+\Gamma(\Spec A,\mathcal O_{\Spec A})\cong A.
+\]
+Hence every morphism
+\[
+f:X\to \Spec A
+\]
+determines a ring homomorphism
+\[
+\alpha(f):A\to \Gamma(X,\mathcal O_X).
+\]
+Thus \(\alpha\) is well-defined.
+
+Now we construct the inverse map.
+
+Suppose we are given a ring homomorphism
+\[
+\varphi:A\to \Gamma(X,\mathcal O_X).
+\]
+We must construct a morphism of schemes
+\[
+f_\varphi:X\to \Spec A.
+\]
+
+For every point \(x\in X\), we have natural maps
+\[
+\Gamma(X,\mathcal O_X)
+\longrightarrow
+\mathcal O_{X,x}
+\longrightarrow
+\kappa(x),
+\]
+where
+\[
+\kappa(x)=\mathcal O_{X,x}/\mathfrak m_x
+\]
+is the residue field of \(X\) at \(x\).
+
+Composing these maps with \(\varphi\), we get a ring homomorphism
+\[
+A
+\xrightarrow{\varphi}
+\Gamma(X,\mathcal O_X)
+\longrightarrow
+\mathcal O_{X,x}
+\longrightarrow
+\kappa(x).
+\]
+Since \(\kappa(x)\) is a field, the kernel of this homomorphism is a prime ideal of \(A\). Therefore we define
+\[
+f_\varphi(x)
+=
+\ker\left(A\to \kappa(x)\right).
+\]
+Thus we obtain a set map
+\[
+f_\varphi:X\to \Spec A.
+\]
+
+We now prove that \(f_\varphi\) is continuous.
+
+It is enough to compute the inverse image of a basic open subset
+\[
+D(a)\subseteq \Spec A.
+\]
+We have
+\[
+x\in f_\varphi^{-1}(D(a))
+\]
+if and only if
+\[
+a\notin f_\varphi(x).
+\]
+By definition of \(f_\varphi(x)\), this is equivalent to saying that the image of \(a\) in \(\kappa(x)\) is nonzero.
+
+But the image of \(a\) in \(\kappa(x)\) is the image of the germ
+\[
+\varphi(a)_x\in \mathcal O_{X,x}
+\]
+in the residue field \(\kappa(x)\). Since \(\mathcal O_{X,x}\) is a local ring, an element is invertible if and only if its image in the residue field is nonzero. Hence
+\[
+a\notin f_\varphi(x)
+\]
+if and only if
+\[
+\varphi(a)_x\in \mathcal O_{X,x}^{\times}.
+\]
+Therefore
+\[
+f_\varphi^{-1}(D(a))
+=
+\{x\in X:\varphi(a)_x\in \mathcal O_{X,x}^{\times}\}.
+\]
+The locus where a section of a sheaf of rings is invertible is open. Hence
+\[
+f_\varphi^{-1}(D(a))
+\]
+is open in \(X\). Therefore \(f_\varphi\) is continuous.
+
+Next we define the morphism of sheaves.
+
+Let \(D(a)\subseteq \Spec A\) be a basic open subset. Then
+\[
+\mathcal O_{\Spec A}(D(a))=A_a.
+\]
+On the open subset
+\[
+f_\varphi^{-1}(D(a))\subseteq X,
+\]
+the section \(\varphi(a)\) is invertible. Hence the map
+\[
+\varphi:A\to \Gamma(X,\mathcal O_X)
+\]
+restricts to a map
+\[
+A\to \Gamma(f_\varphi^{-1}(D(a)),\mathcal O_X),
+\]
+and since \(\varphi(a)\) becomes invertible on this open set, it extends uniquely to a ring homomorphism
+\[
+A_a
+\longrightarrow
+\Gamma(f_\varphi^{-1}(D(a)),\mathcal O_X).
+\]
+Explicitly,
+\[
+\frac b{a^n}
+\longmapsto
+\frac{\varphi(b)}{\varphi(a)^n}
+\]
+on \(f_\varphi^{-1}(D(a))\).
+
+These maps are compatible with restriction maps between basic opens. Therefore they glue to a morphism of sheaves
+\[
+f_\varphi^\#:\mathcal O_{\Spec A}\to (f_\varphi)_*\mathcal O_X.
+\]
+Thus we have constructed a morphism of ringed spaces
+\[
+f_\varphi:(X,\mathcal O_X)\to (\Spec A,\mathcal O_{\Spec A}).
+\]
+
+We must check that this is a morphism of locally ringed spaces. Let \(x\in X\), and put
+\[
+\mathfrak p=f_\varphi(x)\in \Spec A.
+\]
+The induced map on stalks is
+\[
+\mathcal O_{\Spec A,\mathfrak p}=A_{\mathfrak p}
+\longrightarrow
+\mathcal O_{X,x}.
+\]
+This map is local. Indeed, if \(a\in A\setminus \mathfrak p\), then the image of \(a\) in \(\kappa(x)\) is nonzero, so \(\varphi(a)_x\) is invertible in \(\mathcal O_{X,x}\). Therefore the localization map is well-defined. Moreover, the inverse image of the maximal ideal \(\mathfrak m_x\subseteq \mathcal O_{X,x}\) is precisely
+\[
+\mathfrak pA_{\mathfrak p}.
+\]
+Hence the stalk map
+\[
+A_{\mathfrak p}\to \mathcal O_{X,x}
+\]
+is a local homomorphism.
+
+Therefore \(f_\varphi\) is a morphism of schemes.
+
+Now we show that the two constructions are inverse to each other.
+
+First start with a morphism of schemes
+\[
+f:X\to \Spec A.
+\]
+It induces a ring homomorphism
+\[
+A\to \Gamma(X,\mathcal O_X).
+\]
+Constructing the map on points from this homomorphism gives
+\[
+x\longmapsto
+\ker\left(A\to \kappa(x)\right).
+\]
+But this is exactly the prime ideal corresponding to the image \(f(x)\in \Spec A\). Hence the reconstructed map agrees with \(f\) on points. The sheaf morphism also agrees with the original one, because on every basic open \(D(a)\), the morphism is forced by the corresponding localization map
+\[
+A_a\to \Gamma(f^{-1}(D(a)),\mathcal O_X).
+\]
+Therefore we recover the original morphism \(f\).
+
+Conversely, start with a ring homomorphism
+\[
+\varphi:A\to \Gamma(X,\mathcal O_X).
+\]
+Construct \(f_\varphi:X\to \Spec A\), and then take the induced map on global sections. On the basic open \(\Spec A=D(1)\), the construction gives
+\[
+A=A_1
+\longrightarrow
+\Gamma(X,\mathcal O_X),
+\]
+and this map is exactly \(\varphi\). Hence we recover the original ring homomorphism.
+
+Therefore the two constructions are inverse bijections.
+
+Thus
+\[
+\boxed{
+	\Hom_{\Sch}(X,\Spec A)
+	\cong
+	\Hom_{\Rings}\bigl(A,\Gamma(X,\mathcal O_X)\bigr)
+}.
+\]
+
+This is the universal property of affine schemes.
+
+\section{Problem 13. The final object \(\Spec \mathbb Z\)}
+
+Show that \(\Spec \mathbb Z\) is a final object in the category of schemes. In other words, show that for every scheme \(X\), there exists a unique morphism
+\[
+X\to \Spec \mathbb Z.
+\]
+
+\textbf{Solution.}
+
+A final object in a category is an object \(T\) such that for every object \(X\), there exists exactly one morphism
+\[
+X\to T.
+\]
+We must show that \(\Spec \mathbb Z\) has this property in the category of schemes.
+
+By Problem 12, for any scheme \(X\) and any ring \(A\), there is a natural bijection
+\[
+\Hom_{\Sch}(X,\Spec A)
+\cong
+\Hom_{\Rings}\bigl(A,\Gamma(X,\mathcal O_X)\bigr).
+\]
+Apply this with
+\[
+A=\mathbb Z.
+\]
+Then
+\[
+\Hom_{\Sch}(X,\Spec \mathbb Z)
+\cong
+\Hom_{\Rings}\bigl(\mathbb Z,\Gamma(X,\mathcal O_X)\bigr).
+\]
+
+Now let
+\[
+R=\Gamma(X,\mathcal O_X).
+\]
+There is exactly one unital ring homomorphism
+\[
+\mathbb Z\to R.
+\]
+It is given by
+\[
+n\longmapsto n\cdot 1_R.
+\]
+Indeed, any unital ring homomorphism must send
+\[
+1\longmapsto 1_R,
+\]
+and therefore it must send
+\[
+n=1+\cdots+1
+\]
+to
+\[
+n\cdot 1_R.
+\]
+Thus the homomorphism is forced and unique.
+
+Therefore
+\[
+\Hom_{\Rings}\bigl(\mathbb Z,\Gamma(X,\mathcal O_X)\bigr)
+\]
+has exactly one element. Hence
+\[
+\Hom_{\Sch}(X,\Spec \mathbb Z)
+\]
+also has exactly one element.
+
+So for every scheme \(X\), there exists a unique morphism
+\[
+X\to \Spec \mathbb Z.
+\]
+
+Therefore
+\[
+\boxed{
+	\Spec \mathbb Z \text{ is a final object in the category of schemes.}
+}
+\]
+
+This unique morphism
+\[
+X\to \Spec \mathbb Z
+\]
+is called the structure morphism of the scheme \(X\).
+
+\section{Problem 14. Gluing schemes}
+
+Let \(\{X_i\}_{i\in I}\) be a family of schemes. Suppose that for each \(i\neq j\), we are given an open subscheme
+\[
+U_{ij}\subseteq X_i
+\]
+and an isomorphism of schemes
+\[
+\varphi_{ij}:U_{ij}\to U_{ji}.
+\]
+Assume that the following compatibility conditions hold:
+
+\begin{enumerate}[label=\textup{(\arabic*)}]
+	\item For each \(i\neq j\),
+	\[
+	\varphi_{ji}=\varphi_{ij}^{-1}.
+	\]
+	
+	\item For all \(i,j,k\),
+	\[
+	\varphi_{ij}(U_{ij}\cap U_{ik})
+	=
+	U_{ji}\cap U_{jk},
+	\]
+	and
+	\[
+	\varphi_{ik}
+	=
+	\varphi_{jk}\circ \varphi_{ij}
+	\]
+	on \(U_{ij}\cap U_{ik}\).
+\end{enumerate}
+
+Show that there exists a scheme \(X\), together with morphisms
+\[
+\psi_i:X_i\to X,
+\]
+such that:
+
+\begin{enumerate}[label=\textup{(\arabic*)}]
+	\item each \(\psi_i\) is an isomorphism of \(X_i\) with an open subscheme of \(X\);
+	
+	\item the open subsets \(\psi_i(X_i)\) cover \(X\);
+	
+	\item
+	\[
+	\psi_i(U_{ij})
+	=
+	\psi_i(X_i)\cap \psi_j(X_j);
+	\]
+	
+	\item
+	\[
+	\psi_i
+	=
+	\psi_j\circ \varphi_{ij}
+	\]
+	on \(U_{ij}\).
+\end{enumerate}
+
+\textbf{Solution.}
+
+The idea is to construct \(X\) by taking the disjoint union of the schemes \(X_i\) and identifying points that correspond under the transition isomorphisms \(\varphi_{ij}\). Then we glue the structure sheaves using the same transition isomorphisms.
+
+For convenience, we set
+\[
+U_{ii}=X_i,
+\qquad
+\varphi_{ii}=\operatorname{id}_{X_i}.
+\]
+This allows us to write the compatibility conditions uniformly.
+
+First construct the underlying set.
+
+Let
+\[
+Y=\coprod_{i\in I}X_i
+\]
+be the disjoint union of the underlying sets of the \(X_i\). We define an equivalence relation \(\sim\) on \(Y\) as follows.
+
+For \(x\in X_i\) and \(y\in X_j\), declare
+\[
+x\sim y
+\]
+if
+\[
+x\in U_{ij}
+\]
+and
+\[
+y=\varphi_{ij}(x).
+\]
+The compatibility assumptions guarantee that this relation is symmetric and transitive.
+
+Indeed, symmetry follows from
+\[
+\varphi_{ji}=\varphi_{ij}^{-1}.
+\]
+For transitivity, suppose
+\[
+x\in X_i,
+\qquad
+y=\varphi_{ij}(x)\in X_j,
+\qquad
+z=\varphi_{jk}(y)\in X_k.
+\]
+Then the cocycle condition gives
+\[
+z
+=
+\varphi_{jk}(\varphi_{ij}(x))
+=
+\varphi_{ik}(x),
+\]
+whenever the expression is defined. Hence
+\[
+x\sim z.
+\]
+Thus the identifications are consistent.
+
+Define
+\[
+X=Y/{\sim}.
+\]
+Let
+\[
+\psi_i:X_i\to X
+\]
+be the natural map sending a point to its equivalence class.
+
+We now put a topology on \(X\). A subset
+\[
+V\subseteq X
+\]
+is declared to be open if and only if
+\[
+\psi_i^{-1}(V)\subseteq X_i
+\]
+is open for every \(i\in I\). This is the quotient topology with respect to the maps \(\psi_i\).
+
+With this topology, each \(\psi_i\) is continuous by construction.
+
+We now show that \(\psi_i\) identifies \(X_i\) homeomorphically with an open subset of \(X\).
+
+First, the image
+\[
+\psi_i(X_i)\subseteq X
+\]
+is open. Indeed, for every \(j\), we compute
+\[
+\psi_j^{-1}\bigl(\psi_i(X_i)\bigr)=U_{ji}.
+\]
+This is open in \(X_j\). Hence \(\psi_i(X_i)\) is open in \(X\).
+
+Second, the map
+\[
+\psi_i:X_i\to \psi_i(X_i)
+\]
+is a homeomorphism. Its inverse is well-defined because the gluing identifications do not identify two distinct points inside the same \(X_i\). This follows from the cocycle condition with \(\varphi_{ii}=\operatorname{id}_{X_i}\).
+
+Furthermore, the topology on \(\psi_i(X_i)\) agrees with the topology of \(X_i\), because for any open subset \(W\subseteq X_i\), the image \(\psi_i(W)\) is open in \(\psi_i(X_i)\), and conversely every open subset of \(\psi_i(X_i)\) pulls back to an open subset of \(X_i\).
+
+The images \(\psi_i(X_i)\) cover \(X\), since every equivalence class in \(X\) contains a point from some \(X_i\). Thus
+\[
+X=\bigcup_{i\in I}\psi_i(X_i).
+\]
+
+Next we describe the overlaps.
+
+By construction, a point of \(X_i\) and a point of \(X_j\) have the same image in \(X\) exactly when they are identified by \(\varphi_{ij}\). Hence
+\[
+\psi_i(X_i)\cap \psi_j(X_j)
+=
+\psi_i(U_{ij})
+=
+\psi_j(U_{ji}).
+\]
+Therefore
+\[
+\boxed{
+	\psi_i(U_{ij})
+	=
+	\psi_i(X_i)\cap \psi_j(X_j).
+}
+\]
+Also, for every \(x\in U_{ij}\),
+\[
+\psi_i(x)
+=
+\psi_j(\varphi_{ij}(x)).
+\]
+Thus
+\[
+\boxed{
+	\psi_i=\psi_j\circ\varphi_{ij}
+	\quad\text{on }U_{ij}.
+}
+\]
+
+It remains to construct the structure sheaf on \(X\).
+
+For an open subset \(V\subseteq X\), define
+\[
+V_i=\psi_i^{-1}(V)\subseteq X_i.
+\]
+A section of \(\mathcal O_X\) over \(V\) will be a family of sections
+\[
+(s_i)_{i\in I},
+\qquad
+s_i\in \Gamma(V_i,\mathcal O_{X_i}),
+\]
+which are compatible on overlaps.
+
+More precisely, define
+\[
+\mathcal O_X(V)
+\]
+to be the set of all families
+\[
+(s_i)_{i\in I}\in \prod_{i\in I}\Gamma(V_i,\mathcal O_{X_i})
+\]
+such that for every pair \(i,j\),
+\[
+s_i|_{V_i\cap U_{ij}}
+=
+\varphi_{ij}^{\#}
+\left(
+s_j|_{V_j\cap U_{ji}}
+\right).
+\]
+Here
+\[
+\varphi_{ij}^{\#}:
+\mathcal O_{X_j}|_{U_{ji}}
+\longrightarrow
+(\varphi_{ij})_*\mathcal O_{X_i}|_{U_{ij}}
+\]
+is the isomorphism of sheaves induced by the isomorphism of schemes
+\[
+\varphi_{ij}:U_{ij}\to U_{ji}.
+\]
+
+Restriction maps for \(\mathcal O_X\) are defined componentwise:
+if
+\[
+W\subseteq V,
+\]
+then
+\[
+(s_i)_{i\in I}
+\longmapsto
+(s_i|_{W_i})_{i\in I},
+\]
+where
+\[
+W_i=\psi_i^{-1}(W).
+\]
+The compatibility condition is preserved under restriction, so this gives a presheaf of rings.
+
+This presheaf is in fact a sheaf. Indeed, the sheaf condition can be checked componentwise on the open cover
+\[
+X=\bigcup_i \psi_i(X_i),
+\]
+and each \(\mathcal O_{X_i}\) is already a sheaf. The cocycle condition for the maps \(\varphi_{ij}\) guarantees that sections which agree pairwise on overlaps glue uniquely.
+
+Therefore we obtain a sheaf of rings
+\[
+\mathcal O_X
+\]
+on \(X\).
+
+Now we show that each \(X_i\) is identified with an open subscheme of \(X\).
+
+Restrict \(\mathcal O_X\) to the open subset \(\psi_i(X_i)\). Since
+\[
+\psi_i:X_i\to \psi_i(X_i)
+\]
+is a homeomorphism, we may pull back the restricted sheaf to \(X_i\). By construction of \(\mathcal O_X\), this pullback is canonically isomorphic to \(\mathcal O_{X_i}\). Therefore
+\[
+\psi_i:
+(X_i,\mathcal O_{X_i})
+\longrightarrow
+(\psi_i(X_i),\mathcal O_X|_{\psi_i(X_i)})
+\]
+is an isomorphism of ringed spaces.
+
+Moreover, the stalks of \(\mathcal O_X\) are local rings. Indeed, if \(x\in X\), then \(x\in \psi_i(X_i)\) for some \(i\). Choose \(x_i\in X_i\) with
+\[
+\psi_i(x_i)=x.
+\]
+Since \(\psi_i\) identifies \(X_i\) with the open subset \(\psi_i(X_i)\), we have
+\[
+\mathcal O_{X,x}\cong \mathcal O_{X_i,x_i}.
+\]
+But \(X_i\) is a scheme, so \(\mathcal O_{X_i,x_i}\) is a local ring. Hence \(\mathcal O_{X,x}\) is local.
+
+Thus
+\[
+(X,\mathcal O_X)
+\]
+is a locally ringed space.
+
+Finally, \(X\) is a scheme because it is covered by the open subsets
+\[
+\psi_i(X_i),
+\]
+and each open subset \(\psi_i(X_i)\) is isomorphic to the scheme \(X_i\). Since being a scheme is local on the underlying topological space, \(X\) is a scheme.
+
+We have constructed a scheme \(X\) and morphisms
+\[
+\psi_i:X_i\to X
+\]
+such that:
+
+\begin{enumerate}[label=\textup{(\arabic*)}]
+	\item each \(\psi_i\) identifies \(X_i\) with an open subscheme of \(X\);
+	
+	\item the open subschemes \(\psi_i(X_i)\) cover \(X\);
+	
+	\item
+	\[
+	\psi_i(U_{ij})
+	=
+	\psi_i(X_i)\cap \psi_j(X_j);
+	\]
+	
+	\item
+	\[
+	\psi_i
+	=
+	\psi_j\circ \varphi_{ij}
+	\quad\text{on }U_{ij}.
+	\]
+\end{enumerate}
+
+Therefore
+\[
+\boxed{
+	\text{schemes can be glued along compatible open subscheme isomorphisms.}
+}
+\]
+
+The glued scheme \(X\) is unique up to unique isomorphism with these properties.
+
+\section{Theory behind Problems 11--14}
+
+The four problems form a very important block in scheme theory. They explain how schemes are built, how affine schemes represent rings, why every scheme is naturally a scheme over \(\Spec\ZZ\), and how schemes can be glued from local pieces.
+
+The main conceptual chain is:
+\[
+\boxed{
+	\text{localization}
+	\Longleftrightarrow
+	\text{basic open subsets}
+}
+\]
+\[
+\boxed{
+	\text{ring maps}
+	\Longleftrightarrow
+	\text{maps into affine schemes}
+}
+\]
+\[
+\boxed{
+	\ZZ \text{ is initial in rings}
+	\Longleftrightarrow
+	\Spec\ZZ \text{ is final in schemes}
+}
+\]
+\[
+\boxed{
+	\text{schemes are locally affine}
+	\Longrightarrow
+	\text{schemes can be glued from compatible local pieces}
+}
+\]
+
+\subsection{Localization and basic open subsets}
+
+Problem 11 says that if \(A\) is a ring, \(f\in A\), and
+\[
+X=\Spec A,
+\]
+then
+\[
+\bigl(D(f),\OO_X|_{D(f)}\bigr)\cong \Spec A_f.
+\]
+
+This is one of the most important dictionary entries in algebraic geometry.
+
+Algebraically, localizing \(A\) at \(f\) means forcing \(f\) to become invertible:
+\[
+A_f=A\left[\frac1f\right].
+\]
+
+Geometrically, forcing \(f\) to be invertible means restricting attention to those prime ideals where \(f\) does not vanish:
+\[
+D(f)=\{\mathfrak p\in \Spec A:f\notin \mathfrak p\}.
+\]
+
+Thus the geometric meaning of localization is:
+\[
+\boxed{
+	A_f \text{ describes the open part of } \Spec A
+	\text{ where } f \text{ is invertible.}
+}
+\]
+
+\subsection{Why \(D(f)\) corresponds to \(A_f\)}
+
+A point of \(\Spec A\) is a prime ideal \(\mathfrak p\subset A\). A point of \(\Spec A_f\) is a prime ideal of \(A_f\).
+
+Prime ideals of \(A_f\) correspond exactly to prime ideals \(\mathfrak p\subset A\) such that
+\[
+f\notin\mathfrak p.
+\]
+
+Indeed, if \(f\in\mathfrak p\), then after localization \(f\) becomes a unit. Hence \(\mathfrak pA_f\) would contain a unit, so it could not be a proper prime ideal.
+
+Therefore
+\[
+\Spec A_f
+\cong
+\{\mathfrak p\in\Spec A:f\notin\mathfrak p\}
+=
+D(f).
+\]
+
+Equivalently,
+\[
+\boxed{
+	\Spec A_f=\Spec A\setminus V(f).
+}
+\]
+
+So localization removes the closed subset where \(f=0\).
+
+\subsection{Sheaf-theoretic meaning}
+
+The structure sheaf \(\OO_{\Spec A}\) records regular functions on open subsets.
+
+On a basic open subset \(D(g)\subseteq\Spec A\), one has
+\[
+\OO_{\Spec A}(D(g))=A_g.
+\]
+
+On the smaller open subset
+\[
+D(f)\cap D(g)=D(fg),
+\]
+the sections are
+\[
+\OO_{\Spec A}(D(fg))=A_{fg}.
+\]
+
+But in \(\Spec A_f\), the corresponding basic open subset is
+\[
+D\left(\frac g1\right),
+\]
+and its sections are
+\[
+\OO_{\Spec A_f}\left(D\left(\frac g1\right)\right)
+=
+(A_f)_{g/1}.
+\]
+
+Since localization is associative, there is a canonical isomorphism
+\[
+(A_f)_{g/1}\cong A_{fg}.
+\]
+
+Thus the restricted sheaf on \(D(f)\) is the same as the structure sheaf of \(\Spec A_f\).
+
+Hence the full geometric statement is:
+\[
+\boxed{
+	\text{The open subscheme }D(f)\subseteq\Spec A
+	\text{ is affine, with coordinate ring }A_f.
+}
+\]
+
+\subsection{The localization diagram}
+
+The localization map
+\[
+A\longrightarrow A_f
+\]
+induces a morphism of schemes in the opposite direction:
+\[
+\Spec A_f\longrightarrow \Spec A.
+\]
+
+Its image is precisely \(D(f)\). Thus we have the diagram
+\[
+\begin{tikzcd}
+	A \arrow[r] & A_f \\
+	\Spec A & \Spec A_f \arrow[l]
+\end{tikzcd}
+\]
+
+The arrow on rings goes from \(A\) to \(A_f\), but the arrow on spectra goes from \(\Spec A_f\) to \(\Spec A\). This is the usual contravariance of the \(\Spec\) construction.
+
+Therefore
+\[
+\boxed{
+	\Spec A_f\to\Spec A
+	\text{ is an open immersion with image }D(f).
+}
+\]
+
+\subsection{The universal property of affine schemes}
+
+Problem 12 states that for a ring \(A\) and a scheme \((X,\OO_X)\), there is a natural bijection
+\[
+\Hom_{\Sch}(X,\Spec A)
+\cong
+\Hom_{\Rings}\bigl(A,\Gamma(X,\OO_X)\bigr).
+\]
+
+This is the fundamental universal property of affine schemes.
+
+It says:
+\[
+\boxed{
+	\text{To map a scheme }X\text{ into }\Spec A,
+	\text{ it is enough to give a ring map from }A
+	\text{ to the global functions on }X.
+}
+\]
+
+In other words, \(\Spec A\) represents the functor
+\[
+X\longmapsto
+\Hom_{\Rings}\bigl(A,\Gamma(X,\OO_X)\bigr).
+\]
+
+\subsection{Why the direction reverses}
+
+A morphism of schemes
+\[
+f:X\to\Spec A
+\]
+induces a morphism of sheaves
+\[
+f^\#:\OO_{\Spec A}\to f_*\OO_X.
+\]
+
+Taking global sections gives
+\[
+\Gamma(\Spec A,\OO_{\Spec A})
+\longrightarrow
+\Gamma(X,\OO_X).
+\]
+
+But
+\[
+\Gamma(\Spec A,\OO_{\Spec A})\cong A.
+\]
+
+Therefore every scheme morphism gives a ring homomorphism
+\[
+A\to\Gamma(X,\OO_X).
+\]
+
+Thus the direction reverses:
+\[
+X\to\Spec A
+\]
+corresponds to
+\[
+A\to\Gamma(X,\OO_X).
+\]
+
+This is the same contravariance that appears in affine algebraic geometry.
+
+\subsection{How a ring map defines a scheme morphism}
+
+Suppose we are given a ring homomorphism
+\[
+\varphi:A\to\Gamma(X,\OO_X).
+\]
+
+We construct a morphism of schemes
+\[
+f_\varphi:X\to\Spec A.
+\]
+
+For each point \(x\in X\), there are natural maps
+\[
+\Gamma(X,\OO_X)
+\longrightarrow
+\OO_{X,x}
+\longrightarrow
+\kappa(x),
+\]
+where
+\[
+\kappa(x)=\OO_{X,x}/\mathfrak m_x
+\]
+is the residue field at \(x\).
+
+Composing with \(\varphi\), we obtain
+\[
+A
+\xrightarrow{\varphi}
+\Gamma(X,\OO_X)
+\longrightarrow
+\OO_{X,x}
+\longrightarrow
+\kappa(x).
+\]
+
+The kernel is a prime ideal of \(A\), because \(\kappa(x)\) is a field. Hence we define
+\[
+f_\varphi(x)=\ker(A\to\kappa(x)).
+\]
+
+Thus a point \(x\in X\) is sent to the prime ideal of functions in \(A\) that vanish at \(x\), after interpreting those functions as global sections on \(X\):
+\[
+\boxed{
+	f_\varphi(x)
+	=
+	\{a\in A:\varphi(a)\text{ vanishes at }x\}.
+}
+\]
+
+\subsection{Continuity of the induced map}
+
+To prove that \(f_\varphi\) is continuous, it is enough to check inverse images of basic opens.
+
+Take
+\[
+D(a)\subseteq\Spec A.
+\]
+
+Then
+\[
+x\in f_\varphi^{-1}(D(a))
+\]
+if and only if
+\[
+a\notin f_\varphi(x).
+\]
+
+By definition of \(f_\varphi(x)\), this means that the image of \(a\) in \(\kappa(x)\) is nonzero. Equivalently, the germ
+\[
+\varphi(a)_x\in\OO_{X,x}
+\]
+is invertible.
+
+Therefore
+\[
+f_\varphi^{-1}(D(a))
+=
+\{x\in X:\varphi(a)_x\in\OO_{X,x}^{\times}\}.
+\]
+
+The locus where a section is invertible is open. Hence \(f_\varphi^{-1}(D(a))\) is open in \(X\), and so \(f_\varphi\) is continuous.
+
+This gives an important principle:
+\[
+\boxed{
+	\text{Invertibility of a section is an open condition.}
+}
+\]
+
+\subsection{The local ring condition}
+
+A morphism of schemes is not only a continuous map together with a sheaf morphism. It must be a morphism of locally ringed spaces.
+
+That means that for every \(x\in X\), the induced map on stalks
+\[
+\OO_{\Spec A,f(x)}
+\longrightarrow
+\OO_{X,x}
+\]
+must be a local homomorphism.
+
+If
+\[
+f(x)=\mathfrak p,
+\]
+then
+\[
+\OO_{\Spec A,\mathfrak p}=A_{\mathfrak p}.
+\]
+
+The stalk map is therefore
+\[
+A_{\mathfrak p}\to\OO_{X,x}.
+\]
+
+This map is local because exactly the elements outside \(\mathfrak p\) become invertible at \(x\). In other words, the construction of \(f_\varphi(x)\) using the residue field \(\kappa(x)\) guarantees that the resulting stalk map is local.
+
+Thus the universal property of affine schemes works precisely because the point \(f_\varphi(x)\) is defined by the kernel
+\[
+\ker(A\to\kappa(x)).
+\]
+
+\subsection{The affine special case}
+
+If
+\[
+X=\Spec B,
+\]
+then
+\[
+\Gamma(X,\OO_X)\cong B.
+\]
+
+Therefore the universal property gives
+\[
+\Hom_{\Sch}(\Spec B,\Spec A)
+\cong
+\Hom_{\Rings}(A,B).
+\]
+
+This is the usual anti-equivalence between affine schemes and rings:
+\[
+\boxed{
+	\AffSch\simeq \Rings^{\mathrm{op}}.
+}
+\]
+
+Thus affine schemes are rings viewed geometrically, with arrows reversed.
+
+\subsection{\(\Spec\ZZ\) as the final scheme}
+
+Problem 13 says that
+\[
+\Spec\ZZ
+\]
+is a final object in the category of schemes.
+
+This means that for every scheme \(X\), there exists exactly one morphism
+\[
+X\to\Spec\ZZ.
+\]
+
+This unique morphism is called the structure morphism of \(X\).
+
+\subsection{Why this follows from the universal property}
+
+Using the universal property of affine schemes, we get
+\[
+\Hom_{\Sch}(X,\Spec\ZZ)
+\cong
+\Hom_{\Rings}\bigl(\ZZ,\Gamma(X,\OO_X)\bigr).
+\]
+
+Let
+\[
+R=\Gamma(X,\OO_X).
+\]
+
+There is exactly one unital ring homomorphism
+\[
+\ZZ\to R.
+\]
+
+It is given by
+\[
+n\longmapsto n\cdot 1_R.
+\]
+
+Indeed, any unital ring homomorphism must send
+\[
+1\longmapsto 1_R,
+\]
+and therefore it must send
+\[
+n=1+\cdots+1
+\]
+to
+\[
+n\cdot 1_R.
+\]
+
+Thus
+\[
+\Hom_{\Rings}\bigl(\ZZ,\Gamma(X,\OO_X)\bigr)
+\]
+has exactly one element. Hence
+\[
+\Hom_{\Sch}(X,\Spec\ZZ)
+\]
+also has exactly one element.
+
+Therefore
+\[
+\boxed{
+	\Spec\ZZ
+	\text{ is final in }\Sch.
+}
+\]
+
+\subsection{Conceptual meaning of \(\Spec\ZZ\)}
+
+In the category of rings, \(\ZZ\) is initial:
+\[
+\ZZ\to R
+\]
+uniquely for every unital ring \(R\).
+
+Because \(\Spec\) reverses arrows, this becomes
+\[
+\Spec R\to\Spec\ZZ
+\]
+uniquely for every affine scheme \(\Spec R\).
+
+Problem 13 says that the same remains true for all schemes, not only affine schemes.
+
+Thus:
+\[
+\boxed{
+	\ZZ \text{ initial in rings}
+	\quad\Longleftrightarrow\quad
+	\Spec\ZZ \text{ final in schemes}.
+}
+\]
+
+Every scheme is automatically a scheme over \(\Spec\ZZ\). That is, every scheme \(X\) has a unique structure morphism
+\[
+X\to\Spec\ZZ.
+\]
+
+So the category of schemes may be viewed as
+\[
+\Sch=\Sch_{\Spec\ZZ}.
+\]
+
+This is why \(\Spec\ZZ\) is often regarded as the absolute base scheme.
+
+In algebraic geometry, one often studies schemes over a base scheme \(S\):
+\[
+X\to S.
+\]
+
+For example,
+\[
+X\to\Spec k
+\]
+means that \(X\) is a scheme over a field \(k\).
+
+But every scheme has at least one canonical base:
+\[
+X\to\Spec\ZZ.
+\]
+
+Thus \(\Spec\ZZ\) plays the role of the universal arithmetic base.
+
+\subsection{Gluing schemes}
+
+Problem 14 is one of the central construction theorems in scheme theory.
+
+It says that if we have schemes \(X_i\), and if we know how to identify open subschemes
+\[
+U_{ij}\subseteq X_i
+\]
+with open subschemes
+\[
+U_{ji}\subseteq X_j,
+\]
+then under suitable compatibility conditions we can glue the \(X_i\) into a single scheme \(X\).
+
+The central idea is:
+\[
+\boxed{
+	\text{A scheme is a space locally built from affine schemes, glued along open subschemes.}
+}
+\]
+
+\subsection{Basic gluing picture}
+
+Suppose we have two schemes \(X_1\) and \(X_2\), with open subschemes
+\[
+U_{12}\subseteq X_1,
+\qquad
+U_{21}\subseteq X_2,
+\]
+and an isomorphism
+\[
+\varphi_{12}:U_{12}\to U_{21}.
+\]
+
+Then we can form the glued scheme
+\[
+X=X_1\cup_{\varphi_{12}}X_2.
+\]
+
+This means that points
+\[
+x\in U_{12}
+\]
+and
+\[
+\varphi_{12}(x)\in U_{21}
+\]
+are identified.
+
+Symbolically,
+\[
+x\sim\varphi_{12}(x).
+\]
+
+The result is a new scheme \(X\) containing \(X_1\) and \(X_2\) as open subschemes.
+
+\subsection{Why compatibility is needed}
+
+When there are more than two schemes, we need compatibility on triple overlaps.
+
+Suppose we have \(X_i,X_j,X_k\). There are isomorphisms
+\[
+\varphi_{ij}:U_{ij}\to U_{ji},
+\]
+\[
+\varphi_{jk}:U_{jk}\to U_{kj},
+\]
+and
+\[
+\varphi_{ik}:U_{ik}\to U_{ki}.
+\]
+
+If a point starts in \(X_i\), there may be two ways to move it to \(X_k\):
+\[
+X_i\to X_j\to X_k,
+\]
+or directly
+\[
+X_i\to X_k.
+\]
+
+The cocycle condition says that these two ways must agree:
+\[
+\varphi_{ik}
+=
+\varphi_{jk}\circ\varphi_{ij}.
+\]
+
+This prevents contradictory identifications. Without this condition, the quotient space could be badly defined, or the sheaves might not glue consistently.
+
+\subsection{The two layers of gluing}
+
+Gluing schemes has two layers:
+\[
+\boxed{
+	\text{topological gluing}
+}
+\]
+and
+\[
+\boxed{
+	\text{sheaf gluing}.
+}
+\]
+
+First we glue the underlying topological spaces. Then we glue the structure sheaves.
+
+Both are necessary. A scheme is not merely a topological space. It is a locally ringed space
+\[
+(X,\OO_X).
+\]
+
+So after identifying points topologically, we must also identify the rings of regular functions on overlaps.
+
+\subsection{Topological gluing}
+
+Start with the disjoint union
+\[
+Y=\coprod_i X_i.
+\]
+
+Then impose the equivalence relation
+\[
+x\sim\varphi_{ij}(x)
+\qquad
+(x\in U_{ij}).
+\]
+
+Define
+\[
+X=Y/{\sim}.
+\]
+
+The maps
+\[
+\psi_i:X_i\to X
+\]
+send a point to its equivalence class.
+
+The topology on \(X\) is the quotient topology: a subset \(V\subseteq X\) is open exactly when
+\[
+\psi_i^{-1}(V)
+\]
+is open in \(X_i\) for every \(i\).
+
+The images
+\[
+\psi_i(X_i)
+\]
+are open subsets of \(X\), and they cover \(X\):
+\[
+X=\bigcup_i\psi_i(X_i).
+\]
+
+Moreover, the overlap of the images is precisely the glued open piece:
+\[
+\psi_i(X_i)\cap\psi_j(X_j)=\psi_i(U_{ij}).
+\]
+
+This is the topological content of gluing.
+
+\subsection{Sheaf gluing}
+
+Now we define the structure sheaf \(\OO_X\).
+
+For an open subset \(V\subseteq X\), a section of \(\OO_X(V)\) is a family
+\[
+(s_i)_i,
+\]
+where
+\[
+s_i\in\OO_{X_i}(\psi_i^{-1}(V)).
+\]
+
+But the sections must agree on overlaps.
+
+On \(U_{ij}\), the schemes \(X_i\) and \(X_j\) are identified by
+\[
+\varphi_{ij}:U_{ij}\to U_{ji}.
+\]
+
+Therefore we require
+\[
+s_i|_{U_{ij}}
+=
+\varphi_{ij}^{\#}(s_j|_{U_{ji}}).
+\]
+
+More precisely, for every open \(V\subseteq X\), one may define
+\[
+\OO_X(V)
+=
+\left\{
+(s_i)_i:
+s_i\in\OO_{X_i}(\psi_i^{-1}(V)),
+\text{ compatible on all overlaps}
+\right\}.
+\]
+
+This is the standard sheaf-gluing construction.
+
+\subsection{Why the glued object is a scheme}
+
+After constructing \((X,\OO_X)\), each image
+\[
+\psi_i(X_i)
+\]
+is open in \(X\), and we have an isomorphism
+\[
+X_i\cong\psi_i(X_i).
+\]
+
+Since each \(X_i\) is a scheme, every \(\psi_i(X_i)\) is a scheme.
+
+The open subsets \(\psi_i(X_i)\) cover \(X\), so \(X\) is locally a scheme. Hence \(X\) is a scheme.
+
+This is the key local principle:
+\[
+\boxed{
+	\text{Being a scheme is local on the underlying topological space.}
+}
+\]
+
+That means that if a locally ringed space is covered by open subsets that are schemes, then the whole space is a scheme.
+
+\subsection{Why gluing is foundational}
+
+Gluing is the reason schemes can be built from affine pieces.
+
+Every scheme \(X\) has an open cover by affine schemes:
+\[
+X=\bigcup_i U_i,
+\qquad
+U_i\cong\Spec A_i.
+\]
+
+On overlaps,
+\[
+U_i\cap U_j,
+\]
+we have open subschemes of both \(U_i\) and \(U_j\). These are identified inside \(X\). Therefore \(X\) can be recovered by gluing the affine pieces \(U_i\) along their overlaps.
+
+Schemes are not necessarily globally affine, but they are locally affine.
+
+This is analogous to manifolds:
+\[
+\boxed{
+	\text{manifolds are glued from open subsets of }\mathbb R^n,
+}
+\]
+while
+\[
+\boxed{
+	\text{schemes are glued from affine schemes }\Spec A.
+}
+\]
+
+\subsection{Example: the projective line from two affine lines}
+
+The standard example of gluing schemes is the projective line \(\PP^1_k\).
+
+Take two copies of the affine line:
+\[
+X_0=\Spec k[t],
+\]
+\[
+X_1=\Spec k[s].
+\]
+
+Inside \(X_0\), remove the origin:
+\[
+D(t)=\Spec k[t,t^{-1}].
+\]
+
+Inside \(X_1\), remove the origin:
+\[
+D(s)=\Spec k[s,s^{-1}].
+\]
+
+Glue these two open subschemes by the isomorphism
+\[
+s=\frac1t.
+\]
+
+Algebraically, this comes from the ring isomorphism
+\[
+k[s,s^{-1}]
+\cong
+k[t,t^{-1}],
+\qquad
+s\mapsto t^{-1}.
+\]
+
+The glued scheme is
+\[
+\PP^1_k.
+\]
+
+Thus
+\[
+\boxed{
+	\PP^1_k
+	=
+	\AA^1_k
+	\cup_{\GG_m}
+	\AA^1_k.
+}
+\]
+
+Here
+\[
+\GG_m=\Spec k[t,t^{-1}]
+\]
+is the overlap.
+
+This example is the scheme-theoretic version of covering a geometric object by two coordinate charts, except now the transition function is algebraic.
+
+\subsection{Example: projective space by affine charts}
+
+More generally, projective space \(\PP^n_k\) is glued from \(n+1\) affine charts:
+\[
+U_i\cong\AA^n_k.
+\]
+
+Each chart is the locus where the homogeneous coordinate \(x_i\neq 0\).
+
+The overlaps
+\[
+U_i\cap U_j
+\]
+are basic open subsets inside affine space, and the transition functions are given by ratios of homogeneous coordinates.
+
+Thus projective space is a fundamental example of a non-affine scheme built by gluing affine schemes.
+
+\subsection{How Problems 11--14 fit together}
+
+Problem 11 tells us that basic open subsets of affine schemes are affine:
+\[
+D(f)\cong\Spec A_f.
+\]
+
+Problem 12 tells us that maps into affine schemes are controlled by ring maps:
+\[
+X\to\Spec A
+\quad\Longleftrightarrow\quad
+A\to\Gamma(X,\OO_X).
+\]
+
+Problem 13 applies Problem 12 to \(A=\ZZ\), proving that every scheme has a unique map to \(\Spec\ZZ\).
+
+Problem 14 tells us that schemes can be constructed by gluing open pieces.
+
+Together, these form the local-to-global foundation of scheme theory:
+\[
+\boxed{
+	\text{Affine schemes are local building blocks.}
+}
+\]
+\[
+\boxed{
+	\text{Basic opens correspond to localizations.}
+}
+\]
+\[
+\boxed{
+	\text{Morphisms into affine schemes are controlled by global functions.}
+}
+\]
+\[
+\boxed{
+	\text{General schemes are obtained by gluing affine schemes along open subschemes.}
+}
+\]
+
+\subsection{Important dictionary}
+
+\[
+\begin{array}{>{\raggedright\arraybackslash}p{6cm}
+		|>{\raggedright\arraybackslash}p{7cm}}
+	\toprule
+	\textbf{Algebra} & \textbf{Geometry} \\
+	\midrule
+	\(A\) & \(\Spec A\) \\
+	\midrule
+	\(a\in A\) & regular function on \(\Spec A\) \\
+	\midrule
+	\(A_f\) & \(D(f)\subseteq\Spec A\) \\
+	\midrule
+	\(A\to B\) & \(\Spec B\to\Spec A\) \\
+	\midrule
+	\(\ZZ\to R\) & \(\Spec R\to\Spec\ZZ\) \\
+	\midrule
+	localization & restriction to a basic open subset \\
+	\midrule
+	compatible ring data & glued scheme \\
+	\bottomrule
+\end{array}
+\]
+
+\subsection{Big picture}
+
+The philosophy is:
+\[
+\boxed{
+	\text{A scheme is a space locally described by commutative rings.}
+}
+\]
+
+The local models are affine schemes:
+\[
+\Spec A.
+\]
+
+The local open pieces inside affine schemes are again affine:
+\[
+D(f)\cong\Spec A_f.
+\]
+
+Morphisms into affine schemes are controlled by ring maps:
+\[
+X\to\Spec A
+\quad\Longleftrightarrow\quad
+A\to\Gamma(X,\OO_X).
+\]
+
+Every scheme has a canonical arithmetic base:
+\[
+X\to\Spec\ZZ.
+\]
+
+General schemes are built by gluing affine or open scheme pieces:
+\[
+X=\bigcup_i X_i.
+\]
+
+Thus the conceptual foundation is:
+\[
+\boxed{
+	\text{local algebra}
+	+
+	\text{topological gluing}
+	+
+	\text{sheaf gluing}
+	=
+	\text{scheme geometry}.
+}
+\]
+
+\section{Examples for Problems 11--14}
+
+This section gives examples illustrating the four main ideas from Problems 11--14:
+
+\[
+\boxed{
+	\text{localization corresponds to basic open subsets}
+}
+\]
+
+\[
+\boxed{
+	\text{maps into affine schemes are controlled by global functions}
+}
+\]
+
+\[
+\boxed{
+	\Spec\mathbb Z \text{ is the final scheme}
+}
+\]
+
+\[
+\boxed{
+	\text{schemes are constructed by gluing open pieces}
+}
+\]
+
+\subsection{Example 1. The punctured affine line as a localization}
+
+Let
+\[
+A=k[x].
+\]
+Then
+\[
+\Spec k[x]=\mathbb A^1_k.
+\]
+
+Take
+\[
+f=x.
+\]
+Then
+\[
+D(x)=\{\mathfrak p\in \Spec k[x]:x\notin\mathfrak p\}.
+\]
+
+Geometrically, \(D(x)\) is the affine line with the origin removed:
+\[
+D(x)=\mathbb A^1_k\setminus\{0\}.
+\]
+
+By Problem 11,
+\[
+D(x)\cong \Spec k[x]_x.
+\]
+
+But
+\[
+k[x]_x=k[x,x^{-1}].
+\]
+
+Therefore
+\[
+\boxed{
+	\mathbb A^1_k\setminus\{0\}
+	\cong
+	\Spec k[x,x^{-1}].
+}
+\]
+
+This scheme is often denoted
+\[
+\mathbb G_m=\Spec k[x,x^{-1}],
+\]
+the multiplicative group scheme.
+
+The lesson is:
+\[
+\boxed{
+	\text{removing the zero set of }x
+	\text{ means making }x\text{ invertible.}
+}
+\]
+
+\subsection{Example 2. A basic open subset of the affine plane}
+
+Let
+\[
+A=k[x,y].
+\]
+Then
+\[
+\Spec k[x,y]=\mathbb A^2_k.
+\]
+
+Take
+\[
+f=x.
+\]
+
+Then
+\[
+D(x)=\{\mathfrak p\in \Spec k[x,y]:x\notin\mathfrak p\}.
+\]
+
+Geometrically, this is the affine plane with the \(y\)-axis removed, because the \(y\)-axis is defined by
+\[
+x=0.
+\]
+
+By Problem 11,
+\[
+D(x)\cong \Spec k[x,y]_x.
+\]
+
+But
+\[
+k[x,y]_x=k[x,x^{-1},y].
+\]
+
+Hence
+\[
+\boxed{
+	D(x)\cong \Spec k[x,x^{-1},y].
+}
+\]
+
+Similarly,
+\[
+D(y)\cong \Spec k[x,y,y^{-1}].
+\]
+
+Their intersection is
+\[
+D(x)\cap D(y)=D(xy).
+\]
+
+Therefore
+\[
+D(x)\cap D(y)
+\cong
+\Spec k[x,y,(xy)^{-1}].
+\]
+
+Equivalently,
+\[
+k[x,y,(xy)^{-1}]
+=
+k[x,x^{-1},y,y^{-1}].
+\]
+
+Thus
+\[
+\boxed{
+	D(x)\cap D(y)
+	\cong
+	\Spec k[x,x^{-1},y,y^{-1}].
+}
+\]
+
+The lesson is:
+\[
+\boxed{
+	D(x)\cap D(y)=D(xy),
+}
+\]
+and algebraically this corresponds to localizing at both \(x\) and \(y\).
+
+\subsection{Example 3. Basic opens in \(\Spec\mathbb Z\)}
+
+Let
+\[
+A=\mathbb Z.
+\]
+
+Then
+\[
+\Spec\mathbb Z
+\]
+has one generic point \((0)\), and one closed point \((p)\) for every prime number \(p\).
+
+Take a prime number \(p\). Then
+\[
+D(p)=\{\mathfrak q\in\Spec\mathbb Z:p\notin\mathfrak q\}.
+\]
+
+The closed point \((p)\) is removed, because
+\[
+p\in(p).
+\]
+
+But for every other prime \(q\neq p\), we have
+\[
+p\notin(q).
+\]
+
+Also,
+\[
+p\notin(0).
+\]
+
+Therefore
+\[
+D(p)=\Spec\mathbb Z\setminus\{(p)\}.
+\]
+
+By Problem 11,
+\[
+D(p)\cong \Spec \mathbb Z[1/p].
+\]
+
+Here
+\[
+\mathbb Z[1/p]
+=
+\left\{
+\frac{a}{p^n}:a\in\mathbb Z,\ n\geq 0
+\right\}.
+\]
+
+Thus
+\[
+\boxed{
+	D(p)\cong \Spec \mathbb Z[1/p].
+}
+\]
+
+The important point is that localizing at the element \(p\) gives \(\mathbb Z[1/p]\), not the local ring \(\mathbb Z_{(p)}\). The ring \(\mathbb Z[1/p]\) makes \(p\) invertible, whereas \(\mathbb Z_{(p)}\) inverts all integers not divisible by \(p\).
+
+The lesson is:
+\[
+\boxed{
+	D(p)\text{ removes the point }(p)
+	\text{ and makes }p\text{ invertible.}
+}
+\]
+
+\subsection{Example 4. Sections on a basic open subset}
+
+Let
+\[
+X=\Spec k[x].
+\]
+
+Then
+\[
+\Gamma(X,\mathcal O_X)=k[x].
+\]
+
+On the basic open subset
+\[
+D(x)\subseteq X,
+\]
+the sections are
+\[
+\mathcal O_X(D(x))=k[x]_x.
+\]
+
+Therefore
+\[
+\mathcal O_X(D(x))=k[x,x^{-1}].
+\]
+
+So a regular function on \(D(x)\) may have the form
+\[
+x^2+3x+\frac1x+\frac5{x^3}.
+\]
+
+This is regular on \(D(x)\), because \(x\neq 0\) there. However, it is not regular on all of \(\mathbb A^1_k\), because it has a pole at \(x=0\).
+
+Thus:
+\[
+\boxed{
+	\text{functions regular on }D(x)
+	\text{ may have powers of }x\text{ in the denominator.}
+}
+\]
+
+This illustrates the sheaf formula
+\[
+\mathcal O_{\Spec A}(D(f))=A_f.
+\]
+
+\subsection{Example 5. Maps to the affine line}
+
+Let
+\[
+A=k[t].
+\]
+
+Then
+\[
+\Spec A=\mathbb A^1_k.
+\]
+
+By Problem 12,
+\[
+\Hom_{\Sch}(X,\mathbb A^1_k)
+\cong
+\Hom_{\Rings}\bigl(k[t],\Gamma(X,\mathcal O_X)\bigr).
+\]
+
+If we work in the category of \(k\)-schemes, this becomes
+\[
+\Hom_{k\text{-}\Sch}(X,\mathbb A^1_k)
+\cong
+\Hom_{k\text{-}\mathrm{alg}}\bigl(k[t],\Gamma(X,\mathcal O_X)\bigr).
+\]
+
+A \(k\)-algebra homomorphism
+\[
+k[t]\to \Gamma(X,\mathcal O_X)
+\]
+is determined by the image of \(t\). Therefore giving such a map is the same as choosing one global section
+\[
+s\in\Gamma(X,\mathcal O_X).
+\]
+
+Hence
+\[
+\boxed{
+	\Hom_{k\text{-}\Sch}(X,\mathbb A^1_k)
+	\cong
+	\Gamma(X,\mathcal O_X).
+}
+\]
+
+The morphism corresponding to
+\[
+s\in\Gamma(X,\mathcal O_X)
+\]
+is the morphism
+\[
+X\to\mathbb A^1_k
+\]
+which evaluates the coordinate \(t\) as the function \(s\).
+
+The lesson is:
+\[
+\boxed{
+	\text{maps to the affine line are global regular functions.}
+}
+\]
+
+\subsection{Example 6. Maps to affine \(n\)-space}
+
+Let
+\[
+\mathbb A^n_k=\Spec k[t_1,\dots,t_n].
+\]
+
+By Problem 12,
+\[
+\Hom_{k\text{-}\Sch}(X,\mathbb A^n_k)
+\cong
+\Hom_{k\text{-}\mathrm{alg}}
+\bigl(k[t_1,\dots,t_n],\Gamma(X,\mathcal O_X)\bigr).
+\]
+
+A \(k\)-algebra homomorphism from \(k[t_1,\dots,t_n]\) is determined by the images of the variables:
+\[
+t_1\mapsto s_1,
+\qquad
+t_2\mapsto s_2,
+\qquad
+\dots,
+\qquad
+t_n\mapsto s_n,
+\]
+where
+\[
+s_i\in\Gamma(X,\mathcal O_X).
+\]
+
+Therefore
+\[
+\boxed{
+	\Hom_{k\text{-}\Sch}(X,\mathbb A^n_k)
+	\cong
+	\Gamma(X,\mathcal O_X)^n.
+}
+\]
+
+So a morphism
+\[
+X\to\mathbb A^n_k
+\]
+is the same as choosing \(n\) global regular functions on \(X\).
+
+The lesson is:
+\[
+\boxed{
+	\text{a map into affine space is given by coordinate functions.}
+}
+\]
+
+\subsection{Example 7. Maps to the multiplicative group \(\mathbb G_m\)}
+
+Let
+\[
+\mathbb G_m=\Spec k[t,t^{-1}].
+\]
+
+By Problem 12,
+\[
+\Hom_{k\text{-}\Sch}(X,\mathbb G_m)
+\cong
+\Hom_{k\text{-}\mathrm{alg}}
+\bigl(k[t,t^{-1}],\Gamma(X,\mathcal O_X)\bigr).
+\]
+
+A homomorphism
+\[
+k[t,t^{-1}]\to \Gamma(X,\mathcal O_X)
+\]
+is determined by the image of \(t\). But since \(t^{-1}\) also exists in the domain, the image of \(t\) must be invertible.
+
+Therefore
+\[
+t\mapsto u,
+\]
+where
+\[
+u\in\Gamma(X,\mathcal O_X)^\times.
+\]
+
+Hence
+\[
+\boxed{
+	\Hom_{k\text{-}\Sch}(X,\mathbb G_m)
+	\cong
+	\Gamma(X,\mathcal O_X)^\times.
+}
+\]
+
+So maps from \(X\) to \(\mathbb G_m\) are the same as invertible global functions on \(X\).
+
+The lesson is:
+\[
+\boxed{
+	\mathbb A^1_k \text{ represents global functions,}
+	\qquad
+	\mathbb G_m \text{ represents invertible global functions.}
+}
+\]
+
+\subsection{Example 8. Maps to a closed affine subscheme}
+
+Let
+\[
+Y=\Spec k[x,y]/(y^2-x^3).
+\]
+
+This is the affine cusp.
+
+A morphism
+\[
+X\to Y
+\]
+is, by Problem 12, the same as a ring homomorphism
+\[
+k[x,y]/(y^2-x^3)
+\to
+\Gamma(X,\mathcal O_X).
+\]
+
+Such a homomorphism is equivalent to choosing two global functions
+\[
+a,b\in\Gamma(X,\mathcal O_X)
+\]
+such that the defining relation is satisfied:
+\[
+b^2=a^3.
+\]
+
+Therefore
+\[
+\boxed{
+	\Hom(X,Y)
+	\cong
+	\left\{
+	(a,b)\in \Gamma(X,\mathcal O_X)^2:
+	b^2=a^3
+	\right\}.
+}
+\]
+
+The lesson is:
+\[
+\boxed{
+	\text{a morphism into an affine scheme is a choice of functions satisfying its equations.}
+}
+\]
+
+\subsection{Example 9. The structure morphism of \(\Spec k\)}
+
+Let \(k\) be a field. Then there is exactly one morphism
+\[
+\Spec k\to\Spec\mathbb Z.
+\]
+
+It corresponds to the unique ring homomorphism
+\[
+\mathbb Z\to k.
+\]
+
+The image of the unique point of \(\Spec k\) depends on the characteristic of \(k\).
+
+If
+\[
+\operatorname{char}k=0,
+\]
+then the kernel of
+\[
+\mathbb Z\to k
+\]
+is
+\[
+(0).
+\]
+
+So the point maps to the generic point
+\[
+(0)\in\Spec\mathbb Z.
+\]
+
+If
+\[
+\operatorname{char}k=p>0,
+\]
+then the kernel is
+\[
+(p).
+\]
+
+So the point maps to the closed point
+\[
+(p)\in\Spec\mathbb Z.
+\]
+
+Thus:
+\[
+\boxed{
+	\Spec k
+	\text{ lies over }(p)\text{ if }\operatorname{char}k=p,
+}
+\]
+and
+\[
+\boxed{
+	\Spec k
+	\text{ lies over }(0)\text{ if }\operatorname{char}k=0.
+}
+\]
+
+This shows that the structure morphism to \(\Spec\mathbb Z\) records the characteristic.
+
+\subsection{Example 10. The structure morphism of \(\Spec\mathbb Z[x]\)}
+
+Let
+\[
+X=\Spec\mathbb Z[x].
+\]
+
+The unique structure morphism
+\[
+X\to\Spec\mathbb Z
+\]
+is induced by the inclusion
+\[
+\mathbb Z\to\mathbb Z[x].
+\]
+
+On points, it sends a prime ideal
+\[
+\mathfrak p\subseteq\mathbb Z[x]
+\]
+to its contraction
+\[
+\mathfrak p\cap\mathbb Z.
+\]
+
+For example,
+\[
+(x)\subseteq\mathbb Z[x]
+\]
+contracts to
+\[
+(0)\subseteq\mathbb Z.
+\]
+
+So \((x)\) lies over the generic point \((0)\).
+
+But
+\[
+(p,x)\subseteq\mathbb Z[x]
+\]
+contracts to
+\[
+(p)\subseteq\mathbb Z.
+\]
+
+So \((p,x)\) lies over the prime \(p\).
+
+The fiber over \((p)\) is
+\[
+\Spec\bigl(\mathbb Z[x]\otimes_{\mathbb Z}\mathbb F_p\bigr)
+\cong
+\Spec\mathbb F_p[x].
+\]
+
+The fiber over \((0)\) is
+\[
+\Spec\bigl(\mathbb Z[x]\otimes_{\mathbb Z}\mathbb Q\bigr)
+\cong
+\Spec\mathbb Q[x].
+\]
+
+Therefore:
+\[
+\boxed{
+	\Spec\mathbb Z[x]
+	\text{ is a family of affine lines over all characteristics.}
+}
+\]
+
+\subsection{Example 11. Gluing two affine lines to get \(\mathbb P^1_k\)}
+
+Take two copies of the affine line:
+\[
+X_0=\Spec k[t],
+\]
+\[
+X_1=\Spec k[s].
+\]
+
+Inside \(X_0\), take
+\[
+U_{01}=D(t)=\Spec k[t,t^{-1}].
+\]
+
+Inside \(X_1\), take
+\[
+U_{10}=D(s)=\Spec k[s,s^{-1}].
+\]
+
+Define an isomorphism
+\[
+\varphi_{01}:U_{01}\to U_{10}
+\]
+by the ring isomorphism
+\[
+k[s,s^{-1}]
+\to
+k[t,t^{-1}],
+\qquad
+s\mapsto t^{-1}.
+\]
+
+Geometrically, this says
+\[
+s=\frac1t.
+\]
+
+Glue \(X_0\) and \(X_1\) along these open subsets.
+
+The resulting scheme is
+\[
+\mathbb P^1_k.
+\]
+
+Thus
+\[
+\boxed{
+	\mathbb P^1_k
+	=
+	\Spec k[t]
+	\cup_{\Spec k[t,t^{-1}]}
+	\Spec k[s].
+}
+\]
+
+The two affine charts are
+\[
+U_0=\{x_0\neq0\},
+\qquad
+U_1=\{x_1\neq0\}.
+\]
+
+On the overlap,
+\[
+t=\frac{x_1}{x_0},
+\qquad
+s=\frac{x_0}{x_1}.
+\]
+
+Therefore
+\[
+s=\frac1t.
+\]
+
+The lesson is:
+\[
+\boxed{
+	\mathbb P^1_k
+	\text{ is obtained by gluing two affine lines along }\mathbb G_m.
+}
+\]
+
+\subsection{Example 12. The affine line with doubled origin}
+
+This is a very important example of gluing.
+
+Take two copies of the affine line:
+\[
+X_1=\Spec k[t],
+\]
+\[
+X_2=\Spec k[u].
+\]
+
+Remove the origin from both:
+\[
+U_{12}=D(t)\subseteq X_1,
+\]
+\[
+U_{21}=D(u)\subseteq X_2.
+\]
+
+Both are isomorphic to
+\[
+\Spec k[z,z^{-1}].
+\]
+
+Glue them by the identity map
+\[
+t\leftrightarrow u.
+\]
+
+So all nonzero points of the two affine lines are identified. However, the origins are not identified, because the origins are not part of the overlap.
+
+The resulting scheme looks like an affine line with two distinct origins.
+
+It is called the affine line with doubled origin.
+
+It is a scheme, but it is not separated.
+
+The lesson is:
+\[
+\boxed{
+	\text{gluing can produce schemes that are locally affine but globally unusual.}
+}
+\]
+
+This example shows why gluing is powerful, but also why separation conditions are important.
+
+\subsection{Example 13. Gluing affine charts of \(\mathbb P^2_k\)}
+
+Projective plane
+\[
+\mathbb P^2_k
+\]
+is covered by three affine charts:
+\[
+U_0=\{x_0\neq0\},
+\]
+\[
+U_1=\{x_1\neq0\},
+\]
+\[
+U_2=\{x_2\neq0\}.
+\]
+
+Each chart is isomorphic to affine \(2\)-space:
+\[
+U_i\cong\mathbb A^2_k.
+\]
+
+For example, on \(U_0\), define coordinates
+\[
+u_1=\frac{x_1}{x_0},
+\qquad
+u_2=\frac{x_2}{x_0}.
+\]
+
+Then
+\[
+U_0\cong\Spec k[u_1,u_2].
+\]
+
+On \(U_1\), define
+\[
+v_0=\frac{x_0}{x_1},
+\qquad
+v_2=\frac{x_2}{x_1}.
+\]
+
+Then
+\[
+U_1\cong\Spec k[v_0,v_2].
+\]
+
+On the overlap
+\[
+U_0\cap U_1,
+\]
+we have both \(x_0\neq0\) and \(x_1\neq0\). Hence
+\[
+u_1=\frac{x_1}{x_0}
+\]
+is invertible.
+
+The transition formulas are
+\[
+v_0=\frac{x_0}{x_1}=\frac1{u_1},
+\]
+and
+\[
+v_2=\frac{x_2}{x_1}
+=
+\frac{x_2/x_0}{x_1/x_0}
+=
+\frac{u_2}{u_1}.
+\]
+
+Thus the gluing map on the overlap is
+\[
+v_0=\frac1{u_1},
+\qquad
+v_2=\frac{u_2}{u_1}.
+\]
+
+This is an algebraic transition map, so the affine charts glue to form \(\mathbb P^2_k\).
+
+The lesson is:
+\[
+\boxed{
+	\mathbb P^n_k
+	\text{ is obtained by gluing }n+1\text{ affine spaces.}
+}
+\]
+
+\subsection{Example 14. Gluing by identity recovers an open cover}
+
+Let
+\[
+X=\Spec A.
+\]
+
+Suppose
+\[
+X=U\cup V
+\]
+where \(U,V\subseteq X\) are open subschemes.
+
+If we glue \(U\) and \(V\) along their common overlap
+\[
+U\cap V
+\]
+using the identity isomorphism
+\[
+U\cap V\to V\cap U,
+\]
+then the glued scheme is just \(X\).
+
+For example, let
+\[
+X=\mathbb A^1_k=\Spec k[x].
+\]
+
+Take
+\[
+U=D(x),
+\qquad
+V=D(x-1).
+\]
+
+These two opens cover \(\mathbb A^1_k\), because no point can satisfy both
+\[
+x=0
+\]
+and
+\[
+x-1=0.
+\]
+
+Their overlap is
+\[
+D(x)\cap D(x-1)=D(x(x-1)).
+\]
+
+If we glue \(D(x)\) and \(D(x-1)\) along this overlap by the identity, we recover
+\[
+\mathbb A^1_k.
+\]
+
+The lesson is:
+\[
+\boxed{
+	\text{ordinary open covers are special cases of scheme gluing.}
+}
+\]
+
+\subsection{Summary of the examples}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Example} & \textbf{Construction} & \textbf{Main idea} \\
+	\hline
+	D(x)\subseteq\mathbb A^1_k
+	&
+	\Spec k[x,x^{-1}]
+	&
+	\text{localization removes }x=0
+	\\
+	\hline
+	D(x)\subseteq\mathbb A^2_k
+	&
+	\Spec k[x,x^{-1},y]
+	&
+	\text{remove the divisor }x=0
+	\\
+	\hline
+	D(p)\subseteq\Spec\mathbb Z
+	&
+	\Spec\mathbb Z[1/p]
+	&
+	\text{remove the point }(p)
+	\\
+	\hline
+	X\to\mathbb A^1_k
+	&
+	s\in\Gamma(X,\mathcal O_X)
+	&
+	\text{maps to affine line are functions}
+	\\
+	\hline
+	X\to\mathbb A^n_k
+	&
+	(s_1,\dots,s_n)
+	&
+	\text{maps to affine space are tuples of functions}
+	\\
+	\hline
+	X\to\mathbb G_m
+	&
+	u\in\Gamma(X,\mathcal O_X)^\times
+	&
+	\text{maps to }\mathbb G_m\text{ are units}
+	\\
+	\hline
+	\Spec k\to\Spec\mathbb Z
+	&
+	\mathbb Z\to k
+	&
+	\text{records characteristic}
+	\\
+	\hline
+	\mathbb P^1_k
+	&
+	\mathbb A^1_k\cup_{\mathbb G_m}\mathbb A^1_k
+	&
+	\text{gluing two affine charts}
+	\\
+	\hline
+	\text{doubled origin}
+	&
+	\mathbb A^1_k\cup_{\mathbb A^1_k\setminus\{0\}}\mathbb A^1_k
+	&
+	\text{non-separated gluing}
+\end{array}
+\]
+
+\subsection{Final lesson}
+
+The examples illustrate the main mechanisms behind Problems 11--14:
+
+\[
+\boxed{
+	\text{localization gives affine open pieces,}
+}
+\]
+
+\[
+\boxed{
+	\text{universal properties describe morphisms,}
+}
+\]
+
+\[
+\boxed{
+	\text{and gluing turns local affine data into global schemes.}
+}
+\]
+
+\section{Diagrams and Charts for Problems 11--14}
+
+This section summarizes the visual and structural logic behind Problems 11--14. The main themes are:
+
+\[
+\text{localization} \longleftrightarrow \text{basic opens},
+\qquad
+\text{ring maps} \longleftrightarrow \text{scheme maps},
+\qquad
+\text{compatible gluing data} \longrightarrow \text{glued schemes}.
+\]
+
+\subsection{Main conceptual flowchart}
+
+The four problems may be organized by the following conceptual flow:
+
+\[
+\boxed{
+	\text{Ring }A
+}
+\quad\Longrightarrow\quad
+\boxed{
+	\Spec A
+}
+\]
+
+\[
+\boxed{
+	\text{Localization }A_f
+}
+\quad\Longleftrightarrow\quad
+\boxed{
+	\text{Basic open }D(f)\subseteq \Spec A
+}
+\]
+
+\[
+\boxed{
+	A\to \Gamma(X,\OO_X)
+}
+\quad\Longleftrightarrow\quad
+\boxed{
+	X\to \Spec A
+}
+\]
+
+\[
+\boxed{
+	\text{Affine pieces }X_i
+}
+\quad+\quad
+\boxed{
+	\text{compatible overlap maps }\varphi_{ij}
+}
+\quad\Longrightarrow\quad
+\boxed{
+	\text{glued scheme }X
+}
+\]
+
+Thus the main lesson is:
+
+\[
+\boxed{
+	\text{local algebra}
+	+
+	\text{contravariant maps}
+	+
+	\text{compatible gluing}
+	=
+	\text{scheme geometry}.
+}
+\]
+
+\subsection{Localization as an open immersion}
+
+For \(f\in A\), the localization map
+\[
+A\longrightarrow A_f
+\]
+induces a morphism of schemes in the opposite direction:
+\[
+\Spec A_f\longrightarrow \Spec A.
+\]
+
+The image is exactly
+\[
+D(f)=\{\mathfrak p\in \Spec A:f\notin\mathfrak p\}.
+\]
+
+Diagrammatically:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	A \arrow[r] & A_f \\
+	\Spec A & \Spec A_f \arrow[l]
+\end{tikzcd}
+\]
+
+The arrow on rings goes from \(A\) to \(A_f\), but the arrow on spectra goes from \(\Spec A_f\) to \(\Spec A\). More precisely,
+
+\[
+\boxed{
+	\Spec A_f \cong D(f)\subseteq \Spec A.
+}
+\]
+
+Therefore,
+
+\[
+\boxed{
+	\Spec A_f\to \Spec A
+	\text{ is an open immersion with image }D(f).
+}
+\]
+
+\subsection{Prime ideal correspondence}
+
+Prime ideals in \(A_f\) correspond to prime ideals of \(A\) not containing \(f\):
+
+\[
+\begin{array}{ccc}
+	\{\mathfrak p\in\Spec A:f\notin\mathfrak p\}
+	&
+	\longleftrightarrow
+	&
+	\Spec A_f
+	\\[2mm]
+	\mathfrak p
+	&
+	\longmapsto
+	&
+	\mathfrak pA_f
+	\\[2mm]
+	\mathfrak q\cap A
+	&
+	\longleftarrow
+	&
+	\mathfrak q
+\end{array}
+\]
+
+Thus,
+
+\[
+\boxed{
+	\mathfrak p\in D(f)
+	\quad\Longleftrightarrow\quad
+	\mathfrak pA_f\in\Spec A_f.
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	\Spec A_f
+	\text{ remembers exactly the prime ideals of }A
+	\text{ where }f\text{ is not zero.}
+}
+\]
+
+\subsection{The open subset picture}
+
+For \(X=\Spec A\), the closed subset defined by \(f\) is
+
+\[
+V(f)=\{\mathfrak p\in\Spec A:f\in\mathfrak p\}.
+\]
+
+The complementary open subset is
+
+\[
+D(f)=X\setminus V(f).
+\]
+
+So we may write:
+
+\[
+\Spec A
+=
+\underbrace{V(f)}_{\text{where }f=0}
+\cup
+\underbrace{D(f)}_{\text{where }f\neq 0}.
+\]
+
+Localization removes the closed part \(V(f)\):
+
+\[
+\boxed{
+	A_f
+	\quad\text{describes}\quad
+	\Spec A\setminus V(f).
+}
+\]
+
+This gives the basic geometric dictionary:
+
+\[
+\boxed{
+	\text{make }f\text{ invertible}
+}
+\quad\Longleftrightarrow\quad
+\boxed{
+	\text{restrict to the region where }f\neq 0.
+}
+\]
+
+\subsection{Sheaf sections on basic opens}
+
+The structure sheaf on an affine scheme satisfies
+
+\[
+\OO_{\Spec A}(D(f))=A_f.
+\]
+
+More generally,
+
+\[
+\OO_{\Spec A}(D(fg))=A_{fg}.
+\]
+
+Inside \(D(f)\), a basic open subset has the form
+
+\[
+D(f)\cap D(g)=D(fg).
+\]
+
+The corresponding basic open subset in \(\Spec A_f\) is
+
+\[
+D\left(\frac g1\right).
+\]
+
+The rings of sections agree:
+
+\[
+\OO_{\Spec A_f}\left(D\left(\frac g1\right)\right)
+=
+(A_f)_{g/1}
+\cong
+A_{fg}
+=
+\OO_{\Spec A}(D(fg)).
+\]
+
+Diagrammatically:
+
+\[
+\begin{array}{ccc}
+	D\left(\frac g1\right)\subseteq \Spec A_f
+	&
+	\longleftrightarrow
+	&
+	D(fg)\subseteq \Spec A
+	\\[2mm]
+	(A_f)_{g/1}
+	&
+	\cong
+	&
+	A_{fg}
+\end{array}
+\]
+
+Therefore,
+
+\[
+\boxed{
+	\OO_{\Spec A_f}
+	\text{ agrees with }
+	\OO_{\Spec A}|_{D(f)}.
+}
+\]
+
+\subsection{Universal property of affine schemes}
+
+Problem 12 gives the natural bijection
+
+\[
+\boxed{
+	\Hom_{\Sch}(X,\Spec A)
+	\cong
+	\Hom_{\Rings}\bigl(A,\Gamma(X,\OO_X)\bigr).
+}
+\]
+
+Diagrammatically:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	X \arrow[r] & \Spec A \\
+	\Gamma(X,\OO_X) & A \arrow[l]
+\end{tikzcd}
+\]
+
+The scheme morphism points toward \(\Spec A\), while the ring homomorphism points away from \(A\). Thus:
+
+\[
+\boxed{
+	X\to\Spec A
+}
+\quad\Longleftrightarrow\quad
+\boxed{
+	A\to\Gamma(X,\OO_X).
+}
+\]
+
+This is the contravariance of affine schemes.
+
+\subsection{Constructing a morphism from a ring map}
+
+Given a ring homomorphism
+
+\[
+\varphi:A\to\Gamma(X,\OO_X),
+\]
+
+we construct a morphism
+
+\[
+f_\varphi:X\to\Spec A.
+\]
+
+For each point \(x\in X\), consider the composition
+
+\[
+A
+\xrightarrow{\varphi}
+\Gamma(X,\OO_X)
+\longrightarrow
+\OO_{X,x}
+\longrightarrow
+\kappa(x).
+\]
+
+The kernel is a prime ideal of \(A\). Hence
+
+\[
+f_\varphi(x)
+=
+\ker(A\to\kappa(x)).
+\]
+
+Diagrammatically:
+
+\[
+\begin{tikzcd}[column sep=large]
+	A \arrow[r,"\varphi"]
+	&
+	\Gamma(X,\OO_X)
+	\arrow[r]
+	&
+	\OO_{X,x}
+	\arrow[r]
+	&
+	\kappa(x)
+\end{tikzcd}
+\]
+
+Therefore,
+
+\[
+\boxed{
+	x\longmapsto \ker(A\to\kappa(x)).
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	x
+	\text{ is sent to the prime ideal of functions vanishing at }x.
+}
+\]
+
+\subsection{Inverse images of basic opens}
+
+Let \(a\in A\). For the basic open subset
+
+\[
+D(a)\subseteq \Spec A,
+\]
+
+we have
+
+\[
+f_\varphi^{-1}(D(a))
+=
+\{x\in X:\varphi(a)_x\in\OO_{X,x}^{\times}\}.
+\]
+
+Diagrammatically:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	f_\varphi^{-1}(D(a)) \arrow[r,hook] \arrow[d]
+	&
+	X \arrow[d,"f_\varphi"]
+	\\
+	D(a) \arrow[r,hook]
+	&
+	\Spec A
+\end{tikzcd}
+\]
+
+Meaning:
+
+\[
+\boxed{
+	x\in f_\varphi^{-1}(D(a))
+	\quad\Longleftrightarrow\quad
+	\varphi(a)\text{ is invertible near }x.
+}
+\]
+
+This explains why \(f_\varphi\) is continuous:
+
+\[
+\boxed{
+	\text{invertibility of a section is an open condition.}
+}
+\]
+
+\subsection{\(\Spec\ZZ\) as final object}
+
+The universal property gives:
+
+\[
+\Hom_{\Sch}(X,\Spec\ZZ)
+\cong
+\Hom_{\Rings}\bigl(\ZZ,\Gamma(X,\OO_X)\bigr).
+\]
+
+But for every unital ring \(R\), there is exactly one ring homomorphism
+
+\[
+\ZZ\to R.
+\]
+
+Therefore, for every scheme \(X\), there is exactly one morphism
+
+\[
+X\to\Spec\ZZ.
+\]
+
+Thus:
+
+\[
+\boxed{
+	\forall X,\qquad \exists!\, X\to\Spec\ZZ.
+}
+\]
+
+Diagrammatically, every scheme points uniquely to \(\Spec\ZZ\):
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	X_1 \arrow[dr] && X_2 \arrow[dl] \\
+	& \Spec\ZZ & \\
+	X_3 \arrow[ur] && X_4 \arrow[ul]
+\end{tikzcd}
+\]
+
+Hence,
+
+\[
+\boxed{
+	\Spec\ZZ
+	\text{ is the final object in }\Sch.
+}
+\]
+
+\subsection{Fibers over \(\Spec\ZZ\)}
+
+Consider
+
+\[
+X=\Spec\ZZ[x].
+\]
+
+The structure morphism is
+
+\[
+\Spec\ZZ[x]\to\Spec\ZZ.
+\]
+
+The fiber over the generic point \((0)\) is
+
+\[
+\Spec\mathbb Q[x].
+\]
+
+The fiber over a closed point \((p)\) is
+
+\[
+\Spec\mathbb F_p[x].
+\]
+
+This may be summarized by the chart:
+
+\begin{center}
+	\begin{tabular}{c|c}
+		\toprule
+		\textbf{Point of \(\Spec\ZZ\)}
+		&
+		\textbf{Fiber of \(\Spec\ZZ[x]\to\Spec\ZZ\)}
+		\\
+		\midrule
+		\((0)\)
+		&
+		\(\Spec\mathbb Q[x]\)
+		\\
+		\midrule
+		\((p)\)
+		&
+		\(\Spec\mathbb F_p[x]\)
+		\\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+Therefore,
+\[
+\boxed{
+	\Spec\ZZ[x]\ \text{is a family of affine lines over all characteristics.}
+}
+\]
+
+\subsection{Gluing two schemes}
+
+Suppose we have open subschemes
+
+\[
+U_{12}\subseteq X_1,
+\qquad
+U_{21}\subseteq X_2,
+\]
+
+and an isomorphism
+
+\[
+\varphi_{12}:U_{12}\to U_{21}.
+\]
+
+Then we may glue \(X_1\) and \(X_2\) to form
+
+\[
+X=X_1\cup_{\varphi_{12}}X_2.
+\]
+
+The gluing diagram is:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	U_{12} \arrow[r,hook] \arrow[d,"\varphi_{12}"']
+	&
+	X_1 \arrow[d,"\psi_1"]
+	\\
+	U_{21} \arrow[r,hook]
+	&
+	X
+\end{tikzcd}
+\]
+
+The map \(X_2\to X\) is also part of the construction:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	U_{21} \arrow[r,hook]
+	&
+	X_2 \arrow[d,"\psi_2"]
+	\\
+	&
+	X
+\end{tikzcd}
+\]
+
+The images satisfy:
+
+\[
+\psi_1(X_1)\cap\psi_2(X_2)
+=
+\psi_1(U_{12})
+=
+\psi_2(U_{21}).
+\]
+
+Thus:
+
+\[
+\boxed{
+	\text{the overlap in the glued scheme is exactly the identified open subscheme.}
+}
+\]
+
+\subsection{Gluing as a quotient of a disjoint union}
+
+Start with the disjoint union
+
+\[
+Y=\coprod_i X_i.
+\]
+
+Then impose the equivalence relation
+
+\[
+x\sim \varphi_{ij}(x),
+\qquad
+x\in U_{ij}.
+\]
+
+The glued topological space is
+
+\[
+X=Y/{\sim}.
+\]
+
+Flowchart:
+
+\[
+\boxed{
+	\coprod_i X_i
+}
+\quad
+\longrightarrow
+\quad
+\boxed{
+	\text{identify }x\sim\varphi_{ij}(x)
+}
+\quad
+\longrightarrow
+\quad
+\boxed{
+	X
+}
+\]
+
+Then the structure sheaf is glued by compatible sections:
+
+\[
+\boxed{
+	\OO_X(V)
+	=
+	\left\{
+	(s_i):
+	s_i\in\OO_{X_i}(V_i),
+	\ s_i=s_j\text{ on overlaps}
+	\right\}.
+}
+\]
+
+More precisely, if \(V_i=\psi_i^{-1}(V)\), then
+
+\[
+\OO_X(V)
+=
+\left\{
+(s_i)_i\in\prod_i\OO_{X_i}(V_i):
+s_i|_{V_i\cap U_{ij}}
+=
+\varphi_{ij}^{\#}
+\left(
+s_j|_{V_j\cap U_{ji}}
+\right)
+\right\}.
+\]
+
+\subsection{Triple overlap cocycle diagram}
+
+For three schemes \(X_i,X_j,X_k\), the compatibility condition is
+
+\[
+\varphi_{ik}
+=
+\varphi_{jk}\circ\varphi_{ij}.
+\]
+
+Diagrammatically:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	U_{ij}\cap U_{ik}
+	\arrow[r,"\varphi_{ij}"]
+	\arrow[dr,"\varphi_{ik}"']
+	&
+	U_{ji}\cap U_{jk}
+	\arrow[d,"\varphi_{jk}"]
+	\\
+	&
+	U_{ki}\cap U_{kj}
+\end{tikzcd}
+\]
+
+Meaning:
+
+\[
+\boxed{
+	\text{going from }i\text{ to }k
+	\text{ directly equals going from }i\text{ to }j\text{ to }k.
+}
+\]
+
+This is the cocycle condition. It prevents contradictory identifications and makes the gluing consistent.
+
+\subsection{Gluing \(\PP^1_k\)}
+
+Take two affine lines:
+
+\[
+X_0=\Spec k[t],
+\qquad
+X_1=\Spec k[s].
+\]
+
+Their common overlap is the punctured affine line:
+
+\[
+D(t)=\Spec k[t,t^{-1}],
+\qquad
+D(s)=\Spec k[s,s^{-1}].
+\]
+
+Glue by the isomorphism
+
+\[
+s=t^{-1}.
+\]
+
+The diagram is:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	\Spec k[t,t^{-1}]
+	\arrow[r,hook]
+	\arrow[d,"s=t^{-1}"']
+	&
+	\Spec k[t]
+	\\
+	\Spec k[s,s^{-1}]
+	\arrow[r,hook]
+	&
+	\Spec k[s]
+\end{tikzcd}
+\]
+
+The glued scheme is
+
+\[
+\boxed{
+	\PP^1_k
+	=
+	\AA^1_k
+	\cup_{\GG_m}
+	\AA^1_k.
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	\PP^1_k
+	=
+	\Spec k[t]
+	\cup_{\Spec k[t,t^{-1}]}
+	\Spec k[s].
+}
+\]
+
+Visual idea:
+
+\[
+\boxed{
+	\text{left affine chart}
+}
+\quad
+\underset{\GG_m}{\cap}
+\quad
+\boxed{
+	\text{right affine chart}
+}
+\]
+
+\subsection{The doubled origin diagram}
+
+Take two affine lines:
+
+\[
+X_1=\Spec k[t],
+\qquad
+X_2=\Spec k[u].
+\]
+
+Glue only the punctured parts:
+
+\[
+D(t)\cong D(u),
+\qquad
+t=u.
+\]
+
+The diagram is:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	D(t)=\AA^1_k\setminus\{0_1\}
+	\arrow[r,hook]
+	\arrow[d,"\cong"']
+	&
+	\AA^1_k\text{ with origin }0_1
+	\\
+	D(u)=\AA^1_k\setminus\{0_2\}
+	\arrow[r,hook]
+	&
+	\AA^1_k\text{ with origin }0_2
+\end{tikzcd}
+\]
+
+After gluing, the nonzero points are identified, but the origins remain distinct:
+
+\[
+\boxed{
+	\text{one common punctured line, but two different origins.}
+}
+\]
+
+This gives the affine line with doubled origin.
+
+The lesson is:
+
+\[
+\boxed{
+	\text{gluing can produce locally affine but globally non-separated schemes.}
+}
+\]
+
+\subsection{Summary chart}
+
+\[
+\begin{array}{>{\raggedright\arraybackslash}p{4cm}
+		|>{\raggedright\arraybackslash}p{4.5cm}
+		|>{\raggedright\arraybackslash}p{5cm}}
+	\toprule
+	\textbf{Topic}
+	&
+	\textbf{Algebraic data}
+	&
+	\textbf{Geometric meaning}
+	\\
+	\midrule
+	Localization
+	&
+	\(A\to A_f\)
+	&
+	\(D(f)\subseteq\Spec A\)
+	\\
+	\midrule
+	Basic open
+	&
+	\(A_f\)
+	&
+	\(\Spec A_f\cong D(f)\)
+	\\
+	\midrule
+	Morphisms into affine schemes
+	&
+	\(A\to\Gamma(X,\OO_X)\)
+	&
+	\(X\to\Spec A\)
+	\\
+	\midrule
+	Final object
+	&
+	\(\ZZ\to R\)
+	&
+	\(\Spec R\to\Spec\ZZ\)
+	\\
+	\midrule
+	Gluing
+	&
+	\(\varphi_{ij}:U_{ij}\to U_{ji}\)
+	&
+	\(X=\bigcup_i X_i/{\sim}\)
+	\\
+	\midrule
+	Projective line
+	&
+	\(s=t^{-1}\)
+	&
+	\(\PP^1_k=\AA^1_k\cup_{\GG_m}\AA^1_k\)
+	\\
+	\bottomrule
+\end{array}
+\]
+
+\subsection{Very compact final diagram}
+
+The whole visual logic of Problems 11--14 can be compressed into four correspondences:
+
+\[
+\boxed{
+	A_f
+}
+\quad
+\Longleftrightarrow
+\quad
+\boxed{
+	D(f)
+}
+\]
+
+\[
+\boxed{
+	A\to\Gamma(X,\OO_X)
+}
+\quad
+\Longleftrightarrow
+\quad
+\boxed{
+	X\to\Spec A
+}
+\]
+
+\[
+\boxed{
+	\ZZ\to R
+}
+\quad
+\Longleftrightarrow
+\quad
+\boxed{
+	\Spec R\to\Spec\ZZ
+}
+\]
+
+\[
+\boxed{
+	(X_i,U_{ij},\varphi_{ij})
+}
+\quad
+\Longrightarrow
+\quad
+\boxed{
+	X=\text{glued scheme}
+}
+\]
+
+Final message:
+
+\[
+\boxed{
+	\text{localization gives opens, morphisms reverse arrows,}
+}
+\]
+
+\[
+\boxed{
+	\text{and gluing compatible open pieces produces schemes.}
+}
+\]
+
+\end{document}
+
+
+

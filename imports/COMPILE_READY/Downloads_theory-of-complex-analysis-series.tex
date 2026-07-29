@@ -1,0 +1,1264 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- packages ---
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+
+
+% --- layout: generous white space like your sample ---
+\geometry{margin=1in}
+\setlength{\parskip}{0.9em}
+\setlength{\parindent}{0pt}
+\linespread{1.12}
+\setlist[itemize]{topsep=0.3em,itemsep=0.2em}
+\setlist[enumerate]{topsep=0.3em,itemsep=0.2em}
+
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Res}{Res}
+\newcommand{\C}{\mathbb{C}}
+
+\newcommand{\axes}[3]{% center, x label, y label
+	\draw[->,thin] (#1) -- ++(2.0,0) node[right] {#2};
+	\draw[->,thin] (#1) -- ++(0,2.0) node[above] {#3};
+}
+
+
+% --- simple section styling helpers ---
+\newcommand{\secdiv}{\par\vspace{0.6em}\hrule\par\vspace{0.8em}}
+\newcommand{\subhead}[1]{\par\textbf{#1}\par\vspace{0.35em}}
+
+\newcommand{\qed}{\hfill$\square$}
+
+\title{\Large Entire Functions — Identity Theorem Applications \& a Polynomiality Criterion\\[0.3em]
+	\large (spaced layout, matching the “Branches of $\log f$” style)}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	\secdiv
+	
+	\subhead{Background and tools}
+	
+	\textbf{Identity (Uniqueness) Theorem.}
+	If $f,g$ are holomorphic on a connected domain $\Omega$ and agree on a set with an accumulation point in $\Omega$, then $f\equiv g$ on $\Omega$.
+	
+	\textbf{Zeros are isolated.}
+	If $h$ is holomorphic and not identically zero, its zeros have no accumulation point in the domain. Equivalently, if the zeros of $h$ accumulate in the domain, then $h\equiv 0$.
+	
+	\textbf{Entire functions and Taylor coefficients.}
+	For entire $f$,
+	\[
+	f(z)=\sum_{n=0}^{\infty} c_n (z-z_0)^n,
+	\qquad
+	c_n=\frac{f^{(n)}(z_0)}{n!}.
+	\]
+	(We will use that countable unions of countable sets are countable, while $\mathbb C$ is uncountable.)
+	
+	\secdiv
+	
+	\subhead{Problem 7. \; Suppose $f:\mathbb C\to\mathbb C$ is entire.}
+	
+	\textbf{(a)} If $f(1/n)=1/n$ for all $n\in\mathbb N$, must $f(z)=z$ for all $z$?
+	
+	\emph{Yes.} Let $g(z)=z$. The set $\{1/n:n\in\mathbb N\}$ has the accumulation point $0\in\mathbb C$.
+	Since $f(1/n)=g(1/n)$ for all $n$, the Identity Theorem yields $f\equiv g$ on $\mathbb C$.
+	Hence $f(z)=z$ for all $z$.
+	
+	\medskip
+	
+	\textbf{(b)} If $f(n)=n$ for all $n\in\mathbb N$, must $f(z)=z$ for all $z$?
+	
+	\emph{No.} The set $\{n:n\in\mathbb N\}$ has no finite accumulation point in $\mathbb C$,
+	so the Identity Theorem does not apply. A concrete counterexample is
+	\[
+	f(z)=z+\sin(\pi z),
+	\]
+	because $\sin(\pi n)=0$ for all integers $n$, hence $f(n)=n$ but $f\not\equiv z$.
+	
+	\medskip
+	
+	\textbf{(c)} Show that there exists some $n\in\mathbb N$ with $f(1/n)\neq 1/(n+1)$.
+	
+	Consider $g(z)=\dfrac{z}{z+1}$, holomorphic on $\mathbb C\setminus\{-1\}$ and satisfying
+	$g(1/n)=1/(n+1)$ for every $n\in\mathbb N$.
+	If $f(1/n)=1/(n+1)$ held for \emph{all} $n$, then $f$ and $g$ would agree on $\{1/n\}$,
+	which accumulates at $0$ (where both are holomorphic). By the Identity Theorem,
+	$f\equiv g$ on $\mathbb C\setminus\{-1\}$. But $g$ has a pole at $-1$ whereas $f$ is entire:
+	contradiction. Therefore there exists $n$ with $f(1/n)\neq 1/(n+1)$.
+	
+	\secdiv
+	
+	\subhead{Problem 8 (extra challenge).}
+	
+	Suppose $f:\mathbb C\to\mathbb C$ is entire and for every $z_0\in\mathbb C$ the Taylor series
+	\[
+	f(z)=\sum_{n=0}^{\infty} c_n (z-z_0)^n
+	\]
+	has at least one coefficient $c_n$ equal to $0$. Prove that $f$ is a polynomial.
+	
+	\emph{Solution.}
+	For each $n\ge 0$ set $E_n=\{z\in\mathbb C: f^{(n)}(z)=0\}$. Since $c_n=\dfrac{f^{(n)}(z_0)}{n!}$,
+	the hypothesis says: for \emph{every} $z_0$ there is some $n$ with $z_0\in E_n$; equivalently,
+	\[
+	\mathbb C=\bigcup_{n=0}^{\infty} E_n.
+	\]
+	If $f^{(n)}\not\equiv 0$ for every $n$, then each $E_n$ is a discrete (hence countable) set by
+	“zeros are isolated.” A countable union of countable sets is countable, contradicting that
+	$\mathbb C$ is uncountable. Therefore $f^{(N)}\equiv 0$ for some $N$, and integrating $N$ times
+	shows that $f$ is a polynomial of degree at most $N-1$.
+	
+	\secdiv
+	
+
+\section*{Problem}
+Identify and classify the isolated singularities of
+\[
+\frac{\sin(2\pi z)}{z^3(2z-1)},\qquad
+\frac{1}{\exp(1/z)+2},\qquad
+\sin^2\!\Bigl(\frac{1}{z}\Bigr),
+\]
+and compute the residue at each isolated singularity.
+
+\section*{Background}
+
+\subsection*{Classification}
+\begin{itemize}
+	\item \textbf{Removable:} principal part $=0$.
+	\item \textbf{Pole of order $m$:} finitely many negative powers,
+	up to $(z-z_0)^{-m}$.
+	\item \textbf{Essential:} infinitely many negative powers.
+\end{itemize}
+
+\subsection*{Residue (definition and formulas)}
+\textit{Residue at $z_0$ = coefficient of $(z-z_0)^{-1}$ in the Laurent series.}
+
+\[
+\text{Simple pole } \frac{g}{h},\quad h(z_0)=0,\ h'(z_0)\neq0
+\ \Longrightarrow\
+\operatorname{Res}_{z=z_0}\!\frac{g}{h}=\frac{g(z_0)}{h'(z_0)}.
+\]
+
+\[
+\text{Pole of order } m\ge1
+\ \Longrightarrow\
+\operatorname{Res}_{z=z_0} f
+=\frac{1}{(m-1)!}\lim_{z\to z_0}
+\frac{d^{\,m-1}}{dz^{\,m-1}}\Bigl[(z-z_0)^{m} f(z)\Bigr].
+\]
+
+\subsection*{Basic series (for quick expansions)}
+\[
+\sin w = w - \frac{w^{3}}{3!} + \frac{w^{5}}{5!} - \cdots
+\qquad
+\cos w = 1 - \frac{w^{2}}{2!} + \frac{w^{4}}{4!} - \cdots
+\qquad
+\sin^{2} w = \frac{1-\cos(2w)}{2}.
+\]
+
+\section*{Solutions}
+
+\subsection*{(i) $\displaystyle f(z)=\frac{\sin(2\pi z)}{z^{3}(2z-1)}$}
+Singularities at $z=0$ and $z=\tfrac12$.
+Near $0$, $\sin(2\pi z)\sim 2\pi z$, hence
+$f(z)\sim -\dfrac{2\pi}{z^2}$:
+\textbf{pole of order $2$} at $0$.
+
+At $z=\tfrac12$, $\sin(2\pi z)$ cancels $(2z-1)$, leaving a finite limit
+$f(1/2)=-8\pi$: \textbf{removable}.
+
+Residues: at $0$ (order $2$),
+\[
+\operatorname{Res}_{0}f
+=\Bigl[\frac{d}{dz}\bigl(z^2 f(z)\bigr)\Bigr]_{z=0}
+=\Bigl[\frac{d}{dz}\frac{\sin(2\pi z)}{z(2z-1)}\Bigr]_{z=0}
+=-4\pi.
+\]
+At $z=\tfrac12$: removable $\Rightarrow$ residue $0$.
+
+\subsection*{(ii) $\displaystyle f(z)=\frac{1}{\exp(1/z)+2}$}
+Solve $\exp(1/z)=-2$: with $1/z=\log 2+i(2k+1)\pi$,
+\[
+z_k=\frac{1}{\log 2+i(2k+1)\pi},\qquad k\in\mathbb Z,
+\]
+each a \textbf{simple pole}, accumulating at $0$
+(so $0$ is \emph{not} an isolated singularity).
+
+Residue at $z_k$:
+\[
+\operatorname{Res}_{z=z_k} f
+=\frac{1}{(\exp(1/z)+2)'}\Big|_{z=z_k}
+=\frac{1}{\exp(1/z_k)\cdot(-1/z_k^2)}
+=\frac{z_k^2}{2}.
+\]
+
+\subsection*{(iii) $\displaystyle f(z)=\sin^{2}\!\Bigl(\frac{1}{z}\Bigr)$}
+$0$ is an \textbf{isolated essential singularity}.
+Using $\sin^2 w=(1-\cos 2w)/2$ with $w=1/z$,
+the Laurent series of $\cos(2/z)$ has only even powers $z^{-2n}$,
+so the coefficient of $z^{-1}$ is zero:
+\[
+\operatorname{Res}_{z=0}\sin^{2}\!\Bigl(\frac{1}{z}\Bigr)=0.
+\]
+
+\bigskip
+\noindent\textbf{Summary.}
+\[
+\begin{array}{c|c|c}
+	\text{Function} & \text{Isolated singularities} & \text{Residues} \\
+	\hline
+	\frac{\sin(2\pi z)}{z^{3}(2z-1)} & z=0\ \text{(pole order 2)},\ z=\tfrac12\ \text{(removable)}
+	& \operatorname{Res}_{0}=-4\pi,\ \operatorname{Res}_{1/2}=0 \\
+	\frac{1}{\exp(1/z)+2} & z_k=\dfrac{1}{\log 2+i(2k+1)\pi}\ \text{(simple poles)}
+	& \operatorname{Res}_{z_k}=\dfrac{z_k^2}{2} \\
+	\sin^{2}(1/z) & z=0\ \text{(essential)} & \operatorname{Res}_{0}=0
+\end{array}
+\]
+	
+	
+	\section*{Maps: domains, images, zeros, poles, and level--set bands}
+	
+	\subsection*{(a) \(\displaystyle f_1(z)=\frac{\sin(2\pi z)}{z^{3}(2z-1)}\)}
+	\textbf{Domain.} \(\mathbb C\setminus\{0,\tfrac12\}\), with a removable singularity at \(z=\tfrac12\) and a pole at \(z=0\).
+	
+	\textbf{Poles and residues.}
+	\[
+	\operatorname{Res}_{z=0} f_1
+	=\Bigl[\frac{d}{dz}\bigl(z^2 f_1(z)\bigr)\Bigr]_{z=0}
+	=-4\pi,
+	\qquad
+	z=\tfrac12 \text{ removable (residue }0).
+	\]
+	
+	\textbf{Zeros.} \(z=n\in\mathbb Z\setminus\{0\}\) are simple zeros (coming from \(\sin(2\pi z)=0\)).
+	
+	\textbf{Image/behavior.} Along \(\mathbb R\), \(f_1(x)\to 0\) as \(|x|\to\infty\). Near \(0\), \(f_1(z)\sim-2\pi z^{-2}\): the mapping locally behaves like \(z\mapsto 1/z^{2}\).
+	
+	\textbf{Lines and bands.} The level curves \(\{\Re f_1=c\}\) and \(\{\Im f_1=b\}\) are real--analytic. Near \(0\) they are well approximated by the orthogonal families for \(1/z^2\); bands \(\{a<\Re f_1<b\}\) narrow rapidly around the pole.
+	
+	\bigskip
+	
+	\subsection*{(b) \(\displaystyle f_2(z)=\frac{1}{\exp(1/z)+2}\)}
+	\textbf{Domain.} Holomorphic on \(\mathbb C\setminus\{0\}\) except at
+	\[
+	z_k=\frac{1}{\log 2+i(2k+1)\pi},\qquad k\in\mathbb Z,
+	\]
+	where it has simple poles that accumulate at \(0\). Thus \(0\) is a non--isolated essential singularity.
+	
+	\textbf{Poles and residues.}
+	\[
+	\operatorname{Res}_{z=z_k} f_2
+	=\frac{1}{(\exp(1/z)+2)'}\Big|_{z=z_k}
+	=\frac{z_k^2}{2}.
+	\]
+	
+	\textbf{Zeros.} None.
+	
+	\textbf{Image/behavior.} \(f_2(z)\to \tfrac13\) as \(z\to\infty\). In any punctured neighborhood of \(0\), values are dense and every value (except possibly one) is assumed infinitely often (Picard), with the pattern organized by the lattice of simple poles \(z_k\).
+	
+	\textbf{Lines and bands.} Each \(\{\Re f_2=c\}\) or \(\{\Im f_2=b\}\) is an analytic curve threading between poles. Locally near \(z_k\), the picture looks like the orthogonal families for \(1/(z-z_k)\).
+	
+	\bigskip
+	
+	\subsection*{(c) \(\displaystyle f_3(z)=\sin^{2}\!\bigl(1/z\bigr)\)}
+	\textbf{Domain.} \(\mathbb C\setminus\{0\}\).
+	
+	\textbf{Poles and residues.} No poles. Essential singularity at \(z=0\), and
+	\[
+	\operatorname{Res}_{z=0} f_3=0
+	\quad\text{(the Laurent expansion has only even negative powers)}.
+	\]
+	
+	\textbf{Zeros.} \(z=\dfrac{1}{n\pi}\) for \(n\in\mathbb Z\setminus\{0\}\), all \emph{double} zeros, accumulating at \(0\).
+	
+	\textbf{Image/behavior.} The image of any punctured neighborhood of \(0\) is dense in \(\mathbb C\) and, by Great Picard, every value is assumed infinitely often (with at most one exception). In particular, \(0\) occurs infinitely often at the double zeros.
+	
+	\textbf{Lines and bands.} Level sets \(\{\Re f_3=c\}\), \(\{\Im f_3=b\}\) are highly oscillatory curves clustering at \(0\); bands between them weave through the double-zero lattice \(z=1/(n\pi)\).
+	
+	
+	\section*{Verticals, horizontals, and bands for the three maps}
+	
+	\subsection*{(a) \(\displaystyle f_1(z)=\frac{\sin(2\pi z)}{z^{3}(2z-1)}\)}
+	Near \(z=0\): \(f_1(z)=-\dfrac{2\pi}{z^{2}}+O(1)\).
+	With \(z=re^{i\theta}\),
+	\[
+	\Re f_1 \approx -\,\frac{2\pi}{r^{2}}\cos(2\theta),
+	\qquad
+	\Im f_1 \approx \ \frac{2\pi}{r^{2}}\sin(2\theta).
+	\]
+	\textbf{Vertical preimages} \(\{\Re f_1=c\}\): \(r^{-2}\cos(2\theta)\approx -\,c/(2\pi)\).
+	\quad
+	\textbf{Horizontal preimages} \(\{\Im f_1=b\}\): \(r^{-2}\sin(2\theta)\approx b/(2\pi)\).
+	\quad
+	\textbf{Bands} \(a<\Re f_1<b\): regions where \(-\dfrac{2\pi}{r^{2}}\cos(2\theta)\in(a,b)\); these narrow like \(r\sim |c|^{-1/2}\) toward the pole.
+	
+	\medskip
+	Away from \(0\) the families are smooth; at \(z=\tfrac12\) the map extends holomorphically, so level curves pass through without singularity.
+	As \(|z|\to\infty\), \(f_1(z)\to 0\), so far away the image collapses toward \(w=0\).
+	
+	\bigskip
+	
+	\subsection*{(b) \(\displaystyle f_2(z)=\frac{1}{\exp(1/z)+2}\)}
+	Poles \(z_k=\dfrac{1}{\log 2+i(2k+1)\pi}\) are simple with \(\operatorname{Res}_{z_k}=\dfrac{z_k^{2}}{2}\).
+	Near \(z_k\),
+	\[
+	f_2(z)=\frac{\operatorname{Res}_{z_k}}{z-z_k}+O(1)
+	=\frac{\lambda e^{i\phi}}{z-z_k}+O(1),
+	\qquad \lambda>0.
+	\]
+	After rotation \(e^{-i\phi}\) (which preserves orthogonality), we study \(w=\dfrac{\lambda}{z-z_k}\).
+	Writing \(z-z_k=\rho e^{i\vartheta}\),
+	\[
+	\Re w=\frac{\lambda}{\rho}\cos\vartheta\ \Big/\ \rho=\frac{\lambda\cos\vartheta}{\rho^{2}},
+	\qquad
+	\Im w=-\frac{\lambda\sin\vartheta}{\rho^{2}}.
+	\]
+	\textbf{Vertical preimages} \(\{\Re f_2=c\}\): circles/lines forming a pencil through \(z_k\) (one member is the line tangent at the pole); different \(c\) give nested curves.
+	\quad
+	\textbf{Horizontal preimages} \(\{\Im f_2=b\}\): the orthogonal pencil, also through \(z_k\).
+	\quad
+	\textbf{Bands} between two levels are crescents shrinking to \(z_k\).
+	Because \(z_k\to 0\) as \(|k|\to\infty\), these pencils accumulate at \(0\).
+	
+	\medskip
+	As \(|z|\to\infty\), \(f_2(z)\to \tfrac13\); far out, level curves flatten to an equipotential of a constant map.
+	
+	\bigskip
+	
+	\subsection*{(c) \(\displaystyle f_3(z)=\sin^{2}\!\bigl(1/z\bigr)=\tfrac12\bigl(1-\cos(2/z)\bigr)\)}
+	Let \(\zeta=1/z\) so that \(f_3(z)=\tfrac12\bigl(1-\cos(2\zeta)\bigr)\).
+	Write \(\zeta=x+iy\).
+	Then
+	\[
+	\Re f_3=\tfrac12\bigl(1-\cos 2x\ \cosh 2y\bigr),
+	\qquad
+	\Im f_3=\tfrac12\bigl(\sin 2x\ \sinh 2y\bigr)\,(-1).
+	\]
+	\textbf{Vertical preimages} \(\{\Re f_3=c\}\) correspond to \(\cos 2x\ \cosh 2y=1-2c\) in \(\zeta\)-space; these are families of curves that, for moderate \(|y|\), look like nearly vertical lines \(x=\text{const}\) with period \(\pi\).
+	Under inversion \(z=1/\zeta\), vertical lines become circles through \(0\), hence the preimages in the \(z\)-plane are circles through \(0\).
+	
+	\textbf{Horizontal preimages} \(\{\Im f_3=b\}\) correspond to \(\sin 2x\ \sinh 2y=-2b\) in \(\zeta\)-space; these resemble horizontal lines \(y=\text{const}\) (again \(\pi\)-periodic in \(x\)).
+	Their images in \(z\)-space are circles through \(0\), \emph{orthogonal} to the vertical family.
+	
+	\textbf{Bands} are inverse images of vertical/horizontal strips in \(\zeta\)-space; under inversion they become narrow annular sectors around \(0\).
+	The double zeros at \(z=\dfrac{1}{n\pi}\) lie where the two families cross; all curves and bands accumulate at \(0\).
+	
+	\section*{Problem}
+	Classify the isolated singularities of
+	\[
+	\frac{\pi}{\tan(\pi z)},\qquad
+	\frac{z^2-z}{1-\sin z},\qquad
+	\frac{\cos z-1}{(e^{z}-1)^2},
+	\]
+	and compute the residue at each isolated singularity.
+	
+	\bigskip
+	
+	\subsection*{(1) \(\displaystyle f_1(z)=\frac{\pi}{\tan(\pi z)}=\pi\cot(\pi z)\)}
+	\textbf{Singularities.}
+	\(\tan(\pi z)=0\) at \(z\in\mathbb Z\Rightarrow\) simple poles at every integer.
+	
+	\textbf{Residues.}
+	Expanding at \(z=n\in\mathbb Z\):
+	\(\sin(\pi z)\sim\pi(-1)^n(z-n)\), \(\cos(\pi z)=(-1)^n+O\!\big((z-n)^2\big)\),
+	hence \(\pi\cot(\pi z)\sim\dfrac{1}{z-n}\).
+	Therefore
+	\[
+	\boxed{\ \operatorname{Res}_{z=n}\bigl(\pi\cot(\pi z)\bigr)=1,\quad n\in\mathbb Z.\ }
+	\]
+	
+	\bigskip
+	
+	\subsection*{(2) \(\displaystyle f_2(z)=\frac{z^2-z}{1-\sin z}\)}
+	\textbf{Singularities.}
+	\(1-\sin z=0 \iff z=z_k:=\frac{\pi}{2}+2\pi k,\ k\in\mathbb Z\).
+	Near \(z_k\),
+	\(\sin z=1-\frac{(z-z_k)^2}{2}+O\!\big((z-z_k)^4\big)\),
+	so \(1-\sin z=\frac{(z-z_k)^2}{2}+O\!\big((z-z_k)^4\big)\):
+	\textbf{double poles} at each \(z_k\).
+	
+	\textbf{Residues.}
+	For a double pole,
+	\(\displaystyle \operatorname{Res}_{z=z_k} f=\left.\frac{d}{dz}\big[(z-z_k)^2 f(z)\big]\right|_{z=z_k}\).
+	Since \((z-z_k)^2/(1-\sin z)=2\,(1+O((z-z_k)^2))\),
+	\[
+	(z-z_k)^2 f_2(z)=2\,(z^2-z)+O\!\big((z-z_k)^2\big),
+	\]
+	hence
+	\[
+	\boxed{\ \operatorname{Res}_{z=z_k} f_2=2\,(2z_k-1)=4z_k-2
+		\quad\bigl(z_k=\tfrac{\pi}{2}+2\pi k\bigr).\ }
+	\]
+	
+	\bigskip
+	
+	\subsection*{(3) \(\displaystyle f_3(z)=\frac{\cos z-1}{(e^{z}-1)^2}\)}
+	\textbf{Singularities.}
+	Zeros of \(e^z-1\): \(z=2\pi i k,\ k\in\mathbb Z\).
+	At \(z=0\),
+	\(\cos z-1=-\tfrac{z^2}{2}+O(z^4)\) and \((e^z-1)^2=z^2(1+O(z))\),
+	so \(f_3(z)=-\tfrac12+O(z)\): \textbf{removable} at \(0\) (residue \(0\)).
+	
+	For \(z_0=2\pi i k\), \(k\neq0\): \((e^z-1)^2\) has a \textbf{double pole} and the numerator is nonzero.
+	
+	\textbf{Residues at \(z_0=2\pi i k,\,k\neq0\).}
+	With \(g=\cos z-1\), \(h=e^z-1\),
+	\[
+	\operatorname{Res}_{z=z_0}\frac{g}{h^2}
+	=\frac{g'(z_0)}{h'(z_0)^2}-\frac{g(z_0)\,h''(z_0)}{h'(z_0)^3},
+	\quad
+	h'(z_0)=e^{z_0}=1,\quad h''(z_0)=1.
+	\]
+	Thus
+	\[
+	\boxed{\ \operatorname{Res}_{z=2\pi i k} f_3
+		= -\sin(2\pi i k)-\bigl(\cos(2\pi i k)-1\bigr)
+		= -\bigl(\cosh(2\pi k)-1+i\,\sinh(2\pi k)\bigr),\ \ k\neq0. }
+	\]
+	At \(k=0\) the point is removable and the residue is \(0\).
+	
+	\section*{How vertical/horizontal lines and bands map to \(w=f(z)\)}
+	
+	\subsection*{(a) \(\displaystyle f_1(z)=\pi\cot(\pi z)\)}
+	With \(z=x+iy\),
+	\[
+	\cot(\pi z)=\frac{\sin(2\pi x)-i\sinh(2\pi y)}{\cosh(2\pi y)-\cos(2\pi x)} .
+	\]
+	\textbf{Vertical line \(x=x_0\).} Its image is a circle with real center:
+	\[
+	\boxed{\ (u-\pi\cot(2\pi x_0))^{2}+v^{2}=\Bigl(\frac{\pi}{\sin(2\pi x_0)}\Bigr)^{2}\ },\quad w=u+iv.
+	\]
+	If \(\sin(2\pi x_0)=0\) (i.e. \(x_0\in\tfrac12\mathbb Z\)), this degenerates to the imaginary axis \(u=0\).
+	
+	\textbf{Horizontal line \(y=y_0\).} Parametrically
+	\[
+	w(x)=\pi\,\frac{\sin(2\pi x)-i\sinh(2\pi y_0)}{\cosh(2\pi y_0)-\cos(2\pi x)} ,
+	\]
+	a circle symmetric about the real axis; for \(y_0>0\) it lies below \(\mathbb R\) and approaches \(\mathbb R\) as \(y_0\to\infty\)
+	(\(f_1(\mathbb R)\subset\mathbb R\) when \(y_0=0\)).
+	
+	\textbf{Bands.} The vertical band \(x\in(a,b)\) maps to the region between the two circles for \(x=a\) and \(x=b\).  
+	The horizontal strip \(y\in(\beta,\delta)\) maps to the region between the two circles for \(y=\beta\) and \(y=\delta\).
+	
+	\bigskip
+	
+	\subsection*{(b) \(\displaystyle f_2(z)=\frac{1}{\exp(1/z)+2}\)}
+	Poles \(z_k=\dfrac{1}{\log 2+i(2k+1)\pi}\) (simple), \(\operatorname{Res}_{z_k}=\dfrac{z_k^2}{2}\).
+	
+	\textbf{Local model near a pole \(z_k\).} 
+	\[
+	f_2(z)=\frac{\operatorname{Res}_{z_k}}{z-z_k}+B_k+O(z-z_k).
+	\]
+	Thus the images of straight lines through/near \(z_k\) are (to first order) arcs of the orthogonal circle/line pencils of \(w=\dfrac{1}{z-z_k}\).  
+	\textbf{Bands} become crescent regions that shrink onto \(z_k\).  
+	Because the poles \(z_k\) accumulate at \(0\), these pencils densify as \(z\to0\).
+	Far away, \(f_2(z)\to\tfrac13\), so images flatten toward \(w=\tfrac13\).
+	
+	\bigskip
+	
+	\subsection*{(c) \(\displaystyle f_3(z)=\sin^{2}\!\bigl(1/z\bigr)=\tfrac12\bigl(1-\cos(2/z)\bigr)\)}
+	Set \(\zeta=1/z=x+iy\). Then
+	\[
+	\Re f_3=\tfrac12(1-\cos 2x\,\cosh 2y),\qquad
+	\Im f_3=-\tfrac12(\sin 2x\,\sinh 2y).
+	\]
+	\textbf{Vertical/horizontal lines in \(\zeta\).} Vertical \(x=\text{const}\) and horizontal \(y=\text{const}\) map under \(z=1/\zeta\) to \emph{circles through \(0\)} in the \(z\)-plane.  
+	Evaluating \(f_3\) along such a circle yields a periodic oscillatory curve in \(w\) (period \(\pi\) in \(x\)), with higher frequency the closer the circle passes to \(0\).
+	
+	\textbf{Bands.} Strips in \(\zeta\) (vertical/horizontal) become annular sectors around \(0\) in \(z\); under \(f_3\) these produce tightly interlaced images in \(w\), reflecting the essential singularity at \(z=0\).
+	
+	\subsection*{(b) \(\displaystyle f_2(z)=\frac{1}{\exp(1/z)+2}\): poles and residues}
+	
+	\textbf{Poles (locations and order).}
+	Solve \(\exp(1/z)=-2\):
+	\[
+	\frac{1}{z}=\log 2+i(2k+1)\pi
+	\quad\Longrightarrow\quad
+	\boxed{\,z_k=\dfrac{1}{\log 2+i(2k+1)\pi}\,},\qquad k\in\mathbb Z.
+	\]
+	Let \(g(z)=\exp(1/z)+2\). Then
+	\[
+	g'(z)=\exp(1/z)\!\left(-\frac{1}{z^2}\right),\qquad
+	g'(z_k)=(-2)\!\left(-\frac{1}{z_k^{2}}\right)=\frac{2}{z_k^{2}}\neq0,
+	\]
+	so each \(z_k\) is a \emph{simple pole}.
+	
+	\medskip
+	\textbf{Residue at \(z_k\).} For a simple pole of \(1/g\), \(\operatorname{Res}_{z_k} \frac{1}{g}=\frac{1}{g'(z_k)}\). Hence
+	\[
+	\boxed{\,\operatorname{Res}_{z=z_k} f_2=\frac{z_k^{2}}{2}\, }.
+	\]
+	
+	\medskip
+	\textbf{(Optional real/imag form).} Write \(a=\log 2\), \(b=(2k+1)\pi\).
+	Then \(z_k=\dfrac{a-ib}{a^2+b^2}\) and
+	\[
+	\operatorname{Res}_{z_k} f_2
+	=\frac{1}{2}z_k^2
+	=\frac{(a^2-b^2)-i(2ab)}{2\,(a^2+b^2)^2}.
+	\]
+	
+	\medskip
+	\textbf{Remark.} The poles \(z_k\) accumulate at \(0\); therefore \(z=0\) is not an isolated singularity.
+	
+	\subsection*{(a) \(\displaystyle f_1(z)=\pi\cot(\pi z)\): images of vertical/horizontal lines are circles}
+	
+	With \(z=x+iy\),
+	\[
+	\cot(\pi z)=\frac{\sin(2\pi x)-i\sinh(2\pi y)}{\cosh(2\pi y)-\cos(2\pi x)},
+	\]
+	so, writing \(w=u+iv\),
+	\[
+	u=\pi\frac{\sin(2\pi x)}{\cosh(2\pi y)-\cos(2\pi x)},
+	\qquad
+	v=-\pi\frac{\sinh(2\pi y)}{\cosh(2\pi y)-\cos(2\pi x)}.
+	\]
+	
+	\paragraph{Vertical line \(x=x_0\).}
+	Eliminating \(y\) gives the exact circle
+	\[
+	\boxed{\ (u-\pi\cot(2\pi x_0))^{2}+v^{2}=\left(\frac{\pi}{\sin(2\pi x_0)}\right)^{2}\ }.
+	\]
+	This circle is centered at \(u_0=\pi\cot(2\pi x_0)\) on the real axis with radius \(R=\pi/|\sin(2\pi x_0)|\).
+	If \(\sin(2\pi x_0)=0\) (i.e. \(x_0\in\tfrac12\mathbb Z\)), the circle degenerates to the imaginary axis \(u=0\).
+	Setting \(u=0\) gives \(v^2=\pi^2\), so every such circle passes through \(\pm i\pi\).
+	
+	\paragraph{Horizontal line \(y=y_0\).}
+	Let \(A=\cosh(2\pi y_0)\), \(B=\sinh(2\pi y_0)\). Eliminating \(x\) yields
+	\[
+	\boxed{\ \left(\frac{u}{\pi}\right)^{2}
+		+\left(\frac{v+\pi\coth(2\pi y_0)}{\pi}\right)^{2}
+		=\csch^{2}(2\pi y_0)\ } ,
+	\]
+	i.e.
+	\[
+	u^{2}+\bigl(v+\pi\coth(2\pi y_0)\bigr)^{2}
+	=\bigl(\pi\,\csch(2\pi y_0)\bigr)^{2}.
+	\]
+	The center lies at \(v_0=-\pi\coth(2\pi y_0)\) on the imaginary axis and the radius is \(R=\pi\,\csch(2\pi y_0)\).
+	As \(y_0\to\infty\) the circle shrinks to \(-i\pi\); as \(y_0\to 0\) it expands and approaches the real axis.
+	
+	\subsection*{Mapping of lines and bands for \(f(z)=\pi\cot(\pi z)\)}
+	
+	\paragraph{Decomposition.}
+	With \(z=x+iy\),
+	\[
+	\cot(\pi z)=\frac{\sin(2\pi x)-i\sinh(2\pi y)}{\cosh(2\pi y)-\cos(2\pi x)},
+	\qquad
+	w=u+iv=\pi\cot(\pi z),
+	\]
+	so
+	\[
+	u=\pi\frac{\sin(2\pi x)}{\cosh(2\pi y)-\cos(2\pi x)},\qquad
+	v=-\pi\frac{\sinh(2\pi y)}{\cosh(2\pi y)-\cos(2\pi x)}.
+	\]
+	
+	\paragraph{Image of a vertical line \(x=x_0\).}
+	\[
+	\boxed{\, (u-\pi\cot(2\pi x_0))^{2}+v^{2}=\left(\frac{\pi}{\sin(2\pi x_0)}\right)^{2} \, }.
+	\]
+	A circle centered at \(u_0=\pi\cot(2\pi x_0)\) on the real axis with radius \(\pi/|\sin(2\pi x_0)|\).
+	If \(\sin(2\pi x_0)=0\), the circle degenerates to the imaginary axis \(u=0\).
+	
+	\paragraph{Image of a horizontal line \(y=y_0\).}
+	\[
+	\boxed{\, u^{2}+\bigl(v+\pi\coth(2\pi y_0)\bigr)^{2}
+		=\left(\frac{\pi}{\sinh(2\pi y_0)}\right)^{2} \, }.
+	\]
+	A circle centered on the imaginary axis at \(-i\,\pi\coth(2\pi y_0)\) with radius \(\pi/\sinh(2\pi y_0)\).
+	
+	\paragraph{Bands.}
+	A vertical band \(x\in(a,b)\) maps to the region between the two coaxial circles for \(x=a,b\).
+	A horizontal strip \(y\in(\beta,\delta)\) maps to the region between the two circles centered on the
+	imaginary axis for \(y=\beta,\delta\).
+	
+	\paragraph{Inverse description (from \(w\) back to \(z\)).}
+	If \((u-a)^{2}+v^{2}=R^{2}\) (center \(a\in\mathbb R\)), then it is the image of the vertical line
+	\(x=x_0\) with
+	\[
+	\alpha=2\pi x_0,\qquad \cot\alpha=\frac{a}{\pi},\quad \csc\alpha=\frac{R}{\pi}
+	\quad(\cot^{2}\alpha+1=\csc^{2}\alpha).
+	\]
+	If \(u^{2}+(v+\beta)^{2}=\rho^{2}\) (center on the imaginary axis), it is the image of the horizontal line
+	\(y=y_0\) with
+	\[
+	t=2\pi y_0,\qquad \coth t=\frac{\beta}{\pi},\quad \sinh t=\frac{\pi}{\rho}
+	\quad(\coth^{2}t-1=\csch^{2}t).
+	\]
+	
+	\section*{Problem}
+	Let \(f\) be holomorphic on \(\mathbb C\) except at finitely many singular points, all of which lie inside a positively oriented closed curve \(\gamma\).
+	Show that
+	\[
+	\int_{\gamma} f(z)\,dz
+	=2\pi i \,\operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^{2}}\right).
+	\]
+	
+	\subsection*{Background}
+	\textbf{Residue theorem.}
+	If \(f\) is meromorphic and \(\Gamma\) is a positively oriented Jordan curve enclosing exactly the poles \(a_1,\dots,a_m\),
+	then
+	\[
+	\int_{\Gamma} f(z)\,dz = 2\pi i \sum_{j=1}^{m} \operatorname{Res}_{z=a_j} f.
+	\]
+	
+	\textbf{Residue at infinity.}
+	For a meromorphic \(f\) on the Riemann sphere,
+	\[
+	\operatorname{Res}_{\infty} f := -\,\operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^{2}}\right),\qquad
+	\sum_{a\in\mathbb C}\operatorname{Res}_{z=a} f \;+\; \operatorname{Res}_{\infty} f = 0.
+	\]
+	Equivalently,
+	\[
+	\sum_{a\in\mathbb C}\operatorname{Res}_{z=a} f
+	= \operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^{2}}\right).
+	\]
+	
+	\subsection*{Solution (via change of variables)}
+	Choose \(R>0\) so that the circle \(\Gamma_R:=\{\,|z|=R\,\}\) encloses \(\gamma\) and all singularities of \(f\).
+	Since \(f\) is holomorphic in the annulus between \(\gamma\) and \(\Gamma_R\), Cauchy’s theorem gives
+	\[
+	\int_{\gamma} f(z)\,dz \;=\; \int_{\Gamma_R} f(z)\,dz.
+	\]
+	On \(\Gamma_R\), set \(z=\frac{1}{w}\). Then \(dz=-\frac{dw}{w^{2}}\), and \(|z|=R\) maps to \(|w|=\frac{1}{R}\) with reversed orientation.
+	Hence
+	\[
+	\int_{\Gamma_R} f(z)\,dz
+	= \int_{|w|=1/R} f\!\left(\frac{1}{w}\right)\!\left(-\frac{dw}{w^{2}}\right)\,(-1)
+	= \int_{|w|=1/R} \frac{f(1/w)}{w^{2}}\,dw.
+	\]
+	The integrand \(\frac{f(1/w)}{w^{2}}\) is meromorphic in a punctured neighborhood of \(w=0\); shrinking the circle to \(0\) yields, by the residue theorem,
+	\[
+	\int_{|w|=1/R} \frac{f(1/w)}{w^{2}}\,dw
+	= 2\pi i\;\operatorname{Res}_{w=0}\!\left(\frac{f(1/w)}{w^{2}}\right).
+	\]
+	Therefore,
+	\[
+	\boxed{\ \displaystyle
+		\int_{\gamma} f(z)\,dz
+		=2\pi i \,\operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^{2}}\right).\
+	}
+	\]
+	
+	\subsection*{Solution (residue at infinity)}
+	Let \(a_1,\dots,a_m\) be all finite singularities (inside \(\gamma\)).
+	Then
+	\[
+	\int_{\gamma} f(z)\,dz
+	=2\pi i\sum_{j=1}^{m}\operatorname{Res}_{z=a_j} f
+	= -2\pi i\,\operatorname{Res}_{\infty} f
+	= 2\pi i\,\operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^{2}}\right),
+	\]
+	which is the same identity.
+	
+	\paragraph{Residue at infinity (why this definition).}
+	Near \(\infty\) the natural coordinate is \(w=1/z\).
+	Then
+	\[
+	f(z)\,dz = f\!\left(\frac1w\right)\!\left(-\frac{dw}{w^2}\right)
+	= -\,\frac{f(1/w)}{w^2}\,dw .
+	\]
+	The residue of a meromorphic 1\,-form is the coefficient of \(dw/w\),
+	hence
+	\[
+	\boxed{\ \operatorname{Res}_{\infty} f
+		= -\,\operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^{2}}\right)\ }.
+	\]
+	
+	\paragraph{Laurent expansion view.}
+	If \(f(z)=\sum_{k=-\infty}^{N} a_k z^{k}\) for large \(|z|\),
+	then
+	\[
+	\frac{f(1/z)}{z^2}=\sum_{k=-\infty}^{N} a_k z^{-k-2}
+	\quad\Rightarrow\quad
+	\operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^2}\right)=a_{-1},
+	\]
+	so \(\operatorname{Res}_{\infty} f=-a_{-1}\), the negative of the \(1/z\) coefficient at \(\infty\).
+	
+	\paragraph{Big circle integral / global residue theorem.}
+	For \(R\) large,
+	\[
+	\oint_{|z|=R} f(z)\,dz
+	= 2\pi i\,\operatorname{Res}_{z=0}\!\left(\frac{f(1/z)}{z^{2}}\right)
+	= -\,2\pi i\,\operatorname{Res}_{\infty} f,
+	\]
+	hence \(\sum_{a\in\mathbb C}\operatorname{Res}_{z=a} f+\operatorname{Res}_{\infty} f=0\).
+	
+	\section*{Worked examples}
+	
+	\subsection*{A. $f(z)=\dfrac{1}{z}$}
+	Finite residue: $\Res_{0} f=1$. Also
+	\[
+	\frac{f(1/z)}{z^2}=\frac{1/z}{z^2}=\frac{1}{z^3}\quad\Rightarrow\quad
+	\Res_{z=0}=0,
+	\qquad
+	\boxed{\Res_{\infty} f=-0=-1}.
+	\]
+	Check: $1+(-1)=0$, and $\displaystyle \oint \frac{dz}{z}=2\pi i=-2\pi i\,\Res_\infty f$.
+	
+	\subsection*{B. $f(z)=\dfrac{1}{z^{2}}$}
+	Finite residue: $\Res_{0} f=0$. Also $f(1/z)/z^2=1/z^{4}$, so $\Res_{z=0}=0$ and
+	\[
+	\boxed{\Res_{\infty} f=0}.
+	\]
+	Big circle integral is $0$.
+	
+	\subsection*{C. $f(z)=\dfrac{z}{(z-1)(z+2)}$ (proper rational)}
+	Partial fractions: $f(z)=\tfrac{1}{3}\tfrac{1}{z-1}+\tfrac{2}{3}\tfrac{1}{z+2}$.
+	Finite residues: $\Res_{1}f=\tfrac13$, $\Res_{-2}f=\tfrac23$, sum $=1$.
+	Thus
+	\[
+	\boxed{\Res_{\infty} f=-1},\qquad
+	\oint f\,dz = -2\pi i\,\Res_\infty f = 2\pi i.
+	\]
+	
+	\subsection*{D. $f(z)=\dfrac{1}{z^{2}+1}$}
+	At $z=\pm i$ (simple poles):
+	\[
+	\Res_{i} f=\frac{1}{2i},\qquad \Res_{-i} f=-\frac{1}{2i},
+	\]
+	so the sum $=0$ and
+	\[
+	\boxed{\Res_{\infty} f=0}.
+	\]
+	
+	\subsection*{E. $f(z)=\dfrac{1}{z-a}$}
+	Finite residue: $\Res_{a} f=1$.
+	Also
+	\[
+	\frac{f(1/z)}{z^2}=\frac{1}{\tfrac{1}{z}-a}\cdot\frac{1}{z^2}
+	=\frac{1}{z(1-az)}=\frac{1}{z}+\underbrace{a}_{\text{regular}}+\cdots,
+	\]
+	so $\Res_{z=0}=1$ and
+	\[
+	\boxed{\Res_{\infty} f=-1}.
+	\]
+	Check: $1+(-1)=0$.
+	
+	\subsection*{F. $f(z)=P(z)$ (polynomial, $\deg P\ge1$)}
+	No finite residues. The form $f(1/z)/z^2$ contains only $z^{-m}$ with $m\ne1$, hence
+	\[
+	\boxed{\Res_{\infty} f=0},\qquad \oint P(z)\,dz=0.
+	\]
+	
+	\subsection*{G. $f(z)=\dfrac{1}{(z-1)(z-2)(z-3)}$ (decays like $1/z^{3}$)}
+	Simple poles at $1,2,3$. Because $f(z)=O(1/z^{3})$ as $|z|\to\infty$,
+	\[
+	\boxed{\Res_{\infty} f=0}.
+	\]
+	Consequently the three simple residues sum to $0$ (and you can verify by partial fractions).
+	
+	\subsection*{H. A keyhole-type integrand: $f(z)=\dfrac{\log(1+z)}{z^{2}}$}
+	Take the principal branch with a cut along $(-\infty,-1]$.
+	On a large circle, $f(z)=O(1/|z|^{2})$, so
+	\[
+	\oint_{|z|=R} f(z)\,dz \xrightarrow[R\to\infty]{} 0
+	\quad\Longleftrightarrow\quad
+	\Res_{\infty} f=0.
+	\]
+	Indeed,
+	\[
+	\frac{f(1/z)}{z^{2}}=\frac{\log(1+1/z)}{z^{4}}
+	= \frac{1}{z^{5}} - \frac{1}{2z^{6}} + \cdots,
+	\]
+	which has no $z^{-1}$ term; hence $\Res_{z=0}=0$ and $\Res_{\infty} f=0$.
+	This vanishing is precisely what one uses to dismiss the big-arc contribution in the keyhole contour.
+	
+	
+	\section*{The map \(f(z)=\dfrac{\log(1+z)}{z^{2}}\) (principal branch)}
+	
+	\textbf{Domain.} \(\displaystyle \C\setminus\big((-\infty,-1]\cup\{0\}\big)\).
+	
+	\textbf{Singularities.}
+	At \(z=0\): \(\log(1+z)=z-\tfrac{z^{2}}{2}+\tfrac{z^{3}}{3}-\cdots\),
+	so
+	\[
+	f(z)=\frac{1}{z}-\frac{1}{2}+\frac{z}{3}-\frac{z^{2}}{4}+\cdots,
+	\]
+	a \emph{simple pole} with \(\boxed{\Res_{z=0} f=1}\).
+	At \(z=-1\): branch point (not isolated).
+	
+	\textbf{At infinity.}
+	\(f(z)=O((\log|z|)/|z|^{2})\), hence \(\displaystyle \oint_{|z|=R} f(z)\,dz\to 0\) and \(\Res_{\infty} f=0\).
+	
+	\textbf{Zeros.} None in the domain (the only zero of \(\log(1+z)\) on the principal branch is at \(z=0\), which is a pole of \(f\)).
+	
+	\medskip
+	\textbf{Real--imaginary decomposition.}
+	Let \(1+z=\rho e^{i\theta}\) with \(\rho=|1+z|\), \(\theta=\Arg(1+z)\in(-\pi,\pi)\),
+	and \(z=re^{i\phi}\).
+	Then
+	\[
+	u+iv=f(z)=\frac{\log(1+z)}{z^{2}}=r^{-2}(\ln\rho+i\theta)e^{-i2\phi},
+	\]
+	hence
+	\[
+	\boxed{
+		\begin{aligned}
+			u &= r^{-2}\bigl[(\ln\rho)\cos 2\phi+\theta\sin 2\phi\bigr],\\
+			v &= r^{-2}\bigl[\theta\cos 2\phi-(\ln\rho)\sin 2\phi\bigr].
+	\end{aligned}}
+	\]
+	Level sets \(\{\Re f=c\}\), \(\{\Im f=b\}\) are obtained by fixing \(u=c\) or \(v=b\) in these formulas.
+	
+	\medskip
+	\textbf{Images of straight lines (\(z\to w\)).}
+	For a vertical line \(x=x_{0}\) (resp.\ horizontal \(y=y_{0}\)), substitute
+	\[
+	r^{2}=x_{0}^{2}+y^{2},\ \ \phi=\arctan(y/x_{0}),\ \ \rho^{2}=(1+x_{0})^{2}+y^{2},\ \ \theta=\arctan\!\frac{y}{\,1+x_{0}\,}
+	\]
+	(resp.\ with \(x\) and \(y_{0}\)).
+	The resulting parametric curve \(w(y)\) (resp.\ \(w(x)\)) is smooth.
+	Near \(z=0\),
+	\[
+	f(z)=\frac{1}{z}-\frac12+O(z)\ \Longrightarrow\ w+\frac12\approx \frac{1}{z},
+	\]
+	so images of vertical/horizontal lines are \emph{approximately} the orthogonal
+	circle/line pencils for \(1/z\), shifted by \(-\frac12\) in the \(w\)-plane.
+	
+	\medskip
+	\textbf{Bands.}
+	A vertical band \(a<\Re w<b\) pulls back to
+	\[
+	a<r^{-2}\bigl[(\ln\rho)\cos 2\phi+\theta\sin 2\phi\bigr]<b,
+	\]
+	and similarly for horizontal bands using the expression for \(v\).
+	All bands narrow rapidly near the pole \(z=0\), as for the model map \(1/z\).
+	
+	\medskip
+	\textbf{Behavior near the branch point \(z=-1\).}
+	With \(\zeta=z+1\), \(f(z)=\dfrac{\log\zeta}{(\zeta-1)^{2}}\).
+	As \(\zeta\to 0\), \(\ln|\zeta|\to -\infty\) while \(|\zeta-1|\sim 1\);
+	hence \(|f(z)|\sim |\ln|\zeta||\to\infty\).
+	Small circles around \(-1\) map to long arcs whose length grows like \( |\ln|\zeta|| \).
+	
+	\medskip
+	\textbf{Inverse map near \(w=\infty\).}
+	Solving \(\log(1+z)=w z^{2}\) has no closed form, but the Laurent inversion of
+	\(f(z)=\tfrac1z-\tfrac12+\tfrac{z}{3}-\cdots\) gives
+	\[
+	\boxed{\quad
+		z=\frac{1}{w+\tfrac12}+\frac{1}{3}\frac{1}{(w+\tfrac12)^{3}}
+		+\frac{1}{4}\frac{1}{(w+\tfrac12)^{4}}
+		+O\!\Big(\frac{1}{|w|^{5}}\Big),
+		\quad |w|\to\infty. }
+	\]
+	Thus locally \(z\approx 1/(w+\tfrac12)\) with small rational corrections.
+
+\section*{Problem}
+Use the argument principle to compute how many zeros of the polynomial
+\[
+p(z)=z^{4}+8z^{3}+3z^{2}+8z+3
+\]
+lie in the right half–plane \(\{\Re z>0\}\).
+	
+\section*{Argument principle count for \(p(z)=z^4+8z^3+3z^2+8z+3\) in \(\Re z>0\)}
+
+Let \(\Gamma_R\) be the positively oriented contour consisting of the segment
+\([-iR,iR]\) of the imaginary axis and the large semicircle
+\(C_R=\{Re^{i\theta}:\theta\in[-\frac{\pi}{2},\frac{\pi}{2}]\}\) in the right half–plane.
+For \(R\) large, \(\Gamma_R\) encloses precisely the zeros of \(p\) with \(\Re z>0\).
+By the argument principle,
+\[
+N_R=\frac{1}{2\pi}\,\Delta_{\Gamma_R}\arg p,
+\]
+where \(N_R\) is the number of zeros (with multiplicity) inside \(\Gamma_R\).
+
+\paragraph{(1) Big arc \(C_R\).}
+As \(|z|=R\to\infty\),
+\(
+p(z)=z^4(1+O(1/R)).
+\)
+Hence on \(C_R\) (with \(z=Re^{i\theta}\)),
+\[
+\arg p(z)=4\theta+o(1),\qquad \theta\in\Big[-\frac{\pi}{2},\frac{\pi}{2}\Big],
+\]
+so
+\[
+\Delta_{C_R}\arg p \longrightarrow 4\Big(\frac{\pi}{2}-(-\frac{\pi}{2})\Big)=4\pi.
+\]
+
+\paragraph{(2) Imaginary axis segment.}
+Put \(z=it\), \(t\in[-R,R]\). Then
+\[
+p(it)=A(t)+iB(t),\qquad
+A(t)=t^4-3t^2+3,\quad B(t)=-8t^3+8t.
+\]
+Note that
+\[
+A(t)=(t^2-\tfrac{3}{2})^2+\tfrac{3}{4}>0\quad\text{for all }t\in\mathbb R.
+\]
+Thus the curve \(t\mapsto p(it)\) stays in the open right half–plane of the \(w\)-plane,
+never crossing the negative real axis and never encircling the origin; moreover
+\(\arg p(it)\to 0\) as \(t\to\pm\infty\).
+Therefore
+\[
+\Delta_{[-iR,iR]}\arg p \longrightarrow 0.
+\]
+
+\paragraph{(3) Count.}
+Hence
+\[
+\Delta_{\Gamma_R}\arg p
+=\Delta_{[-iR,iR]}\arg p+\Delta_{C_R}\arg p
+\longrightarrow 0+4\pi=4\pi,
+\]
+and by the argument principle,
+\[
+N=\lim_{R\to\infty} N_R
+=\frac{1}{2\pi}\,\Delta_{\Gamma_R}\arg p
+=\frac{1}{2\pi}\cdot 4\pi
+=\boxed{2}.
+\]
+
+\medskip
+\emph{Check (optional).} Numerically, the roots are
+\(-7.7394,\ -0.3772,\ 0.0583\pm 1.0120\,i\); exactly two have \(\Re z>0\).
+
+	
+\section*{Univalent limit or constant}
+
+\paragraph{Problem.}
+Let $U\subset\mathbb C$ be a domain and let $(f_n)$ be a sequence of univalent
+(holomorphic injective) functions $f_n:U\to\mathbb C$ such that
+$f_n\to f$ uniformly on every compact $K\Subset U$.
+Show that the limit $f$ is either univalent or constant.
+
+\bigskip
+
+\paragraph{Background.} We collect the tools we use and the exact way they are applied.
+
+\medskip
+
+\textbf{Rouch\'e's Theorem.}
+Let $g,h$ be holomorphic on and inside a simple closed curve $\gamma$.
+If $|h(z)|<|g(z)|$ for all $z\in\gamma$, then $g$ and $g+h$ have the same number
+of zeros (counted with multiplicity) in the interior of $\gamma$.
+
+\emph{Application here.}
+Fix $w\in\mathbb C$. If $f(z_0)=w$ and $z_0$ is the only zero of $f-w$ in a small disc $D$
+(with $|f(z)-w|>0$ on $\partial D$), then the uniform convergence on $\partial D$ gives
+$|f_n-f|<|f-w|$ there for all large $n$.
+Hence $f_n-w$ and $f-w$ have the same zero count in $D$; in particular, $f_n(z)=w$
+has at least one solution in $D$ for all large $n$.
+
+\medskip
+
+\textbf{Hurwitz's Theorem.}
+If $g_n\to g$ uniformly on compacta in a domain and each $g_n$ is holomorphic
+and \emph{non-vanishing}, then either $g\equiv 0$ or $g$ is non-vanishing.
+Equivalently, zeros of $g$ are locally the limits of zeros of $g_n$, counted with multiplicity.
+
+\emph{Application here (derivative version).}
+For univalent $f_n$, the inverse function theorem ensures $f_n'(z)\neq 0$ on $U$.
+If $f$ were non-constant \emph{and} had a critical point $f'(z_0)=0$, then by Hurwitz
+applied to $g_n=f_n'$ we would get a contradiction, since $g_n$ never vanish.
+Thus a non-constant limit $f$ must satisfy $f'(z)\neq 0$ everywhere (hence be locally injective).
+
+\medskip
+
+\textbf{Two consequences for univalent maps.}
+(i) If $f$ is holomorphic and injective on $U$, then $f'(z)\neq 0$ for all $z\in U$.
+(ii) If $f(z_1)=f(z_2)=w$ with $z_1\neq z_2$, then by Rouch\'e the value $w$ must be
+assumed by $f_n$ in disjoint neighborhoods of $z_1$ and $z_2$ for all large $n$,
+contradicting injectivity of $f_n$.
+
+\bigskip
+
+\paragraph{Proof (via Rouch\'e on fibers).}
+Assume $f$ is not constant.
+Suppose, towards a contradiction, that $f$ is not injective: pick
+$z_1\neq z_2$ in $U$ with $f(z_1)=f(z_2)=:w$.
+
+Choose disjoint closed discs $\overline{D_1},\overline{D_2}\Subset U$ centered at
+$z_1,z_2$, respectively, so small that
+\[
+f(\partial D_j)\cap\{w\}=\varnothing
+\quad\text{and}\quad
+\text{$f-w$ has no zeros in $\overline{D_j}$ except at $z_j$}
+\]
+for $j=1,2$.
+Uniform convergence on $\partial D_j$ yields $|f_n-f|<|f-w|$ there for all $n\ge N$,
+hence, by Rouch\'e, $f_n-w$ and $f-w$ have the same number of zeros in $D_j$.
+Therefore, for all $n\ge N$, the equation $f_n(z)=w$ has at least one solution in each $D_j$.
+Because $D_1\cap D_2=\varnothing$, this gives \emph{two} distinct solutions,
+contradicting injectivity of $f_n$.
+
+Thus a non-constant limit $f$ cannot fail to be injective.
+Hence $f$ is either univalent or constant.
+\hfill$\square$
+
+\bigskip
+
+\paragraph{Alternative proof (via Hurwitz on the derivatives).}
+Assume $f$ is not constant and $f_n\to f$ locally uniformly.
+Since each $f_n$ is univalent, $f_n'(z)\neq 0$ for all $z$.
+By Hurwitz applied to $(f_n')$, either $f'\equiv 0$ (which would force $f$ to be constant,
+contrary to assumption) or $f'(z)\neq 0$ everywhere.
+Thus $f$ is a local biholomorphism on $U$; a standard covering-space/plane-domain argument
+then promotes local injectivity to global injectivity on $U$, so $f$ is univalent.
+
+\bigskip
+
+\paragraph{Examples.}
+\begin{itemize}
+	\item \emph{Univalent limit:} $f_n(z)=z+\tfrac1n$ on any domain $U$.
+	Then $f_n\to f(z)=z$ (univalent).
+	\item \emph{Constant limit:} $f_n(z)=\tfrac1n\,z$ on any domain $U$.
+	Then $f_n\to f\equiv 0$ (constant).
+	\item \emph{Disk automorphisms:} On $\mathbb D$, $f_n(z)=\dfrac{z}{1-\frac{z}{n}}$ are univalent
+	and $f_n\to f(z)=z$ uniformly on compacta.
+\end{itemize}
+
+\section*{Growth at infinity $\Rightarrow$ polynomial / rational}
+
+\paragraph{Problem.}
+\begin{enumerate}
+	\item[(i)] Show that if $f$ is entire and $\displaystyle \lim_{z\to\infty} f(z)=\infty$, then $f$ is a polynomial.
+	\item[(ii)] Show that if $f$ is meromorphic on $\mathbb C$ and $\displaystyle \lim_{z\to\infty} f(z)=\infty$, then $f$ is a rational function.
+\end{enumerate}
+
+\bigskip
+
+\paragraph{Background.}
+Let $w=1/z$ and $g(w)=f(1/w)$.
+
+\medskip
+\textbf{Meromorphic at $\infty$.} We say $f$ is holomorphic / meromorphic / has a pole at $\infty$
+iff $g$ is holomorphic / meromorphic / has a pole at $0$.
+If $g$ is meromorphic at $0$, then for some $m\ge1$,
+\[
+g(w)=\sum_{k=-m}^{\infty} c_k\,w^k \qquad (c_{-m}\neq 0),
+\]
+and hence
+\[
+f(z)=g(1/z)=c_{-m}z^m+\cdots+c_0+\sum_{k\ge1} c_k\,z^{-k}. \tag{$\ast$}
+\]
+
+\medskip
+\textbf{Meromorphic functions on the sphere.}
+A function meromorphic on the Riemann sphere $\widehat{\mathbb C}=\mathbb C\cup\{\infty\}$
+is rational; equivalently, a meromorphic function on $\mathbb C$ with a non-essential singularity at $\infty$ is rational.
+
+\bigskip
+
+\paragraph{Solution to (i).}
+Since $f(z)\to\infty$ as $z\to\infty$, $g(w)=f(1/w)\to\infty$ as $w\to0$,
+so $g$ has a pole at $0$ and admits the Laurent expansion above.
+Using $(\ast)$,
+\[
+f(z)=c_{-m}z^m+\cdots+c_0+\sum_{k\ge1} c_k\,z^{-k}.
+\]
+Because $f$ is \emph{entire}, the negative powers must vanish:
+$c_k=0$ for all $k\ge1$.
+Thus $f$ is a polynomial of degree $m$.
+
+\bigskip
+
+\paragraph{Solution to (ii).}
+Again $g(w)=f(1/w)$ has a pole at $0$, so $(\ast)$ holds and we can write
+\[
+f(z)=P(z)+R(z),\qquad
+P(z)=c_{-m}z^m+\cdots+c_0,\quad
+R(z)=\sum_{k\ge1} c_k\,z^{-k}.
+\]
+Here $P$ is a polynomial and $R$ is holomorphic for $|z|>0$ with $R(z)\to 0$ as $z\to\infty$,
+so $\infty$ is a removable singularity of $R$.
+Therefore $R$ extends meromorphically to the sphere and has only finitely many poles in $\mathbb C$.
+Hence $R$ is a proper rational function (a finite sum of principal parts), and
+\[
+f=P+R
+\]
+is rational.
+
+\bigskip
+
+\paragraph{Examples.}
+\begin{itemize}
+	\item \emph{Entire $\Rightarrow$ polynomial:} $f(z)=z^5-2z+7$ has $f(z)\to\infty$ and is a polynomial.
+	Any entire $f$ with $f(z)\to\infty$ must be of this form.
+	\item \emph{Meromorphic $\Rightarrow$ rational:} $f(z)=\dfrac{z^3+1}{z-2}$ satisfies $f(z)\sim z^2\to\infty$ and is rational.
+	\item \emph{Non-example:} $e^{z}$ is entire but $\lim_{z\to\infty}e^{z}$ does not exist (directional growth), so (i) does not apply.
+\end{itemize}
+
+\section*{Why ``$f'(z)\neq 0$'' does \emph{not} imply global injectivity}
+
+\paragraph{Local vs.\ global.}
+If $f$ is holomorphic on a domain $U$ and $f'(z)\neq 0$ for all $z\in U$,
+then by the inverse function theorem $f$ is a \emph{local} biholomorphism:
+it is conformal and locally one–to–one on $U$.
+This does \emph{not} force $f$ to be globally one–to–one on $U$.
+
+\medskip
+\textbf{Counterexample.}
+Take $f(z)=e^{z}$ on $\C$.  Then $f'(z)=e^{z}\neq 0$ for every $z$,
+but $f(z+2\pi i)=f(z)$, so $f$ is not injective.
+
+\bigskip
+\paragraph{What Hurwitz really gives (in our setting).}
+Suppose $f_n\to f$ locally uniformly on $U$, and each $f_n$ is univalent.
+Then $f_n'(z)\neq 0$ on $U$.
+Applying \emph{Hurwitz’s theorem} to the sequence $g_n:=f_n'$ yields:
+\[
+\text{either } f'\equiv 0 \quad\text{(so $f$ is constant),}\qquad
+\text{or } f'(z)\neq 0 \text{ for all } z\in U.
+\]
+In the second case, $f$ is a \emph{local} biholomorphism (open and locally injective),
+but this alone does not ensure global injectivity.
+
+\bigskip
+\paragraph{How we get global injectivity.}
+To rule out two distinct preimages of the same value for $f$, we use
+\emph{Rouch\'e’s theorem on the fibers}:
+
+\begin{itemize}
+	\item Assume $f(z_1)=f(z_2)=w$ with $z_1\neq z_2$.
+	\item Choose small disjoint discs $D_1,D_2\Subset U$ around $z_1,z_2$
+	so that $f-w$ has exactly one zero in each $D_j$ and $|f-w|>0$ on $\partial D_j$.
+	\item Local uniform convergence gives $|\,f_n-f\,|<|\,f-w\,|$ on each $\partial D_j$
+	for all large $n$.
+	\item By \textbf{Rouch\'e}, $f_n-w$ and $f-w$ have the same number of zeros in each $D_j$,
+	so $f_n(z)=w$ has at least one solution in $D_1$ and in $D_2$—contradicting
+	the injectivity of $f_n$.
+\end{itemize}
+
+Therefore the nonconstant limit $f$ is \emph{globally} injective.
+
+\bigskip
+\paragraph{When can $f'(z)\neq 0$ imply injectivity?}
+Additional topology is needed; for example, if $U$ is simply connected and
+$f:U\to V$ is a holomorphic covering map with $f'(z)\neq 0$, then $f$ is a conformal
+homeomorphism (hence injective).
+Without such global hypotheses, $f'(z)\neq 0$ guarantees only \emph{local}
+injectivity (as $e^{z}$ shows).
+
+\section*{Holomorphic Inverse Function Theorem}
+
+\paragraph{Statement.}
+Let $U\subset\C$ be open and let $f:U\to\C$ be holomorphic.
+If $f'(z_0)\neq 0$ for some $z_0\in U$, then there exist neighborhoods
+$V\subset U$ of $z_0$ and $W\subset\C$ of $w_0:=f(z_0)$ such that
+\begin{enumerate}
+	\item $f:V\to W$ is a biholomorphism (bijective, holomorphic, with holomorphic inverse),
+	\item the inverse $g:=f^{-1}:W\to V$ is holomorphic and
+	\[
+	g'(w_0)=\frac{1}{f'(z_0)}.
+	\]
+\end{enumerate}
+
+\bigskip
+
+\paragraph{Consequences.}
+\begin{itemize}
+	\item If $f'(z_0)\neq 0$, then $f$ is \emph{locally injective} and \emph{conformal} at $z_0$.
+	\item If $f'(z)\neq 0$ for all $z\in U$, then $f$ is a \emph{local biholomorphism} on $U$
+	(open map, locally one–to–one).
+	\item Global injectivity does not follow in general (e.g.\ $f(z)=e^z$ on $\C$).
+\end{itemize}
+
+\bigskip
+
+\paragraph{Proof sketch.}
+Because $f'(z_0)\neq 0$, the Taylor expansion at $z_0$ begins with a nonzero linear term:
+\[
+f(z)=f(z_0)+f'(z_0)(z-z_0)+o(z-z_0).
+\]
+For $w$ near $w_0$ there is exactly one $z$ near $z_0$ solving $f(z)=w$; this follows from
+Rouch\'e’s theorem (counting solutions) or from the complex Implicit Function Theorem.
+The solution depends holomorphically on $w$, giving a holomorphic inverse $g$ on some $W$.
+Differentiating $f(g(w))=w$ yields $f'(g(w))\,g'(w)=1$, hence $g'(w_0)=1/f'(z_0)$.
+\hfill$\square$
+
+\section*{Why ``uniform on compacta'' matters (counterexamples and explanations)}
+
+\paragraph{Set-up.}
+Let $U\subset\mathbb{C}$ be a domain and $f_n:U\to\mathbb{C}$ be holomorphic and univalent (injective).
+Assume $f_n \to f$.
+The theorem we used says: if the convergence is \emph{uniform on compacta}, then the limit $f$ is either
+\emph{univalent} or \emph{constant}.
+Below we show, by counterexamples and mechanism, why the hypotheses
+``uniform'' and ``on compacta'' are essential.
+
+\bigskip
+
+\paragraph{1.\ Pointwise convergence is too weak.}
+One can have a sequence of univalent maps with pointwise behaviour that does not lead to a holomorphic limit,
+or that gives a limit without any control on injectivity nearby.
+
+\medskip
+
+\textbf{(a) No limit at all (oscillation to the boundary).}
+On the unit disk $\mathbb{D}=\{\,|z|<1\,\}$ consider the automorphisms
+\[
+f_n(z)=\phi_{a_n}(z):=\frac{z-a_n}{1-\overline{a_n}\,z},\qquad
+a_n:=e^{in\theta}\Bigl(1-\frac1n\Bigr),\quad \theta\in(0,2\pi)\setminus\pi\mathbb{Q}.
+\]
+Each $f_n$ is a Möbius automorphism of $\mathbb{D}$, hence univalent.
+The parameters $a_n$ \emph{spin} and creep to the boundary.
+For a generic irrational angle $\theta$, the sequence $(f_n(z))$ has no pointwise limit for any fixed interior point $z$.
+Thus, without some form of uniformity, there may be no holomorphic limit at all.
+
+\medskip
+
+\textbf{(b) Pointwise limit exists but gives no control.}
+On $\mathbb{D}$ take
+\[
+f_n(z)=\phi_{1-1/n}(z)=\frac{z-(1-1/n)}{1-(1-1/n)z}.
+\]
+For each fixed $z\in\mathbb{D}$, we have $f_n(z)\to -1$ (a constant) as $n\to\infty$.
+This shows that pointwise convergence can push images to the boundary and collapse to a constant,
+but pointwise control alone is insufficient to transfer local injectivity information or to apply Rouché/Hurwitz on circles.
+
+\bigskip
+
+\paragraph{2.\ Why ``on compacta'' is the right scale.}
+Uniform convergence on \emph{all of $U$} is often too strong (and rarely holds on unbounded domains),
+while \emph{local} uniform convergence (uniform on compact subsets) is precisely what is needed to control behaviour on small circles and use zero-counting theorems.
+
+\medskip
+
+\textbf{(a) Automorphisms that ``escape'', but behave nicely on compacts.}
+The same disk automorphisms $\phi_{a_n}$ with $a_n\uparrow 1$ \emph{are} uniformly convergent on each compact $K\Subset\mathbb{D}$ to the constant $-1$,
+but they are \emph{not} uniformly convergent on the whole disk.
+Local uniformity is exactly enough to compare $f_n$ and the limit $f$ on small \emph{closed} curves contained in $U$.
+
+\medskip
+
+\textbf{(b) Unbounded domains: global uniformity is unrealistic.}
+On $U=\mathbb{C}$, the translations $f_n(z)=z+n$ are entire and univalent, but they have no limit (hence not even pointwise convergence).
+Requiring \emph{global} uniform convergence on $\mathbb{C}$ would force trivial limits.
+Uniform-on-compacta is the correct normal-family hypothesis.
+
+\bigskip
+
+\paragraph{3.\ The concrete place where uniformity is used in the proof.}
+The proof of the ``univalent limit or constant'' theorem uses Rouché’s theorem on small boundary circles:
+for disjoint discs $D_1,D_2\Subset U$ around a hypothetical collision $f(z_1)=f(z_2)=w$,
+one needs, for large $n$,
+\[
+|\,f_n(z)-f(z)\,|<|\,f(z)-w\,| \qquad \text{for all } z\in \partial D_j \ (j=1,2).
+\]
+This strict inequality on \emph{every point of the boundary} is guaranteed by \emph{uniform} convergence on the compact circles $\partial D_j$.
+If we had only pointwise convergence, then at some boundary points $|f_n-f|$ could be large,
+the inequality could fail on arbitrarily small arcs, and we could not conclude (via Rouché) that $f_n-w$
+has a zero in each $D_j$.
+Without this, the contradiction to the injectivity of $f_n$ collapses.
+
+\bigskip
+
+\paragraph{4.\ Summary (what each hypothesis buys you).}
+\begin{itemize}
+	\item \textbf{Uniform} (not just pointwise) is needed to pass zero-counts on a \emph{curve} (Rouché/Hurwitz).
+	\item \textbf{On compacta} is the right local version: it lets you place small circles \emph{inside} $U$ and control $f_n$ uniformly there.
+	\item Dropping either one allows sequences of univalent maps to oscillate, to run off to the boundary, or to fail to produce any holomorphic limit.
+\end{itemize}
+
+	
+	
+\end{document}
+

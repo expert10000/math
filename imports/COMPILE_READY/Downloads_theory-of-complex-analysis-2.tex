@@ -1,0 +1,1674 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{parskip}
+\usepackage{enumitem}
+
+\usepackage{placeins} 
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{array}
+
+\usepackage{float}
+
+\usepackage{varwidth} % add if not already in preamble
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{theorems}
+
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref} % optional but recommended
+\usepackage[capitalize,nameinlink,noabbrev]{cleveref}
+
+
+\usetikzlibrary{arrows.meta}
+\usepgfplotslibrary{groupplots}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{example}{Example}
+\newtheorem{counterexample}{Counterexample}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{exercise}{Exercise} % or [subsection] or no bracket for global numbering
+
+\usepackage{enumitem}
+
+
+
+\usepackage[most]{tcolorbox} % loads skins + breakable
+\tcbuselibrary{theorems}
+
+\usetikzlibrary{arrows.meta,decorations.markings}
+
+% definition style (not italic)
+\theoremstyle{definition}
+
+\newtheorem{definition}[exercise]{Definition}
+
+% plain style (italic body)
+\theoremstyle{plain}
+
+\newtheorem{lemma}[exercise]{Lemma}
+
+% remark style (upright text, not italic)
+\theoremstyle{remark}
+\newtheorem{remark}[exercise]{Remark}
+
+\DeclareMathOperator{\Log}{Log}
+\DeclareMathOperator{\Arg}{Arg} 
+\DeclareMathOperator{\Res}{Res}
+
+\newcommand{\DrawDyadicInterpolant}[3]{% #1=M, #2=expr in \x, #3=plot options
+	\pgfmathtruncatemacro{\N}{2^#1}
+	\addplot+[#3] coordinates {%
+		\foreach \j in {0,...,\N}{%
+			\pgfmathsetmacro{\x}{\j/\N}
+			\pgfmathsetmacro{\y}{#2}%
+			(\x,\y)
+		}%
+	};
+}
+
+% Faber–Schauder hat: \varphi_{m,k}(t)=max(1-2^{m+1}|t-k/2^m|,0)
+\newcommand{\DrawHat}[3]{% #1=m (>=1), #2=k odd, #3=plot options
+	\addplot+[domain=0:1,samples=400,#3]
+	{max(1 - abs((2^(#1))*x - (#2)), 0)};
+}
+
+
+
+
+
+% a matching solution environment
+%\newenvironment{solution}{\begin{proof}[Solution]}{\end{proof}}
+
+\emergencystretch=2em
+\setlength{\abovedisplayskip}{9pt}
+\setlength{\belowdisplayskip}{9pt}
+\setlength{\abovedisplayshortskip}{7pt}
+\setlength{\belowdisplayshortskip}{7pt}
+
+\newcommand{\norm}[1]{\left\lVert #1 \right\rVert}
+\newcommand{\Pspace}{\mathcal{P}_{<n}}
+\newcommand{\Err}{E^\ast_n}
+
+
+\usepackage{amsthm}
+\newtheorem{problem}{Problem}[section] % or omit [section] if you don't want section-based numbering
+\newenvironment{solution}{\par\noindent\textbf{Solution.}\ }{\hfill\qedsymbol\par}
+
+\DeclareMathOperator{\csch}{csch} % hyperbolic cosecant
+\DeclareMathOperator{\sech}{sech}
+
+
+\newtheorem{proposition}[theorem]{Proposition}
+
+%\newenvironment{solution}{\par\noindent\textit{Solution.}\ }{\par\vspace{0.5em}}
+
+% === Adjusted title info ===
+\title{Exercises and Solutions \\[0.5em]
+	\large Theory of Complex analysis}
+\author{Prepared by \dots}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	
+	
+
+\paragraph{Problem 1.}
+\begin{enumerate}[label=(\roman*)]
+	\item Use Cauchy’s integral formula to compute
+	\[
+	\int_{|z|=1}\frac{e^{\alpha z}}{2z^{2}-5z+2}\,dz,\qquad \alpha\in\mathbb C.
+	\]
+	
+	\item By considering the real part of a suitable complex integral, show that for $r\in(0,1)$,
+	\[
+	\int_{0}^{\pi}\frac{\cos(n\theta)}{1-2r\cos\theta+r^{2}}\,d\theta=\frac{\pi r^{n}}{1-r^{2}},
+	\qquad
+	\int_{0}^{2\pi}\cos(\cos\theta)\cosh(\sin\theta)\,d\theta=2\pi .
+	\]
+\end{enumerate}
+
+\paragraph{Background.}
+Cauchy’s integral formula: if $f$ is holomorphic on and inside a simple closed curve $\gamma$, then
+$\displaystyle \int_\gamma \frac{f(z)}{z-a}\,dz=2\pi i\,f(a)$ for $a$ inside $\gamma$.
+Also, with $z=e^{i\theta}$ one has $d\theta=\frac{dz}{iz}$ and
+$1-2r\cos\theta+r^{2}=(1-rz)(1-rz^{-1})=\frac{(z-r)(1-rz)}{z}$.
+
+\paragraph{Solution.}
+\emph{(i)} Factor $2z^{2}-5z+2=2(z-2)\bigl(z-\tfrac12\bigr)$. On $|z|=1$ only $z=\tfrac12$ lies inside.
+Hence
+\[
+\int_{|z|=1}\frac{e^{\alpha z}}{2z^{2}-5z+2}\,dz
+=2\pi i\cdot \Res\!\left(\frac{e^{\alpha z}}{2(z-2)\bigl(z-\tfrac12\bigr)};\ \tfrac12\right)
+=2\pi i\cdot \frac{e^{\alpha/2}}{2(\tfrac12-2)}
+=-\,\frac{2\pi i}{3}\,e^{\alpha/2}.
+\]
+
+\medskip
+\emph{(ii-a)} Let
+\[
+I_n=\int_{0}^{2\pi}\frac{e^{in\theta}}{1-2r\cos\theta+r^{2}}\,d\theta.
+\]
+With $z=e^{i\theta}$ and $d\theta=\frac{dz}{iz}$,
+\[
+I_n=\oint_{|z|=1}\frac{z^{n}}{(z-r)(1-rz)}\,\frac{dz}{i}.
+\]
+Only $z=r$ lies inside, giving $\Res=\dfrac{r^{n}}{1-r^{2}}$. Thus
+\[
+I_n=2\pi\,\frac{r^{n}}{1-r^{2}},\qquad
+\int_{0}^{2\pi}\frac{\cos(n\theta)}{1-2r\cos\theta+r^{2}}\,d\theta
+=\Re I_n=\frac{2\pi r^{n}}{1-r^{2}}.
+\]
+Halving the interval,
+\[
+\int_{0}^{\pi}\frac{\cos(n\theta)}{1-2r\cos\theta+r^{2}}\,d\theta
+=\frac{\pi r^{n}}{1-r^{2}}.
+\]
+
+\medskip
+\emph{(ii-b)} Using
+$\cos(\cos\theta)\cosh(\sin\theta)=\tfrac12\big(e^{i e^{i\theta}}+e^{-i e^{i\theta}}\big)$,
+\[
+\int_{0}^{2\pi}\cos(\cos\theta)\cosh(\sin\theta)\,d\theta
+=\frac12\oint_{|z|=1}\frac{e^{iz}+e^{-iz}}{iz}\,dz
+=\frac{1}{2i}\cdot 2\pi i\,\bigl(e^{0}+e^{0}\bigr)=2\pi.
+\]
+\qed
+
+
+% In the preamble (once):
+% \usepackage{amsmath,amssymb,amsthm}
+% \DeclareMathOperator{\Res}{Res}
+
+\paragraph{Residues: definitions, equivalences, and tools.}
+
+\medskip
+\emph{Laurent series and the residue.}
+Let $f$ be meromorphic with an isolated singularity at $a$.
+Then there is $\rho>0$ and integers $m\ge 0$ and coefficients $\{c_k\}_{k=-m}^{\infty}$ such that
+\[
+f(z)=\sum_{k=-m}^{\infty} c_k (z-a)^k, \qquad 0<|z-a|<\rho .
+\]
+\textbf{Definition.} The \emph{residue} of $f$ at $a$ is the coefficient of $(z-a)^{-1}$:
+\[
+\boxed{\ \Res(f;a)=c_{-1}\ }.
+\]
+
+\medskip
+\emph{Equivalent characterizations.}
+For any $0<\varepsilon<\rho$,
+\[
+\Res(f;a)=\frac{1}{2\pi i}\oint_{|z-a|=\varepsilon} f(z)\,dz.
+\]
+If $a$ is a simple pole (i.e.\ $m=1$), then
+\[
+\Res(f;a)=\lim_{z\to a} (z-a)\,f(z).
+\]
+More generally, if $a$ is a pole of order $m$,
+\[
+\Res(f;a)=\frac{1}{(m-1)!}\lim_{z\to a}\frac{d^{\,m-1}}{dz^{m-1}}\big((z-a)^m f(z)\big).
+\]
+
+\smallskip
+\emph{Proof sketch of $c_{-1}$-rule.}
+Write the Laurent series and integrate termwise on $|z-a|=\varepsilon$:
+\[
+\oint (z-a)^k\,dz = \begin{cases}
+	0, & k\neq -1,\\[2pt]
+	2\pi i, & k=-1.
+\end{cases}
+\]
+Thus $\displaystyle \oint f = 2\pi i\,c_{-1}$ and $\Res(f;a)=c_{-1}$.
+
+\medskip
+\emph{Residue Theorem (workhorse).}
+If $f$ is meromorphic on and inside a positively oriented simple closed curve $\gamma$
+with no poles on $\gamma$, then
+\[
+\int_{\gamma} f(z)\,dz
+= 2\pi i \sum_{a_k\in \mathrm{Int}(\gamma)} \Res(f;a_k).
+\]
+
+\medskip
+\emph{Quick computation rules.}
+\begin{itemize}
+	\item \textbf{Simple pole formula.} If $f(z)=\dfrac{p(z)}{q(z)}$ with $p,q$ holomorphic,
+	$q(a)=0$, $q'(a)\neq 0$, then
+	\[
+	\Res(f;a)=\frac{p(a)}{q'(a)}.
+	\]
+	\item \textbf{Analytic factor.} If $g$ is holomorphic near $a$, then
+	$\Res(g\,f;a)=g(a)\,\Res(f;a)$.
+	\item \textbf{Pole at infinity.} If $f$ is meromorphic on the Riemann sphere $\widehat{\mathbb C}$,
+	\[
+	\Res(f;\infty) := -\sum_{a\in\mathbb C}\Res(f;a),\qquad
+	\oint_{|z|=R} f(z)\,dz \xrightarrow{R\to\infty} -2\pi i\,\Res(f;\infty),
+	\]
+	when the outer integral stabilizes.
+\end{itemize}
+
+\medskip
+\emph{Micro–examples (via $c_{-1}$).}
+\begin{itemize}
+	\item $f(z)=\dfrac{1}{(z-a)(z-b)}$ near $a$: expand
+	\(
+	\dfrac{1}{z-b}=\dfrac{1}{a-b} + O(z-a)
+	\),
+	so
+	\[
+	f(z)=\frac{1}{z-a}\cdot \frac{1}{a-b} + O(1)
+	\;\Rightarrow\;
+	\Res(f;a)=\frac{1}{a-b}.
+	\]
+	\item $f(z)=\dfrac{e^{\alpha z}}{(z-a)(z-b)}$ near $a$:
+	\(
+	e^{\alpha z}=e^{\alpha a}+O(z-a)
+	\), hence
+	\[
+	f(z)=\frac{1}{z-a}\cdot \frac{e^{\alpha a}}{a-b}+O(1)
+	\;\Rightarrow\;
+	\Res(f;a)=\frac{e^{\alpha a}}{a-b}.
+	\]
+\end{itemize}
+
+\medskip
+\emph{Unit-circle substitution for trig integrals.}
+With $z=e^{i\theta}$, $d\theta=\dfrac{dz}{iz}$ and
+\[
+1-2r\cos\theta+r^2=(1-rz)(1-rz^{-1})=\frac{(z-r)(1-rz)}{z}.
+\]
+Only $z=r$ lies inside $|z|=1$ if $0<r<1$, giving
+\[
+\int_{0}^{2\pi}\frac{e^{in\theta}}{1-2r\cos\theta+r^2}\,d\theta
+=\oint_{|z|=1}\frac{z^n}{(z-r)(1-rz)}\,\frac{dz}{i}
+=2\pi\,\frac{r^n}{1-r^2}.
+\]
+Taking real parts yields
+\(
+\displaystyle \int_{0}^{\pi}\frac{\cos(n\theta)}{1-2r\cos\theta+r^2}\,d\theta=\frac{\pi r^n}{1-r^2}.
+\)
+
+\paragraph{Problem 2.}
+Find the Laurent expansion (in powers of $z$, i.e.\ about $0$) of
+\[
+\frac{1}{z^{2}-3z+2}=\frac{1}{(z-1)(z-2)}
+\]
+in the regions $\{|z|<1\}$, $\{1<|z|<2\}$, and $\{|z|\ge 2\}$.
+
+\paragraph{Background.}
+Partial fractions:
+\[
+\frac{1}{(z-1)(z-2)}=-\frac{1}{z-1}+\frac{1}{z-2}.
+\]
+Geometric expansions:
+\[
+\frac{1}{1-w}=\sum_{n=0}^{\infty}w^{n}\quad(|w|<1),\qquad
+\frac{1}{z-a}=\frac{1}{z}\cdot\frac{1}{1-\frac{a}{z}}
+=\sum_{n=0}^{\infty}\frac{a^{n}}{z^{n+1}}\quad(|z|>|a|).
+\]
+
+\paragraph{Solutions.}
+
+\emph{(A) For $|z|<1$.}
+\[
+-\frac{1}{z-1}=\frac{1}{1-z}=\sum_{n=0}^{\infty}z^{n},\qquad
+\frac{1}{z-2}=-\frac{1}{2}\frac{1}{1-\frac{z}{2}}
+=-\sum_{n=0}^{\infty}\frac{z^{n}}{2^{\,n+1}}.
+\]
+Hence
+\[
+\boxed{\ \frac{1}{z^{2}-3z+2}=\sum_{n=0}^{\infty}\Big(1-2^{-(n+1)}\Big)z^{n},\quad |z|<1.\ }
+\]
+
+\medskip
+\emph{(B) For $1<|z|<2$.}
+\[
+-\frac{1}{z-1}=-\frac{1}{z}\frac{1}{1-\frac{1}{z}}
+=-\sum_{n=1}^{\infty} z^{-n},\qquad
+\frac{1}{z-2}=-\sum_{n=0}^{\infty}\frac{z^{n}}{2^{\,n+1}}.
+\]
+Thus
+\[
+\boxed{\ \frac{1}{z^{2}-3z+2}
+	=-\sum_{n=1}^{\infty} z^{-n}-\sum_{n=0}^{\infty}\frac{z^{n}}{2^{\,n+1}},
+	\quad 1<|z|<2.\ }
+\]
+
+\medskip
+\emph{(C) For $|z|>2$.}
+\[
+-\frac{1}{z-1}=-\sum_{m=1}^{\infty} z^{-m},\qquad
+\frac{1}{z-2}=\frac{1}{z}\frac{1}{1-\frac{2}{z}}
+=\sum_{m=1}^{\infty}\frac{2^{\,m-1}}{z^{m}}.
+\]
+Therefore
+\[
+\boxed{\ \frac{1}{z^{2}-3z+2}
+	=\sum_{m=1}^{\infty}\big(2^{\,m-1}-1\big)z^{-m},\quad |z|>2.\ }
+\]
+\qed
+
+\paragraph{Problem 3.}
+Classify the singularities of
+\[
+\frac{z}{\sin z},\qquad
+\sin\!\Big(\frac{\pi}{z^{2}}\Big),\qquad
+\frac{1}{z^{2}}+\frac{1}{z^{2}+1},\qquad
+\frac{1}{z^{2}}\cos\!\Big(\frac{\pi z}{z+1}\Big).
+\]
+
+\paragraph{Background.}
+At an isolated singularity $a$, if the Laurent expansion
+$f(z)=\sum_{k=-m}^{\infty} c_k (z-a)^k$ has
+(i) $m=0$ $\Rightarrow$ removable;
+(ii) finitely many negative terms with highest $(z-a)^{-m}$ $\Rightarrow$ pole of order $m$;
+(iii) infinitely many negative terms $\Rightarrow$ essential.
+
+\medskip
+\emph{(1) $\boldsymbol{z/\sin z}$.}
+Near $0$, $\sin z=z-\frac{z^{3}}{6}+O(z^{5})$, so
+\[
+\frac{z}{\sin z}=1+\frac{z^{2}}{6}+O(z^{4}),
+\]
+hence $z=0$ is \textbf{removable} (define value $1$). At $z=n\pi$, $n\in\mathbb Z\setminus\{0\}$,
+$\sin z$ has simple zeros and the numerator is nonzero, so each $n\pi$ is a \textbf{simple pole}.
+
+\medskip
+\emph{(2) $\boldsymbol{\sin(\pi/z^{2})}$.}
+Using $\sin w=\sum_{k\ge0}\frac{(-1)^k w^{2k+1}}{(2k+1)!}$ with $w=\pi/z^{2}$,
+\[
+\sin\!\Big(\frac{\pi}{z^{2}}\Big)=\sum_{k=0}^{\infty}\frac{(-1)^k \pi^{2k+1}}{(2k+1)!}\,z^{-4k-2},
+\]
+which contains infinitely many negative powers. Thus $z=0$ is an \textbf{essential singularity}.
+There are no other singularities.
+
+\medskip
+\emph{(3) $\boldsymbol{1/z^{2} + 1/(z^{2}+1)}$.}
+At $z=0$ one has a \textbf{pole of order $2$}. At $z=\pm i$ (simple zeros of $z^{2}+1$) there are
+\textbf{simple poles}. No other singularities occur.
+
+\medskip
+\emph{(4) $\boldsymbol{z^{-2}\cos\!\big(\pi z/(z+1)\big)}$.}
+Let $h(z)=\dfrac{\pi z}{z+1}$.
+Near $z=0$, $h(z)=\pi(z-z^{2}+z^{3}-\cdots)$, hence
+\[
+\cos h(z)=1-\tfrac12 h(z)^{2}+O(z^{3})=1-\tfrac{\pi^{2}}{2}z^{2}+O(z^{3}),
+\]
+and
+\[
+\frac{1}{z^{2}}\cos h(z)=\frac{1}{z^{2}}-\frac{\pi^{2}}{2}+O(z),
+\]
+so $z=0$ is a \textbf{pole of order $2$}. At $z=-1$, $h$ has a simple pole; since
+$\cos w=\tfrac12(e^{iw}+e^{-iw})$, composition with a pole yields an \textbf{essential singularity}
+at $z=-1$. There are no other singularities.
+\qed
+
+\paragraph{Problem 4.}
+Let $f:\mathbb C\to\mathbb C$ be entire. Prove that $f$ is constant if any one of the following holds:
+\begin{enumerate}[label=(\roman*)]
+	\item $\displaystyle \frac{f(z)}{z}\to 0$ as $|z|\to\infty$.
+	\item There exist $b\in\mathbb C$ and $\varepsilon>0$ such that $|f(z)-b|>\varepsilon$ for all $z\in\mathbb C$.
+	\item Writing $f=u+iv$ with real $u,v$, one has $|u(z)|>|v(z)|$ for all $z\in\mathbb C$.
+\end{enumerate}
+
+\paragraph{Background.}
+We use: (a) \emph{Liouville’s theorem}: a bounded entire function is constant; (b) \emph{Cauchy estimates}:
+if $f$ is holomorphic on $|z|\le R$, then $|f^{(n)}(0)|\le \dfrac{n!}{R^n}\max_{|z|=R}|f(z)|$; 
+(c) the Cayley map $w\mapsto \dfrac{w-1}{w+1}$ sends $\{\Re w>0\}$ to the unit disk; 
+(d) if $FG\equiv 0$ with $F,G$ holomorphic on a connected set, then $F\equiv 0$ or $G\equiv 0$.
+
+\paragraph{Solution.}
+
+\emph{(i) Sublinear growth.}
+Given $\eta>0$, choose $R_\eta$ so that $|f(z)|\le \eta|z|$ for $|z|\ge R_\eta$.
+For $R\ge R_\eta$,
+\[
+\max_{|z|=R}|f(z)|\le \eta R.
+\]
+Cauchy estimates at $0$ yield
+\[
+|f^{(n)}(0)|\le \frac{n!\,\eta R}{R^n}=\frac{n!\,\eta}{R^{n-1}}\quad(n\ge 1).
+\]
+Letting $R\to\infty$ gives $f^{(n)}(0)=0$ for $n\ge 2$, and $|f'(0)|\le \eta$ for all $\eta>0$, hence $f'(0)=0$.
+Thus $f$ is constant.
+
+\medskip
+\emph{(ii) Image avoids a disk.}
+If $|f(z)-b|>\varepsilon$ for all $z$, then $g(z)=\dfrac{1}{f(z)-b}$ is entire and bounded by $1/\varepsilon$.
+By Liouville, $g$ is constant, hence $f$ is constant.
+
+\medskip
+\emph{(iii) Real part dominates.}
+If $f=u+iv$ with $|u|>|v|$ everywhere, then $\Re\big(f^2\big)=u^2-v^2>0$, so $g:=f^2$ maps $\mathbb C$ into the right half–plane.
+The Cayley transform $h=(g-1)/(g+1)$ is entire and satisfies $|h|<1$, hence $h$ is constant by Liouville, so $g\equiv c$ with $\Re c>0$.
+Therefore $(f-\sqrt c)(f+\sqrt c)\equiv 0$, and by analyticity one factor vanishes identically.
+Thus $f\equiv \sqrt c$ or $f\equiv -\sqrt c$, i.e. $f$ is constant.
+\qed
+
+\paragraph{Problem 6.}
+\begin{enumerate}[label=(\roman*)]
+	\item Let $f$ be entire. Show that $f$ is a polynomial of degree $\le k$ iff there is $M>0$ with
+	\[
+	|f(z)|\le M(1+|z|)^k\qquad(\forall z\in\mathbb C).
+	\]
+	\item Show that an entire $f$ is a polynomial of positive degree iff $|f(z)|\to\infty$ as $|z|\to\infty$.
+	\item Let $f$ be analytic on $\mathbb C$ apart from finitely many poles. If there exists $k$ such that
+	$|f(z)|\le |z|^k$ for all sufficiently large $|z|$, prove that $f$ is a rational function.
+\end{enumerate}
+
+\paragraph{Background.}
+\emph{Cauchy estimates.} If $f$ is holomorphic on $|z|\le R$, then
+\[
+|f^{(n)}(0)|\le \frac{n!}{R^n}\max_{|z|=R}|f(z)|.
+\]
+\emph{Poles at infinity.} For $g(w)=f(1/w)$ near $w=0$, a pole of order $m$ at $0$ means $f$ has a pole at $\infty$ of order $m$. An entire function with a pole at $\infty$ is a polynomial (degree $m$). A function meromorphic on the Riemann sphere (only poles, finitely many) is rational.
+
+\paragraph{Solution.}
+\emph{(i) $\Leftarrow$.}
+Assume $|f(z)|\le M(1+|z|)^k$. For $R>0$, $\max_{|z|=R}|f(z)|\le M(1+R)^k$. Hence
+\[
+|f^{(n)}(0)|\le \frac{n!}{R^n}M(1+R)^k \qquad (n\ge 0).
+\]
+Fix $n>k$ and let $R\to\infty$: $(1+R)^k/R^n\to 0$, so $f^{(n)}(0)=0$. Therefore the Taylor series truncates at degree $\le k$ and $f$ is a polynomial.
+
+\smallskip
+\emph{(i) $\Rightarrow$.}
+If $f(z)=\sum_{j=0}^k a_j z^j$, then $|f(z)|\le \sum_{j=0}^k |a_j||z|^j \le C(1+|z|)^k$.
+
+\medskip
+\emph{(ii) $\Rightarrow$.}
+If $f$ is a nonconstant polynomial of degree $m\ge 1$, then $|f(z)|\sim |a_m||z|^m\to\infty$.
+
+\emph{(ii) $\Leftarrow$.}
+If $|f(z)|\to\infty$ as $|z|\to\infty$, then $g(w)=f(1/w)$ has a pole at $w=0$, so $f$ has a pole at $\infty$ and is therefore a polynomial of positive degree.
+
+\medskip
+\emph{(iii).}
+Let $g(w)=f(1/w)$. For small $|w|$,
+\[
+|g(w)|=|f(1/w)|\le |1/w|^k=|w|^{-k},
+\]
+so $g$ has at most a pole of order $\le k$ at $0$. Hence $f$ has at most a pole at $\infty$. Together with the finitely many poles in $\mathbb C$, $f$ is meromorphic on the Riemann sphere with only poles; thus $f$ is rational.
+\qed
+
+\paragraph{Problem 7.}
+\begin{enumerate}[label=(\roman*)]
+	\item (\textbf{Schwarz's Lemma}) Let $f$ be analytic on $D(0,1)$ with $|f(z)|\le 1$ and $f(0)=0$.
+	Apply the maximum principle to $f(z)/z$ to show $|f(z)|\le |z|$. Show also that if $|f(w)|=|w|$ for some $w\neq 0$, then $f(z)=c\,z$ for some constant $c$.
+	
+	\item Use Schwarz's Lemma to prove that any conformal equivalence $\Phi:D(0,1)\to D(0,1)$ is given by a Möbius transformation.
+\end{enumerate}
+
+\paragraph{Background.}
+If a holomorphic $g$ on $0<|z|<1$ is bounded near $0$, then $g$ extends holomorphically to $z=0$ (removable singularity).
+A non-constant holomorphic function does not attain a maximum of its modulus in the interior (maximum modulus principle).
+For $a\in D$, the map $\displaystyle \phi_a(z)=\frac{z-a}{1-\overline a\,z}$ is a biholomorphism $D\to D$ with $\phi_a(a)=0$.
+
+\paragraph{Solution.}
+
+\emph{(i)} Define
+\[
+g(z)=\begin{cases}
+	\dfrac{f(z)}{z},& z\neq 0,\\[4pt]
+	f'(0),& z=0.
+\end{cases}
+\]
+Because $|f(z)|\le 1$ and $f(0)=0$, $g$ is bounded near $0$, hence extends holomorphically to $D$.
+For $0<r<1$, on $|z|=r$ we have $|g(z)|\le 1/r$. By the maximum modulus principle on each smaller disk, letting $r\uparrow 1$ gives $|g(z)|\le 1$ for all $z\in D$.
+Thus $|f(z)|\le |z|$ and $|f'(0)|=|g(0)|\le 1$.
+
+If $|f(w)|=|w|$ for some $w\ne 0$, then $|g(w)|=1$. By the maximum modulus principle $g$ has constant modulus $1$ on $D$, hence $g\equiv c$ with $|c|=1$ and $f(z)=c\,z$.
+
+\medskip
+\emph{(ii)} Let $\Phi:D\to D$ be a conformal bijection and set $a=\Phi(0)$. Consider $F=\phi_a\circ \Phi$, where $\displaystyle \phi_a(z)=\frac{z-a}{1-\overline a\,z}$.
+Then $F:D\to D$ is holomorphic with $F(0)=0$. By Schwarz's Lemma, $F(z)=\lambda z$ with $|\lambda|\le 1$; since $\Phi$ is bijective, $| \lambda|=1$.
+Therefore
+\[
+\Phi(z)=\phi_a^{-1}(\lambda z)=\lambda\,\frac{z-a}{1-\overline a\,z},
+\]
+a Möbius automorphism of the disk.
+\qed
+
+\paragraph{Conformal maps and conformal equivalence.}
+
+\emph{Conformal at a point.}
+A map $f:U\to\mathbb C$ is conformal at $z_0\in U$ if it preserves angles between smooth curves through $z_0$ (with orientation). In complex analysis this is equivalent to
+\[
+f \text{ holomorphic at } z_0 \quad\text{and}\quad f'(z_0)\neq 0.
+\]
+Indeed, the first-order expansion $f(z)=f(z_0)+f'(z_0)(z-z_0)+o(|z-z_0|)$ shows $f$ is locally “rotation $+\,$dilation”. Writing $f=u+iv$, the Cauchy--Riemann equations at $z_0$ give
+\[
+Df(z_0)=
+\begin{pmatrix}u_x & u_y\\ v_x & v_y\end{pmatrix}
+=
+\begin{pmatrix}a & -b\\ b & a\end{pmatrix}
+=|f'(z_0)|
+\begin{pmatrix}\cos\theta & -\sin\theta\\ \sin\theta & \cos\theta\end{pmatrix},
+\]
+so $Df(z_0)$ is a positive scalar times a rotation, hence angle-preserving and orientation-preserving.
+
+\emph{Angle preservation formula.}
+If $v_1,v_2\in\mathbb C$ are tangent directions at $z_0$, then under $f$
+\[
+\cos\angle(f_*v_1,f_*v_2)
+=\frac{\Re\big((f'(z_0)v_1)\overline{(f'(z_0)v_2)}\big)}{|f'(z_0)v_1|\,|f'(z_0)v_2|}
+=\frac{\Re(v_1\overline{v_2})}{|v_1||v_2|},
+\]
+so the angle is unchanged.
+
+\emph{Conformal equivalence.}
+Domains $U,V\subset\mathbb C$ are \emph{conformally equivalent} if there is a biholomorphism $f:U\to V$ (holomorphic and bijective with holomorphic inverse). Such an $f$ is conformal on $U$, and $f^{-1}$ is conformal on $V$.
+
+\emph{Examples.}
+\begin{itemize}
+	\item Cayley transform $\displaystyle \phi(z)=\frac{z-i}{\,z+i\,}$: biholomorphism $\{\Im z>0\}\leftrightarrow\mathbb D$.
+	\item Exponential $\displaystyle w=e^{\pi z}$: biholomorphism $\,\{0<\Im z<1\}\leftrightarrow \{1<|w|<e^{\pi}\}$.
+\end{itemize}
+
+\emph{Non-examples.}
+\begin{itemize}
+	\item $f(z)=z^n$ is not conformal at $z=0$ for $n\ge 2$ since $f'(0)=0$ (angles multiply by $n$).
+	\item Conjugation $f(z)=\overline z$ reverses orientation (anti-conformal).
+\end{itemize}
+
+% ---------- Problem 8 (statement) ----------
+\paragraph{Problem 8 (restated).}
+\begin{enumerate}[label=(\roman*)]
+	\item Let $f$ be entire and satisfy $f(1/n)=1/n$ for all $n\in\mathbb N$. Prove that $f(z)\equiv z$.
+	\item Let $f$ be entire and satisfy $f(n)=n^{2}$ for all $n\in\mathbb Z$. Must $f$ equal $z^{2}$? Give a justification or a counterexample.
+	\item Let $f$ be holomorphic on $D(0,2)$. Show that there exists $n\in\mathbb N$ with $f(1/n)\ne 1/(n+1)$.
+\end{enumerate}
+
+\medskip
+% ---------- Background for Problem 8 ----------
+\paragraph{Background and definitions for Problem 8.}
+
+\emph{Holomorphic / entire.}
+A function $f$ is holomorphic on a domain $U\subset\mathbb C$ if it is complex differentiable at every point of $U$.
+It is \emph{entire} if it is holomorphic on all of $\mathbb C$.
+A \emph{domain} is a nonempty, open, connected subset of $\mathbb C$.
+
+\medskip
+\emph{Accumulation point.}
+A sequence $(z_n)\subset U$ has an accumulation point $z_\ast\in U$ if $z_n\to z_\ast$ with $z_n\neq z_\ast$ eventually.
+
+\medskip
+\emph{Isolated zeros and the identity theorem.}
+If $f$ is holomorphic on $U$ and not identically zero, then its zeros have no accumulation point in $U$.
+If $f,g$ are holomorphic on $U$ and $f=g$ on a set with a limit point in $U$ (e.g.\ $z_n\to z_\ast\in U$), then $f\equiv g$ on $U$.
+Equivalently, if a holomorphic $f$ vanishes on such a set, then $f\equiv 0$.
+
+\medskip
+\emph{An entire function vanishing on $\mathbb Z$.}
+$\sin(\pi z)$ is entire and $\sin(\pi n)=0$ for all $n\in\mathbb Z$.
+Thus for prescribed integer values, one may add $\sin(\pi z)\cdot H(z)$ (with $H$ entire) without changing those values.
+
+\medskip
+\emph{Removable singularities (Riemann).}
+If $f$ is holomorphic on $0<|z-a|<r$ and bounded near $a$, then $f$ extends holomorphically to $z=a$.
+
+\medskip
+\emph{How these tools are used in Problem 8.}
+\begin{itemize}
+	\item \textbf{(i)} $g(z)=f(z)-z$ entire with $g(1/n)=0$ and $1/n\to 0\in\mathbb C$ $\Rightarrow$ $g\equiv 0$.
+	\item \textbf{(ii)} Integers have no accumulation in $\mathbb C$; non-uniqueness via $\sin(\pi z)$.
+	\item \textbf{(iii)} Zeros at $1/n\to 0$ in $D(0,2)\setminus\{-1\}$ force identity with a meromorphic function that has a pole at $-1$ — contradiction.
+\end{itemize}
+
+\medskip
+% ---------- Problem 8 (solution) ----------
+\paragraph{Solution to Problem 8.}
+
+\begin{enumerate}[label=(\roman*)]
+	\item Define
+	\[
+	g(z):=f(z)-z .
+	\]
+	Then $g$ is entire and $g(1/n)=0$ for all $n$. Since $1/n\to 0$ (an interior point),
+	the identity theorem gives $g\equiv 0$, hence $f(z)\equiv z$.
+	
+	\medskip
+	\item Not necessarily. For example,
+	\[
+	f(z)=z^{2}+\sin(\pi z)
+	\]
+	is entire and satisfies $f(n)=n^{2}$ for all $n\in\mathbb Z$, yet $f\not\equiv z^{2}$.
+	
+	\medskip
+	\item Suppose $f(1/n)=1/(n+1)$ for all $n$. Then
+	\[
+	h(z):=f(z)-\frac{z}{z+1}
+	\]
+	is holomorphic on $D(0,2)\setminus\{-1\}$, vanishes at $z=1/n$ for all $n$, and the set $\{1/n\}$ accumulates at $0$ in that domain.
+	By the identity theorem, $h\equiv 0$ there, i.e.\ $f(z)=\dfrac{z}{z+1}$ on $D(0,2)\setminus\{-1\}$.
+	But $\dfrac{z}{z+1}$ has a pole at $z=-1$, whereas $f$ is holomorphic there — a contradiction.
+	Hence some $n$ satisfies $f(1/n)\ne 1/(n+1)$.
+\end{enumerate}
+
+\bigskip
+% ---------- Problem 9 (statement) ----------
+\paragraph{Problem 9 (Casorati--Weierstrass; restated).}
+If $f$ is holomorphic on $D(a,R)\setminus\{a\}$ with an essential singularity at $a$, then for any $b\in\mathbb C$
+there exists a sequence $z_n\to a$ such that $f(z_n)\to b$.
+
+\medskip
+\paragraph{Solution to Problem 9.}
+If $f$ omitted $b$ near $a$, then $g=1/(f-b)$ would be bounded near $a$, hence removable there by Riemann’s theorem.
+Thus $f=b+1/g$ would have at worst a pole/removable singularity at $a$, contradicting essentiality.
+\emph{Example.} For $f(z)=e^{1/z}$, $a=0$, $b=2$, take
+\[
+z_n=\frac{1}{\Log 2+2\pi i n}\quad\Rightarrow\quad e^{1/z_n}=2 .
+\]
+
+\bigskip
+% ---------- Problem 10 (statement) ----------
+\paragraph{Problem 10 (restated).}
+Let $D\subset\mathbb C$ be simply connected and $0\notin D$.
+Show that there exists a holomorphic function $F$ on $D$ with $F'(z)=1/z$ and $e^{F(z)}=z$ for $z\in D$
+(i.e.\ $F$ is a branch of the logarithm on $D$).
+
+\medskip
+\paragraph{Solution to Problem 10.}
+Fix $z_0\in D$ and define
+\[
+F(z)=\int_{z_0}^{z}\frac{d\zeta}{\zeta}.
+\]
+Since $1/\zeta$ is holomorphic on $D$ and $D$ is simply connected, the integral is path-independent; $F$ is holomorphic with $F'(z)=1/z$.
+Let $G(z)=e^{F(z)}/z$. Then $G'(z)=0$, so $G$ is constant. Choosing $F(z_0)$ so that $G\equiv 1$ yields $e^{F(z)}=z$ on $D$.
+
+\bigskip
+% ---------- Problem 11 (statement) ----------
+\paragraph{Problem 11 (restated).}
+Consider the lacunary series
+\[
+f(z)=\sum_{n=1}^{\infty} z^{2^{n}} .
+\]
+Show that it defines an analytic function on $D(0,1)$ but admits no analytic continuation across any point of $|z|=1$.
+
+\medskip
+\paragraph{Solution to Problem 11.}
+The series converges absolutely and uniformly on compact subsets of $D(0,1)$, so $f$ is analytic there.
+Moreover, for $m\ge 1$,
+\[
+(1-z^{2^{m}})f(z)=\sum_{j=1}^{m-1} z^{2^{j}},
+\]
+so each $2^{m}$-th root of unity is a singularity of $f$ (unless trivially canceled).
+As the union $\bigcup_{m\ge 1}\{\zeta:\zeta^{2^{m}}=1\}$ is dense on $|z|=1$, $|z|=1$ is a \emph{natural boundary}:
+no analytic continuation is possible across any boundary point.
+% (Alternatively, cite the Hadamard gap theorem since $2^{n+1}/2^{n}=2$.)
+\qed
+
+
+\paragraph{Background for Problems 9--11.}
+
+\emph{Domains and basic classes.}
+A \emph{domain} is a nonempty, open, connected subset of $\mathbb C$.
+A function is \emph{holomorphic} on $U$ if it is complex differentiable at every point of $U$.
+It is \emph{entire} if holomorphic on $\mathbb C$.
+It is \emph{meromorphic} on $U$ if holomorphic on $U$ except at isolated poles.
+
+\medskip
+\emph{Isolated singularities.}
+Let $f$ be holomorphic on $0<|z-a|<r$. Then $a$ is an \emph{isolated singularity} and exactly one holds:
+\begin{itemize}
+	\item \textbf{Removable:} $f$ is bounded near $a$ $\Rightarrow$ $f$ extends holomorphically to $a$ (Riemann).
+	\item \textbf{Pole:} $|f(z)|\to\infty$ as $z\to a$; equivalently, $(z-a)^m f(z)$ extends holomorphically with nonzero value at $a$ for some $m\in\mathbb N$.
+	\item \textbf{Essential:} neither removable nor pole. The Laurent expansion at $a$ then has infinitely many negative powers.
+\end{itemize}
+
+\medskip
+\emph{Casorati--Weierstrass \& Picard (context for Problem 9).}
+If $a$ is an essential singularity of $f$, then the image of any punctured neighborhood of $a$ is dense in $\mathbb C$
+(Casorati--Weierstrass). A stronger statement (Great Picard) says that near an essential singularity $f$ attains every complex value, with at most one exception, infinitely often.
+
+\medskip
+\emph{Identity theorem \& isolated zeros.}
+If $f,g$ are holomorphic on a domain $U$ and $f=g$ on a set with a limit point in $U$, then $f\equiv g$ on $U$.
+Consequently, a nonzero holomorphic function on $U$ has zeros that do not accumulate in $U$.
+
+\medskip
+\emph{Path independence and primitives (for Problem 10).}
+If $\omega(z)\,dz$ is holomorphic on a simply connected domain $D$, then
+\[
+F(z):=\int_{z_0}^{z}\omega(\zeta)\,d\zeta
+\]
+is well defined (independent of path), holomorphic on $D$, and satisfies $F'=\omega$.
+In particular, if $0\notin D$, the $1$-form $d\zeta/\zeta$ has the primitive
+$F(z)=\int_{z_0}^z \frac{d\zeta}{\zeta}$ on $D$, so $e^{F}$ gives a single-valued branch of the logarithm.
+
+\smallskip
+\emph{Winding number criterion for a logarithm.}
+A holomorphic, nowhere–vanishing function $g$ on a domain $D$ admits a holomorphic branch of $\Log g$ on $D$
+iff $\displaystyle \int_{\gamma} \frac{g'}{g}\,dz=0$ for every closed curve $\gamma\subset D$;
+equivalently, $g(\gamma)$ has winding number $0$ about $0$ for all such $\gamma$.
+When $D$ is simply connected and $g$ never vanishes, a branch of $\Log g$ always exists.
+
+\medskip
+\emph{Power series, radius of convergence, and natural boundaries (for Problem 11).}
+A power series $\sum_{n\ge0} a_n z^n$ has a radius of convergence $R\in[0,\infty]$ determined by the Cauchy--Hadamard formula.
+It defines an analytic function on $|z|<R$ and cannot be analytically continued across points where the function has a singularity.
+A Jordan curve $\Gamma$ is a \emph{natural boundary} for $f$ if no analytic continuation of $f$ exists across \emph{any} point of $\Gamma$.
+
+\smallskip
+\emph{Hadamard gap theorem (lacunary series).}
+If $f(z)=\sum_{k\ge1} a_k z^{n_k}$ with strictly increasing exponents $(n_k)$ satisfying
+$\displaystyle \liminf_{k\to\infty} \frac{n_{k+1}}{n_k}>1$ (``Hadamard gaps''),
+then the circle of convergence $|z|=R$ is a \emph{natural boundary} for $f$ (unless $f$ is a polynomial).
+In particular, for $n_k=2^k$ (ratio $=2$) the unit circle is a natural boundary when $R=1$.
+
+\medskip
+\emph{Dense boundary singularities via functional identities (alternate route for Problem 11).}
+If a function $f$ on $|z|<1$ satisfies identities of the form
+\[
+(1-z^{N})\,f(z)=P_N(z)\qquad (N\in\mathbb N),
+\]
+with $P_N$ polynomial and $N\to\infty$, then every $N$-th root of unity
+is a singularity (unless canceled), and the union of these roots for $N\to\infty$ is dense on $|z|=1$.
+Hence $|z|=1$ is a natural boundary (no analytic continuation across any boundary point).
+
+\paragraph{Problem.}
+Let $f$ be holomorphic on $D(a,R)$. If $w$ satisfies $|w-a|<r<R$, show
+\[
+f^{(n)}(w)=\frac{n!}{2\pi i}\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz.
+\]
+
+\paragraph{Background.}
+\emph{Residue theorem.} If $g$ is meromorphic on and inside a positively oriented simple closed curve $\gamma$ (no poles on $\gamma$),
+\[
+\int_\gamma g(z)\,dz = 2\pi i \sum \Res(g;a_k).
+\]
+\emph{Higher–order pole.} If $g$ has a pole of order $m$ at $w$,
+\[
+\Res(g;w)=\frac{1}{(m-1)!}\lim_{z\to w}\frac{d^{\,m-1}}{dz^{m-1}}\Big((z-w)^m g(z)\Big).
+\]
+\emph{Taylor series.} $f(z)=\sum_{k\ge0}\dfrac{f^{(k)}(w)}{k!}(z-w)^k$ near $w$.
+
+\medskip
+\paragraph{Solution (via residues).}
+Let $g(z)=\dfrac{f(z)}{(z-w)^{n+1}}$. Then $g$ is meromorphic on $|z-a|\le r$ with a single pole of order $n+1$ at $z=w$.
+Hence
+\[
+\Res(g;w)=\frac{1}{n!}\,f^{(n)}(w).
+\]
+Applying the residue theorem to the circle $|z-a|=r$ gives
+\[
+\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz
+= 2\pi i\,\Res(g;w)
+= 2\pi i\,\frac{f^{(n)}(w)}{n!},
+\]
+which rearranges to the stated formula. For $n=0$ this is the usual Cauchy integral formula.
+
+\medskip
+\paragraph{Examples.}
+\begin{itemize}
+	\item $f(z)=e^{z}$: $\displaystyle \frac{n!}{2\pi i}\int_{|z-a|=r}\frac{e^{z}}{(z-w)^{n+1}}\,dz=e^{w}$.
+	\item $f(z)=\sum_{k=0}^{m}a_k z^k$: the integral vanishes for $n>m$, agreeing with $f^{(n)}\equiv 0$.
+	\item The integral is independent of $r$ as long as $|w-a|<r<R$ (no singularities crossed when deforming the contour).
+\end{itemize}
+\qed
+
+\paragraph{Pole of order $3$: coefficients $c_{-3},c_{-2},c_{-1}$ and the residue.}
+Suppose $f$ has a pole of order $3$ at $a$. Define
+\[
+h(z):=(z-a)^3 f(z)=\sum_{n=0}^{\infty} d_n (z-a)^n, \qquad d_n=\frac{h^{(n)}(a)}{n!}.
+\]
+Then
+\[
+f(z)=\frac{d_0}{(z-a)^3}+\frac{d_1}{(z-a)^2}+\frac{d_2}{(z-a)}+\cdots,
+\]
+so
+\[
+\boxed{\,c_{-3}=d_0,\qquad c_{-2}=d_1,\qquad c_{-1}=d_2=\Res(f;a)\,}.
+\]
+
+\emph{Example.} For $f(z)=\dfrac{e^{z}}{(z-a)^3}$ we have $h(z)=e^{z}$, hence
+\[
+c_{-3}=e^{a},\qquad c_{-2}=e^{a},\qquad c_{-1}=\frac{e^{a}}{2},\qquad \Res(f;a)=\frac{e^{a}}{2}.
+\]
+Equivalently, $\Res(f;a)=\dfrac{1}{2!}\,\dfrac{d^2}{dz^2}\big((z-a)^3 f(z)\big)\big|_{z=a}$.
+
+\medskip
+\paragraph{Three distinct poles inside a contour: sum of residues.}
+Let $\gamma$ be a positively oriented simple closed curve and assume $f$ is meromorphic on and inside $\gamma$,
+with distinct poles $a,b,c$ inside and none on $\gamma$. Then the residue theorem gives
+\[
+\boxed{\ \int_{\gamma} f(z)\,dz \;=\; 2\pi i\big(\Res(f;a)+\Res(f;b)+\Res(f;c)\big). \ }
+\]
+
+\emph{Simple-pole residues.}
+If $f=\dfrac{p}{q}$ with $p,q$ holomorphic and $q'(a)\neq 0$,
+\[
+\Res(f;a)=\frac{p(a)}{q'(a)}.
+\]
+For example, for $f(z)=\dfrac{1}{(z-a)(z-b)(z-c)}$,
+\[
+\Res(f;a)=\frac{1}{(a-b)(a-c)},\quad
+\Res(f;b)=\frac{1}{(b-a)(b-c)},\quad
+\Res(f;c)=\frac{1}{(c-a)(c-b)},
+\]
+and hence
+\[
+\int_{\gamma} f(z)\,dz
+= 2\pi i\!\left(\frac{1}{(a-b)(a-c)}+\frac{1}{(b-a)(b-c)}+\frac{1}{(c-a)(c-b)}\right).
+\]
+
+\paragraph{Residues from Laurent series at each pole.}
+Let $f$ be meromorphic and let $a_j$ be a pole (order $m_j$). Its Laurent expansion about $a_j$ is
+\[
+f(z)=\sum_{k=1}^{m_j}\frac{c^{(j)}_{-k}}{(z-a_j)^k}+\sum_{k=0}^{\infty} c^{(j)}_{k}(z-a_j)^k.
+\]
+Then
+\[
+\boxed{\ \operatorname{Res}(f;a_j)=c^{(j)}_{-1}\ }.
+\]
+If $\gamma$ encloses poles $a_1,\dots,a_m$ and no others, the residue theorem gives
+\[
+\int_\gamma f(z)\,dz \;=\;2\pi i\sum_{j=1}^m \operatorname{Res}(f;a_j).
+\]
+
+\paragraph{Problem (Cauchy’s derivative formula via residues).}
+Let $f$ be holomorphic on $D(a,R)$. If $w$ satisfies $|w-a|<r<R$, show
+\[
+f^{(n)}(w)=\frac{n!}{2\pi i}\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz.
+\]
+
+\paragraph{Background.}
+\emph{Residue at a higher–order pole.}
+If $g$ has a pole of order $m$ at $w$,
+\[
+\operatorname{Res}(g;w)=\frac{1}{(m-1)!}\lim_{z\to w}\frac{d^{\,m-1}}{dz^{m-1}}\Big((z-w)^m g(z)\Big).
+\]
+\emph{Residue theorem.}
+If $g$ is meromorphic on and inside a positively oriented simple closed curve $\gamma$ (no poles on $\gamma$),
+\[
+\int_\gamma g(z)\,dz=2\pi i\sum \operatorname{Res}(g;a_k).
+\]
+\emph{Taylor series at $w$.}
+For $f$ holomorphic near $w$,
+\[
+f(z)=\sum_{k=0}^{\infty}\frac{f^{(k)}(w)}{k!}(z-w)^k .
+\]
+
+\medskip
+\paragraph{Solution.}
+Put $g(z)=\dfrac{f(z)}{(z-w)^{n+1}}$. Then $g$ is meromorphic on $|z-a|\le r$, with a single pole at $z=w$ of order $n+1$.
+Hence
+\[
+\operatorname{Res}(g;w)=\frac{1}{n!}\,f^{(n)}(w).
+\]
+By the residue theorem on $|z-a|=r$,
+\[
+\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz
+= 2\pi i\,\operatorname{Res}(g;w)
+= 2\pi i\,\frac{f^{(n)}(w)}{n!},
+\]
+which yields the claimed formula. For $n=0$ this reduces to Cauchy’s integral formula.
+
+\medskip
+\paragraph{Examples.}
+\begin{itemize}
+	\item $f(z)=e^{z}$: $\displaystyle \frac{n!}{2\pi i}\int_{|z-a|=r}\frac{e^{z}}{(z-w)^{n+1}}\,dz=e^{w}$.
+	\item Polynomial $P$ of degree $m$: if $n>m$ then the integral (and $P^{(n)}(w)$) equals $0$.
+	\item Independence of $r$: the integral is unchanged for any $r$ with $|w-a|<r<R$ (no singularities are crossed when deforming the contour).
+\end{itemize}
+\qed
+
+\paragraph{Problem.}
+Let $g(z)=\dfrac{p(z)}{q(z)}$ be a rational function with $\deg q\ge \deg p+2$.
+Show that the sum of the residues of $g$ at all its finite poles equals $0$.
+
+\paragraph{Background (residue at infinity).}
+For a meromorphic $f$ on the Riemann sphere,
+\[
+\Res(f;\infty):=-\sum_{a\in\mathbb C}\Res(f;a).
+\]
+Equivalently, with $w=1/z$ and $F(w)=f(1/w)$,
+\[
+\Res(f;\infty)=-\Res\!\left(\frac{F(w)}{w^{2}},\,0\right),
+\qquad dz=-\frac{dw}{w^{2}}.
+\]
+If $f(z)=O(1/z^{2})$ as $z\to\infty$, then $F(w)/w^{2}$ is holomorphic at $w=0$, hence $\Res(f;\infty)=0$.
+
+\medskip
+\paragraph{Solution.}
+Since $\deg q\ge \deg p+2$, we have $g(z)=O(1/z^{2})$ as $z\to\infty$.
+Therefore $\Res(g;\infty)=0$. By the global residue identity,
+\[
+0=\Res(g;\infty)=-\sum_{a\in\mathbb C}\Res(g;a),
+\]
+so $\displaystyle \sum_{a\in\mathbb C}\Res(g;a)=0$, i.e.\ the sum of the residues at all finite poles is $0$.
+
+\medskip
+\paragraph{Checks.}
+\begin{itemize}
+	\item $g(z)=\dfrac{1}{z^{2}+1}$: $\Res(g;i)=\dfrac{1}{2i}$, $\Res(g;-i)=-\dfrac{1}{2i}$, sum $0$.
+	\item $g(z)=\dfrac{z}{(z^{2}+1)^{2}}$: residues at $i$ and $-i$ are opposite; the sum is $0$.
+\end{itemize}
+\qed
+
+\paragraph{Problem 3. Evaluate the following integrals.}
+
+\medskip
+\emph{(a)} $\displaystyle \int_{0}^{\pi}\frac{d\theta}{4+\sin^{2}\theta}$.
+
+Using $\displaystyle \int_{0}^{\pi}\frac{d\theta}{a+b\sin^{2}\theta}
+=\frac{\pi}{\sqrt{a(a+b)}}$ for $a>0$, with $a=4$, $b=1$,
+\[
+\int_{0}^{\pi}\frac{d\theta}{4+\sin^{2}\theta}
+=\frac{\pi}{\sqrt{4\cdot 5}}=\boxed{\frac{\pi}{2\sqrt5}}.
+\]
+
+\medskip
+\emph{(b)} $\displaystyle \int_{0}^{\infty}\sin(x^{2})\,dx$.
+
+By the Fresnel/Gaussian argument,
+\[
+\int_{0}^{\infty}\sin(x^{2})\,dx
+=\int_{0}^{\infty}\cos(x^{2})\,dx
+=\boxed{\frac{\sqrt{2\pi}}{4}=\frac{\sqrt{\pi}}{2\sqrt2}}.
+\]
+
+\medskip
+\emph{(c)} $\displaystyle \int_{0}^{\infty}\frac{x^{2}}{(x^{2}+4)^{2}(x^{2}+9)}\,dx$.
+
+Let $f(z)=\dfrac{z^{2}}{(z^{2}+4)^{2}(z^{2}+9)}$. The integrand is even; hence
+\[
+\int_{0}^{\infty}f(x)\,dx=\frac12\int_{-\infty}^{\infty}f(x)\,dx.
+\]
+Poles in the upper half-plane: $2i$ (double), $3i$ (simple).
+\[
+\Res(f;2i)=-\frac{13i}{200},\qquad \Res(f;3i)=\frac{3i}{50},\qquad
+\Res(f;2i)+\Res(f;3i)=-\frac{i}{200}.
+\]
+Thus
+\[
+\int_{-\infty}^{\infty} f(x)\,dx
+=2\pi i\!\left(-\frac{i}{200}\right)=\frac{\pi}{100},
+\qquad
+\int_{0}^{\infty} f(x)\,dx=\boxed{\frac{\pi}{200}}.
+\]
+
+\medskip
+\emph{(d)} $\displaystyle \int_{0}^{\infty}\frac{\ln(x^{2}+1)}{x^{2}+1}\,dx$.
+
+With $x=\tan t$ ($t\in[0,\pi/2)$), $x^{2}+1=\sec^{2}t$, $dx=\sec^{2}t\,dt$,
+\[
+\int_{0}^{\infty}\frac{\ln(x^{2}+1)}{x^{2}+1}\,dx
+=\int_{0}^{\pi/2}\ln(\sec^{2}t)\,dt
+=2\int_{0}^{\pi/2}\ln(\sec t)\,dt
+=-2\int_{0}^{\pi/2}\ln(\cos t)\,dt
+=\boxed{\pi\ln 2}.
+\]
+\qed
+
+% ---------- Problem 4 (restated) ----------
+\paragraph{Problem 4 (restated).}
+For $\alpha\in(-1,1)$ with $\alpha\neq0$, compute
+\[
+\int_{0}^{\infty}\frac{x^{\alpha}}{x^{2}+x+1}\,dx .
+\]
+
+% (your solution block that follows)
+\paragraph{4. Parameter integral.}
+For $\alpha\in(-1,1)$, $\alpha\neq 0$,
+\[
+I(\alpha)=\int_{0}^{\infty}\frac{x^{\alpha}}{x^{2}+x+1}\,dx
+=\frac{2\pi}{\sqrt3}\,\frac{\sin\!\big((\alpha+1)\pi/3\big)}{\sin(\pi\alpha)}.
+\]
+\emph{Reason.} Using the Mellin–type formula
+$\displaystyle \int_{0}^{\infty}\frac{x^{\mu-1}}{x^{2}+2x\cos\phi+1}\,dx
+=\frac{\pi\sin(\mu\phi)}{\sin(\pi\mu)\sin\phi}$ (keyhole contour),
+with $\mu=\alpha+1$ and $\phi=\pi/3$.
+
+\medskip
+
+% ---------- Problem 5 (restated) ----------
+\paragraph{Problem 5 (restated).}
+Let $p(z)=z^{n}+a_{n-1}z^{n-1}+\cdots+a_1 z+a_0$ be a polynomial of degree $n$ and set
+$A=\max\{|a_0|,\dots,|a_{n-1}|\}$. Prove that $p$ has $n$ zeros
+(counting multiplicity) in the disk $\{|z|<A+1\}$.
+
+% (your solution block that follows)
+\paragraph{5. Roots inside $|z|<A+1$.}
+Let $p(z)=z^{n}+a_{n-1}z^{n-1}+\cdots+a_0$ and $A=\max_{k}|a_k|$. For $|z|\ge A+1$,
+\[
+|p(z)|\ge |z|^{n}-\sum_{k=0}^{n-1}|a_k||z|^{k}
+\ge |z|^{n}-A\,\frac{|z|^{n}-1}{|z|-1}>0.
+\]
+Hence $p$ has no zeros for $|z|\ge A+1$, so all (exactly $n$) zeros lie in $|z|<A+1$.
+
+\medskip
+
+% ---------- Problem 6 (restated) ----------
+\paragraph{Problem 6 (restated).}
+Let $p(z)=z^{5}+z$.
+\begin{enumerate}[label=(\alph*)]
+	\item Find all $z$ with $|z|=1$ such that $\Im p(z)=0$.
+	\item Compute $\Re p(z)$ at the points from (a).
+	\item Sketch the curve $p\circ\gamma$ where $\gamma(t)=e^{2\pi i t}$.
+	\item Using your sketch, determine for each real $x$ the number of solutions $z$ (counted with multiplicity) to $p(z)=x$ with $|z|<1$.
+\end{enumerate}
+
+% (your solution block that follows)
+\paragraph{6. The map $p(z)=z^{5}+z$ on the unit circle.}
+Let $z=e^{i\theta}$.
+\[
+p(e^{i\theta})=e^{5i\theta}+e^{i\theta}
+=2\cos(2\theta)\,e^{i3\theta}.
+\]
+
+\emph{(a) Real axis crossings.} $\Im p=0 \iff \sin(5\theta)+\sin\theta=2\sin(3\theta)\cos(2\theta)=0$,
+so $\theta=\frac{m\pi}{3}$ ($m=0,\dots,5$) or $\theta=\frac{\pi}{4}+\frac{k\pi}{2}$ ($k=0,1,2,3$).
+
+\emph{(b) Real parts at these points.} $\Re p=\cos(5\theta)+\cos\theta=2\cos(3\theta)\cos(2\theta)$.
+For $\cos(2\theta)=0$, $\Re p=0$; for $\theta=\frac{m\pi}{3}$ the values are $2,1,-1,-2,-1,1$.
+
+\emph{(c) Sketch.} The curve $p(\gamma)$ ($\gamma(t)=e^{2\pi it}$) is a three-petal curve of maximal radius $2$, meeting the real axis at $-2,-1,0,1,2$.
+
+\emph{(d) Number of solutions to $z^{5}+z=x$ with $|z|<1$, $x\in\mathbb R$.}
+By the argument principle, the number equals the winding number of $p(\gamma)$ about $x$. From the sketch,
+\[
+N(x)=
+\begin{cases}
+	0, & |x|>2,\\[2pt]
+	1, & 1<|x|<2,\\[2pt]
+	2, & 0<|x|<1,\\[2pt]
+	1, & x=0\ \text{(one interior root; the other four sit on/near the boundary)}.
+\end{cases}
+\]
+\qed
+
+
+\paragraph{Background for Problems 4--6.}
+
+\emph{Mellin/keyhole integrals.}
+For $0<\Re\mu<2$ and $0<\phi<\pi$,
+\[
+\int_{0}^{\infty}\frac{x^{\mu-1}}{x^{2}+2x\cos\phi+1}\,dx
+=\frac{\pi\,\sin(\mu\phi)}{\sin(\pi\mu)\,\sin\phi}.
+\]
+Derivation uses a keyhole contour with the branch of $\Log$ on $\mathbb C\setminus(-\infty,0]$.
+
+\smallskip
+\emph{Definitions.}
+Mellin transform: $\mathcal M[f](s)=\int_{0}^{\infty}x^{s-1}f(x)\,dx$.
+Keyhole contour: a contour encircling the positive real axis to capture the $2\pi i$ jump of the logarithm.
+
+\medskip
+\emph{Cauchy’s root bound (polynomials).}
+For $p(z)=z^{n}+a_{n-1}z^{n-1}+\cdots+a_0$, every root satisfies
+\[
+|z|<1+\max_{0\le k\le n-1}|a_k|=:A+1.
+\]
+Idea: on $|z|=R>A$, $|z|^{n}>\sum_{k\le n-1}|a_k||z|^{k}$, hence $|p(z)|>0$.
+
+\smallskip
+\emph{Rouché’s theorem (context).}
+If $f,g$ are holomorphic and $|f|>|g|$ on a simple closed curve, then $f$ and $f+g$ have the same number of zeros inside.
+
+\medskip
+\emph{Argument principle.}
+If $f$ is meromorphic with no zeros/poles on a positively oriented simple closed curve $\gamma$,
+\[
+N-P=\frac{1}{2\pi i}\int_{\gamma}\frac{f'(z)}{f(z)}\,dz=\frac{1}{2\pi}\Delta_{\gamma}\arg f.
+\]
+For $f(z)=p(z)-x$ (polynomial minus real parameter), $P=0$, and the integral counts the zeros of $p(z)=x$ inside.
+
+\smallskip
+\emph{Unit circle parametrization for $p(z)=z^5+z$.}
+For $z=e^{i\theta}$,
+\[
+p(e^{i\theta})=e^{i5\theta}+e^{i\theta}
+=2\cos(2\theta)\,e^{i3\theta}.
+\]
+Thus $p(\partial\mathbb D)$ is a three-petal curve (max radius $2$) with real-axis crossings at $-2,-1,0,1,2$.
+
+\medskip
+\paragraph{Tiny examples.}
+
+\emph{(4) Mellin use.}
+With $x^{2}+x+1=x^{2}+2x\cos(\pi/3)+1$, set $\mu=\alpha+1$, $\phi=\pi/3$:
+\[
+\int_{0}^{\infty}\frac{x^{\alpha}}{x^{2}+x+1}\,dx
+=\frac{2\pi}{\sqrt3}\,\frac{\sin\!\big((\alpha+1)\pi/3\big)}{\sin(\pi\alpha)}
+\quad(-1<\alpha<1,\ \alpha\neq 0).
+\]
+
+\smallskip
+\emph{(5) Root bound.}
+If $p(z)=z^{4}-7z^{2}+10$, then $A=\max\{7,10\}=10$, so every root has $|z|<11$.
+
+\smallskip
+\emph{(6) Winding numbers for $z^5+z=x$.}
+From $p(e^{i\theta})=2\cos(2\theta)e^{i3\theta}$, the number of zeros of $z^5+z=x$ in $|z|<1$ (counting multiplicity) is
+\[
+N(x)=
+\begin{cases}
+	0, & |x|>2,\\
+	1, & 1<|x|<2,\\
+	2, & 0<|x|<1,\\
+	1, & x=0.
+\end{cases}
+\]
+\qed
+
+	
+\paragraph{The keyhole (dogbone) contour: method and examples.}
+
+\emph{Setup.}
+For integrals of the form
+\[
+\int_{0}^{\infty} x^{\mu-1} F(x)\,dx,
+\]
+choose the branch $z^{\mu-1}=e^{(\mu-1)\Log z}$ with $\Log z=\log|z|+i\Arg z$ and a branch cut along a ray (typically the positive or negative real axis). The \emph{keyhole contour} $\Gamma_{R,\varepsilon}$ wraps once around this cut:
+\begin{itemize}
+	\item upper bank: $x\in[\varepsilon,R]$ along the ray, angle $0$,
+	\item large circle $C_R$: $|z|=R$, counterclockwise,
+	\item lower bank: $x\in[R,\varepsilon]$ just below the ray, angle $2\pi$,
+	\item small circle $c_\varepsilon$: $|z|=\varepsilon$, counterclockwise.
+\end{itemize}
+Along the lower bank, $z^{\mu-1}$ picks up the factor $e^{2\pi i(\mu-1)}$.
+
+\medskip
+\emph{Vanishing of circular arcs.}
+If $f(z)=z^{\mu-1}/Q(z)$ and $Q$ is a polynomial, then
+\[
+\int_{C_R} f(z)\,dz \to 0 \quad (R\to\infty) \ \text{if}\ \Re\mu<\deg Q,
+\qquad
+\int_{c_\varepsilon} f(z)\,dz \to 0 \quad (\varepsilon\to0) \ \text{if}\ \Re\mu>0.
+\]
+Hence one typically assumes $0<\Re\mu<\deg Q$.
+
+\medskip
+\emph{Bank contributions and jump factor.}
+Let $I=\displaystyle\int_{0}^{\infty}\frac{x^{\mu-1}}{Q(x)}\,dx$.
+Upper bank contributes $I$. Lower bank contributes $-e^{2\pi i(\mu-1)} I$ (reversed orientation).
+Thus
+\[
+\int_{\Gamma_{R,\varepsilon}} \frac{z^{\mu-1}}{Q(z)}\,dz
+\;\xrightarrow[R\to\infty]{\varepsilon\to0}\;
+\bigl(1-e^{2\pi i(\mu-1)}\bigr)\,I
+=2i\,e^{i\pi(\mu-1)}\sin(\pi\mu)\,I.
+\]
+
+\medskip
+\emph{Residue theorem.}
+If $Q$ has zeros $a_k$ not on the cut, then
+\[
+\int_{\Gamma_{R,\varepsilon}} \frac{z^{\mu-1}}{Q(z)}\,dz
+\to 2\pi i \sum_k \Res\!\left(\frac{z^{\mu-1}}{Q(z)}; a_k\right).
+\]
+Equate with the bank expression to solve for $I$.
+
+\medskip
+\emph{Example 1 (Euler’s Beta integral).}
+For $Q(z)=1+z$ and $0<\Re\mu<1$,
+\[
+\int_{0}^{\infty}\frac{x^{\mu-1}}{1+x}\,dx
+=\frac{\pi}{\sin(\pi\mu)}.
+\]
+
+\medskip
+\emph{Example 2 (quadratic denominator).}
+For $Q(z)=z^{2}+2z\cos\phi+1=(z-e^{i\phi})(z-e^{-i\phi})$ with $0<\phi<\pi$ and $0<\Re\mu<2$,
+\[
+\int_{0}^{\infty}\frac{x^{\mu-1}}{x^{2}+2x\cos\phi+1}\,dx
+=\frac{\pi\,\sin(\mu\phi)}{\sin(\pi\mu)\,\sin\phi}.
+\]
+\emph{Sketch.} The poles are at $e^{\pm i\phi}$; compute
+\[
+\Res\left(\frac{z^{\mu-1}}{(z-e^{i\phi})(z-e^{-i\phi})};e^{i\phi}\right)
+=\frac{e^{i\phi(\mu-1)}}{2i\sin\phi},\quad
+\Res(\cdots;e^{-i\phi})=\frac{e^{-i\phi(\mu-1)}}{-2i\sin\phi}.
+\]
+Sum and equate with the bank expression.
+
+\medskip
+\emph{Pitfalls.}
+(1) Be consistent with the branch cut; (2) ensure the circular arcs vanish (conditions on $\Re\mu$);
+(3) avoid poles on the cut (move the cut, or indent and take principal values if needed).
+
+% ---------- Problem 7 (restated) ----------
+\paragraph{Problem 7 (cotangent trick and square contour).}
+Let $N\in\mathbb N$ and let $\gamma_N$ be the square contour with vertices
+$(\pm1\pm i)\bigl(N+\tfrac12\bigr)$, oriented positively.
+\begin{enumerate}[label=(\roman*)]
+	\item Show that there exists a constant $C>0$, independent of $N$, such that
+	\[
+	|\cot(\pi z)|<C \qquad \text{for all } z\in\gamma_N .
+	\]
+	\item By integrating $\displaystyle \frac{\pi\cot(\pi z)}{z^{2}+1}$ around $\gamma_N$,
+	prove that
+	\[
+	\sum_{n=0}^{\infty}\frac{1}{n^{2}+1}\;=\;\frac{1+\pi\coth\pi}{2}\, .
+	\]
+	\item Evaluate the alternating series
+	\[
+	\sum_{n=0}^{\infty}\frac{(-1)^{n}}{n^{2}+1}\, .
+	\]
+\end{enumerate}
+
+% (Place your solution from before here.)
+
+\paragraph{7. (i) Uniform bound for $|\cot \pi z|$ on $\gamma_N$.}
+With $z=x+iy$ one has
+\[
+|\sin(\pi z)|^{2}=\sin^{2}(\pi x)+\sinh^{2}(\pi y),\qquad
+|\cos(\pi z)|^{2}=\cos^{2}(\pi x)+\sinh^{2}(\pi y).
+\]
+On the \emph{vertical} sides $x=\pm(N+\tfrac12)$ we get
+$\sin(\pi x)=\pm1$, $\cos(\pi x)=0$, hence
+\[
+\cot(\pi z)=-i\,\tanh(\pi y),\qquad |\cot(\pi z)|\le 1.
+\]
+On the \emph{horizontal} sides $y=\pm(N+\tfrac12)$,
+\[
+|\cot(\pi z)|^{2}
+=\frac{\cos^{2}(\pi x)+\sinh^{2}(\pi y)}{\sin^{2}(\pi x)+\sinh^{2}(\pi y)}
+\le 1+\frac{1}{\sinh^{2}(\pi|y|)}
+\le 1+\frac{1}{\sinh^{2}(\pi/2)}.
+\]
+Thus there is a constant
+$C=\max\!\big\{1,\sqrt{1+\sinh^{-2}(\pi/2)}\big\}$, independent of $N$, such that
+$|\cot \pi z|<C$ on $\gamma_N$.
+
+\medskip
+\paragraph{(ii) $\displaystyle \sum_{n=0}^{\infty}\frac{1}{n^{2}+1}$.}
+Let $F(z)=\dfrac{\pi\cot(\pi z)}{z^{2}+1}$. Then on $\gamma_N$,
+$|F(z)|\lesssim C/|z|^{2}$, so $\int_{\gamma_N}F(z)\,dz\to0$ as $N\to\infty$.
+Residues:
+\[
+\Res(F;n)=\frac{1}{n^{2}+1}\quad(n\in\mathbb Z),
+\qquad
+\Res(F;i)=\Res(F;-i)=\frac{\pi\cot(\pi i)}{2i}.
+\]
+Since $\cot(\pi i)=-i\,\coth\pi$, we have
+$\Res(F;i)+\Res(F;-i)=-\pi\coth\pi$.
+Hence, letting $N\to\infty$,
+\[
+0=\int_{\gamma_N}F
+=2\pi i\!\left(\sum_{n\in\mathbb Z}\frac{1}{n^{2}+1}-\pi\coth\pi\right)
+\ \Rightarrow\ 
+\sum_{n\in\mathbb Z}\frac{1}{n^{2}+1}=\pi\coth\pi.
+\]
+By symmetry,
+\[
+\boxed{\ \sum_{n=0}^{\infty}\frac{1}{n^{2}+1}=\frac{1+\pi\coth\pi}{2}\ }.
+\]
+
+\medskip
+\paragraph{(iii) $\displaystyle \sum_{n=0}^{\infty}\frac{(-1)^{n}}{n^{2}+1}$.}
+Set $G(z)=\dfrac{\pi\csc(\pi z)}{z^{2}+1}$.
+Again $\int_{\gamma_N}G\to0$ and
+\[
+\Res(G;n)=\frac{(-1)^{n}}{n^{2}+1}\quad(n\in\mathbb Z),
+\qquad
+\csc(\pi i)=\frac{1}{\sin(\pi i)}=\frac{1}{i\sinh\pi}=-i\,\mathrm{csch}\,\pi.
+\]
+Therefore
+\[
+\Res(G;i)+\Res(G;-i)
+=\frac{\pi\csc(\pi i)}{2i}+\frac{\pi\csc(-\pi i)}{-2i}
+=-\pi\,\mathrm{csch}\,\pi.
+\]
+Thus
+\[
+\sum_{n\in\mathbb Z}\frac{(-1)^{n}}{n^{2}+1}
+=\pi\,\mathrm{csch}\,\pi,
+\qquad
+\boxed{\ \sum_{n=0}^{\infty}\frac{(-1)^{n}}{n^{2}+1}
+	=\frac{1+\pi\,\mathrm{csch}\,\pi}{2}\ }.
+\]
+\qed
+
+\paragraph{Complex cotangent: identities and geometry.}
+
+\emph{Core identities.} For $z=x+iy$,
+\[
+\sin(\pi z)=\sin(\pi x)\cosh(\pi y)+i\cos(\pi x)\sinh(\pi y),\quad
+\cos(\pi z)=\cos(\pi x)\cosh(\pi y)-i\sin(\pi x)\sinh(\pi y),
+\]
+hence
+\[
+|\sin(\pi z)|^2=\sin^2(\pi x)+\sinh^2(\pi y),\qquad
+|\cos(\pi z)|^2=\cos^2(\pi x)+\sinh^2(\pi y).
+\]
+Also
+\[
+\cot z=i\,\coth(iz)=i\,\frac{e^{2iz}+1}{e^{2iz}-1}.
+\]
+
+\emph{Poles, residues, partial fractions.}
+$\cot$ has simple poles at $k\pi$ with residue $1$; $\pi\cot(\pi z)$ has simple poles at integers with residue $1$.
+\[
+\pi\cot(\pi z)=\sum_{n\in\mathbb Z}\frac{1}{z-n}.
+\]
+
+\medskip
+\paragraph{Images of horizontal lines $y=\text{const}$.}
+Write
+\[
+\cot(x+iy)=\frac{\sin 2x - i\,\sinh 2y}{\cosh 2y - \cos 2x}=u(x)+iv(x).
+\]
+Eliminating $x$ yields the circle
+\[
+\boxed{\ u^2+\big(v+\coth 2y\big)^2=\csch^2 2y\ },
+\]
+i.e.\ for fixed $y$ the image is a circle centered at $-i\,\coth 2y$ with radius $\csch 2y$ (orthogonal to the imaginary axis). As $y\to\pm\infty$ this circle collapses to the point $\mp i$; as $y\to0$ it expands and approaches the real axis.
+
+\medskip
+\paragraph{Images of vertical lines $x=\text{const}$.}
+For fixed $x$, as $y$ varies,
+\[
+\cot(x+iy)\to -\,i\ (y\to+\infty),\qquad \cot(x+iy)\to +\,i\ (y\to-\infty),
+\]
+and $\cot(x+0i)=\cot x\in\mathbb R$. Thus the image is a circular arc joining $\pm i$ and crossing the real axis at $\cot x$ (orthogonal to the family in the previous paragraph).
+
+\medskip
+\paragraph{Strips, bands, and Möbius viewpoint.}
+Because $\cot z=\tan(\tfrac{\pi}{2}-z)$, the vertical strip $\{0<\Re z<\pi\}$ is mapped bijectively onto $\mathbb C$, and periodicity $\cot(z+\pi)=\cot z$ tiles the plane by such strips.
+Via $e^{2iz}=e^{-2y}e^{2ix}$ a horizontal strip $y\in(y_1,y_2)$ maps to an annulus; the Möbius map $w\mapsto i\frac{w+1}{w-1}$ then sends annuli to circular bands bounded by the circles $u^2+(v+\coth 2y)^2=\csch^2 2y$.
+
+\medskip
+\paragraph{Bounds on large squares (for residue summations).}
+On the square with vertices $(\pm1\pm i)(N+\tfrac12)$,
+\[
+|\cot(\pi z)|\le 1 \ \text{on vertical edges},\qquad
+|\cot(\pi z)|^2\le 1+\frac{1}{\sinh^2(\pi/2)} \ \text{on horizontal edges},
+\]
+so there is a constant $C$ independent of $N$ with $|\cot(\pi z)|<C$ on the boundary.
+
+\medskip
+\emph{Asymptotics and symmetries.}
+$\cot(-z)=-\cot z$, $\overline{\cot(\bar z)}=\cot z$, and $\cot(x+iy)\to\mp i$ as $y\to\pm\infty$.
+These give quick qualitative sketches of level sets and images.
+	
+\paragraph{Short derivation of the horizontal-circle equation.}
+Let $z=x+iy$ and set
+\[
+\cot z=\frac{\sin 2x-i\,\sinh 2y}{\cosh 2y-\cos 2x}=u+iv,\qquad
+D:=\cosh 2y-\cos 2x,\ S:=\sinh 2y,\ C:=\cosh 2y.
+\]
+Then
+\[
+u=\frac{\sin 2x}{D},\qquad v=-\frac{S}{D}\ \Longrightarrow\ D=-\frac{S}{v}.
+\]
+Hence
+\[
+\sin 2x=uD=-\frac{uS}{v},\qquad \cos 2x = C - D = C+\frac{S}{v}.
+\]
+Now
+\[
+u^{2}+\Bigl(v+\frac{C}{S}\Bigr)^{2}
+=\frac{1}{D^{2}}\!\left[\sin^{2}2x+\frac{(1-C\cos 2x)^{2}}{S^{2}}\right].
+\]
+Using $D=C-\cos 2x$ and $\cosh^{2}2y-\sinh^{2}2y=1$ we get
+\[
+S^{2}\sin^{2}2x+(1-C\cos 2x)^{2}=(C-\cos 2x)^{2}=D^{2}.
+\]
+Therefore
+\[
+\boxed{\,u^{2}+\bigl(v+\coth 2y\bigr)^{2}=\csch^{2}2y\,},
+\]
+i.e.\ for fixed $y$ the image is a circle centered at $-i\,\coth(2y)$ with radius $\csch(2y)$.
+	
+	
+\paragraph{Hyperbolic cosecant.}
+\[
+\csch x=\frac{1}{\sinh x}=\frac{2}{e^{x}-e^{-x}},\qquad
+\sech x=\frac{1}{\cosh x},\quad
+\coth x=\frac{\cosh x}{\sinh x}.
+\]
+Parity and derivatives:
+\[
+\csch(-x)=-\csch x,\qquad
+\frac{d}{dx}\csch x=-\csch x\,\coth x,\qquad
+\frac{d}{dx}\coth x=-\csch^{2}x.
+\]
+Identity and asymptotics:
+\[
+\coth^{2}x-\csch^{2}x=1,\qquad
+\csch x\sim 2e^{-|x|}\quad (|x|\to\infty).
+\]
+
+
+\paragraph{Background and geometry for $\sin z$.}
+
+\emph{Core identities.} For $z=x+iy$,
+\[
+\sin z=\sin x\,\cosh y+i\,\cos x\,\sinh y,\qquad
+|\sin z|^{2}=\sin^{2}x+\sinh^{2}y.
+\]
+Symmetries: $\overline{\sin\bar z}=\sin z$, $\sin(-z)=-\sin z$, $\sin(z+2\pi)=\sin z$.
+Zeros are simple at $z=n\pi$ ($n\in\mathbb Z$) since $\sin'(n\pi)=\cos(n\pi)\neq0$.
+
+\medskip
+\paragraph{Images of horizontal lines $y=\text{const}$.}
+Let $w=\sin z=u+iv$. For fixed $y$,
+\[
+u=\sin x\,\cosh y,\qquad v=\cos x\,\sinh y.
+\]
+Eliminating $x$ gives the ellipse
+\[
+\boxed{\ \Big(\tfrac{u}{\cosh y}\Big)^{2}+\Big(\tfrac{v}{\sinh y}\Big)^{2}=1\ }.
+\]
+Thus the image is an ellipse centered at $0$ with semiaxes $\cosh y$ (real axis) and $\sinh y$ (imaginary axis).
+Since $\cosh^{2}y-\sinh^{2}y=1$, the foci lie at $\pm1$, and
+\[
+|w-1|+|w+1|=2\cosh y.
+\]
+
+\medskip
+\paragraph{Images of vertical lines $x=\text{const}$.}
+For fixed $x$,
+\[
+u=\sin x\,\cosh y,\qquad v=\cos x\,\sinh y
+\]
+and eliminating $y$ using $\cosh^{2}y-\sinh^{2}y=1$ yields
+\[
+\boxed{\ \Big(\tfrac{u}{\sin x}\Big)^{2}-\Big(\tfrac{v}{\cos x}\Big)^{2}=1\ } \quad
+(\sin x\,\cos x\ne0).
+\]
+Hence the image is a hyperbola with the same foci $\pm1$.
+Degenerate cases:
+$x=n\pi$ gives $u=0$ (imaginary axis) and $x=\frac{\pi}{2}+n\pi$ gives $v=0$ (real axis).
+
+\medskip
+\paragraph{Strips and periodicity.}
+One may take the fundamental strip $S=\{\,0<\Re z<\pi\,\}$. On $x=0$ or $x=\pi$
+the image is purely imaginary; in the interior the images of horizontal/vertical lines
+form the orthogonal confocal families of ellipses and hyperbolas with foci $\pm1$.
+(Branches of $\arcsin$ use the slits $(-\infty,-1]\cup[1,\infty)$.)
+
+
+\paragraph{Background and geometry for $\cos z$.}
+
+\emph{Core identities.} For $z=x+iy$,
+\[
+\cos z=\cos x\,\cosh y - i\,\sin x\,\sinh y,\qquad
+|\cos z|^{2}=\cos^{2}x+\sinh^{2}y.
+\]
+Symmetries: $\overline{\cos\bar z}=\cos z$, $\cos(-z)=\cos z$, $\cos(z+2\pi)=\cos z$.
+Zeros are simple at $z=\tfrac{\pi}{2}+n\pi$ since $\cos'(z)=-\sin z$.
+
+\medskip
+\paragraph{Images of horizontal lines $y=\text{const}$.}
+Let $w=\cos z=u+iv$. For fixed $y$,
+\[
+u=\cos x\,\cosh y,\qquad v=-\,\sin x\,\sinh y.
+\]
+Eliminating $x$ gives the ellipse
+\[
+\boxed{\ \Big(\tfrac{u}{\cosh y}\Big)^{2}+\Big(\tfrac{v}{\sinh y}\Big)^{2}=1\ }.
+\]
+Thus the image is an ellipse centered at $0$ with semiaxes $\cosh y$ (real axis) and $\sinh y$ (imaginary axis); since $\cosh^{2}y-\sinh^{2}y=1$, the foci are $\pm1$ and
+\[
+|w-1|+|w+1|=2\cosh y.
+\]
+
+\medskip
+\paragraph{Images of vertical lines $x=\text{const}$.}
+For fixed $x$,
+\[
+u=\cos x\,\cosh y,\qquad v=-\,\sin x\,\sinh y.
+\]
+Eliminating $y$ using $\cosh^{2}y-\sinh^{2}y=1$ yields
+\[
+\boxed{\ \Big(\tfrac{u}{\cos x}\Big)^{2}-\Big(\tfrac{v}{\sin x}\Big)^{2}=1\ } \quad
+(\sin x\,\cos x\ne0),
+\]
+a hyperbola with the same foci $\pm1$.
+Degenerate cases:
+$x=n\pi$ gives $v=0$ (real axis) and $x=\tfrac{\pi}{2}+n\pi$ gives $u=0$ (imaginary axis).
+
+\medskip
+\paragraph{Strips and periodicity.}
+A fundamental strip is $S=\{\,0<\Re z<\pi\,\}$. On $x=0$ or $x=\pi$ the image is real; inside $S$ the images of horizontal/vertical lines form orthogonal confocal ellipses and hyperbolas with foci $\pm1$.
+(Branches of $\arccos$ use the slits $(-\infty,-1]\cup[1,\infty)$.)
+	
+	
+\paragraph{Background and geometry for $\tan z$.}
+
+\emph{Core identities.} For $z=x+iy$,
+\[
+\tan z=\frac{\sin z}{\cos z}
+=\frac{\sin 2x + i\,\sinh 2y}{\cos 2x+\cosh 2y}.
+\]
+Thus, writing $w=\tan z=u+iv$,
+\[
+u=\frac{\sin 2x}{\cos 2x+\cosh 2y},\qquad
+v=\frac{\sinh 2y}{\cos 2x+\cosh 2y}.
+\]
+
+\emph{Zeros, poles, residues.}
+$\tan z$ has simple zeros at $z=n\pi$ and simple poles at $z=\tfrac{\pi}{2}+n\pi$ ($n\in\mathbb Z$).
+At each pole, $\mathrm{Res}(\tan;z_0)=1$. The partial fraction expansion is
+\[
+\pi\,\tan(\pi z)=\sum_{n\in\mathbb Z}\frac{1}{\,z-(n+\tfrac12)\,}.
+\]
+Symmetries: $\tan(-z)=-\tan z$, $\overline{\tan\bar z}=\tan z$, and $\tan(z+\pi)=\tan z$.
+As $|y|\to\infty$, $\tan(x+iy)\to i\,\mathrm{sgn}(y)$.
+
+\medskip
+\paragraph{Images of horizontal lines $y=\text{const}$.}
+Fix $y$ and set $C=\cosh(2y)$, $S=\sinh(2y)$, $D=\cos(2x)+C$. Then
+\[
+u=\frac{\sin 2x}{D},\qquad v=\frac{S}{D}.
+\]
+Eliminating $x$ (using $D=S/v$) yields the circle
+\[
+\boxed{\ u^{2}+\Bigl(v-\frac{\cosh(2y)}{\sinh(2y)}\Bigr)^{2}=\frac{1}{\sinh^{2}(2y)}\ }.
+\]
+Hence the image is a circle centered at $-i\,\dfrac{\cosh(2y)}{\sinh(2y)}$ on the imaginary axis (note the sign in $u+iv$) with radius $\dfrac{1}{|\sinh(2y)|}$.
+As $y\to\pm\infty$ the circle shrinks to $\pm i$; as $y\to0$ it expands toward the real axis.
+
+\medskip
+\paragraph{Images of vertical lines $x=\text{const}$.}
+For fixed $x$, as $y$ varies,
+\[
+\tan(x+iy)\to i \ (y\to+\infty),\qquad \tan(x+iy)\to -i \ (y\to-\infty),
+\]
+and $\tan(x+0i)=\tan x\in\mathbb R$. Thus the image is a circular arc joining $\pm i$ and crossing the real axis at $\tan x$ (orthogonal to the family above).
+
+\medskip
+\paragraph{Strips and periodicity.}
+The vertical strip $S=\{\, -\tfrac{\pi}{2}<\Re z<\tfrac{\pi}{2}\,\}$ is mapped bijectively onto $\mathbb C$ by $\tan$; its boundary lines map to $\infty$ (simple poles). Periodicity $\tan(z+\pi)=\tan z$ tiles the plane by translates of $S$.
+
+
+\subsection*{Background and geometry for $\cot z$}
+
+\subsubsection*{Core identities (for $z=x+iy$)}
+\[
+\sin(\pi z)=\sin(\pi x)\cosh(\pi y)+i\,\cos(\pi x)\sinh(\pi y),\qquad
+\cos(\pi z)=\cos(\pi x)\cosh(\pi y)-i\,\sin(\pi x)\sinh(\pi y).
+\]
+Hence
+\[
+|\sin(\pi z)|^{2}=\sin^{2}(\pi x)+\sinh^{2}(\pi y),\qquad
+|\cos(\pi z)|^{2}=\cos^{2}(\pi x)+\sinh^{2}(\pi y),\qquad
+\cot(\pi z)=\frac{\cos(\pi z)}{\sin(\pi z)}.
+\]
+Symmetries: $\overline{\cot(\bar z)}=\cot z$, \ $\cot(-z)=-\cot z$, \ $\cot(z+\pi)=\cot z$.
+
+\medskip
+\subsubsection*{Zeros, poles, residues}
+$\cot(\pi z)$ has simple poles at $z\in\mathbb{Z}$, each with residue $1/\pi$.
+Equivalently, $\pi\cot(\pi z)$ has residue $1$ at every integer and no other singularities.
+
+\medskip
+\subsubsection*{Partial fractions (two precise forms)}
+\emph{(Mittag--Leffler; converges locally uniformly on $\mathbb{C}\setminus\mathbb{Z}$)}
+\[
+\boxed{\ \pi\cot(\pi z)=\frac{1}{z}+\sum_{n\neq 0}\Bigl(\frac{1}{z-n}+\frac{1}{n}\Bigr)\ }.
+\]
+\emph{(Symmetric / principal value)}
+\[
+\boxed{\ \pi\cot(\pi z)=\lim_{N\to\infty}\sum_{n=-N}^{N}\frac{1}{z-n}\ }.
+\]
+
+\medskip
+\subsubsection*{Uniform bound on large squares (for residue sums)}
+On the vertical sides $x=N+\tfrac12$,
+\[
+\cot(\pi z)=\frac{\cos(\pi x)\cosh(\pi y)-i\,\sin(\pi x)\sinh(\pi y)}%
+{\sin(\pi x)\cosh(\pi y)+i\,\cos(\pi x)\sinh(\pi y)}
+=-\,i\,\tanh(\pi y)\quad\Rightarrow\quad |\cot(\pi z)|\le 1.
+\]
+On the horizontal sides $y=\pm(N+\tfrac12)$,
+\[
+|\cot(\pi z)|^{2}
+=\frac{\cos^{2}(\pi x)+\sinh^{2}(\pi y)}{\sin^{2}(\pi x)+\sinh^{2}(\pi y)}
+\le 1+\frac{1}{\sinh^{2}(\pi|y|)}
+\le 1+\frac{1}{\sinh^{2}(\pi/2)}.
+\]
+Thus a single constant $C>0$ works for all $N$: $|\cot(\pi z)|<C$ on the square.
+
+\medskip
+\subsubsection*{Images of horizontal lines $y=\mathrm{const}$ (circles)}
+Using double angles,
+\[
+\cot z=\frac{\cos z}{\sin z}
+=\frac{\sin 2x - i\,\sinh 2y}{\cosh 2y - \cos 2x}=u+iv.
+\]
+Let $C:=\cosh(2y)$, $S:=\sinh(2y)$, $D:=C-\cos 2x$. Then
+\[
+u=\frac{\sin 2x}{D},\qquad v=-\,\frac{S}{D}\quad\Rightarrow\quad D=-\,\frac{S}{v}.
+\]
+So $\sin 2x=uD=-\,\frac{uS}{v}$ and $\cos 2x=C-D=C+\frac{S}{v}$. Using
+$\sin^{2}2x+\cos^{2}2x=1$ and $C^{2}-S^{2}=1$ we obtain
+\[
+\boxed{\ u^{2}+\Bigl(v+\frac{C}{S}\Bigr)^{2}=\frac{1}{S^{2}}\ }
+\quad\Longleftrightarrow\quad
+\boxed{\ u^{2}+\Bigl(v+\frac{\cosh(2y)}{\sinh(2y)}\Bigr)^{2}=\frac{1}{\sinh^{2}(2y)}\ }.
+\]
+Thus the image is a circle centered at $-i\,\dfrac{\cosh(2y)}{\sinh(2y)}$
+with radius $\dfrac{1}{|\sinh(2y)|}$. As $y\to+\infty$, $\cot(x+iy)\to -i$;
+as $y\to-\infty$, $\cot(x+iy)\to +i$.
+
+\medskip
+\subsubsection*{Images of vertical lines $x=\mathrm{const}$ (circular arcs)}
+For fixed $x$,
+\[
+\cot(x+iy)\to -\,i\quad (y\to+\infty),\qquad
+\cot(x+iy)\to +\,i\quad (y\to-\infty),\qquad
+\cot(x+0)=\cot x\in\mathbb{R}.
+\]
+Thus each vertical line maps to a circular arc joining $\pm i$ and crossing the real axis
+at $\cot x$; these arcs are orthogonal to the circles above.
+
+\medskip
+\subsubsection*{Strips and periodicity}
+The vertical strip $S=\{\,0<\Re z<\pi\,\}$ is mapped bijectively onto $\mathbb{C}$ by $\cot$;
+its boundary lines map to $\infty$ (simple poles). Periodicity $\cot(z+\pi)=\cot z$
+tiles the plane by translates of $S$.
+
+
+	
+\end{document}
+

@@ -1,0 +1,4084 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Commutative Algebra 7},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\fancyhf{}
+\lhead{Theory of Commutative Algebra 11}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\newcommand{\Coker}{\operatorname{Coker}}
+
+
+\newtheorem{example}[definition]{Example}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+
+
+\newcommand{\kerf}{\operatorname{Ker}}
+
+\newcommand{\pd}{\operatorname{pd}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\syz}{\operatorname{Syz}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\kk}{\mathbb{K}}
+
+
+\newcommand{\m}{\mathfrak m}
+
+
+
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!60!black,
+	urlcolor=blue!60!black,
+	citecolor=blue!60!black
+}
+
+\title{\vspace{-1.5em}\bfseries Theory of Commutative Algebra 11}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in commutative algebra
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+\section{Coprime ideals, the map \(A\to \prod A/I_i\), kernels, intersections, and many concrete examples}
+
+\subsection{Exact statement}
+
+We say that two ideals \(I,J\) of a ring \(A\) are \emph{coprime} (or \emph{comaximal}) if
+\[
+I+J=(1)=A.
+\]
+
+Given ideals \(I_1,\dots,I_n\subseteq A\), there is a natural ring homomorphism
+\[
+\phi:A\longrightarrow \prod_{i=1}^n A/I_i,
+\qquad
+\phi(a)=(a+I_1,\dots,a+I_n).
+\]
+
+The key statements are:
+
+\begin{enumerate}
+	\item For any ideals \(I_1,\dots,I_n\),
+	\[
+	\ker(\phi)=\bigcap_{i=1}^n I_i.
+	\]
+	
+	\item If \(I_i\) and \(I_j\) are coprime whenever \(i\neq j\), then
+	\[
+	\bigcap_{i=1}^n I_i=\prod_{i=1}^n I_i.
+	\]
+	
+	\item If \(I_i\) and \(I_j\) are coprime whenever \(i\neq j\), then \(\phi\) is surjective, hence
+	\[
+	A\Big/\bigcap_{i=1}^n I_i \cong \prod_{i=1}^n A/I_i.
+	\]
+	Since in that case \(\bigcap I_i=\prod I_i\), we also obtain
+	\[
+	A\Big/\prod_{i=1}^n I_i \cong \prod_{i=1}^n A/I_i.
+	\]
+\end{enumerate}
+
+\subsection{What does \(I+J=A\) mean?}
+
+For ideals \(I,J\subseteq A\),
+\[
+I+J=\{u+v:\ u\in I,\ v\in J\}.
+\]
+
+Thus
+\[
+I+J=A
+\]
+means that every element of \(A\) can be written as a sum of something from \(I\) and something from \(J\). In particular, it is equivalent to requiring that \(1\in I+J\). Hence:
+\[
+I+J=A
+\quad\Longleftrightarrow\quad
+\exists\,u\in I,\ v\in J\text{ such that }u+v=1.
+\]
+
+This criterion is the most useful one in concrete examples.
+
+\subsection{First concrete examples in \(\mathbb Z\)}
+
+In the ring \(\mathbb Z\), every ideal has the form \((n)\). One has
+\[
+(m)+(n)=(\gcd(m,n)).
+\]
+Therefore
+\[
+(m)+(n)=\mathbb Z
+\quad\Longleftrightarrow\quad
+\gcd(m,n)=1.
+\]
+
+\subsubsection*{Example 1: \((2)+(3)=\mathbb Z\)}
+
+We have
+\[
+1=(-1)\cdot 2+1\cdot 3.
+\]
+Thus
+\[
+(2)+(3)=\mathbb Z.
+\]
+So \((2)\) and \((3)\) are coprime ideals.
+
+\subsubsection*{Example 2: \((4)+(6)\neq \mathbb Z\)}
+
+Every element of \((4)+(6)\) is of the form
+\[
+4a+6b,
+\]
+hence is even. In particular, \(1\notin (4)+(6)\). Therefore
+\[
+(4)+(6)=(2)\neq \mathbb Z.
+\]
+So \((4)\) and \((6)\) are not coprime.
+
+\subsubsection*{Example 3: \((5)+(12)=\mathbb Z\)}
+
+Indeed,
+\[
+5\cdot 5+(-2)\cdot 12=25-24=1.
+\]
+Hence
+\[
+(5)+(12)=\mathbb Z.
+\]
+
+\subsection{Examples in \(k[x]\)}
+
+Let \(A=k[x]\). Then for principal ideals \((f)\) and \((g)\),
+\[
+(f)+(g)=A
+\]
+exactly when \(f\) and \(g\) are coprime polynomials.
+
+\subsubsection*{Example 4: \((x)+(x-1)=k[x]\)}
+
+We have
+\[
+x-(x-1)=1.
+\]
+Hence
+\[
+(x)+(x-1)=k[x].
+\]
+
+\subsubsection*{Example 5: \((x)+(x^2)\neq k[x]\)}
+
+Every element of \((x)+(x^2)\) is divisible by \(x\). Therefore \(1\notin (x)+(x^2)\), so
+\[
+(x)+(x^2)=(x)\neq k[x].
+\]
+
+\subsubsection*{Example 6: \((x)+(x^2+1)=k[x]\)}
+
+We have
+\[
+(x^2+1)-x\cdot x=1.
+\]
+Hence
+\[
+(x)+(x^2+1)=k[x].
+\]
+
+\subsubsection*{Example 7: Three pairwise coprime ideals}
+
+The ideals
+\[
+(x),\qquad (x-1),\qquad (x-2)
+\]
+are pairwise coprime, since
+\[
+x-(x-1)=1,
+\qquad
+x-(x-2)=2,
+\qquad
+(x-1)-(x-2)=1.
+\]
+If \(k\) is a field and \(2\neq 0\) in \(k\), then the middle identity directly shows coprimeness. More generally, if the linear factors are distinct, the corresponding ideals are pairwise coprime.
+
+\subsection{Examples in \(k[x,y]\)}
+
+\subsubsection*{Example 8: \((x)+(x-1)=k[x,y]\)}
+
+Again,
+\[
+x-(x-1)=1.
+\]
+So
+\[
+(x)+(x-1)=k[x,y].
+\]
+
+\subsubsection*{Example 9: \((x)+(y)\neq k[x,y]\)}
+
+Every element of \((x)+(y)\) has the form
+\[
+xf(x,y)+yg(x,y),
+\]
+hence has zero constant term. Therefore \(1\notin (x)+(y)\), so
+\[
+(x)+(y)\neq k[x,y].
+\]
+
+\subsubsection*{Example 10: \((x)+(xy-1)=k[x,y]\)}
+
+Indeed,
+\[
+y\cdot x-(xy-1)=1.
+\]
+Hence
+\[
+(x)+(xy-1)=k[x,y].
+\]
+
+\subsubsection*{Example 11: \((x,y-1)+(x-1,y)=k[x,y]\)}
+
+Since
+\[
+x\in (x,y-1)
+\qquad\text{and}\qquad
+x-1\in (x-1,y),
+\]
+we have
+\[
+x-(x-1)=1,
+\]
+so
+\[
+(x,y-1)+(x-1,y)=k[x,y].
+\]
+
+\subsection{A useful structural remark: local rings}
+
+If \(A\) is a local ring with maximal ideal \(\mathfrak m\), then every proper ideal of \(A\) is contained in \(\mathfrak m\). Therefore if \(I,J\subsetneq A\) are proper ideals, then
+\[
+I+J\subseteq \mathfrak m\subsetneq A.
+\]
+Hence in a local ring, two proper ideals can never satisfy \(I+J=A\).
+
+\subsection{Kernel of the natural map}
+
+Consider
+\[
+\phi:A\to \prod_{i=1}^n A/I_i,
+\qquad
+\phi(a)=(a+I_1,\dots,a+I_n).
+\]
+
+Then always
+\[
+\ker(\phi)=\bigcap_{i=1}^n I_i.
+\]
+
+\textbf{Proof.}
+An element \(a\in A\) lies in \(\ker(\phi)\) if and only if
+\[
+\phi(a)=(0+I_1,\dots,0+I_n).
+\]
+This holds if and only if
+\[
+a+I_i=0+I_i
+\qquad\text{for all }i,
+\]
+which is equivalent to
+\[
+a\in I_i
+\qquad\text{for all }i.
+\]
+Thus
+\[
+a\in \bigcap_{i=1}^n I_i.
+\]
+So
+\[
+\ker(\phi)=\bigcap_{i=1}^n I_i.
+\]
+\hfill\(\Box\)
+
+\subsection{Concrete kernel examples}
+
+\subsubsection*{Example 12: \(\mathbb Z\to \mathbb Z/2\mathbb Z\times \mathbb Z/3\mathbb Z\)}
+
+Let
+\[
+\phi:\mathbb Z\to \mathbb Z/2\mathbb Z\times \mathbb Z/3\mathbb Z,
+\qquad
+\phi(a)=(a+(2),a+(3)).
+\]
+Then
+\[
+\ker(\phi)=(2)\cap(3).
+\]
+An integer lies in the kernel exactly when it is divisible by both \(2\) and \(3\), hence exactly when it is divisible by \(6\). So
+\[
+\ker(\phi)=(6).
+\]
+Since \((2)+(3)=\mathbb Z\), we also have
+\[
+(2)\cap(3)=(2)(3)=(6).
+\]
+
+\subsubsection*{Example 13: \(\mathbb Z\to \mathbb Z/4\mathbb Z\times \mathbb Z/6\mathbb Z\)}
+
+Now let
+\[
+\phi:\mathbb Z\to \mathbb Z/4\mathbb Z\times \mathbb Z/6\mathbb Z.
+\]
+Then
+\[
+\ker(\phi)=(4)\cap(6).
+\]
+An integer lies in the kernel if and only if it is divisible by both \(4\) and \(6\), hence by \(\operatorname{lcm}(4,6)=12\). Therefore
+\[
+\ker(\phi)=(12).
+\]
+But
+\[
+(4)(6)=(24),
+\]
+so here
+\[
+(4)\cap(6)\neq (4)(6).
+\]
+This is the basic example showing why comaximality matters.
+
+\subsubsection*{Example 14: \(k[x]\to k[x]/(x)\times k[x]/(x-1)\)}
+
+Let
+\[
+\phi:k[x]\to k[x]/(x)\times k[x]/(x-1),
+\qquad
+\phi(f)=(f+(x),f+(x-1)).
+\]
+Then
+\[
+\ker(\phi)=(x)\cap(x-1).
+\]
+Since \((x)\) and \((x-1)\) are coprime,
+\[
+(x)\cap(x-1)=(x)(x-1)=(x(x-1)).
+\]
+Hence
+\[
+\ker(\phi)=(x(x-1)).
+\]
+
+\subsubsection*{Example 15: Three quotient factors in \(k[x]\)}
+
+Consider
+\[
+\phi:k[x]\to k[x]/(x)\times k[x]/(x-1)\times k[x]/(x-2).
+\]
+Then
+\[
+\ker(\phi)=(x)\cap(x-1)\cap(x-2).
+\]
+Because these ideals are pairwise coprime,
+\[
+\ker(\phi)=(x)(x-1)(x-2)=(x(x-1)(x-2)).
+\]
+
+\subsubsection*{Example 16: A kernel in \(k[x,y]\)}
+
+Let
+\[
+\phi:k[x,y]\to k[x,y]/(x)\times k[x,y]/(xy-1).
+\]
+Then
+\[
+\ker(\phi)=(x)\cap(xy-1).
+\]
+Since
+\[
+(x)+(xy-1)=k[x,y],
+\]
+we have
+\[
+(x)\cap(xy-1)=(x)(xy-1).
+\]
+Thus
+\[
+\ker(\phi)=\big(x(xy-1)\big).
+\]
+
+\subsection{Why \(IJ\subseteq I\cap J\) always holds}
+
+For any two ideals \(I,J\subseteq A\), the product \(IJ\) is the ideal generated by finite sums of elements \(ab\) with \(a\in I\), \(b\in J\). Since \(ab\in I\) and also \(ab\in J\), every such finite sum lies in both \(I\) and \(J\). Hence
+\[
+IJ\subseteq I\cap J.
+\]
+
+The difficult direction is the reverse inclusion, and that is where the assumption \(I+J=A\) is used.
+
+\subsection{Why \(I\cap J=IJ\) when \(I+J=A\)}
+
+Assume
+\[
+I+J=A.
+\]
+Then there exist
+\[
+u\in I,\qquad v\in J
+\]
+such that
+\[
+u+v=1.
+\]
+Take any \(x\in I\cap J\). Then
+\[
+x=x\cdot 1=x(u+v)=xu+xv.
+\]
+Now:
+
+\begin{itemize}
+	\item since \(x\in J\) and \(u\in I\), we have \(xu\in IJ\),
+	\item since \(x\in I\) and \(v\in J\), we have \(xv\in IJ\).
+\end{itemize}
+
+Therefore \(x\in IJ\). So
+\[
+I\cap J\subseteq IJ.
+\]
+Together with the always-true inclusion \(IJ\subseteq I\cap J\), we get
+\[
+I\cap J=IJ.
+\]
+
+\subsection{Concrete examples of intersections and products}
+
+\subsubsection*{Example 17: In \(\mathbb Z\), comaximal case}
+
+Let
+\[
+I=(2),\qquad J=(3).
+\]
+Then
+\[
+IJ=(6).
+\]
+Also
+\[
+I\cap J=(6),
+\]
+because an integer lies in both \((2)\) and \((3)\) exactly when it is divisible by \(6\). Hence
+\[
+I\cap J=IJ.
+\]
+
+\subsubsection*{Example 18: In \(\mathbb Z\), non-comaximal case}
+
+Let
+\[
+I=(4),\qquad J=(6).
+\]
+Then
+\[
+IJ=(24).
+\]
+But
+\[
+I\cap J=(12),
+\]
+because an integer lies in both ideals exactly when it is divisible by \(12\). Thus
+\[
+I\cap J\neq IJ.
+\]
+
+\subsubsection*{Example 19: In \(k[x]\), comaximal case}
+
+Let
+\[
+I=(x),\qquad J=(x-1).
+\]
+Then
+\[
+IJ=(x(x-1)).
+\]
+Since the ideals are coprime,
+\[
+I\cap J=(x(x-1)).
+\]
+
+\subsubsection*{Example 20: In \(k[x]\), non-comaximal case}
+
+Let
+\[
+I=(x),\qquad J=(x^2).
+\]
+Then
+\[
+IJ=(x^3).
+\]
+But
+\[
+I\cap J=(x^2),
+\]
+because every multiple of \(x^2\) lies in both \((x)\) and \((x^2)\), and this is the largest such principal ideal. Hence
+\[
+I\cap J\neq IJ.
+\]
+
+\subsection{Pairwise coprime families and the product/intersection formula}
+
+If \(I_1,\dots,I_n\) are pairwise coprime, then
+\[
+\bigcap_{i=1}^n I_i=\prod_{i=1}^n I_i.
+\]
+
+\textbf{Idea of proof.}
+The case \(n=2\) was proved above. The general case follows by induction. One shows first that
+\[
+I_1\cap\cdots\cap I_{n-1}
+\]
+is coprime to \(I_n\), then applies the two-ideal result:
+\[
+\big(I_1\cap\cdots\cap I_{n-1}\big)\cap I_n
+=
+\big(I_1\cap\cdots\cap I_{n-1}\big)I_n.
+\]
+Using the induction hypothesis gives
+\[
+\bigcap_{i=1}^n I_i
+=
+\left(\prod_{i=1}^{n-1} I_i\right)I_n
+=
+\prod_{i=1}^n I_i.
+\]
+
+\subsection{Why surjectivity holds in the pairwise coprime case}
+
+Assume \(I_1,\dots,I_n\) are pairwise coprime. Then
+\[
+\phi:A\to \prod_{i=1}^n A/I_i
+\]
+is surjective.
+
+It suffices to explain the idea for two ideals. Suppose \(I+J=A\). Then choose
+\[
+u\in I,\qquad v\in J
+\]
+with
+\[
+u+v=1.
+\]
+Given residues
+\[
+a+I\in A/I,\qquad b+J\in A/J,
+\]
+consider
+\[
+x=b\,u+a\,v.
+\]
+Modulo \(I\), since \(u\in I\), we have
+\[
+x\equiv a\,v \pmod I.
+\]
+But \(u+v=1\) and \(u\in I\), so \(v\equiv 1\pmod I\). Hence
+\[
+x\equiv a \pmod I.
+\]
+Similarly, modulo \(J\), since \(v\in J\) and \(u\equiv 1\pmod J\), we get
+\[
+x\equiv b \pmod J.
+\]
+Thus \(x\) maps to \((a+I,b+J)\). So \(\phi\) is onto.
+
+The general case follows by iterating this construction.
+
+\subsection{Example where surjectivity fails}
+
+\subsubsection*{Example 21: \(\mathbb Z\to \mathbb Z/4\mathbb Z\times \mathbb Z/6\mathbb Z\)}
+
+Consider
+\[
+\phi:\mathbb Z\to \mathbb Z/4\mathbb Z\times \mathbb Z/6\mathbb Z,
+\qquad
+\phi(a)=(a+(4),a+(6)).
+\]
+This map is not surjective.
+
+For instance, the pair
+\[
+(1+(4),\,0+(6))
+\]
+is not in the image. Indeed, if such a pair came from some integer \(a\), we would need
+\[
+a\equiv 1\pmod 4
+\qquad\text{and}\qquad
+a\equiv 0\pmod 6.
+\]
+The first congruence implies \(a\) is odd, while the second implies \(a\) is even. Contradiction.
+
+So when ideals are not coprime, surjectivity can fail.
+
+\subsection{Example where surjectivity works}
+
+\subsubsection*{Example 22: \(\mathbb Z\to \mathbb Z/2\mathbb Z\times \mathbb Z/3\mathbb Z\)}
+
+Now consider
+\[
+\phi:\mathbb Z\to \mathbb Z/2\mathbb Z\times \mathbb Z/3\mathbb Z.
+\]
+This map is surjective because \((2)+(3)=\mathbb Z\).
+
+For example, to find an integer mapping to
+\[
+(1+(2),\,2+(3)),
+\]
+we solve
+\[
+a\equiv 1\pmod 2,
+\qquad
+a\equiv 2\pmod 3.
+\]
+One solution is \(a=5\), since
+\[
+5\equiv 1\pmod 2,
+\qquad
+5\equiv 2\pmod 3.
+\]
+
+\subsubsection*{Example 23: \(k[x]\to k[x]/(x)\times k[x]/(x-1)\)}
+
+The map
+\[
+\phi:k[x]\to k[x]/(x)\times k[x]/(x-1)
+\]
+is surjective because \((x)+(x-1)=k[x]\).
+
+Concretely, if we want a polynomial \(f(x)\) with
+\[
+f(0)=a,\qquad f(1)=b,
+\]
+we may take
+\[
+f(x)=a(1-x)+bx.
+\]
+Indeed,
+\[
+f(0)=a,\qquad f(1)=b.
+\]
+This is the polynomial form of the Chinese remainder theorem in this special case.
+
+\subsection{How to think about \(I+J=A\)}
+
+The condition
+\[
+I+J=A
+\]
+means that the congruence conditions modulo \(I\) and modulo \(J\) are independent.
+
+In \(\mathbb Z\):
+
+\begin{itemize}
+	\item congruences modulo \(2\) and modulo \(3\) are independent,
+	\item congruences modulo \(4\) and modulo \(6\) are not independent, because both impose parity information.
+\end{itemize}
+
+That is why
+\[
+\mathbb Z/(6)\cong \mathbb Z/(2)\times \mathbb Z/(3)
+\]
+works well, while
+\[
+\mathbb Z/(24)\not\cong \mathbb Z/(4)\times \mathbb Z/(6)
+\]
+is not the right comparison, and indeed
+\[
+\mathbb Z/(12)
+\]
+already shows the failure of the product/intersection equality.
+
+\subsection{Conclusion}
+
+The central facts are:
+
+\begin{enumerate}
+	\item Always,
+	\[
+	\ker\!\left(A\to \prod_{i=1}^n A/I_i\right)=\bigcap_{i=1}^n I_i.
+	\]
+	
+	\item If \(I+J=A\), then
+	\[
+	I\cap J=IJ.
+	\]
+	
+	\item If \(I_1,\dots,I_n\) are pairwise coprime, then
+	\[
+	\bigcap_{i=1}^n I_i=\prod_{i=1}^n I_i,
+	\]
+	and the natural map
+	\[
+	A\to \prod_{i=1}^n A/I_i
+	\]
+	is surjective.
+	
+	\item Therefore, in the pairwise coprime case,
+	\[
+	A\Big/\prod_{i=1}^n I_i
+	\cong
+	A\Big/\bigcap_{i=1}^n I_i
+	\cong
+	\prod_{i=1}^n A/I_i.
+	\]
+\end{enumerate}
+
+These identities are exactly the algebraic content of the Chinese remainder theorem for ideals, and the examples above show concretely why the hypothesis \(I_i+I_j=A\) is the right one.
+
+\section{Chinese remainder theorem: examples in \(\mathbb Z\), \(\mathbb Z/n\mathbb Z\), \(k[x]\), and \(k[x,y]\)}
+
+\subsection{The two basic maps}
+
+Let \(A\) be a commutative ring and let \(I,J\subseteq A\) be ideals. Consider the map
+\[
+\phi:A\longrightarrow A/I\times A/J,
+\qquad
+\phi(a)=(a+I,\ a+J).
+\]
+
+Its kernel is
+\[
+\ker(\phi)=I\cap J.
+\]
+Therefore \(\phi\) induces an injective map
+\[
+\overline\phi:A/(I\cap J)\hookrightarrow A/I\times A/J.
+\]
+
+Since \(IJ\subseteq I\cap J\), the map also factors through
+\[
+\widetilde\phi:A/IJ\longrightarrow A/I\times A/J.
+\]
+
+The kernel of \(\widetilde\phi\) is
+\[
+\ker(\widetilde\phi)=\frac{I\cap J}{IJ}.
+\]
+Hence
+\[
+\widetilde\phi \text{ is injective } \Longleftrightarrow I\cap J=IJ.
+\]
+
+If moreover
+\[
+I+J=A,
+\]
+then \(\widetilde\phi\) is surjective, and in fact
+\[
+I\cap J=IJ,
+\]
+so
+\[
+A/IJ \cong A/I\times A/J.
+\]
+
+\subsection{Lemma: if \(I+J=A\), then \(I\cap J=IJ\)}
+
+Assume \(I+J=A\). Then there exist \(u\in I\), \(v\in J\) such that
+\[
+u+v=1.
+\]
+Take any \(x\in I\cap J\). Then
+\[
+x=x(u+v)=xu+xv.
+\]
+Since \(x\in J\) and \(u\in I\), we have \(xu\in IJ\). Since \(x\in I\) and \(v\in J\), we have \(xv\in IJ\). Thus \(x\in IJ\), so
+\[
+I\cap J\subseteq IJ.
+\]
+The reverse inclusion \(IJ\subseteq I\cap J\) always holds. Therefore
+\[
+I\cap J=IJ.
+\]
+
+\subsection{Constructive surjectivity}
+
+If \(I+J=A\), choose \(u\in I\), \(v\in J\) such that \(u+v=1\). Given
+\[
+a+I\in A/I,\qquad b+J\in A/J,
+\]
+define
+\[
+x=b\,u+a\,v.
+\]
+Then modulo \(I\), we have \(u\equiv 0\) and \(v\equiv 1\), so
+\[
+x\equiv a \pmod I.
+\]
+Modulo \(J\), we have \(u\equiv 1\) and \(v\equiv 0\), so
+\[
+x\equiv b \pmod J.
+\]
+Thus \(\widetilde\phi\) is surjective.
+
+\subsection{Examples in \(\mathbb Z\)}
+
+\subsubsection*{Example 1: the standard CRT}
+
+Let
+\[
+A=\mathbb Z,\qquad I=(2),\qquad J=(3).
+\]
+Then
+\[
+(2)+(3)=\mathbb Z
+\]
+because
+\[
+(-1)\cdot 2+1\cdot 3=1.
+\]
+Hence
+\[
+(2)\cap(3)=(2)(3)=(6),
+\]
+and CRT gives
+\[
+\mathbb Z/(6)\cong \mathbb Z/(2)\times \mathbb Z/(3).
+\]
+
+\subsubsection*{Example 2: failure when ideals are not comaximal}
+
+Let
+\[
+A=\mathbb Z,\qquad I=(4),\qquad J=(6).
+\]
+Then
+\[
+(4)+(6)=(2)\neq \mathbb Z.
+\]
+Also
+\[
+(4)\cap(6)=(12),\qquad (4)(6)=(24).
+\]
+So
+\[
+(4)\cap(6)\neq (4)(6).
+\]
+The map
+\[
+\mathbb Z/(24)\to \mathbb Z/(4)\times \mathbb Z/(6)
+\]
+is neither injective nor surjective.
+
+\subsubsection*{Example 3: internal CRT in \(\mathbb Z/12\mathbb Z\)}
+
+Let
+\[
+A=\mathbb Z/12\mathbb Z,
+\qquad
+I=(\overline 4),
+\qquad
+J=(\overline 3).
+\]
+Then
+\[
+\overline 4+\overline 9=\overline 1,
+\]
+so \(I+J=A\). Also
+\[
+IJ=0,
+\]
+since every product is divisible by \(12\). Hence
+\[
+I\cap J=IJ=0.
+\]
+CRT gives
+\[
+\mathbb Z/12\mathbb Z\cong A/I\times A/J \cong \mathbb Z/4\mathbb Z\times \mathbb Z/3\mathbb Z.
+\]
+
+\subsubsection*{Example 4: \(\mathbb Z/n\mathbb Z\)}
+
+If
+\[
+n=n_1\cdots n_r
+\]
+with pairwise coprime factors, then
+\[
+\mathbb Z/n\mathbb Z
+\cong
+\mathbb Z/n_1\mathbb Z\times\cdots\times \mathbb Z/n_r\mathbb Z.
+\]
+For example,
+\[
+\mathbb Z/30\mathbb Z\cong \mathbb Z/2\mathbb Z\times \mathbb Z/3\mathbb Z\times \mathbb Z/5\mathbb Z,
+\]
+and
+\[
+\mathbb Z/60\mathbb Z\cong \mathbb Z/3\mathbb Z\times \mathbb Z/4\mathbb Z\times \mathbb Z/5\mathbb Z.
+\]
+
+\subsection{About \(\mathbb Z/p\mathbb Z\)}
+
+If \(A=\mathbb Z/p\mathbb Z\), then \(A\) is a field, so its only ideals are \((0)\) and \(A\). Thus CRT inside \(A\) itself is trivial. The interesting polynomial examples are over
+\[
+(\mathbb Z/p\mathbb Z)[x].
+\]
+
+\subsection{Examples in \(k[x]\)}
+
+\subsubsection*{Example 5: two points}
+
+Let
+\[
+A=k[x],\qquad I=(x),\qquad J=(x-1).
+\]
+Then
+\[
+x-(x-1)=1,
+\]
+so \(I+J=A\). Hence
+\[
+I\cap J=IJ=(x(x-1)),
+\]
+and
+\[
+k[x]/(x(x-1))\cong k[x]/(x)\times k[x]/(x-1)\cong k\times k.
+\]
+The map is
+\[
+f(x)\mapsto (f(0),f(1)).
+\]
+
+\subsubsection*{Example 6: interpolation}
+
+The surjectivity of
+\[
+k[x]\to k[x]/(x)\times k[x]/(x-1)
+\]
+means that for any \(a,b\in k\), there exists \(f(x)\in k[x]\) such that
+\[
+f(0)=a,\qquad f(1)=b.
+\]
+A concrete choice is
+\[
+f(x)=a(1-x)+bx.
+\]
+
+\subsubsection*{Example 7: three points}
+
+The ideals
+\[
+(x),\qquad (x-1),\qquad (x-2)
+\]
+are pairwise comaximal, so
+\[
+k[x]/(x(x-1)(x-2))
+\cong
+k\times k\times k.
+\]
+The map is
+\[
+f(x)\mapsto (f(0),f(1),f(2)).
+\]
+
+\subsubsection*{Example 8: repeated root, no CRT decomposition}
+
+Let
+\[
+I=(x),\qquad J=(x).
+\]
+Then
+\[
+I+J=(x)\neq A.
+\]
+Also
+\[
+I\cap J=(x),\qquad IJ=(x^2).
+\]
+So CRT does not apply, and
+\[
+k[x]/(x^2)
+\]
+does not split as \(k\times k\).
+
+\subsubsection*{Example 9: over \((\mathbb Z/p\mathbb Z)[x]\)}
+
+Let
+\[
+A=(\mathbb Z/p\mathbb Z)[x].
+\]
+Then
+\[
+A/(x(x-1))\cong A/(x)\times A/(x-1)\cong \mathbb Z/p\mathbb Z\times \mathbb Z/p\mathbb Z.
+\]
+
+\subsection{Examples in \(k[x,y]\)}
+
+\subsubsection*{Example 10: two distinct points in the plane}
+
+Let
+\[
+A=k[x,y],\qquad I=(x,y),\qquad J=(x-1,y).
+\]
+Then
+\[
+x\in I,\qquad x-1\in J,\qquad x-(x-1)=1,
+\]
+so \(I+J=A\). Therefore
+\[
+A/(I\cap J)\cong A/I\times A/J\cong k\times k.
+\]
+Since \(I+J=A\), we also have
+\[
+I\cap J=IJ.
+\]
+
+\subsubsection*{Example 11: another pair of points}
+
+Let
+\[
+I=(x,y),\qquad J=(x,y-1).
+\]
+Then
+\[
+y\in I,\qquad y-1\in J,\qquad y-(y-1)=1,
+\]
+so again \(I+J=A\), and
+\[
+k[x,y]/(I\cap J)\cong k\times k.
+\]
+
+\subsubsection*{Example 12: injective but not surjective}
+
+Let
+\[
+A=k[x,y],\qquad I=(x),\qquad J=(y).
+\]
+Then
+\[
+I+J\neq A,
+\]
+but
+\[
+I\cap J=(xy)=IJ.
+\]
+Hence
+\[
+A/(xy)\to A/(x)\times A/(y)
+\]
+is injective. However it is not surjective. Since
+\[
+A/(x)\cong k[y],\qquad A/(y)\cong k[x],
+\]
+the image consists of pairs
+\[
+(g(y),h(x))
+\]
+with the same constant term:
+\[
+g(0)=h(0).
+\]
+So the map is injective but not surjective.
+
+\subsection{Why \(IJ=0\) appears naturally}
+
+If
+\[
+A\cong B\times C,
+\]
+then the ideals
+\[
+B\times 0
+\qquad\text{and}\qquad
+0\times C
+\]
+satisfy
+\[
+(B\times 0)(0\times C)=0.
+\]
+Thus in an internal CRT decomposition, complementary ideals naturally have zero product.
+
+This is what happens in
+\[
+\mathbb Z/12\mathbb Z\cong \mathbb Z/4\mathbb Z\times \mathbb Z/3\mathbb Z,
+\]
+where
+\[
+(\overline 4)(\overline 3)=0,
+\]
+and also in
+\[
+k[x]/(x(x-1)),
+\]
+where the images of \((x)\) and \((x-1)\) multiply to zero.
+
+\subsection{Summary}
+
+The key principles are:
+
+\begin{enumerate}
+	\item For
+	\[
+	\phi:A\to A/I\times A/J,
+	\]
+	one always has
+	\[
+	\ker(\phi)=I\cap J.
+	\]
+	
+	\item Therefore
+	\[
+	A/(I\cap J)\hookrightarrow A/I\times A/J
+	\]
+	is always injective.
+	
+	\item Since \(IJ\subseteq I\cap J\), there is always a map
+	\[
+	A/IJ\to A/I\times A/J.
+	\]
+	
+	\item This map is injective exactly when
+	\[
+	I\cap J=IJ.
+	\]
+	
+	\item If
+	\[
+	I+J=A,
+	\]
+	then
+	\[
+	I\cap J=IJ
+	\]
+	and the map is surjective, so
+	\[
+	A/IJ\cong A/I\times A/J.
+	\]
+	
+	\item The best model examples are:
+	\[
+	\mathbb Z/(6)\cong \mathbb Z/(2)\times \mathbb Z/(3),
+	\]
+	\[
+	\mathbb Z/(12)\cong \mathbb Z/(4)\times \mathbb Z/(3),
+	\]
+	\[
+	k[x]/(x(x-1))\cong k\times k,
+	\]
+	\[
+	k[x]/(x(x-1)(x-2))\cong k\times k\times k,
+	\]
+	\[
+	k[x,y]/\big((x,y)\cap(x-1,y)\big)\cong k\times k.
+	\]
+\end{enumerate}
+
+\subsubsection*{Why does \(I+J=A\) in this example?}
+
+Let
+\[
+A=k[x,y],\qquad I=(x,y),\qquad J=(x-1,y).
+\]
+
+We want to explain carefully why
+\[
+I+J=A.
+\]
+
+\paragraph{Step 1: Recall the definition of \(I+J\).}
+
+For any two ideals \(I,J\subseteq A\),
+\[
+I+J=\{u+v:\ u\in I,\ v\in J\}.
+\]
+
+So \(I+J=A\) means that every element of \(A\) can be written as
+\[
+u+v
+\qquad\text{with }u\in I,\ v\in J.
+\]
+
+A very useful criterion is:
+\[
+I+J=A
+\quad\Longleftrightarrow\quad
+1\in I+J.
+\]
+
+Indeed, if \(1\in I+J\), say
+\[
+1=u+v
+\qquad\text{with }u\in I,\ v\in J,
+\]
+then for any \(f\in A\),
+\[
+f=f\cdot 1=f(u+v)=fu+fv.
+\]
+Since \(I\) and \(J\) are ideals, we have
+\[
+fu\in I,\qquad fv\in J.
+\]
+Hence
+\[
+f\in I+J.
+\]
+So every element of \(A\) lies in \(I+J\), which proves
+\[
+I+J=A.
+\]
+
+\paragraph{Step 2: Show that \(1\in I+J\).}
+
+Since
+\[
+I=(x,y),
+\]
+we have
+\[
+x\in I.
+\]
+
+Since
+\[
+J=(x-1,y),
+\]
+we have
+\[
+x-1\in J.
+\]
+Because \(J\) is an ideal, it is closed under multiplication by \(-1\), so
+\[
+-(x-1)\in J.
+\]
+
+Now compute:
+\[
+x-(x-1)=1.
+\]
+
+Thus
+\[
+1=x+(-(x-1)),
+\]
+where
+\[
+x\in I,\qquad -(x-1)\in J.
+\]
+Therefore
+\[
+1\in I+J.
+\]
+
+Hence
+\[
+I+J=A.
+\]
+
+\paragraph{Step 3: Conclusion.}
+
+We have explicitly written \(1\) as a sum of an element of \(I\) and an element of \(J\). Therefore the two ideals are coprime (comaximal), and
+\[
+I+J=A.
+\]
+
+\paragraph{Geometric interpretation.}
+
+The ideal
+\[
+I=(x,y)
+\]
+corresponds to the point
+\[
+(0,0),
+\]
+and the ideal
+\[
+J=(x-1,y)
+\]
+corresponds to the point
+\[
+(1,0).
+\]
+
+These are two distinct points in the affine plane, and distinct maximal ideals are comaximal. The algebraic identity
+\[
+x-(x-1)=1
+\]
+is exactly the explicit witness of this fact.
+
+\paragraph{Contrast example.}
+
+If instead we take
+\[
+I=(x),\qquad J=(y),
+\]
+then
+\[
+I+J=(x,y)\neq A.
+\]
+Indeed, every element of \((x,y)\) has zero constant term, so \(1\notin (x,y)\). Thus in that case the ideals are not comaximal.
+
+This shows why producing the identity
+\[
+1=u+v
+\qquad (u\in I,\ v\in J)
+\]
+is the key step in proving that \(I+J=A\).
+
+\section{Chinese Remainder Theorem in \(k[x]\), \(k[x,y]\), and \(k[x,y,z]\)}
+
+\textbf{Convention.}
+Throughout this section, \(k\) is a field.
+Recall that for ideals \(I,J\subseteq A\), the following are equivalent:
+\[
+I+J=A.
+\]
+In this situation, one says that \(I\) and \(J\) are \emph{comaximal}.
+In many algebra texts one also says that they are \emph{coprime}.
+So in this context, \emph{coprime ideals} and \emph{comaximal ideals} mean the same thing.
+
+\subsection{General CRT statement}
+
+Let \(A\) be a commutative ring and let \(I_1,\dots,I_n\subseteq A\) be ideals that are pairwise comaximal, meaning
+\[
+I_i+I_j=A \qquad (i\neq j).
+\]
+Then the Chinese Remainder Theorem gives an isomorphism
+\[
+A/\bigcap_{i=1}^n I_i \;\cong\; \prod_{i=1}^n A/I_i.
+\]
+Since the ideals are pairwise comaximal, one also has
+\[
+\bigcap_{i=1}^n I_i = I_1\cdots I_n.
+\]
+Thus one may also write
+\[
+A/(I_1\cdots I_n)\cong \prod_{i=1}^n A/I_i.
+\]
+
+\medskip
+
+\textbf{How to test whether CRT applies.}
+In concrete examples, the key question is always:
+\[
+I+J=A\; ?
+\]
+To prove this, one tries to write
+\[
+1=u+v
+\qquad \text{with } u\in I,\; v\in J.
+\]
+That is the standard witness that \(I\) and \(J\) are comaximal.
+
+\subsection{CRT in \(k[x]\)}
+
+This is the easiest polynomial case.
+
+\subsubsection{Principal-ideal version}
+
+Since \(k[x]\) is a PID, every ideal has the form
+\[
+I_i=(f_i(x)).
+\]
+If the polynomials \(f_1,\dots,f_n\) are pairwise coprime, equivalently
+\[
+(f_i)+(f_j)=k[x] \qquad (i\neq j),
+\]
+then CRT gives
+\[
+k[x]/(f_1\cdots f_n)\cong k[x]/(f_1)\times \cdots \times k[x]/(f_n).
+\]
+This is one of the standard forms of the Chinese Remainder Theorem in one variable.
+
+\subsubsection{Example 1: two distinct roots}
+
+Take
+\[
+A=k[x], \qquad I=(x), \qquad J=(x-1).
+\]
+Since
+\[
+x-(x-1)=1,
+\]
+we have
+\[
+I+J=A.
+\]
+Therefore
+\[
+k[x]/(x(x-1))
+\cong
+k[x]/(x)\times k[x]/(x-1)
+\cong
+k\times k.
+\]
+The map is
+\[
+f(x)\longmapsto \bigl(f(0),f(1)\bigr).
+\]
+So this quotient remembers exactly the values of the polynomial at \(0\) and \(1\).
+
+\subsubsection{Example 2: three distinct points}
+
+Take
+\[
+I_1=(x),\qquad I_2=(x-1),\qquad I_3=(x-2).
+\]
+These ideals are pairwise comaximal, so
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)\cong k\times k\times k.
+\]
+The map is
+\[
+f(x)\longmapsto \bigl(f(0),f(1),f(2)\bigr).
+\]
+This is polynomial interpolation in CRT form.
+
+\subsubsection{Example 3: factorization into irreducibles}
+
+Suppose
+\[
+f(x)=f_1(x)\cdots f_r(x)
+\]
+with the factors \(f_1,\dots,f_r\) pairwise coprime.
+Then
+\[
+k[x]/(f)\cong \prod_{i=1}^r k[x]/(f_i).
+\]
+For example,
+\[
+k[x]/\bigl((x^2+1)(x-1)\bigr)
+\cong
+k[x]/(x^2+1)\times k[x]/(x-1),
+\]
+provided \(x^2+1\) and \(x-1\) are coprime in \(k[x]\).
+
+\subsubsection{Failure example in \(k[x]\)}
+
+Take
+\[
+I=(x),\qquad J=(x^2).
+\]
+Then
+\[
+I+J=(x)\neq k[x].
+\]
+So CRT does not apply.
+Indeed,
+\[
+k[x]/(x^2)
+\]
+does \emph{not} split as \(k\times k\).
+
+This is the basic repeated-factor obstruction.
+The failure comes from the fact that \(x\) and \(x^2\) are not coprime.
+
+\subsection{CRT in \(k[x,y]\)}
+
+Now the ring is no longer a PID, but the theorem is exactly the same.
+
+The most important examples come from:
+\begin{itemize}
+	\item ideals of points, such as \((x-a,y-b)\),
+	\item ideals generated by coprime polynomials,
+	\item more general comaximal ideals.
+\end{itemize}
+
+\subsubsection{Point version}
+
+For a point \((a,b)\in k^2\), the corresponding maximal ideal is
+\[
+\mathfrak m_{(a,b)}=(x-a,\;y-b).
+\]
+If \((a,b)\neq (c,d)\), then
+\[
+\mathfrak m_{(a,b)}+\mathfrak m_{(c,d)}=k[x,y].
+\]
+So distinct points give comaximal maximal ideals.
+
+\subsubsection{Example 4: two points in the plane}
+
+Take
+\[
+A=k[x,y],\qquad I=(x,y),\qquad J=(x-1,y).
+\]
+Then
+\[
+x\in I,\qquad x-1\in J,\qquad x-(x-1)=1,
+\]
+so
+\[
+I+J=A.
+\]
+Hence
+\[
+k[x,y]/(I\cap J)\cong k[x,y]/I \times k[x,y]/J\cong k\times k.
+\]
+Since \(I+J=A\), one also has
+\[
+I\cap J=IJ.
+\]
+Geometrically, this is the coordinate ring of the two points
+\[
+(0,0)\qquad \text{and}\qquad (1,0).
+\]
+
+\subsubsection{Example 5: two other points}
+
+Let
+\[
+I=(x,y),\qquad J=(x,y-1).
+\]
+Then
+\[
+y\in I,\qquad y-1\in J,\qquad y-(y-1)=1,
+\]
+so again
+\[
+I+J=A.
+\]
+Thus
+\[
+k[x,y]/(I\cap J)\cong k\times k.
+\]
+This corresponds to the two points
+\[
+(0,0)\qquad \text{and}\qquad (0,1).
+\]
+
+\subsubsection{Example 6: finitely many distinct points}
+
+If
+\[
+\mathfrak m_i=(x-a_i,\;y-b_i)
+\qquad (i=1,\dots,r)
+\]
+are maximal ideals corresponding to distinct points of \(k^2\), then they are pairwise comaximal, so
+\[
+k[x,y]/\bigcap_{i=1}^r \mathfrak m_i
+\cong
+\prod_{i=1}^r k[x,y]/\mathfrak m_i
+\cong
+k^r.
+\]
+This is the CRT form of the statement that functions on a finite set of distinct points are just tuples of values.
+
+\subsubsection{Example 7: a hypersurface example that really is comaximal}
+
+A good example is
+\[
+I=(x),\qquad J=(xy-1)
+\]
+in \(A=k[x,y]\).
+Then
+\[
+y\cdot x-(xy-1)=1,
+\]
+so
+\[
+I+J=A.
+\]
+Hence
+\[
+k[x,y]/\bigl(x(xy-1)\bigr)
+\cong
+k[x,y]/(x)\times k[x,y]/(xy-1).
+\]
+
+\subsubsection{Important non-example in \(k[x,y]\)}
+
+Take
+\[
+I=(x),\qquad J=(y).
+\]
+Then
+\[
+I+J=(x,y)\neq A,
+\]
+because every element of \((x,y)\) has zero constant term.
+So CRT does not apply.
+
+This is an important example, because one might first guess that \((x)\) and \((y)\) should be comaximal, but they are not.
+
+\subsection{CRT in \(k[x,y,z]\)}
+
+Exactly the same theorem works in three variables.
+
+Points in affine \(3\)-space correspond to maximal ideals
+\[
+(x-a,\;y-b,\;z-c).
+\]
+Distinct points again give pairwise comaximal ideals.
+
+\subsubsection{Example 8: two points in \(k^3\)}
+
+Take
+\[
+A=k[x,y,z],\qquad I=(x,y,z),\qquad J=(x-1,y,z).
+\]
+Then
+\[
+x\in I,\qquad x-1\in J,\qquad x-(x-1)=1,
+\]
+so
+\[
+I+J=A.
+\]
+Hence
+\[
+k[x,y,z]/(I\cap J)\cong k\times k.
+\]
+This corresponds to the two points
+\[
+(0,0,0)\qquad \text{and}\qquad (1,0,0).
+\]
+
+\subsubsection{Example 9: three points in \(k^3\)}
+
+Let
+\[
+\mathfrak m_1=(x,y,z),\qquad
+\mathfrak m_2=(x-1,y,z),\qquad
+\mathfrak m_3=(x,y-1,z).
+\]
+These are pairwise comaximal, so
+\[
+k[x,y,z]/(\mathfrak m_1\cap \mathfrak m_2\cap \mathfrak m_3)
+\cong
+k\times k\times k.
+\]
+Again this is the ring of functions on three distinct points.
+
+\subsubsection{Example 10: two parallel planes}
+
+Take
+\[
+I=(x),\qquad J=(x-1)
+\]
+in \(A=k[x,y,z]\).
+Since
+\[
+x-(x-1)=1,
+\]
+we have
+\[
+I+J=A.
+\]
+Hence
+\[
+k[x,y,z]/(x(x-1))
+\cong
+k[x,y,z]/(x)\times k[x,y,z]/(x-1).
+\]
+But
+\[
+k[x,y,z]/(x)\cong k[y,z],
+\qquad
+k[x,y,z]/(x-1)\cong k[y,z].
+\]
+Therefore
+\[
+k[x,y,z]/(x(x-1))\cong k[y,z]\times k[y,z].
+\]
+Geometrically, this splits the union of the two parallel planes
+\[
+x=0
+\qquad \text{and}\qquad
+x=1.
+\]
+
+\subsubsection{Example 11: three parallel planes}
+
+Take
+\[
+I_1=(x),\qquad I_2=(x-1),\qquad I_3=(x-2).
+\]
+Then
+\[
+k[x,y,z]/\bigl(x(x-1)(x-2)\bigr)
+\cong
+k[y,z]\times k[y,z]\times k[y,z].
+\]
+Geometrically, this is the union of the three parallel planes
+\[
+x=0,\qquad x=1,\qquad x=2.
+\]
+
+\subsection{The common pattern}
+
+Across all three rings, the pattern is the same.
+
+\subsubsection*{In \(k[x]\)}
+CRT splits quotients by products of pairwise coprime polynomials:
+\[
+k[x]/(f_1\cdots f_r)\cong \prod_{i=1}^r k[x]/(f_i).
+\]
+
+\subsubsection*{In \(k[x,y]\)}
+CRT splits finite unions of pairwise separated algebraic pieces, especially distinct points:
+\[
+k[x,y]/\bigcap_i \mathfrak m_i \cong \prod_i k.
+\]
+
+\subsubsection*{In \(k[x,y,z]\)}
+Exactly the same thing happens for points, planes, and other pairwise comaximal components:
+\[
+k[x,y,z]/\bigcap_i I_i \cong \prod_i k[x,y,z]/I_i.
+\]
+
+\subsection{Typical witnesses for comaximality}
+
+To prove that \(I+J=A\), one usually tries to write \(1\) explicitly as a sum of something in \(I\) and something in \(J\).
+
+Typical witnesses are:
+\[
+x-(x-1)=1
+\qquad \text{in } k[x],
+\]
+\[
+x-(x-1)=1,\qquad y-(y-1)=1
+\qquad \text{in } k[x,y],
+\]
+and the same idea works in \(k[x,y,z]\).
+
+\subsection{Very short summary table}
+
+\[
+\renewcommand{\arraystretch}{1.4}
+\begin{array}{|c|c|c|}
+	\hline
+	\textbf{Ring} & \textbf{Comaximal ideals} & \textbf{CRT quotient} \\
+	\hline
+	k[x] & (x),\,(x-1)
+	& k[x]/(x(x-1))\cong k\times k \\[2mm]
+	\hline
+	k[x] & (x),\,(x-1),\,(x-2)
+	& k[x]/(x(x-1)(x-2))\cong k^3 \\[2mm]
+	\hline
+	k[x,y] & (x,y),\,(x-1,y)
+	& k[x,y]/(I\cap J)\cong k\times k \\[2mm]
+	\hline
+	k[x,y,z] & (x),\,(x-1)
+	& k[x,y,z]/(x(x-1))\cong k[y,z]\times k[y,z] \\[2mm]
+	\hline
+	k[x,y,z] & (x),\,(x-1),\,(x-2)
+	& k[x,y,z]/(x(x-1)(x-2))\cong k[y,z]^3 \\[2mm]
+	\hline
+\end{array}
+\]
+
+\subsection{Final remark: coprime means comaximal}
+
+In the present context, yes:
+\[
+\text{coprime ideals} \;\Longleftrightarrow\; \text{comaximal ideals}
+\;\Longleftrightarrow\; I+J=A.
+\]
+
+For principal ideals in \(k[x]\), saying that \(f\) and \(g\) are coprime means exactly
+\[
+(f)+(g)=k[x].
+\]
+For example,
+\[
+(x)+(x-1)=k[x],
+\]
+so \((x)\) and \((x-1)\) are coprime/comaximal.
+
+But
+\[
+(x)+(x^2)=(x)\neq k[x],
+\]
+so \((x)\) and \((x^2)\) are neither coprime nor comaximal.
+
+Thus the CRT condition is always the same:
+\[
+I+J=A.
+\]
+
+\subsection{Why CRT fails for \(k[x,y,z]/(x(y-1)(z-3))\) and for \(k[x,y,z]/(xyz)\)}
+
+Let
+\[
+A=k[x,y,z].
+\]
+
+\subsubsection*{1. The quotient \(A/(x(y-1)(z-3))\)}
+
+Set
+\[
+I=(x), \qquad J=(y-1), \qquad K=(z-3).
+\]
+Since \(A\) is a domain and the elements \(x\), \(y-1\), and \(z-3\) are pairwise relatively prime as elements, one has
+\[
+I\cap J\cap K=(x(y-1)(z-3)).
+\]
+So
+\[
+A/(x(y-1)(z-3)) = A/(I\cap J\cap K).
+\]
+
+However, the ideals are not pairwise comaximal.
+For example,
+\[
+I+J=(x,y-1)\neq A.
+\]
+Indeed, every element of \((x,y-1)\) vanishes after substituting \(x=0\) and \(y=1\), so \(1\notin (x,y-1)\).
+Similarly,
+\[
+I+K=(x,z-3)\neq A,
+\qquad
+J+K=(y-1,z-3)\neq A.
+\]
+Therefore the Chinese Remainder Theorem does not apply, and
+\[
+A/(x(y-1)(z-3))
+\not\cong
+A/(x)\times A/(y-1)\times A/(z-3).
+\]
+
+Now
+\[
+A/(x)\cong k[y,z],\qquad
+A/(y-1)\cong k[x,z],\qquad
+A/(z-3)\cong k[x,y],
+\]
+so in particular
+\[
+A/(x(y-1)(z-3))
+\not\cong
+k[y,z]\times k[x,z]\times k[x,y].
+\]
+
+Geometrically, the equation
+\[
+x(y-1)(z-3)=0
+\]
+defines the union of the three planes
+\[
+x=0,\qquad y=1,\qquad z=3.
+\]
+These planes intersect pairwise along lines and all meet at the point \((0,1,3)\), so the components are not disjoint.
+That is why the coordinate ring does not split as a product.
+
+\subsubsection*{2. The quotient \(A/(xyz)\)}
+
+Now set
+\[
+I=(x),\qquad J=(y),\qquad K=(z).
+\]
+Again,
+\[
+I\cap J\cap K=(xyz),
+\]
+so
+\[
+A/(xyz)=A/(I\cap J\cap K).
+\]
+
+But these ideals are not pairwise comaximal:
+\[
+I+J=(x,y)\neq A,\qquad
+I+K=(x,z)\neq A,\qquad
+J+K=(y,z)\neq A.
+\]
+For instance, every element of \((x,y)\) has zero constant term, hence \(1\notin (x,y)\).
+
+Therefore CRT does not apply, and
+\[
+A/(xyz)\not\cong A/(x)\times A/(y)\times A/(z).
+\]
+Since
+\[
+A/(x)\cong k[y,z],\qquad
+A/(y)\cong k[x,z],\qquad
+A/(z)\cong k[x,y],
+\]
+we get
+\[
+A/(xyz)\not\cong k[y,z]\times k[x,z]\times k[x,y].
+\]
+
+Geometrically, \(xyz=0\) is the union of the three coordinate planes
+\[
+x=0,\qquad y=0,\qquad z=0.
+\]
+These intersect along the coordinate axes and all meet at the origin, so again the components are not disjoint.
+
+\subsubsection*{3. Contrast with the true CRT case}
+
+Compare this with
+\[
+A/(x(x-1)).
+\]
+Here the relevant ideals are \((x)\) and \((x-1)\), and they are comaximal because
+\[
+x-(x-1)=1.
+\]
+Hence CRT gives
+\[
+A/(x(x-1))
+\cong
+A/(x)\times A/(x-1)
+\cong
+k[y,z]\times k[y,z].
+\]
+Geometrically this corresponds to the two disjoint parallel planes \(x=0\) and \(x=1\).
+
+\subsubsection*{4. Important lesson}
+
+In one variable, for principal ideals in \(k[x]\), coprime polynomials give comaximal ideals.
+In several variables, this is no longer true.
+
+For example, \(x\) and \(y-1\) have no common factor, but
+\[
+(x)+(y-1)\neq A.
+\]
+Likewise, \(x\) and \(y\) have no common factor, but
+\[
+(x)+(y)\neq A.
+\]
+
+So in multivariable polynomial rings, ``having no common factor'' is weaker than being comaximal.
+The Chinese Remainder Theorem requires comaximality, not merely absence of common factors.
+
+\section{Tensor products of \(k\)-algebras: theory, examples, and computations}
+
+\subsection{What is a \(k\)-algebra?}
+
+Let \(k\) be a field. A \(k\)-algebra is a ring \(A\) together with a ring homomorphism
+\[
+k\longrightarrow A
+\]
+whose image lies in the center of \(A\). In the commutative setting, this simply means that \(A\) is a commutative ring with a specified scalar action of \(k\).
+
+In other words, a \(k\)-algebra is a ring in which elements of \(k\) act like scalars.
+
+\subsubsection*{Examples of \(k\)-algebras}
+
+\begin{itemize}
+	\item Polynomial rings:
+	\[
+	k[x],\qquad k[x,y],\qquad k[x_1,\dots,x_n].
+	\]
+	
+	\item Quotient rings:
+	\[
+	k[x]/(x^2),\qquad k[x,y]/(xy),\qquad k[x,y]/(y-x^2).
+	\]
+	
+	\item Products:
+	\[
+	k\times k,\qquad k^n.
+	\]
+	
+	\item Field extensions \(K/k\), for example
+	\[
+	\mathbb C \text{ as an } \mathbb R\text{-algebra}.
+	\]
+	
+	\item Localizations:
+	\[
+	k[x]_x,\qquad k[x,y]_{(x,y)}.
+	\]
+	
+	\item Power series rings:
+	\[
+	k[[x]],\qquad k[[x,y]].
+	\]
+	
+	\item Dual numbers:
+	\[
+	k[\varepsilon]/(\varepsilon^2).
+	\]
+\end{itemize}
+
+\subsection{Tensor products over a base ring}
+
+Suppose \(A\to B\) and \(A\to C\) are ring homomorphisms. Then the tensor product
+\[
+B\otimes_A C
+\]
+is the ring obtained by forcing the two copies of \(A\) inside \(B\) and \(C\) to agree.
+
+Intuitively, if an element \(a\in A\) maps to \(b_a\in B\) and to \(c_a\in C\), then in \(B\otimes_A C\) those must be identified.
+
+\subsection{Two basic computational tools}
+
+\subsubsection*{Tool 1: base change by a quotient}
+
+If \(I\subseteq A\) is an ideal, then
+\[
+(A/I)\otimes_A B \cong B/IB.
+\]
+
+So tensoring by \(A/I\) means imposing the relations in \(I\) on \(B\).
+
+\subsubsection*{Tool 2: polynomial presentation}
+
+If \(A=k[x]\), and \(k[v]\), \(k[w]\) are \(A\)-algebras via
+\[
+x\mapsto f(v),\qquad x\mapsto g(w),
+\]
+then
+\[
+k[v]\otimes_{k[x]} k[w]\cong k[v,w]/(f(v)-g(w)).
+\]
+
+Indeed, in the tensor product the two images of \(x\) must become equal, so the relation is precisely
+\[
+f(v)=g(w).
+\]
+
+\subsection{Example (a)}
+
+Compute
+\[
+k\otimes_{k[x,y]} k[u,v],
+\]
+where \(k[x,y]\to k\) sends \(x,y\mapsto 0\), and \(k[x,y]\to k[u,v]\) sends
+\[
+x\mapsto u,\qquad y\mapsto uv.
+\]
+
+\subsubsection*{Step 1: rewrite \(k\) as a quotient}
+
+Since
+\[
+k\cong k[x,y]/(x,y),
+\]
+we have
+\[
+k\otimes_{k[x,y]} k[u,v]
+\cong
+\big(k[x,y]/(x,y)\big)\otimes_{k[x,y]} k[u,v].
+\]
+
+By base change,
+\[
+\big(k[x,y]/(x,y)\big)\otimes_{k[x,y]} k[u,v]
+\cong
+k[u,v]/(x,y)k[u,v].
+\]
+
+\subsubsection*{Step 2: compute the extended ideal}
+
+The ideal \((x,y)\) acts on \(k[u,v]\) via
+\[
+x\mapsto u,\qquad y\mapsto uv.
+\]
+Hence
+\[
+(x,y)k[u,v]=(u,uv).
+\]
+But
+\[
+(u,uv)=(u),
+\]
+since \(uv\) is already a multiple of \(u\).
+
+Therefore
+\[
+k\otimes_{k[x,y]} k[u,v]\cong k[u,v]/(u)\cong k[v].
+\]
+
+So the result is
+\[
+\boxed{
+	k\otimes_{k[x,y]} k[u,v]\cong k[v].
+}
+\]
+
+\subsection{Example (b)}
+
+Compute
+\[
+k[v]\otimes_{k[x]} k[v],
+\]
+where both maps \(k[x]\to k[v]\) send
+\[
+x\mapsto v^2.
+\]
+
+To distinguish the two copies, rename them \(k[v]\) and \(k[w]\). Then we are computing
+\[
+k[v]\otimes_{k[x]} k[w],
+\]
+where
+\[
+x\mapsto v^2,\qquad x\mapsto w^2.
+\]
+
+By the polynomial presentation rule,
+\[
+k[v]\otimes_{k[x]} k[w]\cong k[v,w]/(v^2-w^2).
+\]
+
+Thus
+\[
+\boxed{
+	k[v]\otimes_{k[x]} k[w]\cong k[v,w]/(v^2-w^2).
+}
+\]
+
+\subsubsection*{Case \(\operatorname{char}(k)\neq 2\)}
+
+Then
+\[
+v^2-w^2=(v-w)(v+w),
+\]
+so
+\[
+k[v,w]/(v^2-w^2)=k[v,w]/((v-w)(v+w)).
+\]
+
+This ring is reduced, but it is not a product \(k[v]\times k[v]\). Indeed, CRT would require the ideals
+\[
+(v-w)\qquad\text{and}\qquad (v+w)
+\]
+to be comaximal, but this is false. In fact, when \(\operatorname{char}(k)\neq 2\),
+\[
+(v-w,\ v+w)=(v,w)\neq (1).
+\]
+So CRT does not apply.
+
+Geometrically, this quotient is the coordinate ring of the union of the two lines
+\[
+v=w
+\qquad\text{and}\qquad
+v=-w,
+\]
+which intersect at the origin.
+
+\subsubsection*{Case \(\operatorname{char}(k)=2\)}
+
+Then
+\[
+v^2-w^2=(v-w)^2,
+\]
+so
+\[
+k[v,w]/(v^2-w^2)=k[v,w]/(v-w)^2.
+\]
+This ring is nonreduced: the class of \(v-w\) is nilpotent.
+
+\subsection{Important correction}
+
+One must not claim that
+\[
+(v-w)+(v+w)=(1)
+\]
+when \(\operatorname{char}(k)\neq 2\). This is false. Rather,
+\[
+(v-w,\ v+w)=(v,w).
+\]
+So the Chinese remainder theorem does not split
+\[
+k[v,w]/(v^2-w^2)
+\]
+into a product.
+
+\subsection{More examples of tensor products of \(k\)-algebras}
+
+\subsubsection*{Example 1}
+\[
+k\otimes_k A \cong A.
+\]
+
+\subsubsection*{Example 2}
+\[
+k[x]\otimes_k k[y]\cong k[x,y].
+\]
+
+More generally,
+\[
+k[x_1,\dots,x_m]\otimes_k k[y_1,\dots,y_n]
+\cong
+k[x_1,\dots,x_m,y_1,\dots,y_n].
+\]
+
+\subsubsection*{Example 3}
+\[
+k[x]/(x^2)\otimes_k k[y]/(y^2)
+\cong
+k[x,y]/(x^2,y^2).
+\]
+
+\subsubsection*{Example 4}
+\[
+k\otimes_{k[t]} k[u],
+\]
+where \(t\mapsto 0\) on the left and \(t\mapsto u^2\) on the right. Then
+\[
+k\otimes_{k[t]} k[u]\cong k[u]/(u^2).
+\]
+
+\subsubsection*{Example 5}
+\[
+k[u]\otimes_{k[t]} k[v],
+\]
+with \(t\mapsto u\) and \(t\mapsto v\). Then
+\[
+k[u]\otimes_{k[t]} k[v]\cong k[u,v]/(u-v)\cong k[u].
+\]
+
+\subsection{Conclusion}
+
+The main principles are:
+
+\begin{enumerate}
+	\item A \(k\)-algebra is a ring with scalars from \(k\).
+	
+	\item Tensoring over a base ring means forcing the images of that base ring to agree.
+	
+	\item The formula
+	\[
+	(A/I)\otimes_A B \cong B/IB
+	\]
+	is one of the most useful tools for computation.
+	
+	\item In polynomial situations, tensor products often become quotient rings by explicit relations.
+	
+	\item In the examples above,
+	\[
+	k\otimes_{k[x,y]} k[u,v]\cong k[v],
+	\]
+	while
+	\[
+	k[v]\otimes_{k[x]} k[w]\cong k[v,w]/(v^2-w^2).
+	\]
+	
+	\item In characteristic not \(2\), the latter ring is reduced but not a product; in characteristic \(2\), it is nonreduced.
+\end{enumerate}
+
+\section{Tensor products of modules: theory, intuition, and examples}
+
+\subsection{Definition of the tensor product}
+
+Let \(A\) be a commutative ring, and let \(M,N\) be \(A\)-modules.
+
+The tensor product
+\[
+M\otimes_A N
+\]
+is an \(A\)-module together with an \(A\)-bilinear map
+\[
+M\times N \longrightarrow M\otimes_A N,
+\qquad
+(m,n)\longmapsto m\otimes n,
+\]
+having the following universal property:
+
+for every \(A\)-module \(P\) and every \(A\)-bilinear map
+\[
+\beta:M\times N\to P,
+\]
+there exists a unique \(A\)-linear map
+\[
+\widetilde\beta:M\otimes_A N\to P
+\]
+such that
+\[
+\widetilde\beta(m\otimes n)=\beta(m,n)
+\]
+for all \(m\in M\), \(n\in N\).
+
+\subsection{Intuition}
+
+The tensor product is generated by formal symbols \(m\otimes n\), subject to the bilinearity relations
+\[
+(m+m')\otimes n = m\otimes n + m'\otimes n,
+\]
+\[
+m\otimes (n+n') = m\otimes n + m\otimes n',
+\]
+and
+\[
+(am)\otimes n = m\otimes (an).
+\]
+
+So \(M\otimes_A N\) is the universal place where bilinear expressions \(m\otimes n\) live.
+
+\subsection{Basic examples of modules}
+
+\subsubsection*{Over \(\mathbb Z\)}
+
+A \(\mathbb Z\)-module is exactly an abelian group. Examples include
+\[
+\mathbb Z,\qquad \mathbb Z^r,\qquad \mathbb Z/n\mathbb Z.
+\]
+
+\subsubsection*{Over \(k[x]\)}
+
+Examples of \(k[x]\)-modules include
+\[
+k[x],\qquad k[x]^r,\qquad k[x]/(f),\qquad (x)\subseteq k[x],\qquad k
+\]
+where \(k\) is viewed as a \(k[x]\)-module via \(x\mapsto 0\).
+
+\subsubsection*{Over a general ring \(A\)}
+
+Examples include
+\[
+A,\qquad A^n,\qquad A/I
+\]
+for any ideal \(I\subseteq A\).
+
+\subsection{Basic rules}
+
+\subsubsection*{Rule 1: \(A\otimes_A M\cong M\)}
+
+There is a natural isomorphism
+\[
+A\otimes_A M\cong M,
+\qquad
+a\otimes m \mapsto am.
+\]
+
+\subsubsection*{Rule 2: symmetry}
+
+There is a natural isomorphism
+\[
+M\otimes_A N\cong N\otimes_A M,
+\qquad
+m\otimes n \mapsto n\otimes m.
+\]
+
+\subsubsection*{Rule 3: direct sums}
+
+Tensor products distribute over direct sums:
+\[
+(M_1\oplus M_2)\otimes_A N
+\cong
+(M_1\otimes_A N)\oplus(M_2\otimes_A N).
+\]
+
+\subsubsection*{Rule 4: free modules}
+
+If \(M=A^r\), then
+\[
+A^r\otimes_A N\cong N^r.
+\]
+
+\subsubsection*{Rule 5: quotient modules}
+
+For any ideal \(I\subseteq A\),
+\[
+(A/I)\otimes_A M \cong M/IM.
+\]
+
+\subsubsection*{Rule 6: two quotient modules}
+
+For ideals \(I,J\subseteq A\),
+\[
+(A/I)\otimes_A (A/J)\cong A/(I+J).
+\]
+
+\subsection{Examples over \(\mathbb Z\)}
+
+\subsubsection*{Example 1}
+For any abelian group \(M\),
+\[
+\mathbb Z\otimes_{\mathbb Z} M\cong M.
+\]
+
+\subsubsection*{Example 2}
+\[
+(\mathbb Z/n\mathbb Z)\otimes_{\mathbb Z} M\cong M/nM.
+\]
+
+\subsubsection*{Example 3}
+\[
+\mathbb Z/n\mathbb Z\otimes_{\mathbb Z}\mathbb Z/m\mathbb Z
+\cong
+\mathbb Z/\gcd(n,m)\mathbb Z.
+\]
+
+In particular,
+\[
+\mathbb Z/2\mathbb Z\otimes_{\mathbb Z}\mathbb Z/3\mathbb Z=0,
+\]
+while
+\[
+\mathbb Z/2\mathbb Z\otimes_{\mathbb Z}\mathbb Z/4\mathbb Z
+\cong
+\mathbb Z/2\mathbb Z.
+\]
+
+\subsubsection*{Example 4}
+\[
+\mathbb Z^2\otimes_{\mathbb Z}\mathbb Z/5\mathbb Z
+\cong
+(\mathbb Z/5\mathbb Z)^2.
+\]
+
+\subsection{Examples over \(k[x]\)}
+
+\subsubsection*{Example 5}
+Let \(A=k[x]\). Then
+\[
+k[x]/(x)\otimes_{k[x]} k[x]/(x-1)
+\cong
+k[x]/((x)+(x-1))
+=
+k[x]/(1)=0.
+\]
+
+\subsubsection*{Example 6}
+\[
+k[x]/(x)\otimes_{k[x]} k[x]/(x)
+\cong
+k[x]/(x)\cong k.
+\]
+
+\subsubsection*{Example 7}
+\[
+k[x]/(x^2)\otimes_{k[x]} k[x]/(x)
+\cong
+k[x]/(x^2,x)=k[x]/(x)\cong k.
+\]
+
+\subsubsection*{Example 8}
+View \(k\) as a \(k[x]\)-module via \(x\mapsto 0\). Then
+\[
+k\otimes_{k[x]} k[x]\cong k.
+\]
+
+\subsubsection*{Example 9}
+\[
+k\otimes_{k[x]} k[x]/(x^2)
+\cong
+k[x]/(x)\otimes_{k[x]} k[x]/(x^2)
+\cong
+k[x]/(x,x^2)\cong k.
+\]
+
+\subsubsection*{Example 10}
+\[
+k[x]^2\otimes_{k[x]} k[x]/(x)
+\cong
+\big(k[x]/(x)\big)^2
+\cong
+k^2.
+\]
+
+\subsection{Why \((A/I)\otimes_A M\cong M/IM\) is important}
+
+This formula shows that tensoring with \(A/I\) means reducing \(M\) modulo the action of \(I\). Thus tensor product is a basic tool for base change and specialization.
+
+For example:
+
+\begin{itemize}
+	\item over \(\mathbb Z\), tensoring with \(\mathbb Z/n\mathbb Z\) means reducing modulo \(n\),
+	\item over \(k[x]\), tensoring with \(k[x]/(x-a)\) means specializing at \(x=a\),
+	\item over a local ring \(A\), tensoring with \(A/\mathfrak m\) means passing to the fiber over the closed point.
+\end{itemize}
+
+\subsection{Exactness warning}
+
+Tensor product is right exact, but not always left exact.
+
+If
+\[
+M'\to M\to M''\to 0
+\]
+is exact, then
+\[
+M'\otimes_A N \to M\otimes_A N \to M''\otimes_A N \to 0
+\]
+is exact.
+
+However, injectivity on the left can fail.
+
+\subsubsection*{Standard example}
+
+The map
+\[
+\mathbb Z\xrightarrow{\cdot 2}\mathbb Z
+\]
+is injective. Tensoring with \(\mathbb Z/2\mathbb Z\) gives
+\[
+\mathbb Z\otimes_{\mathbb Z}\mathbb Z/2\mathbb Z
+\longrightarrow
+\mathbb Z\otimes_{\mathbb Z}\mathbb Z/2\mathbb Z.
+\]
+Since
+\[
+\mathbb Z\otimes_{\mathbb Z}\mathbb Z/2\mathbb Z\cong \mathbb Z/2\mathbb Z,
+\]
+this becomes
+\[
+\mathbb Z/2\mathbb Z \xrightarrow{0} \mathbb Z/2\mathbb Z,
+\]
+which is not injective.
+
+\subsection{Conclusion}
+
+The tensor product of modules is the universal bilinear construction. The most useful computational formulas are:
+\[
+A\otimes_A M\cong M,
+\]
+\[
+(A/I)\otimes_A M\cong M/IM,
+\]
+\[
+(A/I)\otimes_A (A/J)\cong A/(I+J),
+\]
+and
+\[
+A^r\otimes_A M\cong M^r.
+\]
+
+Among the most important concrete examples are:
+\[
+\mathbb Z/n\mathbb Z\otimes_{\mathbb Z}\mathbb Z/m\mathbb Z
+\cong
+\mathbb Z/\gcd(n,m)\mathbb Z,
+\]
+\[
+k[x]/(x)\otimes_{k[x]} k[x]/(x-1)=0,
+\]
+and
+\[
+k[x]/(x)\otimes_{k[x]} k[x]/(x)\cong k.
+\]
+
+\section{Flat modules: definition, theory, and examples}
+
+\subsection{Why flatness is needed}
+
+Let \(A\) be a commutative ring, and let \(M\) be an \(A\)-module. The functor
+\[
+-\otimes_A M
+\]
+is always right exact, but in general it is not left exact.
+
+Thus, if
+\[
+0\longrightarrow N' \longrightarrow N \longrightarrow N'' \longrightarrow 0
+\]
+is a short exact sequence of \(A\)-modules, then after tensoring with \(M\) we always obtain
+\[
+N'\otimes_A M \longrightarrow N\otimes_A M \longrightarrow N''\otimes_A M \longrightarrow 0,
+\]
+which is exact on the right, but the first map need not be injective.
+
+Flatness is exactly the condition that tensoring with \(M\) preserves injectivity, and hence preserves all short exact sequences.
+
+\subsection{Definition of a flat module}
+
+An \(A\)-module \(M\) is called \emph{flat} if for every short exact sequence
+\[
+0\longrightarrow N' \longrightarrow N \longrightarrow N'' \longrightarrow 0
+\]
+of \(A\)-modules, the sequence
+\[
+0\longrightarrow N'\otimes_A M \longrightarrow N\otimes_A M \longrightarrow N''\otimes_A M \longrightarrow 0
+\]
+is exact.
+
+Equivalently, \(M\) is flat if for every injective homomorphism
+\[
+N'\hookrightarrow N
+\]
+the induced map
+\[
+N'\otimes_A M \longrightarrow N\otimes_A M
+\]
+is injective.
+
+\subsection{Intuition}
+
+A flat module is one that does not create fake relations under tensor product. Tensoring by a flat module behaves like a well-behaved base change.
+
+\subsection{Equivalent criteria}
+
+The following are standard equivalent criteria for flatness:
+
+\begin{enumerate}
+	\item \(M\) is flat.
+	
+	\item The functor
+	\[
+	-\otimes_A M
+	\]
+	is exact.
+	
+	\item For every finitely generated ideal \(I\subseteq A\), the natural map
+	\[
+	I\otimes_A M \longrightarrow M,
+	\qquad
+	a\otimes m \mapsto am
+	\]
+	is injective.
+	
+	\item
+	\[
+	\operatorname{Tor}_1^A(N,M)=0
+	\]
+	for every \(A\)-module \(N\).
+\end{enumerate}
+
+\subsection{Basic examples of flat modules}
+
+\subsubsection*{Example 1: free modules}
+
+Every free \(A\)-module is flat. Indeed, if
+\[
+F\cong \bigoplus_{i\in I} A,
+\]
+then
+\[
+N\otimes_A F
+\cong
+\bigoplus_{i\in I}(N\otimes_A A)
+\cong
+\bigoplus_{i\in I} N,
+\]
+and direct sums preserve exactness.
+
+\subsubsection*{Example 2: projective modules}
+
+Every projective module is flat, since every projective module is a direct summand of a free module, and direct summands of flat modules are flat.
+
+Thus
+\[
+\text{free} \Longrightarrow \text{projective} \Longrightarrow \text{flat}.
+\]
+
+\subsubsection*{Example 3: polynomial rings}
+
+As an \(A\)-module,
+\[
+A[x]\cong \bigoplus_{n\ge 0} A\cdot x^n.
+\]
+So \(A[x]\) is free over \(A\), hence flat.
+
+More generally,
+\[
+A[x_1,\dots,x_n]
+\]
+is flat over \(A\).
+
+\subsubsection*{Example 4: localization}
+
+If \(S\subseteq A\) is a multiplicative set, then
+\[
+S^{-1}A
+\]
+is flat over \(A\). In fact, for every \(A\)-module \(N\),
+\[
+N\otimes_A S^{-1}A \cong S^{-1}N.
+\]
+
+Typical examples are
+\[
+A_f,\qquad A_{\mathfrak p},\qquad \mathbb Z_{(p)}.
+\]
+
+\subsubsection*{Example 5: direct sums}
+
+A direct sum of flat modules is flat.
+
+\subsubsection*{Example 6: direct limits}
+
+Filtered direct limits of flat modules are flat.
+
+\subsection{Non-flat modules}
+
+\subsubsection*{Example 7: \(\mathbb Z/n\mathbb Z\) over \(\mathbb Z\)}
+
+The map
+\[
+\mathbb Z \xrightarrow{\cdot n} \mathbb Z
+\]
+is injective. Tensoring with \(\mathbb Z/n\mathbb Z\) gives
+\[
+\mathbb Z/n\mathbb Z \xrightarrow{\cdot n} \mathbb Z/n\mathbb Z,
+\]
+which is the zero map, hence not injective. Therefore
+\[
+\mathbb Z/n\mathbb Z
+\]
+is not flat over \(\mathbb Z\).
+
+\subsubsection*{Example 8: \(k[x]/(x)\) over \(k[x]\)}
+
+The map
+\[
+k[x]\xrightarrow{\cdot x} k[x]
+\]
+is injective. Tensoring with
+\[
+k[x]/(x)
+\]
+gives
+\[
+k[x]/(x)\xrightarrow{\cdot x} k[x]/(x),
+\]
+which is zero. So
+\[
+k[x]/(x)
+\]
+is not flat over \(k[x]\).
+
+\subsubsection*{Example 9: residue fields}
+
+If \((A,\mathfrak m)\) is a local ring with \(\mathfrak m\neq 0\), then the residue field
+\[
+A/\mathfrak m
+\]
+is usually not flat over \(A\).
+
+\subsection{Deeper examples}
+
+\subsubsection*{Example 10: \(\mathbb Q\) over \(\mathbb Z\)}
+
+Since
+\[
+\mathbb Q \cong S^{-1}\mathbb Z
+\]
+for \(S=\mathbb Z\setminus\{0\}\), the \(\mathbb Z\)-module \(\mathbb Q\) is flat.
+
+However, \(\mathbb Q\) is not projective as a \(\mathbb Z\)-module. So this is a standard example of a flat module that is not projective.
+
+\subsubsection*{Example 11: torsion-free modules over a PID}
+
+If \(A\) is a principal ideal domain, then an \(A\)-module is flat if and only if it is torsion-free.
+
+In particular, over \(\mathbb Z\), an abelian group is flat if and only if it has no torsion.
+
+Thus
+\[
+\mathbb Z,\qquad \mathbb Z^r,\qquad \mathbb Q,\qquad \mathbb Z_{(p)}
+\]
+are flat over \(\mathbb Z\), while
+\[
+\mathbb Z/n\mathbb Z,\qquad \mathbb Q/\mathbb Z
+\]
+are not.
+
+\subsubsection*{Example 12: principal ideals in a domain}
+
+If \(A\) is an integral domain and \(a\neq 0\), then the principal ideal
+\[
+(a)\subseteq A
+\]
+is isomorphic to \(A\) as an \(A\)-module via
+\[
+A\to (a),\qquad r\mapsto ra.
+\]
+Hence \((a)\) is free of rank \(1\), and therefore flat.
+
+\subsubsection*{Example 13: local criterion}
+
+If \(M\) is flat over \(A\), then for every prime ideal \(\mathfrak p\),
+\[
+M_{\mathfrak p}
+\]
+is flat over the local ring
+\[
+A_{\mathfrak p}.
+\]
+
+Moreover, over a local ring, finitely generated flat modules are free.
+
+\subsubsection*{Example 14: Noetherian rings}
+
+Over a Noetherian ring, every finitely generated flat module is projective.
+
+So in many algebraic situations, the distinction between flat and projective only appears for infinitely generated modules.
+
+\subsection{How to test flatness in practice}
+
+In concrete problems, one often uses one of the following methods:
+
+\begin{enumerate}
+	\item Show the module is free.
+	
+	\item Show the module is projective.
+	
+	\item Show the module is a localization.
+	
+	\item To prove non-flatness, find an injective map whose injectivity is destroyed after tensoring.
+\end{enumerate}
+
+\subsection{Geometric meaning}
+
+In algebraic geometry, flatness means that a family behaves well under base change. Fibers vary in a controlled way, without unexpected collapsing. Algebraically, this is encoded by the exactness of tensor product.
+
+\subsection{Conclusion}
+
+Flatness is the condition that tensor product preserves exact sequences. The most important chain of implications is
+\[
+\text{free} \Longrightarrow \text{projective} \Longrightarrow \text{flat}.
+\]
+
+Key examples to remember are:
+\[
+A[x]\text{ is flat over }A,
+\qquad
+S^{-1}A\text{ is flat over }A,
+\qquad
+\mathbb Q\text{ is flat over }\mathbb Z,
+\]
+while
+\[
+\mathbb Z/n\mathbb Z\text{ is not flat over }\mathbb Z,
+\qquad
+k[x]/(x)\text{ is not flat over }k[x].
+\]
+
+Over \(\mathbb Z\), flatness is equivalent to torsion-freeness, but this is special to that setting and does not hold for arbitrary rings.
+
+\section{Tor: definition, theory, and examples}
+
+\subsection{Why Tor appears}
+
+Let \(A\) be a commutative ring, and let \(M\) be an \(A\)-module. The functor
+\[
+-\otimes_A M
+\]
+is always right exact, but in general it is not left exact.
+
+Thus, if
+\[
+0\longrightarrow N' \longrightarrow N \longrightarrow N'' \longrightarrow 0
+\]
+is a short exact sequence of \(A\)-modules, then after tensoring with \(M\) we obtain
+\[
+N'\otimes_A M \longrightarrow N\otimes_A M \longrightarrow N''\otimes_A M \longrightarrow 0,
+\]
+which is exact on the right, but the first map may fail to be injective.
+
+The groups \(\operatorname{Tor}_i^A(-,-)\) measure this failure of exactness.
+
+\subsection{Definition of Tor}
+
+Let \(M,N\) be \(A\)-modules. Choose a projective resolution of \(M\):
+\[
+\cdots \longrightarrow P_2 \longrightarrow P_1 \longrightarrow P_0 \longrightarrow M \longrightarrow 0,
+\]
+where each \(P_i\) is projective.
+
+Tensor this complex with \(N\):
+\[
+\cdots \longrightarrow P_2\otimes_A N \longrightarrow P_1\otimes_A N \longrightarrow P_0\otimes_A N \longrightarrow 0.
+\]
+
+The homology of this complex is, by definition,
+\[
+\operatorname{Tor}_i^A(M,N)=H_i(P_\bullet\otimes_A N).
+\]
+
+This does not depend on the chosen projective resolution.
+
+\subsection{Basic properties}
+
+\begin{enumerate}
+	\item
+	\[
+	\operatorname{Tor}_0^A(M,N)\cong M\otimes_A N.
+	\]
+	
+	\item Tor is symmetric:
+	\[
+	\operatorname{Tor}_i^A(M,N)\cong \operatorname{Tor}_i^A(N,M).
+	\]
+	
+	\item If one of the modules is flat, then
+	\[
+	\operatorname{Tor}_i^A(M,N)=0
+	\qquad\text{for all }i>0.
+	\]
+	
+	\item If one of the modules is projective, then
+	\[
+	\operatorname{Tor}_i^A(M,N)=0
+	\qquad\text{for all }i>0.
+	\]
+\end{enumerate}
+
+\subsection{Long exact sequence}
+
+Given a short exact sequence
+\[
+0\longrightarrow M' \longrightarrow M \longrightarrow M'' \longrightarrow 0,
+\]
+there is a long exact sequence
+\[
+\cdots \to \operatorname{Tor}_1^A(M'',N)
+\to M'\otimes_A N
+\to M\otimes_A N
+\to M''\otimes_A N
+\to 0.
+\]
+
+This shows that \(\operatorname{Tor}_1\) measures the failure of tensor product to preserve injectivity.
+
+\subsection{Computation over \(\mathbb Z\)}
+
+Take the free resolution
+\[
+0\longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0.
+\]
+
+Tensoring with a \(\mathbb Z\)-module \(M\) gives
+\[
+0\longrightarrow M \xrightarrow{\cdot n} M \longrightarrow 0.
+\]
+
+Hence
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n\mathbb Z,M)
+\cong
+\ker(M\xrightarrow{\cdot n}M)
+=
+\{m\in M:nm=0\}.
+\]
+
+So
+\[
+\boxed{
+	\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n\mathbb Z,M)\cong M[n].
+}
+\]
+
+Also
+\[
+\operatorname{Tor}_i^{\mathbb Z}(\mathbb Z/n\mathbb Z,M)=0
+\qquad\text{for }i\ge 2.
+\]
+
+\subsubsection*{Example 1}
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n\mathbb Z,\mathbb Z)=0.
+\]
+
+\subsubsection*{Example 2}
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n\mathbb Z,\mathbb Z/m\mathbb Z)
+\cong
+\mathbb Z/\gcd(n,m)\mathbb Z.
+\]
+
+In particular,
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/2,\mathbb Z/3)=0,
+\]
+while
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/2,\mathbb Z/4)\cong \mathbb Z/2.
+\]
+
+\subsection{Computation over \(k[x]\)}
+
+Let \(A=k[x]\). Use the free resolution
+\[
+0\longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x)\longrightarrow 0.
+\]
+
+Tensoring with an \(A\)-module \(M\) gives
+\[
+0\longrightarrow M \xrightarrow{\cdot x} M \longrightarrow 0.
+\]
+
+Hence
+\[
+\operatorname{Tor}_1^{k[x]}(k[x]/(x),M)
+\cong
+\ker(M\xrightarrow{\cdot x}M)
+=
+\{m\in M:xm=0\}.
+\]
+
+Thus Tor measures \(x\)-torsion.
+
+\subsubsection*{Example 3}
+\[
+\operatorname{Tor}_1^{k[x]}(k[x]/(x),k[x])=0.
+\]
+
+\subsubsection*{Example 4}
+\[
+\operatorname{Tor}_1^{k[x]}(k[x]/(x),k[x]/(x))
+\cong
+k[x]/(x)\cong k.
+\]
+
+\subsubsection*{Example 5}
+\[
+\operatorname{Tor}_1^{k[x]}(k[x]/(x),k[x]/(x-1))=0.
+\]
+
+\subsection{Tor and quotient modules}
+
+From the short exact sequence
+\[
+0\longrightarrow I \longrightarrow A \longrightarrow A/I \longrightarrow 0
+\]
+and tensoring with \(M\), one gets
+\[
+0\to \operatorname{Tor}_1^A(A/I,M)\to I\otimes_A M \to M \to M/IM \to 0.
+\]
+
+Therefore
+\[
+\operatorname{Tor}_1^A(A/I,M)
+\cong
+\ker\big(I\otimes_A M\to M\big).
+\]
+
+This formula is closely related to the criterion for flatness.
+
+\subsection{Tor and flatness}
+
+An \(A\)-module \(M\) is flat if and only if
+\[
+\operatorname{Tor}_1^A(N,M)=0
+\qquad\text{for all }A\text{-modules }N.
+\]
+
+It is enough to test this on quotient modules:
+\[
+M\text{ is flat }
+\Longleftrightarrow
+\operatorname{Tor}_1^A(A/I,M)=0
+\quad\text{for all ideals }I\subseteq A.
+\]
+
+\subsubsection*{Example 6}
+Let \(A=k[x]\) and \(M=A/(x)\). Since
+\[
+\operatorname{Tor}_1^A(A/(x),A/(x))\cong k\neq 0,
+\]
+the module \(A/(x)\) is not flat.
+
+\subsection{Geometric intuition}
+
+In algebraic geometry, tensor product corresponds to base change, and Tor measures hidden overlap or nontransversal intersection. Algebraically, it detects the failure of tensor product to preserve exactness.
+
+\subsection{Conclusion}
+
+Tor is the derived version of tensor product. The most important facts are:
+
+\begin{itemize}
+	\item
+	\[
+	\operatorname{Tor}_0^A(M,N)\cong M\otimes_A N,
+	\]
+	
+	\item \(\operatorname{Tor}_1\) measures failure of injectivity after tensoring,
+	
+	\item flatness is equivalent to vanishing of \(\operatorname{Tor}_1\),
+	
+	\item
+	\[
+	\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,M)\cong M[n],
+	\]
+	
+	\item
+	\[
+	\operatorname{Tor}_1^{k[x]}(k[x]/(x),M)
+	\cong
+	\{m\in M:xm=0\}.
+	\]
+\end{itemize}
+
+\section{\textbf{Tor as Homology, Long Exact Sequences, and Deep Examples}}
+
+\subsection{Motivation: why Tor appears}
+
+Let \(A\) be a ring and let \(M,N\) be \(A\)-modules.
+
+The tensor product functor
+\[
+-\otimes_A N
+\]
+is always \emph{right exact}, but in general it is not left exact.
+
+Thus, if
+\[
+0\to M' \to M \to M'' \to 0
+\]
+is a short exact sequence, then after tensoring with \(N\) we always get an exact sequence
+\[
+M'\otimes_A N \longrightarrow M\otimes_A N \longrightarrow M''\otimes_A N \longrightarrow 0,
+\]
+but the first map
+\[
+M'\otimes_A N \longrightarrow M\otimes_A N
+\]
+need not be injective.
+
+The groups
+\[
+\operatorname{Tor}_i^A(M,N)
+\]
+measure precisely this failure of exactness.
+
+In degree \(0\), Tor gives back the tensor product:
+\[
+\operatorname{Tor}_0^A(M,N)\cong M\otimes_A N.
+\]
+In degree \(1\), it measures the first failure of left exactness. Higher Tor groups measure higher-order relations.
+
+\subsection{Exact definition of Tor}
+
+Take a free resolution of \(M\):
+\[
+\cdots \xrightarrow{d_3} F_2 \xrightarrow{d_2} F_1 \xrightarrow{d_1} F_0 \xrightarrow{\varepsilon} M \to 0,
+\]
+where each \(F_i\) is a free \(A\)-module and the sequence is exact.
+
+Apply the functor \(-\otimes_A N\). We obtain a chain complex
+\[
+\cdots \xrightarrow{d_3\otimes 1} F_2\otimes_A N
+\xrightarrow{d_2\otimes 1} F_1\otimes_A N
+\xrightarrow{d_1\otimes 1} F_0\otimes_A N
+\to 0.
+\]
+
+Since
+\[
+(d_i\otimes 1)\circ (d_{i+1}\otimes 1)
+=
+(d_i\circ d_{i+1})\otimes 1
+=
+0,
+\]
+this is indeed a chain complex.
+
+\medskip
+
+\textbf{Definition.}
+For \(i\geq 0\), define
+\[
+\operatorname{Tor}_i^A(M,N):=
+H_i(F_\bullet\otimes_A N).
+\]
+
+That is,
+\[
+\operatorname{Tor}_i^A(M,N)
+=
+\frac{
+	\ker(d_i\otimes 1: F_i\otimes_A N \to F_{i-1}\otimes_A N)
+}{
+	\operatorname{im}(d_{i+1}\otimes 1: F_{i+1}\otimes_A N \to F_i\otimes_A N)
+}.
+\]
+
+This does not depend on the chosen free resolution of \(M\); different projective or free resolutions give canonically isomorphic homology groups.
+
+\subsection{Why is Tor a homology group?}
+
+This is the central point.
+
+A free resolution
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0
+\]
+is exact, so before tensoring there is no homology except at the very end where the quotient is \(M\).
+
+But when we tensor with \(N\), exactness may be destroyed. The resulting sequence
+\[
+\cdots \to F_2\otimes_A N \to F_1\otimes_A N \to F_0\otimes_A N \to 0
+\]
+is still a chain complex, but it need not be exact.
+
+Homology is exactly the tool that measures failure of exactness.
+
+Recall that for any chain complex
+\[
+\cdots \to C_{i+1}\xrightarrow{\partial_{i+1}} C_i \xrightarrow{\partial_i} C_{i-1}\to \cdots
+\]
+its \(i\)-th homology group is
+\[
+H_i(C_\bullet)
+=
+\frac{\ker(\partial_i)}{\operatorname{im}(\partial_{i+1})}.
+\]
+
+So:
+
+\begin{itemize}
+	\item \(\ker(\partial_i)\) consists of \(i\)-cycles, that is, elements that go to \(0\),
+	\item \(\operatorname{im}(\partial_{i+1})\) consists of \(i\)-boundaries, that is, elements already coming from the previous stage.
+\end{itemize}
+
+Thus
+\[
+H_i(C_\bullet)
+\]
+measures those cycles that are \emph{not} explained by previous boundaries.
+
+Applied to
+\[
+C_\bullet=F_\bullet\otimes_A N,
+\]
+this means that
+\[
+\operatorname{Tor}_i^A(M,N)
+=
+H_i(F_\bullet\otimes_A N)
+\]
+measures the new obstructions to exactness that appear after tensoring.
+
+That is why Tor is naturally a homology theory.
+
+\subsection{Why \(\operatorname{Tor}_0\) is the tensor product}
+
+Let the end of the free resolution be
+\[
+F_1 \xrightarrow{d_1} F_0 \xrightarrow{\varepsilon} M \to 0.
+\]
+After tensoring with \(N\), we obtain
+\[
+F_1\otimes_A N \xrightarrow{d_1\otimes 1} F_0\otimes_A N \to M\otimes_A N \to 0.
+\]
+
+Therefore
+\[
+M\otimes_A N
+\cong
+\frac{F_0\otimes_A N}{\operatorname{im}(d_1\otimes 1)}.
+\]
+
+But
+\[
+H_0(F_\bullet\otimes_A N)
+=
+\frac{\ker(F_0\otimes_A N\to 0)}{\operatorname{im}(d_1\otimes 1)}
+=
+\frac{F_0\otimes_A N}{\operatorname{im}(d_1\otimes 1)}.
+\]
+
+Hence
+\[
+\operatorname{Tor}_0^A(M,N)\cong M\otimes_A N.
+\]
+
+So the ordinary tensor product is the degree-\(0\) case of the Tor construction.
+
+\subsection{Tor as a derived functor}
+
+One often summarizes the situation by saying:
+
+\begin{quote}
+	\(\operatorname{Tor}_i^A(M,N)\) is the \(i\)-th left derived functor of the tensor product.
+\end{quote}
+
+This means:
+
+\begin{itemize}
+	\item the functor \(M\mapsto M\otimes_A N\) is not exact,
+	\item to measure its failure of exactness, one resolves \(M\) by free or projective modules,
+	\item then applies the functor and takes homology.
+\end{itemize}
+
+Thus Tor is not an artificial construction: it is the canonical correction to the fact that tensor product is only right exact.
+
+\subsection{Symmetry of Tor}
+
+There is a natural isomorphism
+\[
+\operatorname{Tor}_i^A(M,N)\cong \operatorname{Tor}_i^A(N,M).
+\]
+
+Indeed, one may resolve either variable by free modules and then tensor. The resulting homology groups are naturally isomorphic.
+
+So although the definition is often presented by resolving the first variable, Tor is symmetric in the two variables.
+
+\subsection{Long exact sequences in Tor}
+
+One of the most important properties of Tor is that short exact sequences of modules give long exact sequences of Tor groups.
+
+\medskip
+
+\textbf{Theorem.}
+Let
+\[
+0\to N' \to N \to N'' \to 0
+\]
+be a short exact sequence of \(A\)-modules. Then for every \(A\)-module \(M\) there is a natural long exact sequence
+\[
+\cdots
+\to
+\operatorname{Tor}_2^A(M,N'')
+\to
+\operatorname{Tor}_1^A(M,N')
+\to
+\operatorname{Tor}_1^A(M,N)
+\to
+\operatorname{Tor}_1^A(M,N'')
+\]
+\[
+\to
+M\otimes_A N'
+\to
+M\otimes_A N
+\to
+M\otimes_A N''
+\to
+0.
+\]
+
+Similarly, if
+\[
+0\to M' \to M \to M'' \to 0
+\]
+is exact, then for every \(N\) there is a long exact sequence
+\[
+\cdots
+\to
+\operatorname{Tor}_2^A(M'',N)
+\to
+\operatorname{Tor}_1^A(M',N)
+\to
+\operatorname{Tor}_1^A(M,N)
+\to
+\operatorname{Tor}_1^A(M'',N)
+\]
+\[
+\to
+M'\otimes_A N
+\to
+M\otimes_A N
+\to
+M''\otimes_A N
+\to
+0.
+\]
+
+\subsection{Why exact sequences appear}
+
+The reason is very clean.
+
+Fix \(M\), and choose a free resolution
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0.
+\]
+
+Now take a short exact sequence
+\[
+0\to N' \to N \to N'' \to 0.
+\]
+
+Because each \(F_i\) is free, hence flat, tensoring with \(F_i\) preserves exactness:
+\[
+0\to F_i\otimes_A N' \to F_i\otimes_A N \to F_i\otimes_A N'' \to 0.
+\]
+
+Therefore, degree by degree, we get a short exact sequence of chain complexes:
+\[
+0\to F_\bullet\otimes_A N'
+\to F_\bullet\otimes_A N
+\to F_\bullet\otimes_A N''
+\to 0.
+\]
+
+A basic theorem of homological algebra says that a short exact sequence of chain complexes gives a long exact sequence in homology.
+
+But the homology of these complexes is, by definition,
+\[
+H_i(F_\bullet\otimes_A N')=\operatorname{Tor}_i^A(M,N'),
+\]
+\[
+H_i(F_\bullet\otimes_A N)=\operatorname{Tor}_i^A(M,N),
+\]
+\[
+H_i(F_\bullet\otimes_A N'')=\operatorname{Tor}_i^A(M,N'').
+\]
+
+Hence the long exact sequence above.
+
+So the exact sequences for Tor come directly from exact sequences of chain complexes.
+
+\subsection{A first important special case}
+
+At the low-degree end, the long exact sequence gives
+\[
+\operatorname{Tor}_1^A(M,N'')
+\longrightarrow
+M\otimes_A N'
+\longrightarrow
+M\otimes_A N
+\longrightarrow
+M\otimes_A N''
+\to 0.
+\]
+
+This shows very clearly that
+\[
+\operatorname{Tor}_1^A(M,N'')
+\]
+measures the failure of injectivity of
+\[
+M\otimes_A N' \longrightarrow M\otimes_A N.
+\]
+
+If tensoring were left exact, that map would always be injective. The fact that it may fail to be injective is recorded precisely by the preceding Tor term.
+
+\subsection{Flatness and Tor}
+
+A module \(F\) is flat if and only if tensoring with \(F\) preserves all exact sequences.
+
+Equivalently,
+\[
+F \text{ is flat }
+\iff
+\operatorname{Tor}_1^A(M,F)=0
+\quad \text{for all } A\text{-modules } M.
+\]
+
+In fact,
+\[
+F \text{ is flat }
+\iff
+\operatorname{Tor}_i^A(M,F)=0
+\quad \text{for all } i>0 \text{ and all } M.
+\]
+
+Thus Tor is one of the main tools for detecting non-flatness.
+
+\subsection{Concrete example over \(\mathbb Z\): \(\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,N)\)}
+
+Let
+\[
+M=\mathbb Z/n\mathbb Z.
+\]
+A free resolution of \(M\) is
+\[
+0\to \mathbb Z \xrightarrow{\cdot n} \mathbb Z \to \mathbb Z/n\mathbb Z \to 0.
+\]
+
+Now tensor with an abelian group \(N\):
+\[
+0\to \mathbb Z\otimes_{\mathbb Z} N
+\xrightarrow{\cdot n}
+\mathbb Z\otimes_{\mathbb Z} N
+\to
+(\mathbb Z/n\mathbb Z)\otimes_{\mathbb Z} N
+\to 0.
+\]
+
+Since
+\[
+\mathbb Z\otimes_{\mathbb Z} N \cong N,
+\]
+this becomes the complex
+\[
+0\to N \xrightarrow{\cdot n} N \to 0.
+\]
+
+Hence
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n\mathbb Z,N)
+=
+\ker(N\xrightarrow{\cdot n}N)
+=
+\{x\in N: nx=0\}.
+\]
+
+So \(\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,N)\) is exactly the subgroup of \(n\)-torsion elements of \(N\).
+
+Also,
+\[
+(\mathbb Z/n\mathbb Z)\otimes_{\mathbb Z} N
+\cong
+N/nN.
+\]
+
+Thus we obtain the standard formulas
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,N)=N[n],
+\qquad
+(\mathbb Z/n)\otimes_{\mathbb Z}N\cong N/nN.
+\]
+
+\subsection{Example: \(\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,\mathbb Z/m)\)}
+
+Take \(N=\mathbb Z/m\mathbb Z\). Then
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,\mathbb Z/m)
+=
+\ker(\mathbb Z/m \xrightarrow{\cdot n}\mathbb Z/m).
+\]
+
+This kernel consists of classes \(\overline{x}\in \mathbb Z/m\) such that
+\[
+n\overline{x}=0,
+\]
+that is,
+\[
+m \mid nx.
+\]
+
+A standard computation gives
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,\mathbb Z/m)
+\cong
+\mathbb Z/\gcd(n,m)\mathbb Z.
+\]
+
+Also,
+\[
+(\mathbb Z/n)\otimes_{\mathbb Z}(\mathbb Z/m)
+\cong
+\mathbb Z/\gcd(n,m)\mathbb Z.
+\]
+
+For instance,
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/6,\mathbb Z/4)\cong \mathbb Z/2\mathbb Z.
+\]
+
+\subsection{How \(\operatorname{Tor}_1\) measures failure of injectivity}
+
+Consider the exact sequence
+\[
+0\to \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \to \mathbb Z/2\mathbb Z \to 0.
+\]
+
+Tensor with \(\mathbb Z/2\mathbb Z\). Since
+\[
+\mathbb Z\otimes_{\mathbb Z}\mathbb Z/2 \cong \mathbb Z/2,
+\]
+we get
+\[
+\mathbb Z/2 \xrightarrow{\cdot 2} \mathbb Z/2 \to (\mathbb Z/2)\otimes_{\mathbb Z}(\mathbb Z/2)\to 0.
+\]
+
+But multiplication by \(2\) on \(\mathbb Z/2\) is the zero map. So the map that was injective before tensoring becomes
+\[
+\mathbb Z/2 \xrightarrow{0} \mathbb Z/2,
+\]
+which is not injective.
+
+Its kernel is all of \(\mathbb Z/2\). That kernel is precisely
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/2,\mathbb Z/2)\cong \mathbb Z/2.
+\]
+
+So this is a concrete illustration of the general principle:
+
+\begin{quote}
+	\(\operatorname{Tor}_1\) records the loss of injectivity after tensoring.
+\end{quote}
+
+\subsection{Example over \(k[x]\): \(\operatorname{Tor}_1^{k[x]}(k,k)\)}
+
+Let
+\[
+A=k[x],
+\qquad
+k\cong A/(x).
+\]
+
+A free resolution of \(A/(x)\) is
+\[
+0\to A \xrightarrow{\cdot x} A \to A/(x)\to 0.
+\]
+
+Tensor with \(A/(x)\):
+\[
+0\to A\otimes_A A/(x) \xrightarrow{\cdot x} A\otimes_A A/(x) \to 0.
+\]
+
+Since
+\[
+A\otimes_A A/(x)\cong A/(x)\cong k,
+\]
+the map becomes multiplication by \(x\) on \(k\), which is zero.
+
+So the complex is
+\[
+0\to k \xrightarrow{0} k \to 0.
+\]
+
+Hence
+\[
+\operatorname{Tor}_1^{k[x]}(A/(x),A/(x))
+\cong k.
+\]
+
+Equivalently,
+\[
+\operatorname{Tor}_1^{k[x]}(k,k)\cong k.
+\]
+
+\subsection{Example over \(k[x]\): coprime quotients}
+
+Let
+\[
+A=k[x],
+\qquad
+M=A/(x),
+\qquad
+N=A/(x-1).
+\]
+
+Again resolve \(M\) by
+\[
+0\to A \xrightarrow{\cdot x} A \to A/(x)\to 0.
+\]
+
+Tensor with \(N=A/(x-1)\). Then
+\[
+0\to A/(x-1)\xrightarrow{\cdot x}A/(x-1)\to 0.
+\]
+
+But in \(A/(x-1)\), the class of \(x\) is equal to \(1\). Thus multiplication by \(x\) is an isomorphism.
+
+Therefore the kernel is \(0\), so
+\[
+\operatorname{Tor}_1^{k[x]}(A/(x),A/(x-1))=0.
+\]
+
+This reflects the fact that \((x)\) and \((x-1)\) are coprime ideals.
+
+\subsection{A very useful formula for quotient modules}
+
+Let \(A\) be a commutative ring and let \(I,J\subseteq A\) be ideals. Then
+\[
+\operatorname{Tor}_1^A(A/I,A/J)\cong \frac{I\cap J}{IJ}.
+\]
+
+\medskip
+
+\textbf{Proof.}
+Start with the exact sequence
+\[
+0\to I \to A \to A/I \to 0.
+\]
+
+Tensor with \(A/J\). The long exact sequence gives
+\[
+0\to \operatorname{Tor}_1^A(A/I,A/J)\to I\otimes_A A/J \to A\otimes_A A/J.
+\]
+
+Now
+\[
+A\otimes_A A/J \cong A/J,
+\]
+and also
+\[
+I\otimes_A A/J \cong I/IJ.
+\]
+
+Under these identifications, the map
+\[
+I\otimes_A A/J \to A\otimes_A A/J
+\]
+becomes
+\[
+I/IJ \longrightarrow A/J,
+\qquad
+i+IJ \longmapsto i+J.
+\]
+
+Its kernel consists of those \(i\in I\) such that \(i\in J\), that is, \(i\in I\cap J\). Hence
+\[
+\ker(I/IJ\to A/J)=\frac{I\cap J}{IJ}.
+\]
+
+Therefore
+\[
+\operatorname{Tor}_1^A(A/I,A/J)\cong \frac{I\cap J}{IJ}.
+\]
+\hfill\(\square\)
+
+\subsection{Example in \(k[x,y]\): transversal ideals}
+
+Let
+\[
+A=k[x,y],
+\qquad
+I=(x),
+\qquad
+J=(y).
+\]
+
+Then
+\[
+I\cap J=(xy),
+\qquad
+IJ=(xy),
+\]
+so
+\[
+\frac{I\cap J}{IJ}=0.
+\]
+
+Hence
+\[
+\operatorname{Tor}_1^{k[x,y]}(A/(x),A/(y))=0.
+\]
+
+This matches the direct computation: resolving \(A/(x)\) by
+\[
+0\to A\xrightarrow{\cdot x}A\to A/(x)\to 0
+\]
+and tensoring with \(A/(y)\cong k[x]\), we get multiplication by \(x\) on \(k[x]\), which is injective.
+
+So again
+\[
+\operatorname{Tor}_1^{k[x,y]}(A/(x),A/(y))=0.
+\]
+
+\subsection{Example in \(k[x,y]\): the same ideal with itself}
+
+Let
+\[
+A=k[x,y],
+\qquad
+I=(x).
+\]
+
+Then
+\[
+I\cap I = I=(x),
+\qquad
+I^2=(x^2).
+\]
+
+Therefore
+\[
+\operatorname{Tor}_1^A(A/(x),A/(x))
+\cong
+\frac{(x)}{(x^2)}.
+\]
+
+As an \(A\)-module,
+\[
+\frac{(x)}{(x^2)}\cong A/(x).
+\]
+
+So
+\[
+\operatorname{Tor}_1^{k[x,y]}(A/(x),A/(x))
+\cong A/(x)\cong k[y].
+\]
+
+This shows that Tor detects self-intersection phenomena algebraically.
+
+\subsection{Example over \(k[x]\): general cyclic quotients}
+
+Let
+\[
+A=k[x],
+\qquad
+M=A/(f),
+\qquad
+N=A/(g).
+\]
+
+A free resolution of \(A/(f)\) is
+\[
+0\to A \xrightarrow{\cdot f} A \to A/(f)\to 0.
+\]
+
+Tensor with \(A/(g)\). Then
+\[
+0\to A/(g)\xrightarrow{\cdot f} A/(g)\to 0.
+\]
+
+Hence
+\[
+\operatorname{Tor}_1^{k[x]}(A/(f),A/(g))
+=
+\ker\!\bigl(A/(g)\xrightarrow{\cdot f}A/(g)\bigr).
+\]
+
+If \(d=\gcd(f,g)\), then one obtains
+\[
+\operatorname{Tor}_1^{k[x]}(A/(f),A/(g))
+\cong
+A/(d).
+\]
+
+Also
+\[
+A/(f)\otimes_A A/(g)\cong A/(d).
+\]
+
+So over \(k[x]\), for cyclic quotients, both the tensor product and \(\operatorname{Tor}_1\) are governed by the greatest common divisor.
+
+\medskip
+
+For example, if
+\[
+f=x^2,\qquad g=x^3,
+\]
+then \(d=x^2\), so
+\[
+\operatorname{Tor}_1^{k[x]}(A/(x^2),A/(x^3))
+\cong
+A/(x^2).
+\]
+
+\subsection{Example over the dual numbers}
+
+Let
+\[
+A=k[\varepsilon]/(\varepsilon^2),
+\qquad
+k=A/(\varepsilon).
+\]
+
+This ring is not regular, and here higher Tor groups do not stop in degree \(1\).
+
+Consider the infinite complex
+\[
+\cdots \xrightarrow{\cdot \varepsilon} A
+\xrightarrow{\cdot \varepsilon} A
+\xrightarrow{\cdot \varepsilon} A
+\to k\to 0.
+\]
+
+This is a free resolution of \(k\). Indeed, in \(A\),
+\[
+\ker(\cdot \varepsilon)=(\varepsilon)
+\]
+and
+\[
+\operatorname{im}(\cdot \varepsilon)=(\varepsilon),
+\]
+because \(\varepsilon^2=0\).
+
+Now tensor this resolution with \(k\). Since \(\varepsilon\) acts as \(0\) on \(k\), every differential becomes \(0\). So we get
+\[
+\cdots \to k \xrightarrow{0} k \xrightarrow{0} k \xrightarrow{0} k \to 0.
+\]
+
+Therefore every homology group is \(k\):
+\[
+\operatorname{Tor}_n^{k[\varepsilon]/(\varepsilon^2)}(k,k)\cong k
+\qquad
+\text{for all } n\geq 0.
+\]
+
+This is a fundamental example showing that over singular rings, higher Tor groups can be nonzero in infinitely many degrees.
+
+\subsection{A deep example: \(\operatorname{Tor}^{k[x_1,\dots,x_r]}(k,k)\)}
+
+Let
+\[
+A=k[x_1,\dots,x_r],
+\qquad
+\mathfrak m=(x_1,\dots,x_r),
+\qquad
+k=A/\mathfrak m.
+\]
+
+A natural free resolution of \(k\) is the Koszul complex
+\[
+K_\bullet(x_1,\dots,x_r).
+\]
+
+Its \(i\)-th term is
+\[
+K_i \cong A^{\binom{r}{i}},
+\]
+and the differentials are defined using the elements \(x_1,\dots,x_r\).
+
+Now tensor the Koszul complex with \(k\). Since each \(x_j\) becomes \(0\) in \(k\), all differentials become \(0\). Hence
+\[
+K_\bullet(x_1,\dots,x_r)\otimes_A k
+\]
+has zero differential, so its homology is just the graded module itself.
+
+Therefore
+\[
+\operatorname{Tor}_i^{k[x_1,\dots,x_r]}(k,k)
+\cong
+\bigwedge^i_k(k^r).
+\]
+
+In particular,
+\[
+\dim_k \operatorname{Tor}_i^{k[x_1,\dots,x_r]}(k,k)=\binom{r}{i}.
+\]
+
+For example, when \(r=2\),
+\[
+\operatorname{Tor}_0^A(k,k)\cong k,
+\qquad
+\operatorname{Tor}_1^A(k,k)\cong k^2,
+\qquad
+\operatorname{Tor}_2^A(k,k)\cong k.
+\]
+
+This is one of the most important computations in homological algebra and commutative algebra.
+
+\subsection{Why higher Tor measures higher relations}
+
+Suppose \(M\) is not free. Then to describe \(M\), one chooses generators:
+\[
+F_0\to M.
+\]
+
+The kernel of this map consists of relations among generators, so one chooses generators for that kernel:
+\[
+F_1\to F_0.
+\]
+
+But those generators may satisfy relations among themselves, so one continues:
+\[
+F_2\to F_1,
+\]
+and so on.
+
+Thus a free resolution encodes:
+
+\begin{itemize}
+	\item generators of \(M\),
+	\item relations among generators,
+	\item relations among relations,
+	\item higher relations.
+\end{itemize}
+
+After tensoring with \(N\), some of these relations may collapse, disappear, or merge.
+
+Then:
+
+\begin{itemize}
+	\item \(\operatorname{Tor}_1\) measures the first new cycles, so it detects relations that are no longer explained after tensoring,
+	\item \(\operatorname{Tor}_2\) measures relations among those relations,
+	\item higher \(\operatorname{Tor}_i\) continue this process.
+\end{itemize}
+
+So higher Tor groups are not mysterious: they record higher-order algebraic dependence visible after tensoring.
+
+\subsection{Interpretation via exact sequences}
+
+The slogan is:
+
+\begin{quote}
+	Tensor product is right exact, and Tor is the homology correction that restores the missing information on the left.
+\end{quote}
+
+More concretely:
+
+\begin{itemize}
+	\item if tensoring preserved all exact sequences, then all higher Tor groups would vanish;
+	\item if \(\operatorname{Tor}_1\neq 0\), tensoring has destroyed injectivity somewhere;
+	\item if higher Tor groups are nonzero, there are deeper homological obstructions.
+\end{itemize}
+
+This is why Tor is one of the main invariants used in flatness, singularity theory, free resolutions, and intersection theory.
+
+\subsection{Summary}
+
+The essential picture is:
+\[
+\operatorname{Tor}_i^A(M,N)=H_i(F_\bullet\otimes_A N),
+\]
+where \(F_\bullet\to M\to 0\) is a free resolution.
+
+So:
+
+\begin{enumerate}
+	\item Tor is a homology group because tensoring a free resolution produces a chain complex that may no longer be exact.
+	\item Homology measures the failure of exactness, so it is the correct invariant.
+	\item Short exact sequences of modules produce short exact sequences of tensorized complexes.
+	\item Short exact sequences of complexes give long exact sequences in homology.
+	\item Therefore Tor naturally comes with long exact sequences.
+\end{enumerate}
+
+The basic examples are:
+\[
+\operatorname{Tor}_1^{\mathbb Z}(\mathbb Z/n,N)=N[n],
+\]
+\[
+(\mathbb Z/n)\otimes_{\mathbb Z}N\cong N/nN,
+\]
+\[
+\operatorname{Tor}_1^A(A/I,A/J)\cong \frac{I\cap J}{IJ},
+\]
+\[
+\operatorname{Tor}_1^{k[x]}(k,k)\cong k,
+\]
+\[
+\operatorname{Tor}_n^{k[\varepsilon]/(\varepsilon^2)}(k,k)\cong k \quad \text{for all } n\geq 0,
+\]
+and
+\[
+\operatorname{Tor}_i^{k[x_1,\dots,x_r]}(k,k)\cong \bigwedge^i_k(k^r).
+\]
+
+These examples show both the computational side and the conceptual meaning of Tor.
+
+\end{document}
+

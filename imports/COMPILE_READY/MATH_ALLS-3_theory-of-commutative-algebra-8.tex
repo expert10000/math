@@ -1,0 +1,4716 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Commutative Algebra 7},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\fancyhf{}
+\lhead{Theory of Commutative Algebra 8}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+
+
+\title{\vspace{-1.5em}\bfseries Theory of Commutative Algebra 8}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in commutative algebra
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+	
+	
+\section{Basic definitions: value group, valuation, valuation ring}
+
+\textbf{Definition: valuation ring.}
+Let \(K\) be a field. A subring
+\[
+A\subseteq K
+\]
+is called a \emph{valuation ring} of \(K\) if for every nonzero element \(x\in K^\times\),
+\[
+x\in A
+\quad \text{or} \quad
+x^{-1}\in A.
+\]
+
+Equivalently: every nonzero element of the field is either in the ring or has its inverse in the ring.
+
+\medskip
+
+\textbf{Definition: value group.}
+Let \(A\) be a valuation ring of a field \(K\), and let
+\[
+U=A^\times
+\]
+be the group of units of \(A\).
+
+The \emph{value group} of \(A\) is the quotient group
+\[
+\Gamma:=K^\times/U.
+\]
+
+Thus two nonzero elements \(x,y\in K^\times\) define the same element of \(\Gamma\) if and only if
+\[
+xy^{-1}\in U,
+\]
+that is, if and only if \(x\) and \(y\) differ by a unit of \(A\).
+
+The group law on \(\Gamma\) is induced by multiplication in \(K^\times\):
+\[
+\overline{x}+\overline{y}:=\overline{xy},
+\]
+if we write \(\Gamma\) additively.
+
+Intuitively, the value group remembers the ``order'' or ``size'' part of a nonzero element and forgets the unit part.
+
+\medskip
+
+\textbf{Definition: valuation.}
+Let \(K\) be a field and \(\Gamma\) a totally ordered abelian group. A \emph{valuation} on \(K\) with values in \(\Gamma\) is a map
+\[
+v:K^\times\to \Gamma
+\]
+such that for all \(x,y\in K^\times\):
+
+\[
+v(xy)=v(x)+v(y),
+\]
+and whenever \(x+y\neq 0\),
+\[
+v(x+y)\ge \min(v(x),v(y)).
+\]
+
+One usually extends \(v\) to all of \(K\) by setting
+\[
+v(0)=\infty.
+\]
+
+\medskip
+
+\textbf{Relation between them.}
+Starting from a valuation ring \(A\subseteq K\), one gets its value group
+\[
+\Gamma=K^\times/A^\times
+\]
+and a valuation
+\[
+v:K^\times\to \Gamma,\qquad v(x)=\overline{x}.
+\]
+
+Conversely, starting from a valuation
+\[
+v:K^\times\to \Gamma,
+\]
+one recovers a valuation ring by
+\[
+A_v:=\{x\in K^\times : v(x)\ge 0\}\cup\{0\}.
+\]
+
+So valuation rings, value groups, and valuations are three closely related ways of describing the same structure.	
+	
+\section{Maximal ideals, ordered abelian groups, group rings, and valuations}
+
+\textbf{Convention.}
+Throughout, all rings are commutative with \(1\), all groups are written additively unless explicitly stated otherwise, and \(k\) denotes a field. If \(A\) is a domain, its field of fractions is denoted by \(\Frac(A)\).
+
+\subsection{1. Maximal ideals}
+
+\textbf{Definition.}
+An ideal \(\mathfrak m \subsetneq A\) is called \emph{maximal} if it is proper and there is no ideal strictly between \(\mathfrak m\) and \(A\). In other words,
+\[
+\mathfrak m \subseteq I \subseteq A
+\quad \Longrightarrow \quad
+I=\mathfrak m \text{ or } I=A.
+\]
+
+\textbf{Fundamental criterion.}
+A proper ideal \(\mathfrak m\) is maximal if and only if the quotient ring \(A/\mathfrak m\) is a field:
+\[
+\mathfrak m \text{ maximal } \iff A/\mathfrak m \text{ is a field.}
+\]
+
+This is the most important practical test for maximality.
+
+\subsection{2. Deep examples of maximal ideals}
+
+\textbf{Example 1: maximal ideals in \(\mathbb Z\).}
+The maximal ideals of \(\mathbb Z\) are exactly
+\[
+(p),
+\]
+where \(p\) is a prime number. Indeed,
+\[
+\mathbb Z/(p)\cong \mathbf F_p
+\]
+is a field, so \((p)\) is maximal.
+
+\textbf{Example 2: maximal ideals in \(k[x]\).}
+If \(k\) is a field, then the maximal ideals of \(k[x]\) are exactly the ideals
+\[
+(f),
+\]
+where \(f\in k[x]\) is irreducible. This follows from the fact that
+\[
+k[x]/(f)
+\]
+is a field exactly when \(f\) is irreducible.
+
+If \(k\) is algebraically closed, then every irreducible polynomial is linear, so the maximal ideals are precisely
+\[
+(x-a), \qquad a\in k.
+\]
+
+\textbf{Example 3: maximal ideals in \(k[x,y]\).}
+If \(k\) is algebraically closed, then the maximal ideals are
+\[
+(x-a,\ y-b), \qquad a,b\in k.
+\]
+Geometrically, these correspond to points \((a,b)\) of the affine plane \(k^2\).
+
+\textbf{Example 4: local examples.}
+In a local ring there is only one maximal ideal. For example:
+\[
+k[[t]]
+\quad \text{has maximal ideal} \quad
+(t),
+\]
+and
+\[
+k[x]_{(x)}
+\quad \text{has maximal ideal} \quad
+(x)k[x]_{(x)}.
+\]
+
+\subsection{3. Local rings and maximal ideals}
+
+\textbf{Definition.}
+A ring \(A\) is called \emph{local} if it has exactly one maximal ideal. If that ideal is \(\mathfrak m\), we write the local ring as
+\[
+(A,\mathfrak m).
+\]
+
+\textbf{Equivalent description.}
+A ring is local if and only if the set of nonunits is an ideal. That ideal is then the unique maximal ideal.
+
+Thus in a local ring one has the decomposition
+\[
+A = A^\times \sqcup \mathfrak m,
+\]
+where \(A^\times\) is the group of units and \(\mathfrak m\) is the set of nonunits.
+
+\textbf{Geometric meaning.}
+A local ring describes the behavior of functions near one chosen point. For example,
+\[
+k[x,y]_{(x,y)}
+\]
+is the ring of rational functions regular near the origin.
+
+\subsection{4. Ordered abelian groups}
+
+\textbf{Definition.}
+An \emph{ordered abelian group} is an abelian group \((\Gamma,+)\) together with a total order \(\le\) such that
+\[
+\alpha \le \beta
+\quad \Longrightarrow \quad
+\alpha+\gamma \le \beta+\gamma
+\]
+for all \(\alpha,\beta,\gamma\in \Gamma\).
+
+So the order is compatible with translation.
+
+\textbf{Basic language.}
+If \(\Gamma\) is ordered, we can speak about:
+\[
+\gamma>0,\qquad \gamma\ge 0,\qquad \gamma<0.
+\]
+
+\textbf{Important fact.}
+Every ordered abelian group is torsion-free. Indeed, if \(n\gamma=0\) for some \(n>0\), then necessarily \(\gamma=0\). For if \(\gamma>0\), then
+\[
+0<\gamma<2\gamma<\cdots<n\gamma,
+\]
+which contradicts \(n\gamma=0\). The case \(\gamma<0\) is similar.
+
+\subsection{5. Examples of ordered abelian groups}
+
+\textbf{Example 1: \(\mathbb Z\).}
+The integers \(\mathbb Z\) with the usual order form an ordered abelian group.
+
+\textbf{Example 2: \(\mathbb Q\).}
+The rationals \(\mathbb Q\) with the usual order form an ordered abelian group.
+
+\textbf{Example 3: \(\mathbb R\).}
+The reals \(\mathbb R\) with the usual order form an ordered abelian group.
+
+\textbf{Example 4: lexicographically ordered \(\mathbb Z^2\).}
+Define
+\[
+(a,b) < (c,d)
+\]
+if either
+\[
+a<c,
+\]
+or
+\[
+a=c \text{ and } b<d.
+\]
+This is the lexicographic order. It makes \(\mathbb Z^2\) into an ordered abelian group.
+
+\textbf{Example 5: lexicographically ordered \(\mathbb Z^n\).}
+More generally, \(\mathbb Z^n\) becomes an ordered abelian group under lexicographic order:
+\[
+(a_1,\dots,a_n) < (b_1,\dots,b_n)
+\]
+if at the first place where they differ, the coordinate of the first tuple is smaller.
+
+These lexicographic groups appear naturally as value groups of higher-rank valuations.
+
+\subsection{6. Why ordered abelian groups appear in valuation theory}
+
+A valuation \(v\) should satisfy
+\[
+v(xy)=v(x)+v(y),
+\]
+so its codomain must be an abelian group.
+
+At the same time, one wants to compare values using inequalities such as
+\[
+v(x+y)\ge \min(v(x),v(y)).
+\]
+So the codomain must also be ordered.
+
+That is why valuations take values in totally ordered abelian groups.
+
+\subsection{7. Group rings}
+
+Let \(\Gamma\) be an abelian group.
+
+\textbf{Definition.}
+The \emph{group ring} \(k[\Gamma]\) is the \(k\)-vector space having basis
+\[
+\{z^\gamma\}_{\gamma\in\Gamma},
+\]
+with multiplication determined by the rule
+\[
+z^\gamma z^\delta = z^{\gamma+\delta}.
+\]
+
+Thus a general element of \(k[\Gamma]\) is a finite sum
+\[
+f=\sum_{\gamma\in\Gamma} a_\gamma z^\gamma,
+\]
+where each \(a_\gamma\in k\) and only finitely many coefficients are nonzero.
+
+\textbf{Support.}
+For \(f\neq 0\), define the support
+\[
+\Supp(f)=\{\gamma\in\Gamma : a_\gamma\neq 0\}.
+\]
+This is always a finite subset of \(\Gamma\).
+
+\subsection{8. Examples of group rings}
+
+\textbf{Example 1: \(\Gamma=\mathbb Z\).}
+Then
+\[
+k[\mathbb Z]\cong k[z,z^{-1}],
+\]
+the Laurent polynomial ring in one variable.
+
+Indeed, the basis elements are \(z^n\) for \(n\in\mathbb Z\), and multiplication is
+\[
+z^m z^n = z^{m+n}.
+\]
+
+\textbf{Example 2: \(\Gamma=\mathbb Z^2\).}
+Then
+\[
+k[\mathbb Z^2]\cong k[x^{\pm1},y^{\pm1}],
+\]
+the Laurent polynomial ring in two variables. One identifies
+\[
+z^{(a,b)} \leftrightarrow x^a y^b.
+\]
+
+\textbf{Example 3: \(\Gamma=\mathbb Q\).}
+Then \(k[\mathbb Q]\) consists of finite sums of monomials \(z^q\) with rational exponents \(q\in\mathbb Q\):
+\[
+f = a_1 z^{q_1} + \cdots + a_r z^{q_r}.
+\]
+
+\subsection{9. Why \(k[\Gamma]\) is a domain when \(\Gamma\) is ordered}
+
+Assume now that \(\Gamma\) is a totally ordered abelian group.
+
+Take two nonzero elements
+\[
+f=\sum_i a_i z^{\gamma_i},
+\qquad
+g=\sum_j b_j z^{\delta_j}
+\]
+in \(k[\Gamma]\).
+
+Since the supports are finite and \(\Gamma\) is totally ordered, we can define
+\[
+\alpha=\min \Supp(f),
+\qquad
+\beta=\min \Supp(g).
+\]
+
+Then the smallest exponent appearing in the product \(fg\) is
+\[
+\alpha+\beta,
+\]
+and its coefficient is
+\[
+a_\alpha b_\beta \neq 0.
+\]
+Therefore
+\[
+fg\neq 0.
+\]
+
+Hence:
+
+\[
+k[\Gamma] \text{ is an integral domain whenever } \Gamma \text{ is a totally ordered abelian group.}
+\]
+
+This is one of the main reasons ordered groups are useful here.
+
+\subsection{10. The canonical valuation \(v_0\) on the group ring}
+
+Let \(A=k[\Gamma]\), where \(\Gamma\) is totally ordered.
+
+For a nonzero element
+\[
+f=\sum_i a_i z^{\gamma_i},
+\]
+define
+\[
+v_0(f)=\min\{\gamma_i : a_i\neq 0\}.
+\]
+
+So \(v_0(f)\) is simply the smallest exponent occurring in \(f\).
+
+\textbf{Example.}
+If
+\[
+f=3z^{-2}+5+7z^4 \in k[\mathbb Z]=k[z,z^{-1}],
+\]
+then
+\[
+v_0(f)=-2.
+\]
+
+\subsection{11. Why \(v_0\) satisfies the valuation properties}
+
+\textbf{Multiplicativity.}
+If \(f,g\neq 0\), then
+\[
+v_0(fg)=v_0(f)+v_0(g).
+\]
+This is because the smallest term in the product comes from multiplying the smallest term of \(f\) by the smallest term of \(g\).
+
+\textbf{Ultrametric inequality.}
+If \(f+g\neq 0\), then
+\[
+v_0(f+g)\ge \min(v_0(f),v_0(g)).
+\]
+Indeed, when adding two sums, the smallest terms may cancel, but no term smaller than both minima can appear.
+
+\textbf{Example where the inequality is strict.}
+Let
+\[
+f=z, \qquad g=-z+z^2.
+\]
+Then
+\[
+v_0(f)=1,\qquad v_0(g)=1,
+\]
+but
+\[
+f+g=z^2,
+\qquad
+v_0(f+g)=2>1.
+\]
+
+\subsection{12. Extension of \(v_0\) to the fraction field}
+
+Since \(A=k[\Gamma]\) is a domain, it has a fraction field
+\[
+K=\Frac(A).
+\]
+
+For a nonzero element
+\[
+x=\frac{f}{g}\in K^\times
+\qquad (f,g\in A,\ g\neq 0),
+\]
+define
+\[
+v(x)=v_0(f)-v_0(g).
+\]
+
+\textbf{Why this is well-defined.}
+If
+\[
+\frac{f}{g}=\frac{f'}{g'},
+\]
+then
+\[
+fg'=f'g.
+\]
+Applying \(v_0\), we obtain
+\[
+v_0(f)+v_0(g')=v_0(f')+v_0(g),
+\]
+hence
+\[
+v_0(f)-v_0(g)=v_0(f')-v_0(g').
+\]
+
+Thus \(v:K^\times\to\Gamma\) is well-defined.
+
+\textbf{Valuation properties.}
+This extension satisfies:
+\[
+v(xy)=v(x)+v(y),
+\]
+and whenever \(x+y\neq 0\),
+\[
+v(x+y)\ge \min(v(x),v(y)).
+\]
+
+So \(v\) is a valuation on \(K\) with values in \(\Gamma\).
+
+\subsection{13. The valuation ring attached to a valuation}
+
+Let \(K\) be a field, \(\Gamma\) a totally ordered abelian group, and
+\[
+v:K^\times \to \Gamma
+\]
+a valuation.
+
+Define
+\[
+A_v := \{x\in K^\times : v(x)\ge 0\}\cup \{0\}.
+\]
+
+Also define
+\[
+\mathfrak m_v := \{x\in K^\times : v(x)>0\}\cup \{0\}.
+\]
+
+Then:
+
+\begin{itemize}
+	\item \(A_v\) is a subring of \(K\),
+	\item \(A_v\) is a valuation ring of \(K\),
+	\item \(\mathfrak m_v\) is the unique maximal ideal of \(A_v\).
+\end{itemize}
+
+\subsection{14. Why \(A_v\) is a ring}
+
+Take \(x,y\in A_v\). Then
+\[
+v(x)\ge 0,\qquad v(y)\ge 0.
+\]
+
+\textbf{Multiplication.}
+\[
+v(xy)=v(x)+v(y)\ge 0,
+\]
+so
+\[
+xy\in A_v.
+\]
+
+\textbf{Addition.}
+If \(x+y\neq 0\), then
+\[
+v(x+y)\ge \min(v(x),v(y))\ge 0,
+\]
+so
+\[
+x+y\in A_v.
+\]
+Also \(0\in A_v\). Therefore \(A_v\) is a subring.
+
+\subsection{15. Why \(A_v\) is a valuation ring}
+
+Take any nonzero \(x\in K\). Since \(\Gamma\) is totally ordered, either
+\[
+v(x)\ge 0
+\]
+or
+\[
+v(x)<0.
+\]
+
+If \(v(x)\ge 0\), then \(x\in A_v\).
+
+If \(v(x)<0\), then
+\[
+v(x^{-1})=-v(x)>0,
+\]
+so \(x^{-1}\in A_v\).
+
+Hence for every \(x\in K^\times\),
+\[
+x\in A_v \quad \text{or} \quad x^{-1}\in A_v.
+\]
+So \(A_v\) is a valuation ring.
+
+\subsection{16. Why \(\mathfrak m_v\) is the maximal ideal}
+
+An element \(x\in A_v\) is a unit if and only if \(v(x)=0\).
+
+Indeed:
+\begin{itemize}
+	\item if \(v(x)=0\), then \(v(x^{-1})=0\), so both \(x\) and \(x^{-1}\) lie in \(A_v\), hence \(x\) is a unit;
+	\item if \(v(x)>0\), then \(v(x^{-1})<0\), so \(x^{-1}\notin A_v\), hence \(x\) is not a unit.
+\end{itemize}
+
+Therefore the nonunits of \(A_v\) are exactly
+\[
+\mathfrak m_v=\{x\in K^\times : v(x)>0\}\cup\{0\}.
+\]
+Since in a local ring the set of nonunits is the unique maximal ideal, \(\mathfrak m_v\) is the maximal ideal of \(A_v\).
+
+\subsection{17. Concrete examples of valuation rings and maximal ideals}
+
+\textbf{Example 1: \(k[[t]]\subset k((t))\).}
+Define
+\[
+v\!\left(\sum_{n\ge N} a_n t^n\right)=N
+\]
+for a nonzero Laurent series.
+
+Then
+\[
+A_v=\{x : v(x)\ge 0\}=k[[t]],
+\]
+and
+\[
+\mathfrak m_v=\{x : v(x)>0\}=(t).
+\]
+So \(k[[t]]\) is a valuation ring with maximal ideal \((t)\).
+
+\textbf{Example 2: \(\mathbb Z_{(p)}\subset \mathbb Q\).}
+Define the \(p\)-adic valuation by
+\[
+v_p\!\left(p^n \frac ab\right)=n
+\qquad \text{with } p\nmid a,b.
+\]
+Then
+\[
+A_v=\{x\in \mathbb Q : v_p(x)\ge 0\}=\mathbb Z_{(p)},
+\]
+and
+\[
+\mathfrak m_v=\{x : v_p(x)>0\}=p\mathbb Z_{(p)}.
+\]
+
+\textbf{Example 3: value group \(\mathbb Z^2_{\mathrm{lex}}\).}
+If the valuation takes values in \(\mathbb Z^2\) with lexicographic order, then the resulting valuation ring is local, but usually not a DVR. Its maximal ideal consists of elements of strictly positive value in lexicographic order.
+
+\textbf{Example 4: value group \(\mathbb Q\).}
+If the value group is \(\mathbb Q\), then the valuation ring is non-discrete. There is no smallest positive value, and the maximal ideal is typically not principal.
+
+\subsection{18. Discrete and non-discrete behavior of maximal ideals}
+
+\textbf{Discrete case.}
+If the value group is \(\mathbb Z\), there is a smallest positive element \(1\). Then the maximal ideal is principal, generated by an element of value \(1\). This is the case of a discrete valuation ring.
+
+Examples:
+\[
+k[[t]],\qquad \mathbb Z_{(p)},\qquad k[z]_{(z)}.
+\]
+
+\textbf{Non-discrete case.}
+If the value group has no smallest positive element, such as \(\mathbb Q\), then the maximal ideal is generally not principal and often not finitely generated.
+
+This is one of the main algebraic differences between discrete and non-discrete valuation rings.
+
+\subsection{19. Higher-rank examples}
+
+If the value group is
+\[
+\mathbb Z^2_{\mathrm{lex}},
+\]
+then values are compared first by the first coordinate and only then by the second.
+
+For example,
+\[
+(0,1)>0,
+\qquad
+(1,-1000)>(0,100000),
+\]
+because lexicographic order compares the first coordinate first.
+
+This leads to valuation rings whose maximal ideals reflect a more refined hierarchy of sizes than in the one-dimensional case.
+
+\subsection{20. Conceptual summary of the bridge}
+
+The theory fits together as follows:
+
+\[
+\text{ordered abelian group}
+\longrightarrow
+\text{group ring } k[\Gamma]
+\longrightarrow
+\text{valuation } v_0
+\longrightarrow
+\text{fraction field valuation } v
+\longrightarrow
+\text{valuation ring } A_v
+\longrightarrow
+\text{local ring with maximal ideal } \mathfrak m_v.
+\]
+
+So Problems 7--8 provide a general machine for constructing valuation rings from ordered abelian groups.
+
+\subsection{21. Comparison table}
+
+\[
+\begin{array}{|c|c|c|}
+	\hline
+	\text{Object} & \text{Definition} & \text{Example} \\
+	\hline
+	\text{Maximal ideal} & \mathfrak m\subsetneq A,\ A/\mathfrak m \text{ field} & (p)\subset \mathbb Z,\ (x-a)\subset k[x] \\
+	\hline
+	\text{Local ring} & \text{ring with one maximal ideal} & k[[t]],\ k[x]_{(x)} \\
+	\hline
+	\text{Ordered abelian group} & \text{totally ordered abelian group} & \mathbb Z,\ \mathbb Q,\ \mathbb Z^2_{\mathrm{lex}} \\
+	\hline
+	\text{Group ring } k[\Gamma] & \sum a_\gamma z^\gamma \text{ finite sum} & k[\mathbb Z]=k[z,z^{-1}] \\
+	\hline
+	\text{Valuation} & v(xy)=v(x)+v(y),\ v(x+y)\ge \min(v(x),v(y)) & \text{order of } t \text{ in } k((t)) \\
+	\hline
+	\text{Valuation ring} & \{x:v(x)\ge 0\}\cup\{0\} & k[[t]],\ \mathbb Z_{(p)} \\
+	\hline
+	\text{Maximal ideal of }A_v & \{x:v(x)>0\}\cup\{0\} & (t),\ p\mathbb Z_{(p)} \\
+	\hline
+\end{array}
+\]
+
+\subsection{22. Final summary}
+
+\begin{itemize}
+	\item A maximal ideal is a proper ideal with field quotient.
+	\item A local ring has exactly one maximal ideal.
+	\item An ordered abelian group is the natural target for a valuation.
+	\item A group ring \(k[\Gamma]\) over a totally ordered abelian group is an integral domain.
+	\item The minimum exponent gives a canonical valuation \(v_0\) on \(k[\Gamma]\setminus\{0\}\).
+	\item This extends to a valuation on the fraction field.
+	\item The set
+	\[
+	A_v=\{x:v(x)\ge 0\}\cup\{0\}
+	\]
+	is a valuation ring.
+	\item Its maximal ideal is
+	\[
+	\mathfrak m_v=\{x:v(x)>0\}\cup\{0\}.
+	\]
+	\item Discrete value groups such as \(\mathbb Z\) give DVRs.
+	\item Non-discrete or higher-rank value groups produce richer local rings and more complicated maximal ideals.
+\end{itemize}
+	
+\section{Localization as a ring of fractions}
+
+\textbf{Basic idea.}
+Yes: localization is exactly a \emph{ring of fractions}. If \(A\) is a ring and \(S\subseteq A\) is a multiplicative set, then
+\[
+S^{-1}A
+\]
+is the ring obtained by allowing denominators from \(S\).
+
+So its elements are written formally as
+\[
+\frac{a}{s},
+\qquad a\in A,\ s\in S.
+\]
+
+But these are not ordinary fractions from a field. They are \emph{formal fractions}, defined by an equivalence relation.
+
+\subsection{1. Multiplicative set}
+
+A subset \(S\subseteq A\) is called multiplicative if:
+\[
+1\in S,
+\qquad
+s,t\in S \Rightarrow st\in S.
+\]
+
+Usually one also assumes
+\[
+0\notin S,
+\]
+otherwise the localization collapses to the zero ring.
+
+Typical examples:
+\[
+\{1,u,u^2,u^3,\dots\},
+\qquad
+A\setminus \mathfrak p
+\]
+for a prime ideal \(\mathfrak p\).
+
+\subsection{2. Definition of the localization \(S^{-1}A\)}
+
+Start with pairs
+\[
+(a,s)\in A\times S.
+\]
+We want to think of \((a,s)\) as the fraction
+\[
+\frac{a}{s}.
+\]
+
+We define an equivalence relation by
+\[
+(a,s)\sim (b,t)
+\]
+if there exists some \(u\in S\) such that
+\[
+u(at-bs)=0.
+\]
+
+Then \(S^{-1}A\) is the set of equivalence classes of such pairs. The class of \((a,s)\) is written
+\[
+\frac{a}{s}.
+\]
+
+\textbf{Remark.}
+If \(A\) is an integral domain, this simplifies to the familiar rule
+\[
+(a,s)\sim (b,t)
+\iff at=bs,
+\]
+because then there are no zero divisors.
+
+\subsection{3. Operations in \(S^{-1}A\)}
+
+Addition and multiplication are defined by
+\[
+\frac{a}{s}+\frac{b}{t}=\frac{at+bs}{st},
+\]
+and
+\[
+\frac{a}{s}\cdot \frac{b}{t}=\frac{ab}{st}.
+\]
+
+The zero element is
+\[
+\frac{0}{1},
+\]
+and the identity is
+\[
+\frac{1}{1}.
+\]
+
+\subsection{4. Why localization is called a ring of fractions}
+
+Because its elements look exactly like fractions:
+\[
+\frac{a}{s},
+\]
+with numerators from \(A\) and denominators from \(S\).
+
+So localization is a fraction ring in which only the chosen elements of \(S\) are allowed in the denominator.
+
+Thus:
+\[
+\boxed{\text{localization } S^{-1}A \text{ is the ring of fractions of } A \text{ with denominators in } S.}
+\]
+
+\subsection{5. What localization does}
+
+The purpose of localization is to make every element of \(S\) invertible.
+
+Indeed, in \(S^{-1}A\), for any \(s\in S\),
+\[
+\frac{s}{1}\cdot \frac{1}{s}=\frac{s}{s}=\frac{1}{1}.
+\]
+
+So the image of \(s\) becomes a unit in the localized ring.
+
+This is why, if
+\[
+S=\{1,u,u^2,u^3,\dots\},
+\]
+we say that localizing at \(S\) means \emph{inverting \(u\)}.
+
+\subsection{6. Example: the field of fractions}
+
+Take
+\[
+A=\mathbb Z,
+\qquad
+S=\mathbb Z\setminus\{0\}.
+\]
+
+Then
+\[
+S^{-1}\mathbb Z=\mathbb Q.
+\]
+
+So the ordinary field of fractions is a special case of localization.
+
+More generally, if \(A\) is an integral domain and
+\[
+S=A\setminus\{0\},
+\]
+then
+\[
+S^{-1}A=\Frac(A).
+\]
+
+\subsection{7. Example: invert one element in \(\mathbb Z\)}
+
+Let
+\[
+A=\mathbb Z,
+\qquad
+S=\{1,2,2^2,2^3,\dots\}.
+\]
+
+Then
+\[
+S^{-1}\mathbb Z
+=
+\mathbb Z\!\left[\frac{1}{2}\right].
+\]
+
+Its elements are fractions of the form
+\[
+\frac{a}{2^n},
+\qquad a\in\mathbb Z,\ n\ge 0.
+\]
+
+In this ring, the element \(2\) becomes invertible, with inverse
+\[
+\frac{1}{2}.
+\]
+
+\subsection{8. Example: invert one polynomial variable}
+
+Let
+\[
+A=k[x],
+\qquad
+S=\{1,x,x^2,x^3,\dots\}.
+\]
+
+Then
+\[
+S^{-1}A
+\]
+is the ring where \(x\) becomes invertible. This is usually written
+\[
+k[x,x^{-1}],
+\]
+the Laurent polynomial ring.
+
+Its elements are fractions of the form
+\[
+\frac{f(x)}{x^n}.
+\]
+
+\subsection{9. Example: localization at a prime ideal}
+
+Let \(A=k[x,y]\) and let
+\[
+\mathfrak p=(x,y).
+\]
+
+Take
+\[
+S=A\setminus \mathfrak p.
+\]
+
+Then
+\[
+A_{\mathfrak p}=S^{-1}A.
+\]
+
+This consists of fractions
+\[
+\frac{f}{g}
+\]
+where
+\[
+g\notin (x,y).
+\]
+
+In other words, the denominator must not vanish at the origin. So \(A_{\mathfrak p}\) is the ring of rational functions regular near the origin.
+
+\subsection{10. Why the equivalence relation is needed}
+
+If \(A\) has zero divisors, the naive condition
+\[
+at=bs
+\]
+is not enough to define the right notion of equality of fractions.
+
+That is why in general we use:
+\[
+(a,s)\sim (b,t)
+\quad \Longleftrightarrow \quad
+\exists u\in S \text{ such that } u(at-bs)=0.
+\]
+
+This makes the construction work for arbitrary commutative rings, not just domains.
+
+\subsection{11. The canonical map \(A\to S^{-1}A\)}
+
+There is a natural ring homomorphism
+\[
+\varphi:A\to S^{-1}A,
+\qquad
+a\mapsto \frac{a}{1}.
+\]
+
+So every element of \(A\) is viewed inside the localization as a fraction with denominator \(1\).
+
+The important new feature is that all elements of \(S\) become invertible in the target.
+
+\subsection{12. Summary}
+
+Localization is a fraction construction:
+
+\begin{itemize}
+	\item start with a ring \(A\),
+	\item choose a multiplicative set \(S\),
+	\item form fractions \(\frac{a}{s}\) with \(a\in A\), \(s\in S\),
+	\item identify equivalent fractions,
+	\item obtain a new ring \(S^{-1}A\) in which every element of \(S\) is invertible.
+\end{itemize}
+
+So localization is precisely a \emph{ring of fractions with denominators from \(S\)}.
+
+\section{Concrete explanation of Problem 6 on valuation rings and value groups}
+
+\textbf{Problem context.}
+Let \(A\) be a valuation ring of a field \(K\). Let \(U=A^\times\) be the group of invertible elements of \(A\); this is a subgroup of
+\[
+K^\times=K\setminus\{0\}.
+\]
+Set
+\[
+\Gamma:=K^\times/U.
+\]
+For \(\overline x,\overline y\in \Gamma\), represented by \(x,y\in K^\times\), define
+\[
+\overline x \ge \overline y
+\quad \Longleftrightarrow \quad
+xy^{-1}\in A.
+\]
+One wants to show that this gives a total ordering on \(\Gamma\) compatible with the group law, and that if
+\[
+v:K^\times\to \Gamma
+\]
+is the quotient map, then
+\[
+v(x+y)\ge \min(v(x),v(y))
+\qquad
+\text{whenever } x,y\in K^\times,\ x+y\neq 0.
+\]
+
+\subsection{1. The best concrete example}
+
+The standard example is
+\[
+A=k[[t]],
+\qquad
+K=k((t)).
+\]
+
+Here:
+\begin{itemize}
+	\item \(k[[t]]\) is the ring of formal power series,
+	\item \(k((t))\) is the field of Laurent series.
+\end{itemize}
+
+A nonzero element of \(K\) can be written uniquely in the form
+\[
+x=t^n(a_0+a_1t+a_2t^2+\cdots),
+\qquad
+a_0\neq 0,
+\qquad
+n\in \mathbb Z.
+\]
+
+So examples of elements of \(K\) are:
+\[
+t^{-3}(1+t+t^5),
+\qquad
+5t^2(1+2t+7t^4),
+\qquad
+1+t+t^2+\cdots.
+\]
+
+The ring \(A=k[[t]]\) consists of those Laurent series with no negative powers:
+\[
+A=\left\{\sum_{n\ge 0} a_n t^n\right\}.
+\]
+
+Examples:
+\[
+1+t+t^2 \in A,
+\qquad
+t^3+t^7\in A,
+\qquad
+t^{-1}+1\notin A.
+\]
+
+\subsection{2. Why \(k[[t]]\) is a valuation ring}
+
+Take a nonzero Laurent series
+\[
+x=t^n u(t),
+\]
+where \(u(t)\in k[[t]]^\times\) is a unit power series.
+
+Then:
+\begin{itemize}
+	\item if \(n\ge 0\), then \(x\in A\),
+	\item if \(n<0\), then
+	\[
+	x^{-1}=t^{-n}u(t)^{-1}\in A.
+	\]
+\end{itemize}
+
+Therefore for every nonzero \(x\in K\),
+\[
+x\in A
+\quad \text{or} \quad
+x^{-1}\in A.
+\]
+So \(A\) is a valuation ring of \(K\).
+
+\subsection{3. The unit group \(U=A^\times\)}
+
+The units of \(A=k[[t]]\) are exactly the power series with nonzero constant term:
+\[
+U=A^\times
+=
+\left\{
+a_0+a_1t+a_2t^2+\cdots : a_0\neq 0
+\right\}.
+\]
+
+Examples of units:
+\[
+1+t,
+\qquad
+3+5t+t^2,
+\qquad
+1-t+t^3.
+\]
+
+Examples of nonunits:
+\[
+t,
+\qquad
+t^2+t^5,
+\qquad
+0.
+\]
+
+\subsection{4. The quotient group \(\Gamma=K^\times/U\)}
+
+Now we identify two nonzero elements \(x,y\in K^\times\) if they differ by a unit:
+\[
+x\sim y
+\iff
+xy^{-1}\in U.
+\]
+
+Since every nonzero element of \(K\) has a unique expression
+\[
+x=t^n u,
+\qquad u\in U,
+\]
+the class of \(x\) depends only on the exponent \(n\).
+
+Hence
+\[
+\Gamma=K^\times/U \cong \mathbb Z.
+\]
+
+\textbf{Concrete examples.}
+
+\textbf{Example 1.}
+Let
+\[
+x=t^3(1+t),
+\qquad
+y=t^3(1+5t^2).
+\]
+Then
+\[
+xy^{-1}=\frac{1+t}{1+5t^2}\in U,
+\]
+so \(x\) and \(y\) represent the same class in \(\Gamma\). Both correspond to \(3\in\mathbb Z\).
+
+\textbf{Example 2.}
+Let
+\[
+x=t^{-2}(1+t),
+\qquad
+y=t^4(1+t^7).
+\]
+Then \(x\) has class \(-2\), while \(y\) has class \(4\), so they represent different elements of \(\Gamma\).
+
+\subsection{5. The order on \(\Gamma\)}
+
+The problem defines
+\[
+\overline x \ge \overline y
+\quad \Longleftrightarrow \quad
+xy^{-1}\in A.
+\]
+
+Let us compute this in the example. Write
+\[
+x=t^m u,
+\qquad
+y=t^n v,
+\qquad
+u,v\in U.
+\]
+Then
+\[
+xy^{-1}=t^{m-n}(uv^{-1}).
+\]
+
+Since \(uv^{-1}\in U\subseteq A\), the element \(xy^{-1}\) lies in \(A\) if and only if
+\[
+m-n\ge 0.
+\]
+
+Therefore
+\[
+\overline x \ge \overline y
+\iff
+m\ge n.
+\]
+
+So in this concrete example, the order on \(\Gamma\) is just the usual order on \(\mathbb Z\).
+
+\subsection{6. Step-by-step examples of the order}
+
+\textbf{Example A.}
+Take
+\[
+x=t^5(1+t),
+\qquad
+y=t^2(1-t+t^2).
+\]
+Then
+\[
+xy^{-1}
+=
+t^3\cdot \frac{1+t}{1-t+t^2}.
+\]
+Now
+\[
+\frac{1+t}{1-t+t^2}\in U,
+\]
+so \(xy^{-1}\in A\). Hence
+\[
+\overline x \ge \overline y.
+\]
+Indeed, this corresponds to \(5\ge 2\).
+
+\textbf{Example B.}
+Take
+\[
+x=t^{-1}(1+t),
+\qquad
+y=t^2(1+t^3).
+\]
+Then
+\[
+xy^{-1}
+=
+t^{-3}\cdot \frac{1+t}{1+t^3}\notin A,
+\]
+so
+\[
+\overline x \not\ge \overline y.
+\]
+But
+\[
+yx^{-1}
+=
+t^3\cdot \frac{1+t^3}{1+t}\in A,
+\]
+so
+\[
+\overline y \ge \overline x.
+\]
+Indeed, this corresponds to \(2\ge -1\).
+
+\subsection{7. Why this gives a total order}
+
+Take any two classes \(\overline x,\overline y\in \Gamma\). Since \(A\) is a valuation ring, applied to the nonzero element \(xy^{-1}\in K^\times\), either
+\[
+xy^{-1}\in A
+\quad \text{or} \quad
+(xy^{-1})^{-1}=yx^{-1}\in A.
+\]
+Thus either
+\[
+\overline x \ge \overline y
+\quad \text{or} \quad
+\overline y \ge \overline x.
+\]
+
+So the order is total.
+
+In the example \(k[[t]]\subset k((t))\), this is completely transparent because the order is just the usual order on \(\mathbb Z\).
+
+\subsection{8. Why the order is well-defined}
+
+We must check that the relation does not depend on the chosen representatives.
+
+Suppose
+\[
+\overline x=\overline{x'},
+\qquad
+\overline y=\overline{y'}.
+\]
+Then
+\[
+x'=xu,
+\qquad
+y'=yv
+\]
+for some units \(u,v\in U\).
+
+Now
+\[
+x'(y')^{-1}
+=
+xu(v^{-1}y^{-1})
+=
+(xy^{-1})(uv^{-1}).
+\]
+Since
+\[
+uv^{-1}\in U\subseteq A,
+\]
+multiplying by \(uv^{-1}\) does not change whether the element belongs to \(A\). Hence
+\[
+xy^{-1}\in A
+\iff
+x'(y')^{-1}\in A.
+\]
+So the order relation is well-defined on classes.
+
+\subsection{9. Why the order respects the group structure}
+
+Suppose
+\[
+\overline x \ge \overline y.
+\]
+Then
+\[
+xy^{-1}\in A.
+\]
+
+For any \(z\in K^\times\),
+\[
+(xz)(yz)^{-1}
+=
+xzz^{-1}y^{-1}
+=
+xy^{-1}\in A.
+\]
+Therefore
+\[
+\overline{xz}\ge \overline{yz}.
+\]
+
+So the order is compatible with the group law. In additive notation on \(\Gamma\), this becomes:
+\[
+\alpha\ge \beta
+\quad \Longrightarrow \quad
+\alpha+\gamma\ge \beta+\gamma.
+\]
+
+Thus \(\Gamma\) is a totally ordered abelian group.
+
+\subsection{10. The quotient map \(v:K^\times\to \Gamma\)}
+
+Define
+\[
+v:K^\times\to \Gamma,
+\qquad
+v(x)=\overline x.
+\]
+
+In the example \(K=k((t))\), this is exactly the usual \(t\)-adic valuation:
+\[
+v(t^n u)=n.
+\]
+
+Examples:
+\[
+v(t^3(1+t))=3,
+\qquad
+v(t^{-2}(1+t+t^4))=-2,
+\qquad
+v(1+t+t^2)=0.
+\]
+
+\subsection{11. Why \(v(x+y)\ge \min(v(x),v(y))\)}
+
+This is part (b) of the problem.
+
+Take \(x,y\in K^\times\) with
+\[
+x+y\neq 0.
+\]
+
+Assume
+\[
+v(x)\ge v(y).
+\]
+By the definition of the order on \(\Gamma\), this means
+\[
+xy^{-1}\in A.
+\]
+
+Now compute:
+\[
+\frac{x+y}{y}=xy^{-1}+1.
+\]
+Since \(xy^{-1}\in A\) and \(1\in A\), we get
+\[
+xy^{-1}+1\in A.
+\]
+Hence
+\[
+(x+y)y^{-1}\in A.
+\]
+By the definition of the order again, this means
+\[
+v(x+y)\ge v(y).
+\]
+Since \(v(y)=\min(v(x),v(y))\), we conclude
+\[
+v(x+y)\ge \min(v(x),v(y)).
+\]
+
+The case \(v(y)\ge v(x)\) is symmetric.
+
+\subsection{12. Concrete examples of the valuation inequality}
+
+\textbf{Example 1: unequal values.}
+Take
+\[
+x=t^5(1+t),
+\qquad
+y=t^2(1+t^3).
+\]
+Then
+\[
+v(x)=5,
+\qquad
+v(y)=2.
+\]
+So
+\[
+\min(v(x),v(y))=2.
+\]
+
+Now
+\[
+x+y=t^2\bigl((1+t^3)+t^3(1+t)\bigr),
+\]
+so the lowest power of \(t\) in \(x+y\) is still \(t^2\). Therefore
+\[
+v(x+y)=2.
+\]
+Thus
+\[
+v(x+y)=\min(v(x),v(y)).
+\]
+
+\textbf{Example 2: equal values, no cancellation.}
+Take
+\[
+x=t^3(1+t),
+\qquad
+y=t^3(2+t^2).
+\]
+Then
+\[
+v(x)=v(y)=3.
+\]
+Also
+\[
+x+y=t^3(3+t+t^2),
+\]
+so
+\[
+v(x+y)=3.
+\]
+Again,
+\[
+v(x+y)=\min(v(x),v(y)).
+\]
+
+\textbf{Example 3: equal values, cancellation of the lowest term.}
+Take
+\[
+x=t^2,
+\qquad
+y=-t^2+t^5.
+\]
+Then
+\[
+v(x)=2,
+\qquad
+v(y)=2.
+\]
+But
+\[
+x+y=t^5,
+\]
+so
+\[
+v(x+y)=5.
+\]
+Thus
+\[
+v(x+y)=5 > 2=\min(v(x),v(y)).
+\]
+
+This shows that the inequality can be strict.
+
+\subsection{13. The same picture in two other standard examples}
+
+\textbf{Example: \(\mathbb Z_{(p)}\subset \mathbb Q\).}
+Every nonzero rational number can be written uniquely as
+\[
+x=p^n\frac ab,
+\qquad
+p\nmid a,b.
+\]
+The units of \(\mathbb Z_{(p)}\) are exactly the fractions with \(n=0\). Therefore
+\[
+\Gamma\cong \mathbb Z,
+\qquad
+v(x)=n=v_p(x).
+\]
+
+For instance, if \(p=5\), then
+\[
+v_5\!\left(\frac{25}{6}\right)=2.
+\]
+
+\textbf{Example: \(k[x]_{(x)}\subset k(x)\).}
+Every nonzero rational function can be written as
+\[
+x^n\frac{f(x)}{g(x)}
+\]
+with
+\[
+f(0)\neq 0,
+\qquad
+g(0)\neq 0.
+\]
+Then
+\[
+v(r)=n.
+\]
+Again the value group is \(\mathbb Z\).
+
+So the three standard examples
+\[
+k[[t]]\subset k((t)),
+\qquad
+\mathbb Z_{(p)}\subset \mathbb Q,
+\qquad
+k[x]_{(x)}\subset k(x)
+\]
+all yield the same abstract ordered group \(\mathbb Z\), although the rings themselves are different.
+
+\subsection{14. Main intuition}
+
+In all these examples:
+\begin{itemize}
+	\item the units \(U\) are exactly the elements of value \(0\),
+	\item the quotient group
+	\[
+	\Gamma=K^\times/U
+	\]
+	remembers only the value and forgets the unit part,
+	\item the order on \(\Gamma\) is defined by
+	\[
+	\overline x \ge \overline y
+	\iff
+	xy^{-1}\in A,
+	\]
+	\item the quotient map
+	\[
+	v:K^\times\to \Gamma
+	\]
+	is the valuation map.
+\end{itemize}
+
+For \(k[[t]]\), this simply means:
+\begin{quote}
+	strip off the unit, and remember only the exponent of \(t\).
+\end{quote}
+
+\subsection{15. Final compact summary of Problem 6}
+
+Let \(A\) be a valuation ring of a field \(K\), let \(U=A^\times\), and let
+\[
+\Gamma=K^\times/U.
+\]
+
+\textbf{Part (a).}
+Define
+\[
+\overline x \ge \overline y
+\iff
+xy^{-1}\in A.
+\]
+Then this relation is:
+\begin{itemize}
+	\item well-defined,
+	\item total,
+	\item compatible with the group law.
+\end{itemize}
+Hence \(\Gamma\) becomes a totally ordered abelian group.
+
+\textbf{Part (b).}
+Let
+\[
+v:K^\times\to \Gamma,
+\qquad
+v(x)=\overline x.
+\]
+Then for all \(x,y\in K^\times\) with \(x+y\neq 0\),
+\[
+v(x+y)\ge \min(v(x),v(y)).
+\]
+
+So the quotient map is a valuation in the usual sense.
+
+\subsection{16. Conceptual conclusion}
+
+Problem 6 shows that every valuation ring naturally produces:
+\begin{itemize}
+	\item a totally ordered abelian group \(\Gamma\),
+	\item a valuation map
+	\[
+	v:K^\times\to \Gamma,
+	\]
+	\item and the fundamental inequality
+	\[
+	v(x+y)\ge \min(v(x),v(y)).
+	\]
+\end{itemize}
+
+Thus one can pass from
+\[
+\text{valuation ring}
+\quad \longrightarrow \quad
+\text{value group and valuation}.
+\]
+Later, one also goes in the opposite direction: starting from a valuation \(v\), one recovers the valuation ring
+\[
+A_v=\{x\in K^\times : v(x)\ge 0\}\cup\{0\}.
+\]
+This is exactly the content of the next problem.
+
+\section{The inverse direction: from a valuation to a valuation ring}
+
+\textbf{Goal.}
+In the previous direction, one starts with a valuation ring \(A\subseteq K\), forms the quotient group
+\[
+\Gamma=K^\times/A^\times,
+\]
+and obtains a valuation
+\[
+v:K^\times\to \Gamma.
+\]
+
+Now we explain the converse construction: starting from a valuation
+\[
+v:K^\times\to \Gamma,
+\]
+we recover a valuation ring
+\[
+A_v=\{x\in K^\times : v(x)\ge 0\}\cup\{0\}.
+\]
+
+This is exactly the content of Problem 7.
+
+\subsection{1. Start with a valuation}
+
+Let \(K\) be a field, let \(\Gamma\) be a totally ordered abelian group, and let
+\[
+v:K^\times\to \Gamma
+\]
+be a map satisfying the following two axioms.
+
+\textbf{Multiplicativity:}
+\[
+v(xy)=v(x)+v(y)
+\qquad
+\text{for all }x,y\in K^\times.
+\]
+
+\textbf{Ultrametric inequality:}
+\[
+v(x+y)\ge \min(v(x),v(y))
+\qquad
+\text{whenever }x,y\in K^\times,\ x+y\neq 0.
+\]
+
+Usually one also extends \(v\) by defining
+\[
+v(0)=\infty,
+\]
+but for the basic construction it is enough to work on \(K^\times\).
+
+\subsection{2. Define the ring attached to the valuation}
+
+From \(v\), define
+\[
+A_v:=\{x\in K^\times : v(x)\ge 0\}\cup\{0\}.
+\]
+
+Thus \(A_v\) contains exactly:
+\begin{itemize}
+	\item all nonzero elements of \(K\) having nonnegative value,
+	\item together with \(0\).
+\end{itemize}
+
+Also define
+\[
+\mathfrak m_v:=\{x\in K^\times : v(x)>0\}\cup\{0\}.
+\]
+
+We will show:
+\begin{itemize}
+	\item \(A_v\) is a subring of \(K\),
+	\item \(A_v\) is a valuation ring,
+	\item \(\mathfrak m_v\) is the unique maximal ideal of \(A_v\).
+\end{itemize}
+
+\subsection{3. Why \(A_v\) is a ring}
+
+Take \(x,y\in A_v\). Then by definition
+\[
+v(x)\ge 0,
+\qquad
+v(y)\ge 0.
+\]
+
+\textbf{Multiplication.}
+By multiplicativity,
+\[
+v(xy)=v(x)+v(y)\ge 0.
+\]
+Hence
+\[
+xy\in A_v.
+\]
+
+\textbf{Addition.}
+If \(x+y\neq 0\), then by the valuation inequality,
+\[
+v(x+y)\ge \min(v(x),v(y))\ge 0.
+\]
+Hence
+\[
+x+y\in A_v.
+\]
+If \(x+y=0\), then of course \(x+y\in A_v\) because \(0\in A_v\).
+
+So \(A_v\) is closed under addition and multiplication. Since \(0,1\in A_v\), it is a subring of \(K\).
+
+\subsection{4. Why \(1\in A_v\)}
+
+Since
+\[
+v(1)=v(1\cdot 1)=v(1)+v(1),
+\]
+subtracting \(v(1)\) from both sides gives
+\[
+v(1)=0.
+\]
+Thus
+\[
+1\in A_v.
+\]
+
+Similarly, for every \(x\in K^\times\),
+\[
+v(x^{-1})=-v(x),
+\]
+because
+\[
+0=v(1)=v(xx^{-1})=v(x)+v(x^{-1}).
+\]
+
+\subsection{5. Why \(A_v\) is a valuation ring}
+
+Take any nonzero \(x\in K\). Since \(\Gamma\) is totally ordered, either
+\[
+v(x)\ge 0
+\]
+or
+\[
+v(x)<0.
+\]
+
+If \(v(x)\ge 0\), then by definition
+\[
+x\in A_v.
+\]
+
+If \(v(x)<0\), then
+\[
+v(x^{-1})=-v(x)>0,
+\]
+so in particular
+\[
+x^{-1}\in A_v.
+\]
+
+Therefore for every \(x\in K^\times\),
+\[
+x\in A_v
+\quad \text{or} \quad
+x^{-1}\in A_v.
+\]
+This is exactly the defining property of a valuation ring.
+
+\subsection{6. The maximal ideal \(\mathfrak m_v\)}
+
+Define
+\[
+\mathfrak m_v:=\{x\in K^\times : v(x)>0\}\cup\{0\}.
+\]
+
+We now show that this is the maximal ideal of \(A_v\).
+
+\subsection{7. Units of \(A_v\)}
+
+An element \(x\in A_v\) is a unit if and only if
+\[
+v(x)=0.
+\]
+
+\textbf{Proof.}
+
+\emph{If \(v(x)=0\):} then
+\[
+v(x^{-1})=-v(x)=0,
+\]
+so \(x^{-1}\in A_v\). Hence \(x\) is invertible in \(A_v\).
+
+\emph{If \(v(x)>0\):} then
+\[
+v(x^{-1})=-v(x)<0,
+\]
+so \(x^{-1}\notin A_v\). Hence \(x\) is not a unit.
+
+Thus the units of \(A_v\) are exactly the elements of value \(0\).
+
+Therefore the nonunits are exactly
+\[
+\mathfrak m_v=\{x\in K^\times : v(x)>0\}\cup\{0\}.
+\]
+
+Since in a local ring the set of nonunits is the unique maximal ideal, it follows that \(\mathfrak m_v\) is the unique maximal ideal of \(A_v\).
+
+\subsection{8. Why \(\mathfrak m_v\) is an ideal}
+
+Let \(x,y\in \mathfrak m_v\). Then
+\[
+v(x)>0,
+\qquad
+v(y)>0.
+\]
+
+If \(x+y\neq 0\), then
+\[
+v(x+y)\ge \min(v(x),v(y))>0,
+\]
+so
+\[
+x+y\in \mathfrak m_v.
+\]
+And of course if \(x+y=0\), then \(x+y\in \mathfrak m_v\).
+
+Now let \(a\in A_v\) and \(x\in \mathfrak m_v\). Then
+\[
+v(a)\ge 0,
+\qquad
+v(x)>0,
+\]
+so
+\[
+v(ax)=v(a)+v(x)>0.
+\]
+Hence
+\[
+ax\in \mathfrak m_v.
+\]
+
+Thus \(\mathfrak m_v\) is indeed an ideal of \(A_v\).
+
+\subsection{9. First concrete example: the \(t\)-adic valuation}
+
+Take
+\[
+K=k((t)),
+\qquad
+\Gamma=\mathbb Z,
+\]
+and define
+\[
+v\!\left(\sum_{n\ge N} a_n t^n\right)=N
+\]
+for a nonzero Laurent series.
+
+So \(v(x)\) is the smallest exponent of \(t\) appearing in \(x\).
+
+Examples:
+\[
+v(t^3+t^5)=3,
+\qquad
+v(t^{-2}+1)=-2,
+\qquad
+v(1+t+t^7)=0.
+\]
+
+Now form
+\[
+A_v=\{x\in K^\times : v(x)\ge 0\}\cup\{0\}.
+\]
+
+This means all Laurent series with no negative powers of \(t\). Hence
+\[
+A_v=k[[t]].
+\]
+
+Its maximal ideal is
+\[
+\mathfrak m_v=\{x : v(x)>0\}\cup\{0\}=(t).
+\]
+
+So from the valuation \(v\) we recover the familiar valuation ring \(k[[t]]\).
+
+\subsection{10. Second concrete example: the \(p\)-adic valuation}
+
+Take
+\[
+K=\mathbb Q,
+\qquad
+\Gamma=\mathbb Z,
+\]
+and fix a prime number \(p\).
+
+Every nonzero rational number can be written uniquely as
+\[
+x=p^n\frac ab,
+\qquad
+p\nmid a,b.
+\]
+Define
+\[
+v_p(x)=n.
+\]
+
+Then:
+\[
+v_p(25/6)=2 \quad \text{if } p=5,
+\]
+because
+\[
+\frac{25}{6}=5^2\cdot \frac{1}{6}.
+\]
+
+Now define
+\[
+A_v=\{x\in \mathbb Q : v_p(x)\ge 0\}.
+\]
+This is exactly
+\[
+\mathbb Z_{(p)}.
+\]
+
+The maximal ideal is
+\[
+\mathfrak m_v=\{x : v_p(x)>0\}=p\mathbb Z_{(p)}.
+\]
+
+Thus the \(p\)-adic valuation reconstructs the local ring \(\mathbb Z_{(p)}\).
+
+\subsection{11. Third concrete example: order of vanishing at \(x=0\)}
+
+Take
+\[
+K=k(x),
+\qquad
+\Gamma=\mathbb Z.
+\]
+
+Every nonzero rational function can be written uniquely as
+\[
+r(x)=x^n\frac{f(x)}{g(x)},
+\qquad
+f(0)\neq 0,\ g(0)\neq 0.
+\]
+Define
+\[
+v(r)=n.
+\]
+
+This measures the order of vanishing at \(x=0\):
+\begin{itemize}
+	\item \(v(r)>0\): zero at \(0\),
+	\item \(v(r)=0\): neither zero nor pole at \(0\),
+	\item \(v(r)<0\): pole at \(0\).
+\end{itemize}
+
+Then
+\[
+A_v=\{r(x)\in k(x): v(r)\ge 0\}=k[x]_{(x)},
+\]
+and
+\[
+\mathfrak m_v=(x).
+\]
+
+So once again the valuation gives back the valuation ring.
+
+\subsection{12. Why this is the inverse of the previous construction}
+
+In the previous direction, starting from a valuation ring \(A\subseteq K\), one formed:
+\begin{itemize}
+	\item the unit group \(U=A^\times\),
+	\item the quotient group
+	\[
+	\Gamma=K^\times/U,
+	\]
+	\item and the quotient map
+	\[
+	v:K^\times\to \Gamma.
+	\]
+\end{itemize}
+
+Now, starting from a valuation
+\[
+v:K^\times\to \Gamma,
+\]
+we define
+\[
+A_v=\{x : v(x)\ge 0\}\cup\{0\}.
+\]
+
+So the two constructions are inverse in spirit:
+
+\[
+\text{valuation ring } A
+\longrightarrow
+\text{value group and valuation } v
+\longrightarrow
+\text{valuation ring } A_v.
+\]
+
+This is why one often speaks almost interchangeably of:
+\begin{itemize}
+	\item a valuation ring,
+	\item a valuation.
+\end{itemize}
+
+\subsection{13. Units, maximal ideal, and sign of the value}
+
+Inside \(A_v\), the sign of \(v(x)\) has the following meaning:
+
+\begin{itemize}
+	\item \(v(x)>0\) means \(x\in \mathfrak m_v\),
+	\item \(v(x)=0\) means \(x\in A_v^\times\),
+	\item \(v(x)<0\) means \(x\notin A_v\), but \(x^{-1}\in \mathfrak m_v\cup A_v\).
+\end{itemize}
+
+So the valuation divides elements into three types:
+\begin{itemize}
+	\item strictly positive value: nonunits inside the maximal ideal,
+	\item zero value: units,
+	\item negative value: elements outside the ring.
+\end{itemize}
+
+\subsection{14. Compact summary picture}
+
+A valuation
+\[
+v:K^\times\to \Gamma
+\]
+gives the valuation ring
+\[
+A_v=\{x:v(x)\ge 0\}\cup\{0\},
+\]
+with maximal ideal
+\[
+\mathfrak m_v=\{x:v(x)>0\}\cup\{0\}.
+\]
+
+Thus:
+\[
+\begin{array}{ccl}
+	v(x)>0 &\Longleftrightarrow& x\in \mathfrak m_v,\\[1mm]
+	v(x)=0 &\Longleftrightarrow& x\in A_v^\times,\\[1mm]
+	v(x)<0 &\Longleftrightarrow& x\notin A_v.
+\end{array}
+\]
+
+\subsection{15. Final summary}
+
+Starting from a valuation
+\[
+v:K^\times\to \Gamma,
+\]
+one defines
+\[
+A_v=\{x\in K^\times : v(x)\ge 0\}\cup\{0\}.
+\]
+
+Then:
+\begin{itemize}
+	\item \(A_v\) is a subring of \(K\),
+	\item \(A_v\) is a valuation ring,
+	\item its unique maximal ideal is
+	\[
+	\mathfrak m_v=\{x\in K^\times : v(x)>0\}\cup\{0\},
+	\]
+	\item and its units are exactly the elements of valuation \(0\).
+\end{itemize}
+
+This is the converse to the previous construction from a valuation ring to its ordered value group. Together, the two directions show that valuations and valuation rings are two aspects of the same structure.
+
+\section{Group rings, ordered abelian groups, and valuations: theory and concrete examples}
+
+\textbf{Goal.}
+Problem 8 gives a general construction
+\[
+\text{ordered abelian group } \Gamma
+\longrightarrow
+\text{group ring } k[\Gamma]
+\longrightarrow
+\text{valuation } v_0
+\longrightarrow
+\text{valuation on } \Frac(k[\Gamma]).
+\]
+This is one of the fundamental bridges in valuation theory.
+
+We now explain the construction carefully, with concrete examples and step-by-step computations.
+
+\subsection{1. The group ring \(k[\Gamma]\)}
+
+Let \(k\) be a field and let \(\Gamma\) be an abelian group.
+
+\textbf{Definition.}
+The \emph{group ring} \(k[\Gamma]\) is the \(k\)-vector space with basis
+\[
+\{z^\gamma : \gamma\in \Gamma\},
+\]
+and multiplication determined by
+\[
+z^\gamma z^\delta = z^{\gamma+\delta}.
+\]
+
+So a general element of \(k[\Gamma]\) is a finite sum
+\[
+f=\sum_{i\in I} a_i z^{\gamma_i},
+\qquad
+a_i\in k,\ a_i\neq 0,
+\]
+where \(I\) is finite and \(\gamma_i\in \Gamma\).
+
+\textbf{Important point.}
+This is like a polynomial ring, except that the exponents come from the group \(\Gamma\), not just from \(\mathbb Z_{\ge 0}\).
+
+\subsection{2. Concrete examples of group rings}
+
+\textbf{Example 1: \(\Gamma=\mathbb Z\).}
+Then the basis elements are
+\[
+\dots,\ z^{-2},\ z^{-1},\ 1,\ z,\ z^2,\dots
+\]
+and
+\[
+z^m z^n = z^{m+n}.
+\]
+So
+\[
+k[\mathbb Z]\cong k[z,z^{-1}],
+\]
+the Laurent polynomial ring in one variable.
+
+Typical elements are
+\[
+3z^{-2}+5+7z^4,
+\qquad
+z^{-10}-2z^3.
+\]
+
+\textbf{Example 2: \(\Gamma=\mathbb Z^2\).}
+Now the basis elements are \(z^{(a,b)}\) for \((a,b)\in\mathbb Z^2\), and
+\[
+z^{(a,b)}z^{(c,d)} = z^{(a+c,b+d)}.
+\]
+If we define
+\[
+x=z^{(1,0)},
+\qquad
+y=z^{(0,1)},
+\]
+then
+\[
+z^{(a,b)}=x^a y^b,
+\]
+so
+\[
+k[\mathbb Z^2]\cong k[x^{\pm1},y^{\pm1}],
+\]
+the Laurent polynomial ring in two variables.
+
+Typical elements are
+\[
+3x^{-1}y^2 + 5x^3y^{-4} - 7.
+\]
+
+\textbf{Example 3: \(\Gamma=\mathbb Q\).}
+Then the basis elements are \(z^q\) for \(q\in\mathbb Q\), with multiplication
+\[
+z^q z^r = z^{q+r}.
+\]
+A typical element is
+\[
+2z^{1/3} - 5z^{-7/2} + z^{10}.
+\]
+So \(k[\mathbb Q]\) looks like a Laurent polynomial ring with rational exponents, but only finite sums are allowed.
+
+\subsection{3. Why the order on \(\Gamma\) matters}
+
+Problem 8 assumes that \(\Gamma\) is a totally ordered abelian group.
+
+This means:
+\begin{itemize}
+	\item \(\Gamma\) is an abelian group,
+	\item \(\Gamma\) has a total order \(\le\),
+	\item the order is compatible with addition:
+	\[
+	\alpha\le \beta \implies \alpha+\gamma\le \beta+\gamma.
+	\]
+\end{itemize}
+
+This order is crucial because for a nonzero finite sum
+\[
+f=\sum_i a_i z^{\gamma_i},
+\]
+we want to define the \emph{smallest exponent}
+\[
+v_0(f)=\min\{\gamma_i : a_i\neq 0\}.
+\]
+
+Without an order, the notion of ``minimum exponent'' does not make sense.
+
+\subsection{4. Why \(k[\Gamma]\) is an integral domain}
+
+Assume now that \(\Gamma\) is a totally ordered abelian group.
+
+Take two nonzero elements
+\[
+f=\sum_i a_i z^{\gamma_i},
+\qquad
+g=\sum_j b_j z^{\delta_j}
+\]
+in \(k[\Gamma]\).
+
+Since the supports are finite and \(\Gamma\) is totally ordered, we may define
+\[
+\alpha=\min\{\gamma_i\},
+\qquad
+\beta=\min\{\delta_j\}.
+\]
+
+Every exponent appearing in the product \(fg\) has the form
+\[
+\gamma_i+\delta_j.
+\]
+Because \(\gamma_i\ge \alpha\) and \(\delta_j\ge \beta\), we get
+\[
+\gamma_i+\delta_j\ge \alpha+\beta.
+\]
+
+So the smallest possible exponent in \(fg\) is \(\alpha+\beta\). This exponent actually occurs, namely from the product of the terms
+\[
+a_\alpha z^\alpha
+\qquad \text{and} \qquad
+b_\beta z^\beta.
+\]
+Its coefficient is
+\[
+a_\alpha b_\beta\neq 0,
+\]
+because \(k\) is a field.
+
+Therefore
+\[
+fg\neq 0.
+\]
+
+Hence
+\[
+k[\Gamma] \text{ is an integral domain.}
+\]
+
+\subsection{5. Concrete proof in examples}
+
+\textbf{Example 1: \(\Gamma=\mathbb Z\).}
+Take
+\[
+f=3z^{-2}+5z+7z^4,
+\qquad
+g=2z^3-z^5.
+\]
+The smallest exponent in \(f\) is \(-2\), and in \(g\) it is \(3\). So the smallest exponent in \(fg\) is
+\[
+-2+3=1.
+\]
+Indeed, the lowest term comes from
+\[
+(3z^{-2})(2z^3)=6z.
+\]
+No other product can produce a smaller exponent. Hence \(fg\neq 0\).
+
+\textbf{Example 2: \(\Gamma=\mathbb Z^2\) with lexicographic order.}
+Take
+\[
+f = 2z^{(0,3)} + 5z^{(1,-1)} + z^{(4,0)},
+\]
+\[
+g = 7z^{(-2,5)} - z^{(0,0)}.
+\]
+The smallest exponent of \(f\) is
+\[
+(0,3),
+\]
+and the smallest exponent of \(g\) is
+\[
+(-2,5),
+\]
+since \((-2,5)<(0,0)\) in lexicographic order. Therefore the smallest exponent in \(fg\) is
+\[
+(0,3)+(-2,5)=(-2,8),
+\]
+with coefficient
+\[
+2\cdot 7=14\neq 0.
+\]
+So again \(fg\neq 0\).
+
+\subsection{6. The valuation \(v_0\) on \(A\setminus\{0\}\)}
+
+Let
+\[
+A=k[\Gamma].
+\]
+For a nonzero element
+\[
+f=\sum_{i\in I} a_i z^{\gamma_i},
+\]
+define
+\[
+v_0(f)=\min\{\gamma_i : i\in I\}.
+\]
+
+Thus \(v_0(f)\) is the smallest exponent occurring in \(f\).
+
+This is completely analogous to:
+\begin{itemize}
+	\item the lowest degree of a Laurent polynomial,
+	\item the first nonzero term of a series,
+	\item the order of vanishing.
+\end{itemize}
+
+\subsection{7. Concrete examples of \(v_0\)}
+
+\textbf{Example 1: \(\Gamma=\mathbb Z\).}
+If
+\[
+f=3z^{-2}+5+7z^4,
+\]
+then
+\[
+v_0(f)=-2.
+\]
+If
+\[
+g=z^3+2z^5,
+\]
+then
+\[
+v_0(g)=3.
+\]
+
+\textbf{Example 2: \(\Gamma=\mathbb Z^2_{\mathrm{lex}}\).}
+If
+\[
+f=z^{(1,5)}+3z^{(2,-1)}+7z^{(2,4)},
+\]
+then the smallest exponent is
+\[
+(1,5),
+\]
+so
+\[
+v_0(f)=(1,5).
+\]
+
+\textbf{Example 3: \(\Gamma=\mathbb Q\).}
+If
+\[
+f=2z^{-3/2}+7z^{1/5}-z^4,
+\]
+then
+\[
+v_0(f)=-\frac32.
+\]
+
+\subsection{8. Why \(v_0(fg)=v_0(f)+v_0(g)\)}
+
+Let
+\[
+f=\sum a_i z^{\gamma_i},
+\qquad
+g=\sum b_j z^{\delta_j}.
+\]
+Put
+\[
+\alpha=v_0(f),
+\qquad
+\beta=v_0(g).
+\]
+As already shown in the proof that \(k[\Gamma]\) is a domain, the smallest exponent in the product is \(\alpha+\beta\). Hence
+\[
+v_0(fg)=\alpha+\beta=v_0(f)+v_0(g).
+\]
+
+So \(v_0\) satisfies the multiplicative valuation property.
+
+\textbf{Concrete example.}
+Take
+\[
+f=3z^{-2}+5+z^7,
+\qquad
+g=2z^3-z^9.
+\]
+Then
+\[
+v_0(f)=-2,
+\qquad
+v_0(g)=3.
+\]
+The lowest term of the product is
+\[
+(3z^{-2})(2z^3)=6z,
+\]
+so
+\[
+v_0(fg)=1=(-2)+3.
+\]
+
+\subsection{9. Why \(v_0(f+g)\ge \min(v_0(f),v_0(g))\)}
+
+Take nonzero \(f,g\in A\) with \(f+g\neq 0\). Then no exponent smaller than both \(v_0(f)\) and \(v_0(g)\) can appear in \(f+g\). Therefore
+\[
+v_0(f+g)\ge \min(v_0(f),v_0(g)).
+\]
+
+The key phenomenon is that lowest terms may cancel, which makes the value go up, but it can never go down.
+
+\textbf{Example where equality holds.}
+Take
+\[
+f=z^2+3z^5,
+\qquad
+g=z^4-z^7.
+\]
+Then
+\[
+v_0(f)=2,
+\qquad
+v_0(g)=4.
+\]
+So
+\[
+\min(v_0(f),v_0(g))=2.
+\]
+And
+\[
+f+g=z^2+z^4+3z^5-z^7,
+\]
+so
+\[
+v_0(f+g)=2.
+\]
+
+\textbf{Example where the inequality is strict.}
+Take
+\[
+f=z,
+\qquad
+g=-z+z^3.
+\]
+Then
+\[
+v_0(f)=1,
+\qquad
+v_0(g)=1.
+\]
+But
+\[
+f+g=z^3,
+\]
+so
+\[
+v_0(f+g)=3>1.
+\]
+
+\subsection{10. Passing to the fraction field}
+
+Since \(A=k[\Gamma]\) is an integral domain, it has a field of fractions. Let
+\[
+F=\Frac(A).
+\]
+
+Every nonzero element of \(F\) can be written as
+\[
+x=\frac{f}{g},
+\qquad
+f,g\in A,\ g\neq 0.
+\]
+
+Define
+\[
+v(x)=v_0(f)-v_0(g).
+\]
+
+This extends \(v_0\) from \(A\setminus\{0\}\) to all of \(F^\times\).
+
+\subsection{11. Why the extension is well-defined}
+
+Suppose
+\[
+\frac{f}{g}=\frac{f'}{g'}.
+\]
+Then
+\[
+fg'=f'g.
+\]
+Applying \(v_0\), we obtain
+\[
+v_0(f)+v_0(g')=v_0(f')+v_0(g).
+\]
+Rearranging gives
+\[
+v_0(f)-v_0(g)=v_0(f')-v_0(g').
+\]
+So the value of \(x\) does not depend on the chosen representation.
+
+Thus \(v:F^\times\to \Gamma\) is well-defined.
+
+\subsection{12. Why \(v\) is a valuation on \(\Frac(A)\)}
+
+Let
+\[
+x=\frac{f}{g},
+\qquad
+y=\frac{h}{\ell}.
+\]
+
+Then
+\[
+xy=\frac{fh}{g\ell},
+\]
+so
+\[
+v(xy)=v_0(fh)-v_0(g\ell).
+\]
+Using the multiplicativity of \(v_0\),
+\[
+v(xy)=(v_0(f)+v_0(h))-(v_0(g)+v_0(\ell))
+=v(x)+v(y).
+\]
+
+Similarly, one proves
+\[
+v(x+y)\ge \min(v(x),v(y))
+\qquad
+\text{whenever }x+y\neq 0.
+\]
+So \(v\) is a genuine valuation on \(\Frac(A)\) with value group \(\Gamma\).
+
+\subsection{13. Fully concrete example: \(\Gamma=\mathbb Z\)}
+
+Let
+\[
+A=k[\mathbb Z]=k[z,z^{-1}],
+\qquad
+F=\Frac(A)=k(z).
+\]
+
+If
+\[
+f=3z^{-2}+5+7z^4,
+\]
+then
+\[
+v_0(f)=-2.
+\]
+
+Now take
+\[
+x=\frac{z^{-3}+2}{z^5-z^7}.
+\]
+The numerator has lowest exponent \(-3\), and the denominator has lowest exponent \(5\). Therefore
+\[
+v(x)=-3-5=-8.
+\]
+
+This is exactly the ``lowest power of \(z\)'' valuation.
+
+The corresponding valuation ring is
+\[
+A_v=\{x\in k(z): v(x)\ge 0\}\cup\{0\}.
+\]
+This is the ring of rational functions having no pole at \(z=0\), namely
+\[
+k[z]_{(z)}.
+\]
+Its maximal ideal is
+\[
+(z).
+\]
+
+So from the ordered group \(\mathbb Z\), we recover the usual order-of-vanishing valuation at \(0\).
+
+\subsection{14. Example: \(\Gamma=\mathbb Z^2_{\mathrm{lex}}\)}
+
+Now let
+\[
+\Gamma=\mathbb Z^2
+\]
+with lexicographic order. Then
+\[
+A=k[\Gamma]\cong k[x^{\pm1},y^{\pm1}].
+\]
+
+A nonzero Laurent polynomial
+\[
+f=\sum a_{m,n}x^m y^n
+\]
+has valuation
+\[
+v_0(f)=\min\{(m,n): a_{m,n}\neq 0\}
+\]
+with respect to lexicographic order.
+
+So we first compare powers of \(x\), and only if those are equal do we compare powers of \(y\).
+
+\textbf{Concrete example.}
+Let
+\[
+f=3x^{-1}y^4 + 2x^{-1}y^7 + 5x^2y^{-3}.
+\]
+The exponents are
+\[
+(-1,4),\quad (-1,7),\quad (2,-3).
+\]
+In lexicographic order the smallest is
+\[
+(-1,4),
+\]
+so
+\[
+v_0(f)=(-1,4).
+\]
+
+This produces a valuation with value group \(\mathbb Z^2_{\mathrm{lex}}\), hence a higher-rank valuation.
+
+\subsection{15. Example: \(\Gamma=\mathbb Q\)}
+
+Let
+\[
+\Gamma=\mathbb Q
+\]
+with the usual order.
+
+Then \(k[\mathbb Q]\) consists of finite sums such as
+\[
+2z^{-3/2}+5z^{1/7}-z^{10}.
+\]
+The valuation is again the smallest exponent:
+\[
+v_0\!\left(2z^{-3/2}+5z^{1/7}-z^{10}\right)=-\frac32.
+\]
+
+The fraction field carries a valuation with value group \(\mathbb Q\).
+
+This is important because \(\mathbb Q\) is ordered but not discrete: there is no smallest positive rational number. Thus the resulting valuation ring is not a DVR, and its maximal ideal is not principal.
+
+So this is a very good example showing that valuation rings can be much more general than discrete valuation rings.
+
+\subsection{16. Why this theory is deep}
+
+Problem 8 shows that every totally ordered abelian group can occur as a value group.
+
+This is a major structural fact:
+\begin{itemize}
+	\item \(\mathbb Z\) gives ordinary discrete valuations,
+	\item \(\mathbb Z^2_{\mathrm{lex}}\) gives higher-rank valuations,
+	\item \(\mathbb Q\) gives non-discrete valuations,
+	\item and more complicated ordered groups produce even richer valuation behavior.
+\end{itemize}
+
+So valuation theory is not restricted to \(\mathbb Z\)-valued order functions.
+
+\subsection{17. Conceptual summary}
+
+Starting from an ordered abelian group \(\Gamma\):
+
+\textbf{Step 1.}
+Build the group ring
+\[
+A=k[\Gamma].
+\]
+
+\textbf{Step 2.}
+Define on \(A\setminus\{0\}\) the function
+\[
+v_0(f)=\min\Supp(f).
+\]
+
+\textbf{Step 3.}
+This satisfies
+\[
+v_0(fg)=v_0(f)+v_0(g),
+\qquad
+v_0(f+g)\ge \min(v_0(f),v_0(g)).
+\]
+
+\textbf{Step 4.}
+Extend to the fraction field
+\[
+F=\Frac(k[\Gamma])
+\]
+by
+\[
+v\!\left(\frac{f}{g}\right)=v_0(f)-v_0(g).
+\]
+
+\textbf{Step 5.}
+This gives a valuation on \(F\) with value group \(\Gamma\).
+
+So Problem 8 is a general machine for producing valuations from ordered groups.
+
+\subsection{18. Final big picture}
+
+Problem 6 showed:
+\[
+\text{valuation ring}
+\longrightarrow
+\text{ordered value group}.
+\]
+
+Problem 7 showed:
+\[
+\text{valuation}
+\longrightarrow
+\text{valuation ring}.
+\]
+
+Problem 8 now shows:
+\[
+\text{ordered abelian group}
+\longrightarrow
+\text{valuation}.
+\]
+
+Thus together they form the chain
+\[
+\text{ordered abelian group}
+\longrightarrow
+\text{valuation}
+\longrightarrow
+\text{valuation ring}.
+\]
+
+This is why Problem 8 is so important in the general theory.
+
+\subsection{19. Final summary}
+
+\begin{itemize}
+	\item The group ring \(k[\Gamma]\) consists of finite sums \(\sum a_\gamma z^\gamma\).
+	\item If \(\Gamma\) is totally ordered, the smallest exponent defines
+	\[
+	v_0(f)=\min\Supp(f).
+	\]
+	\item This function satisfies the valuation properties on \(k[\Gamma]\setminus\{0\}\).
+	\item Since \(k[\Gamma]\) is a domain, \(v_0\) extends to \(\Frac(k[\Gamma])\).
+	\item Therefore every totally ordered abelian group occurs as a value group of a valuation.
+\end{itemize}	
+	
+	
+\section{Zero sets, ideals of subsets, and the image under valuation: the case \(I=(1+x+y)\)}
+
+\textbf{Goal.}
+We first recall the definitions of \(Z(I)\) and \(I(X)\), then give concrete examples, and finally determine the image of
+\[
+Z(I)\cap (K^\times)^2
+\]
+under the map
+\[
+(K^\times)^2\to \mathbb R^2,
+\qquad
+(a,b)\mapsto (v(a),v(b)),
+\]
+for
+\[
+I=(1+x+y)\subset K[x,y],
+\]
+where \(K\) is the valued field constructed from the ordered group \(\Gamma=\mathbb R\).
+
+\subsection{1. Definitions of \(Z(I)\) and \(I(X)\)}
+
+Let
+\[
+A=k[x_1,\dots,x_n].
+\]
+
+\textbf{Zero set of an ideal.}
+If \(I\subseteq A\) is an ideal, define
+\[
+Z(I):=\{(a_1,\dots,a_n)\in k^n : f(a_1,\dots,a_n)=0 \text{ for all } f\in I\}.
+\]
+
+So \(Z(I)\) is the set of all common zeros of all polynomials in the ideal \(I\).
+
+\medskip
+
+\textbf{Ideal of a subset.}
+If \(X\subseteq k^n\), define
+\[
+I(X):=\{f\in A : f(a_1,\dots,a_n)=0 \text{ for all } (a_1,\dots,a_n)\in X\}.
+\]
+
+So \(I(X)\) is the ideal of all polynomials vanishing on the set \(X\).
+
+\subsection{2. Concrete examples of \(Z(I)\) and \(I(X)\)}
+
+\textbf{Example 1: \(I=(x)\subseteq k[x,y]\).}
+Then
+\[
+Z(I)=\{(a,b)\in k^2 : a=0\}.
+\]
+So this is the \(y\)-axis.
+
+\medskip
+
+\textbf{Example 2: \(I=(y)\subseteq k[x,y]\).}
+Then
+\[
+Z(I)=\{(a,b)\in k^2 : b=0\}.
+\]
+So this is the \(x\)-axis.
+
+\medskip
+
+\textbf{Example 3: \(I=(xy)\subseteq k[x,y]\).}
+Then
+\[
+Z(I)=\{(a,b)\in k^2 : ab=0\}.
+\]
+Thus
+\[
+Z(I)=Z(x)\cup Z(y),
+\]
+the union of the two coordinate axes.
+
+\medskip
+
+\textbf{Example 4: one point.}
+Let
+\[
+X=\{(1,2)\}\subseteq k^2.
+\]
+Then
+\[
+I(X)=(x-1,\ y-2).
+\]
+These are exactly the polynomials vanishing at the point \((1,2)\).
+
+\medskip
+
+\textbf{Example 5: a line.}
+Take
+\[
+I=(1+x+y)\subseteq k[x,y].
+\]
+Then
+\[
+Z(I)=\{(a,b)\in k^2 : 1+a+b=0\}.
+\]
+So \(Z(I)\) is the affine line
+\[
+a+b=-1.
+\]
+
+\subsection{3. The valued field in Problem 9}
+
+In the previous problem, one takes
+\[
+\Gamma=\mathbb R
+\]
+as a totally ordered abelian group and constructs:
+\begin{itemize}
+	\item the group ring \(k[\mathbb R]\),
+	\item its fraction field \(K\),
+	\item the valuation
+	\[
+	v:K^\times\to \mathbb R.
+	\]
+\end{itemize}
+
+This valuation comes from the smallest exponent:
+\[
+v_0\!\left(\sum_i a_i z^{r_i}\right)=\min\{r_i\}.
+\]
+For the fraction field, the valuation is extended by
+\[
+v\!\left(\frac{f}{g}\right)=v_0(f)-v_0(g).
+\]
+
+In particular, for monomials one has
+\[
+v(z^r)=r.
+\]
+
+\subsection{4. The ideal \(I=(1+x+y)\subset K[x,y]\)}
+
+Now let
+\[
+I=(1+x+y)\subset K[x,y].
+\]
+
+Then
+\[
+Z(I)=\{(a,b)\in K^2 : 1+a+b=0\}.
+\]
+
+The set
+\[
+Z(I)\cap (K^\times)^2
+\]
+consists of those solutions \((a,b)\) of
+\[
+1+a+b=0
+\]
+such that
+\[
+a\neq 0,\qquad b\neq 0.
+\]
+
+We want to determine the image of this set under
+\[
+(K^\times)^2\to \mathbb R^2,
+\qquad
+(a,b)\mapsto (v(a),v(b)).
+\]
+
+\subsection{5. A necessary condition on the image}
+
+Let
+\[
+u=v(a),
+\qquad
+w=v(b).
+\]
+Since
+\[
+1+a+b=0,
+\]
+the three terms
+\[
+1,\ a,\ b
+\]
+sum to zero.
+
+Their valuations are
+\[
+v(1)=0,
+\qquad
+v(a)=u,
+\qquad
+v(b)=w.
+\]
+
+A basic valuation fact is:
+
+\begin{quote}
+	If a finite sum is zero, then the minimum of the values of its summands must occur at least twice.
+\end{quote}
+
+So in our situation:
+\[
+\min(0,u,w)
+\]
+must be attained at least twice.
+
+\subsection{6. Why the minimum must occur at least twice}
+
+Suppose the minimum is attained only once.
+
+\textbf{Case 1: \(u<\min(0,w)\).}
+Then from
+\[
+a=-(1+b)
+\]
+we get
+\[
+u=v(a)=v(1+b)\ge \min(v(1),v(b))=\min(0,w)>u,
+\]
+a contradiction.
+
+\textbf{Case 2: \(w<\min(0,u)\).}
+Similarly, from
+\[
+b=-(1+a)
+\]
+we get
+\[
+w=v(b)=v(1+a)\ge \min(0,u)>w,
+\]
+again a contradiction.
+
+\textbf{Case 3: \(0<\min(u,w)\).}
+Then both \(a\) and \(b\) have strictly positive valuation, so
+\[
+v(a+b)\ge \min(u,w)>0.
+\]
+But since
+\[
+a+b=-1,
+\]
+we have
+\[
+v(a+b)=v(-1)=0,
+\]
+which is impossible.
+
+Thus the minimum of
+\[
+0,\ u,\ w
+\]
+cannot occur only once.
+
+\subsection{7. Therefore the image is contained in a tropical line}
+
+We have shown that every point \((u,w)\) in the image must satisfy
+\[
+\min(0,u,w)\ \text{is attained at least twice}.
+\]
+
+In \(\mathbb R^2\), this set is exactly
+\[
+\{(r,0): r\ge 0\}
+\;\cup\;
+\{(0,s): s\ge 0\}
+\;\cup\;
+\{(r,r): r\le 0\}.
+\]
+
+These are the three rays of the tropical line associated to the polynomial \(1+x+y\).
+
+\subsection{8. Converse: every point of this set actually occurs}
+
+We now show that every point on those three rays is realized by an actual solution.
+
+We use monomials \(z^r\in K\), which satisfy
+\[
+v(z^r)=r.
+\]
+
+\subsection{9. The ray \(\{(r,0): r>0\}\)}
+
+Take
+\[
+a=z^r,
+\qquad
+b=-1-z^r.
+\]
+Then
+\[
+1+a+b=1+z^r+(-1-z^r)=0.
+\]
+Also
+\[
+v(a)=r.
+\]
+Since \(r>0\), the term \(-1\) has smaller valuation than \(z^r\), so
+\[
+v(b)=v(-1-z^r)=0.
+\]
+Hence
+\[
+(v(a),v(b))=(r,0).
+\]
+
+\subsection{10. The ray \(\{(0,s): s>0\}\)}
+
+Symmetrically, take
+\[
+a=-1-z^s,
+\qquad
+b=z^s.
+\]
+Then
+\[
+1+a+b=0,
+\]
+and
+\[
+v(a)=0,
+\qquad
+v(b)=s.
+\]
+So
+\[
+(v(a),v(b))=(0,s).
+\]
+
+\subsection{11. The ray \(\{(r,r): r<0\}\)}
+
+Take
+\[
+a=z^r,
+\qquad
+b=-1-z^r.
+\]
+Now \(r<0\), so the term \(z^r\) has smaller valuation than the constant term \(1\). Therefore
+\[
+v(a)=r,
+\qquad
+v(b)=r.
+\]
+Thus
+\[
+(v(a),v(b))=(r,r).
+\]
+
+\subsection{12. The origin \((0,0)\)}
+
+We also need to realize \((0,0)\).
+
+Choose \(\lambda\in k\) such that
+\[
+\lambda\neq 0,
+\qquad
+\lambda\neq -1.
+\]
+Set
+\[
+a=\lambda,
+\qquad
+b=-1-\lambda.
+\]
+Then
+\[
+1+a+b=0,
+\]
+and both \(a\) and \(b\) are nonzero constants, so
+\[
+v(a)=0,
+\qquad
+v(b)=0.
+\]
+Hence
+\[
+(v(a),v(b))=(0,0).
+\]
+
+This works in the usual algebraically closed setting of the Nullstellensatz.
+
+\subsection{13. Final answer}
+
+Therefore the image of
+\[
+Z(I)\cap (K^\times)^2
+\]
+under
+\[
+(a,b)\mapsto (v(a),v(b))
+\]
+is exactly
+\[
+\boxed{
+	\{(r,0): r\ge 0\}
+	\;\cup\;
+	\{(0,s): s\ge 0\}
+	\;\cup\;
+	\{(r,r): r\le 0\}
+}.
+\]
+
+Equivalently, it is the set of all \((u,w)\in \mathbb R^2\) such that
+\[
+\boxed{
+	\min(0,u,w)\ \text{is attained at least twice}.
+}
+\]
+
+This is the standard tropical line associated to the polynomial
+\[
+1+x+y.
+\]
+
+\subsection{14. Very concrete sample points}
+
+\textbf{Point \((2,0)\).}
+Take
+\[
+a=z^2,
+\qquad
+b=-1-z^2.
+\]
+Then
+\[
+1+a+b=0,
+\qquad
+(v(a),v(b))=(2,0).
+\]
+
+\textbf{Point \((0,3)\).}
+Take
+\[
+a=-1-z^3,
+\qquad
+b=z^3.
+\]
+Then
+\[
+1+a+b=0,
+\qquad
+(v(a),v(b))=(0,3).
+\]
+
+\textbf{Point \((-4,-4)\).}
+Take
+\[
+a=z^{-4},
+\qquad
+b=-1-z^{-4}.
+\]
+Then
+\[
+1+a+b=0,
+\qquad
+(v(a),v(b))=(-4,-4).
+\]
+
+\textbf{Point \((0,0)\).}
+Take constants
+\[
+a=\lambda,
+\qquad
+b=-1-\lambda,
+\qquad
+\lambda\neq 0,-1.
+\]
+Then
+\[
+1+a+b=0,
+\qquad
+(v(a),v(b))=(0,0).
+\]
+
+\subsection{15. Conceptual interpretation}
+
+The equation
+\[
+1+x+y=0
+\]
+has three terms. After applying valuation, the tropical condition says that the minimum of the three values
+\[
+0,\ v(x),\ v(y)
+\]
+must occur at least twice.
+
+This is the tropicalization of the line \(1+x+y=0\). So Problem 9 is the simplest concrete example of the passage from algebraic geometry over a valued field to tropical geometry.
+
+\section{Noetherian valuation rings, discrete valuation rings, and deep examples}
+
+\textbf{Main theorem.}
+Let \(K\) be a field and let \(A\subseteq K\) be a valuation ring. Then
+\[
+A \text{ is Noetherian }
+\iff
+\bigl(A=K\bigr)\ \text{or the value group of }A\text{ is isomorphic to }\mathbb Z.
+\]
+In the second case, one says that \(A\) is a \emph{discrete valuation ring} (DVR).
+
+This theorem says that among valuation rings, Noetherianity is extremely restrictive: the only Noetherian valuation rings are fields and DVRs.
+
+\subsection{1. Basic definitions}
+
+\textbf{Valuation ring.}
+A subring
+\[
+A\subseteq K
+\]
+of a field \(K\) is called a \emph{valuation ring} if for every nonzero element \(x\in K^\times\),
+\[
+x\in A
+\quad \text{or} \quad
+x^{-1}\in A.
+\]
+
+\textbf{Noetherian ring.}
+A ring \(A\) is \emph{Noetherian} if every ideal of \(A\) is finitely generated.
+
+Equivalent formulations:
+\begin{itemize}
+	\item every ascending chain of ideals stabilizes,
+	\item every ideal admits a finite generating set.
+\end{itemize}
+
+\textbf{Value group.}
+If \(A\) is a valuation ring of \(K\), let
+\[
+U=A^\times
+\]
+be the unit group of \(A\). The \emph{value group} of \(A\) is
+\[
+\Gamma:=K^\times/U.
+\]
+This is a totally ordered abelian group.
+
+\textbf{Discrete valuation ring.}
+A \emph{discrete valuation ring} is a valuation ring whose value group is isomorphic to \(\mathbb Z\). Equivalently, it is a local PID with nonzero maximal ideal.
+
+\section{Projective modules need not be free: the direct product example}
+
+\textbf{Problem.}
+Let
+\[
+A=A_1\times A_2
+\]
+be a direct product ring. Show that the \(A\)-modules
+\[
+M_1=A_1\times 0,
+\qquad
+M_2=0\times A_2
+\]
+are projective. If \(A_1\neq 0\) and \(A_2\neq 0\), then they are not free. This gives a basic example showing that projective modules need not be free.
+
+\subsection{1. Basic definitions}
+
+\textbf{Free module.}
+An \(A\)-module \(M\) is called \emph{free} if
+\[
+M\cong A^{(I)}
+\]
+for some index set \(I\). In particular, if \(I=\{1,\dots,n\}\), then
+\[
+M\cong A^n.
+\]
+A free module has a basis.
+
+\medskip
+
+\textbf{Projective module.}
+An \(A\)-module \(P\) is called \emph{projective} if it satisfies the lifting property: whenever
+\[
+N\twoheadrightarrow Q
+\]
+is a surjective \(A\)-module homomorphism and
+\[
+P\to Q
+\]
+is an \(A\)-module homomorphism, there exists a lift
+\[
+P\to N.
+\]
+
+A fundamental equivalent characterization is:
+\[
+P \text{ is projective }
+\iff
+P \text{ is a direct summand of a free module.}
+\]
+
+So if
+\[
+F\cong P\oplus Q
+\]
+with \(F\) free, then \(P\) is projective.
+
+\subsection{2. The modules \(M_1\) and \(M_2\)}
+
+Let
+\[
+A=A_1\times A_2.
+\]
+
+Define
+\[
+M_1=A_1\times 0,
+\qquad
+M_2=0\times A_2.
+\]
+
+These are naturally \(A\)-modules by coordinatewise multiplication:
+\[
+(a_1,a_2)\cdot (x_1,0)=(a_1x_1,0),
+\]
+and
+\[
+(a_1,a_2)\cdot (0,x_2)=(0,a_2x_2).
+\]
+
+\subsection{3. Why \(M_1\) and \(M_2\) are projective}
+
+As \(A\)-modules, one has
+\[
+A=(A_1\times 0)\oplus (0\times A_2)=M_1\oplus M_2.
+\]
+
+Indeed, every element \((a_1,a_2)\in A\) can be written uniquely as
+\[
+(a_1,a_2)=(a_1,0)+(0,a_2).
+\]
+
+Now \(A\), viewed as an \(A\)-module over itself, is free of rank \(1\). Since \(M_1\) and \(M_2\) are direct summands of the free module \(A\), both are projective.
+
+Thus:
+\[
+M_1 \text{ and } M_2 \text{ are projective }A\text{-modules.}
+\]
+
+\subsection{4. Why they are not free}
+
+Assume now that
+\[
+A_1\neq 0,
+\qquad
+A_2\neq 0.
+\]
+
+We show that \(M_1\) is not free as an \(A\)-module.
+
+Observe that
+\[
+\Ann_A(M_1)=0\times A_2.
+\]
+Indeed, if \((0,a_2)\in 0\times A_2\), then for every \((x_1,0)\in M_1\),
+\[
+(0,a_2)\cdot (x_1,0)=(0,0).
+\]
+So \(0\times A_2\subseteq \Ann_A(M_1)\). Conversely, if \((a_1,a_2)\) kills every element of \(M_1\), then in particular
+\[
+(a_1,a_2)\cdot (1,0)=(a_1,0)=(0,0),
+\]
+hence \(a_1=0\). So
+\[
+\Ann_A(M_1)=0\times A_2.
+\]
+
+Since \(A_2\neq 0\), this annihilator is nonzero.
+
+On the other hand, any nonzero free \(A\)-module has annihilator \(0\). Indeed, if \(A^n\neq 0\) and \(a\in A\) annihilates all of \(A^n\), then in particular
+\[
+a\cdot (1,0,\dots,0)=0,
+\]
+so \(a=0\).
+
+Therefore \(M_1\) cannot be free.
+
+Similarly,
+\[
+\Ann_A(M_2)=A_1\times 0,
+\]
+which is nonzero if \(A_1\neq 0\). Hence \(M_2\) is not free either.
+
+Thus, if both factors are nonzero,
+\[
+M_1,\ M_2 \text{ are projective but not free.}
+\]
+
+\subsection{5. Idempotent interpretation}
+
+Let
+\[
+e_1=(1,0),
+\qquad
+e_2=(0,1).
+\]
+Then
+\[
+e_1^2=e_1,
+\qquad
+e_2^2=e_2,
+\qquad
+e_1+e_2=1,
+\qquad
+e_1e_2=0.
+\]
+
+Moreover,
+\[
+M_1=e_1A,
+\qquad
+M_2=e_2A.
+\]
+
+So these projective modules arise from idempotents. More generally, if \(e\in A\) is an idempotent, then
+\[
+A=eA\oplus (1-e)A,
+\]
+so \(eA\) is projective.
+
+This is one of the most important basic constructions of projective modules.
+
+\subsection{6. Theoretical significance}
+
+This example shows that
+\[
+\text{projective} \not\Rightarrow \text{free}.
+\]
+
+Free modules are the simplest projective modules, but projective modules are more flexible: they are modules that look like direct summands of free modules.
+
+Geometrically, finitely generated projective modules correspond to algebraic vector bundles. Free modules correspond to trivial bundles, while projective but nonfree modules correspond to nontrivial bundles.
+
+\subsection{7. Deeper examples of projective but nonfree modules}
+
+\textbf{Example 1: nonprincipal ideals in a Dedekind domain.}
+If \(R\) is a Dedekind domain, every nonzero ideal \(I\subseteq R\) is projective of rank \(1\). If \(I\) is not principal, then \(I\) is not free. So nonprincipal ideals are standard examples of projective nonfree modules.
+
+In particular, if \(\mathcal O_K\) is the ring of integers of a number field and the class group is nontrivial, then there exist nonprincipal ideals \(I\subseteq \mathcal O_K\), and these are projective but not free.
+
+\medskip
+
+\textbf{Example 2: vector bundles on affine schemes.}
+If \(A\) is a ring, finitely generated projective \(A\)-modules correspond to algebraic vector bundles on \(\operatorname{Spec}(A)\). Free modules correspond to trivial bundles. Thus projective but nonfree modules are algebraic counterparts of nontrivial vector bundles.
+
+\subsection{8. Important contrast: local rings}
+
+A very important theorem states:
+
+\begin{quote}
+	Every finitely generated projective module over a local ring is free.
+\end{quote}
+
+So the phenomenon ``projective but not free'' cannot occur for finitely generated modules over local rings. This is why the product-ring example is so useful: the ring
+\[
+A_1\times A_2
+\]
+is not local.
+
+\subsection{9. Final summary}
+
+For the direct product ring
+\[
+A=A_1\times A_2,
+\]
+the modules
+\[
+M_1=A_1\times 0,
+\qquad
+M_2=0\times A_2
+\]
+satisfy:
+\begin{itemize}
+	\item
+	\[
+	A=M_1\oplus M_2,
+	\]
+	so they are direct summands of the free \(A\)-module \(A\),
+	\item hence \(M_1\) and \(M_2\) are projective,
+	\item if \(A_1\neq 0\) and \(A_2\neq 0\), then neither \(M_1\) nor \(M_2\) is free.
+\end{itemize}
+
+Therefore this gives the standard elementary example showing that projective modules need not be free.
+
+Typical examples are:
+\[
+k[[t]],\qquad \mathbb Z_{(p)},\qquad k[x]_{(x)}.
+\]
+
+\subsection{2. Special features of valuation rings}
+
+Valuation rings are highly ordered objects.
+
+\textbf{Total ordering of ideals.}
+If \(A\) is a valuation ring and \(I,J\subseteq A\) are ideals, then
+\[
+I\subseteq J
+\quad \text{or} \quad
+J\subseteq I.
+\]
+
+In particular, principal ideals are totally ordered:
+\[
+(a)\subseteq (b)
+\quad \text{or} \quad
+(b)\subseteq (a)
+\qquad
+\text{for all }a,b\in A.
+\]
+
+This total comparability is the algebraic core of valuation theory.
+
+\subsection{3. Finitely generated ideals in valuation rings are principal}
+
+This fact is crucial.
+
+Let \(A\) be a valuation ring and let
+\[
+I=(a_1,\dots,a_n).
+\]
+Since the principal ideals \((a_1),\dots,(a_n)\) are totally ordered, one of them contains all the others. Say
+\[
+(a_i)\subseteq (a_j)
+\qquad \text{for all }i.
+\]
+Then every generator \(a_i\) lies in \((a_j)\), so
+\[
+I=(a_j).
+\]
+
+Therefore:
+
+\[
+\boxed{\text{Every finitely generated ideal in a valuation ring is principal.}}
+\]
+
+This is one of the main reasons why the Noetherian condition becomes so rigid for valuation rings.
+
+\subsection{4. Statement of the theorem again}
+
+Let \(A\subseteq K\) be a valuation ring.
+
+Then:
+\[
+A \text{ is Noetherian }
+\iff
+\bigl(A=K\bigr)\ \text{or the value group of }A\text{ is }\mathbb Z.
+\]
+
+So there are exactly two Noetherian possibilities:
+\begin{itemize}
+	\item \(A\) is a field,
+	\item \(A\) is a DVR.
+\end{itemize}
+
+\subsection{5. Why the field case must be separated}
+
+If \(A=K\), then every nonzero element is a unit, so the maximal ideal is
+\[
+(0),
+\]
+and \(A\) is trivially Noetherian.
+
+Its value group is the trivial group, not \(\mathbb Z\). So the theorem must separately mention the field case.
+
+\subsection{6. Proof that DVRs are Noetherian}
+
+Assume \(A\) is a valuation ring with value group
+\[
+\Gamma\cong \mathbb Z.
+\]
+Choose an element \(\pi\in A\) whose value is the positive generator:
+\[
+v(\pi)=1.
+\]
+
+Then every nonzero element \(x\in A\) has value \(n\ge 0\), so
+\[
+v(x)=n=v(\pi^n).
+\]
+Hence \(x\) differs from \(\pi^n\) by a unit:
+\[
+x=u\pi^n,
+\qquad u\in A^\times.
+\]
+
+Now let \(I\subseteq A\) be a nonzero ideal. Since the set of values of nonzero elements of \(I\) is a nonempty subset of \(\mathbb Z_{\ge 0}\), it has a smallest element \(m\). Choose \(x\in I\) with
+\[
+v(x)=m.
+\]
+Then \(x=u\pi^m\), so
+\[
+(\pi^m)\subseteq I.
+\]
+Conversely, every element of \(I\) has value \(\ge m\), hence lies in \((\pi^m)\). Therefore
+\[
+I=(\pi^m).
+\]
+
+So every ideal is principal. In particular, \(A\) is Noetherian.
+
+Thus every DVR is Noetherian.
+
+\subsection{7. Converse: if a valuation ring is Noetherian, then it is a field or a DVR}
+
+Now assume \(A\) is a Noetherian valuation ring.
+
+If the maximal ideal is \(0\), then \(A\) is a field and we are done.
+
+So assume \(A\) is not a field, and let \(\mathfrak m\) be its nonzero maximal ideal.
+
+Since \(A\) is Noetherian, \(\mathfrak m\) is finitely generated. Since every finitely generated ideal in a valuation ring is principal, we get
+\[
+\mathfrak m=(\pi)
+\]
+for some nonzero \(\pi\in A\).
+
+\subsection{8. Krull intersection and powers of the maximal ideal}
+
+Because \(A\) is a Noetherian local domain and \(\mathfrak m=(\pi)\) is principal, the Krull intersection theorem gives
+\[
+\bigcap_{n\ge 1} \mathfrak m^n = 0.
+\]
+
+Now take any nonzero \(x\in A\). Since \(x\notin \bigcap_{n\ge 1}\mathfrak m^n\), there exists a largest integer \(n\ge 0\) such that
+\[
+x\in \mathfrak m^n
+\quad \text{but} \quad
+x\notin \mathfrak m^{n+1}.
+\]
+
+Since
+\[
+\mathfrak m^n=(\pi^n),
+\]
+we can write
+\[
+x=\pi^n u
+\]
+for some \(u\in A\). The condition \(x\notin \mathfrak m^{n+1}\) implies
+\[
+u\notin \mathfrak m,
+\]
+so \(u\) is a unit.
+
+Thus every nonzero element of \(A\) has the form
+\[
+x=u\pi^n,
+\qquad
+u\in A^\times,\ n\ge 0.
+\]
+
+This is exactly the characteristic structure of a DVR.
+
+\subsection{9. Why the value group must be \(\mathbb Z\)}
+
+From the factorization
+\[
+x=u\pi^n,
+\]
+we obtain
+\[
+v(x)=n\,v(\pi)
+\qquad
+\text{for every nonzero }x\in A.
+\]
+
+Thus the positive values in the value group are exactly
+\[
+\{n\,v(\pi): n\ge 0\}.
+\]
+Taking differences, we see that the whole value group is
+\[
+\Gamma = \mathbb Z\,v(\pi).
+\]
+
+Therefore
+\[
+\Gamma \cong \mathbb Z.
+\]
+
+So every Noetherian valuation ring that is not a field has value group \(\mathbb Z\), hence is a DVR.
+
+\subsection{10. Summary of the proof}
+
+We have shown:
+
+\begin{itemize}
+	\item If \(A\) is a valuation ring with value group \(\mathbb Z\), then every ideal is of the form \((\pi^n)\), so \(A\) is Noetherian.
+	\item If \(A\) is a Noetherian valuation ring, then its maximal ideal is principal, say \((\pi)\), and every nonzero element is \(u\pi^n\). Therefore its value group is \(\mathbb Z\).
+\end{itemize}
+
+Hence:
+\[
+A \text{ Noetherian }
+\iff
+A \text{ is a field or a DVR.}
+\]
+
+\subsection{11. Deep concrete examples of Noetherian valuation rings}
+
+\textbf{Example 1: \(k[[t]]\).}
+The formal power series ring
+\[
+k[[t]]
+\]
+is a valuation ring of
+\[
+k((t)).
+\]
+Its valuation is
+\[
+v\!\left(\sum_{n\ge N} a_n t^n\right)=N.
+\]
+Its value group is
+\[
+\Gamma=\mathbb Z.
+\]
+Its maximal ideal is
+\[
+(t),
+\]
+and every ideal is of the form
+\[
+(t^n).
+\]
+So \(k[[t]]\) is Noetherian; in fact, it is a DVR.
+
+\medskip
+
+\textbf{Example 2: \(\mathbb Z_{(p)}\).}
+The localization
+\[
+\mathbb Z_{(p)}=\left\{\frac ab : a,b\in \mathbb Z,\ p\nmid b\right\}
+\]
+is a valuation ring of \(\mathbb Q\), with valuation \(v_p\). Its value group is
+\[
+\mathbb Z.
+\]
+Its maximal ideal is
+\[
+(p),
+\]
+and every ideal is
+\[
+(p^n).
+\]
+So \(\mathbb Z_{(p)}\) is a DVR.
+
+\medskip
+
+\textbf{Example 3: \(k[x]_{(x)}\).}
+The ring
+\[
+k[x]_{(x)}
+\]
+is a valuation ring of \(k(x)\). Its valuation is the order of vanishing at \(x=0\):
+\[
+v\!\left(x^n\frac{f(x)}{g(x)}\right)=n,
+\qquad
+f(0)\neq 0,\ g(0)\neq 0.
+\]
+Its value group is \(\mathbb Z\), its maximal ideal is \((x)\), and every ideal is \((x^n)\). So it is also a DVR.
+
+\medskip
+
+\textbf{Example 4: local ring of a smooth point on a curve.}
+If \(C\) is a nonsingular algebraic curve and \(p\in C\) is a closed point, then the local ring
+\[
+\mathcal O_{C,p}
+\]
+is a DVR. Geometrically, the valuation measures the order of vanishing of functions at the point \(p\). This is one of the most important sources of DVRs in algebraic geometry.
+
+\subsection{12. Deep non-Noetherian examples}
+
+The theorem becomes especially meaningful when we look at valuation rings that are \emph{not} discrete.
+
+\medskip
+
+\textbf{Example 5: value group \(\mathbb Q\).}
+Using the construction from the previous problem with
+\[
+\Gamma=\mathbb Q,
+\]
+one obtains a valued field \(K\) and a valuation ring
+\[
+A_v=\{x\in K^\times : v(x)\ge 0\}\cup\{0\}
+\]
+whose value group is \(\mathbb Q\).
+
+This ring is \emph{not} Noetherian.
+
+Why? Because the maximal ideal
+\[
+\mathfrak m=\{x:v(x)>0\}\cup\{0\}
+\]
+cannot be principal. If it were
+\[
+\mathfrak m=(\pi),
+\]
+then \(v(\pi)\) would be the smallest positive value. But in \(\mathbb Q\), for every \(q>0\), there exists a smaller positive number \(q/2\). So no smallest positive value exists.
+
+Since finitely generated ideals in valuation rings are principal, the maximal ideal is not finitely generated. Hence the ring is not Noetherian.
+
+\medskip
+
+\textbf{Example 6: value group \(\mathbb R\).}
+Exactly the same phenomenon occurs for value group
+\[
+\mathbb R.
+\]
+Again there is no smallest positive value, so the maximal ideal is not principal and therefore not finitely generated. Hence the valuation ring is not Noetherian.
+
+\medskip
+
+\textbf{Example 7: value group \(\mathbb Z^2_{\mathrm{lex}}\).}
+Consider a valuation ring with value group
+\[
+\mathbb Z^2
+\]
+with lexicographic order.
+
+This ring is also not Noetherian, but for a subtler reason. Here there \emph{is} a smallest positive element, namely
+\[
+(0,1),
+\]
+so the maximal ideal may be principal. However, there are still ideals that are not finitely generated.
+
+For example, consider the ideal
+\[
+I=\{x\in A : v(x)\ge (1,0)\}.
+\]
+This ideal has no least value: among the values
+\[
+(1,n),\qquad n\in \mathbb Z,
+\]
+there is no smallest one in lexicographic order, since
+\[
+(1,n-1)<(1,n)
+\]
+for every integer \(n\).
+
+If \(I\) were finitely generated, then in a valuation ring it would be principal, say
+\[
+I=(a).
+\]
+But then the set of values of nonzero elements of \(I\) would have a least element \(v(a)\), contradiction.
+
+So \(I\) is not finitely generated, and the ring is not Noetherian.
+
+This example shows that non-Noetherianity may come not only from the maximal ideal, but also from other ideals.
+
+\subsection{13. Why \(\mathbb Z\) is the only Noetherian value group}
+
+The previous examples show the pattern:
+
+\begin{itemize}
+	\item If the value group is \(\mathbb Z\), the valuation ring is discrete and Noetherian.
+	\item If the value group is \(\mathbb Q\) or \(\mathbb R\), the maximal ideal is not finitely generated.
+	\item If the value group is something like \(\mathbb Z^2_{\mathrm{lex}}\), even though there may be a smallest positive element, the ordered group still has too much room, and some ideals fail to be finitely generated.
+\end{itemize}
+
+So \(\mathbb Z\) is the only nontrivial ordered abelian group compatible with Noetherian valuation theory.
+
+\subsection{14. Why this matters geometrically and arithmetically}
+
+DVRs are among the most important local rings in mathematics.
+
+\textbf{In algebraic geometry:}
+DVRs describe codimension-one behavior, divisors, order of vanishing, and local properties of curves and regular local rings of dimension one.
+
+\textbf{In number theory:}
+DVRs appear as localizations at primes, \(p\)-adic rings, and completions used in local-global methods.
+
+Thus the theorem explains why DVRs are the central Noetherian objects inside valuation theory.
+
+\subsection{15. Compact comparison table}
+
+\[
+\begin{array}{|c|c|c|c|}
+	\hline
+	\text{Valuation ring} & \text{Value group} & \text{Noetherian?} & \text{Reason} \\
+	\hline
+	K & 0 & \text{Yes} & \text{field} \\
+	\hline
+	k[[t]] & \mathbb Z & \text{Yes} & \text{DVR} \\
+	\hline
+	\mathbb Z_{(p)} & \mathbb Z & \text{Yes} & \text{DVR} \\
+	\hline
+	k[x]_{(x)} & \mathbb Z & \text{Yes} & \text{DVR} \\
+	\hline
+	A_v \text{ with value group } \mathbb Q & \mathbb Q & \text{No} & \mathfrak m \text{ not principal} \\
+	\hline
+	A_v \text{ with value group } \mathbb R & \mathbb R & \text{No} & \mathfrak m \text{ not principal} \\
+	\hline
+	A_v \text{ with value group } \mathbb Z^2_{\mathrm{lex}} & \mathbb Z^2_{\mathrm{lex}} & \text{No} & \text{some ideals not finitely generated} \\
+	\hline
+\end{array}
+\]
+
+\subsection{16. Final summary}
+
+For valuation rings, Noetherianity is equivalent to discreteness:
+
+\[
+\boxed{
+	A \text{ valuation ring is Noetherian }
+	\iff
+	A \text{ is a field or a DVR.}
+}
+\]
+
+Equivalently:
+\[
+\boxed{
+	A \text{ valuation ring is Noetherian and not a field }
+	\iff
+	\text{its value group is } \mathbb Z.
+}
+\]
+
+This explains why discrete valuation rings occupy such a privileged place in algebraic geometry and algebraic number theory.
+
+\textbf{Example 7: value group \(\mathbb Z^2_{\mathrm{lex}}\).}
+Consider a valuation ring \(A\) whose value group is
+\[
+\Gamma=\mathbb Z^2
+\]
+with lexicographic order.
+
+This ring is not Noetherian. A good explicit ideal is
+\[
+J:=\{x\in A : v(x)>(0,n)\text{ for every }n\in \mathbb Z\}.
+\]
+Equivalently, \(J\) consists of those elements whose value has strictly positive first coordinate:
+\[
+J=\{x\in A : v(x)=(m,n)\text{ with }m>0\}.
+\]
+
+This is an ideal. Indeed, if \(x,y\in J\), then both \(v(x)\) and \(v(y)\) have first coordinate \(>0\), so
+\[
+v(x+y)\ge \min(v(x),v(y))
+\]
+also has first coordinate \(>0\), hence \(x+y\in J\). Also, if \(a\in A\) and \(x\in J\), then
+\[
+v(ax)=v(a)+v(x),
+\]
+and since \(v(a)\ge 0\) and the first coordinate of \(v(x)\) is \(>0\), the first coordinate of \(v(ax)\) is still \(>0\). Thus \(ax\in J\).
+
+Now \(J\) is not principal. If it were
+\[
+J=(b),
+\]
+then the set of values of nonzero elements of \(J\) would be
+\[
+v(b)+\Gamma_{\ge 0},
+\]
+which has a least element, namely \(v(b)\).
+
+But the set
+\[
+\{(m,n)\in \mathbb Z^2_{\mathrm{lex}} : m>0\}
+\]
+has no least element: for every \((1,n)\), one has
+\[
+(1,n-1)<(1,n),
+\]
+and still the first coordinate is \(>0\). So \(J\) has no least value.
+
+This contradiction shows that \(J\) is not principal. Since finitely generated ideals in a valuation ring are principal, \(J\) is not finitely generated. Therefore \(A\) is not Noetherian.
+
+\section{Free resolutions, \(\Ext\), \(\Tor\), regular sequences, and Cohen--Macaulayness}
+
+\subsection{1. Basic definitions and theory}
+
+\textbf{Free resolution.}
+Let \(A\) be a ring and \(M\) an \(A\)-module. A \emph{free resolution} of \(M\) is an exact sequence
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+in which each \(F_i\) is a free \(A\)-module.
+
+A free resolution is especially useful because applying functors like \(\Hom_A(-,N)\) or \(-\otimes_A N\) to it allows us to compute derived functors.
+
+\medskip
+
+\textbf{The functors \(\Ext\) and \(\Tor\).}
+If \(F_\bullet\to M\to 0\) is a free resolution of \(M\), then:
+\[
+\Ext_A^i(M,N)=H^i\bigl(\Hom_A(F_\bullet,N)\bigr),
+\]
+and
+\[
+\Tor_i^A(M,N)=H_i(F_\bullet\otimes_A N).
+\]
+
+So:
+\begin{itemize}
+	\item \(\Ext\) is computed by applying \(\Hom\) to a free resolution,
+	\item \(\Tor\) is computed by tensoring a free resolution.
+\end{itemize}
+
+\medskip
+
+\textbf{Regular sequence.}
+Let \((R,\mathfrak n)\) be a local ring and \(M\) an \(R\)-module. A sequence
+\[
+f_1,\dots,f_r\in \mathfrak n
+\]
+is an \emph{\(M\)-regular sequence} if:
+\begin{itemize}
+	\item \(f_1\) is a nonzerodivisor on \(M\),
+	\item for each \(i\ge 2\), the image of \(f_i\) is a nonzerodivisor on
+	\[
+	M/(f_1,\dots,f_{i-1})M,
+	\]
+	\item and
+	\[
+	(f_1,\dots,f_r)M\neq M.
+	\]
+\end{itemize}
+
+If \(M=R\), one simply says \emph{regular sequence in \(R\)}.
+
+\medskip
+
+\textbf{Cohen--Macaulay ring.}
+A Noetherian local ring \((R,\mathfrak n)\) is \emph{Cohen--Macaulay} if
+\[
+\depth R=\dim R.
+\]
+A very useful practical criterion is:
+if one can exhibit a regular sequence in \(\mathfrak n\) of length equal to \(\dim R\), then \(R\) is Cohen--Macaulay.
+
+\subsection{2. Problem 12: resolution and computations over \(A=k[x,y]/(xy)\)}
+
+Let
+\[
+A=k[x,y]/(xy),
+\qquad
+\mathfrak m=(x,y)\subseteq A.
+\]
+We want to construct a free resolution of
+\[
+A/\mathfrak m
+\]
+and use it to compute
+\[
+\Ext_A^2(A/\mathfrak m,A)
+\qquad \text{and} \qquad
+\Tor_i^A(A/\mathfrak m,A/\mathfrak m).
+\]
+
+For brevity, write
+\[
+k:=A/\mathfrak m.
+\]
+
+\subsubsection{2.1. First step: the augmentation map}
+
+The natural surjection
+\[
+A \twoheadrightarrow k
+\]
+has kernel \(\mathfrak m=(x,y)\). So we begin with
+\[
+A^2 \xrightarrow{d_1} A \longrightarrow k \longrightarrow 0,
+\]
+where
+\[
+d_1(a,b)=ax+by.
+\]
+Thus \(d_1\) is represented by the row matrix
+\[
+d_1=
+\begin{pmatrix}
+	x & y
+\end{pmatrix}.
+\]
+
+\subsubsection{2.2. The first syzygies}
+
+We now compute \(\ker(d_1)\). Since \(xy=0\) in \(A\), the pairs
+\[
+(y,0),\qquad (0,x)
+\]
+lie in \(\ker(d_1)\), because
+\[
+x\cdot y + y\cdot 0 = xy = 0,
+\qquad
+x\cdot 0 + y\cdot x = yx = 0.
+\]
+
+Define
+\[
+d_2:A^2\to A^2
+\]
+by
+\[
+d_2=
+\begin{pmatrix}
+	y & 0\\
+	0 & x
+\end{pmatrix}.
+\]
+Then
+\[
+d_1d_2=
+\begin{pmatrix}
+	x & y
+\end{pmatrix}
+\begin{pmatrix}
+	y & 0\\
+	0 & x
+\end{pmatrix}
+=
+\begin{pmatrix}
+	xy & yx
+\end{pmatrix}
+=
+\begin{pmatrix}
+	0 & 0
+\end{pmatrix}.
+\]
+
+So \(\operatorname{im}(d_2)\subseteq \ker(d_1)\).
+
+Now let \((a,b)\in \ker(d_1)\), so
+\[
+ax+by=0.
+\]
+Reduce this equation modulo \((y)\). Since
+\[
+A/(y)\cong k[x],
+\]
+we obtain
+\[
+\overline{a}\,x=0 \quad \text{in } k[x].
+\]
+Because \(k[x]\) is a domain, \(\overline{a}=0\), hence
+\[
+a\in (y).
+\]
+Similarly, reducing modulo \((x)\), we get
+\[
+b\in (x).
+\]
+So
+\[
+a=ya',\qquad b=xb'
+\]
+for some \(a',b'\in A\), and hence
+\[
+(a,b)=d_2(a',b').
+\]
+Therefore
+\[
+\ker(d_1)=\operatorname{im}(d_2).
+\]
+
+\subsubsection{2.3. Periodicity}
+
+Next define
+\[
+d_3:A^2\to A^2
+\]
+by
+\[
+d_3=
+\begin{pmatrix}
+	x & 0\\
+	0 & y
+\end{pmatrix}.
+\]
+Then
+\[
+d_2d_3=
+\begin{pmatrix}
+	y & 0\\
+	0 & x
+\end{pmatrix}
+\begin{pmatrix}
+	x & 0\\
+	0 & y
+\end{pmatrix}
+=
+\begin{pmatrix}
+	yx & 0\\
+	0 & xy
+\end{pmatrix}
+=
+0.
+\]
+
+Moreover,
+\[
+\ker(d_2)=\{(a,b)\in A^2 : ay=0,\ bx=0\}.
+\]
+In \(A=k[x,y]/(xy)\), one has
+\[
+\Ann_A(y)=(x),
+\qquad
+\Ann_A(x)=(y).
+\]
+Hence
+\[
+\ker(d_2)=xA\oplus yA.
+\]
+But
+\[
+\operatorname{im}(d_3)=xA\oplus yA,
+\]
+so
+\[
+\ker(d_2)=\operatorname{im}(d_3).
+\]
+
+Similarly, defining
+\[
+d_4=
+\begin{pmatrix}
+	y & 0\\
+	0 & x
+\end{pmatrix},
+\qquad
+d_5=
+\begin{pmatrix}
+	x & 0\\
+	0 & y
+\end{pmatrix},
+\quad \text{etc.},
+\]
+we obtain an eventually \(2\)-periodic free resolution:
+\[
+\cdots
+\longrightarrow A^2
+\xrightarrow{\begin{pmatrix}x&0\\0&y\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}y&0\\0&x\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}x&y\end{pmatrix}}
+A
+\longrightarrow k
+\longrightarrow 0.
+\]
+
+\subsubsection{2.4. Computing \(\Ext_A^2(k,A)\)}
+
+Apply \(\Hom_A(-,A)\). Since
+\[
+\Hom_A(A,A)\cong A,
+\qquad
+\Hom_A(A^2,A)\cong A^2,
+\]
+we get the cochain complex
+\[
+0 \longrightarrow A
+\xrightarrow{\delta^0}
+A^2
+\xrightarrow{\delta^1}
+A^2
+\xrightarrow{\delta^2}
+A^2
+\longrightarrow \cdots
+\]
+where the maps are the transposes of the \(d_i\). Since our matrices are diagonal or a row, the maps are:
+\[
+\delta^0=
+\begin{pmatrix}
+	x\\
+	y
+\end{pmatrix},
+\qquad
+\delta^1=
+\begin{pmatrix}
+	y & 0\\
+	0 & x
+\end{pmatrix},
+\qquad
+\delta^2=
+\begin{pmatrix}
+	x & 0\\
+	0 & y
+\end{pmatrix},
+\quad \text{etc.}
+\]
+
+Now
+\[
+\Ext_A^2(k,A)=\ker(\delta^2)/\operatorname{im}(\delta^1).
+\]
+
+Compute:
+\[
+\ker(\delta^2)=\{(a,b)\in A^2 : xa=0,\ yb=0\}
+=
+yA\oplus xA.
+\]
+Also
+\[
+\operatorname{im}(\delta^1)=yA\oplus xA.
+\]
+Therefore
+\[
+\Ext_A^2(k,A)=0.
+\]
+
+So the answer is
+\[
+\boxed{\Ext_A^2(A/\mathfrak m,A)=0.}
+\]
+
+\subsubsection{2.5. Computing \(\Tor_i^A(k,k)\)}
+
+Now tensor the free resolution with \(k=A/\mathfrak m\). Since \(x\) and \(y\) act as \(0\) on \(k\), every differential becomes the zero map. Thus the complex
+\[
+\cdots
+\longrightarrow A^2\otimes_A k
+\longrightarrow A^2\otimes_A k
+\longrightarrow A^2\otimes_A k
+\longrightarrow A\otimes_A k
+\longrightarrow 0
+\]
+becomes
+\[
+\cdots
+\longrightarrow k^2
+\xrightarrow{0}
+k^2
+\xrightarrow{0}
+k^2
+\xrightarrow{0}
+k
+\longrightarrow 0.
+\]
+
+Therefore its homology is simply:
+\[
+\Tor_0^A(k,k)\cong k,
+\]
+and for every \(i\ge 1\),
+\[
+\Tor_i^A(k,k)\cong k^2.
+\]
+
+Thus
+\[
+\boxed{
+	\Tor_0^A(A/\mathfrak m,A/\mathfrak m)\cong A/\mathfrak m
+}
+\]
+and
+\[
+\boxed{
+	\Tor_i^A(A/\mathfrak m,A/\mathfrak m)\cong (A/\mathfrak m)^2
+	\quad \text{for all } i\ge 1.
+}
+\]
+
+\subsubsection{2.6. Conceptual remark}
+
+This is a standard hypersurface phenomenon: over
+\[
+A=k[x,y]/(xy),
+\]
+the minimal free resolution of the residue field becomes \(2\)-periodic after the first step. This is a basic instance of the general theory of matrix factorizations over hypersurfaces.
+
+\subsection{3. Problem 13: \(S_m\) is Cohen--Macaulay}
+
+Let
+\[
+S=k[x^3,x^2y,xy^2,y^3]\subseteq k[x,y],
+\]
+and let
+\[
+\mathfrak m=(x^3,x^2y,xy^2,y^3)\subseteq S.
+\]
+We want to show that
+\[
+S_{\mathfrak m}
+\]
+is Cohen--Macaulay by exhibiting an explicit regular sequence.
+
+We use the fact that
+\[
+\dim S_{\mathfrak m}=2.
+\]
+
+\subsubsection{3.1. Strategy}
+
+To prove that \(S_{\mathfrak m}\) is Cohen--Macaulay, it suffices to find a regular sequence in the maximal ideal
+\[
+\mathfrak m S_{\mathfrak m}
+\]
+of length \(2\), since then
+\[
+\depth S_{\mathfrak m}\ge 2=\dim S_{\mathfrak m},
+\]
+and therefore
+\[
+\depth S_{\mathfrak m}=\dim S_{\mathfrak m}=2.
+\]
+
+We will show that
+\[
+x^3,\ y^3
+\]
+form such a regular sequence.
+
+\subsubsection{3.2. A useful module decomposition}
+
+Set
+\[
+R:=k[x^3,y^3]\cong k[u,v].
+\]
+We claim that \(S\) is a free \(R\)-module with basis
+\[
+1,\ x^2y,\ xy^2.
+\]
+
+Indeed, every monomial in \(S\) has the form
+\[
+x^i y^j
+\qquad \text{with } i,j\ge 0 \text{ and } i+j\equiv 0\pmod 3.
+\]
+There are exactly three possible residue classes modulo \(3\) for such a pair:
+\[
+(i,j)\equiv (0,0),\ (2,1),\ (1,2)\pmod 3.
+\]
+
+Hence every such monomial can be written uniquely in one of the forms
+\[
+(x^3)^a (y^3)^b,
+\qquad
+(x^3)^a (y^3)^b \cdot x^2y,
+\qquad
+(x^3)^a (y^3)^b \cdot xy^2.
+\]
+So every element of \(S\) can be written uniquely as
+\[
+f_0(x^3,y^3)+f_1(x^3,y^3)\,x^2y+f_2(x^3,y^3)\,xy^2,
+\]
+with \(f_0,f_1,f_2\in k[u,v]\).
+
+Therefore
+\[
+S \cong R \oplus R\cdot x^2y \oplus R\cdot xy^2
+\]
+as an \(R\)-module, and in particular \(S\) is free of rank \(3\) over \(R\).
+
+\subsubsection{3.3. Why \(x^3,y^3\) is a regular sequence on \(S\)}
+
+Since
+\[
+R=k[x^3,y^3]\cong k[u,v]
+\]
+is a polynomial ring in two variables, the sequence
+\[
+x^3,\ y^3
+\]
+is an \(R\)-regular sequence.
+
+Because \(S\) is a free \(R\)-module, regular sequences on \(R\) remain regular on \(S\). Concretely:
+
+\medskip
+
+\textbf{Step 1: \(x^3\) is a nonzerodivisor on \(S\).}
+This is immediate because \(S\subseteq k[x,y]\), which is a domain, and \(x^3\neq 0\). Thus
+\[
+x^3s=0 \implies s=0.
+\]
+
+\medskip
+
+\textbf{Step 2: \(y^3\) is a nonzerodivisor on \(S/(x^3)\).}
+Since \(S\) is free over \(R\), we have
+\[
+S/(x^3)S \cong S\otimes_R R/(x^3),
+\]
+which is a free module over
+\[
+R/(x^3)\cong k[y^3].
+\]
+Now \(y^3\) is a nonzerodivisor in \(R/(x^3)\), hence it is also a nonzerodivisor on a free module over \(R/(x^3)\). Therefore \(y^3\) is a nonzerodivisor on
+\[
+S/(x^3)S.
+\]
+
+So
+\[
+x^3,\ y^3
+\]
+is an \(S\)-regular sequence.
+
+After localizing at \(\mathfrak m\), regular sequences remain regular. Thus
+\[
+x^3,\ y^3
+\]
+is an \(S_{\mathfrak m}\)-regular sequence in \(\mathfrak m S_{\mathfrak m}\).
+
+\subsubsection{3.4. Concluding Cohen--Macaulayness}
+
+We have found a regular sequence in \(S_{\mathfrak m}\) of length \(2\):
+\[
+x^3,\ y^3.
+\]
+Since \(\dim S_{\mathfrak m}=2\), it follows that
+\[
+\depth S_{\mathfrak m}\ge 2=\dim S_{\mathfrak m}.
+\]
+Hence
+\[
+\depth S_{\mathfrak m}=\dim S_{\mathfrak m}=2.
+\]
+Therefore \(S_{\mathfrak m}\) is Cohen--Macaulay.
+
+So the answer is:
+\[
+\boxed{S_{\mathfrak m}\text{ is Cohen--Macaulay, and }x^3,y^3\text{ is an explicit regular sequence.}}
+\]
+
+\subsubsection{3.5. Conceptual remark}
+
+The ring
+\[
+S=k[x^3,x^2y,xy^2,y^3]
+\]
+is the \(3\)-rd Veronese subring of \(k[x,y]\). Veronese subrings are standard and important examples of Cohen--Macaulay rings. Here we see Cohen--Macaulayness directly and concretely by exhibiting a regular sequence after localizing.
+
+\subsection{4. Final summary}
+
+\textbf{Problem 12.}
+A free resolution of
+\[
+A/\mathfrak m
+\quad\text{for } A=k[x,y]/(xy),\ \mathfrak m=(x,y)
+\]
+is
+\[
+\cdots
+\longrightarrow A^2
+\xrightarrow{\begin{pmatrix}x&0\\0&y\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}y&0\\0&x\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}x&y\end{pmatrix}}
+A
+\longrightarrow A/\mathfrak m
+\longrightarrow 0.
+\]
+
+From this one gets
+\[
+\boxed{\Ext_A^2(A/\mathfrak m,A)=0}
+\]
+and
+\[
+\boxed{\Tor_0^A(A/\mathfrak m,A/\mathfrak m)\cong A/\mathfrak m,}
+\]
+\[
+\boxed{\Tor_i^A(A/\mathfrak m,A/\mathfrak m)\cong (A/\mathfrak m)^2 \text{ for all } i\ge 1.}
+\]
+
+\medskip
+
+\textbf{Problem 13.}
+For
+\[
+S=k[x^3,x^2y,xy^2,y^3],
+\qquad
+\mathfrak m=(x^3,x^2y,xy^2,y^3),
+\]
+the localization \(S_{\mathfrak m}\) is Cohen--Macaulay. An explicit regular sequence is
+\[
+\boxed{x^3,\ y^3.}
+\]
+	
+\end{document}
+

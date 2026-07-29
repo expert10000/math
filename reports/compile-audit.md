@@ -1,0 +1,264 @@
+﻿# Compile Audit
+
+- Compile root: `imports/COMPILE_READY`
+- Build root: `build/compile-audit/standalone`
+- Results table: `reports/compile-audit-results.tsv`
+- Standalone TeX tested: 197
+- Successful PDFs: 180
+- Failed: 16
+- Timed out: 1
+- Fragments not compiled directly: 40
+- Missing unresolved figure references before compile: 4
+
+## Successful PDFs
+
+- `Downloads_chinese.tex` -> `build\compile-audit\standalone\Downloads_chinese\Downloads_chinese.pdf`
+- `Downloads_commalg6_report_structure_template.tex` -> `build\compile-audit\standalone\Downloads_commalg6_report_structure_template\Downloads_commalg6_report_structure_template.pdf`
+- `Downloads_commalg6_report_structure_template_1_.tex` -> `build\compile-audit\standalone\Downloads_commalg6_report_structure_template_1_\Downloads_commalg6_report_structure_template_1_.pdf`
+- `Downloads_dns.tex` -> `build\compile-audit\standalone\Downloads_dns\Downloads_dns.pdf`
+- `Downloads_ex3_8_takagi.tex` -> `build\compile-audit\standalone\Downloads_ex3_8_takagi\Downloads_ex3_8_takagi.pdf`
+- `Downloads_ex38g_ex39.tex` -> `build\compile-audit\standalone\Downloads_ex38g_ex39\Downloads_ex38g_ex39.pdf`
+- `Downloads_interpolation.tex` -> `build\compile-audit\standalone\Downloads_interpolation\Downloads_interpolation.pdf`
+- `Downloads_merged_exercises_corrected_1_.tex` -> `build\compile-audit\standalone\Downloads_merged_exercises_corrected_1_\Downloads_merged_exercises_corrected_1_.pdf`
+- `Downloads_merged_exercises_corrected_2_.tex` -> `build\compile-audit\standalone\Downloads_merged_exercises_corrected_2_\Downloads_merged_exercises_corrected_2_.pdf`
+- `Downloads_merged_exercises_corrected_3_.tex` -> `build\compile-audit\standalone\Downloads_merged_exercises_corrected_3_\Downloads_merged_exercises_corrected_3_.pdf`
+- `Downloads_merged_exercises_corrected_4_.tex` -> `build\compile-audit\standalone\Downloads_merged_exercises_corrected_4_\Downloads_merged_exercises_corrected_4_.pdf`
+- `Downloads_merged_exercises_FULL_v2_1_.tex` -> `build\compile-audit\standalone\Downloads_merged_exercises_FULL_v2_1_\Downloads_merged_exercises_FULL_v2_1_.pdf`
+- `Downloads_problems_9_10_visuals_embedded.tex` -> `build\compile-audit\standalone\Downloads_problems_9_10_visuals_embedded\Downloads_problems_9_10_visuals_embedded.pdf`
+- `Downloads_sheaves_notes_reorganized.tex` -> `build\compile-audit\standalone\Downloads_sheaves_notes_reorganized\Downloads_sheaves_notes_reorganized.pdf`
+- `Downloads_theory-of-algebraic-geometry-1.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-1\Downloads_theory-of-algebraic-geometry-1.pdf`
+- `Downloads_theory-of-algebraic-geometry-10.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-10\Downloads_theory-of-algebraic-geometry-10.pdf`
+- `Downloads_theory-of-algebraic-geometry-11.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-11\Downloads_theory-of-algebraic-geometry-11.pdf`
+- `Downloads_theory-of-algebraic-geometry-2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-2\Downloads_theory-of-algebraic-geometry-2.pdf`
+- `Downloads_theory-of-algebraic-geometry-3.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-3\Downloads_theory-of-algebraic-geometry-3.pdf`
+- `Downloads_theory-of-algebraic-geometry-4.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-4\Downloads_theory-of-algebraic-geometry-4.pdf`
+- `Downloads_theory-of-algebraic-geometry-5.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-5\Downloads_theory-of-algebraic-geometry-5.pdf`
+- `Downloads_theory-of-algebraic-geometry-6.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-6\Downloads_theory-of-algebraic-geometry-6.pdf`
+- `Downloads_theory-of-algebraic-geometry-7.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-7\Downloads_theory-of-algebraic-geometry-7.pdf`
+- `Downloads_theory-of-algebraic-geometry-8.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-8\Downloads_theory-of-algebraic-geometry-8.pdf`
+- `Downloads_theory-of-algebraic-geometry-9.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-geometry-9\Downloads_theory-of-algebraic-geometry-9.pdf`
+- `Downloads_theory-of-algebraic-topology-1.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-1\Downloads_theory-of-algebraic-topology-1.pdf`
+- `Downloads_theory-of-algebraic-topology-10.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-10\Downloads_theory-of-algebraic-topology-10.pdf`
+- `Downloads_theory-of-algebraic-topology-11.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-11\Downloads_theory-of-algebraic-topology-11.pdf`
+- `Downloads_theory-of-algebraic-topology-12.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-12\Downloads_theory-of-algebraic-topology-12.pdf`
+- `Downloads_theory-of-algebraic-topology-13.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-13\Downloads_theory-of-algebraic-topology-13.pdf`
+- `Downloads_theory-of-algebraic-topology-14.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-14\Downloads_theory-of-algebraic-topology-14.pdf`
+- `Downloads_theory-of-algebraic-topology-15.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-15\Downloads_theory-of-algebraic-topology-15.pdf`
+- `Downloads_theory-of-algebraic-topology-16.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-16\Downloads_theory-of-algebraic-topology-16.pdf`
+- `Downloads_theory-of-algebraic-topology-17.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-17\Downloads_theory-of-algebraic-topology-17.pdf`
+- `Downloads_theory-of-algebraic-topology-2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-2\Downloads_theory-of-algebraic-topology-2.pdf`
+- `Downloads_theory-of-algebraic-topology-3.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-3\Downloads_theory-of-algebraic-topology-3.pdf`
+- `Downloads_theory-of-algebraic-topology-4.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-4\Downloads_theory-of-algebraic-topology-4.pdf`
+- `Downloads_theory-of-algebraic-topology-5.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-5\Downloads_theory-of-algebraic-topology-5.pdf`
+- `Downloads_theory-of-algebraic-topology-6.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-6\Downloads_theory-of-algebraic-topology-6.pdf`
+- `Downloads_theory-of-algebraic-topology-7.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-7\Downloads_theory-of-algebraic-topology-7.pdf`
+- `Downloads_theory-of-algebraic-topology-8.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-8\Downloads_theory-of-algebraic-topology-8.pdf`
+- `Downloads_theory-of-algebraic-topology-9.tex` -> `build\compile-audit\standalone\Downloads_theory-of-algebraic-topology-9\Downloads_theory-of-algebraic-topology-9.pdf`
+- `Downloads_theory-of-analysis.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis\Downloads_theory-of-analysis.pdf`
+- `Downloads_theory-of-analysis_-_Copy.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis_-_Copy\Downloads_theory-of-analysis_-_Copy.pdf`
+- `Downloads_theory-of-analysis-FD.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-FD\Downloads_theory-of-analysis-FD.pdf`
+- `Downloads_theory-of-analysis-FD2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-FD2\Downloads_theory-of-analysis-FD2.pdf`
+- `Downloads_theory-of-analysis-functions.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-functions\Downloads_theory-of-analysis-functions.pdf`
+- `Downloads_theory-of-analysis-functions-II.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-functions-II\Downloads_theory-of-analysis-functions-II.pdf`
+- `Downloads_theory-of-analysis-II.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-II\Downloads_theory-of-analysis-II.pdf`
+- `Downloads_theory-of-analysis-numbers.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-numbers\Downloads_theory-of-analysis-numbers.pdf`
+- `Downloads_theory-of-analysis-topics.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-topics\Downloads_theory-of-analysis-topics.pdf`
+- `Downloads_theory-of-analysis-topology.tex` -> `build\compile-audit\standalone\Downloads_theory-of-analysis-topology\Downloads_theory-of-analysis-topology.pdf`
+- `Downloads_theory-of-commutative-algebra-1.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-1\Downloads_theory-of-commutative-algebra-1.pdf`
+- `Downloads_theory-of-commutative-algebra-10.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-10\Downloads_theory-of-commutative-algebra-10.pdf`
+- `Downloads_theory-of-commutative-algebra-11.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-11\Downloads_theory-of-commutative-algebra-11.pdf`
+- `Downloads_theory-of-commutative-algebra-12.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-12\Downloads_theory-of-commutative-algebra-12.pdf`
+- `Downloads_theory-of-commutative-algebra-13.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-13\Downloads_theory-of-commutative-algebra-13.pdf`
+- `Downloads_theory-of-commutative-algebra-14.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-14\Downloads_theory-of-commutative-algebra-14.pdf`
+- `Downloads_theory-of-commutative-algebra-15.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-15\Downloads_theory-of-commutative-algebra-15.pdf`
+- `Downloads_theory-of-commutative-algebra-16.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-16\Downloads_theory-of-commutative-algebra-16.pdf`
+- `Downloads_theory-of-commutative-algebra-1s.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-1s\Downloads_theory-of-commutative-algebra-1s.pdf`
+- `Downloads_theory-of-commutative-algebra-2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-2\Downloads_theory-of-commutative-algebra-2.pdf`
+- `Downloads_theory-of-commutative-algebra-3.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-3\Downloads_theory-of-commutative-algebra-3.pdf`
+- `Downloads_theory-of-commutative-algebra-4.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-4\Downloads_theory-of-commutative-algebra-4.pdf`
+- `Downloads_theory-of-commutative-algebra-5.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-5\Downloads_theory-of-commutative-algebra-5.pdf`
+- `Downloads_theory-of-commutative-algebra-5-professional.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-5-professional\Downloads_theory-of-commutative-algebra-5-professional.pdf`
+- `Downloads_theory-of-commutative-algebra-5-professional-v2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-5-professional-v2\Downloads_theory-of-commutative-algebra-5-professional-v2.pdf`
+- `Downloads_theory-of-commutative-algebra-6.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-6\Downloads_theory-of-commutative-algebra-6.pdf`
+- `Downloads_theory-of-commutative-algebra-7.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-7\Downloads_theory-of-commutative-algebra-7.pdf`
+- `Downloads_theory-of-commutative-algebra-7_-_Copy.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-7_-_Copy\Downloads_theory-of-commutative-algebra-7_-_Copy.pdf`
+- `Downloads_theory-of-commutative-algebra-8.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-8\Downloads_theory-of-commutative-algebra-8.pdf`
+- `Downloads_theory-of-commutative-algebra-9.tex` -> `build\compile-audit\standalone\Downloads_theory-of-commutative-algebra-9\Downloads_theory-of-commutative-algebra-9.pdf`
+- `Downloads_theory-of-complex-analysis.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis\Downloads_theory-of-complex-analysis.pdf`
+- `Downloads_theory-of-complex-analysis-2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-2\Downloads_theory-of-complex-analysis-2.pdf`
+- `Downloads_theory-of-complex-analysis-all.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-all\Downloads_theory-of-complex-analysis-all.pdf`
+- `Downloads_theory-of-complex-analysis-all-maps.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-all-maps\Downloads_theory-of-complex-analysis-all-maps.pdf`
+- `Downloads_theory-of-complex-analysis-all-maps-all.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-all-maps-all\Downloads_theory-of-complex-analysis-all-maps-all.pdf`
+- `Downloads_theory-of-complex-analysis-all-maps-all2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-all-maps-all2\Downloads_theory-of-complex-analysis-all-maps-all2.pdf`
+- `Downloads_theory-of-complex-analysis-maps.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-maps\Downloads_theory-of-complex-analysis-maps.pdf`
+- `Downloads_theory-of-complex-analysis-next.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-next\Downloads_theory-of-complex-analysis-next.pdf`
+- `Downloads_theory-of-complex-analysis-next2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-next2\Downloads_theory-of-complex-analysis-next2.pdf`
+- `Downloads_theory-of-complex-analysis-series.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-series\Downloads_theory-of-complex-analysis-series.pdf`
+- `Downloads_theory-of-complex-analysis-topology.tex` -> `build\compile-audit\standalone\Downloads_theory-of-complex-analysis-topology\Downloads_theory-of-complex-analysis-topology.pdf`
+- `Downloads_theory-of-differential-geometry-1.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-1\Downloads_theory-of-differential-geometry-1.pdf`
+- `Downloads_theory-of-differential-geometry-2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-2\Downloads_theory-of-differential-geometry-2.pdf`
+- `Downloads_theory-of-differential-geometry-3.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-3\Downloads_theory-of-differential-geometry-3.pdf`
+- `Downloads_theory-of-differential-geometry-4.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-4\Downloads_theory-of-differential-geometry-4.pdf`
+- `Downloads_theory-of-differential-geometry-5.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-5\Downloads_theory-of-differential-geometry-5.pdf`
+- `Downloads_theory-of-differential-geometry-6.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-6\Downloads_theory-of-differential-geometry-6.pdf`
+- `Downloads_theory-of-differential-geometry-MATH3D.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-MATH3D\Downloads_theory-of-differential-geometry-MATH3D.pdf`
+- `Downloads_theory-of-differential-geometry-topics.tex` -> `build\compile-audit\standalone\Downloads_theory-of-differential-geometry-topics\Downloads_theory-of-differential-geometry-topics.pdf`
+- `Downloads_theory-of-disitrbutions.tex` -> `build\compile-audit\standalone\Downloads_theory-of-disitrbutions\Downloads_theory-of-disitrbutions.pdf`
+- `Downloads_theory-of-geometry.tex` -> `build\compile-audit\standalone\Downloads_theory-of-geometry\Downloads_theory-of-geometry.pdf`
+- `Downloads_theory-of-geometry-1.tex` -> `build\compile-audit\standalone\Downloads_theory-of-geometry-1\Downloads_theory-of-geometry-1.pdf`
+- `Downloads_theory-of-geometry-3.tex` -> `build\compile-audit\standalone\Downloads_theory-of-geometry-3\Downloads_theory-of-geometry-3.pdf`
+- `Downloads_theory-of-geometry-4.tex` -> `build\compile-audit\standalone\Downloads_theory-of-geometry-4\Downloads_theory-of-geometry-4.pdf`
+- `Downloads_theory-of-geometry-II.tex` -> `build\compile-audit\standalone\Downloads_theory-of-geometry-II\Downloads_theory-of-geometry-II.pdf`
+- `Downloads_theory-of-geometry-III.tex` -> `build\compile-audit\standalone\Downloads_theory-of-geometry-III\Downloads_theory-of-geometry-III.pdf`
+- `Downloads_theory-of-linear-algebra-1.tex` -> `build\compile-audit\standalone\Downloads_theory-of-linear-algebra-1\Downloads_theory-of-linear-algebra-1.pdf`
+- `Downloads_theory-of-linear-algebra-2.tex` -> `build\compile-audit\standalone\Downloads_theory-of-linear-algebra-2\Downloads_theory-of-linear-algebra-2.pdf`
+- `Downloads_theory-of-real-analysis.tex` -> `build\compile-audit\standalone\Downloads_theory-of-real-analysis\Downloads_theory-of-real-analysis.pdf`
+- `Downloads_vector_bundle_diagrams_standalone.tex` -> `build\compile-audit\standalone\Downloads_vector_bundle_diagrams_standalone\Downloads_vector_bundle_diagrams_standalone.pdf`
+- `Downloads_wiki-green.tex` -> `build\compile-audit\standalone\Downloads_wiki-green\Downloads_wiki-green.pdf`
+- `MATH_ALLS-3_chinese.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_chinese\MATH_ALLS-3_chinese.pdf`
+- `MATH_ALLS-3_commalg6_report_structure_template.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_commalg6_report_structure_template\MATH_ALLS-3_commalg6_report_structure_template.pdf`
+- `MATH_ALLS-3_commalg6_report_structure_template_1_.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_commalg6_report_structure_template_1_\MATH_ALLS-3_commalg6_report_structure_template_1_.pdf`
+- `MATH_ALLS-3_dns.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_dns\MATH_ALLS-3_dns.pdf`
+- `MATH_ALLS-3_marie_curie_school_latex_package_marie_curie_school_simple.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_marie_curie_school_latex_package_marie_curie_school_simple\MATH_ALLS-3_marie_curie_school_latex_package_marie_curie_school_simple.pdf`
+- `MATH_ALLS-3_marie_curie_school_styled_package_marie_curie_school_styled.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_marie_curie_school_styled_package_marie_curie_school_styled\MATH_ALLS-3_marie_curie_school_styled_package_marie_curie_school_styled.pdf`
+- `MATH_ALLS-3_theory-of-algebraic-topology-1.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-algebraic-topology-1\MATH_ALLS-3_theory-of-algebraic-topology-1.pdf`
+- `MATH_ALLS-3_theory-of-algebraic-topology-2.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-algebraic-topology-2\MATH_ALLS-3_theory-of-algebraic-topology-2.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-1.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-1\MATH_ALLS-3_theory-of-commutative-algebra-1.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-10.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-10\MATH_ALLS-3_theory-of-commutative-algebra-10.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-11.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-11\MATH_ALLS-3_theory-of-commutative-algebra-11.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-12.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-12\MATH_ALLS-3_theory-of-commutative-algebra-12.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-13.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-13\MATH_ALLS-3_theory-of-commutative-algebra-13.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-14.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-14\MATH_ALLS-3_theory-of-commutative-algebra-14.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-15.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-15\MATH_ALLS-3_theory-of-commutative-algebra-15.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-1s.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-1s\MATH_ALLS-3_theory-of-commutative-algebra-1s.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-2.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-2\MATH_ALLS-3_theory-of-commutative-algebra-2.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-3.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-3\MATH_ALLS-3_theory-of-commutative-algebra-3.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-4.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-4\MATH_ALLS-3_theory-of-commutative-algebra-4.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-5.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-5\MATH_ALLS-3_theory-of-commutative-algebra-5.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-5-professional.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-5-professional\MATH_ALLS-3_theory-of-commutative-algebra-5-professional.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-5-professional-v2.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-5-professional-v2\MATH_ALLS-3_theory-of-commutative-algebra-5-professional-v2.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-6.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-6\MATH_ALLS-3_theory-of-commutative-algebra-6.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-7.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-7\MATH_ALLS-3_theory-of-commutative-algebra-7.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-7_-_Copy.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-7_-_Copy\MATH_ALLS-3_theory-of-commutative-algebra-7_-_Copy.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-8.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-8\MATH_ALLS-3_theory-of-commutative-algebra-8.pdf`
+- `MATH_ALLS-3_theory-of-commutative-algebra-9.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-commutative-algebra-9\MATH_ALLS-3_theory-of-commutative-algebra-9.pdf`
+- `MATH_ALLS-3_theory-of-differential-geometry-1.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-differential-geometry-1\MATH_ALLS-3_theory-of-differential-geometry-1.pdf`
+- `MATH_ALLS-3_theory-of-differential-geometry-2.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-differential-geometry-2\MATH_ALLS-3_theory-of-differential-geometry-2.pdf`
+- `MATH_ALLS-3_theory-of-differential-geometry-3.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-differential-geometry-3\MATH_ALLS-3_theory-of-differential-geometry-3.pdf`
+- `MATH_ALLS-3_theory-of-differential-geometry-4.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-differential-geometry-4\MATH_ALLS-3_theory-of-differential-geometry-4.pdf`
+- `MATH_ALLS-3_theory-of-differential-geometry-5.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-differential-geometry-5\MATH_ALLS-3_theory-of-differential-geometry-5.pdf`
+- `MATH_ALLS-3_theory-of-differential-geometry-6.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-differential-geometry-6\MATH_ALLS-3_theory-of-differential-geometry-6.pdf`
+- `MATH_ALLS-3_theory-of-differential-geometry-MATH3D.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-differential-geometry-MATH3D\MATH_ALLS-3_theory-of-differential-geometry-MATH3D.pdf`
+- `MATH_ALLS-3_theory-of-linear-algebra-1.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-linear-algebra-1\MATH_ALLS-3_theory-of-linear-algebra-1.pdf`
+- `MATH_ALLS-3_theory-of-linear-algebra-2.tex` -> `build\compile-audit\standalone\MATH_ALLS-3_theory-of-linear-algebra-2\MATH_ALLS-3_theory-of-linear-algebra-2.pdf`
+- `MATH-ALLS-2_ex3_8_takagi.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_ex3_8_takagi\MATH-ALLS-2_ex3_8_takagi.pdf`
+- `MATH-ALLS-2_ex38g_ex39.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_ex38g_ex39\MATH-ALLS-2_ex38g_ex39.pdf`
+- `MATH-ALLS-2_interpolation.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_interpolation\MATH-ALLS-2_interpolation.pdf`
+- `MATH-ALLS-2_merged_exercises_corrected_1_.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_merged_exercises_corrected_1_\MATH-ALLS-2_merged_exercises_corrected_1_.pdf`
+- `MATH-ALLS-2_merged_exercises_corrected_2_.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_merged_exercises_corrected_2_\MATH-ALLS-2_merged_exercises_corrected_2_.pdf`
+- `MATH-ALLS-2_merged_exercises_corrected_3_.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_merged_exercises_corrected_3_\MATH-ALLS-2_merged_exercises_corrected_3_.pdf`
+- `MATH-ALLS-2_merged_exercises_corrected_4_.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_merged_exercises_corrected_4_\MATH-ALLS-2_merged_exercises_corrected_4_.pdf`
+- `MATH-ALLS-2_merged_exercises_FULL_v2_1_.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_merged_exercises_FULL_v2_1_\MATH-ALLS-2_merged_exercises_FULL_v2_1_.pdf`
+- `MATH-ALLS-2_theory-of-analysis.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis\MATH-ALLS-2_theory-of-analysis.pdf`
+- `MATH-ALLS-2_theory-of-analysis_-_Copy.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis_-_Copy\MATH-ALLS-2_theory-of-analysis_-_Copy.pdf`
+- `MATH-ALLS-2_theory-of-analysis-FD.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-FD\MATH-ALLS-2_theory-of-analysis-FD.pdf`
+- `MATH-ALLS-2_theory-of-analysis-FD2.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-FD2\MATH-ALLS-2_theory-of-analysis-FD2.pdf`
+- `MATH-ALLS-2_theory-of-analysis-functions.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-functions\MATH-ALLS-2_theory-of-analysis-functions.pdf`
+- `MATH-ALLS-2_theory-of-analysis-functions-II.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-functions-II\MATH-ALLS-2_theory-of-analysis-functions-II.pdf`
+- `MATH-ALLS-2_theory-of-analysis-II.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-II\MATH-ALLS-2_theory-of-analysis-II.pdf`
+- `MATH-ALLS-2_theory-of-analysis-numbers.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-numbers\MATH-ALLS-2_theory-of-analysis-numbers.pdf`
+- `MATH-ALLS-2_theory-of-analysis-topics.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-topics\MATH-ALLS-2_theory-of-analysis-topics.pdf`
+- `MATH-ALLS-2_theory-of-analysis-topology.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-analysis-topology\MATH-ALLS-2_theory-of-analysis-topology.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis\MATH-ALLS-2_theory-of-complex-analysis.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-2.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-2\MATH-ALLS-2_theory-of-complex-analysis-2.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-all.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-all\MATH-ALLS-2_theory-of-complex-analysis-all.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-all-maps.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-all-maps\MATH-ALLS-2_theory-of-complex-analysis-all-maps.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-all-maps-all.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-all-maps-all\MATH-ALLS-2_theory-of-complex-analysis-all-maps-all.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-all-maps-all2.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-all-maps-all2\MATH-ALLS-2_theory-of-complex-analysis-all-maps-all2.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-maps.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-maps\MATH-ALLS-2_theory-of-complex-analysis-maps.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-next.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-next\MATH-ALLS-2_theory-of-complex-analysis-next.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-next2.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-next2\MATH-ALLS-2_theory-of-complex-analysis-next2.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-series.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-series\MATH-ALLS-2_theory-of-complex-analysis-series.pdf`
+- `MATH-ALLS-2_theory-of-complex-analysis-topology.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-complex-analysis-topology\MATH-ALLS-2_theory-of-complex-analysis-topology.pdf`
+- `MATH-ALLS-2_theory-of-differential-geometry-1.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-differential-geometry-1\MATH-ALLS-2_theory-of-differential-geometry-1.pdf`
+- `MATH-ALLS-2_theory-of-differential-geometry-2.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-differential-geometry-2\MATH-ALLS-2_theory-of-differential-geometry-2.pdf`
+- `MATH-ALLS-2_theory-of-differential-geometry-MATH3D.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-differential-geometry-MATH3D\MATH-ALLS-2_theory-of-differential-geometry-MATH3D.pdf`
+- `MATH-ALLS-2_theory-of-differential-geometry-topics.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-differential-geometry-topics\MATH-ALLS-2_theory-of-differential-geometry-topics.pdf`
+- `MATH-ALLS-2_theory-of-disitrbutions.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-disitrbutions\MATH-ALLS-2_theory-of-disitrbutions.pdf`
+- `MATH-ALLS-2_theory-of-geometry.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-geometry\MATH-ALLS-2_theory-of-geometry.pdf`
+- `MATH-ALLS-2_theory-of-geometry-1.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-geometry-1\MATH-ALLS-2_theory-of-geometry-1.pdf`
+- `MATH-ALLS-2_theory-of-geometry-3.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-geometry-3\MATH-ALLS-2_theory-of-geometry-3.pdf`
+- `MATH-ALLS-2_theory-of-geometry-4.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-geometry-4\MATH-ALLS-2_theory-of-geometry-4.pdf`
+- `MATH-ALLS-2_theory-of-geometry-II.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-geometry-II\MATH-ALLS-2_theory-of-geometry-II.pdf`
+- `MATH-ALLS-2_theory-of-geometry-III.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_theory-of-geometry-III\MATH-ALLS-2_theory-of-geometry-III.pdf`
+- `MATH-ALLS-2_wiki-green.tex` -> `build\compile-audit\standalone\MATH-ALLS-2_wiki-green\MATH-ALLS-2_wiki-green.pdf`
+
+## Failed Or Timed Out
+
+- `Downloads_diagrams_01-13_tikz.tex` [pdflatex, fail, exit 12]: Downloads_diagrams_01-13_tikz.tex:96: Package pgfkeys Error: I do not know the
+- `Downloads_merged_exercises.tex` [pdflatex, fail, exit 12]: Downloads_merged_exercises.tex:17: Package enumitem Error: a) undefined.
+- `Downloads_merged_exercises_1_.tex` [pdflatex, fail, exit 12]: Downloads_merged_exercises_1_.tex:48: Package enumitem Error: a) undefined.
+- `Downloads_merged_exercises_corrected.tex` [pdflatex, fail, exit 12]: Downloads_merged_exercises_corrected.tex:213: Extra }, or forgotten $.
+- `Downloads_merged_exercises_FULL_v2.tex` [pdflatex, fail, exit 12]: Downloads_merged_exercises_FULL_v2.tex:223: Extra }, or forgotten $.
+- `Downloads_theory-of-complex-analysis-gamma.tex` [pdflatex, fail, exit 12]: Downloads_theory-of-complex-analysis-gamma.tex:1735: Undefined control sequence
+- `Downloads_theory-of-geometry-2.tex` [pdflatex, fail, exit 12]: Downloads_theory-of-geometry-2.tex:2547: LaTeX Error: Command \k unavailable in
+- `Downloads_theory-of-geometry-IV.tex` [pdflatex, fail, exit 12]: Downloads_theory-of-geometry-IV.tex:2170: Improper \spacefactor.
+- `MATH_ALLS-3_diagrams_01-13_tikz.tex` [pdflatex, fail, exit 12]: MATH_ALLS-3_diagrams_01-13_tikz.tex:96: Package pgfkeys Error: I do not know th
+- `MATH-ALLS-2_merged_exercises.tex` [pdflatex, fail, exit 12]: MATH-ALLS-2_merged_exercises.tex:17: Package enumitem Error: a) undefined.
+- `MATH-ALLS-2_merged_exercises_1_.tex` [pdflatex, fail, exit 12]: MATH-ALLS-2_merged_exercises_1_.tex:48: Package enumitem Error: a) undefined.
+- `MATH-ALLS-2_merged_exercises_corrected.tex` [pdflatex, fail, exit 12]: MATH-ALLS-2_merged_exercises_corrected.tex:213: Extra }, or forgotten $.
+- `MATH-ALLS-2_merged_exercises_FULL_v2.tex` [pdflatex, fail, exit 12]: MATH-ALLS-2_merged_exercises_FULL_v2.tex:223: Extra }, or forgotten $.
+- `MATH-ALLS-2_theory-of-complex-analysis-gamma.tex` [pdflatex, fail, exit 12]: MATH-ALLS-2_theory-of-complex-analysis-gamma.tex:1735: Undefined control sequen
+- `MATH-ALLS-2_theory-of-geometry-2.tex` [pdflatex, fail, exit 12]: MATH-ALLS-2_theory-of-geometry-2.tex:2547: LaTeX Error: Command \k unavailable
+- `MATH-ALLS-2_theory-of-geometry-IV.tex` [pdflatex, fail, exit 12]: MATH-ALLS-2_theory-of-geometry-IV.tex:2170: Improper \spacefactor.
+- `MATH-ALLS-2_theory-of-real-analysis.tex` [pdflatex, timeout, exit 124]: 
+
+## Missing References
+
+- `Downloads_Exercise_1_2_append.tex`: `includegraphics{f_and_psi.png}`
+- `Downloads_Exercise_1_2_append.tex`: `includegraphics{residual_check.png}`
+- `MATH-ALLS-2_Exercise_1_2_append.tex`: `includegraphics{f_and_psi.png}`
+- `MATH-ALLS-2_Exercise_1_2_append.tex`: `includegraphics{residual_check.png}`
+
+## Fragments
+
+- `Downloads_Exercise_1_2_append.tex`
+- `Downloads_exercise_4_solutions_1_.tex`
+- `Downloads_interpolation_all.tex`
+- `Downloads_interpolation_n16.tex`
+- `Downloads_interpolation_n4.tex`
+- `Downloads_interpolation_n8.tex`
+- `Downloads_latex_embed_examples_3_5.tex`
+- `Downloads_merged_exercises_2_.tex`
+- `Downloads_merged_exercises_3_.tex`
+- `Downloads_merged_exercises_corrected_5_.tex`
+- `Downloads_merged_exercises_corrected_6_.tex`
+- `Downloads_merged_exercises_corrected_7_.tex`
+- `Downloads_merged_exercises_corrected_8_.tex`
+- `Downloads_merged_exercises_corrected_9_.tex`
+- `Downloads_merged_exercises_FULL.tex`
+- `Downloads_merged_exercises_FULL_1_.tex`
+- `Downloads_merged_exercises_FULL_2_.tex`
+- `Downloads_merged_exercises_FULL_v2_2_.tex`
+- `Downloads_merged_exercises_FULL_v2_3_.tex`
+- `Downloads_problems_9_10_visuals_snippet.tex`
+- `Downloads_vector_bundle_diagrams_snippet.tex`
+- `Downloads_vector_bundle_diagrams_snippet_1_.tex`
+- `MATH-ALLS-2_Exercise_1_2_append.tex`
+- `MATH-ALLS-2_exercise_4_solutions_1_.tex`
+- `MATH-ALLS-2_interpolation_all.tex`
+- `MATH-ALLS-2_interpolation_n16.tex`
+- `MATH-ALLS-2_interpolation_n4.tex`
+- `MATH-ALLS-2_interpolation_n8.tex`
+- `MATH-ALLS-2_merged_exercises_2_.tex`
+- `MATH-ALLS-2_merged_exercises_3_.tex`
+- `MATH-ALLS-2_merged_exercises_corrected_5_.tex`
+- `MATH-ALLS-2_merged_exercises_corrected_6_.tex`
+- `MATH-ALLS-2_merged_exercises_corrected_7_.tex`
+- `MATH-ALLS-2_merged_exercises_corrected_8_.tex`
+- `MATH-ALLS-2_merged_exercises_corrected_9_.tex`
+- `MATH-ALLS-2_merged_exercises_FULL.tex`
+- `MATH-ALLS-2_merged_exercises_FULL_1_.tex`
+- `MATH-ALLS-2_merged_exercises_FULL_2_.tex`
+- `MATH-ALLS-2_merged_exercises_FULL_v2_2_.tex`
+- `MATH-ALLS-2_merged_exercises_FULL_v2_3_.tex`
