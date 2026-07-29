@@ -14,7 +14,7 @@ The original import folders are untouched.
 
 ```text
 tex_test/
-  tex/       # 231 normalized document-level TeX files
+  tex/       # 158 deduplicated document-level TeX files
   figures/   # referenced compile-ready flattened figure assets
   build/     # local build output
   manifest.tsv
@@ -26,13 +26,13 @@ tex_test/
 Run from the repository root:
 
 ```powershell
-.\tex_test\compile-one.ps1 -File tex\Downloads_theory-of-analysis.tex
+.\tex_test\compile-one.ps1 -File tex\theory-of-analysis.tex
 ```
 
 Or from inside `tex_test/`:
 
 ```powershell
-.\compile-one.ps1 -File tex\Downloads_theory-of-analysis.tex
+.\compile-one.ps1 -File tex\theory-of-analysis.tex
 ```
 
 Build output goes to `tex_test/build/`.
@@ -40,6 +40,11 @@ Build output goes to `tex_test/build/`.
 The `figures/` folder is intentionally pruned to the assets referenced by the
 merged TeX files, rather than copying every image from the original import
 bucket.
+
+The old source-bucket prefixes (`Downloads_`, `MATH-ALLS-2_`, `MATH_ALLS-3_`)
+were removed from TeX filenames. Exact duplicate TeX files were collapsed. When
+two same-title files had different content, the alternate keeps provenance as an
+end suffix, for example `theory-of-analysis--math-alls-2.tex`.
 
 ## Known caveat
 
