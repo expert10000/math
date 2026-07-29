@@ -1,0 +1,893 @@
+\documentclass[12pt,a4paper]{article}
+
+% =========================================================
+% Packages
+% =========================================================
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,calc,angles,quotes,positioning,decorations.markings,patterns,decorations.pathreplacing,shapes.geometric}
+\usepackage{tikz-cd}
+\usepackage{tikz-3dplot}
+
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{xcolor}
+\usepackage{hyperref}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+
+% =========================================================
+% Operators / macros
+% =========================================================
+\DeclareMathOperator{\ord}{ord}
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\PSL}{PSL}
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\codim}{codim}
+\DeclareMathOperator{\Span}{span}
+
+\newcommand{\II}{\mathrm{I\!I}}
+\newcommand{\I}{\mathrm{I}} % optional: first fundamental form
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\HH}{\mathbb{H}}
+\newcommand{\hyp}{\mathbb{H}}
+\newcommand{\DD}{\mathbb{D}}
+\newcommand{\T}{\mathsf{T}} % transpose symbol
+\newcommand{\sph}{\mathrm{sph}}
+\newcommand{\n}{6}
+
+\newcommand{\Solution}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\Theory}{\par\medskip\noindent\textbf{Theory.}\ }
+\newcommand{\Proof}{\par\medskip\noindent\textbf{Proof.}\ }
+
+% =========================================================
+% Header / footer
+% =========================================================
+\pagestyle{fancy}
+\fancyhf{}
+\fancyfoot[C]{\thepage}
+\fancyhead[L]{\textit{Differential Geometry MATH3D}}
+\fancyhead[R]{\textit{Dev}}
+
+% =========================================================
+% Theorems
+% =========================================================
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem*{Example}{Example}
+\newtheorem{remark}[theorem]{Remark}
+
+% =========================================================
+% TikZ style presets (kept from your file)
+% =========================================================
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1
+	},
+	note/.style={black!70, font=\scriptsize}
+}
+
+\tikzset{
+	->-/.style={
+		postaction={decorate},
+		decoration={
+			markings,
+			mark=at position 0.18 with {\arrow{Stealth[length=2.2mm]}}
+		}
+	},
+	p10loop/.style={thick}
+}
+
+% =========================================================
+% Poincaré disk helper (kept from your file)
+% =========================================================
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Robust handling of diameter/antipodal case.
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+% =========================================================
+% Title
+% =========================================================
+\title{Differential Geometry MATH3D}
+\author{}
+\date{2026-01-24, 16:50}
+
+\begin{document}
+	\maketitle
+	
+	% =========================================================
+	% SECTION 1 (Top-level): Geodesic Path on Surface
+	% =========================================================
+	\section{Geodesic Path on Surface (Mesh vs. Implicit)}
+	
+	\subsection{Problem: ``edge-walk'' zig-zag artifacts}
+	The current path looks like a jagged polyline because it is effectively a \emph{shortest path constrained to mesh edges}
+	(i.e., Dijkstra/A* on the vertex-edge graph). On coarse triangle meshes (e.g., Marching Cubes output), this produces
+	visible ``staircasing'' and corner kinks.
+	
+	\subsection{Practical solver options (easy win $\rightarrow$ gold standard)}
+	
+		\subsubsection*{A* / Dijkstra on a richer graph (cheap upgrade, still graph-based)}
+	\textbf{Goal:} reduce zig-zag by allowing paths to cut across faces, not only follow edges.
+	
+	\paragraph{Add face diagonals / local shortcuts.}
+	Add extra edges such as:
+	\begin{itemize}
+		\item connect vertices across quads (if you can detect them),
+		\item connect 2-ring neighbors (neighbors-of-neighbors) with weight equal to straight Euclidean distance.
+	\end{itemize}
+	\textbf{Pros:} simple, fast. \\
+	\textbf{Cons:} still not a true geodesic; can still kink.
+	
+	\paragraph{Build a ``visibility graph'' on the 1-ring.}
+	For each vertex, connect it to all vertices that appear in adjacent faces (not only direct mesh edges).
+	\begin{itemize}
+		\item This effectively lets A* shortcut within local face neighborhoods.
+	\end{itemize}
+	\textbf{Pros:} fewer zig-zags. \\
+	\textbf{Cons:} can ``cut corners'' incorrectly on coarse meshes.
+	
+	\medskip
+	This is the easiest solver change if minimal math is required.
+	
+		\subsubsection*{Exact geodesics on triangle meshes (classic discrete geodesics)}
+	These compute \emph{exact shortest paths} on polyhedral (triangulated) surfaces.
+	
+	\paragraph{Chen--Han algorithm.}
+	Exact shortest paths on polyhedral surfaces.
+	\begin{itemize}
+		\item \textbf{Pros:} exact on the mesh surface.
+		\item \textbf{Cons:} complex to implement robustly.
+	\end{itemize}
+	
+	\paragraph{Mitchell--Mount--Papadimitriou (MMP).}
+	Also exact on polyhedral surfaces.
+	\begin{itemize}
+		\item \textbf{Pros:} exact.
+		\item \textbf{Cons:} even more complex than Chen--Han.
+	\end{itemize}
+	
+		\subsubsection*{Heat Method (best practical solver for apps)}
+	This is the \emph{go-to} geodesic distance solver in graphics:
+	smooth, robust, and relatively straightforward if sparse linear solves are available.
+	
+	\paragraph{High-level pipeline.}
+	Let $L$ be the Laplace--Beltrami operator (discrete cotan Laplacian) and $M$ the mass matrix.
+	\begin{enumerate}
+		\item \textbf{Heat diffusion (short time $t$):}
+		\[
+		(M + tL)\,u = M\,\delta_s
+		\]
+		where $\delta_s$ is a point source at the start vertex (or barycentric point source).
+		
+		\item \textbf{Normalize gradient field:}
+		\[
+		X = -\frac{\nabla u}{\|\nabla u\|}
+		\]
+		
+		\item \textbf{Poisson solve to obtain distance $\phi$:}
+		\[
+		L\phi = \nabla\cdot X
+		\]
+		
+		\item \textbf{Extract the geodesic curve:}
+		backtrace from target to source along $-\nabla\phi$ (integrate on the surface).
+	\end{enumerate}
+	
+	\textbf{Pros:} excellent results, handles noisy/coarse meshes well, widely used. \\
+	\textbf{Cons:} requires $L/M$ construction + sparse linear system solves.
+	
+		\subsubsection*{Fast Marching Method (FMM) on the mesh}
+	Compute distance by propagating a front on the triangulated surface.
+	\begin{itemize}
+		\item \textbf{Pros:} more accurate than edge Dijkstra; classic PDE approach.
+		\item \textbf{Cons:} harder than A*; often less pleasant than Heat Method in practice.
+	\end{itemize}
+	
+		\subsubsection*{Intrinsic triangulation / edge flips (high quality, more work)}
+	Build an \emph{intrinsic Delaunay triangulation} (IDT) to improve geodesic stability on poor meshes,
+	then run geodesic algorithms on the intrinsic mesh.
+	\begin{itemize}
+		\item \textbf{Pros:} accurate and stable even on low-quality triangulations.
+		\item \textbf{Cons:} significant implementation effort.
+	\end{itemize}
+	
+	\subsection{What to do for Marching Cubes implicit surfaces}
+	
+		\subsubsection*{Immediate fix (short-term)}
+	Keep the welded mesh graph, but improve the path quality:
+	\begin{itemize}
+		\item add face-based start/end nodes (barycentric placement) if not already,
+		\item add 2-ring edges to reduce zig-zag,
+		\item resample the path to uniform arc-length steps,
+		\item Laplacian-smooth the polyline (few iterations),
+		\item project smoothed points back onto the implicit surface $f(x,y,z)=0$ (Newton projection),
+		\item do this \emph{uniformly across all implicit surfaces} (not only spheres).
+	\end{itemize}
+	
+		\subsubsection*{Real solver (next milestone)}
+	Implement the \textbf{Heat Method} on the welded indexed mesh:
+	\begin{itemize}
+		\item produces a smooth distance field $\phi$,
+		\item extracting the path via backtracing yields a clean, stable geodesic,
+		\item directly addresses the zig-zag ``edge-walk'' artifact.
+	\end{itemize}
+	
+	\subsection{Geodesics directly on an implicit surface $f(x,y,z)=0$ (ODE formulation)}
+	Let
+	\[
+	S = \{x\in\R^3 : f(x)=0\},\qquad g(x)=\nabla f(x),\qquad n(x)=\frac{g(x)}{\|g(x)\|}.
+	\]
+	A curve $x(s)\in S$ is a geodesic (parameterized by arc-length $s$) iff:
+	\begin{itemize}
+		\item it stays on the surface: $f(x(s))=0$,
+		\item its acceleration is purely normal: $x''(s) \parallel n(x(s))$,
+		\item and $\|x'(s)\|=1$ (arc-length parameterization).
+	\end{itemize}
+	
+		\subsubsection*{Constraint differentiation}
+	Differentiate $f(x(s))=0$:
+	\[
+	\nabla f(x)\cdot x' = 0,
+	\]
+	and again:
+	\[
+	x'^{\mathsf T} H_f(x)\,x' + \nabla f(x)\cdot x'' = 0,
+	\]
+	where $H_f(x)$ is the Hessian matrix of $f$.
+	
+	Assume geodesic acceleration is normal:
+	\[
+	x'' = \lambda(s)\,n(x)=\lambda(s)\,\frac{\nabla f(x)}{\|\nabla f(x)\|}.
+	\]
+	Then
+	\[
+	\nabla f(x)\cdot x'' = \lambda(s)\,\|\nabla f(x)\|.
+	\]
+	Therefore
+	\[
+	\lambda(s) = -\frac{x'^{\mathsf T}H_f(x)\,x'}{\|\nabla f(x)\|}.
+	\]
+	
+		\subsubsection*{Final ODE system (arc-length geodesic)}
+	Let $v=x'$ so that $\|v\|=1$. The geodesic ODE becomes:
+	\[
+	\boxed{
+		\begin{aligned}
+			x' &= v,\\[4pt]
+			v' &= -\frac{v^{\mathsf T}H_f(x)\,v}{\|\nabla f(x)\|^2}\,\nabla f(x),
+	\end{aligned}}
+	\]
+	with constraints
+	\[
+	f(x)=0,\qquad v\cdot\nabla f(x)=0,\qquad \|v\|=1.
+	\]
+	
+		\subsubsection*{Two-point boundary condition and shooting}
+	To connect $p_1$ to $p_2$, choose the initial tangent direction $v(0)$ so that the integrated curve hits $p_2$.
+	This is a boundary value problem, typically solved by \textbf{shooting}:
+	\begin{enumerate}
+		\item Build an orthonormal tangent basis at $p_1$: $(e_1,e_2)\subset T_{p_1}S$ with
+		\[
+		e_i\cdot n(p_1)=0,\qquad e_1\cdot e_2=0,\qquad \|e_i\|=1.
+		\]
+		\item Parameterize direction by an angle:
+		\[
+		v(0;\theta)=\cos\theta\,e_1+\sin\theta\,e_2.
+		\]
+		\item Integrate to length $L$ to obtain $x(L;\theta)$.
+		\item Optimize $(\theta,L)$ to match $p_2$:
+		\[
+		E(\theta,L)=\|x(L;\theta)-p_2\|^2.
+		\]
+	\end{enumerate}
+	
+	\paragraph{Practical issues.}
+	\begin{itemize}
+		\item Multiple geodesics can exist between two points.
+		\item Near the cut locus, the minimization is ill-conditioned.
+		\item Numerical drift can push $(x,v)$ off the manifold without stabilization.
+	\end{itemize}
+	
+	\subsection{Stability: keep the curve on the surface}
+	ODE integration introduces drift; apply projection steps every step (or every few steps).
+	
+		\subsubsection*{Newton projection of position onto $f(x)=0$}
+	\[
+	\boxed{
+		x \leftarrow x - \frac{f(x)}{\|\nabla f(x)\|^2}\,\nabla f(x)
+	}
+	\]
+	
+		\subsubsection*{Project velocity into the tangent plane and renormalize}
+	\[
+	\boxed{
+		v \leftarrow v - (v\cdot n)\,n,\qquad v\leftarrow \frac{v}{\|v\|}
+	}
+	\]
+	
+	\subsection{Analytic gradient $\nabla f$ for implicit surfaces}
+	If $f(x,y,z)$ is given as an explicit expression, then
+	\[
+	\boxed{
+		\nabla f(x,y,z)=\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y},\frac{\partial f}{\partial z}\right)
+	}
+	\]
+	
+		\subsubsection*{Implementation options}
+	\begin{enumerate}
+		\item \textbf{Symbolic differentiation:} parse $f$ into an AST and build ASTs for $f_x,f_y,f_z$.
+		\item \textbf{Automatic differentiation (recommended):} forward-mode AD (dual numbers) with three derivative slots $(dx,dy,dz)$.
+		\item \textbf{Finite differences (fallback):}
+		\[
+		f_x(x,y,z)\approx \frac{f(x+h,y,z)-f(x-h,y,z)}{2h}
+		\]
+		similarly for $y,z$.
+	\end{enumerate}
+	
+		\subsubsection*{Manual examples}
+	If
+	\[
+	f(x,y,z)=x^2+y^2+z^2-1,
+	\quad\text{then}\quad
+	\nabla f=(2x,2y,2z),
+	\]
+	and if
+	\[
+	f(x,y,z)=x\sin(y)+e^z,
+	\quad\text{then}\quad
+	\nabla f=\bigl(\sin(y),\,x\cos(y),\,e^z\bigr).
+	\]
+	
+	\subsection{Recommendation}
+	\begin{itemize}
+		\item \textbf{Shippable solution:} triangulate (Marching Cubes) $\rightarrow$ Heat Method on the mesh $\rightarrow$ backtrace to obtain the path.
+		\item \textbf{Experimental ``pure implicit'' mode:} ODE + shooting + projection each step (more fragile but elegant).
+	\end{itemize}
+	
+	% =========================================================
+	% SECTION 2 (Top-level): Surface Pipelines / Meshing Strategy
+	% =========================================================
+	\section{Math3D Surface Meshing Strategy (Implicit / Explicit / Parametric / Weierstrass)}
+	
+	\subsection{Goal}
+	Keep meshing \textbf{robust}, \textbf{predictable}, and \textbf{UI-consistent} across all surface modes in Math3D.
+	The key design choice is to \emph{avoid voxelization for smooth parametric surfaces} and reserve CGAL/VTK for implicit
+	surfaces where topology is not given by a parameter domain.
+	
+	\subsection{Parametric-family surfaces (Explicit, Parametric, Weierstrass): do \emph{not} use VTK/CGAL by default}
+	For any surface that can be evaluated as a smooth map
+	\[
+	X(u,v)\in\R^3,
+	\]
+	\textbf{do not use VTK/CGAL at all} as the default.
+	
+		\subsubsection*{Parametric mode}
+	\[
+	X(u,v)\in\R^3.
+	\]
+	
+		\subsubsection*{Explicit mode}
+	Explicit graphs are parametric surfaces in disguise:
+	\[
+	z=f(x,y)
+	\quad\Longrightarrow\quad
+	X(u,v)=(u,v,f(u,v)).
+	\]
+	So explicit surfaces reuse the exact same pipeline as parametric surfaces.
+	
+		\subsubsection*{Weierstrass mode}
+	The Weierstrass representation outputs a parametric surface over a domain (with integration / stability checks),
+	so the final mesh generation remains parametric:
+	\[
+	X(u,v).
+	\]
+	\textbf{Meshing rule: triangulate the parameter domain and map through $X(u,v)$.}
+	
+	\subsection{Robust default: domain triangulation + adaptive refinement}
+	\textbf{Default pipeline for Parametric / Explicit / Weierstrass:}
+	\begin{enumerate}[label=\arabic*)]
+		\item Start with a coarse triangulation in parameter space $(u,v)$
+		(grid triangulation or Delaunay in 2D).
+		\item Map vertices via $X(u,v)$ into $\R^3$.
+		\item Refine triangles adaptively where needed, based on one or more criteria:
+		\begin{itemize}
+			\item edge length in $\R^3$ too large,
+			\item normal variation across the triangle too large,
+			\item curvature estimate too large / rapidly changing,
+			\item proximity to known singular regions (optional).
+		\end{itemize}
+		\item Compute normals / curvature / derived fields as usual.
+	\end{enumerate}
+	
+	\paragraph{Why this is robust.}
+	\begin{itemize}
+		\item Avoids topology surprises introduced by voxelization.
+		\item Gives deterministic control over density exactly where needed (high curvature, seams, singularities).
+		\item Works uniformly for Explicit/Parametric/Weierstrass and matches the current renderer model.
+	\end{itemize}
+	
+	\subsection{Implicit surfaces $f(x,y,z)=0$: CGAL is the quality gold standard}
+	Implicit surfaces do \emph{not} come with a natural parameter domain:
+	\[
+	S=\{(x,y,z)\in\R^3 : f(x,y,z)=0\}.
+	\]
+	Meshing is fundamentally different, and external meshing libraries become the robust choice.
+	
+		\subsubsection*{Two implicit families}
+	
+	\paragraph{A) Analytic implicit $f(x,y,z)$ (best quality: CGAL / pygalmesh).}
+	If you have an analytic implicit function $f(x,y,z)$, the best mesh quality and robustness usually comes from:
+	\begin{itemize}
+		\item CGAL implicit surface meshing (via \texttt{pygalmesh} or direct CGAL bindings).
+	\end{itemize}
+	
+	\paragraph{B) Sampled scalar field / voxels / SDF volume (best speed: VTK FlyingEdges / Marching Cubes).}
+	If the input is already a discretized volume (grid samples / voxel SDF), the best engineering path is:
+	\begin{itemize}
+		\item VTK isosurfacing (FlyingEdges3D / Marching Cubes).
+	\end{itemize}
+	
+	\paragraph{Conclusion for implicit meshing.}
+	\[
+	\textbf{Quality: CGAL} \;>\; \textbf{VTK}
+	\qquad\qquad
+	\textbf{Speed / preview: VTK} \;>\; \textbf{CGAL}.
+	\]
+	
+	\subsection{One-pipeline rule for predictable UX in Math3D}
+	Use a single, easy-to-explain rule:
+	
+	\subsubsection*{Use param-domain adaptive triangulation for}
+	\begin{itemize}
+		\item Explicit surfaces ($z=f(x,y)$ as $X(u,v)$),
+		\item Parametric surfaces ($X(u,v)$),
+		\item Weierstrass surfaces ($X(u,v)$ from the integration pipeline).
+	\end{itemize}
+	
+	\subsubsection*{Use CGAL / pygalmesh for}
+	\begin{itemize}
+		\item Analytic implicit surfaces $f(x,y,z)=0$ \textbf{when mesh quality matters}.
+	\end{itemize}
+	
+	\subsubsection*{Use VTK isosurfacing for}
+	\begin{itemize}
+		\item Volumetric / SDF preview meshes,
+		\item draft implicit meshes when you already have a 3D grid.
+	\end{itemize}
+	
+	\subsection{Implications for the ``region $\rightarrow$ python $\rightarrow$ return mesh'' workflow}
+	Assume the framework can send a selected region and get back a triangle mesh $\{V,F\}$.
+	
+		\subsubsection*{Parametric / Explicit / Weierstrass}
+	\begin{itemize}
+		\item Python is not required for baseline meshing.
+		\item Mesh can be generated deterministically in JS from the selected parameter region:
+		\[
+		(u,v)\text{-region} \;\;\text{or}\;\; (x,y)\text{-region}.
+		\]
+		\item Python may still be useful for heavy adaptive refinement or offline-quality meshing, but it is optional.
+	\end{itemize}
+	
+		\subsubsection*{Implicit}
+	\begin{itemize}
+		\item Region selection provides:
+		\begin{itemize}
+			\item bounding box (AABB) in $\R^3$,
+			\item target edge length / sizing control,
+			\item max triangles / budget.
+		\end{itemize}
+		\item Python runs CGAL meshing inside the bounding box and returns a mesh:
+		\[
+		\{V,F\}.
+		\]
+	\end{itemize}
+	
+	\subsection{``Mesh quality slider'' mapping (consistent UX)}
+	Map a single \emph{Mesh Quality} control to the correct notion of resolution in each mode:
+	\begin{itemize}
+		\item \textbf{Parametric / Explicit / Weierstrass:} refinement thresholds in parameter-space triangulation
+		(edge length, normal variation, curvature variation, refinement depth).
+		\item \textbf{Implicit (CGAL quality mode):} sizing field / target edge length / approximation error.
+		\item \textbf{Implicit (VTK preview mode):} voxel/grid resolution (and optionally smoothing iterations).
+	\end{itemize}
+	
+	\subsection{Summary}
+	\begin{itemize}
+		\item \textbf{Do not voxelize} parametric-family surfaces by default: mesh the domain, map through $X(u,v)$, adaptively refine.
+		\item \textbf{Use CGAL} for analytic implicit $f(x,y,z)=0$ when you want the best surface quality.
+		\item \textbf{Use VTK} for volumetric/SDF preview meshes and fast previews/drafts.
+		\item Keep \textbf{one UI mental model}: one quality slider that controls refinement in the appropriate space.
+	\end{itemize}
+	
+	\subsection*{Heat Method Geodesics on a Triangulated Patch (Implementation Notes)}
+	
+	We assume a triangle mesh patch
+	\[
+	V=\{p_i\}_{i=1}^N\subset\mathbb{R}^3,\qquad
+	F=\{(i,j,k)\}\subset\{1,\dots,N\}^3,
+	\]
+	with oriented faces \(f=(i,j,k)\). A point \(x\) lying in a face \(f\) is represented by
+	\[
+	x = b_i p_i + b_j p_j + b_k p_k,
+	\qquad
+	(b_i,b_j,b_k)\in\Delta^2,\;\; b_i+b_j+b_k=1,\;\; b_\ell\ge 0,
+	\]
+	i.e.\ by its \emph{barycentric} coordinates in that face.
+	
+	\subsubsection*{Precompute and cache per mesh}
+	
+	All quantities below are cached \emph{per mesh} (keyed by a mesh hash) so that repeated geodesic queries reuse the same operators and sparse factorizations.
+	
+	\paragraph{Mean edge length.}
+	Let \(E\) be the set of (undirected) mesh edges. The mean edge length is
+	\[
+	\bar{h} \;=\; \frac{1}{|E|}\sum_{(a,b)\in E}\|p_a-p_b\|.
+	\]
+	
+	\paragraph{Face areas and normals.}
+	For each face \(f=(i,j,k)\), define
+	\[
+	n_f=(p_j-p_i)\times(p_k-p_i),\qquad
+	A_f=\frac{1}{2}\|n_f\|.
+	\]
+	
+	\paragraph{Barycentric basis gradients.}
+	Let \(\lambda_i,\lambda_j,\lambda_k\) be the barycentric basis functions on face \(f\).
+	Their gradients are constant on \(f\) and can be written as
+	\[
+	\nabla \lambda_i \;=\; \frac{n_f \times (p_k-p_j)}{2A_f},\qquad
+	\nabla \lambda_j \;=\; \frac{n_f \times (p_i-p_k)}{2A_f},\qquad
+	\nabla \lambda_k \;=\; \frac{n_f \times (p_j-p_i)}{2A_f}.
+	\]
+	These three vectors are cached per face and reused to compute gradients of any
+	piecewise-linear scalar field.
+	
+	\paragraph{Cotan Laplacian \(L\).}
+	For each undirected edge \((a,b)\) shared by one or two faces, let \(\alpha,\beta\)
+	be the angles opposite \((a,b)\) in those incident faces (only \(\alpha\) exists on the boundary).
+	Define the cotan weight
+	\[
+	w_{ab} \;=\; \frac{1}{2}\bigl(\cot\alpha + \cot\beta\bigr)
+	\quad\text{(use only the existing angle(s) if the edge is on the boundary).}
+	\]
+	The cotan Laplacian \(L\in\mathbb{R}^{N\times N}\) is assembled as
+	\[
+	L_{ab}=-w_{ab}\;\;(a\neq b),\qquad
+	L_{aa}=\sum_{b\sim a} w_{ab},
+	\]
+	where \(b\sim a\) ranges over vertices adjacent to \(a\).
+	
+	\paragraph{Lumped mass matrix \(M\).}
+	Let \(M\) be diagonal with entries obtained by area lumping:
+	for each face \(f=(i,j,k)\),
+	\[
+	M_{ii}\mathrel{+}= \frac{A_f}{3},\qquad
+	M_{jj}\mathrel{+}= \frac{A_f}{3},\qquad
+	M_{kk}\mathrel{+}= \frac{A_f}{3}.
+	\]
+	
+	\paragraph{Face adjacency.}
+	For each face \(f=(i,j,k)\), build the neighbor across each of its three edges.
+	Equivalently, store
+	\[
+	\texttt{nbr}[f][0]=\text{face across edge }(j,k),\quad
+	\texttt{nbr}[f][1]=\text{face across edge }(k,i),\quad
+	\texttt{nbr}[f][2]=\text{face across edge }(i,j),
+	\]
+	with value \(-1\) on boundary edges.
+	
+	\paragraph{Cached sparse factorizations.}
+	For fixed \(t\) (defined below) cache a sparse factorization of
+	\[
+	A \;=\; M + tL.
+	\]
+	For the Poisson solve cache a factorization of a \emph{pinned} Laplacian \(L_p\),
+	where one vertex \(p\) is fixed to remove the nullspace.
+	
+	\subsubsection*{Heat solve}
+	
+	\paragraph{Time step.}
+	Choose
+	\[
+	t \;=\; t_{\mathrm{factor}}\,\bar{h}^2.
+	\]
+	
+	\paragraph{Barycentric delta.}
+	Let the source point lie in face \(f_s=(i,j,k)\) with barycentric coordinates
+	\((b_i,b_j,b_k)\). Form a discrete delta vector \(\delta\in\mathbb{R}^N\) by
+	\[
+	\delta_i\mathrel{+}=b_i,\qquad
+	\delta_j\mathrel{+}=b_j,\qquad
+	\delta_k\mathrel{+}=b_k,
+	\]
+	and \(\delta_\ell=0\) for all other vertices \(\ell\).
+	
+	\paragraph{Heat equation.}
+	Solve for \(u\in\mathbb{R}^N\):
+	\[
+	(M+tL)\,u \;=\; \delta.
+	\]
+	
+	\subsubsection*{Vector field}
+	
+	\paragraph{Per-face gradient.}
+	For any vertex scalar field \(s\in\mathbb{R}^N\), the gradient on face
+	\(f=(i,j,k)\) is
+	\[
+	\nabla s\big|_f \;=\; s_i\nabla\lambda_i + s_j\nabla\lambda_j + s_k\nabla\lambda_k.
+	\]
+	Compute \(\nabla u|_f\) for every face.
+	
+	\paragraph{Normalize.}
+	Define the per-face unit vector field
+	\[
+	X_f \;=\; -\frac{\nabla u|_f}{\|\nabla u|_f\|},
+	\]
+	with a small \(\varepsilon\) safeguard (if \(\|\nabla u|_f\|<\varepsilon\), set \(X_f=0\)).
+	
+	\subsubsection*{Poisson solve for distance}
+	
+	\paragraph{Discrete divergence.}
+	Given a face-constant vector field \(X_f\), assemble a vertex RHS \(b\in\mathbb{R}^N\) by
+	distributing each face contribution via the barycentric gradients:
+	for each face \(f=(i,j,k)\),
+	\[
+	b_i \mathrel{+}= -A_f\, X_f\cdot\nabla\lambda_i,\qquad
+	b_j \mathrel{+}= -A_f\, X_f\cdot\nabla\lambda_j,\qquad
+	b_k \mathrel{+}= -A_f\, X_f\cdot\nabla\lambda_k.
+	\]
+	
+	\paragraph{Pinned Laplacian.}
+	Since \(L\) has a constant-function nullspace on each connected component,
+	pin one vertex index \(p\) (e.g.\ \(p=1\)) by enforcing
+	\[
+	\phi_p = 0.
+	\]
+	In practice, replace row \(p\) by the identity constraint:
+	\[
+	(L_p)_{p\ast}=0,\quad (L_p)_{pp}=1,\quad b_p=0.
+	\]
+	
+	\paragraph{Poisson equation.}
+	Solve for \(\phi\in\mathbb{R}^N\):
+	\[
+	L_p\,\phi \;=\; b.
+	\]
+	
+	\subsubsection*{Geodesic path backtrace (continuous, face-walk)}
+	
+	Let the target point lie in face \(f_0\) with barycentric coordinates
+	\(b^{(0)}=(b^{(0)}_1,b^{(0)}_2,b^{(0)}_3)\). We march a point \(x\) across faces
+	following the (negative) gradient of \(\phi\).
+	
+	\paragraph{Step size.}
+	Set
+	\[
+	h \;=\; \texttt{step\_factor}\cdot \bar{h}.
+	\]
+	
+	\paragraph{Face direction.}
+	At the current face \(f=(i,j,k)\), compute
+	\[
+	g_f \;=\; \nabla\phi\big|_f \;=\; \phi_i\nabla\lambda_i + \phi_j\nabla\lambda_j + \phi_k\nabla\lambda_k,
+	\qquad
+	d \;=\; -\frac{g_f}{\|g_f\|}.
+	\]
+	
+	\paragraph{Barycentric update.}
+	Because barycentric coordinates are linear on each face,
+	\[
+	\Delta b_\ell \;=\; \nabla\lambda_\ell \cdot (h\,d),\qquad \ell\in\{i,j,k\}.
+	\]
+	Thus the tentative barycentric coordinates are
+	\[
+	b'_\ell \;=\; b_\ell + \nabla\lambda_\ell \cdot (h\,d).
+	\]
+	
+	\paragraph{Edge crossing.}
+	If all \(b'_\ell\ge 0\), then the new point remains in the same face.
+	If some component becomes negative, we intersect the first crossed edge.
+	For any \(\ell\) with \(b'_\ell<0\), define the crossing fraction
+	\[
+	\alpha_\ell \;=\; \frac{b_\ell}{b_\ell - b'_\ell},
+	\]
+	and take \(\alpha=\min_\ell \alpha_\ell\) (the first boundary hit).
+	Update to the edge point
+	\[
+	b \leftarrow b + \alpha\,(b' - b),
+	\]
+	so that one barycentric coordinate is \(0\) (on the crossed edge).
+	Let \(\ell^\star\) be the index attaining the minimum; then the crossed edge is
+	the one \emph{opposite} vertex \(\ell^\star\).
+	Move to the adjacent face using the cached adjacency:
+	\[
+	f \leftarrow \texttt{nbr}[f][\ell^\star].
+	\]
+	If \(\texttt{nbr}[f][\ell^\star]=-1\), a boundary edge was hit and the march stops (v1).
+	
+	\paragraph{Monotonicity / tie-break toward the source.}
+	To ensure the march moves toward the source level set, accept only steps that decrease \(\phi\)
+	(equivalently, move along \(-\nabla\phi\)). If numerical noise yields ambiguity, break ties by
+	also choosing the direction that decreases Euclidean distance to the source point.
+	
+	\paragraph{Stopping.}
+	Stop when either
+	\[
+	\|x - x_s\| < \varepsilon_{\mathrm{pos}}
+	\quad\text{or}\quad
+	|\phi(x)-\phi(x_s)| < \varepsilon_{\phi}
+	\quad\text{or}\quad
+	\texttt{steps}>\texttt{max\_steps}.
+	\]
+	The visited points \(x\) form the geodesic polyline, and its length is the sum of segment lengths.
+	
+	\paragraph{Caching summary.}
+	For each mesh patch we cache:
+	\[
+	\bigl(L,\; M,\; \{A_f\},\; \{\nabla\lambda\},\; \texttt{nbr},\; \bar{h},\;
+	\mathrm{LU}(M+tL),\; \mathrm{LU}(L_p)\bigr),
+	\]
+	so repeated queries reuse all operators and sparse factorizations.
+	
+	
+	\section{Example 1: Zariski topology on $\mathbb A^1$ and the product topology on $\mathbb A^1\times \mathbb A^1$}
+	
+	Assume $k$ is algebraically closed.
+	
+	\subsection{Affine line $\mathbb A^1$}
+	
+	Let
+	\[
+	\mathbb A^1=\mathrm{Spec}(k[t]).
+	\]
+	For an ideal $I\subset k[t]$ define the algebraic set
+	\[
+	Z(I)=\{a\in k \mid f(a)=0 \text{ for all } f\in I\}.
+	\]
+	
+	\subsubsection{Closed sets}
+	
+	Every ideal in $k[t]$ is principal:
+	\[
+	I=(f).
+	\]
+	Then
+	\[
+	Z(f)=\{a\in k \mid f(a)=0\}.
+	\]
+	Over an algebraically closed field, a nonzero polynomial $f$ has finitely many roots, hence:
+	\[
+	\text{closed sets in } \mathbb A^1 \text{ are } \emptyset,\ \mathbb A^1,\ \text{and finite subsets of }k.
+	\]
+	
+	\subsubsection{Basic open sets}
+	
+	For $f\in k[t]$ define
+	\[
+	D(f)=\mathbb A^1\setminus Z(f).
+	\]
+	Then:
+	\[
+	D(f)\text{ is open, and these }D(f)\text{ form a basis.}
+	\]
+	Example:
+	\[
+	f(t)=t(t-1),
+	\qquad
+	Z(f)=\{0,1\},
+	\qquad
+	D(f)=k\setminus\{0,1\}.
+	\]
+	
+	\subsection{Product topology on $\mathbb A^1\times \mathbb A^1$}
+	
+	Give each factor $\mathbb A^1$ the Zariski topology (cofinite topology).
+	Let
+	\[
+	X=\mathbb A^1\times \mathbb A^1
+	\]
+	with the product topology.
+	
+	\subsubsection{Basic opens and basic closed sets}
+	
+	A basis of opens is
+	\[
+	U\times V
+	\]
+	where $U,V\subset \mathbb A^1$ are Zariski open.
+	Since $U,V$ are complements of finite sets, any basic open has the form
+	\[
+	(k\setminus F)\times (k\setminus G)
+	\]
+	with $F,G$ finite.
+	
+	A typical closed set in the product topology is a finite union of sets of the form
+	\[
+	F\times \mathbb A^1,
+	\qquad
+	\mathbb A^1\times G,
+	\qquad
+	F\times G
+	\]
+	with $F,G$ finite.
+	
+	\subsubsection{Comparison with the Zariski topology on $\mathbb A^2$}
+	
+	In $\mathbb A^2$ (Zariski topology coming from $k[x,y]$), the diagonal
+	\[
+	\Delta=Z(y-x)
+	\]
+	is Zariski closed.
+	But $\Delta$ is not closed in the product topology, because product-closed sets are built from finitely many vertical and horizontal fibers and finite sets.
+	
+	Hence:
+	\[
+	\text{product topology on }\mathbb A^1\times\mathbb A^1\text{ is strictly coarser than the Zariski topology on }\mathbb A^2.
+	\]
+	
+	
+\end{document}

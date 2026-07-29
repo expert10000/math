@@ -1,0 +1,3287 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- packages ---
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage[shortlabels]{enumitem} % <— only enumitem, shortlabels enables [(a)] if you want it
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{{.figs/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{centernot}
+\newcommand{\qed}{\hfill$\square$}
+\usepackage{booktabs,tabularx}
+
+\usepackage{tikz-cd} 
+
+
+
+\usepackage{amsmath,amssymb,amsthm}
+
+\newenvironment{statement}{\par\noindent\textbf{Statement.}\ }{\par}
+
+% --- theorem setups ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark} % unnumbered
+
+
+
+
+
+
+\theoremstyle{remark}
+\newtheorem*{counterexample}{Counterexample}
+
+
+
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Log}{Log}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\axes}[3]{%
+	\draw[->,thin] (#1) -- ++(2.0,0) node[right] {#2};
+	\draw[->,thin] (#1) -- ++(0,2.0) node[above] {#3};
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlist{itemsep=6pt, topsep=6pt, parsep=2pt, partopsep=2pt}
+
+% SCOPED header: bold ends immediately after the line
+\newcommand{\probheader}[1]{%
+	\par\vspace{8pt}%
+	{\Large\bfseries #1\par}% <- braces scope the bold
+	\vspace{6pt}%
+}
+
+% Thin separator (optional)
+\newcommand{\sep}{\vspace{6pt}\hrule\vspace{8pt}}
+
+
+\geometry{margin=1in}
+\setlength{\parskip}{0.9em}
+\setlength{\parindent}{0pt}
+\linespread{1.12}
+\setlist[itemize]{topsep=0.3em,itemsep=0.2em}
+\setlist[enumerate]{topsep=0.3em,itemsep=0.2em}
+
+\title{\Large Analysis and Topology}
+\author{}
+\date{}
+
+
+\begin{document}
+	
+	
+	\section*{Hausdorff spaces: finite case, metrizability, and uniqueness of limits}
+	
+	\paragraph{Problem.}
+	Recall that a topological space $(X,\tau)$ is \emph{Hausdorff} (or $T_2$) if for all distinct $x,y\in X$
+	there exist open sets $U,V\in\tau$ with $x\in U$, $y\in V$, and $U\cap V=\varnothing$.
+	\begin{enumerate}[(a)]
+		\item Show that if $X$ is finite there is only one topology (up to homeomorphism) on $X$ which is Hausdorff.
+		\item Show that if $(X,\tau)$ is metrizable then it is Hausdorff.
+		\item Show that if $(X,\tau)$ is Hausdorff and $(x_n)$ is a convergent sequence in $X$, then its limit is unique.
+	\end{enumerate}
+	
+	\paragraph{Facts.}
+	\begin{itemize}
+		\item In a Hausdorff space, every singleton is closed; i.e.\ $T_2 \Rightarrow T_1$.
+		\item If $X$ is finite and $T_1$, then every subset of $X$ is closed (finite union of singletons), hence open; thus $\tau$ is the discrete topology.
+		\item If $d$ is a metric on $X$ and $x\neq y$, then with $r=\tfrac12 d(x,y)$ the balls $B_r(x)$ and $B_r(y)$ are disjoint; hence every metric space is Hausdorff.
+	\end{itemize}
+	
+	\paragraph{Solution to (a).}
+	Let $X$ be finite and Hausdorff. Then $X$ is $T_1$, so each singleton $\{x\}$ is closed.
+	
+	Since $X$ is finite, any subset $A\subseteq X$ is a finite union of singletons and hence closed.
+	
+	Therefore every subset is closed and its complement is open; equivalently, every subset is open.
+	
+	Thus $\tau$ is the discrete topology. Any two finite discrete spaces of the same cardinality are
+	homeomorphic (every bijection is a homeomorphism), so there is only one Hausdorff topology on $X$
+	\emph{up to homeomorphism}.
+	
+	\paragraph{Solution to (b).}
+	Let $(X,d)$ be a metric space and take $x\neq y\in X$. Set $r=\tfrac12 d(x,y)>0$.
+	Then $B_r(x)\cap B_r(y)=\varnothing$. Hence $X$ is Hausdorff.
+	
+	\paragraph{Solution to (c).}
+	Suppose $(x_n)\to x$ and $(x_n)\to y$ in a Hausdorff space with $x\neq y$.
+	Choose disjoint open neighborhoods $U\ni x$ and $V\ni y$.
+	By convergence, there exists $N_1$ with $x_n\in U$ for all $n\ge N_1$, and $N_2$ with $x_n\in V$ for all $n\ge N_2$.
+	For $n\ge \max\{N_1,N_2\}$ we would have $x_n\in U\cap V=\varnothing$, a contradiction.
+	Hence the limit is unique.
+	
+	\paragraph{Examples.}
+	\begin{itemize}
+		\item Hausdorff: $\mathbb{R}^n$ with the Euclidean metric; any discrete space; subspaces and products of Hausdorff spaces.
+		\item $T_1$ but not Hausdorff: an infinite set with the cofinite topology (nonempty open sets always intersect).
+		\item Non-Hausdorff with non-unique limits: the indiscrete topology $\{\varnothing,X\}$, where every sequence converges to every point.
+	\end{itemize}
+	
+\section*{Three Basic Invariance and Comparison Facts}
+
+\subsection*{Problem 2: Continuity of the Identity Between Two Topologies on the Same Set}
+
+\subsubsection*{Statement}
+Let $\mathrm{id}:(X,\tau)\to (X,\rho)$ be the identity on a fixed set $X$ endowed with (possibly different) topologies $\tau$ and $\rho$. Is $\mathrm{id}$ necessarily continuous?
+
+\subsubsection*{Theory}
+A map $f:(X,\tau)\to(Y,\sigma)$ is continuous iff $f^{-1}(U)\in\tau$ for all $U\in\sigma$.
+For the identity $\mathrm{id}:X\to X$ we have $\mathrm{id}^{-1}(U)=U$ for every $U\subseteq X$.
+
+\subsubsection*{Answer and Proof}
+The map $\mathrm{id}:(X,\tau)\to(X,\rho)$ is continuous iff $\rho\subseteq\tau$.
+Indeed,
+\[
+\mathrm{id}\text{ continuous}\iff
+\Big(\forall\,U\in\rho,\ \mathrm{id}^{-1}(U)=U\in\tau\Big)
+\iff \rho\subseteq\tau.
+\]
+Hence \emph{not necessarily}: $\mathrm{id}$ is continuous exactly when the codomain topology is \emph{coarser} (or equal) to the domain topology.
+
+\subsubsection*{Examples and Counterexamples}
+\begin{itemize}
+	\item If $\tau$ is discrete and $\rho$ is indiscrete on $X$, then $\rho\subseteq\tau$; thus $\mathrm{id}:(X,\tau)\to(X,\rho)$ is continuous.
+	\item If $\tau$ is indiscrete and $\rho$ is discrete, then $\rho\nsubseteq\tau$; thus $\mathrm{id}:(X,\tau)\to(X,\rho)$ is \emph{not} continuous.
+	\item Symmetrically, $\mathrm{id}:(X,\rho)\to(X,\tau)$ is continuous iff $\tau\subseteq\rho$.
+\end{itemize}
+
+\bigskip
+
+\subsection*{Problem 3: Hausdorffness and Second Countability are Topological Invariants}
+
+\subsubsection*{Statement}
+Show that the Hausdorff property and second countability are preserved under homeomorphisms.
+
+\subsubsection*{Theory}
+A homeomorphism $f:X\to Y$ is a bijection such that both $f$ and $f^{-1}$ are continuous. Such a map carries open sets to open sets and bases to bases via images.
+
+\subsubsection*{Hausdorff Invariance: Proof}
+Assume $f:X\to Y$ is a homeomorphism and $X$ is Hausdorff. For $y_1\neq y_2$ in $Y$, set $x_i=f^{-1}(y_i)$. Since $X$ is Hausdorff there exist disjoint open sets $U_i\ni x_i$. Then $f(U_i)$ are disjoint open neighbourhoods of $y_i$, so $Y$ is Hausdorff. The converse follows by applying the same argument to $f^{-1}$.
+
+\subsubsection*{Second Countability Invariance: Proof}
+Let $\mathcal{B}=\{B_n:n\in\mathbb{N}\}$ be a countable base for $X$. Because $f$ is open and bijective, $\{f(B_n):n\in\mathbb{N}\}$ is a countable base for $Y$. Conversely, apply the same reasoning to $f^{-1}$.
+
+\subsubsection*{Example / Non-Example}
+$(\mathbb{R},\text{usual})$ is Hausdorff and second countable, while $(\mathbb{R},\text{cofinite})$ is $T_1$ but neither Hausdorff nor second countable. Therefore they are not homeomorphic, illustrating invariance.
+
+\bigskip
+
+\subsection*{Problem 4: Equality of the Euclidean Metric Topology and the Product Topology on $\mathbb{R}^n$}
+
+\subsubsection*{Statement}
+Show that the topology on $\mathbb{R}^n$ induced by the Euclidean metric equals the product topology inherited from $\mathbb{R}$ with its usual metric.
+
+\subsubsection*{Theory}
+Let $\|\cdot\|_2$ be the Euclidean norm and $\|\cdot\|_\infty$ the sup-norm on $\mathbb{R}^n$. For all $v\in\mathbb{R}^n$,
+\[
+\|v\|_\infty \le \|v\|_2 \le \sqrt{n}\,\|v\|_\infty.
+\]
+Hence for balls centered at $x\in\mathbb{R}^n$ and $r>0$,
+\[
+B_2(x,r)\subseteq B_\infty(x,r)\subseteq B_2\!\bigl(x,\sqrt{n}\,r\bigr).
+\]
+Basic product-open sets are the open boxes $\prod_{i=1}^n (a_i,b_i)=B_\infty(x,r)$.
+
+\subsubsection*{Proof}
+Fix $x\in\mathbb{R}^n$ and $r>0$.
+\begin{itemize}
+	\item By $\|v\|_2\le \sqrt{n}\|v\|_\infty$, we have
+	\(B_\infty(x,r/\sqrt{n})\subseteq B_2(x,r)\).
+	Since $B_\infty(x,r/\sqrt{n})$ is a basic product-open box, every Euclidean-open set is product-open.
+	\item By $\|v\|_\infty\le \|v\|_2$, we have
+	\(B_2(x,r)\subseteq B_\infty(x,r)\).
+	Hence every product-open set is Euclidean-open.
+\end{itemize}
+Therefore the Euclidean metric topology and the product topology on $\mathbb{R}^n$ coincide. \qed
+
+\subsubsection*{Example}
+In $\mathbb{R}^2$, each open rectangle $(a,b)\times(c,d)$ is Euclidean-open, and every Euclidean open disk contains and is contained in some open rectangle; thus both topologies agree.
+
+\section*{Product Topology: Definition, Properties, Examples, and Counterexamples}
+
+\subsection*{Definition (Product Topology)}
+Let $\{(X_i,\tau_i)\}_{i\in I}$ be topological spaces and let $X=\prod_{i\in I} X_i$ with projections $\pi_i:X\to X_i$.
+
+\paragraph{Initial-topology definition.}
+The \emph{product topology} $\tau$ on $X$ is the coarsest topology for which every $\pi_i$ is continuous.
+Equivalently, $\tau$ is generated by the subbasis
+\[
+\mathcal{S}=\{\ \pi_i^{-1}(U)\ :\ i\in I,\ U\in\tau_i\ \}.
+\]
+
+\paragraph{Basic-open boxes (finite support).}
+A basis for the product topology on $X=\prod_{i\in I} X_i$ is
+\[
+\mathcal{B}\;=\;\Bigl\{\; \prod_{i\in I} U_i \ :\ U_i\in\tau_i\ \text{and}\ U_i=X_i\ \text{for all but finitely many } i\in I \Bigr\}.
+\]
+Equivalently, each element of $\mathcal{B}$ can be written as a finite intersection of subbasic cylinders,
+\[
+\prod_{i\in I} U_i \;=\; \bigcap_{k=1}^m \pi_{i_k}^{-1}(U_{i_k}),
+\quad\text{where } \{i_1,\dots,i_m\}\subset I \text{ and } U_{i_k}\in\tau_{i_k}.
+\]
+
+\paragraph{Finite products.}
+If $I=\{1,\dots,n\}$ is finite, the condition “$U_i=X_i$ for all but finitely many $i$” is automatic.
+Thus the basic open sets are precisely the ordinary open rectangles
+\[
+U_1 \times U_2 \times \cdots \times U_n, \qquad U_j \in \tau_j \ (1\le j \le n).
+\]
+
+\subsection*{Universal Property}
+For any space $(Y,\sigma)$ and a map $f:Y\to \prod_{i\in I}X_i$,
+\[
+f \text{ is continuous}\ \Longleftrightarrow\ \pi_i\circ f:Y\to X_i \text{ is continuous for all } i\in I.
+\]
+
+\subsection*{Basic Properties}
+\begin{itemize}
+	\item Each projection $\pi_i$ is continuous and open.
+	\item A net $(x^\alpha)$ in $X$ converges to $x$ iff $\pi_i(x^\alpha)\to \pi_i(x)$ in $X_i$ for every $i\in I$.
+	\item If every $X_i$ is Hausdorff, then $\prod_{i\in I}X_i$ is Hausdorff.
+	\item (\textbf{Tychonoff}) If every $X_i$ is compact, then $\prod_{i\in I}X_i$ is compact.
+	\item If $I$ is countable and each $X_i$ is second countable, then $\prod_{i\in I}X_i$ is second countable.
+\end{itemize}
+
+\subsection*{Examples}
+\begin{enumerate}
+	\item $\mathbb{R}^n \cong \prod_{i=1}^n \mathbb{R}$; the product topology equals the Euclidean topology.
+	\item The $n$-torus $\mathbb{T}^n=(S^1)^n$ with the product topology.
+	\item \emph{Cantor space} $\{0,1\}^{\mathbb{N}}$ with product of the discrete topology on $\{0,1\}$: compact, totally disconnected, perfect; homeomorphic to the middle-thirds Cantor set.
+	\item \emph{Baire space} $\mathbb{N}^{\mathbb{N}}$ with product of the discrete topology on $\mathbb{N}$ (Polish, non-compact).
+	\item Function spaces $X^I$ as products: evaluation maps are the projections.
+\end{enumerate}
+
+\subsection*{Counterexamples and Cautions}
+\paragraph{Product vs.\ Box topology (infinite products).}
+The \emph{box topology} on $\prod_{i\in I}X_i$ uses as a basis all boxes $\prod_{i\in I} U_i$ with $U_i\in\tau_i$ (no finiteness restriction). If $I$ is infinite, the box topology is strictly finer than the product topology in general.
+
+\smallskip
+\emph{Sequence contrast in $\mathbb{R}^{\mathbb{N}}$.}
+Let $x^{(m)}=(x^{(m)}_n)_{n\in\mathbb{N}}$ with $x^{(m)}_m=1$ and $x^{(m)}_n=0$ for $n\neq m$.
+Then $x^{(m)}\to 0$ in the product topology (coordinatewise convergence), but $x^{(m)}$ does not converge to $0$ in the box topology since the basic box $\prod_{n}(-\tfrac12,\tfrac12)$ contains no $x^{(m)}$.
+
+\paragraph{Cofinite not preserved.}
+If each $X_i$ is infinite with the cofinite topology, the product is not cofinite (indeed it is compact by Tychonoff but has many more open sets).
+
+\paragraph{Second countability can fail for uncountable products.}
+Even when all factors are second countable, $\mathbb{R}^I$ with $I$ uncountable is not second countable.
+	
+	
+	\section*{Cofinite (Finite-Complement) Topology: Definition, Properties, Examples}
+	
+	\subsection*{Definition}
+	Let $X$ be a set. The \emph{cofinite topology} on $X$ is
+	\[
+	\tau_{\mathrm{cof}}=\{\varnothing\}\ \cup\ \{\,U\subseteq X : X\setminus U \text{ is finite}\,\}.
+	\]
+	Equivalently, the closed sets are precisely the finite subsets of $X$ together with $X$ itself.
+	
+	\subsection*{Basic Properties}
+	\begin{enumerate}
+		\item \textbf{$T_1$.} Singletons are finite, hence closed. Therefore $(X,\tau_{\mathrm{cof}})$ is $T_1$.
+		\item \textbf{(Non-)Hausdorff.} If $X$ is infinite, any two nonempty open sets have finite complements, so their intersection is nonempty. Thus the space is not Hausdorff. If $X$ is finite, then every subset is open (the topology is discrete), so the space is Hausdorff.
+		\item \textbf{Compactness.} Let $\{U_\alpha\}_{\alpha\in A}$ be an open cover of $X$. If some $U_{\alpha_0}$ is nonempty, then $F=X\setminus U_{\alpha_0}$ is finite; finitely many other opens cover $F$, giving a finite subcover.
+		\item \textbf{Connectedness (hyperconnected).} No two nonempty open sets are disjoint, hence there are no nontrivial clopen subsets.
+		\item \textbf{Countability properties.}
+		\begin{itemize}
+			\item If $X$ is countably infinite, then $(X,\tau_{\mathrm{cof}})$ is first countable and second countable. For $x\in X$, enumerate $X\setminus\{x\}=\{y_1,y_2,\dots\}$ and let $U_n=X\setminus\{y_1,\dots,y_n\}$; the family $\{U_n:n\in\mathbb{N}\}$ is a neighborhood base at $x$.
+			\item If $X$ is uncountable, then $(X,\tau_{\mathrm{cof}})$ is not first countable (hence not second countable). Indeed, given any countable family $\{U_n\}$ of neighborhoods of $x$, the union of the finite complements $F_n=X\setminus U_n$ is countable; choose $y\in X\setminus(\{x\}\cup\bigcup_n F_n)$; then $X\setminus\{y\}$ is a neighborhood of $x$ not containing any $U_n$.
+		\end{itemize}
+		\item \textbf{Closures and density.} Since the only proper closed sets are finite,
+		\[
+		\overline{A}=\begin{cases}
+			A, & A \text{ finite},\\
+			X, & A \text{ infinite}.
+		\end{cases}
+		\]
+		Hence every infinite subset is dense; in particular, the space is separable whenever $X$ is infinite.
+		\item \textbf{Sequential convergence.} A sequence $(x_n)$ converges to $x$ iff for every $y\neq x$ the set $\{n:\ x_n=y\}$ is finite. Consequently, a sequence with pairwise distinct terms converges to every point of $X$.
+	\end{enumerate}
+	
+	\subsection*{Examples}
+	\begin{itemize}
+		\item $(\mathbb{N},\tau_{\mathrm{cof}})$: compact, $T_1$, first/second countable, not Hausdorff.
+		\item $(\mathbb{R},\tau_{\mathrm{cof}})$: compact, $T_1$, connected, neither first nor second countable, not Hausdorff.
+		\item Any finite set with the cofinite topology is discrete (hence Hausdorff and compact).
+	\end{itemize}
+	
+	\subsection*{Counterexamples / Cautions}
+	\begin{itemize}
+		\item On an infinite $X$, $(X,\tau_{\mathrm{cof}})$ is not Hausdorff: no two nonempty opens are disjoint.
+		\item If $X$ is uncountable, the space is not first countable and thus not metrizable.
+		\item Products of cofinite spaces (with the product topology) are compact by Tychonoff but are generally not cofinite and may fail first/second countability for large index sets.
+	\end{itemize}
+	
+	
+	\section*{Problem 5: Diagonals and Equality Sets}
+	
+	Let $(X,\tau)$ and $(Y,\rho)$ be topological spaces with $(Y,\rho)$ Hausdorff.
+	
+	\subsection*{(a) The diagonal is closed in $Y\times Y$}
+	\begin{statement}
+		Show that $\Delta=\{(y,y):y\in Y\}\subset Y\times Y$ is closed (product topology).
+	\end{statement}
+	
+	\begin{proof}
+		Let $(y_1,y_2)\in (Y\times Y)\setminus\Delta$, so $y_1\ne y_2$. Since $Y$ is Hausdorff, there exist disjoint open sets $U\ni y_1$ and $V\ni y_2$ with $U\cap V=\varnothing$. Then
+		\[
+		(y_1,y_2)\in U\times V \subset (Y\times Y)\setminus \Delta,
+		\]
+		because for any $(u,v)\in U\times V$ we cannot have $u=v$ (that would force $u\in U\cap V=\varnothing$). Hence $(Y\times Y)\setminus \Delta$ is open and $\Delta$ is closed.
+	\end{proof}
+	
+	\begin{remark}
+		The converse holds: $Y$ is Hausdorff if and only if $\Delta$ is closed in $Y\times Y$.
+	\end{remark}
+	
+	\subsection*{(b) Equality set of two continuous maps is closed}
+	\begin{statement}
+		Let $f,g:X\to Y$ be continuous. Show that $E=\{x\in X:\ f(x)=g(x)\}$ is closed in $X$.
+	\end{statement}
+	
+	\begin{proof}
+		Consider $F=(f,g):X\to Y\times Y$, which is continuous in the product topology. Then
+		\[
+		E=F^{-1}(\Delta).
+		\]
+		By part (a), $\Delta$ is closed in $Y\times Y$, hence $E$ is the preimage of a closed set under a continuous map and is therefore closed in $X$.
+	\end{proof}
+	
+	\subsection*{Examples}
+	\begin{itemize}
+		\item If $Y=\mathbb{R}$ and $f,g:X\to\mathbb{R}$ are continuous, then
+		\[
+		E=\{x:\ f(x)=g(x)\}=(f-g)^{-1}(\{0\}),
+		\]
+		which is closed since $\{0\}$ is closed and $f-g$ is continuous.
+		\item On $X=\mathbb{R}$, $f(x)=x^3-1$ and $g(x)=x-1$ give $E=\{1\}$, a closed set.
+	\end{itemize}
+	
+	\subsection*{Counterexample without Hausdorffness}
+	Let $Y=\{a,b\}$ with the indiscrete topology. Then $Y$ is not Hausdorff and $\Delta\subset Y\times Y$ is not closed. Take any space $X$ and a non-closed set $A\subset X$ (e.g.\ $X=\mathbb{R}$, $A=(0,1)$). Define
+	\[
+	f(x)\equiv a,\qquad
+	g(x)=\begin{cases}
+		a,& x\in A,\\
+		b,& x\notin A.
+	\end{cases}
+	\]
+	Every map into an indiscrete space is continuous, so $f,g$ are continuous. But
+	$E=\{x:\ f(x)=g(x)\}=A$, which is not closed. Thus the Hausdorff hypothesis in (b) is essential.
+	
+	\section*{Diagonal and $G_\delta$-Diagonal in Topology}
+	
+	\subsection*{Definitions}
+	Let $X$ be a topological space and $\Delta_X=\{(x,x):x\in X\}\subseteq X\times X$ its diagonal.
+	\begin{itemize}
+		\item $X$ is \emph{Hausdorff} $\iff$ $\Delta_X$ is \emph{closed} in $X\times X$.
+		\item $X$ has a \emph{$G_\delta$-diagonal} if there exist open sets $U_n\subseteq X\times X$ such that
+		\[
+		\Delta_X=\bigcap_{n=1}^\infty U_n .
+		\]
+	\end{itemize}
+	
+	\subsection*{Basic Facts}
+	\begin{enumerate}
+		\item \textbf{Metric spaces have $G_\delta$-diagonals.}
+		If $(X,d)$ is metric, the function $(x,y)\mapsto d(x,y)$ is continuous on $X\times X$, hence
+		\[
+		\Delta_X=\bigcap_{m=1}^{\infty}\bigl\{(x,y)\in X\times X: d(x,y)<1/m\bigr\}
+		\]
+		is a $G_\delta$ subset of $X\times X$.
+		\item \textbf{First countable Hausdorff $\Rightarrow G_\delta$-diagonal.}
+		If $X$ is Hausdorff and for each $x\in X$ there is a countable neighborhood base $\{B_n(x)\}_{n\in\mathbb{N}}$, then
+		\[
+		U_n=\bigcup_{x\in X} B_n(x)\times B_n(x)\qquad(n\in\mathbb{N})
+		\]
+		are open in $X\times X$ and $\Delta_X=\bigcap_{n} U_n$.
+		\item \textbf{Sneider’s Theorem (compact case).}
+		A compact Hausdorff space $K$ is metrizable if and only if $\Delta_K$ is a $G_\delta$ in $K\times K$.
+	\end{enumerate}
+	
+	\subsection*{Examples}
+	\begin{itemize}
+		\item $\mathbb{R}^n$ with its Euclidean topology: Hausdorff and metric $\Rightarrow$ $\Delta$ is closed and a $G_\delta$.
+		\item Any compact metrizable space (e.g.\ the Cantor set, the $n$-torus $(S^1)^n$) has a $G_\delta$-diagonal.
+		\item The Niemytzki (Moore) plane: Hausdorff and first countable, hence has a $G_\delta$-diagonal, but is not normal; consequently not metrizable.
+	\end{itemize}
+	
+	\subsection*{Counterexamples / Cautions}
+	\begin{itemize}
+		\item For uncountable $I$, the Tikhonoff cube $[0,1]^I$ is compact Hausdorff but not metrizable; hence by Sneider, $\Delta_{[0,1]^I}$ is \emph{not} a $G_\delta$ in $[0,1]^I\times[0,1]^I$.
+		\item The indiscrete space on $\{a,b\}$ is not Hausdorff; $\Delta$ is not closed (and not $G_\delta$).
+		\item The cofinite topology on an infinite set is $T_1$ but not Hausdorff; $\Delta$ is not closed (hence not $G_\delta$).
+	\end{itemize}
+	
+	\section*{Problem 6: Closure vs.\ Sequential Closure}
+	
+	\subsection*{Setup and Definitions}
+	For $A\subseteq X$, the \emph{sequential closure} $\operatorname{scl}(A)$ is the set of all limits of sequences $(x_n)$ with $x_n\in A$.
+	We say $A$ is \emph{sequentially closed} if $\operatorname{scl}(A)\subseteq A$, i.e.\ whenever $x_n\in A$ and $x_n\to x$ in $X$, then $x\in A$.
+	
+	\subsection*{(a) Co-countable topology: sequentially closed $\not\Rightarrow$ closed}
+	Assume $X$ is uncountable and $\tau=\{\varnothing\}\cup\{\,U\subseteq X:\ X\setminus U\ \text{is countable}\,\}$ (the co-countable topology).
+	
+	\begin{lemma}
+		In $(X,\tau)$, a sequence $(x_n)$ converges to $x$ if and only if it is eventually constant equal to $x$.
+	\end{lemma}
+	\begin{proof}
+		($\Rightarrow$) Let $(x_n)\to x$. Any neighborhood of $x$ is of the form $X\setminus C$ with $C$ countable and $x\notin C$; thus for each such $C$, $\{n:\ x_n\in C\}$ is finite.
+		Let $S$ be the set of values taken by the tail of $(x_n)$; $S$ is countable. If $x\notin S$, take $C=S$ and get a contradiction. Hence $x\in S$. Taking $C=S\setminus\{x\}$ forces $x_n\in\{x\}$ eventually.
+		($\Leftarrow$) If $x_n=x$ eventually, then every neighborhood of $x$ contains all sufficiently large $n$, so $x_n\to x$.
+	\end{proof}
+	
+	\begin{proposition}
+		Every subset $A\subseteq X$ is sequentially closed, but an uncountable proper subset $A$ is not closed.
+	\end{proposition}
+	\begin{proof}
+		If $x_n\in A$ and $x_n\to x$, the lemma shows $x_n=x$ eventually, hence $x\in A$; thus $A$ is sequentially closed.
+		Closed sets in the co-countable topology are precisely the countable sets together with $X$; therefore any uncountable proper $A$ is not closed.
+	\end{proof}
+	
+	\paragraph{Example.}
+	On $X=\mathbb{R}$ with the co-countable topology, $A=\mathbb{R}\setminus\mathbb{Q}$ is sequentially closed but not closed.
+	
+	\subsection*{(b) Second countable spaces: sequentially closed $\Leftrightarrow$ closed}
+	\begin{proposition}
+		If $(X,\tau)$ is second countable, then for every $A\subseteq X$ we have $\operatorname{scl}(A)=\overline{A}$. In particular, $A$ is sequentially closed iff $A$ is closed.
+	\end{proposition}
+	\begin{proof}
+		Let $\mathcal{B}=\{B_1,B_2,\dots\}$ be a countable base for $X$. Fix $x\in X$ and enumerate $\mathcal{B}_x=\{B\in\mathcal{B}: x\in B\}$ as $(C_n)_{n\ge1}$.
+		Define $U_n=\bigcap_{k=1}^n C_k$. Then $(U_n)$ is a decreasing countable neighborhood base at $x$.
+		If $x\in\overline{A}$, then $A\cap U_n\neq\varnothing$ for all $n$; choose $x_n\in A\cap U_n$.
+		By construction $x_n\to x$. Hence every point of $\overline{A}$ is a sequential limit of points of $A$, so $\operatorname{scl}(A)\supseteq\overline{A}$.
+		The reverse inclusion is always true. Therefore $\operatorname{scl}(A)=\overline{A}$, and the equivalence follows.
+	\end{proof}
+	
+	\paragraph{Examples.}
+	In $(\mathbb{R},\text{usual})$ the set $A=(0,1)$ is not sequentially closed since $x_n=1/n\to 0\notin A$.
+	In contrast, in the co-countable $\mathbb{R}$ every subset is sequentially closed, while uncountable proper subsets are not closed.
+	
+	\section*{Problem 6: Extra Examples and Sequential Spaces}
+	
+	\subsection*{More Examples for (a): Co-countable Topology (Uncountable $X$)}
+	In the co-countable topology on an uncountable set $X$, a sequence converges iff it is eventually constant.
+	Hence every subset $A\subseteq X$ is sequentially closed, while the closed sets are exactly the countable subsets and $X$ itself.
+	\begin{itemize}
+		\item $X=\mathbb{R}$, $A=\mathbb{R}\setminus\mathbb{Q}$: sequentially closed, not closed.
+		\item $X=\mathbb{R}$, $A=(0,1)\cup\{\pi\}$: sequentially closed, not closed.
+		\item $X$ uncountable, $A=X\setminus C$ with nonempty countable $C$: sequentially closed, not closed.
+		\item Any countably infinite $C\subset X$ is closed; its sequential closure equals $C$.
+	\end{itemize}
+	\emph{Non-example.} If $X$ is finite with the co-countable topology, then $X$ is discrete; sequentially closed sets are exactly the closed sets.
+	
+	\subsection*{More Examples for (b): Second Countable Spaces}
+	In every second countable space (hence first countable), $A$ is sequentially closed iff $A$ is closed.
+	\begin{itemize}
+		\item $\mathbb{R}^n$: $(0,1)$ is not sequentially closed (since $1/n\to0\notin(0,1)$); $[0,1]$ is sequentially closed (closed).
+		\item Any metric space (Polish spaces, manifolds, graphs with path metric, metric CW-complexes): same equivalence.
+		\item Subspaces of second countable spaces: e.g.\ $S^1\subset\mathbb{R}^2$. The set $S^1\setminus\{1\}$ is not sequentially closed (points approach $1$).
+		\item Countable products of second countable spaces (e.g.\ $\mathbb{R}^{\mathbb N}$ with product topology): still second countable; sequentially closed $\Leftrightarrow$ closed.
+	\end{itemize}
+	\emph{Non-examples.} For uncountable $I$, $\mathbb{R}^I$ (product topology) is not second countable; there are subsets whose topological closure strictly contains their sequential closure. Likewise, $\mathbb{R}$ with the co-countable topology is not first/second countable; every set is sequentially closed but many are not closed.
+	
+	\subsection*{Sequential Spaces (Sequential Topology)}
+	\begin{definition}
+		A topological space $X$ is \emph{sequential} if for all $A\subseteq X$,
+		\[
+		\overline{A}=\operatorname{scl}(A),
+		\]
+		i.e.\ $A$ is closed iff $A$ is sequentially closed.
+	\end{definition}
+	
+	\paragraph{Facts and Examples.}
+	\begin{itemize}
+		\item Every first countable space (in particular, every metric or second countable space) is sequential.
+		\item The Arens--Fort space is sequential but not first countable.
+		\item Quotients of metric spaces are sequential.
+		\item Products of sequential spaces need not be sequential.
+	\end{itemize}
+	
+	\paragraph{Non-sequential Counterexamples.}
+	\begin{itemize}
+		\item The Tikhonoff cube $[0,1]^I$ with $I$ uncountable is not sequential.
+		\item The Stone--\v{C}ech compactification $\beta\mathbb{N}$ is not sequential.
+		\item The Fortissimo space is not sequential (fails countable tightness).
+		\item $\mathbb{R}$ with the co-countable topology is not sequential (every set is sequentially closed, many are not closed).
+	\end{itemize}
+	
+	
+	\section*{Sequentially Continuous vs.\ Continuous}
+	
+	\begin{definition}
+		Let $f:X\to Y$ be a map between topological spaces.
+		\begin{itemize}
+			\item $f$ is \emph{sequentially continuous at $x\in X$} if for every sequence $(x_n)$ with $x_n\to x$ in $X$ we have $f(x_n)\to f(x)$ in $Y$.
+			\item $f$ is \emph{continuous} if $f^{-1}(U)$ is open in $X$ for every open $U\subseteq Y$.
+		\end{itemize}
+	\end{definition}
+	
+	\begin{proposition}
+		If $X$ is a sequential space (e.g.\ first countable, metric, or second countable), then $f:X\to Y$ is continuous iff it is sequentially continuous.
+	\end{proposition}
+	
+	\begin{example}[Sequentially continuous but not continuous]
+		Let $X=\mathbb{R}$ with the co-countable topology and let $Y=\{0,1\}$ with the discrete topology. Define
+		\[
+		f(x)=\begin{cases}
+			0,& x\in \mathbb{Q},\\
+			1,& x\in \mathbb{R}\setminus \mathbb{Q}.
+		\end{cases}
+		\]
+		In $X$, a sequence converges to $x$ iff it is eventually constant equal to $x$. Hence for any $x_n\to x$,
+		the sequence $f(x_n)$ is eventually constant equal to $f(x)$, so $f$ is sequentially continuous.
+		However, $\{0\}\subset Y$ is open while $f^{-1}(\{0\})=\mathbb{Q}$ is not open in the co-countable topology.
+		Thus $f$ is not continuous.
+	\end{example}
+	
+	\section*{Problem 8: Gluing (Pasting) Continuous Maps}
+	
+	Let $(X,\tau)$ be a topological space with $X=A\cup B$ and $(Y,\rho)$ another space.
+	Let $g:A\to Y$ and $h:B\to Y$ be continuous (with subspace topologies) and suppose $g=h$ on $A\cap B$.
+	Define
+	\[
+	f(x)=
+	\begin{cases}
+		g(x),& x\in A,\\
+		h(x),& x\in B.
+	\end{cases}
+	\]
+	
+	\subsection*{(a) If $A$ and $B$ are closed, then $f$ is continuous}
+	\begin{proof}
+		Let $C\subseteq Y$ be closed. Since $g$ is continuous, $g^{-1}(C)$ is closed in $A$, so $g^{-1}(C)=A\cap F$ for some closed $F\subseteq X$.
+		Similarly $h^{-1}(C)=B\cap G$ for some closed $G\subseteq X$.
+		Then
+		\[
+		f^{-1}(C)=\big(A\cap g^{-1}(C)\big)\cup\big(B\cap h^{-1}(C)\big)=(A\cap F)\cup(B\cap G),
+		\]
+		a union of closed subsets of $X$. Hence $f^{-1}(C)$ is closed for every closed $C$, so $f$ is continuous.
+	\end{proof}
+	
+	\subsection*{(b) If $A$ is not closed, continuity may fail}
+	
+	
+\textit{Counterexample.}
+Let \(X=(0,2]\) with the subspace topology from \(\mathbb{R}\).
+Take \(A=(0,1)\) (not closed in \(X\)) and \(B=[1,2]\) (closed).
+
+Define \(g\equiv 0\) on \(A\) and \(h\equiv 1\) on \(B\).
+They agree on \(A\cap B=\varnothing\), so the glued map
+\[
+f(x)=
+\begin{cases}
+	0, & x\in A,\\[4pt]
+	1, & x\in B
+\end{cases}
+\]
+is well-defined.
+
+For the open set \(U=\bigl(\tfrac12,\tfrac32\bigr)\subset\mathbb{R}\) we have
+\[
+f^{-1}(U)=B=[1,2],
+\]
+which is not open in \(X\) (every neighborhood of \(1\) in \(X\) meets \(A\)).
+
+Thus \(f\) is not continuous.
+	
+	
+	
+	\paragraph{Remark (Open-cover version).}
+	If $A$ and $B$ are both \emph{open} in $X$, then for any open $U\subseteq Y$,
+	\[
+	f^{-1}(U)=(A\cap g^{-1}(U))\cup(B\cap h^{-1}(U)),
+	\]
+	and each term is open in $X$ (since $g^{-1}(U)$ is open in $A$, it equals $A\cap G$ for some open $G\subseteq X$).
+	Hence $f$ is continuous when $A,B$ form an open cover as well.
+
+
+\section*{Problem 9: Finite Products of Metrizable Spaces}
+
+\paragraph{Statement.}
+Show that a finite product of metrizable topological spaces is metrizable. (Hint: start with two metric spaces and define a metric on the product.)
+
+\paragraph{Proof for two factors.}
+Let $(X,d)$ and $(Y,e)$ be metric spaces. Set $\displaystyle d_1(x,x')=\min\{1,d(x,x')\}$ and $\displaystyle e_1(y,y')=\min\{1,e(y,y')\}$, which induce the same topologies as $d$ and $e$ but are bounded by $1$.
+Define
+\[
+D\big((x,y),(x',y')\big)=d_1(x,x')+e_1(y,y').
+\]
+Then $D$ is a metric on $X\times Y$.
+
+We claim that the topology induced by $D$ equals the product topology.
+
+(i) If $D((x,y),(x',y'))<r$, then $d_1(x,x')<r$ and $e_1(y,y')<r$, hence
+\[
+B_D((x,y),r)\subseteq B_{d_1}(x,r)\times B_{e_1}(y,r),
+\]
+so every $D$-open set is product-open.
+
+(ii) Conversely, let $U=B_{d_1}(x,\alpha)$ and $V=B_{e_1}(y,\beta)$. For $r=\min\{\alpha,\beta\}/2$ we have
+\[
+B_D((x,y),r)\subseteq U\times V,
+\]
+so every basic product-open set is $D$-open.
+
+Thus the two topologies coincide, and $X\times Y$ is metrizable.
+
+\paragraph{Finite products.}
+If $(X_i,d_i)$ for $i=1,\dots,n$ are metric,
+
+ define on $X=\prod_{i=1}^n X_i$ the metric
+\[
+D\big((x_i),(x_i')\big)=\sum_{i=1}^n \min\{1,d_i(x_i,x_i')\}.
+\]
+Exactly the same containment argument shows that $D$ induces the product topology on $X$. Hence any finite product of metrizable spaces is metrizable. \qed
+
+\paragraph{Examples.}
+\begin{itemize}
+	\item $\mathbb{R}^n$ is metrizable (finite product of $(\mathbb{R},|\cdot|)$).
+	\item A finite product of discrete spaces is again discrete (hence metrizable).
+	\item $S^1\times[0,1]$ is metrizable; for instance, with
+	\[
+	d\big((\theta,t),(\phi,s)\big)
+	=\sqrt{\,d_{S^1}(\theta,\phi)^2 + |t-s|^2\,},
+	\]
+	where $d_{S^1}$ is the arc-length distance on the circle.
+\end{itemize}
+	
+	\section*{Problem 10: A quotient that bridges two intervals}
+	
+	\paragraph{Statement.}
+	Let $X=[0,1]\cup[2,3]$ with the subspace topology of $\mathbb{R}$ and define $x\sim y$ iff $x=y$ or $\{x,y\}=\{1,2\}$. Show that $X/\!\sim$ is homeomorphic to $[0,2]$ with the usual topology.
+	
+	\paragraph{Solution.}
+	Define $F:X\to[0,2]$ by
+	\[
+	F(x)=
+	\begin{cases}
+		x,& x\in[0,1],\\[2pt]
+		x-1,& x\in[2,3].
+	\end{cases}
+	\]
+	Then $F$ is continuous (it is continuous on each closed piece, and $F(1)=1=F(2)$), and it is constant on $\sim$-classes (the only nontrivial class is $\{1,2\}$).
+	
+	Let $q:X\to X/\!\sim$ be the quotient map. By the universal property of the quotient, there exists a unique continuous $\tilde F:X/\!\sim\to[0,2]$ such that $\tilde F\circ q=F$.
+	
+	We show $\tilde F$ is bijective. For $y\in[0,2]$,
+	\[
+	F^{-1}(\{y\})=
+	\begin{cases}
+		\{y\},& 0\le y<1,\\
+		\{1,2\},& y=1,\\
+		\{y+1\},& 1<y\le 2,
+	\end{cases}
+	\]
+	so exactly one equivalence class maps to each $y$. Hence $\tilde F$ is bijective.
+	
+	Since $X$ is compact, the quotient $X/\!\sim$ is compact. The space $[0,2]$ is Hausdorff. Therefore a continuous bijection $\tilde F:X/\!\sim\to[0,2]$ is a homeomorphism. Thus $X/\!\sim \cong [0,2]$.
+	
+	\paragraph{Remark.}
+	If we additionally identify $0\sim 3$, the quotient becomes homeomorphic to $S^1$ (gluing the ends after bridging at $1\sim2$).
+	
+	\paragraph{Why $F$ is constant on classes.}
+	The $\sim$-classes are singletons $\{x\}$ for $x\neq 1,2$, and one special class $\{1,2\}$.
+	For $x\neq 1,2$ we have a singleton class, so $F$ is trivially constant there.
+	For the special class,
+	\[
+	F(1)=1,\qquad F(2)=2-1=1,
+	\]
+	so $F$ takes the same value on $1$ and $2$. Hence $F$ is constant on every $\sim$-class.
+	
+	\section*{Problem 11: Slices and a quotient of a product}
+	
+	Let $X,Y$ be topological spaces and endow $X\times Y$ with the product topology.
+	
+	\subsection*{(a) For each $y\in Y$, $X\times\{y\}\cong X$}
+	Define
+	\[
+	i_y:X\to X\times\{y\},\quad i_y(x)=(x,y),
+	\qquad
+	p_y:X\times\{y\}\to X,\quad p_y(x,y)=x.
+	\]
+	Then $i_y$ is continuous (product of $\mathrm{id}_X$ with the constant map $y$),
+	$p_y$ is the restriction of the continuous projection $\pi_X$, and
+	\[
+	p_y\circ i_y=\mathrm{id}_X,\qquad i_y\circ p_y=\mathrm{id}_{X\times\{y\}}.
+	\]
+	Hence $i_y$ is a homeomorphism $X\cong X\times\{y\}$.
+	
+	\subsection*{(b) The quotient by vertical fibers is $X$ (assuming $Y\neq\varnothing$)}
+	Define $(x,y)\sim(x',y')$ iff $x=x'$. Let $q:X\times Y\to (X\times Y)/\!\sim$ be the quotient map and
+	$\pi_X:X\times Y\to X$ the first projection. Since $\pi_X$ is continuous and constant on $\sim$-classes,
+	the universal property yields a unique continuous
+	\[
+	\tilde\pi:(X\times Y)/\!\sim \longrightarrow X \quad\text{such that}\quad \tilde\pi\circ q=\pi_X.
+	\]
+	
+	Fix $y_0\in Y$ and define $s:X\to (X\times Y)/\!\sim$ by $s(x)=q(x,y_0)$.
+	Then $s$ is continuous (it equals $q\circ i_{y_0}$).
+	
+	For $x\in X$, $\tilde\pi\circ s(x)=\tilde\pi(q(x,y_0))=\pi_X(x,y_0)=x$.
+	For any $(x,y)\in X\times Y$ we have $(x,y)\sim(x,y_0)$, hence
+	\[
+	s\circ\tilde\pi\big(q(x,y)\big)=s(x)=q(x,y_0)=q(x,y).
+	\]
+	Thus $s=(\tilde\pi)^{-1}$ and $\tilde\pi$ is a homeomorphism.
+	Therefore $(X\times Y)/\!\sim\ \cong X$.
+	
+	% Factorization of the projection through the quotient
+	\[
+	\begin{tikzcd}
+		X\times Y \arrow[d, "q"'] \arrow[dr, "\pi_X"] & \\
+		Q \arrow[r, "\tilde{\pi}"'] & X
+	\end{tikzcd}
+	\qquad
+	% Section and inverse identities
+	\begin{tikzcd}
+		X \arrow[r, "i_{y_0}"] \arrow[rr, bend right=20, "\mathrm{id}_X"'] & 
+		X\times Y \arrow[r, "q"] \arrow[dr, "\pi_X"'] &
+		Q \arrow[d, "\tilde{\pi}"] \arrow[loop right, "s\circ\tilde{\pi}"'] \\
+		& & X
+	\end{tikzcd}
+	\]
+	
+	\paragraph{Examples for (a).}
+	\begin{itemize}
+		\item $X=\mathbb{R}$, $Y=[0,1]$. For any $t\in[0,1]$, the map
+		$i_t:\mathbb{R}\to \mathbb{R}\times\{t\}$, $x\mapsto(x,t)$,
+		is a homeomorphism with inverse $(x,t)\mapsto x$.
+		\item $X=S^1$, $Y=\mathbb{R}$. Each slice $S^1\times\{y\}$ is homeomorphic to $S^1$.
+		\item $X=\{1,2,3\}$ (discrete), arbitrary $Y$. Each $\{1,2,3\}\times\{y\}$ is a 3--point discrete space $\cong X$.
+		\item $X$ arbitrary, $Y$ non-Hausdorff (e.g.\ indiscrete). Still $X\times\{y\}\cong X$; the slice homeomorphism does not use separation axioms.
+	\end{itemize}
+	
+	\paragraph{Examples for (b).}
+	Let $(x,y)\sim(x',y')$ iff $x=x'$ and assume $Y\neq\varnothing$.
+	\begin{itemize}
+		\item $X=\mathbb{R}$, $Y=[0,1]$. Each vertical segment $\{x\}\times[0,1]$ collapses to one point; the quotient is $\mathbb{R}$.
+		\item $X=S^1$, $Y=\{0,1\}$. The two parallel circles collapse columnwise; the quotient is $S^1$.
+		\item $X=\{1,2,3\}$ (discrete), $Y=\{a,b,c\}$. The $3\times3$ grid collapses each column to one point; the quotient is a 3--point discrete space $\cong X$.
+		\item $X$ arbitrary, $Y$ indiscrete nonempty. Despite $X\times Y$ not being Hausdorff, the quotient by vertical fibers is homeomorphic to $X$ via the factorization of $\pi_X$.
+	\end{itemize}
+	
+	\paragraph{Why $Y\neq\varnothing$ is needed.}
+	If $Y=\varnothing$ then $X\times Y=\varnothing$ and $(X\times Y)/\!\sim=\varnothing\not\cong X$ unless $X=\varnothing$.
+	
+	\section*{Problem 12: $\mathbb{R}^2/\mathbb{Z}^2$ is a torus}
+	
+	\subsection*{Statement}
+	Let $\sim$ on $\mathbb{R}^2$ be given by
+	\[
+	(x,y)\sim(z,w)\quad\Longleftrightarrow\quad x-z\in\mathbb{Z}\ \text{ and }\ y-w\in\mathbb{Z}.
+	\]
+	Show that $\mathbb{R}^2/\!\sim$ is homeomorphic to the embedded torus
+	\[
+	T=\Bigl\{\bigl((2+\cos\theta)\cos\phi,\ (2+\cos\theta)\sin\phi,\ \sin\theta\bigr)\ :\ \theta,\phi\in[0,2\pi]\Bigr\}\subset\mathbb{R}^3.
+	\]
+	
+	\subsection*{Route A: via $S^1\times S^1$}
+	\paragraph{Step 1 (factor through the quotient).}
+	Define
+	\[
+	F:\mathbb{R}^2\longrightarrow S^1\times S^1,\qquad
+	F(x,y)=\bigl(e^{2\pi i x},\,e^{2\pi i y}\bigr).
+	\]
+	Then:
+	\begin{itemize}
+		\item $F$ is continuous.
+		\item $F$ is constant on $\sim$-classes (adding integers to $x$ or $y$ does not change the exponentials).
+	\end{itemize}
+	Hence $F$ descends to a unique continuous
+	\[
+	\tilde F:\ \mathbb{R}^2/\!\sim\ \longrightarrow\ S^1\times S^1
+	\quad\text{with}\quad
+	\tilde F\circ q=F \ \ (q \text{ the quotient map}).
+	\]
+	
+	\paragraph{Step 2 (bijectivity).}
+	Given $(u,v)\in S^1\times S^1$, choose arguments $u=e^{2\pi i x}$, $v=e^{2\pi i y}$.
+	Different choices differ by integers, hence determine the same class. Therefore $\tilde F$ is bijective.
+	
+	\paragraph{Step 3 (homeomorphism).}
+	$\mathbb{R}^2/\!\sim$ is compact (homeomorphic to $[0,1]^2$ with opposite edges identified), and $S^1\times S^1$ is Hausdorff.
+	A continuous bijection from a compact space onto a Hausdorff space is a homeomorphism; thus $\tilde F$ is a homeomorphism.
+	
+	\paragraph{Step 4 (embed into $\mathbb{R}^3$).}
+	Define
+	\[
+	\Phi: S^1\times S^1\to T,\qquad
+	\Phi\bigl(e^{i\theta},e^{i\phi}\bigr)
+	=\bigl((2+\cos\theta)\cos\phi,\ (2+\cos\theta)\sin\phi,\ \sin\theta\bigr).
+	\]
+	$\Phi$ is a homeomorphism onto $T$. Therefore
+	\[
+	\mathbb{R}^2/\!\sim\ \cong\ S^1\times S^1\ \cong\ T.
+	\]
+	
+	\bigskip
+	
+	\subsection*{Route B: direct map to the embedded torus}
+	\paragraph{Step 1 (define a $\mathbb{Z}^2$-periodic map).}
+	Set
+	\[
+	G:\mathbb{R}^2\to T,\qquad
+	G(x,y)=\Bigl((2+\cos(2\pi x))\cos(2\pi y),\ (2+\cos(2\pi x))\sin(2\pi y),\ \sin(2\pi x)\Bigr).
+	\]
+	Then $G$ is continuous and satisfies $G(x+m,y+n)=G(x,y)$ for all $m,n\in\mathbb{Z}$, so $G$ is constant on $\sim$-classes and factors through a continuous
+	\[
+	\tilde G:\ \mathbb{R}^2/\!\sim\ \longrightarrow\ T.
+	\]
+	
+	\paragraph{Step 2 (bijective).}
+	For any $(\theta,\phi)\in[0,2\pi]^2$, the point of $T$ with those angles equals
+	\[
+	G\!\left(\frac{\theta}{2\pi},\,\frac{\phi}{2\pi}\right).
+	\]
+	Changing $(\theta,\phi)$ by integer multiples of $2\pi$ changes $(x,y)$ by integers, i.e.\ stays in the same class.
+	Thus $\tilde G$ is bijective.
+	
+	\paragraph{Step 3 (homeomorphism).}
+	As above, $\mathbb{R}^2/\!\sim$ is compact and $T$ is Hausdorff (subspace of $\mathbb{R}^3$), hence the continuous bijection $\tilde G$ is a homeomorphism.
+	
+	\bigskip
+	
+	\subsection*{Variants}
+	\begin{itemize}
+		\item $\mathbb{R}/\mathbb{Z}\cong S^1$ (the 1-torus).
+		\item $\mathbb{R}^n/\mathbb{Z}^n\cong (S^1)^n$ (the $n$-torus).
+		\item Identifying only the $y$-coordinate modulo $\mathbb{Z}$ gives the cylinder $\mathbb{R}\times S^1$.
+	\end{itemize}
+	
+	% (Optional global spacing tweaks)
+	% \setlength{\parskip}{0.6em}
+	% \setlength{\parindent}{0pt}
+	\paragraph{Description of the map $G:\mathbb{R}^2\to T$.}
+	Define
+	\[
+	G(x,y)=\Big((2+\cos(2\pi x))\cos(2\pi y),\ (2+\cos(2\pi x))\sin(2\pi y),\ \sin(2\pi x)\Big).
+	\]
+	
+	\paragraph{Interpretation via angles.}
+	Set
+	\[
+	\theta=2\pi x,\qquad \phi=2\pi y.
+	\]
+	Then
+	\[
+	G(x,y)=\bigl((2+\cos\theta)\cos\phi,\ (2+\cos\theta)\sin\phi,\ \sin\theta\bigr),
+	\]
+	which is the standard parametrization of the embedded torus $T\subset\mathbb{R}^3$
+	with major radius $2$ and minor radius $1$.
+	Here $\theta$ moves around the small circular cross--section (the ``tube''),
+	producing the vertical coordinate $z=\sin\theta$ and the tube radius $1$,
+	while $\phi$ rotates the cross--section around the $z$--axis; the distance from the
+	$z$--axis is $2+\cos\theta$ and multiplying by $(\cos\phi,\sin\phi)$ sweeps the big circle.
+	
+	\paragraph{Periodicity and factorization through the quotient.}
+	For every $(m,n)\in\mathbb{Z}^2$,
+	\[
+	G(x+m,y+n)=G(x,y),
+	\]
+	since only $2\pi x$ and $2\pi y$ appear in trigonometric functions.
+	Thus $G$ is constant on cosets of $\mathbb{Z}^2$ in $\mathbb{R}^2$, i.e.\ on the equivalence
+	classes for the relation $(x,y)\sim(x',y')\iff (x-x',y-y')\in\mathbb{Z}^2$.
+	Let $q:\mathbb{R}^2\to\mathbb{R}^2/\mathbb{Z}^2$ be the quotient map.
+	By the universal property of the quotient, there exists a unique continuous
+	\[
+	\tilde G:\ \mathbb{R}^2/\mathbb{Z}^2 \longrightarrow T \quad\text{such that}\quad \tilde G\circ q = G.
+	\]
+	
+	\paragraph{Surjectivity and injectivity on the quotient.}
+	Given any point of $T$ written as
+	\[
+	\bigl((2+\cos\theta)\cos\phi,\ (2+\cos\theta)\sin\phi,\ \sin\theta\bigr)
+	\quad (\theta,\phi\in[0,2\pi]),
+	\]
+	choose $(x,y)=(\theta/2\pi,\ \phi/2\pi)\in\mathbb{R}^2$; then $G(x,y)$ equals that point.
+	Different choices of $(\theta,\phi)$ differ by integer multiples of $2\pi$ and hence change
+	$(x,y)$ by integers only; therefore they lie in the same class in $\mathbb{R}^2/\mathbb{Z}^2$.
+	Consequently $\tilde G$ is bijective.
+	
+	\paragraph{Homeomorphism.}
+	The space $\mathbb{R}^2/\mathbb{Z}^2$ is compact (homeomorphic to the unit square $[0,1]^2$
+	with opposite edges identified), and $T\subset\mathbb{R}^3$ is Hausdorff.
+	Hence the continuous bijection $\tilde G:\mathbb{R}^2/\mathbb{Z}^2\to T$ is a homeomorphism.
+	
+	\paragraph{Why the torus $T$?}
+	The relation $(x,y)\sim(x+m,y+n)$, $m,n\in\mathbb{Z}$, identifies opposite edges of the unit square
+	$[0,1]^2$, producing the compact surface $[0,1]^2/\!\sim$ which is homeomorphic to $S^1\times S^1$,
+	i.e.\ a (topological) torus. The set
+	\[
+	T=\{((2+\cos\theta)\cos\phi,(2+\cos\theta)\sin\phi,\sin\theta):\theta,\phi\in[0,2\pi]\}\subset\mathbb{R}^3
+	\]
+	is a standard embedded model of this torus. The map
+	\[
+	G(x,y)=\big((2+\cos 2\pi x)\cos 2\pi y,\ (2+\cos 2\pi x)\sin 2\pi y,\ \sin 2\pi x\big)
+	\]
+	is $\,\mathbb{Z}^2$–periodic and hence factors through the quotient, yielding a homeomorphism
+	$\tilde G:\mathbb{R}^2/\mathbb{Z}^2\to T$.
+	
+	\section*{Problem 13: The line with two origins}
+	
+	Let
+	\[
+	X=\{(x,y)\in\mathbb{R}^2: y=\pm1\}
+	\]
+	with the subspace topology from $\mathbb{R}^2$, and define an equivalence relation on $X$ by
+	\[
+	(x,y)\sim(x',y') \iff x'=x\neq 0 \ \text{ and }\ y'=-y.
+	\]
+	Let $Q=X/\!\sim$ and $q:X\to Q$ be the quotient map. Denote
+	\[
+	o_+=q(0,1),\qquad o_-=q(0,-1).
+	\]
+	
+	\subsection*{(a) Every point of $Q$ has a neighborhood homeomorphic to $\mathbb{R}$}
+	\paragraph{Case 1: points coming from $x\neq0$.}
+	Fix $a\neq0$ and choose $\varepsilon>0$ so that $(a-\varepsilon,a+\varepsilon)$ does not meet $0$.
+	Then
+	\[
+	U = q\big((a-\varepsilon,a+\varepsilon)\times\{1\}\big)
+	= q\big((a-\varepsilon,a+\varepsilon)\times\{-1\}\big)
+	\]
+	and the map $t\mapsto q(t,1)$ is a homeomorphism $(a-\varepsilon,a+\varepsilon)\xrightarrow{\cong} U$.
+	
+	\paragraph{Case 2: the point $o_+$.}
+	For small $\varepsilon>0$, define
+	\[
+	\phi_+:(-\varepsilon,\varepsilon)\longrightarrow Q,\qquad
+	\phi_+(t)=
+	\begin{cases}
+		q(t,1), & t\le 0,\\[2pt]
+		q(t,-1), & t>0.
+	\end{cases}
+	\]
+	Then $\phi_+$ is continuous, bijective onto $U_+=\phi_+((-\varepsilon,\varepsilon))$, and its inverse is continuous (it pulls back opens to unions of opens in the two lines). Hence $U_+\cong\mathbb{R}$.
+	
+	\paragraph{Case 3: the point $o_-$.}
+	Define
+	\[
+	\phi_-:(-\varepsilon,\varepsilon)\to Q,\qquad
+	\phi_-(t)=
+	\begin{cases}
+		q(t,-1), & t\le 0,\\[2pt]
+		q(t,1),  & t>0.
+	\end{cases}
+	\]
+	Then $U_-=\phi_-((-\varepsilon,\varepsilon))$ is a neighborhood of $o_-$ homeomorphic to $\mathbb{R}$.
+	
+	Thus each point of $Q$ has a neighborhood homeomorphic to $\mathbb{R}$.
+	
+	\subsection*{(b) $Q$ is not Hausdorff}
+	Let $U\ni o_+$ and $V\ni o_-$ be arbitrary open neighborhoods. By the constructions above,
+	for all sufficiently small $t>0$ we have $q(t,1)=q(t,-1)\in U$ and also $q(t,1)=q(t,-1)\in V$.
+	Hence $U\cap V\neq\varnothing$, so $o_+$ and $o_-$ cannot be separated by disjoint open sets.
+	Therefore $Q$ is not Hausdorff.
+	
+	\paragraph{Remark.}
+	$Q$ is the classical ``line with two origins'': it is locally homeomorphic to $\mathbb{R}$, but it fails to be Hausdorff.
+	
+	\paragraph{Quotient equivalence classes in our examples.}
+	
+	\begin{itemize}
+		\item[\textbf{(10)}] $X=[0,1]\cup[2,3]$ with $1\sim2$.
+		\begin{itemize}
+			\item Classes: $\{x\}$ for every $x\in X\setminus\{1,2\}$, and the special class $\{1,2\}$.
+		\end{itemize}
+		
+		\item[\textbf{(11b)}] $X\times Y$ with $(x,y)\sim(x',y')\iff x=x'$ (assume $Y\neq\varnothing$).
+		\begin{itemize}
+			\item Classes: for each $x\in X$, the vertical fiber $\{x\}\times Y$.
+		\end{itemize}
+		
+		\item[\textbf{(12)}] $\mathbb{R}^2$ with $(x,y)\sim(x',y')\iff (x-x',y-y')\in\mathbb{Z}^2$.
+		\begin{itemize}
+			\item Classes: lattice cosets $(x,y)+\mathbb{Z}^2=\{(x+m,y+n):m,n\in\mathbb{Z}\}$.
+			\item Equivalently: one representative in $[0,1)\times[0,1)$, with opposite edges identified.
+		\end{itemize}
+		
+		\item[\textbf{(13)}] $X=\{(x,y)\in\mathbb{R}^2:y=\pm1\}$ with $(x,y)\sim(x',y')\iff x=x'\neq0,\ y'=-y$.
+		\begin{itemize}
+			\item Classes: for $x\neq0$, the pair $\{(x,1),(x,-1)\}$; for $x=0$, the singletons $\{(0,1)\}$ and $\{(0,-1)\}$.
+		\end{itemize}
+	\end{itemize}
+	
+	\section*{Problem 14: Compactness of Cocountable vs.\ Cofinite Topologies}
+	
+	\paragraph{Definitions.}
+	On a set $X$, let
+	\[
+	\tau=\{\varnothing\}\cup\{\,U\subseteq X:\ X\setminus U\ \text{is countable}\,\}
+	\quad\text{and}\quad
+	\rho=\{\varnothing\}\cup\{\,U\subseteq X:\ X\setminus U\ \text{is finite}\,\}.
+	\]
+	
+	\subsection*{(A) Cocountable topology $(X,\tau)$}
+	\begin{itemize}
+		\item If $X$ is finite, then every subset is open (discrete topology), hence $(X,\tau)$ is compact.
+		\item If $X$ is infinite, then $(X,\tau)$ is \emph{not} compact.  
+		Choose a countably infinite subset $A=\{a_1,a_2,\dots\}\subseteq X$.  
+		For $n\ge1$ set $C_n=\{a_n,a_{n+1},\dots\}$ (countable) and $U_n=X\setminus C_n\in\tau$.
+		Then $\bigcup_{n\ge1}U_n=X$ since $\bigcap_{n\ge1} C_n=\varnothing$, but for each $k$,
+		\[
+		\bigcup_{n=1}^k U_n=X\setminus\Big(\bigcap_{n=1}^k C_n\Big)=X\setminus\{a_k,a_{k+1},\dots\}\neq X,
+		\]
+		so no finite subcover exists. Hence $(X,\tau)$ is compact iff $X$ is finite (the empty space is compact as usual).
+	\end{itemize}
+	
+	\subsection*{(B) Cofinite topology $(X,\rho)$}
+	$(X,\rho)$ is compact for \emph{every} $X$.  
+	Indeed, given an open cover $\{U_\alpha\}_{\alpha\in A}$ of $X$, pick a nonempty $U_{\alpha_0}$.
+	Then $F=X\setminus U_{\alpha_0}$ is finite. For each $x\in F$ choose $U_{\alpha(x)}$ with $x\in U_{\alpha(x)}$.
+	Thus
+	\[
+	X=U_{\alpha_0}\ \cup\ \bigcup_{x\in F} U_{\alpha(x)}
+	\]
+	is a finite subcover.
+	
+	\paragraph{Examples.}
+	On $X=\mathbb{R}$ the cocountable topology is not compact (use the $U_n=\mathbb{R}\setminus\{a_n,a_{n+1},\dots\}$ cover for a countably infinite subset $\{a_n\}$), while the cofinite topology is compact. If $X$ is finite, both topologies coincide with the discrete topology and are compact.
+	
+	\section*{Problem 15: Compact Hausdorff spaces separate closed sets}
+	
+	\paragraph{Statement.}
+	Let $X$ be compact Hausdorff. If $F_1,F_2\subset X$ are closed and disjoint, then there exist disjoint open sets $G_1,G_2\subset X$ with $F_1\subset G_1$ and $F_2\subset G_2$.
+	
+	\paragraph{Proof (compact Hausdorff $\Rightarrow$ normal).}
+	Since $F_1,F_2$ are closed in a compact space, they are compact.
+	
+	\emph{Step 1.} Fix $x\in F_1$. For each $y\in F_2$ choose disjoint open sets $U_{x,y}\ni x$ and $V_{x,y}\ni y$ (Hausdorff).
+	The family $\{V_{x,y}:y\in F_2\}$ covers $F_2$, so compactness of $F_2$ yields $y_1,\dots,y_n$ with
+	$F_2\subset \bigcup_{i=1}^n V_{x,y_i}$. Set
+	\[
+	U_x=\bigcap_{i=1}^n U_{x,y_i},\qquad V_x=\bigcup_{i=1}^n V_{x,y_i}.
+	\]
+	Then $U_x,V_x$ are open, $x\in U_x$, $F_2\subset V_x$, and $U_x\cap V_x=\varnothing$.
+	
+	\emph{Step 2.} The family $\{U_x:x\in F_1\}$ covers $F_1$. By compactness of $F_1$ there exist $x_1,\dots,x_m\in F_1$ with
+	$F_1\subset \bigcup_{j=1}^m U_{x_j}$. Define
+	\[
+	G_1=\bigcup_{j=1}^m U_{x_j},\qquad G_2=\bigcap_{j=1}^m V_{x_j}.
+	\]
+	Then $G_1,G_2$ are open, $F_1\subset G_1$, $F_2\subset G_2$, and
+	\[
+	G_1\cap G_2 \subset \bigcup_{j=1}^m (U_{x_j}\cap V_{x_j})=\varnothing,
+	\]
+	so $G_1$ and $G_2$ are disjoint. \qed
+	
+	\paragraph{Remarks.}
+	Compact Hausdorff $\Rightarrow$ normal. Without compactness, Hausdorff does not imply normal:
+	the Sorgenfrey plane $\mathbb{S}\times\mathbb{S}$ is Hausdorff but not normal.
+	Without Hausdorffness, even compact spaces (e.g.\ the cofinite topology on an infinite set) fail to separate points and sets.
+	
+	\section*{Normal, Tychonoff ($T_{3\frac12}$), and Sorgenfrey—examples and counterexamples}
+	
+	\paragraph{Separation axioms (recap).}
+	
+	
+	$T_1$: singletons are closed; $T_2$ (Hausdorff): points have disjoint nbhds;
+	
+	$T_3$ (regular): $T_1$ + point vs.\ closed set separated by disjoint opens;
+	
+	$T_{3\frac12}$ (Tychonoff): $T_1$ + point vs.\ closed set separated by a continuous real-valued function (completely regular Hausdorff);
+	
+	$T_4$ (normal): $T_1$ + disjoint closed sets separated by disjoint opens;
+	
+	$T_5$ (completely normal): every two separated sets have disjoint open nbhds (equivalently: hereditarily normal);
+	
+	$T_6$ (perfectly normal): normal and every closed set is a $G_\delta$.
+	
+	\subsection*{Examples}
+	\begin{itemize}
+		\item \textbf{Metric spaces} (e.g.\ $\mathbb{R}^n$, compact metric spaces): perfectly normal $(T_6)$ $\Rightarrow$ completely normal $(T_5)$ $\Rightarrow$ normal $(T_4)$ $\Rightarrow$ Tychonoff.
+		\item \textbf{Compact Hausdorff spaces}: normal (by the standard theorem).
+		\item \textbf{Finite products of metric spaces}: metric $\Rightarrow$ normal.
+		\item \textbf{Tychonoff products}: Any product of Tychonoff spaces is Tychonoff (Tychonoff theorem).
+		\item \textbf{Sorgenfrey line} $\mathbb{S}$ (base $[a,b)$): $T_6$ (perfectly normal), first countable, separable; not second countable, not Lindelöf.
+	\end{itemize}
+	
+	\subsection*{Counterexamples / Cautions}
+	\begin{itemize}
+		\item \textbf{Sorgenfrey plane} $\mathbb{S}\times\mathbb{S}$: Tychonoff but \emph{not normal}. Hence product of normal spaces may fail to be normal.
+		\item \textbf{Niemytzki (Moore) plane}: $T_1$ and completely regular (so Tychonoff) but not normal.
+		\item \textbf{Cofinite/cocountable topologies on an infinite set}: $T_1$ but not Hausdorff; thus not $T_3$, not Tychonoff, not normal.
+	\end{itemize}
+	
+	\paragraph{Takeaways.}
+	\begin{itemize}
+		\item Normal $\Rightarrow$ Tychonoff is false; Tychonoff $\centernot\Rightarrow$ normal (witness $\mathbb{S}\times\mathbb{S}$).
+		\item Compact Hausdorff $\Rightarrow$ normal; metric $\Rightarrow$ perfectly normal.
+		\item Products preserve Tychonoff, but not normality in general.
+	\end{itemize}
+	
+	
+\noindent\textbf{Problem.}
+Recall from lectures that a non-empty topological space $(X,\tau)$ is said to be
+connected if there is no separation of $X$ by open, non-empty, disjoint subsets.
+Show that $(X,\tau)$ is connected if and only if the only subsets of $X$ that
+are open and closed in $X$ are $\varnothing$ and $X$ itself.
+
+\medskip
+\noindent\textbf{Definitions.}
+A \emph{separation} of $X$ is a pair of sets $U,V\subseteq X$ such that
+$U\neq\varnothing$, $V\neq\varnothing$, $U\cap V=\varnothing$, each of $U$ and $V$ is open,
+and $X=U\cup V$.
+The space $X$ is \emph{connected} if there is no separation of $X$.
+A set $A\subseteq X$ is \emph{clopen} if it is both open and closed
+(\emph{closed} meaning $X\setminus A$ is open).
+
+\medskip
+\noindent\textbf{Key observations.}
+\begin{enumerate}
+	\item If $X=U\cup V$ is a separation, then $U$ is clopen: $U$ is open by assumption and
+	$X\setminus U=V$ is also open, hence $U$ is closed. Similarly for $V$.
+	\item If $A\subsetneq X$ is non-empty and clopen, then $A$ and $X\setminus A$ are disjoint,
+	non-empty, open sets whose union is $X$, i.e., they form a separation of $X$.
+\end{enumerate}
+
+\medskip
+\noindent\textbf{Proof.}
+\emph{($\Rightarrow$)} Suppose $X$ is connected. Let $A\subseteq X$ be clopen.
+If $A\notin\{\varnothing,X\}$, then by Observation~2 the pair $(A,X\setminus A)$ is a separation
+of $X$, contradicting connectedness. Hence the only clopen subsets are $\varnothing$ and $X$.
+
+\smallskip
+\noindent
+\emph{($\Leftarrow$)} Suppose the only clopen subsets of $X$ are $\varnothing$ and $X$.
+If $X$ were disconnected, there would exist a separation $X=U\cup V$ with
+$U,V$ non-empty, open, disjoint. Then $U$ is closed since $X\setminus U=V$ is open,
+so $U$ is a non-trivial clopen subset of $X$, contradicting the assumption.
+Therefore $X$ is connected.
+
+\medskip
+\noindent\textbf{Conclusion.}
+A topological space $(X,\tau)$ is connected if and only if the only clopen subsets of $X$
+are $\varnothing$ and $X$ itself.
+
+\noindent\textbf{Problem.}
+Let $(X,\|\cdot\|)$ be a normed vector space over $\mathbb{R}$, with canonical
+metric $d(x,y)=\|x-y\|$. Show that the open and closed balls of such $(X,d)$
+are path connected.
+
+\medskip
+\noindent\textbf{Definitions.}
+For $x_0\in X$ and $r>0$,
+\[
+B(x_0,r)=\{x\in X:\|x-x_0\|<r\},\qquad
+\overline{B}(x_0,r)=\{x\in X:\|x-x_0\|\le r\}.
+\]
+A subset $A\subset X$ is \emph{path connected} if for any $x,y\in A$ there
+exists a continuous map $\gamma:[0,1]\to A$ with $\gamma(0)=x$ and
+$\gamma(1)=y$.
+
+\medskip
+\noindent\textbf{Lemma (Convex $\Rightarrow$ path connected).}
+If $A\subset X$ is convex, then for any $x,y\in A$ the map
+$\gamma(t)=(1-t)x+ty$ ($t\in[0,1]$) is a continuous path in $A$ from $x$ to $y$.
+Hence $A$ is path connected.
+
+\medskip
+\noindent\textbf{Claim.} Open and closed balls are convex.
+
+\noindent\emph{Proof.}
+Let $x,y$ lie in $\overline{B}(x_0,r)$ and $t\in[0,1]$. Then, by the triangle
+inequality and absolute homogeneity,
+\[
+\|(1-t)x+ty - x_0\|
+=\|(1-t)(x-x_0)+t(y-x_0)\|
+\le (1-t)\|x-x_0\|+t\|y-x_0\|
+\le (1-t)r+tr=r.
+\]
+Thus $(1-t)x+ty\in\overline{B}(x_0,r)$, proving convexity of the closed ball.
+If $x,y\in B(x_0,r)$, the same estimate with strict inequalities gives
+\[
+\|(1-t)x+ty - x_0\|
+< (1-t)r+tr=r,
+\]
+so $(1-t)x+ty\in B(x_0,r)$, proving convexity of the open ball. \qed
+
+\medskip
+\noindent\textbf{Proof of the statement.}
+By the lemma, any convex subset of a normed space is path connected using the
+straight-line path $\gamma(t)=(1-t)x+ty$. Since both $B(x_0,r)$ and
+$\overline{B}(x_0,r)$ are convex, they are path connected. \qed
+
+\noindent\textbf{Problem 3 — Path-connected $\Rightarrow$ Connected.}
+Show that if $(X,\tau)$ is path-connected, then it is also connected.
+
+\medskip
+\noindent\textbf{Definitions.}
+A space $X$ is \emph{path-connected} if for every $x,y\in X$ there exists a
+continuous map $\gamma:[0,1]\to X$ with $\gamma(0)=x$ and $\gamma(1)=y$.
+A space is \emph{connected} if it admits no separation $X=U\cup V$ with
+$U,V$ nonempty, disjoint, open sets.
+
+\medskip
+\noindent\textbf{Facts.}
+(1) The interval $[0,1]$ is connected. \;
+(2) Continuous images of connected sets are connected. \;
+(3) A connected subset of a space cannot meet two disjoint nonempty open sets that separate the space.
+
+\medskip
+\noindent\textbf{Proof.}
+Assume $X$ is path-connected. Suppose, to the contrary, that there is a
+separation $X=U\cup V$ with $U,V$ nonempty, open, and disjoint.
+Choose $x\in U$ and $y\in V$. By path-connectedness there exists a continuous
+$\gamma:[0,1]\to X$ with $\gamma(0)=x$ and $\gamma(1)=y$.
+Then $\gamma([0,1])$ is connected as the continuous image of the connected set
+$[0,1]$. However, $\gamma([0,1])\subset U\cup V$ and meets both $U$ and $V$
+(since $\gamma(0)=x\in U$ and $\gamma(1)=y\in V$), which contradicts the fact
+that a connected set cannot be expressed as the union of two disjoint nonempty
+open subsets. Therefore no such separation exists, and $X$ is connected.
+
+\smallskip
+\noindent\emph{Alternate preimage proof.}
+The sets $\gamma^{-1}(U)$ and $\gamma^{-1}(V)$ are disjoint, nonempty, open in
+$[0,1]$, and cover $[0,1]$. This contradicts the connectedness of $[0,1]$.
+Hence $X$ is connected.
+
+\medskip
+\noindent\textbf{Examples.}
+\begin{itemize}
+	\item Any interval in $\mathbb{R}$ is path-connected (via straight-line paths),
+	hence connected.
+	\item Open or closed balls in a normed vector space are convex, thus
+	path-connected; therefore connected.
+	\item $\mathbb{R}^n\setminus\{0\}$ is path-connected for $n\ge 2$ (join points by radial segments and an arc),
+	hence connected.
+\end{itemize}
+
+\noindent\textbf{Counterexample to the converse.}
+The topologist's sine curve
+$S=\{(x,\sin(1/x)):\ x\in(0,1]\}\cup(\{0\}\times[-1,1])\subset\mathbb{R}^2$
+is connected but not path-connected.
+
+\noindent\textbf{Problem 4 — Path-components form an equivalence.}
+Show that the relation $\sim$ on $X$ defined by
+$x\sim y$ iff there exists a continuous path $\gamma:[0,1]\to X$
+with $\gamma(0)=x$ and $\gamma(1)=y$ is an equivalence relation.
+(The equivalence classes are the path-components of $X$.)
+
+\medskip
+\noindent\textbf{Tools.}
+For paths $\gamma,\eta:[0,1]\to X$:
+\begin{itemize}
+	\item Constant path at $x$: $c_x(t)\equiv x$.
+	\item Reversal: $\overline\gamma(t)=\gamma(1-t)$ (joins $\gamma(1)$ to $\gamma(0)$).
+	\item Concatenation:
+	\[
+	(\gamma*\eta)(t)=
+	\begin{cases}
+		\gamma(2t), & t\in[0,\tfrac12],\\
+		\eta(2t-1), & t\in[\tfrac12,1],
+	\end{cases}
+	\]
+	a continuous path that joins $\gamma(0)$ to $\eta(1)$ provided $\gamma(1)=\eta(0)$.
+\end{itemize}
+
+\medskip
+\noindent\textbf{Proof.}
+We verify the three axioms.
+\begin{itemize}
+	\item \emph{Reflexive.} For any $x\in X$, $c_x$ is a path from $x$ to $x$, so $x\sim x$.
+	\item \emph{Symmetric.} If $x\sim y$, let $\gamma$ be a path from $x$ to $y$.
+	Then $\overline\gamma(t)=\gamma(1-t)$ is a path from $y$ to $x$, hence $y\sim x$.
+	\item \emph{Transitive.} If $x\sim y$ via $\gamma$ and $y\sim z$ via $\eta$,
+	the concatenation $\gamma*\eta$ is a path from $x$ to $z$, thus $x\sim z$.
+\end{itemize}
+Therefore $\sim$ is an equivalence relation. Its equivalence classes are the
+path-components of $X$, i.e., maximal path-connected subsets that partition $X$.
+\qed
+
+\medskip
+\noindent\textbf{Examples.}
+\begin{enumerate}
+	\item $\mathbb{R}$: one path-component (the whole space).
+	\item $\mathbb{R}\setminus\{0\}$: two path-components $(-\infty,0)$ and $(0,\infty)$.
+	\item $\mathbb{R}^2\setminus\{0\}$: one path-component (you can avoid the origin).
+	\item Discrete topology: every singleton $\{x\}$ is a path-component.
+	\item Indiscrete topology (nonempty $X$): $X$ itself is the unique path-component.
+	\item Topologist's sine curve
+	$S=\{(x,\sin(1/x)):x\in(0,1]\}\cup(\{0\}\times[-1,1])$:
+	the subset $\{(x,\sin(1/x)):x\in(0,1]\}$ is one path-component, and
+	each point on the vertical segment $\{0\}\times[-1,1]$ is a singleton path-component.
+\end{enumerate}
+
+
+\probheader{Problem 5 — Basic rules of multivariable differentiation}
+
+\textbf{Statement.}
+Verify the following for differentiable maps between Euclidean spaces.
+
+\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+	\item \emph{(Sum and scalar multiplication)}
+	If \(f,g:\mathbb{R}^n\to\mathbb{R}^m\) are differentiable at \(x_0\)
+	and \(\lambda\in\mathbb{R}\), then \(\lambda f+g\) is differentiable at \(x_0\) with
+	\[
+	D(\lambda f+g)\big|_{x_0}
+	= \lambda\,Df\big|_{x_0} + Dg\big|_{x_0}.
+	\]
+	
+	\item \emph{(Product rule for the inner product)}
+	If \(f,g:\mathbb{R}^n\to\mathbb{R}^k\) are differentiable at \(x_0\), then
+	\(F(x)\coloneqq\langle f(x),g(x)\rangle\) is differentiable at \(x_0\) and
+	\[
+	DF\big|_{x_0}(h)
+	= \langle Df|_{x_0}(h),\, g(x_0)\rangle
+	+ \langle f(x_0),\, Dg|_{x_0}(h)\rangle .
+	\]
+	
+	\item \emph{(Chain rule)}
+	If \(f:\mathbb{R}^n\to\mathbb{R}^m\) is differentiable at \(x_0\) and
+	\(g:\mathbb{R}^m\to\mathbb{R}^d\) is differentiable at \(f(x_0)\), then \(g\circ f\)
+	is differentiable at \(x_0\) and
+	\[
+	D(g\circ f)\big|_{x_0}(h)
+	= Dg\big|_{f(x_0)}\!\big(Df\big|_{x_0}(h)\big).
+	\]
+\end{enumerate}
+
+\sep
+
+\textbf{Theory (Fréchet derivative).}
+A map \(F:\mathbb{R}^n\to\mathbb{R}^p\) is differentiable at \(x_0\) iff there exists a
+linear \(L:\mathbb{R}^n\to\mathbb{R}^p\) with
+\[
+F(x_0+h) = F(x_0) + L(h) + o(\|h\|) \quad (h\to 0),
+\]
+and then \(L = DF|_{x_0}\).
+Continuous bilinear maps (e.g.\ the inner product) satisfy
+\[
+B(u+u',v+v') = B(u,v)+B(u',v)+B(u,v')+O(\|u'\|\,\|v'\|).
+\]
+
+\sep
+
+\textbf{Proofs.}
+
+\textit{(a) Sum/scalar multiple.}
+Write
+\[
+f(x_0+h)=f(x_0)+Df|_{x_0}(h)+r_f(h),\qquad
+g(x_0+h)=g(x_0)+Dg|_{x_0}(h)+r_g(h),
+\]
+with \(r_f(h),r_g(h)=o(\|h\|)\).
+Then
+\[
+(\lambda f+g)(x_0+h)
+= (\lambda f+g)(x_0)
++ \big(\lambda Df|_{x_0}+Dg|_{x_0}\big)(h)
++ o(\|h\|),
+\]
+so \(D(\lambda f+g)|_{x_0}=\lambda Df|_{x_0}+Dg|_{x_0}\).
+
+\medskip
+
+\textit{(b) Product rule.}
+Let \(F(x)=\langle f(x),g(x)\rangle\).
+Using the expansions above and bilinearity,
+\[
+\begin{aligned}
+	F(x_0+h)
+	&= \big\langle f(x_0)+Df|_{x_0}(h)+r_f(h),\;
+	g(x_0)+Dg|_{x_0}(h)+r_g(h) \big\rangle \\[4pt]
+	&= F(x_0)
+	+ \langle Df|_{x_0}(h),\, g(x_0)\rangle
+	+ \langle f(x_0),\, Dg|_{x_0}(h)\rangle
+	+ o(\|h\|).
+\end{aligned}
+\]
+
+\medskip
+
+\textit{(c) Chain rule.}
+Let \(y_0=f(x_0)\) and write
+\[
+f(x_0+h) = y_0 + Df|_{x_0}(h) + r(h),\qquad r(h)=o(\|h\|).
+\]
+Since \(g\) is differentiable at \(y_0\),
+\[
+g(y_0+k) = g(y_0) + Dg|_{y_0}(k) + \rho(k),\qquad \rho(k)=o(\|k\|).
+\]
+Apply with \(k = Df|_{x_0}(h)+r(h)\):
+\[
+\begin{aligned}
+	(g\circ f)(x_0+h)
+	&= g\!\left(y_0 + Df|_{x_0}(h) + r(h)\right) \\[2pt]
+	&= (g\circ f)(x_0)
+	+ \big(Dg|_{y_0}\circ Df|_{x_0}\big)(h)
+	+ Dg|_{y_0}\big(r(h)\big)
+	+ \rho\!\left(Df|_{x_0}(h)+r(h)\right),
+\end{aligned}
+\]
+and the last two terms are \(o(\|h\|)\). Hence
+\[
+D(g\circ f)\big|_{x_0} = Dg\big|_{f(x_0)} \circ Df\big|_{x_0}.
+\]
+\hfill$\square$
+
+	
+	\sep
+	
+	\textbf{Quick examples.}
+	
+	\begin{itemize}
+		
+		\item[(a)] $f(x)=Ax,\quad g(x)=b$ (constant), $\ \lambda\in\mathbb{R}$.\\
+		$Df\big|_{x_0}=A,\quad Dg\big|_{x_0}=0,$ so
+		\[
+		D(\lambda f+g)\big|_{x_0}=\lambda A.
+		\]
+		
+		\item[(b)] $f(x)=(x_1,x_2),\quad g(x)=(x_1^2,x_2^2)$ on $\mathbb{R}^2$.\\
+		\[
+		Df\big|_{x_0}=\begin{pmatrix}1&0\\[2pt]0&1\end{pmatrix},
+		\qquad
+		Dg\big|_{x_0}=\begin{pmatrix}2x_{01}&0\\[2pt]0&2x_{02}\end{pmatrix}.
+		\]
+		Then, by the inner–product product rule, for $h=(h_1,h_2)$,
+		\[
+		\begin{aligned}
+			D(f\cdot g)\big|_{x_0}(h)
+			&= \langle Df|_{x_0}(h),\, g(x_0)\rangle + \langle f(x_0),\, Dg|_{x_0}(h)\rangle \\[2pt]
+			&= \langle (h_1,h_2),\, (x_{01}^2,x_{02}^2)\rangle
+			+ \langle (x_{01},x_{02}),\, (2x_{01}h_1,2x_{02}h_2)\rangle \\[2pt]
+			&= 3x_{01}^2\,h_1 + 3x_{02}^2\,h_2.
+		\end{aligned}
+		\]
+		
+		\item[(c)] $f(x_1,x_2)=\big(x_1^2+x_2,\ \sin x_1\big),\quad g(y_1,y_2)=y_1y_2$.\\
+		\[
+		Df\big|_{x_0}=
+		\begin{pmatrix}
+			2x_{01} & 1\\[2pt]
+			\cos x_{01} & 0
+		\end{pmatrix},
+		\qquad
+		Dg\big|_{f(x_0)}=\begin{pmatrix} y_2 & y_1 \end{pmatrix}
+		\ \text{ evaluated at }\ y=f(x_0)=(x_{01}^2+x_{02},\ \sin x_{01}).
+		\]
+		Hence
+		\[
+		D(g\circ f)\big|_{x_0} \;=\; Dg\big|_{f(x_0)}\,Df\big|_{x_0} \quad \text{(matrix product).}
+		\]
+		
+	\end{itemize}
+	
+	% ===== Fréchet derivative — full picture =====
+	\probheader{Fr\'echet derivative — full picture}
+	
+	\textbf{Setup.}
+	Let $E,F$ be normed (usually Banach) spaces over $\mathbb{K}\in\{\mathbb{R},\mathbb{C}\}$,
+	$U\subset E$ open, $f:U\to F$, $x_0\in U$.
+	
+	\textbf{Definition (Fr\'echet differentiable at $x_0$).}
+	There exists a bounded linear map $L:E\to F$ such that
+	\[
+	\lim_{h\to 0}\frac{\|\,f(x_0+h)-f(x_0)-Lh\,\|_F}{\|h\|_E}=0.
+	\]
+	Then $L$ is the Fr\'echet derivative and is unique; write $Df(x_0)$ or $Df\big|_{x_0}$.
+	
+	\textbf{Interpretation.}
+	\[
+	f(x_0+h)=f(x_0)+Df(x_0)h + o(\|h\|),
+	\]
+	i.e.\ a best linear approximation with error strictly smaller than linear in $\|h\|$.
+	
+	\sep
+	
+	\textbf{Equivalent characterizations.}
+	\begin{itemize}
+		\item \emph{Remainder form:} with $r(h)=f(x_0+h)-f(x_0)-Df(x_0)h$ we have $\|r(h)\|=o(\|h\|)$.
+		\item \emph{Directional uniformity:} if $f$ is Fr\'echet differentiable, then for every unit $u$
+		\[
+		\lim_{t\to 0}\frac{f(x_0+tu)-f(x_0)}{t}=Df(x_0)u,
+		\]
+		and the convergence is uniform in $u$ on compact subsets of the unit sphere.
+	\end{itemize}
+	
+	\textbf{Relation to G\^ateaux derivative.}
+	The G\^ateaux derivative at $x_0$ is
+	\[
+	D_G f(x_0;h)=\lim_{t\to 0}\frac{f(x_0+th)-f(x_0)}{t}
+	\]
+	(if it exists for each $h$). If $f$ is Fr\'echet differentiable then $D_G f(x_0;h)=Df(x_0)h$.
+	The converse need not hold; however, $D_G f$ being linear/continuous in $h$ with mild
+	uniformity (e.g.\ local Lipschitz) often upgrades to Fr\'echet. In finite dimensions,
+	“all partials exist and are continuous” $\Rightarrow$ Fr\'echet ($C^1$).
+	
+	\textbf{Finite-dimensional form.}
+	For $f:\mathbb{R}^n\to\mathbb{R}^m$, $Df(x_0)$ is the Jacobian $J_f(x_0)$; the linear map is
+	$h\mapsto J_f(x_0)h$. All norms on finite-dimensional spaces are equivalent, so the definition
+	is norm-independent.
+	
+	\textbf{Key properties.}
+	\begin{itemize}
+		\item \emph{Linearity:} $D(\alpha f+\beta g)=\alpha\,Df+\beta\,Dg$.
+		\item \emph{Product rules:} for a continuous bilinear $B$, 
+		\[
+		D\big(x\mapsto B(f,g)\big)
+		\;=\; \big(h\mapsto B(Df(\,\cdot\,)h,\,g)\big) + \big(h\mapsto B(f,\,Dg(\,\cdot\,)h)\big).
+		\]
+		(Covers inner products, matrix products, etc.)
+		\item \emph{Chain rule:} if $f:U\to F$ is Fr\'echet at $x_0$ and $g:V\to G$ is Fr\'echet at $f(x_0)$,
+		then $g\circ f$ is Fr\'echet at $x_0$ and
+		\[
+		D(g\circ f)(x_0)=Dg\big(f(x_0)\big)\circ Df(x_0).
+		\]
+		\item \emph{Continuity:} Fr\'echet differentiability implies continuity at $x_0$.
+	\end{itemize}
+	
+	\sep
+	
+	\textbf{Holomorphic maps and Fr\'echet differentiability.}
+	
+	\emph{One complex variable ($\mathbb{C}\to\mathbb{C}$).}
+	A function $F:\mathbb{C}\to\mathbb{C}$ is holomorphic at $z_0$ iff the \emph{complex} Fr\'echet
+	derivative exists at $z_0$, i.e.\ there is a $\mathbb{C}$-linear map $L(w)=c\,w$ with
+	\[
+	F(z_0+h)=F(z_0)+c\,h+o(|h|).
+	\]
+	Complex differentiability on an open set already implies $C^\infty$, real-Fr\'echet
+	differentiability of all orders, the Cauchy--Riemann equations, and a convergent power series.
+	(Complex differentiability is strictly stronger than real differentiability.)
+	
+	\emph{Caution.}
+	Real Fr\'echet differentiability + CR at a point $\Rightarrow$ complex differentiable \emph{at that
+		point}; mere directional (G\^ateaux) complex differentiability does \emph{not} suffice.
+	
+	\emph{Several complex variables / complex Banach spaces.}
+	For complex Banach spaces $E,F$, a map $F:U\subset E\to F$ is holomorphic iff it is complex
+	Fr\'echet differentiable at each point (i.e.\ admits a bounded $\mathbb{C}$-linear derivative $DF(x)$).
+	Classically: \emph{locally bounded + complex G\^ateaux differentiable} $\Rightarrow$ holomorphic
+	$\Rightarrow$ complex Fr\'echet differentiable (derivative automatically continuous and
+	$\mathbb{C}$-linear). For $F:\mathbb{C}^n\to\mathbb{C}^m$, holomorphic $\iff$ each component is
+	holomorphic $\iff$ $F$ is complex Fr\'echet differentiable and the real Jacobian satisfies the
+	block Cauchy--Riemann relations.
+	
+	\textbf{Real vs complex derivative.}
+	Identify $\mathbb{C}^n\simeq\mathbb{R}^{2n}$. If $F$ is holomorphic, its real Fr\'echet derivative
+	$D_{\mathbb{R}}F$ is $\mathbb{R}$-linear and commutes with the complex structure $J$ (i.e.\ satisfies
+	Cauchy--Riemann). Conversely, real Fr\'echet differentiable with CR plus mild regularity
+	$\Rightarrow$ complex Fr\'echet derivative exists and equals the complex one.
+	
+	\sep
+	
+	\textbf{Tiny examples.}
+	\begin{itemize}
+		\item \emph{Real Fr\'echet (finite-dim).} $f(x,y)=(x^2+xy,\ e^x\cos y)$. Then
+		\[
+		Df(x,y)=
+		\begin{pmatrix}
+			2x+y & x\\[2pt]
+			e^x\cos y & -e^x\sin y
+		\end{pmatrix}.
+		\]
+		\item \emph{Complex holomorphic $\Leftrightarrow$ complex Fr\'echet.} $F(z)=z^3$.
+		\[
+		DF(z)(h)=3z^2\,h \quad (\text{$\mathbb{C}$-linear}).
+		\]
+		As a real map $\mathbb{R}^2\to\mathbb{R}^2$, the Jacobian satisfies CR.
+	\end{itemize}
+	
+	\textbf{G\^ateaux but not Fr\'echet — two examples.}
+	
+	\paragraph{(A) Discontinuous at the point.}
+	\[
+	f(x,y)=
+	\begin{cases}
+		\dfrac{x^2\,y}{x^4+y^2}, & (x,y)\neq(0,0),\\[6pt]
+		0, & (0,0).
+	\end{cases}
+	\]
+	For any $h=(a,b)$,
+	\[
+	\frac{f(th)-f(0)}{t}=\frac{t\,a^2 b}{t^2 a^4+b^2}\to 0\quad(t\to 0),
+	\]
+	so the G\^ateaux derivative at $(0,0)$ is $0$. Yet along $y=x^2$,
+	$f(x,x^2)=\tfrac12\not\to 0$, hence $f$ is not continuous and therefore not Fr\'echet at $(0,0)$.
+	
+	\paragraph{(B) Continuous but still not Fr\'echet.}
+	\[
+	g(x,y)=
+	\begin{cases}
+		\dfrac{x^{3}}{x^{2}+y^{2}}, & (x,y)\neq(0,0),\\[6pt]
+		0, & (0,0).
+	\end{cases}
+	\]
+	For any $h=(a,b)$,
+	\[
+	\frac{g(th)-g(0)}{t}=\frac{t\,a^3}{a^2+b^2}\to 0,
+	\]
+	so the G\^ateaux derivative at $(0,0)$ is $0$. Also $|g(x,y)|\le |x|\to 0$, so $g$ is continuous.
+	However,
+	\[
+	\frac{|g(t,t^2)|}{\sqrt{t^2+t^4}}
+	=\frac{\left|\frac{t}{1+t^2}\right|}{|t|\sqrt{1+t^2}}
+	=\frac{1}{(1+t^2)^{3/2}}\xrightarrow[t\to 0]{}1\neq 0,
+	\]
+	so the Fr\'echet condition with linear part $0$ fails; $g$ is not Fr\'echet differentiable at $(0,0)$.
+	
+	\probheader{Problem 6 — Connectedness and Path-connectedness in $\mathbb{R}^2$}
+	
+	\textbf{Problem.}
+	Which of the following subsets of $\mathbb{R}^2$ with the Euclidean topology are connected?
+	Which are path-connected? (And why?)
+	
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item $\{(x,y)\in\mathbb{R}^2:\|(x,y)-(-1,0)\|\le1
+		\text{ or }\|(x,y)-(1,0)\|<1\}$
+		
+		\item $\{(x,y)\in\mathbb{R}^2:\ x=0
+		\text{ or }y=qx\text{ for }q\in\mathbb{Q}\}$
+		
+		\item $\{(x,y)\in\mathbb{R}^2:\ x=0
+		\text{ or }y=qx\text{ for }q\in\mathbb{Q}\}\setminus\{(0,0)\}$
+		
+		\item $S\subset\mathbb{R}^2$ any star-shaped domain,
+		i.e.\ there exists $x_0\in S$ such that for all $x\in S$
+		the line segment $[x_0,x]\subset S$.
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{Theory.}
+	A subset $A\subset\mathbb{R}^2$ is \emph{connected} if it cannot be written
+	as the disjoint union of two non-empty open subsets in the subspace topology.
+	It is \emph{path-connected} if for every $x,y\in A$ there exists a continuous
+	$\gamma:[0,1]\to A$ with $\gamma(0)=x$, $\gamma(1)=y$.
+	In $\mathbb{R}^n$, path-connected $\Rightarrow$ connected, but not conversely.
+	
+	\sep
+	
+	\textbf{Solutions.}
+	
+	\textit{(a) Two tangent disks.}
+	Let $D_1=\{(x,y):\|(x,y)-(-1,0)\|\le1\}$,
+	$D_2=\{(x,y):\|(x,y)-(1,0)\|<1\}$.
+	They intersect at $(0,0)$.
+	Each disk is convex and hence path-connected;
+	their intersection is non-empty,
+	so $D_1\cup D_2$ is both connected and path-connected.
+	
+	\medskip
+	
+	\textit{(b) Rational-slope lines.}
+	$A=\{(x,y):x=0\text{ or }y=qx,\ q\in\mathbb{Q}\}$.
+	Each line $y=qx$ and the $y$-axis are path-connected and meet at $(0,0)$.
+	Thus their union is path-connected (hence connected).
+	
+	\medskip
+	
+	\textit{(c) Same family minus the origin.}
+	$B=A\setminus\{(0,0)\}$.
+	Removing $(0,0)$ disconnects the family:
+	each branch $L_q=\{(x,y):y=qx,\ x\neq0\}$ and $L_0=\{(0,y):y\neq0\}$
+	is still path-connected, but the branches are disjoint.
+	No path can move from one branch to another without passing through $(0,0)$.
+	Hence $B$ is disconnected.
+	Each component (each branch) remains path-connected.
+	
+	\medskip
+	
+	\textit{(d) Star-shaped domain.}
+	If $S$ is star-shaped with center $x_0$,
+	then for each $x\in S$ the path
+	$\gamma_x(t)=(1-t)x_0+t\,x$ ($t\in[0,1]$)
+	lies in $S$, joining $x_0$ and $x$.
+	Thus $S$ is path-connected, hence connected.
+	
+	\sep
+	
+	\textbf{Summary table.}
+	
+	\begin{center}
+		\begin{tabular}{c|l|c|c}
+			Case & Description & Connected & Path-connected\\\hline
+			(a) & Two tangent disks & Yes & Yes\\
+			(b) & Rational-slope lines (fan) & Yes & Yes\\
+			(c) & Fan without the origin & No & No (each branch yes)\\
+			(d) & Star-shaped domain & Yes & Yes
+		\end{tabular}
+	\end{center}
+	
+	\probheader{Problem 7 — Intersection of Nested Compact Connected Sets}
+	
+	\textbf{Problem.}
+	Let $K_1 \supset K_2 \supset K_3 \supset \cdots$ be a decreasing sequence of non-empty,
+	connected, compact subsets of a Hausdorff space $X$.
+	Let
+	\[
+	K = \bigcap_{n=1}^{\infty} K_n.
+	\]
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item Show that $K$ is non-empty.
+		\item Show that $K$ is connected.
+		\item Give an example with $X=\mathbb{R}^2$ showing that part (b)
+		fails if the $K_n$ are only closed instead of compact.
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{Theory.}
+	In any Hausdorff space, the intersection of a decreasing sequence
+	of non-empty compact sets is non-empty (finite intersection property).
+	Connectedness is preserved under nested intersections of connected sets.
+	Compactness is required for non-emptiness; without it, closed sets
+	may shrink or split into disconnected limits.
+	
+	\sep
+	
+	\textbf{Solutions.}
+	
+	\textit{(a) Non-emptiness.}
+	Each $K_n$ is compact and non-empty, $K_{n+1}\subseteq K_n$.
+	Thus the family $\{K_n\}$ has the finite intersection property.
+	By compactness, $\bigcap_n K_n \neq \varnothing$.
+	
+	\medskip
+	
+	\textit{(b) Connectedness.}
+	Assume $K=A\cup B$ with $A,B$ non-empty and disjoint, open in $K$.
+	Then $A=U\cap K$, $B=V\cap K$ for some disjoint open $U,V\subset X$.
+	For each $n$, $K_n=(K_n\cap U)\cup(K_n\cap V)$.
+	Since $K_n$ is connected, one of these intersections is empty for all $n$.
+	Hence one of $A,B$ is empty—contradiction. So $K$ is connected.
+	
+	\medskip
+	
+	\textit{(c) Failure without compactness.}
+	Let $X=\mathbb{R}^2$ and define
+	\[
+	L_n=\{(x,y):y=\tfrac{1}{n}x,\ x>0\}
+	\cup
+	\{(x,y):y=-\tfrac{1}{n}x,\ x>0\}.
+	\]
+	Each $L_n$ is closed in $\mathbb{R}^2$ and connected.
+	They form a decreasing sequence, but
+	\[
+	\bigcap_n L_n = \{(x,0):x>0\},
+	\]
+	which is disconnected in $\mathbb{R}^2$.
+	Thus compactness (not mere closedness) is essential.
+	
+	\sep
+	
+	\textbf{Summary.}
+	
+	\begin{center}
+		\begin{tabular}{c|l|c|l}
+			Part & Statement & Result & Key Idea\\\hline
+			(a) & $K$ non-empty & Yes & Nested compact sets $\Rightarrow$ finite intersection property\\
+			(b) & $K$ connected & Yes & Intersection preserves connectedness\\
+			(c) & Closed instead of compact & No & May lose connectedness (counterexample in $\mathbb{R}^2$)
+		\end{tabular}
+	\end{center}
+	
+	\probheader{Problem 8 — Antipodal Points on the Circle (Borsuk–Ulam in 1D)}
+	
+	\textbf{Problem.}
+	Show that if $f:S^1\to\mathbb{R}$ is continuous then there exists $x\in S^1$
+	such that $f(-x)=f(x)$.
+	Deduce that at any moment there exist two antipodal points on the Earth's equator
+	with the same temperature.
+	
+	\sep
+	
+	\textbf{Theory.}
+	This is the $n=1$ case of the \emph{Borsuk--Ulam theorem:}
+	for every continuous $f:S^n\to\mathbb{R}^n$, there exists $x$ with $f(x)=f(-x)$.
+	For $S^1=\{(\cos\theta,\sin\theta):\theta\in[0,2\pi)\}$,
+	antipodal points correspond to $\theta$ and $\theta+\pi$.
+	We will apply the Intermediate Value Theorem (IVT).
+	
+	\sep
+	
+	\textbf{Solution.}
+	
+	\textit{Step 1.} Define $g(x)=f(x)-f(-x)$.
+	Then $g$ is continuous and satisfies $g(-x)=-g(x)$ (odd symmetry).
+	
+	\medskip
+	
+	\textit{Step 2.} Parameterize $S^1$ by $x=e^{i\theta}$, $\theta\in[0,\pi]$.
+	Then
+	\[
+	g(\theta)=f(e^{i\theta})-f(e^{i(\theta+\pi)}).
+	\]
+	Note that $g(0)=-g(\pi)$.
+	
+	\medskip
+	
+	\textit{Step 3.} By the IVT, there exists $\theta_0\in[0,\pi]$ such that $g(\theta_0)=0$.
+	Hence
+	\[
+	f(e^{i\theta_0}) = f(e^{i(\theta_0+\pi)}),
+	\]
+	so there exists $x_0\in S^1$ with $f(x_0)=f(-x_0)$.
+	
+	\medskip
+	
+	\textit{Step 4.} Interpretation:
+	if $f$ measures temperature around the equator,
+	then at any instant there are two opposite points
+	(longitudes differing by $\pi$) having the same temperature.
+	
+	\sep
+	
+	\textbf{Example.}
+	For $f(\theta)=\sin\theta$, we have $f(-\theta)=-f(\theta)$,
+	so equality holds at $\theta=0,\pi$.
+	The theorem guarantees such antipodal equality for any continuous $f:S^1\to\mathbb{R}$.
+	
+	\probheader{Problem 9 — Image of Path-connected and Compact Sets Implies Continuity}
+	
+	\textbf{Problem.}
+	Let $f:\mathbb{R}^m\to\mathbb{R}^n$ be a function such that:
+	\begin{enumerate}[label=(\arabic*), leftmargin=1.2cm]
+		\item the image of every path-connected subset of $\mathbb{R}^m$ is path-connected;
+		\item the image of every compact subset of $\mathbb{R}^m$ is compact.
+	\end{enumerate}
+	Show that $f$ is continuous.
+	
+	\sep
+	
+	\textbf{Theory.}
+	A continuous map between Hausdorff spaces preserves compactness and connectedness.
+	Conversely, if a map preserves both compactness and (path-)connectedness in $\mathbb{R}^m$,
+	then discontinuities would produce separated image pieces—contradicting path-connectedness.
+	Hence these two preservation properties together imply continuity.
+	
+	\sep
+	
+	\textbf{Solution.}
+	
+	\textit{Step 1.} Assume $f$ is not continuous at some $x_0\in\mathbb{R}^m$.
+	Then there exists $\varepsilon_0>0$ and a sequence $x_k\to x_0$
+	such that $\|f(x_k)-f(x_0)\|\ge\varepsilon_0$ for all $k$.
+	
+	\medskip
+	
+	\textit{Step 2.} Define
+	\[
+	C=\{x_0\}\cup\{x_k:k\ge1\}\cup
+	\bigcup_{k\ge1}[x_0,x_k],
+	\]
+	where $[x_0,x_k]$ denotes the line segment joining $x_0$ and $x_k$.
+	Then $C$ is compact (it is bounded and closed) and path-connected.
+	
+	\medskip
+	
+	\textit{Step 3.} Consider the image $f(C)$.
+	By assumption, $f(C)$ must be compact and path-connected.
+	However, since $f(x_k)$ remain at least $\varepsilon_0$ apart from $f(x_0)$,
+	no continuous path in $f(C)$ can join $f(x_0)$ to $f(x_k)$,
+	contradicting path-connectedness of $f(C)$.
+	
+	\medskip
+	
+	\textit{Step 4.} Contradiction $\Rightarrow$ $f$ is continuous at $x_0$.
+	Since $x_0$ was arbitrary, $f$ is continuous on $\mathbb{R}^m$.
+	
+	\sep
+	
+	\textbf{Remarks.}
+	\begin{itemize}
+		\item If compactness preservation alone is assumed, discontinuities may persist
+		(e.g.\ $f(x)=\text{sign}(x)$ sends compacts to compacts but breaks connectedness).
+		\item If only connectedness is preserved, discontinuous maps can still exist
+		(e.g.\ constant except at one point).
+		\item Both properties together rule out such jumps, ensuring continuity.
+	\end{itemize}
+	\textbf{Examples.}
+	
+	\paragraph{(1) Preserves compactness, not path-connectedness.}
+	Let
+	\[
+	f(x)=
+	\begin{cases}
+		0,& x<0,\\
+		1,& x\ge0.
+	\end{cases}
+	\]
+	Then $f$ is not continuous at $0$.
+
+	Every compact $K\subset\mathbb{R}$ satisfies $f(K)\subset\{0,1\}$, which is compact,
+	but $f([-1,1])=\{0,1\}$ is not path-connected.
+	
+	\paragraph{(2) Preserves path-connectedness, not compactness.}
+	Let $f(x)=\tan\!\left(\frac{\pi}{2}x\right)$.
+
+	Between vertical asymptotes $f$ is continuous and monotone,
+	so the image of any connected interval is an interval (path-connected).
+
+	However, $f([0,1])$ is unbounded, hence not compact.
+
+	Thus $f$ is discontinuous and fails compactness preservation.
+	
+	\paragraph{(3) Both properties $\Rightarrow$ continuity.}
+	Any discontinuous function must create a ``jump'' separating image points,
+	breaking path-connectedness or compactness of some compact, path-connected set.
+
+	Therefore a map preserving both properties must be continuous.
+	
+	
+	\probheader{Problem 10 — Differentiability and Continuity via Partial Derivatives}
+	
+	\textbf{Problem.}
+	Let $f:\mathbb{R}^2\to\mathbb{R}$ and $(x_0,y_0)\in\mathbb{R}^2$.
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item Suppose $\partial_1 f$ exists and is continuous in an open ball around $(x_0,y_0)$,
+		and $\partial_2 f$ exists at $(x_0,y_0)$. Show that $f$ is differentiable at $(x_0,y_0)$.
+		\item Suppose instead $\partial_1 f$ exists and is bounded in an open ball around $(x_0,y_0)$,
+		and that for fixed $x$, the map $y\mapsto f(x,y)$ is continuous.
+		Show that $f$ is continuous at $(x_0,y_0)$.
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{Theory.}
+	A function $f:\mathbb{R}^2\to\mathbb{R}$ is differentiable at $(x_0,y_0)$ if
+	there exists a linear map $L(h,k)=a h+b k$ with
+	\[
+	\lim_{(h,k)\to(0,0)}
+	\frac{f(x_0+h,y_0+k)-f(x_0,y_0)-a h-b k}{\sqrt{h^2+k^2}}=0.
+	\]
+	Continuous partials near a point guarantee differentiability there.
+	Bounded partials plus separate continuity imply overall continuity.
+	
+	\sep
+	
+	\textbf{Solution.}
+	
+	\textit{(a) Differentiability.}
+	Write
+	\[
+	f(x_0+h,y_0+k)-f(x_0,y_0)
+	=[f(x_0+h,y_0+k)-f(x_0,y_0+k)]
+	+[f(x_0,y_0+k)-f(x_0,y_0)].
+	\]
+	By the Mean Value Theorem in $x$,
+	$f(x_0+h,y_0+k)-f(x_0,y_0+k)=h\,\partial_1 f(\xi,y_0+k)$
+	for some $\xi\in(x_0,x_0+h)$.
+	Thus
+	\[
+	f(x_0+h,y_0+k)-f(x_0,y_0)
+	=h\,\partial_1 f(x_0,y_0)
+	+k\,\partial_2 f(x_0,y_0)
+	+h[\partial_1 f(\xi,y_0+k)-\partial_1 f(x_0,y_0)] + o(k).
+	\]
+	Continuity of $\partial_1 f$ implies the last term is $o(\sqrt{h^2+k^2})$,
+	so $f$ is differentiable at $(x_0,y_0)$ with
+	\[
+	Df(x_0,y_0)=(\partial_1 f(x_0,y_0),\,\partial_2 f(x_0,y_0)).
+	\]
+	
+	\medskip
+	
+	\textit{(b) Continuity.}
+	For $(x,y)$ near $(x_0,y_0)$,
+	\[
+	f(x,y)-f(x_0,y_0)
+	=[f(x,y)-f(x_0,y)] + [f(x_0,y)-f(x_0,y_0)].
+	\]
+	By the Mean Value Theorem,
+	$f(x,y)-f(x_0,y)=(x-x_0)\partial_1 f(\xi,y)$ for some $\xi$ between $x_0$ and $x$.
+	If $|\partial_1 f|\le M$, then $|f(x,y)-f(x_0,y)|\le M|x-x_0|$.
+	Hence
+	\[
+	|f(x,y)-f(x_0,y_0)|
+	\le M|x-x_0| + |f(x_0,y)-f(x_0,y_0)|.
+	\]
+	The second term $\to0$ as $y\to y_0$, and the first $\to0$ as $x\to x_0$,
+	so $f$ is continuous at $(x_0,y_0)$.
+	
+	\sep
+	
+	\textbf{Examples.}
+	\begin{itemize}
+		\item $f(x,y)=x^2+y^2$ — all partials continuous $\Rightarrow$ differentiable everywhere.
+		\item $f(x,y)=x|y|$ — $\partial_1 f=y|y|/|y|=|y|$ is bounded, and $y\mapsto f(x,y)$
+		is continuous for each fixed $x$ $\Rightarrow$ $f$ is continuous at $(0,0)$.
+	\end{itemize}
+	
+	\probheader{Problem 11 — Differentiability of $f(x)=x/\|x\|$}
+	
+	\textbf{Problem.}
+	Consider the map $f:\mathbb{R}^n\to\mathbb{R}^n$ given by
+	\[
+	f(x)=\frac{x}{\|x\|}\ \text{for }x\ne0,\qquad f(0)=0.
+	\]
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item Using the definition of derivative, show that $x\mapsto\|x\|^2$ is differentiable and compute its derivative. 
+		\textit{(Avoid using partial derivatives.)}
+		\item Using part (a) and questions 5(b)--5(c), show that $f$ is differentiable except at $0$ and that
+		\[
+		Df|_x(h)=\frac{h}{\|x\|}-\frac{x(x\!\cdot\!h)}{\|x\|^3}.
+		\]
+		\textit{(Avoid using partial derivatives.)}
+		\item Verify that $Df|_x(h)$ is orthogonal to $x$ and explain geometrically why.
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{Theory.}
+	Differentiability in $\mathbb{R}^n$ means
+	\[
+	f(x+h)-f(x)=Df|_x(h)+o(\|h\|).
+	\]
+	For $g(x)=\langle x,x\rangle=\|x\|^2$ we use the product rule of the inner product.
+	For $f(x)=x/\|x\|$ we use the scalar–vector product and the chain rule.
+	
+	\sep
+	
+	\textbf{Solution.}
+	
+	\textit{(a) Differentiability of $\|x\|^2$.}
+	\[
+	g(x+h)-g(x)=\|x+h\|^2-\|x\|^2=2\langle x,h\rangle+\|h\|^2.
+	\]
+	Hence
+	\[
+	Dg|_x(h)=2\langle x,h\rangle.
+	\]
+	Therefore $g$ is differentiable everywhere, with gradient $\nabla g(x)=2x$.
+	
+	\medskip
+	
+	\textit{(b) Differentiability of $f(x)=x/\|x\|$ for $x\ne0$.}
+	Let $r(x)=\|x\|$, so that $f(x)=x\,r(x)^{-1}$.
+	From part (a),
+	\[
+	Dr|_x(h)=\frac{\langle x,h\rangle}{\|x\|}.
+	\]
+	By the product rule,
+	\[
+	Df|_x(h)
+	=h\,\frac{1}{\|x\|}
+	+x\,D(r^{-1})|_x(h).
+	\]
+	Since $D(r^{-1})|_x(h)
+	=-\|x\|^{-2}Dr|_x(h)
+	=-\frac{\langle x,h\rangle}{\|x\|^3}$,
+	we get
+	\[
+	Df|_x(h)=\frac{h}{\|x\|}-\frac{x(x\!\cdot\!h)}{\|x\|^3}.
+	\]
+	At $x=0$, $f$ is not continuous (directional limits depend on direction), hence not differentiable there.
+	
+	\medskip
+	
+	\textit{(c) Orthogonality.}
+	Compute
+	\[
+	x\!\cdot\!Df|_x(h)
+	=\frac{x\!\cdot\!h}{\|x\|}
+	-\frac{(x\!\cdot\!x)(x\!\cdot\!h)}{\|x\|^3}
+	=0.
+	\]
+	Thus $Df|_x(h)\perp x$.
+	
+	\textit{Geometric meaning.}
+	$f(x)$ projects $x$ onto the unit sphere.
+	The derivative $Df|_x$ gives the orthogonal projection of the displacement $h$
+	onto the tangent hyperplane to the sphere at $f(x)$.
+	Hence its image lies entirely in that tangent plane, perpendicular to $x$.
+	
+	\probheader{Problem 12 — Differentiability and Continuous Square Roots on $M_n$}
+	
+	\textbf{Problem.}
+	Define $f:M_n\to M_n$ by $f(A)=A^2$.
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item Show that $f$ is continuously differentiable on the whole of $M_n$.
+		\item Deduce that there is a continuous square-root function on some neighbourhood of the identity~$\mathrm{Id}$; 
+		that is, show that there exists an open ball $B_\varepsilon(\mathrm{Id})$ and a continuous function 
+		$g:B_\varepsilon(\mathrm{Id})\to M_n$ such that $g(A)^2=A$ for all $A\in B_\varepsilon(\mathrm{Id})$.
+		\item Is it possible to define a continuous square-root function on the whole of $M_n$?
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{Theory.}
+	Matrix multiplication $(A,B)\mapsto AB$ is bilinear and continuous on $M_n\times M_n$.
+	Hence polynomial maps in $A$ are continuously differentiable.
+	The derivative of $A\mapsto A^2$ at $A$ is given by
+	\[
+	Df|_A(H)=AH+HA.
+	\]
+	The Inverse Function Theorem in Banach spaces guarantees a local inverse of $f$ near points where $Df|_A$ is invertible.
+	
+	\sep
+	
+	\textbf{Solution.}
+	
+	\textit{(a) Differentiability.}
+	For $A,H\in M_n$,
+	\[
+	f(A+H)-f(A)=(A+H)^2-A^2=AH+HA+H^2.
+	\]
+	Hence
+	\[
+	\frac{\|f(A+H)-f(A)-(AH+HA)\|}{\|H\|}=\frac{\|H^2\|}{\|H\|}\to0.
+	\]
+	So $Df|_A(H)=AH+HA$.
+	Since
+	\[
+	\|Df|_{A_1}-Df|_{A_2}\|
+	\le 2\|A_1-A_2\|,
+	\]
+	the derivative map is continuous, and $f\in C^1(M_n,M_n)$.
+	
+	\medskip
+	
+	\textit{(b) Continuous square root near $\mathrm{Id}$.}
+	At $\mathrm{Id}$ we have $f(\mathrm{Id})=\mathrm{Id}$ and
+	$Df|_{\mathrm{Id}}(H)=2H$, which is invertible.
+	By the Banach-space Inverse Function Theorem,
+	there exists $\varepsilon>0$ and a continuous map
+	\[
+	g:B_\varepsilon(\mathrm{Id})\to M_n
+	\]
+	such that $g(A)^2=A$ for all $A\in B_\varepsilon(\mathrm{Id})$.
+	Thus a continuous matrix square-root exists locally near $\mathrm{Id}$.
+	
+	\medskip
+	
+	\textit{(c) Nonexistence of a global continuous square root.}
+	No continuous $g:M_n\to M_n$ with $g(A)^2=A$ can exist globally.
+	Indeed, $\det(g(A))^2=\det(A)$.
+	If $A$ crosses from $\det(A)>0$ to $\det(A)<0$, $\det(g(A))$ must change sign,
+	forcing a discontinuity.
+	Hence no continuous global square-root function can exist on $M_n$.
+	
+	\section*{Differentiable vs Continuously Differentiable Functions}
+	
+	\textbf{Definition (Differentiable).}
+	A map $f:\mathbb{R}^n\to\mathbb{R}^m$ is differentiable at $x_0$ if there exists a linear map
+	$L:\mathbb{R}^n\to\mathbb{R}^m$ such that
+	\[
+	\lim_{h\to0}\frac{\|f(x_0+h)-f(x_0)-L(h)\|}{\|h\|}=0.
+	\]
+	Then $L=Df(x_0)$ is the (Fréchet) derivative at $x_0$.
+	
+	\textbf{Definition (Continuously differentiable).}
+	$f$ is continuously differentiable ($C^1$) on a domain if it is differentiable at every point
+	and the derivative map $x\mapsto Df(x)$ is continuous.
+	
+	\textbf{Distinction.}
+	Differentiability only ensures that a linear approximation exists pointwise.
+	Continuous differentiability requires that this linear map depends continuously on the point.
+	
+	\sep
+	
+	\textbf{Example 1 (Smooth case).}
+	$f(x)=x^2$ is differentiable everywhere with $f'(x)=2x$, continuous.
+	Hence $f\in C^1(\mathbb{R})$.
+	
+	\textbf{Example 2 (Differentiable but not $C^1$).}
+	\[
+	f(x)=
+	\begin{cases}
+		x^2\sin\!\left(\tfrac{1}{x}\right), & x\ne0,\\
+		0,& x=0.
+	\end{cases}
+	\]
+	Then
+	\[
+	f'(x)=
+	\begin{cases}
+		2x\sin\!\frac{1}{x}-\cos\!\frac{1}{x}, & x\ne0,\\
+		0,& x=0.
+	\end{cases}
+	\]
+	$f$ is differentiable at $0$ since
+	$\displaystyle\lim_{x\to0}\frac{f(x)-f(0)}{x}=0$,
+	but $f'$ oscillates between $-1$ and $1$, not continuous at $0$.
+	Thus $f$ is differentiable but not continuously differentiable.
+	
+	\textbf{Example 3 (Derivative unbounded).}
+	\[
+	f(x)=x^{1/3},\quad f'(x)=\frac{1}{3}x^{-2/3}.
+	\]
+	Derivative exists for $x\ne0$ but is unbounded near $0$, hence not continuous there.
+	
+	\sep
+	
+	\textbf{Summary table.}
+	
+	\begin{center}
+		\begin{tabular}{lll}
+			\toprule
+			\textbf{Property} & \textbf{Meaning} & \textbf{Implication}\\
+			\midrule
+			Differentiable at $x_0$ & Linear approximation exists & Local condition \\
+			Differentiable everywhere & Derivative exists at all points & May be discontinuous \\
+			Continuously differentiable ($C^1$) & Derivative continuous & Smooth, stable variation \\
+			$C^1\Rightarrow$ differentiable & Always true & \\
+			Differentiable $\not\Rightarrow C^1$ & Counterexamples exist & \\
+			\bottomrule
+		\end{tabular}
+	\end{center}
+	
+	\textbf{Geometric intuition.}
+	For a differentiable but not $C^1$ function, the tangent line exists at each point,
+	but its slope changes abruptly.
+	Continuous differentiability ensures the tangent depends smoothly on the point.
+	
+	\probheader{Problem 13 — Differentiability of the Determinant Function}
+	
+	\textbf{Problem.}
+	Consider $\det:GL_n(\mathbb{R})\to\mathbb{R}$, where
+	\[
+	GL_n(\mathbb{R})=\{X\in M_n:\ X\text{ invertible}\}.
+	\]
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item Show that $GL_n(\mathbb{R})$ is an open subset of $M_n$.
+		\item Show that $\det$ is differentiable on all of $GL_n(\mathbb{R})$ and that
+		\[
+		D(\det)|_A(H)=\det(A)\,\mathrm{tr}(A^{-1}H).
+		\]
+		\item Show that $\det$ is twice differentiable at $I$ and find $D^2(\det)|_I$
+		as a bilinear map.
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{Theory.}
+	The determinant is a polynomial in the entries of $A$, hence smooth.
+	For $A\in GL_n$, we may compute its derivative intrinsically using
+	the Jacobi identity:
+	\[
+	\frac{d}{dt}\det(A+tH)=\det(A+tH)\,\mathrm{tr}((A+tH)^{-1}H).
+	\]
+	Matrix multiplication and inversion are smooth on $GL_n$.
+	
+	\sep
+	
+	\textbf{Solution.}
+	
+	\textit{(a) Openness.}
+	The determinant map $\det:M_n\to\mathbb{R}$ is continuous,
+	and $GL_n(\mathbb{R})=\det^{-1}(\mathbb{R}\setminus\{0\})$.
+	Since $\mathbb{R}\setminus\{0\}$ is open, its preimage is open.
+	Thus $GL_n(\mathbb{R})$ is open in $M_n$.
+	
+	\medskip
+	
+	\textit{(b) First derivative.}
+	Let $A\in GL_n$ and $H\in M_n$.
+	Define $\phi(t)=\det(A+tH)$.
+	Then
+	\[
+	\phi'(t)=\det(A+tH)\,\mathrm{tr}((A+tH)^{-1}H),
+	\]
+	so
+	\[
+	D(\det)|_A(H)=\phi'(0)
+	=\det(A)\,\mathrm{tr}(A^{-1}H).
+	\]
+	Hence $\det$ is differentiable on $GL_n$.
+	
+	\medskip
+	
+	\textit{(c) Second derivative at $I$.}
+	At $A=I$, $\det(I)=1$ and $D(\det)|_I(H)=\mathrm{tr}(H)$.
+	For $A$ near $I$,
+	\[
+	D(\det)|_A(H)=\det(A)\,\mathrm{tr}(A^{-1}H).
+	\]
+	Differentiate with respect to $A$ in direction $K$:
+	\[
+	D^2(\det)|_I(K,H)
+	= D(\det)|_I(K)\,\mathrm{tr}(H)
+	+ \det(I)\,\mathrm{tr}(D(A^{-1})|_I(K)\,H).
+	\]
+	Since $D(A^{-1})|_I(K)=-K$, we obtain
+	\[
+	D^2(\det)|_I(K,H)=\mathrm{tr}(K)\mathrm{tr}(H)-\mathrm{tr}(KH).
+	\]
+	This defines a symmetric bilinear form on $M_n$.
+	
+	\sep
+	
+	\textbf{Geometric interpretation.}
+	$D(\det)|_A(H)$ measures infinitesimal relative volume change in direction $H$.
+	At $I$, the second derivative
+	\[
+	D^2(\det)|_I(K,H)=\mathrm{tr}(K)\mathrm{tr}(H)-\mathrm{tr}(KH)
+	\]
+	describes curvature of the volume function at the identity.
+	The determinant is actually $C^\infty$ on $GL_n(\mathbb{R})$.
+	
+	\probheader{Problem 14 — Convergence of Series of Functions}
+	
+	\textbf{Problem.}
+	Let $f_n:I\to\mathbb{R}$ be given by
+	\[
+	\begin{array}{ll}
+		\text{(a)} & f_n(x)=x e^{-nx},\quad I=[0,+\infty);\\[3pt]
+		\text{(b)} & f_n(x)=\dfrac{n^2x}{1+n^4x^2},\quad I=[0,1];\\[10pt]
+		\text{(c)} & f_n(x)=(-1)^n\dfrac{x^n}{n},\quad I=[0,1].
+	\end{array}
+	\]
+	Determine for each case whether $\sum_{n=1}^\infty f_n(x)$ converges or diverges on $I$,
+	and if it converges, whether the convergence is pointwise, uniform,
+	pointwise absolute, or uniform absolute.
+	
+	\sep
+	
+	\textbf{Theory.}
+	For a series of functions $\sum f_n$,
+	\begin{itemize}
+		\item it converges \emph{pointwise} if for each $x$ the numeric series $\sum f_n(x)$ converges;
+		\item it converges \emph{uniformly} if $\sup_{x\in I}|\sum_{k>n}f_k(x)|\to0$;
+		\item it is \emph{absolutely convergent} if $\sum|f_n(x)|$ converges;
+		\item \emph{uniformly absolute} if $\sum\|f_n\|_\infty<\infty$.
+	\end{itemize}
+	
+	\sep
+	
+	\textbf{(a)} $f_n(x)=x e^{-nx}$ on $[0,+\infty)$.
+	
+	For fixed $x>0$,
+	\[
+	\sum_{n=1}^\infty f_n(x)
+	=x\sum_{n=1}^\infty e^{-nx}
+	=x\frac{e^{-x}}{1-e^{-x}},
+	\]
+	which converges for all $x\ge0$.
+	At $x=0$, $f_n(0)=0$.
+	Hence the series converges pointwise and absolutely on $[0,+\infty)$.
+	
+	Since $\|f_n\|_\infty=\frac{1}{ne}$,
+	the convergence is not uniform on the whole interval,
+	but it is uniform on each compact $[0,M]$.
+	
+	\textit{Conclusion:}
+	Pointwise and absolute convergence, uniform on compacts but not on $[0,+\infty)$.
+	
+	\medskip
+	
+	\textbf{(b)} $f_n(x)=\dfrac{n^2x}{1+n^4x^2}$ on $[0,1]$.
+	
+	For each fixed $x>0$,
+	$f_n(x)\sim\frac{1}{n^2x}\to0$,
+	so the series $\sum f_n(x)$ converges pointwise and absolutely.
+	At $x=0$, $f_n(0)=0$.
+	
+	However, as $x\to0$, the bound $\frac{1}{n^2x}$ blows up,
+	so convergence is not uniform on $[0,1]$.
+	It is uniform on every subinterval $[\delta,1]$, $\delta>0$.
+	
+	\textit{Conclusion:}
+	Pointwise and absolute convergence, uniform on $[\delta,1]$ but not on $[0,1]$.
+	
+	\medskip
+	
+	\textbf{(c)} $f_n(x)=(-1)^n\dfrac{x^n}{n}$ on $[0,1]$.
+	
+	For $x\in[0,1)$,
+	\[
+	\sum_{n=1}^\infty f_n(x)
+	=\sum_{n=1}^\infty (-1)^n\frac{x^n}{n}
+	=\ln(1+x)-x,
+	\]
+	which converges for all $x\in[0,1)$ and also at $x=1$ (to $-\ln2$).
+	By the Leibniz criterion, the convergence is uniform on $[0,1]$.
+	
+	The absolute series $\sum |f_n(x)|=\sum x^n/n$
+	diverges at $x=1$ but converges for $x<1$.
+	Thus the convergence is not uniformly absolute.
+	
+	\textit{Conclusion:}
+	Uniformly convergent on $[0,1]$,
+	pointwise absolutely convergent for $x<1$ but not uniformly absolute.
+	
+	\sep
+	
+	\textbf{Summary.}
+	\[
+	\begin{array}{lcccc}
+		\toprule
+		\text{Case} & \text{Pointwise} & \text{Uniform} & \text{Absolute} & \text{Uniform absolute}\\
+		\midrule
+		(a)~x e^{-nx} & \checkmark & \text{on compacts} & \checkmark & \times\\
+		(b)~\dfrac{n^2x}{1+n^4x^2} & \checkmark & [\delta,1] & \checkmark & \times\\
+		(c)~(-1)^n\dfrac{x^n}{n} & \checkmark & \checkmark & \text{for }x<1 & \times\\
+		\bottomrule
+	\end{array}
+	\]
+	
+	\probheader{Sequences vs Series of Functions — Definitions}
+	
+	\textbf{Sequences of functions.}
+	Let $X$ be a set and $Y$ a metric space (e.g.\ $\mathbb{R}$). A sequence of functions is a list
+	$(f_n)_{n\ge1}$ with $f_n:X\to Y$.
+	
+	\begin{itemize}
+		\item \emph{Pointwise convergence:} $f_n\to f$ on $X$ if $\lim_{n\to\infty} f_n(x)=f(x)$ for every $x\in X$.
+		\item \emph{Uniform convergence:} $f_n\to f$ uniformly on $X$ if
+		\[
+		\sup_{x\in X}|f_n(x)-f(x)|\xrightarrow[n\to\infty]{}0.
+		\]
+		\item \emph{Uniform Cauchy:} $(f_n)$ is uniformly Cauchy if
+		$\sup_{x\in X}|f_m(x)-f_n(x)|\to0$ as $m,n\to\infty$.
+		If $Y$ is complete, this is equivalent to uniform convergence.
+	\end{itemize}
+	
+	\sep
+	
+	\textbf{Series of functions.}
+	Given $(f_n)$, define partial sums $S_N(x)=\sum_{n=1}^N f_n(x)$.
+	The series $\sum_{n=1}^\infty f_n$ \emph{converges pointwise} to $S$ if $S_N(x)\to S(x)$ for all $x\in X$.
+	It \emph{converges uniformly} if $\sup_{x\in X}|S_N(x)-S(x)|\to0$.
+	
+	\begin{itemize}
+		\item \emph{Pointwise absolute convergence:} $\sum |f_n(x)|$ converges for each $x$.
+		\item \emph{Uniform absolute convergence:} $\sum \|f_n\|_\infty<\infty$.
+		(By the Weierstrass M-test, this implies uniform convergence of $\sum f_n$.)
+	\end{itemize}
+	
+	\sep
+	
+	\textbf{Examples.}
+	\begin{itemize}
+		\item \emph{Sequence only.} $f_n(x)=x^n$ on $[0,1]$: $f_n\to \mathbf{1}_{\{1\}}$ pointwise, not uniformly.
+		\item \emph{Series.} $f_n(x)=(-1)^n x^n/n$ on $[0,1]$:
+		$\sum f_n$ converges uniformly (alternating test),
+		but not absolutely at $x=1$ since $\sum |f_n(1)|=\sum 1/n$ diverges.
+	\end{itemize}
+	
+	\textbf{Remark.} A series of functions $\sum f_n$ converges iff its partial sums
+	$(S_N)$ (a \emph{sequence of functions}) converge.
+	\probheader{Problem 15 — The series $\sum_{n=1}^{\infty}(x-n)^{-2}$ on $X=\mathbb{R}\setminus\mathbb{N}$}
+	
+	\textbf{Problem.}
+	Consider the series $\sum_{n=1}^\infty (x-n)^{-2}$ for $x\in X:=\mathbb{R}\setminus\mathbb{N}$.
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item Show that the series converges pointwise on $X$.
+		\item Does the series converge uniformly on $X$?
+		\item Show that the sum $f(x)=\sum_{n=1}^\infty (x-n)^{-2}$ is continuous on $X$.
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{(a) Pointwise convergence.}
+	Fix $x\in X$.
+	For $n>\lvert x\rvert+1$,
+	$|x-n|\ge n-\lvert x\rvert\ge \tfrac{n}{2}$, hence
+	\[
+	0\le \frac{1}{(x-n)^2}\le \frac{4}{n^2}.
+	\]
+	Since $\sum 4/n^2$ converges, by comparison $\sum (x-n)^{-2}$ converges (absolutely) for the fixed $x$.
+	Thus the series converges pointwise on $X$.
+	
+	\medskip
+	
+	\textbf{(b) Not uniformly convergent on $X$.}
+	Uniform convergence would imply
+	\[
+	\sup_{x\in X}\sum_{n=N}^{M}\frac{1}{(x-n)^2}\xrightarrow[N,M\to\infty]{}0.
+	\]
+	But for any $N$ choose an integer $k\ge N$ and take $x=k+\delta$ with $0<\delta<1$.
+	Then the tail contains the term $1/(x-k)^2=1/\delta^2$, which can be made arbitrarily large as $\delta\downarrow0$.
+	Hence the supremum of the tail is infinite for every $N$, so the Cauchy criterion fails.
+	Therefore the series is \emph{not} uniformly convergent on $X$.
+	
+	\medskip
+	
+	\textbf{(c) Continuity of the sum.}
+	Fix $x_0\in X$ and set $\delta=\tfrac12\,\mathrm{dist}(x_0,\mathbb{N})>0$.
+	On the interval $I=(x_0-\delta,x_0+\delta)\subset X$, the finitely many functions
+	$(x-n)^{-2}$ with $n$ near $I$ are continuous, and for all sufficiently large $n$ and all $x\in I$,
+	\[
+	\frac{1}{(x-n)^2}\le \frac{4}{n^2}.
+	\]
+	By the Weierstrass M-test, the tail $\sum_{n>N}(x-n)^{-2}$ converges uniformly on $I$.
+	Hence the whole series converges uniformly on $I$ to a continuous function.
+	Since $x_0$ was arbitrary, the sum $f$ is continuous on $X$.
+	
+	\sep
+	
+	\textbf{Conclusion.}
+	The series converges pointwise and absolutely on $X$, is not uniformly convergent on $X$, and its sum belongs to $C(X)$ (local uniform convergence).
+	
+	\probheader{Convergence Criteria for Sequences and Series of Functions}
+	
+	\textbf{A) Sequences of functions $(f_n:X\to\mathbb R)$.}
+	
+	\begin{itemize}
+		\item \emph{Pointwise convergence:} $f_n\to f$ if $\forall x\in X$, $f_n(x)\to f(x)$.
+		\item \emph{Uniform convergence:} $f_n\to f$ uniformly if
+		\[
+		\sup_{x\in X}|f_n(x)-f(x)|\xrightarrow[n\to\infty]{}0.
+		\]
+		\item \emph{Uniform Cauchy criterion:} $f_n$ converges uniformly $\iff$
+		$\sup_{x\in X}|f_m(x)-f_n(x)|\xrightarrow[m,n\to\infty]{}0$.
+		\item \emph{Dini (compact $X$):} If $X$ compact, $f_n\in C(X)$, $f_n\downarrow f$ or $f_n\uparrow f$
+		pointwise and $f\in C(X)$, then $f_n\to f$ uniformly.
+		\item \emph{Uniform limit theorem:} If $f_n\in C(X)$ and $f_n\to f$ uniformly, then $f\in C(X)$.
+	\end{itemize}
+	
+	\textbf{Examples.}
+	\begin{itemize}
+		\item $f_n(x)=x^n$ on $[0,1]$: pointwise $\to \mathbf 1_{\{1\}}$, not uniform.
+		\item Geometric partial sums $S_n(x)=\sum_{k=0}^n x^k$ on $[0,a]$ with $0<a<1$:
+		$(S_n)$ is uniformly Cauchy $\Rightarrow$ uniform convergence.
+		\item $f_n(x)=x^n$ on $[0,a]$ with $0<a<1$:
+		monotone $\downarrow$ to $0\in C([0,a])$ $\Rightarrow$ uniform by Dini.
+	\end{itemize}
+	
+	\sep
+	
+	\textbf{B) Series of functions $\sum_{n=1}^\infty f_n$.}
+	
+	Let $S_N=\sum_{n=1}^N f_n$.
+	\begin{itemize}
+		\item \emph{Pointwise convergence:} $S_N(x)\to S(x)$ for each $x\in X$.
+		\item \emph{Uniform convergence (Cauchy form):} $\sum f_n$ converges uniformly $\iff$
+		$\sup_{x\in X}\big|\sum_{k=m}^{n} f_k(x)\big|\xrightarrow[m,n\to\infty]{}0$.
+		\item \emph{Weierstrass M-test (uniform absolute):} If $|f_n(x)|\le M_n$ on $X$ and
+		$\sum M_n<\infty$, then $\sum f_n$ converges uniformly (hence absolutely).
+		\item \emph{Leibniz alternating test (uniform):} If $f_n=(-1)^n a_n$ with $a_n\ge0$,
+		$a_{n+1}(x)\le a_n(x)$ for all $x$ and $a_n\to0$ uniformly on $X$,
+		then $\sum f_n$ converges uniformly on $X$.
+		\item \emph{Dirichlet test (uniform):} If partial sums $A_N(x)=\sum_{n=1}^N a_n(x)$ are
+		uniformly bounded on $X$, and $b_n(x)$ is monotone in $n$ for each $x$ with
+		$b_n\to0$ uniformly, then $\sum a_n(x)b_n(x)$ converges uniformly.
+		\item \emph{Abel test (uniform):} If $\sum a_n(x)$ converges uniformly on $X$ and
+		$b_n(x)$ is uniformly bounded and monotone in $n$ for each $x$, then
+		$\sum a_n(x)b_n(x)$ converges uniformly.
+		\item \emph{Preservation:} If $f_n\in C(X)$ and $\sum f_n$ converges uniformly, then
+		the sum $S\in C(X)$ (and $\int \sum f_n=\sum \int f_n$).
+	\end{itemize}
+	
+	\textbf{Examples.}
+	\begin{itemize}
+		\item (\emph{M-test}) $f_n(x)=\dfrac{x^n}{n^2}$ on $[0,1]$:
+		$|f_n|\le 1/n^2$, $\sum 1/n^2<\infty$ $\Rightarrow$ uniform absolute convergence.
+		\item (\emph{Leibniz}) $f_n(x)=(-1)^n\dfrac{x^n}{n}$ on $[0,1]$:
+		$a_n=x^n/n\downarrow$ and $a_n\to0$ uniformly $\Rightarrow$ uniform convergence (not uniformly absolute).
+		\item (\emph{Dirichlet}) $\sum_{n=1}^\infty \dfrac{\sin(nx)}{n}$ on $[\delta,2\pi-\delta]$:
+		partial sums of $\sin(nx)$ uniformly bounded; $1/n\downarrow 0$ uniformly
+		$\Rightarrow$ uniform convergence on those compact subintervals.
+		\item (\emph{Pointwise but not uniform}) $\sum_{n=1}^\infty \dfrac{n^2x}{1+n^4x^2}$ on $[0,1]$:
+		pointwise (absolute) convergence, not uniform on the whole interval.
+		\item (\emph{Locally uniform}) $\sum_{n=1}^\infty (x-n)^{-2}$ on $X=\mathbb{R}\setminus\mathbb{N}$:
+		not uniform on $X$, but uniform on neighborhoods avoiding integers $\Rightarrow$ sum is continuous.
+	\end{itemize}
+	
+	\probheader{What Uniform Convergence Buys You (and Key Tools)}
+	
+	\textbf{Uniform Limit Theorem.}
+	If $X$ is a metric space, $f_n\in C(X)$, and $f_n\to f$ uniformly on $X$, then $f\in C(X)$.
+	
+	\textbf{Integration commutes with uniform limit (Riemann).}
+	If $f_n:[a,b]\to\mathbb{R}$ are Riemann integrable and $f_n\to f$ uniformly on $[a,b]$, then
+	\[
+	\int_a^b f_n \,dx \to \int_a^b f \,dx .
+	\]
+	
+	\textbf{Termwise integration of series.}
+	If $\sum f_n$ converges uniformly on $[a,b]$ and each $f_n$ is Riemann integrable, then
+	\[
+	\int_a^b \Big(\sum_{n=1}^\infty f_n\Big)=\sum_{n=1}^\infty \int_a^b f_n.
+	\]
+	
+	\textbf{Termwise differentiation (sufficient condition).}
+	Let $I=[a,b]$. If $f_n\in C^1(I)$, $f_n'\to g$ uniformly on $I$, and $(f_n(x_0))_n$ converges for some $x_0\in I$, then
+	$f_n\to f$ uniformly on $I$, $f\in C^1(I)$, and $f'=g$.
+	
+	\textbf{Power series.}
+	For $\sum_{n=0}^\infty a_n (x-x_0)^n$ with radius $R>0$:
+	uniform convergence on each closed $[x_0-r,x_0+r]\subset (x_0-R,x_0+R)$;
+	termwise integration/differentiation valid on $(x_0-R,x_0+R)$; the derivative series has radius $R$.
+	
+	\textbf{Dini’s theorem (compact $X$).}
+	If $X$ is compact, $f_n\in C(X)$, and $f_n\downarrow f\in C(X)$ (or $f_n\uparrow f$), then $f_n\to f$ uniformly.
+	
+	\textbf{Arzel\`a--Ascoli.}
+	If $X$ is compact and $\mathcal F\subset C(X)$ is equicontinuous and pointwise bounded, then every sequence in $\mathcal F$ has a uniformly convergent subsequence with continuous limit.
+	
+	\textbf{Uniform Dirichlet test.}
+	If $A_N(x)=\sum_{n=1}^N a_n(x)$ are uniformly bounded on $X$, and $b_n(x)$ is monotone in $n$ for each $x$ with $b_n\to0$ uniformly, then $\sum a_n(x)b_n(x)$ converges uniformly.
+	
+	\textbf{Uniform Abel test.}
+	If $\sum a_n(x)$ converges uniformly on $X$ and $b_n(x)$ is uniformly bounded and monotone in $n$ for each $x$, then $\sum a_n(x)b_n(x)$ converges uniformly.
+	
+	\sep
+	
+	\textbf{Mini-examples.}
+	\begin{itemize}
+		\item (Uniform limit) $f_n(x)=x^n$ on $[0,a]$, $0<a<1$: $f_n\downarrow 0$ and $f_n\to 0$ uniformly (Dini).
+		\item (M-test) $\sum \frac{x^n}{n^2}$ on $[0,1]$: $|f_n|\le 1/n^2$, so uniform absolute convergence; integrals may be swapped with sum.
+		\item (Alternating uniform) $\sum (-1)^n \frac{x^n}{n}$ on $[0,1]$: uniform (Leibniz), but not uniformly absolute.
+		\item (Dirichlet) $\sum \frac{\sin(nx)}{n}$: uniform on $[\delta,2\pi-\delta]$ for any $\delta>0$.
+		\item (Arzel\`a--Ascoli) $f_n(x)=\sin(nx)/n$ on $[0,2\pi]$: equicontinuous and bounded $\Rightarrow$ a uniformly convergent subsequence.
+	\end{itemize}
+	
+	\textbf{Gotchas.}
+	Pointwise convergence does not preserve continuity or integrals;
+	 uniform convergence does.
+	
+	Uniform absolute $\Rightarrow$ uniform, but not conversely.
+	
+	Local uniform convergence suffices for continuity on open domains.
+	
+	
+	
+	\probheader{Decision Tree for Convergence of Sequences and Series of Functions}
+	
+	\textbf{Series of functions $\sum f_n$ on $X$.}
+	\begin{enumerate}[leftmargin=1.2cm,label=\arabic*)]
+		\item \textit{Uniform bound by a summable scalar?} \\
+		If $|f_n(x)|\le M_n$ on $X$ and $\sum M_n<\infty$ $\Rightarrow$ \textbf{Weierstrass M-test}:
+		uniform absolute convergence.
+		
+		\item \textit{Alternating in $n$?} $f_n=(-1)^n a_n$. \\
+		If $a_n(x)\ge0$, nonincreasing in $n$ for each $x$, and $a_n\to0$ uniformly on $X$ $\Rightarrow$
+		\textbf{Leibniz (uniform)}: uniform convergence (typically not uniformly absolute).
+		
+		\item \textit{Product form $a_n(x)b_n(x)$?} \\
+		\textbf{Dirichlet (uniform):} if $A_N(x)=\sum_{n=1}^N a_n(x)$ are uniformly bounded on $X$ and
+		$b_n(x)$ is monotone in $n$ with $b_n\to0$ uniformly, then $\sum a_n b_n$ converges uniformly. \\
+		\textbf{Abel (uniform):} if $\sum a_n(x)$ converges uniformly on $X$ and $b_n(x)$ is uniformly bounded
+		and monotone in $n$, then $\sum a_n b_n$ converges uniformly.
+		
+		\item \textit{Power series / radius present?} \\
+		Determine radius $R$ via root/ratio pointwise. Convergence is uniform on every closed subinterval
+		strictly inside the radius; termwise differentiation/integration valid in $(x_0-R,x_0+R)$.
+		
+		\item \textit{Spikes or singularities at isolated points?} \\
+		Expect global uniform \emph{fails}. Prove \textbf{local uniform} convergence on neighborhoods avoiding singularities
+		to deduce continuity on the punctured domain.
+		
+		\item \textit{No pattern? Use uniform Cauchy on compacta.} \\
+		Show tail $\sup_{x\in K}|\sum_{n>N} f_n(x)|\to0$ for each compact $K\subset X$.
+		
+		\item \textit{Absolute vs conditional.} \\
+		If $\sum \|f_n\|_\infty<\infty$ $\Rightarrow$ uniform absolute. Alternating/Dirichlet/Abel often give uniform but not absolute.
+	\end{enumerate}
+	
+	\textbf{Sequences of functions $(f_n)$.}
+	\begin{enumerate}[leftmargin=1.2cm,label=\arabic*)]
+		\item \textbf{Dini (compact $X$):} If $f_n\in C(X)$ and $f_n\downarrow f\in C(X)$ (or $\uparrow$), then $f_n\to f$ uniformly.
+		\item \textbf{Arzel\`a--Ascoli:} On compact $X$, equicontinuous and pointwise bounded families have uniformly convergent subsequences.
+		\item \textbf{Uniform Cauchy:} $\sup_{x\in X}|f_m(x)-f_n(x)|\to0$ $\Rightarrow$ uniform convergence.
+		\item \textbf{Power-series tails:} Use M-test on tails to get uniform convergence on compacta.
+	\end{enumerate}
+	
+	\sep
+	
+	\textbf{Micro-examples.}
+	\begin{itemize}
+		\item (M-test) $\displaystyle f_n(x)=\frac{x^n}{n^2}$ on $[0,1]$:
+		$|f_n|\le 1/n^2$, so uniform absolute convergence.
+		\item (Leibniz) $\displaystyle f_n(x)=(-1)^n\frac{x^n}{n}$ on $[0,1]$:
+		$a_n=x^n/n$ decreases in $n$, $a_n\to0$ uniformly $\Rightarrow$ uniform, not uniformly absolute.
+		\item (Dirichlet) $\displaystyle \sum_{n=1}^\infty \frac{\sin(nx)}{n}$:
+		uniform on $[\delta,2\pi-\delta]$ for any $\delta>0$; not uniform on all of $[0,2\pi]$.
+		\item (Local uniform) $\displaystyle \sum_{n=1}^\infty (x-n)^{-2}$ on $\mathbb R\setminus\mathbb N$:
+		not uniform globally; locally uniform $\Rightarrow$ continuous sum on the punctured domain.
+		\item (Dini) $f_n(x)=x^n$ on $[0,a]$, $0<a<1$: $f_n\downarrow 0\in C$ $\Rightarrow$ uniform.
+	\end{itemize}
+	
+	\sep
+	
+	\textbf{What uniform convergence buys you.}
+	Uniform limit of continuous functions is continuous; integrals pass to the limit.
+	For series: uniform convergence $\Rightarrow$ termwise integration; with extra hypotheses on derivatives,
+	termwise differentiation on compact intervals.
+	
+	% ---------- Problem 16 (clean, de-clumped) ----------
+	\probheader{Problem 16 — Implicit Function Theorem via a block map}
+	
+	\textbf{Setup.}
+	Let $U\subset\mathbb{R}^{n+m}$ be open and $f:U\to\mathbb{R}^m$ be $C^1$.
+	Write $(x,y)\in\mathbb{R}^n\times\mathbb{R}^m$ and assume $(x_0,y_0)\in U$ with
+	\[
+	f(x_0,y_0)=0
+	\qquad\text{and}\qquad
+	J_y f\big|_{(x_0,y_0)}:=\det\!\Big[\tfrac{\partial f^i}{\partial y^j}\Big]_{i,j=1}^m\neq 0.
+	\]
+	
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		
+		\item[\textbf{(a)}] \textbf{Local invertibility of $F$.}
+		Define $F(x,y)=(x,f(x,y))$. Its Jacobian at $(x_0,y_0)$ is
+		\[
+		DF\big|_{(x_0,y_0)}=
+		\begin{pmatrix}
+			I_n & 0\\
+			D_x f\big|_{(x_0,y_0)} & D_y f\big|_{(x_0,y_0)}
+		\end{pmatrix}.
+		\]
+		This block–triangular matrix has
+		$\det DF=\det(I_n)\,\det(D_y f)\neq0$,
+		so by the inverse function theorem $F$ is a local $C^1$ diffeomorphism
+		near $(x_0,y_0)$.
+		
+		\medskip
+		
+		\item[\textbf{(b)}] \textbf{A property of the inverse $G$.}
+		Let $G=(G^1,\dots,G^{n+m})$ be the local inverse of $F$ on a neighborhood
+		$V\ni (x_0,0)$. For any $(X,0)\in V$,
+		\[
+		F\big(G(X,0)\big)=(X,0)
+		\quad\Longrightarrow\quad
+		\begin{cases}
+			(G^1,\dots,G^n)(X,0)=X,\\[2pt]
+			\displaystyle f\!\big(X,\;G^{n+1}(X,0),\dots,G^{n+m}(X,0)\big)=0.
+		\end{cases}
+		\]
+		
+		\medskip
+		
+		\item[\textbf{(c)}] \textbf{Existence and uniqueness of the implicit function.}
+		Define, for $X$ near $x_0$,
+		\[
+		g(X):=\big(G^{n+1}(X,0),\dots,G^{n+m}(X,0)\big).
+		\]
+		Then $f(X,g(X))=0$ and $g(x_0)=y_0$.  
+		If $f(X,y)=0$ with $X$ near $x_0$, $y$ near $y_0$, then
+		$F(X,y)=(X,0)$, so $(X,y)=G(X,0)$ and hence $y=g(X)$ (uniqueness).
+		
+		\medskip
+		
+		\item[\textbf{(d)}] \textbf{Differentiability and the formula for $Dg$.}
+		Since $G$ is $C^1$, so is $g$. Differentiating $f(x,g(x))\equiv0$ gives
+		\[
+		D_x f(x,g(x)) \;+\; D_y f(x,g(x))\,Dg(x) \;=\; 0,
+		\]
+		and because $D_y f$ stays invertible nearby,
+		\[
+		\boxed{\; Dg(x) \;=\; -\big[D_y f(x,g(x))\big]^{-1} \, D_x f(x,g(x)) \; }.
+		\]
+		
+		\medskip
+		
+		\item[\textbf{(e)}] \textbf{Application: the folium $x^3+y^3-3xy=0$.}
+		Let $f(x,y)=x^3+y^3-3xy$. Then
+		\[
+		\frac{\partial f}{\partial y}=3y^2-3x, \qquad
+		\frac{\partial f}{\partial x}=3x^2-3y.
+		\]
+		On the level set $C=\{f=0\}$ the IFT yields a local graph $y=g(x)$ at points
+		with $\frac{\partial f}{\partial y}\neq0$.
+		Solving on $C$ the system $\{f=0,\ \partial f/\partial y=0\}$ gives
+		$x=y^2$ and $y^6-2y^3=0$, so $(x,y)=(0,0)$ or $(2^{2/3},2^{1/3})$.
+		Hence $C$ is locally a graph $y=g(x)$ away from small neighborhoods
+		of these two exceptional points.
+	\end{enumerate}
+	
+	% (Optional figure; put the PNG in the same folder)
+	% \begin{figure}[h]
+		%   \centering
+		%   \includegraphics[width=.55\linewidth]{folium_curve_IFT.png}
+		%   \caption{The folium $x^3+y^3-3xy=0$ with exceptional points marked.}
+		% \end{figure}
+	% ---------- end Problem 16 ----------
+	
+	% === Folium figure + caption text ===
+	\begin{figure}[h]
+		\centering
+		% place folium_curve_IFT.png in the same folder as your .tex file
+		\includegraphics[width=.58\linewidth]{folium_curve_IFT.png}
+		\caption{The folium $x^{3}+y^{3}-3xy=0$ with the two exceptional points marked:
+			$(0,0)$ and $(2^{2/3},\,2^{1/3})$. At these points $\partial f/\partial y=0$ on the curve,
+			so the implicit function theorem does not yield a local graph $y=g(x)$.}
+		\label{fig:folium-ift}
+	\end{figure}
+	
+	\noindent
+	Here is a visualization of the \emph{folium curve}
+	\[
+	x^{3}+y^{3}-3xy=0,
+	\]
+	showing the \textbf{exceptional points} $(0,0)$ and $(2^{2/3},\,2^{1/3})$ where IFT fails for
+	$y=g(x)$. Indeed,
+	\[
+	\frac{\partial f}{\partial y}=3y^{2}-3x=0 \iff x=y^{2},
+	\qquad
+	f(x,y)=0 \iff y^{6}-2y^{3}=0 \iff y=0 \ \text{or}\ y^{3}=2.
+	\]
+	Everywhere else on the curve, $\partial f/\partial y\neq0$ and the set is locally a graph $y=g(x)$.
+	
+	
+	\section*{Implicit Function Theorem — statement, intuition, examples}
+	
+	\textbf{IFT (finite-dimensional $C^1$).}
+	Let $U\subset\mathbb{R}^{n+m}$ be open and $f:U\to\mathbb{R}^m$ be $C^1$.
+	Write $(x,y)\in\mathbb{R}^n\times\mathbb{R}^m$. Suppose $(x_0,y_0)\in U$ with
+	\[
+	f(x_0,y_0)=0,\qquad \det D_y f(x_0,y_0)\neq 0.
+	\]
+	Then there exist neighborhoods $W'\ni x_0$, $W''\ni y_0$ and a unique map $g:W'\to W''$,
+	of class $C^1$, such that $g(x_0)=y_0$ and $f(x,g(x))=0$ on $W'$. Moreover
+	\[
+	Dg(x)= -\big[D_y f(x,g(x))\big]^{-1} D_x f(x,g(x)).
+	\]
+	If $f\in C^k$ (resp.\ real-analytic) then $g\in C^k$ (resp.\ analytic).
+	
+	\medskip
+	\textbf{Geometric picture.}
+	Near $(x_0,y_0)$, the zero set $f^{-1}(0)$ is a smooth $n$-dimensional surface; in suitable
+	coordinates it is the graph $y=g(x)$.
+	
+	\medskip
+	\textbf{Proof sketch.}
+	Apply the inverse function theorem to $F(x,y)=(x,f(x,y))$:
+	\[
+	DF\big|_{(x_0,y_0)}=
+	\begin{pmatrix}
+		I_n & 0\\
+		D_x f & D_y f
+	\end{pmatrix}_{(x_0,y_0)}
+	\]
+	is invertible by hypothesis (block-triangular). Then $F$ has a local inverse $G$ and
+	$g(x):=(G^{n+1},\dots,G^{n+m})(x,0)$.
+	
+	\sep
+	
+	\textbf{Examples.}
+	
+	\emph{1) Circle.} $f(x,y)=x^2+y^2-1$. At $(0,1)$, $\partial f/\partial y=2\ne0$,
+	so $y=g(x)$ exists locally (upper semicircle). At $(1,0)$ we cannot solve for $y$,
+	but can solve for $x=h(y)$ since $\partial f/\partial x=2\ne0$.
+	
+	\emph{2) Parabola: solve for the right variable.}
+	$f(x,y)=y^2-x$ at $(0,0)$ has $\partial f/\partial y=0$ (no $y=g(x)$),
+	but $\partial f/\partial x=-1\ne0$; hence $x=h(y)=y^2$.
+	
+	\emph{3) Transcendental (Lambert $W$).}
+	$f(x,y)=y e^y - x$. At $(0,0)$, $\partial f/\partial y=1$, so $y=g(x)=W(x)$ exists,
+	analytic near $0$, with $g'(x)=\big(e^{g(x)}(1+g(x))\big)^{-1}$.
+	
+	\emph{4) Constraint manifolds.}
+	If $\operatorname{rank} Df = m$ on $f^{-1}(0)$, the level set is an $n$-dimensional submanifold,
+	locally a graph by IFT.
+	
+	\sep
+	
+	\textbf{Failures / counterexamples.}
+	
+	\emph{(i) Cusp:} $f(x,y)=y^3-x^2$ at $(0,0)$ has $\partial f/\partial y=0$.
+	The zero set has a cusp; it is not a graph $y=g(x)$ nor $x=h(y)$ there.
+	
+	\emph{(ii) Two branches:} $f(x,y)=y^2-x$ at $(0,0)$: cannot solve for $y$ (two values
+	$\pm\sqrt{x}$), but can solve for $x$ as above. The condition must be on the variable you
+	solve for.
+	
+	\emph{(iii) Lack of smoothness:} $f(x,y)=|y|-x$ at $(0,0)$ is not $C^1$ in $y$.
+	The zero set is $y=\pm x$, not a single branch; IFT does not apply.
+	
+	\medskip
+	\textbf{Banach-space version.}
+	If $E,F$ are Banach spaces, $f:E\times F\to F$ is $C^1$ near $(x_0,y_0)$,
+	$f(x_0,y_0)=0$, and $D_y f(x_0,y_0):F\to F$ is an isomorphism, then there exists a unique
+	$C^1$ map $g$ near $x_0$ with $f(x,g(x))=0$ and
+	$Dg(x)= -\big[D_y f(x,g(x))\big]^{-1} D_x f(x,g(x))$.
+	
+	\section*{Detailed IFT calculations: circle and parabola}
+	
+	\subsection*{Circle: $x^2+y^2-1=0$}
+	Let $f(x,y)=x^2+y^2-1$. Then $\partial f/\partial x=2x$, $\partial f/\partial y=2y$.
+	
+	\paragraph{Near $(0,1)$ (solve $y=g(x)$).}
+	Since $\partial f/\partial y(0,1)=2\neq 0$, the IFT gives a unique $C^\infty$ function
+	$g$ with $g(0)=1$ and $f(x,g(x))\equiv 0$ for $|x|$ small (upper semicircle).
+	The IFT derivative formula (with $n=m=1$) yields
+	\[
+	g'(x)= -\frac{\partial f/\partial x}{\partial f/\partial y}\Big|_{(x,g(x))}
+	= -\frac{2x}{2\,g(x)} = -\frac{x}{g(x)}.
+	\]
+	Hence $g'(0)=0$. Using the exact branch $g(x)=\sqrt{1-x^2}$ gives
+	$g''(0)=-1$.
+	
+	\paragraph{Near $(1,0)$ (solve $x=h(y)$).}
+	Here $\partial f/\partial y(1,0)=0$ so we cannot solve $y=g(x)$,
+	but $\partial f/\partial x(1,0)=2\neq0$ gives a unique $C^\infty$ function $x=h(y)$ with
+	$h(0)=1$ and $f(h(y),y)\equiv 0$ (right semicircle).
+	The derivative formula (solving for $x$) gives
+	\[
+	h'(y) = -\,\frac{\partial f/\partial y}{\partial f/\partial x}\Big|_{(h(y),y)}
+	= -\,\frac{2y}{2\,h(y)} = -\frac{y}{h(y)},
+	\]
+	so $h'(0)=0$. With the exact branch $h(y)=\sqrt{1-y^2}$, one gets $h''(0)=-1$.
+	
+	\subsection*{Parabola: $y^2-x=0$}
+	Let $f(x,y)=y^2-x$. Then $\partial f/\partial x=-1$, $\partial f/\partial y=2y$.
+	
+	\paragraph{At $(0,0)$ (solve $x=h(y)$).}
+	Since $\partial f/\partial y(0,0)=0$, we cannot solve $y=g(x)$ there (two values $\pm\sqrt{x}$ for $x>0$),
+	but $\partial f/\partial x(0,0)=-1\neq0$ gives a unique $C^\infty$ function $x=h(y)$ with $h(0)=0$.
+	The IFT formula (solving for $x$) yields
+	\[
+	h'(y) = -\,\frac{\partial f/\partial y}{\partial f/\partial x}\Big|_{(h(y),y)}
+	= -\,\frac{2y}{-1} = 2y,
+	\]
+	so $h'(0)=0$ and $h''(y)=2$. In fact $h(y)=y^2$ exactly.
+	
+	\paragraph{Away from $y=0$ (solve $y=g(x)$).}
+	If $y_0\neq 0$, then $\partial f/\partial y(x_0,y_0)=2y_0\neq 0$, so there is a unique branch
+	$y=g(x)$ through $(x_0,y_0)$ with
+	\[
+	g'(x)= -\frac{\partial f/\partial x}{\partial f/\partial y}\Big|_{(x,g(x))}
+	= \frac{1}{2g(x)}.
+	\]
+	These are the two smooth branches $y=\pm\sqrt{x}$ away from the vertex.
+	
+	\subsection*{IFT failure details: cusp and two-branch cases}
+	
+	\paragraph{(i) Cusp: $f(x,y)=y^3-x^2$ at $(0,0)$.}
+	We have $f_x=-2x$, $f_y=3y^2$, so $f_x(0,0)=f_y(0,0)=0$. The IFT hypothesis fails for both
+	solving $y=g(x)$ and $x=h(y)$ at $(0,0)$.
+	
+	The zero set is $y^3=x^2$, i.e.\ $y=|x|^{2/3}\ (\ge0)$, a continuous but \emph{non-differentiable}
+	graph over $x$ at $0$.
+	Implicit differentiation gives $3y^2\,y'-2x=0$, so along the curve
+	\[
+	y'=\frac{2x}{3y^2}=\frac{2x}{3|x|^{4/3}}=\frac{2}{3}\,\mathrm{sgn}(x)\,|x|^{-1/3}\xrightarrow[x\to 0]{}\pm\infty,
+	\]
+	i.e.\ a vertical tangent and no $C^1$ graph $y=g(x)$ through $(0,0)$.
+	Solving for $x$ yields two branches $x=\pm y^{3/2}$ for $y\ge0$; thus there is no single-valued
+	implicit function $x=h(y)$ on a neighborhood of $(0,0)$. The zero set has a \emph{cusp}.
+	
+	\paragraph{(ii) Two branches: $f(x,y)=y^2-x$ at $(0,0)$.}
+	Here $f_x=-1$, $f_y=2y$, so $f_y(0,0)=0$ (cannot solve $y=g(x)$: two values $y=\pm\sqrt{x}$ for $x>0$),
+	but $f_x(0,0)=-1\neq0$ so the IFT applies to solve $x=h(y)$.
+	Indeed $x=h(y)=y^2$ with
+	\[
+	h'(y)=-\frac{f_y}{f_x}\Big|_{(h(y),y)}=-\frac{2y}{-1}=2y,\qquad h''(y)=2.
+	\]
+	Thus the correct variable to solve for is dictated by which partial derivative is nonzero.
+	
+	\subsection*{Example: Parabola $y^2 - x = 0$}
+	
+	Consider 
+	\[
+	f(x,y) = y^2 - x.
+	\]
+	We study where the Implicit Function Theorem (IFT) allows us to express the curve as a function.
+	
+	\subsubsection*{1) Evaluate the partial derivatives}
+	\[
+	f_x = -1, 
+	\qquad 
+	f_y = 2y.
+	\]
+	
+	\subsubsection*{2) Decide which variable can be solved for (IFT check)}
+	
+	\begin{itemize}
+		\item At $(0,0)$: $f_y(0,0)=0$ (bad for $y=g(x)$), but $f_x(0,0)=-1\neq0$ (good for $x=h(y)$).
+		\item At a point with $y_0\neq0$: $f_y(x_0,y_0)=2y_0\neq0$ (good for $y=g(x)$).
+	\end{itemize}
+	
+	\subsubsection*{3) Write the implicit function and its derivative}
+	
+	\paragraph{Case A — at $(0,0)$: solve for $x$.}
+	The IFT gives a unique $x=h(y)$ with $h(0)=0$ and $f(h(y),y)=0$.  
+	From $y^2 - x = 0$, we get
+	\[
+	\boxed{x = h(y) = y^2.}
+	\]
+	Differentiate using the IFT formula (solving for the first variable):
+	\[
+	h'(y) = -\frac{f_y}{f_x}\Big|_{(h(y),y)} = -\frac{2y}{-1} = 2y,
+	\qquad
+	h''(y) = 2.
+	\]
+	
+	\paragraph{Case B — away from the vertex ($y_0\neq 0$): solve for $y$.}
+	The IFT gives a local branch $y=g(x)$ through $(x_0,y_0)$ with
+	\[
+	\boxed{g'(x) = -\frac{f_x}{f_y}\Big|_{(x,g(x))} = \frac{1}{2g(x)}.}
+	\]
+	Concretely, the two branches are $y=\pm\sqrt{x}$, so on the upper one
+	\[
+	g'(x) = \frac{1}{2\sqrt{x}}
+	\]
+	which blows up as $x\to 0^+$.
+	
+	\subsubsection*{4) If both $f_x$ and $f_y$ vanish}
+	IFT does not apply (e.g.\ at cusps).  
+	For this parabola, that never happens on the curve except at the vertex where 
+	$f_y=0$ but $f_x\neq0$, so we still solve for $x$ as $h(y)=y^2$.
+	
+	\subsection*{Implicit representations: solving for $y=g(x)$ or $x=h(y)$}
+	
+	We have an implicit curve $f(x,y)=0$.
+	
+	\begin{itemize}
+		\item $y=g(x)$ means you are \emph{solving the equation for $y$ as a function of $x$}:
+		near a point $(x_0,y_0)$, there exists a (single-valued) map $g$ such that
+		\[
+		f(x,g(x)) \equiv 0, \qquad g(x_0)=y_0.
+		\]
+		Geometrically, the curve is a \textbf{graph over the $x$-axis.}
+		
+		\item $x=h(y)$ means you are \emph{solving the equation for $x$ as a function of $y$}:
+		near $(x_0,y_0)$, there exists a (single-valued) map $h$ with
+		\[
+		f(h(y),y) \equiv 0, \qquad h(y_0)=x_0.
+		\]
+		Geometrically, the curve is a \textbf{graph over the $y$-axis.}
+	\end{itemize}
+	
+	Which one exists locally is dictated by the Implicit Function Theorem condition at $(x_0,y_0)$:
+	\[
+	\frac{\partial f}{\partial y}(x_0,y_0)\neq 0 \quad\Rightarrow\quad \text{use } y=g(x),
+	\qquad
+	\frac{\partial f}{\partial x}(x_0,y_0)\neq 0 \quad\Rightarrow\quad \text{use } x=h(y).
+	\]
+	
+	When they exist, their slopes are given by
+	\[
+	g'(x) = -\frac{f_x}{f_y}\Big|_{(x,g(x))}, 
+	\qquad
+	h'(y) = -\frac{f_y}{f_x}\Big|_{(h(y),y)}.
+	\]
+	If $h$ and $g$ are true local inverses, then 
+	\[
+	h'(y_0)=\frac{1}{g'(x_0)}.
+	\]
+	
+	\subsubsection*{Tiny examples}
+	
+	\paragraph{Circle:} $x^2 + y^2 - 1 = 0.$
+	\begin{itemize}
+		\item At $(0,1)$: $\partial_y f = 2y = 2 \neq 0 \ \Rightarrow\ y = g(x) = +\sqrt{1 - x^2}.$
+		\item At $(1,0)$: $\partial_x f = 2x = 2 \neq 0 \ \Rightarrow\ x = h(y) = +\sqrt{1 - y^2}.$
+	\end{itemize}
+	
+	\paragraph{Parabola:} $y^2 - x = 0.$
+	\begin{itemize}
+		\item At $(0,0)$: $\partial_y f = 0$ but $\partial_x f = -1 \neq 0 \ \Rightarrow\ 
+		x = h(y) = y^2$ (works),
+		\item while $y = g(x)$ fails at the vertex (two branches $y=\pm\sqrt{x}$).
+	\end{itemize}
+	
+	% General trick for f(x, y, x)=0 (or other compositions)
+	\textbf{IFT via redefinition.} If an equation is written as $f(x,y,x)=0$, define
+	\[
+	F(x,y):=f(x,y,x).
+	\]
+	If $\det\big(\partial_y F\big)(x_0,y_0)\neq0$, then by the IFT there exists a unique
+	local function $y=g(x)$ with $F(x,g(x))=0$ and
+	\[
+	Dg(x)=-\big[\partial_y F(x,g(x))\big]^{-1}\,\partial_x F(x,g(x)),
+	\]
+	where, by the chain rule,
+	$\partial_x F=\partial_x f(x,y,x)+\partial_{3} f(x,y,x)$ and
+	$\partial_y F=\partial_y f(x,y,x)$.
+	
+	\medskip
+	\textbf{Product case.} If $F(x,y)=f(x, yx)$, then
+	\[
+	\partial_y F(x,y)=\partial_2 f(x,yx)\cdot x,\qquad
+	\partial_x F(x,y)=\partial_1 f(x,yx)+\partial_2 f(x,yx)\cdot y.
+	\]
+	If $\partial_y F(x_0,y_0)$ is invertible, IFT yields $y=g(x)$ near $(x_0,y_0)$.
+	
+	
+	\subsection*{Implicit function for $f(x,y,z)=0$}
+	
+	Let $f:\mathbb R^3\to\mathbb R$ be $C^1$ and $f(x_0,y_0,z_0)=0$.
+	
+	\paragraph{Solve for $y=g(x,z)$.}
+	If $f_y(x_0,y_0,z_0)\neq 0$, there exist neighborhoods and a unique $C^1$ map
+	$y=g(x,z)$ with $f(x,g(x,z),z)\equiv 0$ and $g(x_0,z_0)=y_0$. The partials are
+	\[
+	g_x(x,z)= -\frac{f_x}{f_y}\Big|_{(x,g(x,z),z)},\qquad
+	g_z(x,z)= -\frac{f_z}{f_y}\Big|_{(x,g(x,z),z)}.
+	\]
+	
+	\paragraph{Solve for $z=h(x,y)$.}
+	If $f_z(x_0,y_0,z_0)\neq 0$, there is a unique $C^1$ map $z=h(x,y)$ with
+	$f(x,y,h(x,y))\equiv 0$ and
+	\[
+	h_x(x,y)= -\frac{f_x}{f_z}\Big|_{(x,y,h(x,y))},\qquad
+	h_y(x,y)= -\frac{f_y}{f_z}\Big|_{(x,y,h(x,y))}.
+	\]
+	
+	\paragraph{Block form (vector case).}
+	For $F:\mathbb R^{n+k+m}\to\mathbb R^m$ with variables $(u,y)\in\mathbb R^{n+k}\times\mathbb R^{m}$,
+	if $F(u_0,y_0)=0$ and $\det D_y F(u_0,y_0)\neq 0$, then there is a unique $C^1$ map
+	$y=g(u)$ with $F(u,g(u))\equiv 0$, and
+	\[
+	Dg(u)= -\big[D_y F(u,g(u))\big]^{-1}\,D_u F(u,g(u)).
+	\]
+	
+	\subsubsection*{Examples}
+	\begin{itemize}
+		\item Sphere $f=x^2+y^2+z^2-1$: at $(0,0,1)$, $f_z=2\ne0$ so $z=g(x,y)=+\sqrt{1-x^2-y^2}$ with
+		$g_x=-x/g$, $g_y=-y/g$.
+		\item Saddle $f=x^2-y^2-z$: $f_z=-1\ne0$ so $z=g(x,y)=x^2-y^2$; hence $g_x=2x$, $g_y=-2y$.
+		\item Cone $f=z^2-x^2-y^2$ at $(0,0,0)$: all partials vanish; IFT does not apply (singularity).
+	\end{itemize}
+	
+	% Solve x = r(y,z) from f(x,y,z)=0 (Implicit Function Theorem)
+	\subsection*{Solving $x=r(y,z)$ from $f(x,y,z)=0$}
+	
+	Let \(f:\mathbb{R}^3\to\mathbb{R}\) be \(C^1\) and suppose \(f(x_0,y_0,z_0)=0\).
+	If \(f_x(x_0,y_0,z_0)\neq 0\), then by the IFT there is a unique \(C^1\) map
+	\(x = r(y,z)\) with \(r(y_0,z_0)=x_0\) and \(f(r(y,z),y,z)\equiv 0\) near \((y_0,z_0)\).
+	Moreover,
+	\[
+	r_y(y,z)= -\frac{f_y}{f_x}\Big|_{(r(y,z),\,y,\,z)},
+	\qquad
+	r_z(y,z)= -\frac{f_z}{f_x}\Big|_{(r(y,z),\,y,\,z)}.
+	\]
+	
+	\paragraph{Example (sphere).}
+	For \(f(x,y,z)=x^2+y^2+z^2-1\) and \((x_0,y_0,z_0)=(1,0,0)\) we have \(f_x=2x\neq0\).
+	Hence
+	\[
+	x=r(y,z)=\sqrt{1-y^2-z^2},
+	\qquad
+	r_y(y,z)=-\frac{y}{r(y,z)},\quad r_z(y,z)=-\frac{z}{r(y,z)}.
+	\]
+	
+	\probheader{Problem 17 — Iterative Tietze extension on a compact Hausdorff space}
+	
+	
+		Let $(X,\tau)$ be \textbf{compact Hausdorff}, $K\subset X$ closed, and $f:K\to[-1,1]$ continuous (with the subspace topology on $K$).
+	
+	\begin{enumerate}[label=(\alph*), leftmargin=1.2cm]
+		\item Show there is a continuous $g_1:X\to\mathbb R$ with
+		\[
+		\sup_X |g_1|\ \le\ \tfrac{1}{3}, 
+		\qquad
+		\sup_K |f-g_1|\ \le\ \tfrac{2}{3}.
+		\]
+		\emph{(Hint available: for closed disjoint $A,B\subset X$ and $a<b\in\mathbb R$, there exists a continuous ``bump'' $\chi:X\to[a,b]$ with $\chi\equiv a$ on $A$ and $\chi\equiv b$ on $B$.)}
+		
+		\item For $n\ge 1$, construct continuous $g_n:X\to\mathbb R$ with
+		\[
+		\sup_X |g_n|\ \le\ \frac{1}{3}\Big(\frac{2}{3}\Big)^{n-1},
+		\qquad
+		\sup_K\Big|\,f-\sum_{j=1}^{n} g_j\,\Big|\ \le\ \Big(\frac{2}{3}\Big)^{n}.
+		\]
+		
+		\item Deduce that $g(x)=\sum_{j=1}^{\infty} g_j(x)$ defines a continuous function on $X$
+		with $g|_{K}=f$.
+	\end{enumerate}
+	
+	\bigskip
+	\noindent\textbf{Theory you need (one-liner).}
+	\begin{itemize}
+		\item Compact Hausdorff $\Rightarrow$ normal $\Rightarrow$ \textbf{Urysohn lemma / bump functions} exist (your hint).
+		\item A uniformly Cauchy sequence of continuous functions converges uniformly to a continuous limit on compact $X$.
+	\end{itemize}
+	
+	Let $(X,\tau)$ be compact Hausdorff, $K\subset X$ closed, and $f:K\to[-1,1]$ continuous.
+	
+\section*{Solution to Problem 17}
+
+\paragraph{(a) Base step: coarse approximation.}
+Let
+\[
+A:=\{x\in K:\ f(x)\ge 2/3\},\qquad B:=\{x\in K:\ f(x)\le -2/3\}.
+\]
+Then $A,B$ are closed and disjoint in $X$. By the bump-function hypothesis, there exists a continuous
+\[
+g_1:X\longrightarrow\Big[-\tfrac{1}{3},\,\tfrac{1}{3}\Big]
+\quad\text{with}\quad
+g_1|_A\equiv\tfrac{1}{3},\qquad g_1|_B\equiv -\tfrac{1}{3}.
+\]
+Hence
+\[
+\boxed{\ \sup_X |g_1|\ \le\ \tfrac{1}{3}\ }.
+\]
+For $x\in K$:
+\[
+|f(x)-g_1(x)|\le
+\begin{cases}
+	1-1/3=2/3,& x\in A,\\
+	1-1/3=2/3,& x\in B,\\
+	|f(x)|+|g_1(x)|<2/3,& x\in K\setminus(A\cup B),
+\end{cases}
+\]
+so
+\[
+\boxed{\ \sup_{K}|f-g_1|\ \le\ \tfrac{2}{3}\ }.
+\]
+
+\medskip
+
+\paragraph{(b) Inductive refinement.}
+Assume $g_1,\dots,g_n$ are continuous and satisfy
+\[
+\sup_X|g_j|\le \tfrac{1}{3}\Big(\tfrac{2}{3}\Big)^{j-1}
+\qquad\text{and}\qquad
+\sup_K\Big|f-\sum_{j=1}^n g_j\Big|\le \Big(\tfrac{2}{3}\Big)^n.
+\]
+Let the remainder on $K$ be
+\[
+r_n:=f-\sum_{j=1}^n g_j,
+\quad\text{so}\quad
+|r_n|\le \Big(\tfrac{2}{3}\Big)^n \ \text{ on }K.
+\]
+Apply part (a) to the scaled function $r_n/(2/3)^n:K\to[-1,1]$ to obtain
+$h_{n+1}:X\to\mathbb R$ with
+\[
+\sup_X|h_{n+1}|\le\tfrac{1}{3},
+\qquad
+\sup_K\Big|\frac{r_n}{(2/3)^n}-h_{n+1}\Big|\le \tfrac{2}{3}.
+\]
+Define
+\[
+g_{n+1}:=\Big(\tfrac{2}{3}\Big)^n\,h_{n+1}.
+\]
+Then
+\[
+\boxed{\ \sup_X|g_{n+1}|\ \le\ \tfrac{1}{3}\Big(\tfrac{2}{3}\Big)^n\ },
+\qquad
+\boxed{\ \sup_K\Big|f-\sum_{j=1}^{n+1} g_j\Big|\ \le\ \Big(\tfrac{2}{3}\Big)^{n+1}\ }.
+\]
+This completes the induction.
+
+\medskip
+
+\paragraph{(c) Uniform convergence and extension.}
+By (b) and the Weierstrass M-test,
+\[
+\sum_{n=1}^\infty \sup_X|g_n|
+\ \le\ 
+\sum_{n=1}^\infty \frac{1}{3}\Big(\frac{2}{3}\Big)^{n-1}
+\ =\ 1,
+\]
+so $g:=\sum_{n\ge1} g_n$ converges uniformly on $X$, hence $g\in C(X)$.
+Moreover,
+\[
+\sup_{x\in K}\Big|\,f(x)-\sum_{j=1}^{N} g_j(x)\,\Big|\ \le\ \Big(\frac{2}{3}\Big)^{N}\xrightarrow[N\to\infty]{}0,
+\]
+so $g|_K=f$. \qed
+
+	
+	
+
+	
+	
+\end{document}

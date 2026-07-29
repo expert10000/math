@@ -1,0 +1,5540 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{caption}      % optional but recommended
+\usepackage{subcaption} 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{tikz-cd}
+\usepackage{float}
+
+\usepackage{adjustbox}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usetikzlibrary{positioning}
+
+\usetikzlibrary{decorations.markings}
+
+\usetikzlibrary{backgrounds}
+
+\usepackage{booktabs}
+
+\usetikzlibrary{calc,arrows.meta,patterns,decorations.pathreplacing, intersections}
+\usepackage{tikz-3dplot}
+\usepackage{xcolor}
+
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\Log}{Log}
+
+
+\DeclareMathOperator{\Spec}{Spec}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newcommand{\II}{\mathrm{I\!I}}
+
+\newcommand{\C}{\mathbb{C}}
+
+% (optional) if you also want the first fundamental form:
+\newcommand{\I}{\mathrm{I}}
+
+\newcommand{\hyp}{\mathbb{H}}
+
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\T}{\mathsf{T}} % transpose symbol
+
+
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\newcommand{\Mat}{\mathrm{Mat}}
+
+\newcommand{\n}{6}
+
+% --- codim operator (put in the preamble) ---
+\DeclareMathOperator{\codim}{codim}
+
+
+\newcommand{\Solution}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\Theory}{\par\medskip\noindent\textbf{Theory.}\ }
+\newcommand{\Proof}{\par\medskip\noindent\textbf{Proof.}\ }
+
+
+\DeclareMathOperator{\tr}{tr}
+
+% --- HEADER ---
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}{Definition}
+
+% Option A: as an operator (recommended)
+\DeclareMathOperator{\Span}{span}
+
+% or, shorter version
+
+% ---------- Styles ----------
+\tikzset{
+	axis/.style={->, line width=0.9pt},
+	thinaxis/.style={line width=0.8pt},
+	vec/.style={-{Stealth[length=3.2mm]}, line width=1.1pt},
+	dashedhelp/.style={dashed, line width=0.95pt},
+	point/.style={circle, fill=black, inner sep=1.2pt},
+	label/.style={font=\small},
+}
+
+\newcommand{\sph}{\mathrm{sph}}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+
+\theoremstyle{definition}      % bold heading, upright body
+\newtheorem{example}[theorem]{Exercise}
+
+
+\newtheorem*{Exercise}{Exercise}
+
+
+\tikzset{
+	pointAmber/.style={circle, fill=Amber500, inner sep=1.35pt}
+}
+
+\definecolor{Teal700}{HTML}{0F766E}
+\definecolor{Amber500}{HTML}{F59E0B}
+\definecolor{Blue600}{HTML}{2563EB}
+\definecolor{Violet600}{HTML}{7C3AED}
+\definecolor{Slate600}{HTML}{475569}
+\definecolor{Red600}{HTML}{DC2626}
+
+\captionsetup[figure]{font=small, labelfont=bf, skip=6pt}
+\setlength{\intextsep}{10pt}
+\setlength{\textfloatsep}{10pt}
+\setlength{\floatsep}{8pt}
+
+\tikzset{
+	axis/.style={->, line width=0.9pt, draw=Slate600},
+	thinaxis/.style={line width=0.85pt, draw=Slate600},
+	tri/.style={line width=1.1pt, draw=Slate600},
+	disk/.style={line width=1.15pt, draw=Teal700},
+	unitcircle/.style={line width=1.15pt, draw=Teal700},
+	dashedhelp/.style={dashed, line width=0.95pt, draw=Amber500},
+	altitude/.style={dashed, line width=1.0pt, draw=Violet600},
+	vec/.style={-{Stealth[length=3.2mm]}, line width=1.15pt, draw=Blue600},
+	vecTeal/.style={vec, draw=Teal700},
+	vecAmber/.style={vec, draw=Amber500},
+	vecViolet/.style={vec, draw=Violet600},
+	point/.style={circle, fill=Slate600, inner sep=1.25pt},
+	pointTeal/.style={circle, fill=Teal700, inner sep=1.35pt},
+	pointRed/.style={circle, fill=Red600, inner sep=1.35pt},
+	pointAmber/.style={circle, fill=Amber500, inner sep=1.35pt},
+	label/.style={font=\small, text=Slate600},
+	title/.style={font=\small, text=Slate600},
+}
+
+% Put the title above the actual drawing (consistent for all figures)
+\newcommand{\DiagTitle}[1]{%
+	\path (current bounding box.north)
+	node[title, anchor=south, yshift=2mm]{#1};%
+}
+
+% =========================================================
+% E2 + E3  (same style as E1)
+% =========================================================
+% TikZ helpers (Poincaré disk geodesic from boundary angles)
+% Requires: \usetikzlibrary{arrows.meta}
+% =========================================================
+
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Usage: \DiskGeodesic[<draw options>]{<a deg>}{<b deg>}
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+% Handles the diameter case (antipodal endpoints) where det=0.
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+% --- palette ---
+\definecolor{BBlue}{RGB}{0,92,184}
+\definecolor{GOrange}{RGB}{230,120,20}
+\definecolor{PGreen}{RGB}{0,140,90}
+\definecolor{RRed}{RGB}{200,40,60}
+\definecolor{LFill}{RGB}{240,245,255}
+
+% --- tikz styles ---
+\tikzset{
+	base/.style={thick, draw=black!65},
+	gamma/.style={very thick, draw=GOrange, -{Latex[length=2.2mm]}},
+	fiber/.style={thick, draw=BBlue},
+	section/.style={thick, draw=PGreen},
+	transport/.style={very thick, draw=RRed, -{Latex[length=2.2mm]}},
+	pt/.style={circle, fill=black, inner sep=1.3pt},
+	spt/.style={circle, fill=PGreen, inner sep=1.3pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1, inner sep=2pt, rounded corners=2pt}
+}
+
+
+\newtheorem{remark}[theorem]{Remark} 
+\tikzset{
+	>={Latex[length=2.6mm]},
+	axis/.style={black, thin, ->},
+	unitcircle/.style={black, very thin},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	removable/.style={black, thick},
+	essstar/.style={yellow!65!orange, star, star points=7, minimum size=6pt, draw=orange!80!black, fill=yellow!70!orange},
+	lattice/.style={blue!70!black, fill=blue!70!black},
+	note/.style={black!70, font=\scriptsize}
+}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+
+% --- colors and styles for the charts ---
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+% styles
+\definecolor{PoleRed}{RGB}{214,49,56}
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1  % <- force visible text
+	},
+}
+
+
+\tikzset{
+	->-/.style={
+		postaction={decorate},
+		decoration={
+			markings,
+			mark=at position 0.18 with {\arrow{Stealth[length=2.2mm]}}
+		}
+	},
+	% p10loop must NOT use "expanded"
+	p10loop/.style={thick}
+}
+
+% --- Colors (clean "learning notes" vibe) ---
+\usepackage{xcolor}
+\definecolor{Teal}{HTML}{0F766E}
+\definecolor{TealSoft}{HTML}{CCFBF1}
+\definecolor{Amber}{HTML}{F59E0B}
+\definecolor{Slate}{HTML}{0F172A}
+\definecolor{SlateSoft}{HTML}{94A3B8}
+\definecolor{Border}{HTML}{E2E8F0}
+
+% --- TikZ / PGFPlots ---
+
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,fit,backgrounds}
+
+\pgfplotsset{compat=1.18}
+
+% --- colors (define what you use) ---
+\definecolor{DiagBlue}{RGB}{0,92,184}
+\definecolor{DiagOrange}{RGB}{230,120,20}
+\definecolor{DiagGreen}{RGB}{0,140,90}
+\definecolor{DiagRed}{RGB}{200,40,60}
+\definecolor{DiagGray}{RGB}{80,80,80}
+\definecolor{DiagLight}{RGB}{240,245,255} % <-- this fixes \fill[DiagLight]...
+
+% --- tikz styles (define what you use in [ax], [base], [fib], [pt2], [lab], etc.) ---
+\tikzset{
+	ax/.style={-{Latex[length=2.2mm]}, thick, draw=DiagGray},
+	base/.style={thick, draw=DiagBlue},
+	fib/.style={thick, draw=DiagGray},
+	loop/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagOrange},
+	transport/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagRed},
+	pt/.style={circle, fill=DiagRed, inner sep=1.2pt},
+	pt2/.style={circle, fill=DiagGreen, inner sep=1.2pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1,
+		inner sep=2.2pt, rounded corners=2pt}
+}
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+\fancyhead[L]{\textit{Commutative Algebra 2}}
+\fancyhead[R]{\textit{Exercises}}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+
+\title{Commutative Algebra 2}
+\author{}
+\date{}
+
+
+
+
+\begin{document}
+	\maketitle
+	
+	\section{Tensoring with \texorpdfstring{$A/I$}{A/I}: detailed explanation of the four examples}
+	
+	The common principle behind all four examples is the canonical isomorphism
+	\[
+	(A/I)\otimes_A M \;\cong\; M/IM,
+	\]
+	where:
+	\begin{itemize}
+		\item \(A\) is a ring,
+		\item \(I\subseteq A\) is an ideal,
+		\item \(M\) is an \(A\)-module,
+		\item \(IM\) is the submodule generated by all products \(im\) with \(i\in I\) and \(m\in M\).
+	\end{itemize}
+	
+	Intuitively, tensoring with \(A/I\) means that every element of the ideal \(I\) is forced to act as \(0\). In other words, we are ``reducing the module \(M\) modulo \(I\).''
+	
+	\subsection{Element-level meaning of \texorpdfstring{$(A/I)\otimes_A M$}{(A/I) tensor M}}
+	
+	An element of \((A/I)\otimes_A M\) is a finite sum of pure tensors
+	\[
+	(\overline{a})\otimes m,
+	\]
+	where \(\overline{a}=a+I\in A/I\) and \(m\in M\).
+	
+	Because \(\overline{a}=a\cdot \overline{1}\) in \(A/I\), we have
+	\[
+	(\overline{a})\otimes m
+	=
+	(\overline{1})\otimes am.
+	\]
+	So every pure tensor can be rewritten in the form
+	\[
+	\overline{1}\otimes m.
+	\]
+	
+	Now if \(i\in I\), then \(\overline{i}=0\) in \(A/I\), hence
+	\[
+	\overline{1}\otimes (im)
+	=
+	\overline{i}\otimes m
+	=
+	0.
+	\]
+	Therefore every element of \(IM\) becomes zero in the tensor product.
+	
+	This is exactly why the tensor product depends only on the class of \(m\) modulo \(IM\). The isomorphism is:
+	\[
+	\Phi:(A/I)\otimes_A M \longrightarrow M/IM,
+	\qquad
+	(\overline{a})\otimes m \longmapsto am+IM.
+	\]
+	Its inverse is given by
+	\[
+	\Psi:M/IM \longrightarrow (A/I)\otimes_A M,
+	\qquad
+	m+IM \longmapsto \overline{1}\otimes m.
+	\]
+	
+	So the tensor product remembers precisely the part of \(M\) that survives after we impose the rule \(I=0\).
+	
+	\subsection{What survives and what dies}
+	
+	Under the passage from \(M\) to \((A/I)\otimes_A M\):
+	\begin{itemize}
+		\item terms not involving the ideal \(I\) survive,
+		\item all terms in the submodule \(IM\) vanish.
+	\end{itemize}
+	
+	Thus:
+	\begin{itemize}
+		\item over \(\mathbb Z\), tensoring with \(\mathbb Z/m\) means reducing modulo \(m\),
+		\item over \(k[x]\), tensoring with \(k[x]/(x)\) means setting \(x=0\).
+	\end{itemize}
+	
+	\section{Example 1: \texorpdfstring{$A=\mathbb Z$, $I=(m)$, $M=\mathbb Z^r$}{A=Z, I=(m), M=Z\^r}}
+	
+	We compute
+	\[
+	(\mathbb Z/m)\otimes_{\mathbb Z}\mathbb Z^r.
+	\]
+	
+	By the general formula,
+	\[
+	(\mathbb Z/m)\otimes_{\mathbb Z}\mathbb Z^r
+	\;\cong\;
+	\mathbb Z^r / m\mathbb Z^r.
+	\]
+	
+	Now
+	\[
+	m\mathbb Z^r
+	=
+	\{(ma_1,\dots,ma_r): a_1,\dots,a_r\in\mathbb Z\}.
+	\]
+	So \(\mathbb Z^r/m\mathbb Z^r\) is obtained by reducing each coordinate modulo \(m\). Therefore
+	\[
+	\mathbb Z^r/m\mathbb Z^r \;\cong\; (\mathbb Z/m)^r.
+	\]
+	
+	Hence
+	\[
+	(\mathbb Z/m)\otimes_{\mathbb Z}\mathbb Z^r \;\cong\; (\mathbb Z/m)^r.
+	\]
+	
+	\subsection{Element-wise description}
+	
+	Let \(e_1,\dots,e_r\) be the standard basis of \(\mathbb Z^r\). Any vector \(v\in\mathbb Z^r\) can be written as
+	\[
+	v = a_1e_1+\cdots+a_re_r.
+	\]
+	Then
+	\[
+	[1]_m\otimes v
+	=
+	[1]_m\otimes(a_1e_1+\cdots+a_re_r)
+	=
+	[a_1]_m\otimes e_1+\cdots+[a_r]_m\otimes e_r.
+	\]
+	
+	So the tensor product simply remembers the coefficients modulo \(m\).
+	
+	\subsection{Concrete example}
+	
+	Take \(m=5\), \(r=2\), and \(v=(7,11)\). Then
+	\[
+	(7,11)\equiv (2,1)\pmod 5.
+	\]
+	Thus
+	\[
+	[1]_5\otimes (7,11)
+	\quad\text{corresponds to}\quad
+	([2]_5,[1]_5)\in (\mathbb Z/5)^2.
+	\]
+	
+	\subsection{Interpretation}
+	
+	The ``vectors'' here are genuine integer vectors in \(\mathbb Z^r\), but after tensoring with \(\mathbb Z/m\), only their coordinates modulo \(m\) remain visible.
+	
+	\section{Example 2: \texorpdfstring{$A=\mathbb Z$, $I=(m)$, $M=\mathbb Z/n$}{A=Z, I=(m), M=Z/n}}
+	
+	We compute
+	\[
+	(\mathbb Z/m)\otimes_{\mathbb Z}(\mathbb Z/n).
+	\]
+	
+	Using the same principle,
+	\[
+	(\mathbb Z/m)\otimes_{\mathbb Z}(\mathbb Z/n)
+	\;\cong\;
+	(\mathbb Z/n)/m(\mathbb Z/n).
+	\]
+	
+	So we must understand the subgroup \(m(\mathbb Z/n)\).
+	
+	\subsection{Computing \texorpdfstring{$m(\mathbb Z/n)$}{m(Z/n)}}
+	
+	Inside \(\mathbb Z/n\), multiplication by \(m\) gives the subgroup
+	\[
+	m(\mathbb Z/n)
+	=
+	\{[mk]_n : k\in\mathbb Z\}.
+	\]
+	This is the cyclic subgroup generated by \([m]_n\).
+	
+	The order of \([m]_n\) in \(\mathbb Z/n\) is
+	\[
+	\frac{n}{\gcd(m,n)},
+	\]
+	so the subgroup \(m(\mathbb Z/n)\) has exactly that many elements.
+	
+	Therefore the quotient \((\mathbb Z/n)/m(\mathbb Z/n)\) has cardinality
+	\[
+	\frac{n}{n/\gcd(m,n)}=\gcd(m,n).
+	\]
+	Since the quotient of a cyclic group is cyclic, we get
+	\[
+	(\mathbb Z/n)/m(\mathbb Z/n)\cong \mathbb Z/\gcd(m,n).
+	\]
+	
+	Hence
+	\[
+	(\mathbb Z/m)\otimes_{\mathbb Z}(\mathbb Z/n)
+	\;\cong\;
+	\mathbb Z/\gcd(m,n).
+	\]
+	
+	\subsection{Element-wise description}
+	
+	The tensor product is generated by the single element
+	\[
+	[1]_m\otimes [1]_n.
+	\]
+	Indeed, for any \(a,b\in\mathbb Z\),
+	\[
+	[a]_m\otimes [b]_n
+	=
+	ab\bigl([1]_m\otimes[1]_n\bigr).
+	\]
+	So the whole tensor product is cyclic.
+	
+	Moreover,
+	\[
+	m\bigl([1]_m\otimes[1]_n\bigr)=0
+	\qquad\text{and}\qquad
+	n\bigl([1]_m\otimes[1]_n\bigr)=0,
+	\]
+	so the order of the generator divides both \(m\) and \(n\), hence divides \(\gcd(m,n)\). In fact, its exact order is \(\gcd(m,n)\).
+	
+	\subsection{Concrete example}
+	
+	Let \(m=12\) and \(n=18\). Then
+	\[
+	\gcd(12,18)=6,
+	\]
+	so
+	\[
+	(\mathbb Z/12)\otimes_{\mathbb Z}(\mathbb Z/18)\cong \mathbb Z/6.
+	\]
+	
+	The element
+	\[
+	[1]_{12}\otimes [1]_{18}
+	\]
+	is a generator of this cyclic group.
+	
+	\subsection{Interpretation}
+	
+	This tensor product retains only the \emph{common torsion} visible in both cyclic modules:
+	\begin{itemize}
+		\item \(\mathbb Z/m\) has \(m\)-torsion,
+		\item \(\mathbb Z/n\) has \(n\)-torsion,
+		\item their tensor product detects the part compatible with both, namely \(\gcd(m,n)\)-torsion.
+	\end{itemize}
+	
+	\section{Example 3: \texorpdfstring{$A=k[x]$, $I=(x)$}{A=k[x], I=(x)} --- evaluation at \texorpdfstring{$x=0$}{x=0}}
+	
+	Now let
+	\[
+	A=k[x], \qquad I=(x).
+	\]
+	Then
+	\[
+	A/I = k[x]/(x).
+	\]
+	
+	But quotienting by \((x)\) kills all multiples of \(x\), so every polynomial becomes equal to its constant term. Thus
+	\[
+	k[x]/(x)\cong k,
+	\]
+	via the map
+	\[
+	f(x)\longmapsto f(0).
+	\]
+	
+	So in this situation,
+	\[
+	A/I \cong k.
+	\]
+	
+	Therefore for any \(A\)-module \(M\),
+	\[
+	k\otimes_{k[x]} M \;\cong\; M/xM.
+	\]
+	
+	\subsection{Why this means ``set \texorpdfstring{$x=0$}{x=0}''}
+	
+	Since \(x=0\) in the quotient ring \(k[x]/(x)\), we have in the tensor product:
+	\[
+	1\otimes (xm)=x\otimes m=0.
+	\]
+	So every element of the form \(xm\) vanishes. That is why we divide by \(xM\).
+	
+	This is exactly the module-theoretic meaning of evaluating at \(x=0\): all \(x\)-terms disappear.
+	
+	\subsection{Particular case: \texorpdfstring{$M=k[x]$}{M=k[x]}}
+	
+	If \(M=A=k[x]\), then
+	\[
+	k\otimes_{k[x]} k[x]
+	\;\cong\;
+	k[x]/xk[x].
+	\]
+	But \(xk[x]\) is the set of polynomials with zero constant term, so the quotient keeps only the constant term:
+	\[
+	k[x]/xk[x] \cong k.
+	\]
+	
+	Thus
+	\[
+	k\otimes_{k[x]}k[x]\cong k.
+	\]
+	
+	\subsection{Element-wise example}
+	
+	Take the polynomial
+	\[
+	f(x)=3+2x+x^2.
+	\]
+	Then in the tensor product,
+	\[
+	1\otimes f(x)
+	=
+	1\otimes (3+2x+x^2).
+	\]
+	Since all terms involving \(x\) vanish,
+	\[
+	1\otimes (3+2x+x^2)=1\otimes 3.
+	\]
+	So only the constant term remains.
+	
+	\subsection{Interpretation}
+	
+	Tensoring with \(k\cong k[x]/(x)\) means:
+	\begin{itemize}
+		\item forget all multiples of \(x\),
+		\item keep only what survives at \(x=0\),
+		\item algebraically: pass from \(M\) to the quotient \(M/xM\).
+	\end{itemize}
+	
+	\section{Example 4: \texorpdfstring{$A=k[x]$, $I=(x)$, $M=A/(x^2)$}{A=k[x], I=(x), M=A/(x\^2)}}
+	
+	Now let
+	\[
+	A=k[x], \qquad I=(x), \qquad M=A/(x^2)=k[x]/(x^2).
+	\]
+	We want to compute
+	\[
+	(A/I)\otimes_A M
+	=
+	k\otimes_{k[x]} A/(x^2).
+	\]
+	
+	By the general rule,
+	\[
+	(A/I)\otimes_A M
+	\;\cong\;
+	M/xM.
+	\]
+	
+	So we must compute \(xM\).
+	
+	\subsection{Structure of \texorpdfstring{$M=A/(x^2)$}{M=A/(x\^2)}}
+	
+	In the quotient \(k[x]/(x^2)\), every polynomial is equivalent to one of the form
+	\[
+	a+bx \pmod{x^2}.
+	\]
+	So as a \(k\)-vector space,
+	\[
+	M = k\cdot 1 \oplus k\cdot x.
+	\]
+	A convenient basis is
+	\[
+	\{1,x\}.
+	\]
+	
+	However, inside this module we have
+	\[
+	x^2=0.
+	\]
+	So \(x\) is not zero, but it is nilpotent.
+	
+	\subsection{Computing \texorpdfstring{$xM$}{xM}}
+	
+	Take an arbitrary element
+	\[
+	a+bx \in M.
+	\]
+	Multiplying by \(x\), we get
+	\[
+	x(a+bx)=ax+bx^2.
+	\]
+	Since \(x^2=0\) in \(M\), this becomes
+	\[
+	x(a+bx)=ax.
+	\]
+	Therefore
+	\[
+	xM = kx.
+	\]
+	
+	So the quotient is
+	\[
+	M/xM = (k\cdot 1 \oplus k\cdot x)/(k\cdot x)\cong k.
+	\]
+	
+	Hence
+	\[
+	k\otimes_{k[x]} A/(x^2)
+	\;\cong\;
+	M/xM
+	\;\cong\;
+	k.
+	\]
+	
+	\subsection{Element-wise tensor computation}
+	
+	Take the class of \(a+bx\) in \(M=A/(x^2)\). Then in the tensor product,
+	\[
+	1\otimes (a+bx)
+	=
+	1\otimes a + 1\otimes bx.
+	\]
+	But
+	\[
+	1\otimes bx = b(1\otimes x).
+	\]
+	Now \(x=0\) in \(k=A/(x)\), so
+	\[
+	1\otimes x = x\otimes 1 = 0.
+	\]
+	Therefore
+	\[
+	1\otimes (a+bx)=1\otimes a.
+	\]
+	
+	So again, only the constant part survives.
+	
+	\subsection{Interpretation}
+	
+	This example is important because \(M=A/(x^2)\) is larger than \(k\): it has an extra ``infinitesimal'' direction \(kx\). But after tensoring with \(k=A/(x)\), the \(x\)-part disappears.
+	
+	So even though \(x\neq 0\) in \(M\), it becomes invisible after imposing \(x=0\).
+	
+	\section{What are the ``vectors'' or ``elements'' in these examples?}
+	
+	These are not always vectors in the geometric sense. They are simply \emph{elements of modules}.
+	
+	\begin{itemize}
+		\item In Example 1, the elements are tuples
+		\[
+		(a_1,\dots,a_r)\in \mathbb Z^r.
+		\]
+		These behave like integer vectors.
+		
+		\item In Example 2, the elements are residue classes
+		\[
+		[a]_n\in \mathbb Z/n.
+		\]
+		
+		\item In Example 3, the elements are arbitrary module elements \(m\in M\), where \(M\) is any \(k[x]\)-module.
+		
+		\item In Example 4, the elements are classes
+		\[
+		a+bx \pmod{x^2},
+		\]
+		so each element has a constant part and an \(x\)-part.
+	\end{itemize}
+	
+	In all cases, after tensoring with \(A/I\), every element can be represented by something of the form
+	\[
+	\overline{1}\otimes m,
+	\]
+	and two elements become equal precisely when they differ by something from \(IM\).
+	
+	Thus the tensor product is measuring the module \(M\) after ``forgetting'' everything killed by the ideal \(I\).
+	
+	\section{One-line intuition for each example}
+	
+	\begin{itemize}
+		\item \textbf{Example 1:} reduce each coordinate modulo \(m\).
+		\item \textbf{Example 2:} keep only the common torsion shared by \(\mathbb Z/m\) and \(\mathbb Z/n\).
+		\item \textbf{Example 3:} set \(x=0\) in the module.
+		\item \textbf{Example 4:} set \(x=0\) even in a module where \(x\neq 0\) but \(x^2=0\), so the nilpotent \(x\)-part disappears.
+	\end{itemize}
+	
+	\section{Final universal picture}
+	
+	The construction
+	\[
+	(A/I)\otimes_A M
+	\]
+	means that we are viewing the module \(M\) after passing from the ring \(A\) to the quotient ring \(A/I\).
+	
+	Equivalently:
+	\begin{itemize}
+		\item coefficients are reduced modulo \(I\),
+		\item every element of \(I\) acts as zero,
+		\item all elements of \(IM\) vanish,
+		\item the remaining information is exactly the quotient module \(M/IM\).
+	\end{itemize}
+	
+	So the identity
+	\[
+	(A/I)\otimes_A M \;\cong\; M/IM
+	\]
+	is the precise algebraic statement that tensoring with \(A/I\) is the same as reducing the module \(M\) modulo the action of the ideal \(I\).
+	
+	
+	\section*{Problem 5 --- Zero divisors, localization, and associated primes via \(D(A)\)}
+	
+	\textbf{Exact statement.}
+	In a ring \(A\), let \(D(A)\) denote the set of prime ideals \(\mathfrak p\) which satisfy the following condition: there exists an \(a\in A\) such that \(\mathfrak p\) is minimal in \(V(\operatorname{Ann}(a))\).
+	
+	\begin{itemize}
+		\item[(a)] Show that \(x\) is a zero divisor in \(A\) if and only if \(x\in \mathfrak p\) for some \(\mathfrak p\in D(A)\).
+		\item[(b)] Let \(S\) be a multiplicatively closed subset of \(A\). Under the canonical identification of \(\operatorname{Spec} S^{-1}A\) with a subset of \(\operatorname{Spec} A\), show that
+		\[
+		D(S^{-1}A)=D(A)\cap \operatorname{Spec} S^{-1}A.
+		\]
+		\item[(c)] If the \(0\) ideal has a primary decomposition, show that \(D(A)\) is the set of associated primes of \(A\).
+	\end{itemize}
+	
+	\textbf{Solution.}
+	
+	\textbf{(a)} First suppose that \(x\) is a zero divisor. Then there exists \(a\neq 0\) such that
+	\[
+	xa=0.
+	\]
+	Hence \(x\in \operatorname{Ann}(a)\). Choose a prime ideal \(\mathfrak p\) minimal over \(\operatorname{Ann}(a)\). Then \(\mathfrak p\in D(A)\) by definition, and \(\operatorname{Ann}(a)\subseteq \mathfrak p\), so \(x\in \mathfrak p\).
+	
+	Conversely, suppose \(x\in \mathfrak p\) for some \(\mathfrak p\in D(A)\). Then there exists \(a\in A\) such that \(\mathfrak p\) is minimal over \(\operatorname{Ann}(a)\). Let
+	\[
+	I=\operatorname{Ann}(a), \qquad B=A/I.
+	\]
+	Then \(\mathfrak q:=\mathfrak p/I\) is a minimal prime of \(B\), and \(\bar x\in \mathfrak q\).
+	
+	Localizing at \(\mathfrak q\), the ring \(B_{\mathfrak q}\) has only one prime ideal, namely \(\mathfrak q B_{\mathfrak q}\). Hence every element of \(\mathfrak q B_{\mathfrak q}\) is nilpotent. In particular, \(\bar x/1\) is nilpotent in \(B_{\mathfrak q}\). Thus there exist \(s\notin \mathfrak q\) and \(n\ge 1\) such that
+	\[
+	s\bar x^n=0 \quad \text{in } B.
+	\]
+	Choose \(n\) minimal with this property. Then
+	\[
+	\bar b:=s\bar x^{n-1}\neq 0, \qquad \bar x\,\bar b=0.
+	\]
+	So \(\bar x\) is a zero divisor in \(B\). Lift \(\bar b\) to some \(b\in A\). Since \(\bar b\neq 0\), we have \(b\notin I=\operatorname{Ann}(a)\), so \(ba\neq 0\). Also \(\bar x\,\bar b=0\) means \(xb\in I\), hence
+	\[
+	x(ba)=(xb)a=0.
+	\]
+	Therefore \(x\) is a zero divisor in \(A\).
+	
+	Thus
+	\[
+	x \text{ is a zero divisor in } A
+	\iff
+	x\in \mathfrak p \text{ for some } \mathfrak p\in D(A).
+	\]
+	
+	\medskip
+	
+	\textbf{(b)} Identify \(\operatorname{Spec} S^{-1}A\) with the set of prime ideals \(\mathfrak p\subset A\) such that \(\mathfrak p\cap S=\varnothing\).
+	
+	First let \(\mathfrak q\in D(S^{-1}A)\). Then there exists \(a/s\in S^{-1}A\) such that \(\mathfrak q\) is minimal over
+	\[
+	\operatorname{Ann}_{S^{-1}A}(a/s)=S^{-1}\operatorname{Ann}_A(a).
+	\]
+	Write \(\mathfrak q=S^{-1}\mathfrak p\), where \(\mathfrak p\cap S=\varnothing\). We claim that \(\mathfrak p\) is minimal over \(\operatorname{Ann}_A(a)\). Indeed, if \(\mathfrak r\subsetneq \mathfrak p\) is a prime ideal containing \(\operatorname{Ann}_A(a)\), then \(\mathfrak r\cap S=\varnothing\) because \(\mathfrak r\subseteq \mathfrak p\). Hence \(S^{-1}\mathfrak r\) is a prime of \(S^{-1}A\) properly contained in \(\mathfrak q\) and containing \(S^{-1}\operatorname{Ann}_A(a)\), contradiction. So \(\mathfrak p\in D(A)\), and \(\mathfrak p\in \operatorname{Spec} S^{-1}A\). Therefore
+	\[
+	D(S^{-1}A)\subseteq D(A)\cap \operatorname{Spec} S^{-1}A.
+	\]
+	
+	Conversely, let \(\mathfrak p\in D(A)\cap \operatorname{Spec} S^{-1}A\). Then \(\mathfrak p\cap S=\varnothing\), and there exists \(a\in A\) such that \(\mathfrak p\) is minimal over \(\operatorname{Ann}_A(a)\). Since \(\operatorname{Ann}_A(a)\subseteq \mathfrak p\) and \(\mathfrak p\cap S=\varnothing\), the element \(a/1\) is nonzero in \(S^{-1}A\). Also
+	\[
+	\operatorname{Ann}_{S^{-1}A}(a/1)=S^{-1}\operatorname{Ann}_A(a).
+	\]
+	If \(S^{-1}\mathfrak r\subsetneq S^{-1}\mathfrak p\) is a prime containing \(S^{-1}\operatorname{Ann}_A(a)\), then \(\mathfrak r\subsetneq \mathfrak p\) is a prime containing \(\operatorname{Ann}_A(a)\), contradiction. Hence \(S^{-1}\mathfrak p\in D(S^{-1}A)\). Thus
+	\[
+	D(A)\cap \operatorname{Spec} S^{-1}A \subseteq D(S^{-1}A).
+	\]
+	
+	Therefore
+	\[
+	D(S^{-1}A)=D(A)\cap \operatorname{Spec} S^{-1}A.
+	\]
+	
+	\medskip
+	
+	\textbf{(c)} Assume that
+	\[
+	0=Q_1\cap \cdots \cap Q_n
+	\]
+	is an irredundant primary decomposition, where each \(Q_i\) is \(\mathfrak p_i\)-primary. Then
+	\[
+	\operatorname{Ass}_A(A)=\{\mathfrak p_1,\dots,\mathfrak p_n\}.
+	\]
+	We show that \(D(A)\) is the same set.
+	
+	First, let \(\mathfrak p_i\) be one of these primes. Since the decomposition is irredundant, there exists
+	\[
+	a_i\in \bigcap_{j\ne i}Q_j \setminus Q_i.
+	\]
+	Then
+	\[
+	\operatorname{Ann}(a_i)=\{r\in A:ra_i=0\}.
+	\]
+	Because \(a_i\in Q_j\) for all \(j\ne i\), the condition \(ra_i=0\) is equivalent to \(ra_i\in Q_i\). Hence
+	\[
+	\operatorname{Ann}(a_i)=(Q_i:a_i).
+	\]
+	Since \(Q_i\) is \(\mathfrak p_i\)-primary and \(a_i\notin Q_i\), the colon ideal \((Q_i:a_i)\) is \(\mathfrak p_i\)-primary. Therefore
+	\[
+	\sqrt{\operatorname{Ann}(a_i)}=\mathfrak p_i,
+	\]
+	so \(\mathfrak p_i\) is the unique minimal prime over \(\operatorname{Ann}(a_i)\). Hence \(\mathfrak p_i\in D(A)\).
+	
+	Thus
+	\[
+	\operatorname{Ass}_A(A)\subseteq D(A).
+	\]
+	
+	Conversely, let \(\mathfrak p\in D(A)\). Then \(\mathfrak p\) is minimal over \(\operatorname{Ann}(a)\) for some \(a\in A\). Since
+	\[
+	0=\bigcap_{i=1}^n Q_i,
+	\]
+	we obtain
+	\[
+	\operatorname{Ann}(a)=\bigcap_{i=1}^n (Q_i:a).
+	\]
+	For each \(i\), either \(a\in Q_i\), in which case \((Q_i:a)=A\), or \(a\notin Q_i\), in which case \((Q_i:a)\) is \(\mathfrak p_i\)-primary. Therefore \(\operatorname{Ann}(a)\) has a primary decomposition whose associated primes are among the \(\mathfrak p_i\). Hence every minimal prime over \(\operatorname{Ann}(a)\), in particular \(\mathfrak p\), must equal one of the \(\mathfrak p_i\). So
+	\[
+	D(A)\subseteq \{\mathfrak p_1,\dots,\mathfrak p_n\}=\operatorname{Ass}_A(A).
+	\]
+	
+	Therefore
+	\[
+	D(A)=\operatorname{Ass}_A(A).
+	\]
+	
+	\bigskip
+	
+	\section*{Problem 6 --- The ideals \(S_{\mathfrak p}(0)\) and minimal primes}
+	
+	\textbf{Exact statement.}
+	For \(\mathfrak p\subset A\) a prime ideal, denote by \(S_{\mathfrak p}(0)\) the kernel of the canonical homomorphism
+	\[
+	A\to A_{\mathfrak p}.
+	\]
+	Prove:
+	\begin{itemize}
+		\item[(a)] \(S_{\mathfrak p}(0)\subseteq \mathfrak p\).
+		\item[(b)] If \(\mathfrak p\supseteq \mathfrak p'\), then \(S_{\mathfrak p}(0)\subseteq S_{\mathfrak p'}(0)\).
+		\item[(c)] \(\sqrt{S_{\mathfrak p}(0)}=\mathfrak p\) if and only if \(\mathfrak p\) is a minimal prime ideal of \(A\).
+		\item[(d)] \(\displaystyle \bigcap_{\mathfrak p\in D(A)} S_{\mathfrak p}(0)=0\), where \(D(A)\) is the set defined in the previous exercise.
+	\end{itemize}
+	
+	\textbf{Solution.}
+	
+	Recall that
+	\[
+	S_{\mathfrak p}(0)=\{a\in A:\exists s\notin \mathfrak p \text{ such that } sa=0\}.
+	\]
+	
+	\textbf{(a)} Let \(a\in S_{\mathfrak p}(0)\). Then \(sa=0\) for some \(s\notin \mathfrak p\). Since \(0\in \mathfrak p\), we have \(sa\in \mathfrak p\). Because \(\mathfrak p\) is prime and \(s\notin \mathfrak p\), it follows that \(a\in \mathfrak p\). Hence
+	\[
+	S_{\mathfrak p}(0)\subseteq \mathfrak p.
+	\]
+	
+	\medskip
+	
+	\textbf{(b)} Suppose \(\mathfrak p\supseteq \mathfrak p'\), and let \(a\in S_{\mathfrak p}(0)\). Then there exists \(s\notin \mathfrak p\) such that \(sa=0\). Since \(\mathfrak p'\subseteq \mathfrak p\), we also have \(s\notin \mathfrak p'\). Thus \(a\in S_{\mathfrak p'}(0)\). Therefore
+	\[
+	S_{\mathfrak p}(0)\subseteq S_{\mathfrak p'}(0).
+	\]
+	
+	\medskip
+	
+	\textbf{(c)} First assume that \(\mathfrak p\) is a minimal prime ideal of \(A\). By part (a),
+	\[
+	S_{\mathfrak p}(0)\subseteq \mathfrak p,
+	\]
+	so
+	\[
+	\sqrt{S_{\mathfrak p}(0)}\subseteq \mathfrak p.
+	\]
+	
+	Now let \(x\in \mathfrak p\). In the localized ring \(A_{\mathfrak p}\), the prime ideals correspond to prime ideals of \(A\) contained in \(\mathfrak p\). Since \(\mathfrak p\) is minimal, the only prime ideal of \(A_{\mathfrak p}\) is \(\mathfrak p A_{\mathfrak p}\). Therefore the nilradical of \(A_{\mathfrak p}\) is \(\mathfrak p A_{\mathfrak p}\), so \(x/1\) is nilpotent in \(A_{\mathfrak p}\). Hence for some \(n\ge 1\),
+	\[
+	(x/1)^n=0,
+	\]
+	which means \(x^n\in S_{\mathfrak p}(0)\). Thus \(x\in \sqrt{S_{\mathfrak p}(0)}\), and so
+	\[
+	\mathfrak p\subseteq \sqrt{S_{\mathfrak p}(0)}.
+	\]
+	Therefore
+	\[
+	\sqrt{S_{\mathfrak p}(0)}=\mathfrak p.
+	\]
+	
+	Conversely, suppose
+	\[
+	\sqrt{S_{\mathfrak p}(0)}=\mathfrak p.
+	\]
+	If \(\mathfrak p\) were not minimal, there would exist a prime ideal \(\mathfrak q\subsetneq \mathfrak p\). We claim that
+	\[
+	S_{\mathfrak p}(0)\subseteq \mathfrak q.
+	\]
+	Indeed, if \(a\in S_{\mathfrak p}(0)\), then \(sa=0\) for some \(s\notin \mathfrak p\). Since \(\mathfrak q\subseteq \mathfrak p\), also \(s\notin \mathfrak q\). Because \(\mathfrak q\) is prime and \(sa=0\in \mathfrak q\), it follows that \(a\in \mathfrak q\). Therefore
+	\[
+	S_{\mathfrak p}(0)\subseteq \mathfrak q,
+	\]
+	hence
+	\[
+	\sqrt{S_{\mathfrak p}(0)}\subseteq \mathfrak q\subsetneq \mathfrak p,
+	\]
+	contradiction. Thus \(\mathfrak p\) must be minimal.
+	
+	So
+	\[
+	\sqrt{S_{\mathfrak p}(0)}=\mathfrak p
+	\iff
+	\mathfrak p \text{ is a minimal prime ideal of }A.
+	\]
+	
+	\medskip
+	
+	\textbf{(d)} We prove that
+	\[
+	\bigcap_{\mathfrak p\in D(A)} S_{\mathfrak p}(0)=0.
+	\]
+	
+	Let \(x\neq 0\). Choose a prime ideal \(\mathfrak p\) minimal over \(\operatorname{Ann}(x)\). Then \(\mathfrak p\in D(A)\) by definition. We claim that \(x\notin S_{\mathfrak p}(0)\). Otherwise there would exist \(s\notin \mathfrak p\) such that
+	\[
+	sx=0.
+	\]
+	Then \(s\in \operatorname{Ann}(x)\subseteq \mathfrak p\), contradiction. Hence \(x\notin S_{\mathfrak p}(0)\).
+	
+	Therefore no nonzero element belongs to every \(S_{\mathfrak p}(0)\), and we conclude that
+	\[
+	\bigcap_{\mathfrak p\in D(A)} S_{\mathfrak p}(0)=0.
+	\]
+	
+	\bigskip
+	
+	\section*{Problem 7 --- A local-global criterion for Noetherianity}
+	
+	\textbf{Exact statement.}
+	Let \(A\) be a ring such that
+	\begin{itemize}
+		\item[(1)] for every maximal ideal \(\mathfrak m\) of \(A\), the local ring \(A_{\mathfrak m}\) is Noetherian;
+		\item[(2)] for each non-zero \(x\in A\), the set of maximal ideals of \(A\) which contain \(x\) is finite.
+	\end{itemize}
+	Show that \(A\) is Noetherian.
+	
+	\textbf{Solution.}
+	
+	We show that every ideal of \(A\) is finitely generated.
+	
+	Let \(I\subseteq A\) be an ideal. If \(I=0\), there is nothing to prove. So assume \(I\neq 0\), and choose \(0\neq x\in I\).
+	
+	By assumption (2), only finitely many maximal ideals contain \(x\). Denote them by
+	\[
+	\mathfrak m_1,\dots,\mathfrak m_r.
+	\]
+	
+	For each \(i\), the ideal \(I_{\mathfrak m_i}\) of the Noetherian ring \(A_{\mathfrak m_i}\) is finitely generated. Hence there exist elements
+	\[
+	a_{i1},\dots,a_{in_i}\in I
+	\]
+	such that
+	\[
+	I_{\mathfrak m_i}=(a_{i1},\dots,a_{in_i})_{\mathfrak m_i}.
+	\]
+	
+	Now define
+	\[
+	J=(x,a_{11},\dots,a_{1n_1},\dots,a_{r1},\dots,a_{rn_r})\subseteq I.
+	\]
+	This is a finitely generated ideal. We claim that \(I=J\).
+	
+	Let \(\mathfrak m\) be any maximal ideal of \(A\).
+	
+	If \(x\notin \mathfrak m\), then \(x/1\) is a unit in \(A_{\mathfrak m}\). Since \(x\in J\subseteq I\), both \(J_{\mathfrak m}\) and \(I_{\mathfrak m}\) contain a unit, hence
+	\[
+	J_{\mathfrak m}=A_{\mathfrak m}=I_{\mathfrak m}.
+	\]
+	
+	If \(x\in \mathfrak m\), then \(\mathfrak m=\mathfrak m_i\) for some \(i\), and by construction
+	\[
+	J_{\mathfrak m}=I_{\mathfrak m}.
+	\]
+	
+	Thus
+	\[
+	J_{\mathfrak m}=I_{\mathfrak m}
+	\qquad \text{for every maximal ideal } \mathfrak m.
+	\]
+	
+	Consider the quotient module \(I/J\). For every maximal ideal \(\mathfrak m\),
+	\[
+	(I/J)_{\mathfrak m}=0.
+	\]
+	A module is zero if and only if all its localizations at maximal ideals are zero. Therefore \(I/J=0\), so \(I=J\).
+	
+	Hence every ideal of \(A\) is finitely generated. Therefore \(A\) is Noetherian.
+	
+	
+	\section*{Theory: ideals, quotients, coordinate rings, and localization on concrete polynomial examples}
+	
+	Throughout this section, let \(k\) be a field. We will work mainly in the polynomial rings
+	\[
+	k[x], \qquad k[x,y].
+	\]
+	The goal is not only to state abstract definitions, but to understand what these notions look like on explicit polynomials, what their elements are, and what they mean geometrically.
+	
+	\subsection*{1. The ambient polynomial ring}
+	
+	Take
+	\[
+	R = k[x,y].
+	\]
+	An element of \(R\) is an ordinary polynomial in two variables, for example
+	\[
+	f(x,y)=x^3+2x^2y-5y+7.
+	\]
+	The ring \(k[x,y]\) is the algebraic ambient space of all polynomial expressions in the coordinates \(x\) and \(y\).
+	
+	Geometrically, one thinks of:
+	\begin{itemize}
+		\item \(x\) and \(y\) as coordinate functions on the affine plane \(k^2\),
+		\item a polynomial equation \(f(x,y)=0\) as defining a curve or algebraic subset of the plane.
+	\end{itemize}
+	
+	Thus \(k[x,y]\) is the algebraic side of affine plane geometry.
+	
+	\subsection*{2. Ideals: concrete algebraic meaning}
+	
+	An ideal \(I \subseteq k[x,y]\) is a subset such that:
+	\begin{itemize}
+		\item if \(f,g\in I\), then \(f-g\in I\),
+		\item if \(f\in I\) and \(h\in k[x,y]\), then \(hf\in I\).
+	\end{itemize}
+	
+	So an ideal is closed under addition and under multiplication by arbitrary polynomials.
+	
+	The geometric idea is fundamental:
+	
+	\medskip
+	
+	\noindent
+	If \(I\subseteq k[x,y]\), then its common zero set is
+	\[
+	V(I)=\{(a,b)\in k^2 : f(a,b)=0 \text{ for every } f\in I\}.
+	\]
+	
+	\medskip
+	
+	Thus:
+	\begin{itemize}
+		\item an ideal is a collection of polynomial relations,
+		\item the set \(V(I)\) is the geometric object cut out by those relations.
+	\end{itemize}
+	
+	\subsection*{3. Principal ideals: one equation}
+	
+	Take the ideal
+	\[
+	I=(y-x^2)\subseteq k[x,y].
+	\]
+	This means
+	\[
+	(y-x^2)=\{h(x,y)(y-x^2): h(x,y)\in k[x,y]\}.
+	\]
+	
+	\paragraph{What are its elements?}
+	Every element is a multiple of \(y-x^2\). For example:
+	\[
+	x(y-x^2)=xy-x^3,
+	\]
+	\[
+	(y+1)(y-x^2)=y^2+y-x^2y-x^2.
+	\]
+	All such polynomials vanish on every point satisfying \(y=x^2\).
+	
+	\paragraph{Geometry.}
+	The equation
+	\[
+	y-x^2=0
+	\]
+	defines the parabola
+	\[
+	V(y-x^2)=\{(a,a^2): a\in k\}.
+	\]
+	
+	\paragraph{Quotient ring.}
+	Now form
+	\[
+	k[x,y]/(y-x^2).
+	\]
+	This means that in the quotient ring we impose the relation
+	\[
+	y=x^2.
+	\]
+	So every polynomial in \(x\) and \(y\) can be simplified by replacing \(y\) with \(x^2\).
+	
+	Examples:
+	\[
+	x^2+y \equiv x^2+x^2=2x^2,
+	\]
+	\[
+	y^2+x \equiv x^4+x,
+	\]
+	\[
+	xy+y^3 \equiv x\cdot x^2 + x^6 = x^3+x^6.
+	\]
+	
+	Hence there is an isomorphism
+	\[
+	k[x,y]/(y-x^2)\cong k[x].
+	\]
+	
+	\paragraph{Coordinate ring meaning.}
+	This quotient is the coordinate ring of the parabola. Its elements are polynomial functions on the parabola.
+	
+	For example, the class of \(y\) is equal to the class of \(x^2\), because on the parabola the two functions agree:
+	\[
+	(a,a^2)\mapsto a^2.
+	\]
+	
+	Thus:
+	\begin{itemize}
+		\item in the ambient plane \(k^2\), the polynomials \(y\) and \(x^2\) are different,
+		\item on the parabola, they define the same function.
+	\end{itemize}
+	That is exactly what quotienting by \((y-x^2)\) expresses.
+	
+	\subsection*{4. Ideals generated by several polynomials}
+	
+	Take
+	\[
+	I=(x,y)\subseteq k[x,y].
+	\]
+	This consists of all polynomials of the form
+	\[
+	xf(x,y)+yg(x,y), \qquad f,g\in k[x,y].
+	\]
+	
+	\paragraph{What polynomials lie in \((x,y)\)?}
+	Exactly those with zero constant term.
+	
+	Indeed:
+	\begin{itemize}
+		\item every polynomial of the form \(xf+yg\) vanishes at \((0,0)\),
+		\item conversely, every polynomial with zero constant term can be written as such a combination.
+	\end{itemize}
+	
+	For example:
+	\[
+	x^2+xy+y^3 \in (x,y),
+	\]
+	\[
+	x+y+5xy^2 \in (x,y),
+	\]
+	but
+	\[
+	1+x \notin (x,y)
+	\]
+	because it has nonzero constant term.
+	
+	\paragraph{Geometry.}
+	The zero set is
+	\[
+	V(x,y)=\{(0,0)\}.
+	\]
+	So the ideal \((x,y)\) cuts out the origin.
+	
+	\paragraph{Quotient.}
+	In the quotient
+	\[
+	k[x,y]/(x,y),
+	\]
+	both \(x\) and \(y\) become \(0\), so every polynomial reduces to its constant term. Therefore
+	\[
+	k[x,y]/(x,y)\cong k.
+	\]
+	
+	This is the coordinate ring of a single point.
+	
+	\paragraph{Interpretation.}
+	This is the basic prototype of a maximal ideal: quotienting by it gives the field \(k\), and geometrically it corresponds to one point.
+	
+	\subsection*{5. Maximal ideals: points in affine space}
+	
+	In \(k[x,y]\), when \(k\) is algebraically closed, the maximal ideals are exactly
+	\[
+	(x-a,\; y-b), \qquad (a,b)\in k^2.
+	\]
+	
+	Take for example
+	\[
+	\mathfrak m=(x-2,\; y+3).
+	\]
+	
+	\paragraph{Geometry.}
+	Its zero set is the single point
+	\[
+	(2,-3).
+	\]
+	
+	\paragraph{Quotient.}
+	In the quotient
+	\[
+	k[x,y]/(x-2,y+3),
+	\]
+	we have
+	\[
+	x\equiv 2, \qquad y\equiv -3.
+	\]
+	So every polynomial reduces to the scalar obtained by evaluation at that point. For example:
+	\[
+	x^2+y \equiv 4-3=1,
+	\]
+	\[
+	x^3-2y \equiv 8-2(-3)=14.
+	\]
+	Hence
+	\[
+	k[x,y]/(x-2,y+3)\cong k.
+	\]
+	
+	\paragraph{Meaning.}
+	Quotienting by a maximal ideal means evaluating polynomial functions at a point. Thus maximal ideals correspond to points.
+	
+	\subsection*{6. Prime ideals: irreducible geometry}
+	
+	Take
+	\[
+	\mathfrak p=(y)\subseteq k[x,y].
+	\]
+	
+	\paragraph{Quotient.}
+	We have
+	\[
+	k[x,y]/(y)\cong k[x].
+	\]
+	Since \(k[x]\) is an integral domain, it follows that \((y)\) is a prime ideal.
+	
+	\paragraph{Geometry.}
+	The zero set is
+	\[
+	V(y)=\{(a,0): a\in k\},
+	\]
+	namely the \(x\)-axis.
+	
+	This algebraic set is irreducible, and prime ideals correspond to irreducible algebraic sets.
+	
+	\medskip
+	
+	Another example is
+	\[
+	(y-x^2).
+	\]
+	Since
+	\[
+	k[x,y]/(y-x^2)\cong k[x]
+	\]
+	is again a domain, this ideal is prime as well. Geometrically, the parabola is irreducible.
+	
+	\paragraph{Key principle.}
+	If \(I\) is prime, then \(k[x,y]/I\) has no zero divisors. This algebraically reflects geometric irreducibility.
+	
+	\subsection*{7. A non-prime ideal: reducible geometry}
+	
+	Take
+	\[
+	I=(xy)\subseteq k[x,y].
+	\]
+	
+	\paragraph{Geometry.}
+	The equation
+	\[
+	xy=0
+	\]
+	means
+	\[
+	x=0 \quad \text{or} \quad y=0.
+	\]
+	Thus
+	\[
+	V(xy)=V(x)\cup V(y),
+	\]
+	which is the union of the two coordinate axes.
+	
+	\paragraph{Why \((xy)\) is not prime.}
+	We have
+	\[
+	xy\in (xy),
+	\]
+	but
+	\[
+	x\notin (xy), \qquad y\notin (xy).
+	\]
+	So the defining property of prime ideals fails.
+	
+	\paragraph{Quotient.}
+	Consider
+	\[
+	k[x,y]/(xy).
+	\]
+	In this quotient ring, the classes of \(x\) and \(y\) are both nonzero, but
+	\[
+	\bar x\,\bar y = 0.
+	\]
+	So the quotient ring has zero divisors.
+	
+	\paragraph{Interpretation.}
+	This exactly reflects the fact that the variety \(V(xy)\) has two irreducible components. Reducibility on the geometric side corresponds to zero divisors on the algebraic side.
+	
+	\subsection*{8. Radical ideals: no hidden nilpotents}
+	
+	An ideal \(I\) is called radical if
+	\[
+	f^n\in I \Longrightarrow f\in I
+	\qquad \text{for all } f \in k[x,y],\; n\geq 1.
+	\]
+	Equivalently,
+	\[
+	I=\sqrt{I},
+	\]
+	where
+	\[
+	\sqrt{I}=\{f: f^n\in I \text{ for some } n\ge 1\}.
+	\]
+	
+	\paragraph{Example of a radical ideal.}
+	The ideal
+	\[
+	(xy)
+	\]
+	is radical in \(k[x,y]\), because
+	\[
+	(xy)=(x)\cap (y).
+	\]
+	It defines the reduced union of the two coordinate axes.
+	
+	\paragraph{Example of a non-radical ideal.}
+	Take
+	\[
+	I=(x^2)\subseteq k[x].
+	\]
+	This is not radical, since
+	\[
+	x^2\in (x^2), \qquad x\notin (x^2).
+	\]
+	Its radical is
+	\[
+	\sqrt{(x^2)}=(x).
+	\]
+	
+	\paragraph{Quotient ring.}
+	In
+	\[
+	k[x]/(x^2),
+	\]
+	the class of \(x\) is nonzero, but
+	\[
+	x^2=0.
+	\]
+	Thus the quotient contains a nonzero nilpotent element.
+	
+	\paragraph{Geometric meaning.}
+	The ideals \((x)\) and \((x^2)\) define the same point set:
+	\[
+	V(x)=V(x^2)=\{0\}.
+	\]
+	But they do not define the same algebra. The ideal \((x^2)\) carries extra infinitesimal structure. Radical ideals correspond to reduced geometry, while non-radical ideals produce nilpotent thickening.
+	
+	\subsection*{9. Primary ideals: one prime with multiplicity}
+	
+	An ideal \(Q\) is primary if
+	\[
+	ab\in Q,\; a\notin Q \Longrightarrow b^n\in Q \text{ for some } n\ge 1.
+	\]
+	
+	\paragraph{Example in one variable.}
+	The ideal
+	\[
+	Q=(x^2)\subseteq k[x]
+	\]
+	is primary. Its radical is
+	\[
+	\sqrt{Q}=(x),
+	\]
+	which is prime. So \((x^2)\) is \((x)\)-primary.
+	
+	\paragraph{Geometric meaning.}
+	This describes the point \(x=0\), but with multiplicity or nilpotent thickening.
+	
+	\paragraph{Example in two variables.}
+	Take
+	\[
+	Q=(x,y^2)\subseteq k[x,y].
+	\]
+	Its radical is
+	\[
+	\sqrt{Q}=(x,y),
+	\]
+	so \(Q\) is \((x,y)\)-primary.
+	
+	Its zero set is still just the origin:
+	\[
+	V(x,y^2)=\{(0,0)\}.
+	\]
+	But in the quotient
+	\[
+	k[x,y]/(x,y^2),
+	\]
+	the class of \(y\) is nonzero and satisfies
+	\[
+	\bar y^2=0.
+	\]
+	Thus we have again a nonreduced structure concentrated at a single geometric point.
+	
+	\paragraph{Interpretation.}
+	Primary ideals describe one geometric piece whose underlying support is irreducible, but which may carry multiplicity or nilpotent behavior.
+	
+	\subsection*{10. Minimal primes and decomposition on a concrete example}
+	
+	Take again
+	\[
+	I=(xy)\subseteq k[x,y].
+	\]
+	Then
+	\[
+	(xy)=(x)\cap (y).
+	\]
+	The ideals \((x)\) and \((y)\) are prime, and they are the minimal prime ideals over \((xy)\).
+	
+	\paragraph{Geometry.}
+	These correspond to the two irreducible components:
+	\begin{itemize}
+		\item \((x)\) corresponds to the \(y\)-axis,
+		\item \((y)\) corresponds to the \(x\)-axis.
+	\end{itemize}
+	
+	Thus the decomposition of the ideal reflects the decomposition of the algebraic set into irreducible components.
+	
+	\medskip
+	
+	Now compare with
+	\[
+	I=(x^2y).
+	\]
+	Then
+	\[
+	\sqrt{(x^2y)}=(xy)=(x)\cap (y).
+	\]
+	So the underlying set of points is the same as for \((xy)\), namely the union of the two axes, but the algebraic structure is different: one component carries multiplicity.
+	
+	\subsection*{11. Coordinate rings: several important examples}
+	
+	\paragraph{Example A: a line.}
+	Let
+	\[
+	X=V(y)\subseteq k^2.
+	\]
+	Then
+	\[
+	k[X]=k[x,y]/(y)\cong k[x].
+	\]
+	So polynomial functions on the line are just polynomials in one variable.
+	
+	\paragraph{Example B: a parabola.}
+	Let
+	\[
+	X=V(y-x^2).
+	\]
+	Then
+	\[
+	k[X]=k[x,y]/(y-x^2)\cong k[x].
+	\]
+	So although the parabola sits in the plane, its coordinate ring behaves like a one-variable polynomial ring.
+	
+	\paragraph{Example C: a cusp.}
+	Let
+	\[
+	X=V(y^2-x^3).
+	\]
+	Then
+	\[
+	k[X]=k[x,y]/(y^2-x^3).
+	\]
+	This ring is a domain, so the curve is irreducible. However, it is more subtle than the parabola. A parametrization is
+	\[
+	x=t^2, \qquad y=t^3.
+	\]
+	Hence
+	\[
+	k[X]\cong k[t^2,t^3]\subseteq k[t].
+	\]
+	This shows concretely that the coordinate ring is not simply a full polynomial ring \(k[t]\), but rather a subring generated by \(t^2\) and \(t^3\). The singularity at the origin is encoded in this algebraic difference.
+	
+	\paragraph{Example D: union of axes.}
+	Let
+	\[
+	X=V(xy).
+	\]
+	Then
+	\[
+	k[X]=k[x,y]/(xy).
+	\]
+	This ring has zero divisors, reflecting the fact that \(X\) is reducible.
+	
+	\paragraph{Example E: a doubled point.}
+	Take the ideal \((x^2)\subseteq k[x]\). Then the coordinate ring is
+	\[
+	k[x]/(x^2).
+	\]
+	Its point set is just \(\{0\}\), but it is not reduced. This is the simplest example of a nonreduced scheme-like object.
+	
+	\subsection*{12. What elements of quotient rings actually look like}
+	
+	It is important to understand that an element of a quotient ring is a class of polynomials modulo the given relations.
+	
+	\paragraph{Example 1.}
+	Let
+	\[
+	R=k[x,y]/(y-x^2).
+	\]
+	An element is a class
+	\[
+	[f(x,y)].
+	\]
+	But because \(y=x^2\) in the quotient, every class can be simplified to a polynomial in \(x\) alone. For example:
+	\[
+	[y]=[x^2],
+	\]
+	\[
+	[x^2+y]=[2x^2],
+	\]
+	\[
+	[y^3+x]=[x^6+x].
+	\]
+	So although the quotient was defined from a two-variable ring, its elements have a simple normal form.
+	
+	\paragraph{Example 2.}
+	Let
+	\[
+	R=k[x,y]/(xy).
+	\]
+	Now the relation is
+	\[
+	xy=0.
+	\]
+	But this does not allow us to eliminate one variable completely. Instead, we keep the rule that every product containing a factor \(xy\) is zero. Thus:
+	\[
+	[x^2y]=[x(xy)]=0,
+	\]
+	\[
+	[xy^7]=0,
+	\]
+	while
+	\[
+	[x+y]\neq 0,\qquad [x]\neq 0,\qquad [y]\neq 0,\qquad [x][y]=0.
+	\]
+	
+	So quotient rings store the relations exactly as algebraic rules among classes of polynomials.
+	
+	\subsection*{13. Localization: concrete algebraic meaning}
+	
+	Localization means making certain polynomials invertible.
+	
+	\paragraph{Example 1: invert \(x\).}
+	Let
+	\[
+	S=\{1,x,x^2,x^3,\dots\}\subseteq k[x,y].
+	\]
+	Then
+	\[
+	S^{-1}k[x,y]=k[x,x^{-1},y].
+	\]
+	So now \(x\) is invertible.
+	
+	\paragraph{Geometric meaning.}
+	This corresponds to restricting the affine plane to the open subset
+	\[
+	D(x)=\{(a,b)\in k^2 : a\neq 0\}.
+	\]
+	Thus localizing at \(x\) means studying the part of the variety where \(x\neq 0\).
+	
+	\paragraph{Example 2: localize the parabola away from the origin.}
+	Start with
+	\[
+	A=k[x,y]/(y-x^2)\cong k[x].
+	\]
+	Localize at powers of \(x\):
+	\[
+	A_x\cong k[x,x^{-1}].
+	\]
+	This studies the parabola on the open subset where \(x\neq 0\), equivalently away from its origin.
+	
+	\paragraph{Example 3: localization at a maximal ideal.}
+	Take
+	\[
+	A=k[x,y], \qquad \mathfrak m=(x,y).
+	\]
+	Then
+	\[
+	A_{\mathfrak m}
+	\]
+	consists of fractions
+	\[
+	\frac{f}{g}
+	\]
+	where \(g\notin (x,y)\). This means \(g(0,0)\neq 0\), so denominators are exactly the polynomials nonvanishing at the origin.
+	
+	Examples of elements:
+	\[
+	\frac{x^2+y}{1+x+y},
+	\qquad
+	\frac{x}{1-y},
+	\qquad
+	\frac{y^3}{2+x^5}.
+	\]
+	But
+	\[
+	\frac{1}{x}
+	\]
+	does not belong to \(A_{\mathfrak m}\), because \(x\in (x,y)\), so \(x\) vanishes at the origin.
+	
+	\paragraph{Meaning.}
+	The local ring \(A_{\mathfrak m}\) captures functions regular near \((0,0)\). It is the algebraic ring of local behavior near that point.
+	
+	\paragraph{Example 4: local ring of the parabola at its origin.}
+	Let
+	\[
+	A=k[x,y]/(y-x^2),
+	\qquad
+	\mathfrak m=(x,y)/(y-x^2).
+	\]
+	Then
+	\[
+	A_{\mathfrak m}
+	\]
+	is the local ring of the parabola at the origin. Since \(A\cong k[x]\), this is just
+	\[
+	k[x]_{(x)}.
+	\]
+	Its elements are fractions
+	\[
+	\frac{f(x)}{g(x)}
+	\qquad \text{with } g(0)\neq 0.
+	\]
+	Thus this ring sees only the behavior of the parabola near the point \(x=0\).
+	
+	\paragraph{Example 5: localization at a prime ideal.}
+	Take
+	\[
+	A=k[x,y], \qquad \mathfrak p=(y).
+	\]
+	Then
+	\[
+	A_{\mathfrak p}
+	\]
+	has denominators all polynomials not divisible by \(y\). In particular, \(x\) becomes invertible, because \(x\notin (y)\), but \(y\) does not become invertible.
+	
+	\paragraph{Geometric meaning.}
+	This is not localization at a point. Rather, it is localization near the irreducible subvariety \(V(y)\), namely the \(x\)-axis. Thus:
+	\begin{itemize}
+		\item localization at a maximal ideal means near a point,
+		\item localization at a prime ideal means near an irreducible subvariety.
+	\end{itemize}
+	
+	\subsection*{14. Quotients and localization together}
+	
+	These operations combine naturally and are fundamental in local algebraic geometry.
+	
+	Take
+	\[
+	A=k[x,y], \qquad I=(y-x^2).
+	\]
+	First form the quotient
+	\[
+	A/I = k[x,y]/(y-x^2).
+	\]
+	Then localize at the image of \((x,y)\):
+	\[
+	(A/I)_{(x,y)/(y-x^2)}.
+	\]
+	This is the local coordinate ring of the parabola at the origin.
+	
+	Equivalently, one may first localize \(A\) at \((x,y)\), then quotient by the extended ideal:
+	\[
+	A_{(x,y)} / IA_{(x,y)}.
+	\]
+	These two rings are naturally isomorphic.
+	
+	\paragraph{Interpretation.}
+	\begin{itemize}
+		\item Quotienting imposes the equations of the variety.
+		\item Localization zooms in near a chosen point or subvariety.
+	\end{itemize}
+	Together they give the algebra of local geometry.
+	
+	\subsection*{15. A comparison table of key examples}
+	
+	\begin{center}
+		\renewcommand{\arraystretch}{1.4}
+		\begin{tabular}{|c|c|c|c|}
+			\hline
+			\textbf{Ideal} & \textbf{Quotient ring} & \textbf{Geometry} & \textbf{Type} \\
+			\hline
+			\((x-a,y-b)\) &
+			\(\;k[x,y]/(x-a,y-b)\cong k\;\) &
+			one point &
+			maximal, prime, radical \\
+			\hline
+			\((y)\) &
+			\(\;k[x,y]/(y)\cong k[x]\;\) &
+			line &
+			prime, radical, not maximal \\
+			\hline
+			\((y-x^2)\) &
+			\(\;k[x,y]/(y-x^2)\cong k[x]\;\) &
+			parabola &
+			prime, radical \\
+			\hline
+			\((xy)\) &
+			\(\;k[x,y]/(xy)\;\) &
+			two axes crossing &
+			radical, not prime \\
+			\hline
+			\((x^2)\subseteq k[x]\) &
+			\(\;k[x]/(x^2)\;\) &
+			doubled point &
+			primary, not radical, not prime \\
+			\hline
+			\((x,y^2)\) &
+			\(\;k[x,y]/(x,y^2)\;\) &
+			thickened origin &
+			\((x,y)\)-primary \\
+			\hline
+		\end{tabular}
+	\end{center}
+	
+	\subsection*{16. Deep conceptual summary}
+	
+	It is useful to collect the meaning of the main notions in one place.
+	
+	\paragraph{Ideal.}
+	An ideal records polynomial relations.
+	
+	\paragraph{Quotient ring.}
+	The quotient by an ideal is the algebra where those relations are literally true.
+	
+	\paragraph{Coordinate ring.}
+	A quotient ring interpreted as the ring of polynomial functions on the corresponding algebraic set.
+	
+	\paragraph{Prime ideal.}
+	Corresponds to an irreducible algebraic set; the quotient is a domain.
+	
+	\paragraph{Maximal ideal.}
+	Corresponds to a point; the quotient is a field.
+	
+	\paragraph{Radical ideal.}
+	Corresponds to reduced geometry, with no nilpotent structure.
+	
+	\paragraph{Primary ideal.}
+	Corresponds to one geometric component with multiplicity or infinitesimal thickening.
+	
+	\paragraph{Localization.}
+	Means looking only near a point, near a component, or on an open subset where certain functions do not vanish.
+	
+	\subsection*{17. One full worked chain: the example \((xy)\)}
+	
+	Let
+	\[
+	I=(xy)\subseteq k[x,y].
+	\]
+	
+	\paragraph{Step 1: the ideal.}
+	It encodes the equation
+	\[
+	xy=0.
+	\]
+	
+	\paragraph{Step 2: the zero set.}
+	The variety is
+	\[
+	V(I)=V(x)\cup V(y),
+	\]
+	the union of the two coordinate axes.
+	
+	\paragraph{Step 3: the quotient ring.}
+	Set
+	\[
+	A=k[x,y]/(xy).
+	\]
+	In \(A\), one has
+	\[
+	\bar x \bar y = 0.
+	\]
+	So \(A\) has zero divisors.
+	
+	\paragraph{Step 4: the minimal primes.}
+	The minimal prime ideals over \((xy)\) are
+	\[
+	(x), \qquad (y).
+	\]
+	These correspond to the two irreducible components.
+	
+	\paragraph{Step 5: localization at the origin.}
+	If we localize at the maximal ideal
+	\[
+	(x,y)/(xy),
+	\]
+	we obtain
+	\[
+	A_{(x,y)/(xy)}.
+	\]
+	This ring describes the crossing only near the origin.
+	
+	\paragraph{Step 6: localization near one component.}
+	If instead we localize at the prime ideal
+	\[
+	(x)/(xy),
+	\]
+	we focus on the component \(x=0\), near its generic behavior.
+	
+	\paragraph{Conclusion.}
+	This one example shows simultaneously:
+	\begin{itemize}
+		\item an ideal,
+		\item its zero set,
+		\item a quotient ring,
+		\item reducibility,
+		\item minimal primes,
+		\item localization near a point,
+		\item localization near a component.
+	\end{itemize}
+	
+	\subsection*{18. Best examples to remember}
+	
+	For intuition, the following examples are the most useful basic models:
+	\[
+	k[x,y]/(y-x^2)
+	\qquad \text{parabola},
+	\]
+	\[
+	k[x,y]/(xy)
+	\qquad \text{two axes crossing},
+	\]
+	\[
+	k[x]/(x^2)
+	\qquad \text{nonreduced doubled point},
+	\]
+	\[
+	k[x,y]/(x,y)\cong k
+	\qquad \text{single point},
+	\]
+	\[
+	k[x,y]_{(x,y)}
+	\qquad \text{functions regular near the origin},
+	\]
+	\[
+	\bigl(k[x,y]/(y-x^2)\bigr)_{(x,y)/(y-x^2)}
+	\qquad \text{local ring of the parabola at the origin}.
+	\]
+	
+	These examples cover most of the core intuition behind:
+	\begin{itemize}
+		\item ideals,
+		\item quotient rings,
+		\item coordinate rings,
+		\item radical and primary structure,
+		\item local behavior via localization.
+	\end{itemize}
+	
+	\subsection*{19. Final synthesis}
+	
+	The central chain of ideas is:
+	\[
+	\text{polynomial ring}
+	\;\longrightarrow\;
+	\text{ideal of relations}
+	\;\longrightarrow\;
+	\text{quotient ring}
+	\;\longrightarrow\;
+	\text{coordinate ring of a geometric object}
+	\;\longrightarrow\;
+	\text{localization to study a point or component}.
+	\]
+	
+	Concretely:
+	\begin{itemize}
+		\item \(k[x,y]\) is the ambient ring of polynomial expressions,
+		\item an ideal such as \((y-x^2)\) or \((xy)\) imposes algebraic equations,
+		\item the quotient ring encodes those equations as true identities,
+		\item the coordinate ring describes polynomial functions on the resulting algebraic set,
+		\item localization refines the picture by zooming in on an open set, a point, or an irreducible piece.
+	\end{itemize}
+	
+	In this way, algebra and geometry mirror each other:
+	\begin{itemize}
+		\item points correspond to maximal ideals,
+		\item irreducible sets correspond to prime ideals,
+		\item reducedness corresponds to radical ideals,
+		\item multiplicity and infinitesimal thickening correspond to primary and non-radical structure,
+		\item local behavior corresponds to localization.
+	\end{itemize}
+	
+	That is the deep reason polynomial rings, ideals, quotient rings, coordinate rings, and localization fit together so naturally.
+	
+	
+	\section*{Problem 8 --- Nagata's localization example}
+	
+	\textbf{Exact statement.}
+	Let \(k\) be a field and let
+	\[
+	A = k[x_1,x_2,x_3,\dots]
+	\]
+	be the polynomial ring in countably many variables. Let
+	\[
+	m_1,m_2,\dots
+	\]
+	be an increasing sequence of positive integers such that
+	\[
+	m_{i+1}-m_i > m_i-m_{i-1}\qquad\text{for all }i>1.
+	\]
+	Let
+	\[
+	\mathfrak p_i=(x_{m_i+1},\dots,x_{m_{i+1}})
+	\]
+	and let
+	\[
+	S=A\setminus \bigcup_{i=1}^{\infty}\mathfrak p_i.
+	\]
+	
+	Show that:
+	\begin{itemize}
+		\item[(a)] \(S\) is multiplicatively closed.
+		\item[(b)] The maximal ideals of \(S^{-1}A\) are the localizations \(S^{-1}\mathfrak p_i\).
+		\item[(c)] Using Q7, show that \(S^{-1}A\) is Noetherian.
+		\item[(d)] The height of \(S^{-1}\mathfrak p_i\) is \(m_{i+1}-m_i\), and hence
+		\[
+		\dim S^{-1}A=\infty.
+		\]
+	\end{itemize}
+	
+	\textbf{Solution.}
+	Set
+	\[
+	d_i:=m_{i+1}-m_i.
+	\]
+	Then the hypothesis says
+	\[
+	d_1<d_2<d_3<\cdots,
+	\]
+	so in particular the \(d_i\) are unbounded.
+	
+	Also, each \(\mathfrak p_i\) is a prime ideal, because
+	\[
+	A/\mathfrak p_i \cong k[x_1,\dots,x_{m_i},x_{m_{i+1}+1},x_{m_{i+1}+2},\dots]
+	\]
+	is a domain.
+	
+	\medskip
+	
+	\textbf{(a) \(S\) is multiplicatively closed.}
+	
+	Take \(f,g\in S\). Suppose \(fg\notin S\). Then
+	\[
+	fg\in \bigcup_{i=1}^{\infty}\mathfrak p_i,
+	\]
+	so for some \(i\),
+	\[
+	fg\in \mathfrak p_i.
+	\]
+	Since \(\mathfrak p_i\) is prime, it follows that
+	\[
+	f\in \mathfrak p_i \quad\text{or}\quad g\in \mathfrak p_i,
+	\]
+	contrary to \(f,g\in S\). Hence \(fg\in S\), so \(S\) is multiplicatively closed.
+	
+	\medskip
+	
+	\textbf{(b) The maximal ideals of \(S^{-1}A\) are exactly \(S^{-1}\mathfrak p_i\).}
+	
+	Primes of \(S^{-1}A\) correspond to primes \(\mathfrak q\subseteq A\) such that
+	\[
+	\mathfrak q\cap S=\varnothing.
+	\]
+	Thus it is enough to show that if \(\mathfrak q\) is prime and \(\mathfrak q\cap S=\varnothing\), then
+	\[
+	\mathfrak q\subseteq \mathfrak p_i
+	\]
+	for some \(i\).
+	
+	Now
+	\[
+	\mathfrak q\cap S=\varnothing
+	\quad\Longleftrightarrow\quad
+	\mathfrak q\subseteq \bigcup_{i=1}^{\infty}\mathfrak p_i.
+	\]
+	If \(\mathfrak q=(0)\), this is trivial. So assume \(\mathfrak q\neq (0)\), and choose \(0\neq f\in\mathfrak q\).
+	
+	Since \(f\) is a polynomial in only finitely many variables, there exists \(N_0\) such that
+	\[
+	f\in A_{N_0}:=k[x_1,\dots,x_{m_{N_0+1}}].
+	\]
+	For \(N\ge N_0\), let
+	\[
+	\mathfrak q_N:=\mathfrak q\cap A_N.
+	\]
+	Then \(\mathfrak q_N\) is a nonzero prime ideal of the Noetherian ring \(A_N\).
+	
+	For \(i>N\), one has
+	\[
+	\mathfrak p_i\cap A_N=(0),
+	\]
+	because the generators of \(\mathfrak p_i\) involve only variables with indices \(>m_{N+1}\). Hence
+	\[
+	\mathfrak q_N\subseteq \bigcup_{i=1}^{N}(\mathfrak p_i\cap A_N).
+	\]
+	By finite prime avoidance,
+	\[
+	\mathfrak q_N\subseteq \mathfrak p_{i_N}\cap A_N
+	\]
+	for some \(i_N\in\{1,\dots,N\}\).
+	
+	Now
+	\[
+	\mathfrak q_{N_0}
+	=
+	\mathfrak q_N\cap A_{N_0}
+	\subseteq
+	(\mathfrak p_{i_N}\cap A_N)\cap A_{N_0}.
+	\]
+	If \(i_N>N_0\), then \(\mathfrak p_{i_N}\cap A_{N_0}=(0)\), so \(\mathfrak q_{N_0}=0\), contradiction. Therefore, for every \(N\ge N_0\),
+	\[
+	i_N\in\{1,\dots,N_0\}.
+	\]
+	So only finitely many indices occur. Hence some fixed \(i\in\{1,\dots,N_0\}\) occurs for infinitely many \(N\).
+	
+	Take any \(g\in\mathfrak q\). Then \(g\in A_M\) for some \(M\). Choose \(N\ge \max\{M,N_0\}\) such that \(i_N=i\). Then
+	\[
+	g\in \mathfrak q_N\subseteq \mathfrak p_i\cap A_N,
+	\]
+	so \(g\in \mathfrak p_i\). Therefore
+	\[
+	\mathfrak q\subseteq \mathfrak p_i.
+	\]
+	
+	Thus every prime disjoint from \(S\) is contained in some \(\mathfrak p_i\), and so the maximal such primes are exactly the \(\mathfrak p_i\). Therefore the maximal ideals of \(S^{-1}A\) are exactly
+	\[
+	S^{-1}\mathfrak p_i.
+	\]
+	
+	\medskip
+	
+	\textbf{(c) \(S^{-1}A\) is Noetherian.}
+	
+	By part (b), the maximal ideals of \(S^{-1}A\) are the ideals \(S^{-1}\mathfrak p_i\). Localizing further at one of them gives
+	\[
+	(S^{-1}A)_{S^{-1}\mathfrak p_i}\cong A_{\mathfrak p_i}.
+	\]
+	
+	Let
+	\[
+	B_i = k\big[x_j \mid j\notin \{m_i+1,\dots,m_{i+1}\}\big].
+	\]
+	Then \(B_i\) is a domain, and every nonzero element of \(B_i\) lies outside \(\mathfrak p_i\), hence becomes a unit in \(A_{\mathfrak p_i}\). If
+	\[
+	K_i=\operatorname{Frac}(B_i),
+	\]
+	then
+	\[
+	A_{\mathfrak p_i}
+	\cong
+	K_i[y_1,\dots,y_{d_i}]_{(y_1,\dots,y_{d_i})},
+	\]
+	where
+	\[
+	y_r=x_{m_i+r},
+	\qquad
+	d_i=m_{i+1}-m_i.
+	\]
+	This is a localization of a polynomial ring in finitely many variables over a field, hence it is Noetherian.
+	
+	Therefore every localization of \(S^{-1}A\) at a maximal ideal is Noetherian. By the criterion from Q7, it follows that
+	\[
+	S^{-1}A
+	\]
+	is Noetherian.
+	
+	\medskip
+	
+	\textbf{(d) \(\operatorname{ht}(S^{-1}\mathfrak p_i)=m_{i+1}-m_i\), hence \(\dim S^{-1}A=\infty\).}
+	
+	Again,
+	\[
+	(S^{-1}A)_{S^{-1}\mathfrak p_i}\cong A_{\mathfrak p_i}
+	\cong
+	K_i[y_1,\dots,y_{d_i}]_{(y_1,\dots,y_{d_i})}.
+	\]
+	The local ring on the right has dimension \(d_i\). Therefore
+	\[
+	\operatorname{ht}(S^{-1}\mathfrak p_i)=d_i=m_{i+1}-m_i.
+	\]
+	
+	Since
+	\[
+	d_1<d_2<d_3<\cdots,
+	\]
+	the heights of these maximal ideals are unbounded. Hence
+	\[
+	\dim S^{-1}A=\infty.
+	\]
+	
+	So \(S^{-1}A\) is a Noetherian ring of infinite Krull dimension.
+	
+	\bigskip
+	
+	\section*{Problem 9 --- Dimension bounds for a polynomial ring}
+	
+	\textbf{Exact statement.}
+	Let \(A\) be a ring (not necessarily Noetherian). Show that
+	\[
+	1+\dim A \le \dim A[x] \le 1+2\dim A.
+	\]
+	
+	\textbf{Solution.}
+	
+	We prove the two inequalities separately.
+	
+	\medskip
+	
+	\textbf{Lower bound: \(1+\dim A\le \dim A[x]\).}
+	
+	Take a strict chain of prime ideals in \(A\):
+	\[
+	\mathfrak p_0\subsetneq \mathfrak p_1\subsetneq \cdots \subsetneq \mathfrak p_n.
+	\]
+	Then in \(A[x]\) we obtain
+	\[
+	\mathfrak p_0A[x]
+	\subsetneq
+	\mathfrak p_1A[x]
+	\subsetneq
+	\cdots
+	\subsetneq
+	\mathfrak p_nA[x]
+	\subsetneq
+	\mathfrak p_nA[x]+(x).
+	\]
+	The last ideal is prime because
+	\[
+	A[x]/(\mathfrak p_nA[x]+(x))
+	\cong
+	(A/\mathfrak p_n)[x]/(x)
+	\cong
+	A/\mathfrak p_n,
+	\]
+	which is a domain. Hence every chain of length \(n\) in \(A\) yields a chain of length \(n+1\) in \(A[x]\). Therefore
+	\[
+	\dim A[x]\ge \dim A+1.
+	\]
+	
+	\medskip
+	
+	\textbf{Upper bound: \(\dim A[x]\le 1+2\dim A\).}
+	
+	If \(\dim A=\infty\), there is nothing to prove. So assume \(\dim A<\infty\).
+	
+	Take a chain of prime ideals in \(A[x]\):
+	\[
+	Q_0\subsetneq Q_1\subsetneq \cdots \subsetneq Q_m.
+	\]
+	Let
+	\[
+	\mathfrak p_j:=Q_j\cap A.
+	\]
+	Then
+	\[
+	\mathfrak p_0\subseteq \mathfrak p_1\subseteq \cdots \subseteq \mathfrak p_m.
+	\]
+	Delete repetitions and write the distinct contractions as
+	\[
+	\mathfrak q_0\subsetneq \mathfrak q_1\subsetneq \cdots \subsetneq \mathfrak q_r.
+	\]
+	Then
+	\[
+	r\le \dim A.
+	\]
+	
+	Now the original chain splits into consecutive blocks with constant contraction. Fix one such contraction \(\mathfrak q\). The corresponding block lies in the fiber of
+	\[
+	f^*:\operatorname{Spec}(A[x])\to \operatorname{Spec}(A)
+	\]
+	over \(\mathfrak q\), where \(f:A\to A[x]\) is the natural inclusion.
+	
+	By the standard description of fibers,
+	\[
+	(f^*)^{-1}(\mathfrak q)\cong \operatorname{Spec}(k(\mathfrak q)[x]).
+	\]
+	Since \(k(\mathfrak q)\) is a field,
+	\[
+	\dim k(\mathfrak q)[x]=1.
+	\]
+	Thus any chain of primes in a single fiber has length at most \(1\), so each block contains at most two prime ideals.
+	
+	There are \(r+1\) distinct contractions, hence the total number of primes in the chain is at most
+	\[
+	2(r+1).
+	\]
+	Therefore
+	\[
+	m\le 2(r+1)-1 = 2r+1 \le 2\dim A+1.
+	\]
+	Taking the supremum over all chains gives
+	\[
+	\dim A[x]\le 1+2\dim A.
+	\]
+	
+	Combining the two inequalities, we obtain
+	\[
+	1+\dim A \le \dim A[x] \le 1+2\dim A.
+	\]
+	
+
+\section*{Theory for Problems 8--9}
+
+\subsection*{Problem 8 --- Theory behind Nagata's localization example}
+
+\textbf{Theory.}
+We begin with
+\[
+A=k[x_1,x_2,x_3,\dots],
+\]
+the polynomial ring in countably many variables. This ring is not Noetherian, since there is an infinite strictly increasing chain of ideals
+\[
+(x_1)\subsetneq (x_1,x_2)\subsetneq (x_1,x_2,x_3)\subsetneq \cdots.
+\]
+
+Nagata's idea is to localize \(A\) at a carefully chosen multiplicative set \(S\) so that the resulting ring \(S^{-1}A\) becomes Noetherian, while still having infinite Krull dimension. This is one of the standard examples showing that a Noetherian ring need not have finite dimension.
+
+\medskip
+
+We choose integers
+\[
+m_1<m_2<\cdots
+\]
+such that
+\[
+d_i:=m_{i+1}-m_i
+\]
+is strictly increasing:
+\[
+d_1<d_2<d_3<\cdots.
+\]
+Then define prime ideals
+\[
+\mathfrak p_i=(x_{m_i+1},\dots,x_{m_{i+1}}).
+\]
+Each \(\mathfrak p_i\) is prime because
+\[
+A/\mathfrak p_i
+\cong
+k[\text{all variables except }x_{m_i+1},\dots,x_{m_{i+1}}],
+\]
+which is again a polynomial ring over a field, hence a domain.
+
+\medskip
+
+Now set
+\[
+S=A\setminus \bigcup_{i\ge 1}\mathfrak p_i.
+\]
+The complement of a union of prime ideals is multiplicatively closed: if \(ab\in\mathfrak p_i\) for some \(i\), then since \(\mathfrak p_i\) is prime, either \(a\in\mathfrak p_i\) or \(b\in\mathfrak p_i\). Therefore if \(a,b\notin\bigcup_i\mathfrak p_i\), then also \(ab\notin\bigcup_i\mathfrak p_i\).
+
+\medskip
+
+The difficult point is that the union
+\[
+\bigcup_{i\ge 1}\mathfrak p_i
+\]
+is infinite, so ordinary finite prime avoidance does not apply directly. For a finite union of primes, if a prime \(\mathfrak q\) is contained in the union, then \(\mathfrak q\) must lie inside one of them. For an infinite union, this need not be true in general.
+
+The special feature of the present situation is that every polynomial involves only finitely many variables. Thus if a prime \(\mathfrak q\subseteq A\) satisfies
+\[
+\mathfrak q\cap S=\varnothing,
+\]
+equivalently
+\[
+\mathfrak q\subseteq \bigcup_{i\ge 1}\mathfrak p_i,
+\]
+then by intersecting \(\mathfrak q\) with a sufficiently large finite polynomial subring
+\[
+A_N=k[x_1,\dots,x_{m_{N+1}}],
+\]
+one reduces to a finite-stage problem, where only finitely many of the \(\mathfrak p_i\) are visible. Inside \(A_N\), finite prime avoidance applies. This is the key idea: although the ambient ring has infinitely many variables, each individual polynomial lives in a finite-dimensional stage.
+
+\medskip
+
+Primes of the localization \(S^{-1}A\) correspond to primes \(\mathfrak q\subseteq A\) with \(\mathfrak q\cap S=\varnothing\). The finite-support argument shows that every such prime must actually satisfy
+\[
+\mathfrak q\subseteq \mathfrak p_i
+\]
+for some \(i\). Hence the maximal ideals of \(S^{-1}A\) are exactly
+\[
+S^{-1}\mathfrak p_i.
+\]
+
+\medskip
+
+Now localize further at one of these maximal ideals:
+\[
+(S^{-1}A)_{S^{-1}\mathfrak p_i}\cong A_{\mathfrak p_i}.
+\]
+Inside \(A_{\mathfrak p_i}\), every variable outside the block
+\[
+x_{m_i+1},\dots,x_{m_{i+1}}
+\]
+becomes a unit, because it does not lie in \(\mathfrak p_i\). Thus all those outside variables are absorbed into the coefficient field. If
+\[
+K_i=\operatorname{Frac}\big(k[\text{all variables outside the }i\text{-th block}]\big),
+\]
+then
+\[
+A_{\mathfrak p_i}\cong K_i[y_1,\dots,y_{d_i}]_{(y_1,\dots,y_{d_i})},
+\qquad d_i=m_{i+1}-m_i.
+\]
+So each maximal localization is a standard regular local ring in finitely many variables over a field. In particular, it is Noetherian and has dimension \(d_i\).
+
+\medskip
+
+Therefore the heights of the maximal ideals are
+\[
+\operatorname{ht}(S^{-1}\mathfrak p_i)=d_i=m_{i+1}-m_i.
+\]
+Since the numbers \(d_i\) are strictly increasing and unbounded, the maximal ideals have arbitrarily large height, and so
+\[
+\dim S^{-1}A=\infty.
+\]
+
+Thus Nagata's example shows:
+\begin{itemize}
+	\item localization can turn a non-Noetherian ring into a Noetherian one;
+	\item Noetherianity does not imply finite Krull dimension;
+	\item local analysis at maximal ideals can control a globally complicated ring.
+\end{itemize}
+
+\subsection*{Problem 9 --- Theory behind the dimension bounds for \(A[x]\)}
+
+\textbf{Theory.}
+The problem asks how the Krull dimension changes when one adjoins one polynomial variable:
+\[
+A \longmapsto A[x].
+\]
+For Noetherian rings, the classical formula is
+\[
+\dim A[x]=\dim A+1.
+\]
+Without the Noetherian hypothesis, equality may fail, but one still has the general bounds
+\[
+1+\dim A\le \dim A[x]\le 1+2\dim A.
+\]
+This is part of the dimension theory developed by Seidenberg.
+
+\medskip
+
+The main structural tool is the natural ring map
+\[
+A\hookrightarrow A[x],
+\]
+which induces a map on spectra
+\[
+f^*:\operatorname{Spec}(A[x])\to \operatorname{Spec}(A),
+\qquad
+Q\mapsto Q\cap A.
+\]
+Thus every prime of \(A[x]\) lies over a prime of \(A\). One studies chains in \(\operatorname{Spec}(A[x])\) by looking at how they project to \(\operatorname{Spec}(A)\).
+
+\medskip
+
+Fix \(\mathfrak p\in \operatorname{Spec}(A)\). The fiber over \(\mathfrak p\) is
+\[
+(f^*)^{-1}(\mathfrak p).
+\]
+A standard calculation identifies this fiber with
+\[
+\operatorname{Spec}(k(\mathfrak p)[x]),
+\]
+where
+\[
+k(\mathfrak p)=\operatorname{Frac}(A_{\mathfrak p}/\mathfrak p A_{\mathfrak p})
+\]
+is the residue field at \(\mathfrak p\). Since \(k(\mathfrak p)[x]\) is a polynomial ring in one variable over a field, it has Krull dimension \(1\). Therefore every fiber has dimension \(1\).
+
+This gives the geometric picture:
+\begin{itemize}
+	\item the spectrum of \(A[x]\) sits over the spectrum of \(A\);
+	\item the extra variable \(x\) contributes a vertical fiber of dimension \(1\) over each point of the base.
+\end{itemize}
+
+\medskip
+
+The lower bound
+\[
+\dim A[x]\ge \dim A+1
+\]
+is easy. If
+\[
+\mathfrak p_0\subsetneq \mathfrak p_1\subsetneq \cdots \subsetneq \mathfrak p_n
+\]
+is a chain in \(A\), then
+\[
+\mathfrak p_0A[x]\subsetneq \mathfrak p_1A[x]\subsetneq \cdots \subsetneq \mathfrak p_nA[x]
+\subsetneq
+\mathfrak p_nA[x]+(x)
+\]
+is a chain in \(A[x]\). The last ideal is prime because
+\[
+A[x]/(\mathfrak p_nA[x]+(x))
+\cong
+(A/\mathfrak p_n)[x]/(x)
+\cong
+A/\mathfrak p_n,
+\]
+which is a domain.
+
+\medskip
+
+For the upper bound, take a chain
+\[
+Q_0\subsetneq Q_1\subsetneq \cdots \subsetneq Q_m
+\]
+in \(A[x]\), and contract to \(A\):
+\[
+\mathfrak p_i=Q_i\cap A.
+\]
+Then
+\[
+\mathfrak p_0\subseteq \mathfrak p_1\subseteq \cdots \subseteq \mathfrak p_m.
+\]
+If we remove repetitions, we obtain a strictly increasing chain
+\[
+\mathfrak q_0\subsetneq \mathfrak q_1\subsetneq \cdots \subsetneq \mathfrak q_r
+\]
+in \(A\), so \(r\le \dim A\).
+
+Now split the original chain into consecutive blocks where the contraction is constant. Each such block lies entirely inside one fiber of \(f^*\). But every fiber is isomorphic to \(\operatorname{Spec}(k(\mathfrak q)[x])\), which has dimension \(1\). Therefore each block can contain at most two distinct primes. Since there are \(r+1\) distinct contractions, the total number of primes in the chain is at most
+\[
+2(r+1),
+\]
+so the length of the chain is at most
+\[
+2(r+1)-1=2r+1\le 2\dim A+1.
+\]
+Hence
+\[
+\dim A[x]\le 1+2\dim A.
+\]
+
+\medskip
+
+The conceptual reason for the upper bound is that a chain in \(A[x]\) can move in two ways:
+\begin{itemize}
+	\item horizontally, by changing its contraction in \(\operatorname{Spec}(A)\);
+	\item vertically, by moving inside a fiber of dimension \(1\).
+\end{itemize}
+In the Noetherian case, one has stronger control and gets the exact equality
+\[
+\dim A[x]=\dim A+1.
+\]
+Without Noetherianity, several primes can occur over the same contraction in a less rigid way, and only the weaker Seidenberg bound remains.
+
+\medskip
+
+Problems 8 and 9 complement each other well:
+\begin{itemize}
+	\item Problem 8 shows that a Noetherian ring can have infinite dimension.
+	\item Problem 9 shows that polynomial extension behaves more subtly once one leaves the Noetherian world.
+\end{itemize}
+Together they illustrate the central role of localization, fibers of \(\operatorname{Spec}\), and chain arguments in commutative algebra.
+
+
+\section*{Theory add-on: spectra, kinds of points, and deep examples}
+
+\subsection*{1. What is \(\operatorname{Spec}(A)\)?}
+
+For a commutative ring \(A\), the spectrum
+\[
+\operatorname{Spec}(A)
+\]
+is the set of all prime ideals of \(A\). Thus a point of \(\operatorname{Spec}(A)\) is a prime ideal
+\[
+\mathfrak p\subseteq A.
+\]
+This is the basic bridge between algebra and geometry: ideals, quotients, dimension, and localization are encoded as geometric features of the spectrum.
+
+\subsection*{2. Zariski closed sets}
+
+For an ideal \(I\subseteq A\), define
+\[
+V(I):=\{\mathfrak p\in \operatorname{Spec}(A)\mid I\subseteq \mathfrak p\}.
+\]
+These are the closed sets of the Zariski topology.
+
+Important special case:
+\[
+V(f):=V((f))=\{\mathfrak p\mid f\in \mathfrak p\}.
+\]
+
+Also,
+\[
+V(I)=V(\sqrt I),
+\]
+so closed sets depend only on radicals.
+
+\subsection*{3. Basic open sets and localization}
+
+For \(f\in A\), define
+\[
+D(f):=\operatorname{Spec}(A)\setminus V(f)
+=\{\mathfrak p\in\operatorname{Spec}(A)\mid f\notin\mathfrak p\}.
+\]
+This corresponds to localization:
+\[
+D(f)\quad \leftrightarrow \quad A_f.
+\]
+
+More generally, for a multiplicative set \(S\subseteq A\),
+\[
+\operatorname{Spec}(S^{-1}A)
+\cong
+\{\mathfrak p\in\operatorname{Spec}(A)\mid \mathfrak p\cap S=\varnothing\}.
+\]
+This is exactly the mechanism behind Problem 8.
+
+\subsection*{4. Closure of a point and specialization}
+
+For a point \(\mathfrak p\in\operatorname{Spec}(A)\), its closure is
+\[
+\overline{\{\mathfrak p\}}=V(\mathfrak p)
+=\{\mathfrak q\in\operatorname{Spec}(A)\mid \mathfrak p\subseteq \mathfrak q\}.
+\]
+Thus inclusion of prime ideals is the geometric specialization relation:
+\[
+\mathfrak p\subseteq \mathfrak q
+\quad \Longleftrightarrow \quad
+\mathfrak q \text{ is a specialization of } \mathfrak p.
+\]
+
+\subsection*{5. Kinds of points}
+
+\textbf{Closed points.}
+A point \(\mathfrak p\) is closed iff \(\mathfrak p\) is maximal.
+
+\textbf{Generic points.}
+A point \(\mathfrak p\) is generic for an irreducible closed subset \(Y\) if
+\[
+\overline{\{\mathfrak p\}}=Y.
+\]
+Every irreducible closed subset of \(\operatorname{Spec}(A)\) has the form \(V(\mathfrak p)\) for a prime ideal \(\mathfrak p\).
+
+\textbf{Minimal points.}
+Minimal primes are the generic points of the irreducible components of \(\operatorname{Spec}(A)\).
+
+\textbf{Height-\(r\) points.}
+A prime ideal \(\mathfrak p\) has height
+\[
+\operatorname{ht}(\mathfrak p)=
+\sup\{n\mid \mathfrak p_0\subsetneq\cdots\subsetneq \mathfrak p_n=\mathfrak p\}.
+\]
+This is the codimension of the point.
+
+\subsection*{6. Kinds of spectra}
+
+\textbf{Spectrum of a field.}
+If \(A=k\) is a field, then
+\[
+\operatorname{Spec}(k)=\{(0)\}.
+\]
+
+\textbf{Spectrum of a domain.}
+If \(A\) is a domain, then \((0)\) is prime, and in fact
+\[
+A \text{ is a domain } \iff \operatorname{Spec}(A) \text{ is irreducible}.
+\]
+
+\textbf{Spectrum of a local ring.}
+If \(A\) is local with maximal ideal \(m\), then \(\operatorname{Spec}(A)\) has a unique closed point, namely \(m\).
+
+\textbf{Spectrum of a product.}
+If \(A=A_1\times A_2\), then
+\[
+\operatorname{Spec}(A)\cong \operatorname{Spec}(A_1)\sqcup \operatorname{Spec}(A_2).
+\]
+
+\subsection*{7. Deep example: \(\operatorname{Spec}(k[x])\)}
+
+Let \(k\) be a field. Then the prime ideals of \(k[x]\) are:
+\[
+(0), \qquad (f)\text{ for irreducible }f.
+\]
+Hence
+\[
+\operatorname{Spec}(k[x])
+=
+\{(0)\}\cup\{(f): f\text{ irreducible}\}.
+\]
+
+If \(k\) is algebraically closed, the irreducible polynomials are linear, so
+\[
+\operatorname{Spec}(k[x])
+=
+\{(0)\}\cup\{(x-a):a\in k\}.
+\]
+Here \((0)\) is the generic point of the whole affine line, and the ideals \((x-a)\) are the closed points.
+
+\subsection*{8. Deep example: \(\operatorname{Spec}(\mathbb Z)\)}
+
+The prime ideals of \(\mathbb Z\) are
+\[
+(0),\qquad (p)\text{ for prime numbers }p.
+\]
+So
+\[
+\operatorname{Spec}(\mathbb Z)=\{(0)\}\cup\{(p):p\text{ prime}\}.
+\]
+The point \((0)\) is generic, while the ideals \((p)\) are the closed points.
+
+\subsection*{9. Deep example: \(\operatorname{Spec}(k[x,y])\)}
+
+Assume \(k\) algebraically closed. Then important primes are:
+\begin{itemize}
+	\item \((0)\), the generic point of the whole plane;
+	\item \((f)\) for irreducible \(f\), the generic points of irreducible curves;
+	\item \((x-a,y-b)\), the closed points.
+\end{itemize}
+A typical chain is
+\[
+(0)\subsetneq (f)\subsetneq (x-a,y-b),
+\]
+so
+\[
+\dim k[x,y]=2.
+\]
+
+\subsection*{10. Deep example: reducible spectrum}
+
+Let
+\[
+A=k[x,y]/(xy).
+\]
+Since
+\[
+(xy)=(x)\cap (y),
+\]
+the minimal primes are \((x)\) and \((y)\). Thus \(\operatorname{Spec}(A)\) has two irreducible components, corresponding to the two coordinate axes.
+
+\subsection*{11. Deep example: local spectrum}
+
+Take
+\[
+A=k[x,y]_{(x,y)}.
+\]
+Then \(\operatorname{Spec}(A)\) has unique closed point \((x,y)A\), but also nonclosed points such as
+\[
+(0),\quad (x)A,\quad (y)A,\quad (x-y)A.
+\]
+Localization geometrically means zooming into a neighborhood of one point.
+
+\subsection*{12. Deep example: spectra in Problem 8}
+
+In Problem 8 one considers
+\[
+A=k[x_1,x_2,\dots]
+\]
+and
+\[
+S=A\setminus \bigcup_i \mathfrak p_i.
+\]
+Then
+\[
+\operatorname{Spec}(S^{-1}A)
+\cong
+\{\mathfrak q\in\operatorname{Spec}(A)\mid \mathfrak q\cap S=\varnothing\}.
+\]
+So one keeps exactly the primes disjoint from \(S\). The problem shows that these are controlled by the primes \(\mathfrak p_i\), and the maximal ideals become \(S^{-1}\mathfrak p_i\). Their heights are unbounded, so the localized ring is Noetherian but infinite-dimensional.
+
+\subsection*{13. Deep example: fibers in Problem 9}
+
+The inclusion
+\[
+A\hookrightarrow A[x]
+\]
+induces
+\[
+\pi:\operatorname{Spec}(A[x])\to \operatorname{Spec}(A).
+\]
+For \(\mathfrak p\in\operatorname{Spec}(A)\), the fiber is
+\[
+\pi^{-1}(\mathfrak p)\cong \operatorname{Spec}(k(\mathfrak p)[x]),
+\]
+where
+\[
+k(\mathfrak p)=\operatorname{Frac}(A_{\mathfrak p}/\mathfrak pA_{\mathfrak p}).
+\]
+Since \(k(\mathfrak p)[x]\) has dimension \(1\), each fiber contributes at most one vertical step in a chain. This is the key geometric reason behind the estimate
+\[
+1+\dim A\le \dim A[x]\le 1+2\dim A.
+\]
+
+\subsection*{14. Dictionary}
+
+\[
+\begin{array}{c|c}
+	\text{Algebra} & \text{Geometry} \\
+	\hline
+	\text{prime ideal } \mathfrak p & \text{point of } \operatorname{Spec}(A) \\
+	\text{maximal ideal} & \text{closed point} \\
+	\text{minimal prime} & \text{generic point of an irreducible component} \\
+	\mathfrak p\subseteq \mathfrak q & \mathfrak q \text{ is a specialization of } \mathfrak p \\
+	A/I & \text{closed subset } V(I) \\
+	A_f & \text{basic open subset } D(f) \\
+	S^{-1}A & \text{subspace of primes disjoint from }S \\
+	\dim A & \text{maximal length of chains of prime ideals}
+\end{array}
+\]
+
+\section*{Theory add-on: maps of spectra, contraction, fibers, and geometric meaning}
+
+\subsection*{1. Ring maps induce maps of spectra}
+
+If
+\[
+\varphi:A\to B
+\]
+is a ring homomorphism, then every prime ideal \(\mathfrak q\subseteq B\) determines a prime ideal
+\[
+\varphi^{-1}(\mathfrak q)\subseteq A.
+\]
+Hence there is an induced map
+\[
+\varphi^*:\operatorname{Spec}(B)\to \operatorname{Spec}(A),
+\qquad
+\mathfrak q\mapsto \varphi^{-1}(\mathfrak q).
+\]
+The direction reverses:
+\[
+A\to B
+\qquad\Longrightarrow\qquad
+\operatorname{Spec}(B)\to \operatorname{Spec}(A).
+\]
+
+\subsection*{2. Contraction and extension}
+
+If \(\mathfrak q\subseteq B\) is prime, then \(\varphi^{-1}(\mathfrak q)\) is prime. This is because \(A/\varphi^{-1}(\mathfrak q)\) embeds into \(B/\mathfrak q\), and \(B/\mathfrak q\) is a domain.
+
+If \(I\subseteq A\) is an ideal, its extension to \(B\) is
+\[
+IB:=\varphi(I)B.
+\]
+Unlike contraction, extension of a prime ideal need not remain prime.
+
+\subsection*{3. Continuity}
+
+The induced map \(\varphi^*\) is continuous for the Zariski topology. Indeed, for any ideal \(I\subseteq A\),
+\[
+(\varphi^*)^{-1}(V(I))=V(IB).
+\]
+
+\subsection*{4. Quotients give closed immersions}
+
+For the quotient map
+\[
+A\to A/I,
+\]
+primes of \(A/I\) correspond exactly to primes of \(A\) containing \(I\). Hence
+\[
+\operatorname{Spec}(A/I)\cong V(I)\subseteq \operatorname{Spec}(A).
+\]
+Thus quotient rings correspond geometrically to closed subsets.
+
+Example:
+\[
+A=k[x,y],\qquad I=(y-x^2).
+\]
+Then
+\[
+\operatorname{Spec}(A/I)
+\]
+is the parabola \(V(y-x^2)\) inside \(\operatorname{Spec}(k[x,y])\).
+
+\subsection*{5. Localization gives open immersions}
+
+Let \(S\subseteq A\) be multiplicatively closed. Then
+\[
+A\to S^{-1}A
+\]
+induces
+\[
+\operatorname{Spec}(S^{-1}A)\to \operatorname{Spec}(A),
+\]
+whose image is
+\[
+\{\mathfrak p\in\operatorname{Spec}(A)\mid \mathfrak p\cap S=\varnothing\}.
+\]
+If \(S=\{1,f,f^2,\dots\}\), then
+\[
+\operatorname{Spec}(A_f)\cong D(f).
+\]
+So localization corresponds to restricting to an open subset.
+
+\subsection*{6. Localization at a prime}
+
+For a prime \(\mathfrak p\subseteq A\),
+\[
+A\to A_{\mathfrak p}
+\]
+induces
+\[
+\operatorname{Spec}(A_{\mathfrak p})
+\cong
+\{\mathfrak q\in\operatorname{Spec}(A)\mid \mathfrak q\subseteq \mathfrak p\}.
+\]
+So localization at \(\mathfrak p\) keeps exactly the points specializing to \(\mathfrak p\).
+
+\subsection*{7. Polynomial extension}
+
+The inclusion
+\[
+A\hookrightarrow A[x]
+\]
+induces
+\[
+\pi:\operatorname{Spec}(A[x])\to \operatorname{Spec}(A).
+\]
+A prime \(Q\subseteq A[x]\) maps to \(Q\cap A\). Geometrically, \(\operatorname{Spec}(A[x])\) behaves like an affine line over \(\operatorname{Spec}(A)\).
+
+\subsection*{8. Fibers of \(\operatorname{Spec}(A[x])\to \operatorname{Spec}(A)\)}
+
+For \(\mathfrak p\in\operatorname{Spec}(A)\), the fiber is
+\[
+\pi^{-1}(\mathfrak p)
+=
+\{Q\in\operatorname{Spec}(A[x])\mid Q\cap A=\mathfrak p\}.
+\]
+There is a canonical identification
+\[
+\pi^{-1}(\mathfrak p)\cong \operatorname{Spec}(k(\mathfrak p)[x]),
+\]
+where
+\[
+k(\mathfrak p)=\operatorname{Frac}(A_{\mathfrak p}/\mathfrak p A_{\mathfrak p})
+\]
+is the residue field. Since \(k(\mathfrak p)[x]\) has dimension \(1\), each fiber has dimension \(1\).
+
+\subsection*{9. Surjectivity of polynomial projection}
+
+The map
+\[
+\operatorname{Spec}(A[x])\to \operatorname{Spec}(A)
+\]
+is surjective: for every prime \(\mathfrak p\subseteq A\), the ideal \(\mathfrak p A[x]\) is prime and contracts to \(\mathfrak p\).
+
+\subsection*{10. Dominant maps}
+
+A map
+\[
+f:\operatorname{Spec}(B)\to \operatorname{Spec}(A)
+\]
+is called dominant if its image is dense in \(\operatorname{Spec}(A)\). For \(\varphi:A\to B\),
+\[
+\varphi^* \text{ is dominant } \iff \ker(\varphi)\subseteq \sqrt{(0)}.
+\]
+If \(A\subseteq B\) are domains, then \(\operatorname{Spec}(B)\to\operatorname{Spec}(A)\) is dominant.
+
+\subsection*{11. Integral extensions}
+
+If \(A\to B\) is integral, then:
+\begin{itemize}
+	\item every prime of \(A\) has a prime of \(B\) lying over it;
+	\item chains can be lifted upward (going up);
+	\item the induced map on spectra is surjective.
+\end{itemize}
+Example:
+\[
+k[t^2,t^3]\subseteq k[t]
+\]
+is integral and gives the normalization map of the cusp.
+
+\subsection*{12. Residue fields}
+
+If \(\mathfrak q\in\operatorname{Spec}(B)\) lies over \(\mathfrak p=\mathfrak q\cap A\), then there is an induced field extension
+\[
+k(\mathfrak p)\to k(\mathfrak q).
+\]
+Thus a point upstairs may carry a larger residue field than the point downstairs.
+
+\subsection*{13. Deep example: quotient map}
+
+For
+\[
+k[x,y]\to k[x,y]/(xy),
+\]
+one gets
+\[
+\operatorname{Spec}(k[x,y]/(xy))\cong V(xy)\subseteq \operatorname{Spec}(k[x,y]),
+\]
+the union of the two coordinate axes.
+
+\subsection*{14. Deep example: localization map}
+
+For
+\[
+k[x,y]\to k[x,y]_x,
+\]
+one gets
+\[
+\operatorname{Spec}(k[x,y]_x)\cong D(x),
+\]
+the part of the plane where \(x\neq 0\).
+
+\subsection*{15. Deep example: projection of the plane}
+
+For
+\[
+k[y]\hookrightarrow k[x,y],
+\]
+the induced map
+\[
+\operatorname{Spec}(k[x,y])\to \operatorname{Spec}(k[y])
+\]
+is projection of the affine plane onto the \(y\)-line. The fiber over \((y-b)\) is
+\[
+\operatorname{Spec}(k[x,y]/(y-b))
+\cong
+\operatorname{Spec}(k[x]).
+\]
+
+\subsection*{16. Deep example: arithmetic fibers}
+
+For
+\[
+\mathbb Z\hookrightarrow \mathbb Z[x],
+\]
+the fiber over \((p)\) is
+\[
+\operatorname{Spec}(\mathbb F_p[x]),
+\]
+while the fiber over \((0)\) is
+\[
+\operatorname{Spec}(\mathbb Q[x]).
+\]
+So the total space mixes all characteristics.
+
+\subsection*{17. Connection with Problem 8}
+
+In Problem 8 one considers
+\[
+A=k[x_1,x_2,\dots],\qquad S=A\setminus \bigcup_i \mathfrak p_i.
+\]
+Then
+\[
+\operatorname{Spec}(S^{-1}A)\to \operatorname{Spec}(A)
+\]
+identifies \(\operatorname{Spec}(S^{-1}A)\) with the subspace of primes disjoint from \(S\). The problem shows that the maximal points of this subspace are exactly the \(S^{-1}\mathfrak p_i\).
+
+\subsection*{18. Connection with Problem 9}
+
+In Problem 9 one studies
+\[
+\operatorname{Spec}(A[x])\to \operatorname{Spec}(A).
+\]
+The fibers are spectra of rings \(k(\mathfrak p)[x]\), which have dimension \(1\). This fiberwise description is the key reason behind the inequality
+\[
+1+\dim A\le \dim A[x]\le 1+2\dim A.
+\]
+
+\subsection*{19. Dictionary}
+
+\[
+\begin{array}{c|c}
+	\text{Ring map }A\to B & \text{Geometry on spectra} \\
+	\hline
+	A\to A/I & \text{closed immersion } \operatorname{Spec}(A/I)\hookrightarrow \operatorname{Spec}(A) \\
+	A\to A_f & \text{open immersion } D(f)\hookrightarrow \operatorname{Spec}(A) \\
+	A\to A_{\mathfrak p} & \text{local neighborhood of } \mathfrak p \\
+	A\to A[x] & \text{affine-line type projection} \\
+	A\to B \text{ integral} & \text{lying over / going up / surjective on spectra} \\
+	A\subseteq B \text{ domains} & \text{dominant map} \\
+\end{array}
+\]
+
+	\section*{Problem 1 --- Hilbert polynomials of hypersurfaces and complete intersections}
+	
+	\textbf{Exact statement.}
+	Let
+	\[
+	S = k[x_0,\dots,x_n]
+	\]
+	be the polynomial ring viewed in the standard way as a graded ring.
+	
+	\begin{itemize}
+		\item[(a)] Let \(f\in S_d\) be a homogeneous polynomial of degree \(d\). Use the exact sequence
+		\[
+		0 \longrightarrow S(-d) \xrightarrow{\cdot f} S \longrightarrow S/(f) \longrightarrow 0
+		\]
+		to compute the Hilbert polynomial of the graded \(S\)-module \(S/(f)\).
+		
+		\item[(b)] Let \(f\in S_d\), \(g\in S_e\) be two homogeneous polynomials which are coprime. Using a similar idea as in (a), calculate the Hilbert polynomial of \(S/(f,g)\).
+	\end{itemize}
+	
+	\textbf{Solution.}
+	Recall that for
+	\[
+	S=k[x_0,\dots,x_n],
+	\]
+	the Hilbert function is
+	\[
+	H_S(m)=\dim_k S_m=\binom{m+n}{n},
+	\]
+	so the Hilbert polynomial is
+	\[
+	P_S(t)=\binom{t+n}{n}.
+	\]
+	Also, for a graded shift \(S(-d)\),
+	\[
+	(S(-d))_m=S_{m-d},
+	\]
+	hence
+	\[
+	P_{S(-d)}(t)=\binom{t-d+n}{n}.
+	\]
+	
+	\medskip
+	
+	\textbf{(a) Hilbert polynomial of \(S/(f)\).}
+	
+	From the exact sequence
+	\[
+	0 \longrightarrow S(-d) \xrightarrow{\cdot f} S \longrightarrow S/(f) \longrightarrow 0,
+	\]
+	taking graded pieces yields
+	\[
+	0 \longrightarrow S_{m-d} \xrightarrow{\cdot f} S_m \longrightarrow (S/(f))_m \longrightarrow 0.
+	\]
+	Therefore
+	\[
+	H_{S/(f)}(m)=\binom{m+n}{n}-\binom{m-d+n}{n}
+	\]
+	for all sufficiently large \(m\). Hence the Hilbert polynomial is
+	\[
+	P_{S/(f)}(t)=\binom{t+n}{n}-\binom{t-d+n}{n}.
+	\]
+	
+	Its leading term is
+	\[
+	\frac{d}{(n-1)!}t^{\,n-1},
+	\]
+	so it has degree \(n-1\).
+	
+	If \(n=2\), then
+	\[
+	P_{S/(f)}(t)=\binom{t+2}{2}-\binom{t-d+2}{2}
+	=dt+1-\frac{(d-1)(d-2)}{2}.
+	\]
+	For a plane curve, the constant term is \(1-p_a\), where \(p_a\) is the arithmetic genus.
+	
+	\medskip
+	
+	\textbf{(b) Hilbert polynomial of \(S/(f,g)\).}
+	
+	Since \(f\) and \(g\) are coprime, multiplication by \(g\) on \(S/(f)\) is injective: if \(gh\in (f)\), then \(f\mid gh\), and since \(\gcd(f,g)=1\) in the UFD \(S\), it follows that \(f\mid h\), so \(h\in (f)\).
+	
+	Thus we have an exact sequence
+	\[
+	0\longrightarrow S/(f)(-e)\xrightarrow{\cdot g} S/(f)\longrightarrow S/(f,g)\longrightarrow 0.
+	\]
+	Hence
+	\[
+	P_{S/(f,g)}(t)=P_{S/(f)}(t)-P_{S/(f)}(t-e).
+	\]
+	Using part (a),
+	\[
+	P_{S/(f,g)}(t)
+	=
+	\binom{t+n}{n}
+	-\binom{t-d+n}{n}
+	-\binom{t-e+n}{n}
+	+\binom{t-d-e+n}{n}.
+	\]
+	
+	Its leading term is
+	\[
+	\frac{de}{(n-2)!}t^{\,n-2},
+	\]
+	so it has degree \(n-2\).
+	
+	\bigskip
+	
+	\section*{Problem 2 --- Degree from the Hilbert polynomial and Bezout-type multiplication}
+	
+	\textbf{Exact statement.}
+	Continue with the notation as in Question 1. Let \(I\subseteq S\) be a homogeneous ideal, and let \(r\) be the degree of the Hilbert polynomial \(f_{S/I}(x)\) of the graded \(S\)-module \(S/I\). We define the degree of \(I\) to be the coefficient of \(x^r\) in \(f_{S/I}(x)\) times \(r!\).
+	
+	\begin{itemize}
+		\item[(a)] For \(I=(f)\) or \(I=(f,g)\) as in Question 1, calculate the degree of \(I\).
+		\item[(b)] Let \(I\) be of degree \(d\), and let \(f\in S\) be a homogeneous polynomial of degree \(e\) such that \(f\) is not a zero-divisor in \(S/I\). Show that the degree of \(I+(f)\) is \(e\) times the degree of \(I\).
+	\end{itemize}
+	
+	\textbf{Solution.}
+	
+	\textbf{(a)} From Problem 1(a),
+	\[
+	P_{S/(f)}(t)=\binom{t+n}{n}-\binom{t-d+n}{n},
+	\]
+	whose leading term is
+	\[
+	\frac{d}{(n-1)!}t^{\,n-1}.
+	\]
+	Therefore
+	\[
+	\deg(f)=d.
+	\]
+	
+	From Problem 1(b),
+	\[
+	P_{S/(f,g)}(t)
+	=
+	\binom{t+n}{n}
+	-\binom{t-d+n}{n}
+	-\binom{t-e+n}{n}
+	+\binom{t-d-e+n}{n},
+	\]
+	whose leading term is
+	\[
+	\frac{de}{(n-2)!}t^{\,n-2}.
+	\]
+	Therefore
+	\[
+	\deg(f,g)=de.
+	\]
+	
+	\medskip
+	
+	\textbf{(b)} Let
+	\[
+	P_{S/I}(t)=a_r t^r+\text{lower degree terms},
+	\]
+	so by definition
+	\[
+	\deg(I)=r!\,a_r=d.
+	\]
+	
+	Since \(f\) has degree \(e\) and is not a zero-divisor in \(S/I\), multiplication by \(f\) gives an injective graded map
+	\[
+	S/I(-e)\xrightarrow{\cdot f} S/I,
+	\]
+	and hence an exact sequence
+	\[
+	0\longrightarrow S/I(-e)\xrightarrow{\cdot f} S/I\longrightarrow S/(I+(f))\longrightarrow 0.
+	\]
+	Therefore
+	\[
+	P_{S/(I+(f))}(t)=P_{S/I}(t)-P_{S/I}(t-e).
+	\]
+	
+	Now
+	\[
+	P_{S/I}(t-e)=a_r(t-e)^r+\cdots
+	=a_r\bigl(t^r-r e\, t^{r-1}+\cdots\bigr)+\cdots,
+	\]
+	so
+	\[
+	P_{S/I}(t)-P_{S/I}(t-e)
+	=
+	a_r r e\, t^{r-1}+\text{lower degree terms}.
+	\]
+	Thus the leading coefficient of \(P_{S/(I+(f))}\) is
+	\[
+	a_r r e=\frac{d}{r!}\,r e=\frac{ed}{(r-1)!}.
+	\]
+	Hence
+	\[
+	\deg(I+(f))=ed=e\,\deg(I).
+	\]
+	
+	\bigskip
+	
+	\section*{Problem 3 --- Residue fields and localization of graded pieces}
+	
+	\textbf{Exact statement.}
+	Let \(A\) be a ring, \(p\subseteq A\) a prime ideal. Show that
+	\[
+	A_p/pA_p
+	\]
+	is the field of fractions of \(A/p\). Thus in particular, if \(m\subseteq A\) is maximal, then
+	\[
+	A/m \cong A_m/mA_m.
+	\]
+	Now show that
+	\[
+	m^k/m^{k+1}\cong (mA_m)^k/(mA_m)^{k+1}.
+	\]
+	
+	\textbf{Solution.}
+	Let
+	\[
+	S=A\setminus p.
+	\]
+	Then
+	\[
+	A_p=S^{-1}A.
+	\]
+	Since localization commutes with quotients,
+	\[
+	A_p/pA_p \cong S^{-1}(A/p).
+	\]
+	Because \(p\) is prime, \(A/p\) is a domain. The image of \(S\) in \(A/p\) is exactly the set of all nonzero elements, so
+	\[
+	S^{-1}(A/p)
+	\]
+	is the localization of the domain \(A/p\) at all nonzero elements, i.e. its field of fractions. Hence
+	\[
+	A_p/pA_p \cong \operatorname{Frac}(A/p).
+	\]
+	
+	If \(m\) is maximal, then \(A/m\) is already a field, so
+	\[
+	A_m/mA_m\cong A/m.
+	\]
+	
+	Now start from the exact sequence
+	\[
+	0\longrightarrow m^{k+1}\longrightarrow m^k\longrightarrow m^k/m^{k+1}\longrightarrow 0.
+	\]
+	Localizing at \(A\setminus m\) gives
+	\[
+	0\longrightarrow (m^{k+1})_m\longrightarrow (m^k)_m\longrightarrow (m^k/m^{k+1})_m\longrightarrow 0.
+	\]
+	But
+	\[
+	(m^k)_m=(mA_m)^k,\qquad (m^{k+1})_m=(mA_m)^{k+1},
+	\]
+	so
+	\[
+	(m^k/m^{k+1})_m \cong (mA_m)^k/(mA_m)^{k+1}.
+	\]
+	
+	It remains to show that localization does not change \(m^k/m^{k+1}\). Since
+	\[
+	m\cdot m^k\subseteq m^{k+1},
+	\]
+	the module \(m^k/m^{k+1}\) is annihilated by \(m\), hence is naturally an \(A/m\)-vector space. Every \(s\in A\setminus m\) maps to a nonzero element of the field \(A/m\), hence acts invertibly on \(m^k/m^{k+1}\). Therefore
+	\[
+	(m^k/m^{k+1})_m\cong m^k/m^{k+1}.
+	\]
+	Combining the isomorphisms yields
+	\[
+	m^k/m^{k+1}\cong (mA_m)^k/(mA_m)^{k+1}.
+	\]
+	
+	\bigskip
+	
+	\section*{Problem 4 --- The associated graded ring of an ideal}
+	
+	\textbf{Exact statement.}
+	Let \(A\) be a Noetherian ring, \(I\subseteq A\) an ideal, and
+	\[
+	\operatorname{gr}_I(A)=\bigoplus_{n=0}^{\infty} I^n/I^{n+1}
+	\]
+	the graded ring defined by \(I\).
+	
+	\begin{itemize}
+		\item[(a)] Show that \(\operatorname{gr}_I(A)\) is Noetherian.
+		\item[(b)] Suppose further that \(A\) is a local ring, \(I=m\) the unique maximal ideal. Show that if \(\operatorname{gr}_m(A)\) is an integral domain, then so is \(A\).
+	\end{itemize}
+	
+	\textbf{Solution.}
+	
+	\textbf{(a)} Since \(A\) is Noetherian, the ideal \(I\) is finitely generated:
+	\[
+	I=(a_1,\dots,a_r).
+	\]
+	Let \(\overline{a_i}\) denote the image of \(a_i\) in
+	\[
+	I/I^2\subseteq \operatorname{gr}_I(A).
+	\]
+	We claim that \(\operatorname{gr}_I(A)\) is generated as an \(A/I\)-algebra by \(\overline{a_1},\dots,\overline{a_r}\).
+	
+	Indeed, every element of \(I^n/I^{n+1}\) is represented by an element of \(I^n\), and every element of \(I^n\) is a sum of terms
+	\[
+	c\,a_{i_1}\cdots a_{i_n},
+	\qquad c\in A.
+	\]
+	Modulo \(I^{n+1}\), only the class of \(c\) modulo \(I\) matters. Hence every homogeneous element of degree \(n\) in \(\operatorname{gr}_I(A)\) is a polynomial in the \(\overline{a_i}\) with coefficients in \(A/I\).
+	
+	Therefore there is a surjective graded homomorphism
+	\[
+	(A/I)[T_1,\dots,T_r]\twoheadrightarrow \operatorname{gr}_I(A),
+	\qquad T_i\mapsto \overline{a_i}.
+	\]
+	Since \(A/I\) is Noetherian, the polynomial ring \((A/I)[T_1,\dots,T_r]\) is Noetherian, and hence so is its quotient \(\operatorname{gr}_I(A)\).
+	
+	\medskip
+	\textbf{(b)} Assume now that $A$ is Noetherian local with maximal ideal $m$, and that $\operatorname{gr}_m(A)$ is an integral domain.
+	
+	Take nonzero $a,b\in A$. By the Krull intersection theorem,
+	\[
+	\bigcap_{r\ge 0} m^r=0.
+	\]
+	Hence there exist integers $r,s\ge 0$ such that
+	\[
+	a\in m^r\setminus m^{r+1},
+	\qquad
+	b\in m^s\setminus m^{s+1}.
+	\]
+	Let
+	\[
+	a^{*}\in m^r/m^{r+1},
+	\qquad
+	b^{*}\in m^s/m^{s+1}
+	\]
+	be their initial forms in $\operatorname{gr}_m(A)$. These are nonzero.
+	
+	Their product is the class of $ab$ in
+	\[
+	m^{r+s}/m^{r+s+1}.
+	\]
+	If $ab=0$, then this class is zero, so
+	\[
+	a^{*}b^{*}=0
+	\]
+	in $\operatorname{gr}_m(A)$. Since $\operatorname{gr}_m(A)$ is a domain and $a^{*},b^{*}\neq 0$, this is impossible.
+	
+	Therefore \(ab\neq 0\) whenever \(a,b\neq 0\). Hence \(A\) is an integral domain.
+	
+	
+	\section*{Problem 5 --- Jacobian criterion for regularity at the origin}
+	
+	\textbf{Exact statement.}
+	Let
+	\[
+	I=(f_1,\dots,f_m)\subseteq k[x_1,\dots,x_n]
+	\]
+	be an ideal contained in the maximal ideal
+	\[
+	\mathfrak m=(x_1,\dots,x_n).
+	\]
+	Let
+	\[
+	A=\bigl(k[x_1,\dots,x_n]/I\bigr)_{\bar{\mathfrak m}},
+	\qquad
+	\bar{\mathfrak m}=\mathfrak m/I.
+	\]
+	Show that \(A\) is a regular local ring if and only if the Jacobian matrix
+	\[
+	\left(\left.\frac{\partial f_i}{\partial x_j}\right|_{x_1=\cdots=x_n=0}\right)_
+	{1\le i\le m,\;1\le j\le n}
+	\]
+	has rank \(n-d\), where \(d=\dim A\).
+	
+	\textbf{Solution.}
+	Set
+	\[
+	R=k[x_1,\dots,x_n]_{\mathfrak m},
+	\qquad
+	\mathfrak n=(x_1,\dots,x_n)R.
+	\]
+	Then
+	\[
+	A=R/IR,
+	\]
+	and the maximal ideal of \(A\) is
+	\[
+	\mathfrak m_A=\mathfrak n/IR.
+	\]
+	
+	A Noetherian local ring \((B,\mathfrak m_B)\) is regular if and only if
+	\[
+	\dim_{B/\mathfrak m_B}(\mathfrak m_B/\mathfrak m_B^2)=\dim B.
+	\]
+	So we must compute the dimension of
+	\[
+	\mathfrak m_A/\mathfrak m_A^2.
+	\]
+	
+	Now
+	\[
+	\mathfrak m_A/\mathfrak m_A^2
+	\cong
+	\mathfrak n/(\mathfrak n^2+IR).
+	\]
+	Since localization at \(\mathfrak m\) does not change this \(k\)-vector-space computation, we may identify this with
+	\[
+	\mathfrak m/(\mathfrak m^2+I).
+	\]
+	Also,
+	\[
+	\mathfrak m/\mathfrak m^2
+	\]
+	has \(k\)-basis given by the classes of \(x_1,\dots,x_n\), so
+	\[
+	\dim_k(\mathfrak m/\mathfrak m^2)=n.
+	\]
+	
+	We now determine the image of \(I\) in \(\mathfrak m/\mathfrak m^2\). For any polynomial \(f\in I\subseteq \mathfrak m\), modulo \(\mathfrak m^2\) only its linear part survives:
+	\[
+	f \equiv \sum_{j=1}^n \frac{\partial f}{\partial x_j}(0)\,x_j
+	\pmod{\mathfrak m^2}.
+	\]
+	Hence for each generator \(f_i\),
+	\[
+	f_i \bmod \mathfrak m^2
+	=
+	\sum_{j=1}^n
+	\left.\frac{\partial f_i}{\partial x_j}\right|_{0}\,x_j.
+	\]
+	
+	Therefore the image of \(I\) in \(\mathfrak m/\mathfrak m^2\) is the \(k\)-subspace spanned by the linear forms corresponding to the rows of the Jacobian matrix
+	\[
+	J(0)=
+	\left(\left.\frac{\partial f_i}{\partial x_j}\right|_{0}\right).
+	\]
+	So
+	\[
+	\dim_k\frac{\mathfrak m_A}{\mathfrak m_A^2}
+	=
+	\dim_k\frac{\mathfrak m}{\mathfrak m^2+I}
+	=
+	n-\operatorname{rank}J(0).
+	\]
+	
+	Let
+	\[
+	d=\dim A.
+	\]
+	Then \(A\) is regular if and only if
+	\[
+	\dim_k(\mathfrak m_A/\mathfrak m_A^2)=d.
+	\]
+	Using the formula above, this is equivalent to
+	\[
+	n-\operatorname{rank}J(0)=d,
+	\]
+	that is,
+	\[
+	\operatorname{rank}J(0)=n-d.
+	\]
+	
+	Thus \(A\) is a regular local ring if and only if the Jacobian matrix at the origin has rank \(n-d\).
+	
+	\medskip
+	
+	\textbf{Geometric interpretation.}
+	The space
+	\[
+	\mathfrak m_A/\mathfrak m_A^2
+	\]
+	is the cotangent space at the point \(\bar{\mathfrak m}\), and its dual is the Zariski tangent space. The Jacobian matrix gives the linear equations defining the tangent space, so
+	\[
+	\dim(\text{tangent space})=n-\operatorname{rank}J(0).
+	\]
+	Regularity means that this tangent-space dimension equals the local dimension \(d\).
+	
+	
+	\section*{Theory for Problem 5: local rings, regular local rings, and the Jacobian criterion}
+	
+	\subsection*{1. Why the problem is local}
+	
+	We consider
+	\[
+	A=\bigl(k[x_1,\dots,x_n]/I\bigr)_{\bar{\mathfrak m}},
+	\qquad
+	\bar{\mathfrak m}=(x_1,\dots,x_n)/I.
+	\]
+	This means that we first form the quotient ring \(k[x_1,\dots,x_n]/I\), and then localize at the point corresponding to the origin. Thus the problem is not global: it studies the geometry only near one chosen point.
+	
+	\subsection*{2. Local rings}
+	
+	A ring \(A\) is called \emph{local} if it has exactly one maximal ideal. One writes a local ring as
+	\[
+	(A,\mathfrak m),
+	\]
+	where \(\mathfrak m\) is the unique maximal ideal.
+	
+	Examples:
+	\begin{itemize}
+		\item a field \(k\), whose only maximal ideal is \((0)\);
+		\item a localization \(R_{\mathfrak p}\), whose unique maximal ideal is \(\mathfrak pR_{\mathfrak p}\);
+		\item the ring
+		\[
+		\bigl(k[x_1,\dots,x_n]/I\bigr)_{\bar{\mathfrak m}}
+		\]
+		appearing in the problem.
+	\end{itemize}
+	
+	Geometrically, a local ring describes the behavior of a space near one point.
+	
+	\subsection*{3. Residue field}
+	
+	If \((A,\mathfrak m)\) is local, then
+	\[
+	A/\mathfrak m
+	\]
+	is a field, called the \emph{residue field}. In the present setting, at the origin this is just \(k\), so tangent-space computations become linear algebra over \(k\).
+	
+	\subsection*{4. The maximal ideal and first-order information}
+	
+	In a local ring \((A,\mathfrak m)\),
+	\begin{itemize}
+		\item \(\mathfrak m\) consists of functions vanishing at the point;
+		\item \(\mathfrak m^2\) consists of functions vanishing to second order or higher.
+	\end{itemize}
+	Therefore the quotient
+	\[
+	\mathfrak m/\mathfrak m^2
+	\]
+	records only first-order information. It is called the \emph{cotangent space}. Its dual
+	\[
+	(\mathfrak m/\mathfrak m^2)^\vee
+	\]
+	is the \emph{Zariski tangent space}.
+	
+	\subsection*{5. Embedding dimension}
+	
+	The number
+	\[
+	\operatorname{embdim}(A):=\dim_{A/\mathfrak m}(\mathfrak m/\mathfrak m^2)
+	\]
+	is called the \emph{embedding dimension} of the local ring \(A\). It is the dimension of the tangent space.
+	
+	For example, in
+	\[
+	k[x_1,\dots,x_n]_{(x_1,\dots,x_n)},
+	\]
+	the maximal ideal is generated by \(x_1,\dots,x_n\), and their classes form a basis of \(\mathfrak m/\mathfrak m^2\), so the embedding dimension is \(n\).
+	
+	\subsection*{6. Krull dimension versus embedding dimension}
+	
+	For a Noetherian local ring \((A,\mathfrak m)\), one always has
+	\[
+	\dim A \le \operatorname{embdim}(A).
+	\]
+	The left-hand side is the intrinsic geometric dimension, while the right-hand side is the tangent-space dimension. At a singular point, the tangent space is too large.
+	
+	\subsection*{7. Regular local rings}
+	
+	A Noetherian local ring \((A,\mathfrak m)\) is called \emph{regular} if
+	\[
+	\dim A=\dim_{A/\mathfrak m}(\mathfrak m/\mathfrak m^2).
+	\]
+	Equivalently,
+	\[
+	\dim A=\operatorname{embdim}(A).
+	\]
+	So a regular local ring is one for which the tangent-space dimension is exactly the true local dimension. This is the algebraic formulation of smoothness or nonsingularity.
+	
+	\subsection*{8. Regular system of parameters}
+	
+	If \((A,\mathfrak m)\) is regular of dimension \(d\), then one can choose elements
+	\[
+	t_1,\dots,t_d\in\mathfrak m
+	\]
+	whose images form a basis of \(\mathfrak m/\mathfrak m^2\). These are called a \emph{regular system of parameters}. They play the role of local coordinates.
+	
+	\subsection*{9. The basic model}
+	
+	The standard example of a regular local ring is
+	\[
+	k[x_1,\dots,x_d]_{(x_1,\dots,x_d)}.
+	\]
+	Its maximal ideal is \((x_1,\dots,x_d)\), the quotient \(\mathfrak m/\mathfrak m^2\) has basis \(x_1,\dots,x_d\), and the Krull dimension is \(d\). Hence it is regular.
+	
+	\subsection*{10. Linear parts and the Jacobian matrix}
+	
+	Suppose
+	\[
+	I=(f_1,\dots,f_m)\subseteq k[x_1,\dots,x_n].
+	\]
+	Modulo
+	\[
+	(x_1,\dots,x_n)^2,
+	\]
+	only the linear part of each \(f_i\) survives:
+	\[
+	f_i \equiv \sum_{j=1}^n \frac{\partial f_i}{\partial x_j}(0)\,x_j
+	\pmod{(x_1,\dots,x_n)^2}.
+	\]
+	Thus the Jacobian matrix at the origin,
+	\[
+	J(0)=\left(\frac{\partial f_i}{\partial x_j}(0)\right),
+	\]
+	records the linear parts of the defining equations.
+	
+	\subsection*{11. Tangent space from the Jacobian}
+	
+	The ambient affine space has tangent dimension \(n\). Each independent linear equation cuts this dimension down by \(1\). Therefore
+	\[
+	\dim T = n-\operatorname{rank}J(0).
+	\]
+	This equals
+	\[
+	\dim_k(\mathfrak m_A/\mathfrak m_A^2),
+	\]
+	the embedding dimension of the local ring \(A\).
+	
+	Hence, if \(d=\dim A\), then
+	\[
+	A \text{ is regular }
+	\iff
+	\dim_k(\mathfrak m_A/\mathfrak m_A^2)=d
+	\iff
+	n-\operatorname{rank}J(0)=d
+	\iff
+	\operatorname{rank}J(0)=n-d.
+	\]
+	
+	\subsection*{12. Example of a regular point}
+	
+	Let
+	\[
+	A=\bigl(k[x,y]/(y-x^2)\bigr)_{(x,y)}.
+	\]
+	Then
+	\[
+	f=y-x^2,
+	\qquad
+	\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}\right)=(-2x,1).
+	\]
+	At the origin this becomes
+	\[
+	(0,1),
+	\]
+	so the Jacobian rank is \(1\). Since \(n=2\) and \(\dim A=1\), one has
+	\[
+	1=2-1,
+	\]
+	so the local ring is regular.
+	
+	\subsection*{13. Example of a singular point}
+	
+	Let
+	\[
+	A=\bigl(k[x,y]/(y^2-x^3)\bigr)_{(x,y)}.
+	\]
+	Then
+	\[
+	f=y^2-x^3,
+	\qquad
+	\frac{\partial f}{\partial x}=-3x^2,\qquad \frac{\partial f}{\partial y}=2y.
+	\]
+	At the origin both derivatives vanish, so the Jacobian rank is \(0\). Therefore
+	\[
+	\dim_k(\mathfrak m_A/\mathfrak m_A^2)=2.
+	\]
+	But the local dimension is \(1\), so the ring is not regular.
+	
+	\subsection*{14. Simple rings}
+	
+	A ring \(A\) is called \emph{simple} if its only ideals are
+	\[
+	(0)\quad\text{and}\quad A.
+	\]
+	In the commutative case, a simple ring is exactly a field. Thus in commutative algebra:
+	\begin{itemize}
+		\item simple ring \(=\) field;
+		\item a field is local, with maximal ideal \((0)\);
+		\item a field is regular of dimension \(0\).
+	\end{itemize}
+	
+	\subsection*{15. Summary}
+	
+	The local ring
+	\[
+	A=\bigl(k[x_1,\dots,x_n]/I\bigr)_{\bar{\mathfrak m}}
+	\]
+	describes the variety near the origin. Its maximal ideal records functions vanishing at the point, and the quotient
+	\[
+	\mathfrak m_A/\mathfrak m_A^2
+	\]
+	records first-order behavior. The Jacobian matrix gives the linear parts of the defining equations, so it computes the tangent-space dimension:
+	\[
+	\dim_k(\mathfrak m_A/\mathfrak m_A^2)=n-\operatorname{rank}J(0).
+	\]
+	The ring is regular exactly when this equals the local dimension \(d\), that is,
+	\[
+	\operatorname{rank}J(0)=n-d.
+	\]
+	
+	
+	\section*{Deep theory: tangent space, cotangent space, smoothness, singular points, and the Jacobian criterion}
+	
+	\subsection*{1. Why tangent space appears in algebra}
+	
+	In geometry, one studies a space near a point by replacing it with its first-order linear approximation: tangent line, tangent plane, or tangent affine subspace. In commutative algebra, this first-order information is encoded by
+	\[
+	\mathfrak m/\mathfrak m^2,
+	\]
+	where \((A,\mathfrak m)\) is the local ring at the point.
+	
+	Thus the Jacobian criterion expresses the principle that a point is smooth exactly when its first-order approximation has the correct dimension.
+	
+	\subsection*{2. Vanishing at a point}
+	
+	Let \((A,\mathfrak m)\) be a local ring corresponding to a point \(x\). Then:
+	\begin{itemize}
+		\item elements of \(A\) are local functions near \(x\);
+		\item elements of \(\mathfrak m\) are functions vanishing at \(x\);
+		\item elements of \(\mathfrak m^2\) vanish to second order or higher.
+	\end{itemize}
+	Hence the quotient
+	\[
+	\mathfrak m/\mathfrak m^2
+	\]
+	retains only the first-order part of vanishing functions.
+	
+	\subsection*{3. Cotangent space}
+	
+	If \(k(x)=A/\mathfrak m\) is the residue field, then
+	\[
+	\mathfrak m/\mathfrak m^2
+	\]
+	is a finite-dimensional \(k(x)\)-vector space called the \emph{cotangent space} at \(x\).
+	
+	\subsection*{4. Tangent space}
+	
+	The \emph{Zariski tangent space} at \(x\) is defined as
+	\[
+	T_xX:=\operatorname{Hom}_{k(x)}(\mathfrak m/\mathfrak m^2,\;k(x)).
+	\]
+	Therefore
+	\[
+	\dim T_xX=\dim_{k(x)}(\mathfrak m/\mathfrak m^2).
+	\]
+	So the dimensions of tangent and cotangent space are the same.
+	
+	\subsection*{5. Tangent space in affine space}
+	
+	For
+	\[
+	A=k[x_1,\dots,x_n]_{(x_1,\dots,x_n)},
+	\]
+	the maximal ideal is
+	\[
+	\mathfrak m=(x_1,\dots,x_n),
+	\]
+	and the classes of \(x_1,\dots,x_n\) form a basis of
+	\[
+	\mathfrak m/\mathfrak m^2.
+	\]
+	Hence
+	\[
+	\dim_k(\mathfrak m/\mathfrak m^2)=n,
+	\]
+	so the tangent space of \(\mathbb A^n\) at the origin has dimension \(n\).
+	
+	\subsection*{6. Tangent space of a quotient}
+	
+	Let
+	\[
+	A=\bigl(k[x_1,\dots,x_n]/I\bigr)_{\bar{\mathfrak m}},
+	\qquad
+	\bar{\mathfrak m}=(x_1,\dots,x_n)/I.
+	\]
+	Then
+	\[
+	\mathfrak m_A/\mathfrak m_A^2
+	\cong
+	(x_1,\dots,x_n)/(I+(x_1,\dots,x_n)^2).
+	\]
+	Thus the cotangent space is obtained from the ambient first-order directions by quotienting out the linear parts of the equations in \(I\).
+	
+	\subsection*{7. Linearization and the Jacobian matrix}
+	
+	If
+	\[
+	f\in (x_1,\dots,x_n),
+	\]
+	then modulo
+	\[
+	(x_1,\dots,x_n)^2,
+	\]
+	only the linear part survives:
+	\[
+	f \equiv \sum_{j=1}^n \frac{\partial f}{\partial x_j}(0)\,x_j
+	\pmod{(x_1,\dots,x_n)^2}.
+	\]
+	Therefore the Jacobian matrix
+	\[
+	J(0)=\left(\frac{\partial f_i}{\partial x_j}(0)\right)
+	\]
+	records the linear equations defining the tangent space.
+	
+	\subsection*{8. Smooth and singular points}
+	
+	Let \((A,\mathfrak m)\) be a Noetherian local ring. The point is called \emph{regular} or \emph{nonsingular} if
+	\[
+	\dim A=\dim_{A/\mathfrak m}(\mathfrak m/\mathfrak m^2).
+	\]
+	Equivalently, the tangent-space dimension equals the intrinsic local dimension.
+	
+	If instead
+	\[
+	\dim_{A/\mathfrak m}(\mathfrak m/\mathfrak m^2)>\dim A,
+	\]
+	then the tangent space is too large, and the point is singular.
+	
+	\subsection*{9. Tangent-space dimension from the Jacobian}
+	
+	Suppose
+	\[
+	X=V(f_1,\dots,f_m)\subseteq \mathbb A^n_k
+	\]
+	and \(x\) is a \(k\)-rational point. Then
+	\[
+	T_xX=\ker\bigl(J(x):k^n\to k^m\bigr),
+	\]
+	so
+	\[
+	\dim T_xX=n-\operatorname{rank}J(x).
+	\]
+	If the local dimension at \(x\) is \(d\), then
+	\[
+	x \text{ is smooth }
+	\iff
+	\dim T_xX=d
+	\iff
+	\operatorname{rank}J(x)=n-d.
+	\]
+	This is the geometric Jacobian criterion.
+	
+	\subsection*{10. Example: smooth parabola}
+	
+	Let
+	\[
+	X=V(y-x^2)\subseteq \mathbb A^2.
+	\]
+	Then
+	\[
+	f=y-x^2,
+	\qquad
+	\left(\frac{\partial f}{\partial x},\frac{\partial f}{\partial y}\right)=(-2x,1).
+	\]
+	At the origin this becomes
+	\[
+	(0,1),
+	\]
+	so the Jacobian rank is \(1\). Hence
+	\[
+	\dim T_{(0,0)}X=2-1=1.
+	\]
+	Since the local dimension is also \(1\), the origin is smooth.
+	
+	\subsection*{11. Example: cusp}
+	
+	Let
+	\[
+	X=V(y^2-x^3)\subseteq \mathbb A^2.
+	\]
+	Then
+	\[
+	\frac{\partial f}{\partial x}=-3x^2,\qquad \frac{\partial f}{\partial y}=2y.
+	\]
+	At the origin both vanish, so the Jacobian rank is \(0\). Hence
+	\[
+	\dim T_{(0,0)}X=2.
+	\]
+	But the curve has local dimension \(1\), so the origin is singular.
+	
+	\subsection*{12. Example: node}
+	
+	Let
+	\[
+	X=V(y^2-x^2-x^3)\subseteq \mathbb A^2.
+	\]
+	Again, all partial derivatives vanish at the origin, so the Jacobian rank is \(0\), the tangent space has dimension \(2\), and the point is singular.
+	
+	\subsection*{13. Complete intersections and expected codimension}
+	
+	If near a point a variety inside \(\mathbb A^n\) is cut out by \(r\) independent equations, then one expects local dimension
+	\[
+	n-r.
+	\]
+	The Jacobian rank counts how many independent linear equations survive to first order. Thus the tangent space has dimension
+	\[
+	n-r
+	\]
+	when the point is smooth.
+	
+	\subsection*{14. Relation with K\"ahler differentials}
+	
+	A deeper viewpoint uses the module of differentials \(\Omega_{A/k}\). At a point \(x\), the cotangent space is closely related to
+	\[
+	\Omega_{A/k}\otimes_A k(x).
+	\]
+	Thus the Jacobian criterion can also be understood as saying that the differentials have the correct rank.
+	
+	\subsection*{15. Regular local rings as local models of smoothness}
+	
+	A regular local ring behaves, to first order, like a polynomial ring in exactly \(\dim A\) variables. This is why regular local rings are the algebraic local models of smooth points.
+	
+	\subsection*{16. Regular versus smooth}
+	
+	Regularity is an intrinsic property of a local ring. Smoothness is a property relative to a base field or base ring. Over a perfect field and for finitely generated algebras, regular points and smooth points coincide. This is the standard setting of the Jacobian criterion.
+	
+	\subsection*{17. Final picture}
+	
+	For
+	\[
+	A=\bigl(k[x_1,\dots,x_n]/I\bigr)_{\bar{\mathfrak m}},
+	\]
+	the maximal ideal records functions vanishing at the point, and
+	\[
+	\mathfrak m_A/\mathfrak m_A^2
+	\]
+	records first-order behavior. The Jacobian matrix gives the linear parts of the defining equations, so
+	\[
+	\dim_k(\mathfrak m_A/\mathfrak m_A^2)=n-\operatorname{rank}J(x).
+	\]
+	The local ring is regular exactly when this equals the local dimension \(d\), that is,
+	\[
+	\operatorname{rank}J(x)=n-d.
+	\]
+	
+	\section*{Example sheet: Jacobian criterion in practice}
+	
+	We use the rule: if
+	\[
+	X=V(f_1,\dots,f_m)\subseteq \mathbb A^n_k
+	\]
+	and \(x\in X\), then
+	\[
+	\dim T_xX = n-\operatorname{rank} J(x),
+	\]
+	where
+	\[
+	J(x)=\left(\frac{\partial f_i}{\partial x_j}(x)\right).
+	\]
+	If the local dimension at \(x\) is \(d\), then \(x\) is regular if and only if
+	\[
+	\operatorname{rank}J(x)=n-d.
+	\]
+	
+	\subsection*{Example 1 --- Smooth parabola at the origin}
+	
+	Let
+	\[
+	X=V(y-x^2)\subseteq \mathbb A^2.
+	\]
+	Then
+	\[
+	f=y-x^2,
+	\qquad
+	\frac{\partial f}{\partial x}=-2x,
+	\qquad
+	\frac{\partial f}{\partial y}=1.
+	\]
+	At \((0,0)\),
+	\[
+	J(0,0)=(0\ \ 1),
+	\]
+	so
+	\[
+	\operatorname{rank}J(0,0)=1.
+	\]
+	Hence
+	\[
+	\dim T_{(0,0)}X=2-1=1.
+	\]
+	Since \(X\) is a curve, its local dimension is \(1\). Therefore the origin is smooth.
+	
+	\subsection*{Example 2 --- Cusp}
+	
+	Let
+	\[
+	X=V(y^2-x^3)\subseteq \mathbb A^2.
+	\]
+	Then
+	\[
+	f=y^2-x^3,
+	\qquad
+	\frac{\partial f}{\partial x}=-3x^2,
+	\qquad
+	\frac{\partial f}{\partial y}=2y.
+	\]
+	At \((0,0)\),
+	\[
+	J(0,0)=(0\ \ 0),
+	\]
+	so
+	\[
+	\operatorname{rank}J(0,0)=0,
+	\qquad
+	\dim T_{(0,0)}X=2.
+	\]
+	But the local dimension is \(1\). Therefore the origin is singular.
+	
+	\subsection*{Example 3 --- Node}
+	
+	Let
+	\[
+	X=V(y^2-x^2-x^3)\subseteq \mathbb A^2.
+	\]
+	Then
+	\[
+	f=y^2-x^2-x^3,
+	\qquad
+	\frac{\partial f}{\partial x}=-2x-3x^2,
+	\qquad
+	\frac{\partial f}{\partial y}=2y.
+	\]
+	At \((0,0)\),
+	\[
+	J(0,0)=(0\ \ 0),
+	\]
+	so
+	\[
+	\operatorname{rank}J(0,0)=0,
+	\qquad
+	\dim T_{(0,0)}X=2.
+	\]
+	Since the local dimension is \(1\), the origin is singular.
+	
+	\subsection*{Example 4 --- Double line}
+	
+	Let
+	\[
+	X=V(y^2)\subseteq \mathbb A^2.
+	\]
+	Then
+	\[
+	f=y^2,
+	\qquad
+	\frac{\partial f}{\partial x}=0,
+	\qquad
+	\frac{\partial f}{\partial y}=2y.
+	\]
+	At \((0,0)\),
+	\[
+	J(0,0)=(0\ \ 0),
+	\]
+	so
+	\[
+	\operatorname{rank}J(0,0)=0,
+	\qquad
+	\dim T_{(0,0)}X=2.
+	\]
+	But the support has local dimension \(1\), so the origin is singular.
+	
+	\subsection*{Example 5 --- Quadric cone}
+	
+	Let
+	\[
+	X=V(x^2+y^2-z^2)\subseteq \mathbb A^3.
+	\]
+	Then
+	\[
+	f=x^2+y^2-z^2,
+	\qquad
+	\frac{\partial f}{\partial x}=2x,\qquad
+	\frac{\partial f}{\partial y}=2y,\qquad
+	\frac{\partial f}{\partial z}=-2z.
+	\]
+	At the origin,
+	\[
+	J(0,0,0)=(0\ \ 0\ \ 0),
+	\]
+	so
+	\[
+	\operatorname{rank}J(0)=0,
+	\qquad
+	\dim T_0X=3.
+	\]
+	Since \(X\) is a hypersurface in \(\mathbb A^3\), its local dimension is \(2\). Hence the origin is singular.
+	
+	\subsection*{Example 6 --- Smooth complete intersection}
+	
+	Let
+	\[
+	X=V(x,\;y)\subseteq \mathbb A^3.
+	\]
+	Then
+	\[
+	f_1=x,\qquad f_2=y.
+	\]
+	So
+	\[
+	J=
+	\begin{pmatrix}
+		1&0&0\\
+		0&1&0
+	\end{pmatrix}.
+	\]
+	At every point of \(X\), the rank is \(2\). Hence
+	\[
+	\dim T_xX=3-2=1.
+	\]
+	Since \(X\) has dimension \(1\), every point is smooth.
+	
+	\subsection*{Example 7 --- Singular complete intersection}
+	
+	Let
+	\[
+	X=V(x^2,\;y)\subseteq \mathbb A^3.
+	\]
+	Then
+	\[
+	f_1=x^2,\qquad f_2=y.
+	\]
+	So
+	\[
+	J=
+	\begin{pmatrix}
+		2x&0&0\\
+		0&1&0
+	\end{pmatrix}.
+	\]
+	At the origin,
+	\[
+	J(0,0,0)=
+	\begin{pmatrix}
+		0&0&0\\
+		0&1&0
+	\end{pmatrix},
+	\]
+	so
+	\[
+	\operatorname{rank}J(0)=1,
+	\qquad
+	\dim T_0X=3-1=2.
+	\]
+	But the local dimension is \(1\), so the origin is singular.
+	
+	\subsection*{Example 8 --- Smooth point away from the origin}
+	
+	Let
+	\[
+	X=V(y-x^2)\subseteq \mathbb A^2,
+	\qquad
+	p=(1,1).
+	\]
+	Then
+	\[
+	\frac{\partial f}{\partial x}=-2x,
+	\qquad
+	\frac{\partial f}{\partial y}=1.
+	\]
+	At \(p\),
+	\[
+	J(1,1)=(-2\ \ 1),
+	\]
+	so
+	\[
+	\operatorname{rank}J(1,1)=1,
+	\qquad
+	\dim T_pX=2-1=1.
+	\]
+	Since the local dimension is \(1\), the point is smooth. Its tangent line is
+	\[
+	-2(x-1)+(y-1)=0,
+	\]
+	equivalently
+	\[
+	y=2x-1.
+	\]
+	
+	\subsection*{Quick comparison table}
+	
+	\[
+	\begin{array}{c|c|c|c|c}
+		\text{Example} & n & d & \operatorname{rank}J & \text{regular?}\\
+		\hline
+		V(y-x^2)\subseteq \mathbb A^2 \text{ at }(0,0) & 2 & 1 & 1 & \text{yes}\\
+		V(y^2-x^3)\subseteq \mathbb A^2 \text{ at }(0,0) & 2 & 1 & 0 & \text{no}\\
+		V(y^2-x^2-x^3)\subseteq \mathbb A^2 \text{ at }(0,0) & 2 & 1 & 0 & \text{no}\\
+		V(y^2)\subseteq \mathbb A^2 \text{ at }(0,0) & 2 & 1 & 0 & \text{no}\\
+		V(x^2+y^2-z^2)\subseteq \mathbb A^3 \text{ at }0 & 3 & 2 & 0 & \text{no}\\
+		V(x,y)\subseteq \mathbb A^3 & 3 & 1 & 2 & \text{yes}\\
+		V(x^2,y)\subseteq \mathbb A^3 \text{ at }0 & 3 & 1 & 1 & \text{no}\\
+		V(y-x^2)\subseteq \mathbb A^2 \text{ at }(1,1) & 2 & 1 & 1 & \text{yes}
+	\end{array}
+	\]
+	
+	\section*{Zariski tangent space on concrete examples}
+	
+	Recall that if \(X\) is a scheme, \(x\in X\) is a point, and \(\mathfrak m_x\subseteq \mathcal O_{X,x}\) is the maximal ideal of the local ring at \(x\), then the \emph{Zariski tangent space} at \(x\) is defined by
+	\[
+	T_xX:=\operatorname{Hom}_{k(x)}\!\bigl(\mathfrak m_x/\mathfrak m_x^2,\;k(x)\bigr),
+	\]
+	where
+	\[
+	k(x)=\mathcal O_{X,x}/\mathfrak m_x
+	\]
+	is the residue field of the point \(x\).
+	
+	Therefore
+	\[
+	\dim T_xX=\dim_{k(x)}(\mathfrak m_x/\mathfrak m_x^2).
+	\]
+	
+	So the tangent space is dual to the cotangent space \(\mathfrak m_x/\mathfrak m_x^2\), and tangent and cotangent space have the same dimension.
+	
+	\bigskip
+	
+	\textbf{Interpretation.}
+	The ideal \(\mathfrak m_x\) consists of germs of functions vanishing at the point \(x\). The square \(\mathfrak m_x^2\) consists of functions vanishing to second order or higher. Hence
+	\[
+	\mathfrak m_x/\mathfrak m_x^2
+	\]
+	captures only the \emph{first-order} vanishing behavior near the point. Its dual therefore measures first-order directions through the point, i.e. tangent directions.
+	
+	\bigskip
+	
+	In concrete affine examples, there are two main ways to compute \(T_xX\):
+	
+	\begin{enumerate}
+		\item by computing \(\mathfrak m_x/\mathfrak m_x^2\) directly;
+		\item by linearizing the defining equations using partial derivatives.
+	\end{enumerate}
+	
+	We now do several concrete examples carefully.
+	
+	\subsection*{1. General affine recipe}
+	
+	Let
+	\[
+	X=V(f_1,\dots,f_r)\subseteq \mathbb A_k^n
+	\]
+	and let
+	\[
+	x=(a_1,\dots,a_n)\in X(k)
+	\]
+	be a \(k\)-rational point. Then the Zariski tangent space is
+	\[
+	T_xX
+	=
+	\left\{
+	(v_1,\dots,v_n)\in k^n:
+	\sum_{j=1}^n
+	\frac{\partial f_i}{\partial x_j}(x)\,v_j=0
+	\text{ for all }i=1,\dots,r
+	\right\}.
+	\]
+	
+	So one evaluates the Jacobian matrix at the point \(x\), and the tangent space is the kernel of that linear map.
+	
+	Equivalently, if the Jacobian matrix at \(x\) is
+	\[
+	J_x=
+	\left(
+	\frac{\partial f_i}{\partial x_j}(x)
+	\right),
+	\]
+	then
+	\[
+	T_xX=\ker(J_x:k^n\to k^r).
+	\]
+	
+	This is the linear-algebra form of the definition.
+	
+	\subsection*{2. Example: the affine line \(\mathbb A^1_k\)}
+	
+	Let
+	\[
+	X=\mathbb A^1_k=\operatorname{Spec}(k[t]).
+	\]
+	Take a \(k\)-rational point
+	\[
+	x=(t-a),\qquad a\in k.
+	\]
+	
+	Then
+	\[
+	\mathcal O_{X,x}=k[t]_{(t-a)},
+	\]
+	and its maximal ideal is
+	\[
+	\mathfrak m_x=(t-a).
+	\]
+	
+	Therefore
+	\[
+	\mathfrak m_x^2=(t-a)^2,
+	\]
+	so
+	\[
+	\mathfrak m_x/\mathfrak m_x^2
+	=
+	(t-a)/(t-a)^2.
+	\]
+	
+	This is a \(1\)-dimensional vector space over the residue field
+	\[
+	k(x)=k[t]/(t-a)\cong k.
+	\]
+	Indeed, it is generated by the class of \(t-a\).
+	
+	Hence
+	\[
+	\dim_k(\mathfrak m_x/\mathfrak m_x^2)=1,
+	\]
+	and thus
+	\[
+	\dim_k T_xX=1.
+	\]
+	
+	So every point of the affine line has \(1\)-dimensional tangent space.
+	
+	\medskip
+	
+	\textbf{Interpretation.}
+	This matches the geometric intuition: a smooth curve has a \(1\)-dimensional tangent space at each smooth point.
+	
+	\subsection*{3. Example: the affine plane \(\mathbb A^2_k\)}
+	
+	Now let
+	\[
+	X=\mathbb A^2_k=\operatorname{Spec}(k[x,y]).
+	\]
+	Take a point
+	\[
+	p=(a,b)\in \mathbb A^2_k(k).
+	\]
+	
+	Then the local ring is
+	\[
+	\mathcal O_{X,p}=k[x,y]_{(x-a,y-b)},
+	\]
+	with maximal ideal
+	\[
+	\mathfrak m_p=(x-a,\;y-b).
+	\]
+	
+	Then
+	\[
+	\mathfrak m_p^2=\bigl((x-a)^2,\,(x-a)(y-b),\,(y-b)^2\bigr).
+	\]
+	
+	So modulo \(\mathfrak m_p^2\), all quadratic and higher terms vanish, and only the linear terms \(x-a\) and \(y-b\) remain. Therefore the classes
+	\[
+	\overline{x-a},\qquad \overline{y-b}
+	\]
+	form a basis of \(\mathfrak m_p/\mathfrak m_p^2\). Hence
+	\[
+	\dim_k(\mathfrak m_p/\mathfrak m_p^2)=2.
+	\]
+	
+	Thus
+	\[
+	\dim_k T_p\mathbb A^2_k=2.
+	\]
+	
+	Again this agrees with geometry: the tangent space to the plane at any point is a \(2\)-dimensional plane.
+	
+	\subsection*{4. Example: a smooth hypersurface}
+	
+	Let
+	\[
+	X=V(f)\subseteq \mathbb A_k^n
+	\]
+	be a hypersurface. At a point \(p\in X(k)\), the tangent space is given by the single linear equation
+	\[
+	\sum_{j=1}^n \frac{\partial f}{\partial x_j}(p)\,v_j=0.
+	\]
+	
+	So:
+	
+	\begin{itemize}
+		\item if the gradient \(\nabla f(p)\neq 0\), then this is one nontrivial linear equation, so the tangent space has codimension \(1\) in \(k^n\), hence dimension \(n-1\);
+		\item if all partial derivatives vanish at \(p\), then the equation becomes \(0=0\), so the tangent space is all of \(k^n\), which is too large, and this signals a singularity.
+	\end{itemize}
+	
+	We now see this in specific examples.
+	
+	\subsection*{5. Example: the parabola \(y-x^2=0\)}
+	
+	Let
+	\[
+	X=V(y-x^2)\subseteq \mathbb A_k^2.
+	\]
+	This is the affine parabola.
+	
+	Take the point
+	\[
+	p=(0,0).
+	\]
+	
+	\subsubsection*{5.1. Jacobian computation}
+	
+	Set
+	\[
+	f(x,y)=y-x^2.
+	\]
+	Then
+	\[
+	\frac{\partial f}{\partial x}=-2x,
+	\qquad
+	\frac{\partial f}{\partial y}=1.
+	\]
+	
+	At the point \((0,0)\), these become
+	\[
+	\frac{\partial f}{\partial x}(0,0)=0,
+	\qquad
+	\frac{\partial f}{\partial y}(0,0)=1.
+	\]
+	
+	Hence the tangent vectors \((u,v)\in k^2\) satisfy
+	\[
+	0\cdot u+1\cdot v=0,
+	\]
+	that is,
+	\[
+	v=0.
+	\]
+	
+	So
+	\[
+	T_{(0,0)}X=\{(u,0):u\in k\}.
+	\]
+	
+	This is the \(x\)-axis, which is \(1\)-dimensional.
+	
+	\subsubsection*{5.2. Computation via \(\mathfrak m/\mathfrak m^2\)}
+	
+	The coordinate ring of \(X\) is
+	\[
+	A=k[x,y]/(y-x^2).
+	\]
+	At the origin, the maximal ideal is
+	\[
+	\mathfrak m=(x,y)\subseteq A.
+	\]
+	
+	But in \(A\), we have
+	\[
+	y=x^2.
+	\]
+	Since \(x^2\in \mathfrak m^2\), it follows that the class of \(y\) in \(\mathfrak m/\mathfrak m^2\) is zero. Therefore only the class of \(x\) survives, and
+	\[
+	\mathfrak m/\mathfrak m^2
+	\]
+	is \(1\)-dimensional.
+	
+	Thus
+	\[
+	\dim T_{(0,0)}X=1.
+	\]
+	
+	\subsubsection*{5.3. General point on the parabola}
+	
+	Now take a general point
+	\[
+	p=(a,a^2)\in X(k).
+	\]
+	Then again
+	\[
+	f(x,y)=y-x^2,
+	\]
+	so the tangent equation is
+	\[
+	-2a\,u+v=0.
+	\]
+	
+	Hence
+	\[
+	T_pX=\{(u,v)\in k^2:v=2au\}.
+	\]
+	
+	This is exactly the classical tangent line
+	\[
+	y-a^2=2a(x-a).
+	\]
+	
+	So at every point, the parabola has \(1\)-dimensional tangent space, as expected for a smooth curve.
+	
+	\subsection*{6. Example: a line in the plane}
+	
+	Let
+	\[
+	X=V(y)\subseteq \mathbb A_k^2.
+	\]
+	This is just the \(x\)-axis.
+	
+	Take the origin \(p=(0,0)\). The defining equation is
+	\[
+	f(x,y)=y.
+	\]
+	Then
+	\[
+	\frac{\partial f}{\partial x}=0,
+	\qquad
+	\frac{\partial f}{\partial y}=1.
+	\]
+	So the tangent condition is
+	\[
+	0\cdot u+1\cdot v=0,
+	\]
+	that is,
+	\[
+	v=0.
+	\]
+	
+	Hence
+	\[
+	T_{(0,0)}X=\{(u,0):u\in k\}.
+	\]
+	
+	Thus the tangent space is the line itself, as it should be.
+	
+	This example shows that for a smooth linear subvariety, the Zariski tangent space agrees exactly with the geometric linear subspace.
+	
+	\subsection*{7. Example: the union of the coordinate axes \(xy=0\)}
+	
+	Now consider
+	\[
+	X=V(xy)\subseteq \mathbb A_k^2.
+	\]
+	This is the union of the \(x\)-axis and the \(y\)-axis.
+	
+	Take the origin
+	\[
+	p=(0,0).
+	\]
+	
+	\subsubsection*{7.1. Jacobian computation}
+	
+	Set
+	\[
+	f(x,y)=xy.
+	\]
+	Then
+	\[
+	\frac{\partial f}{\partial x}=y,
+	\qquad
+	\frac{\partial f}{\partial y}=x.
+	\]
+	
+	At the origin,
+	\[
+	\frac{\partial f}{\partial x}(0,0)=0,
+	\qquad
+	\frac{\partial f}{\partial y}(0,0)=0.
+	\]
+	
+	So the tangent equation becomes
+	\[
+	0=0.
+	\]
+	
+	Hence every vector \((u,v)\in k^2\) is tangent, so
+	\[
+	T_{(0,0)}X=k^2.
+	\]
+	
+	Thus the tangent space has dimension \(2\).
+	
+	\subsubsection*{7.2. Computation via \(\mathfrak m/\mathfrak m^2\)}
+	
+	The coordinate ring is
+	\[
+	A=k[x,y]/(xy).
+	\]
+	At the origin,
+	\[
+	\mathfrak m=(x,y)\subseteq A.
+	\]
+	
+	Now the relation \(xy=0\) lies already in \(\mathfrak m^2\), so it produces no linear relation in
+	\[
+	\mathfrak m/\mathfrak m^2.
+	\]
+	Hence the classes of \(x\) and \(y\) remain linearly independent modulo \(\mathfrak m^2\). Therefore
+	\[
+	\dim_k(\mathfrak m/\mathfrak m^2)=2.
+	\]
+	
+	So again
+	\[
+	\dim_k T_{(0,0)}X=2.
+	\]
+	
+	\subsubsection*{7.3. Interpretation}
+	
+	The variety \(X\) is a curve, so one might expect tangent dimension \(1\) at smooth points. But at the crossing point the tangent space jumps to dimension \(2\). This indicates that the origin is singular.
+	
+	Geometrically, two branches cross there, and the Zariski tangent space is the whole ambient plane.
+	
+	\subsection*{8. Example: the cusp \(y^2-x^3=0\)}
+	
+	Consider
+	\[
+	X=V(y^2-x^3)\subseteq \mathbb A_k^2.
+	\]
+	Take the origin \(p=(0,0)\).
+	
+	\subsubsection*{8.1. Jacobian computation}
+	
+	Set
+	\[
+	f(x,y)=y^2-x^3.
+	\]
+	Then
+	\[
+	\frac{\partial f}{\partial x}=-3x^2,
+	\qquad
+	\frac{\partial f}{\partial y}=2y.
+	\]
+	
+	At the origin,
+	\[
+	\frac{\partial f}{\partial x}(0,0)=0,
+	\qquad
+	\frac{\partial f}{\partial y}(0,0)=0.
+	\]
+	
+	So again the tangent equation is just
+	\[
+	0=0,
+	\]
+	hence
+	\[
+	T_{(0,0)}X=k^2.
+	\]
+	
+	Therefore
+	\[
+	\dim_k T_{(0,0)}X=2.
+	\]
+	
+	\subsubsection*{8.2. Computation via \(\mathfrak m/\mathfrak m^2\)}
+	
+	The coordinate ring is
+	\[
+	A=k[x,y]/(y^2-x^3).
+	\]
+	At the origin,
+	\[
+	\mathfrak m=(x,y)\subseteq A.
+	\]
+	
+	The relation
+	\[
+	y^2=x^3
+	\]
+	has degree at least \(2\), so again it lies in \(\mathfrak m^2\). Therefore it does not impose any linear relation in
+	\[
+	\mathfrak m/\mathfrak m^2.
+	\]
+	
+	So both \(x\) and \(y\) survive independently, and
+	\[
+	\dim_k(\mathfrak m/\mathfrak m^2)=2.
+	\]
+	
+	Thus
+	\[
+	\dim_k T_{(0,0)}X=2.
+	\]
+	
+	\subsubsection*{8.3. Interpretation}
+	
+	The cusp is singular. Even though in elementary geometry one often draws a single tangent line at the cusp, the Zariski tangent space is still \(2\)-dimensional. This is because the tangent space is obtained from all first-order relations, and here there is no nontrivial linear relation at the origin.
+	
+	So the Zariski tangent space detects singularity very effectively.
+	
+	\subsection*{9. Example: a smooth circle}
+	
+	Let \(\operatorname{char}(k)\neq 2\), and consider
+	\[
+	X=V(x^2+y^2-1)\subseteq \mathbb A_k^2.
+	\]
+	Take the point
+	\[
+	p=(1,0)\in X(k).
+	\]
+	
+	Let
+	\[
+	f(x,y)=x^2+y^2-1.
+	\]
+	Then
+	\[
+	\frac{\partial f}{\partial x}=2x,
+	\qquad
+	\frac{\partial f}{\partial y}=2y.
+	\]
+	
+	At \((1,0)\),
+	\[
+	\frac{\partial f}{\partial x}(1,0)=2,
+	\qquad
+	\frac{\partial f}{\partial y}(1,0)=0.
+	\]
+	
+	So the tangent equation is
+	\[
+	2u+0\cdot v=0,
+	\]
+	hence
+	\[
+	u=0.
+	\]
+	
+	Therefore
+	\[
+	T_{(1,0)}X=\{(0,v):v\in k\},
+	\]
+	which is the vertical line, exactly as in classical geometry.
+	
+	This is another example of a smooth curve having \(1\)-dimensional tangent space.
+	
+	\subsection*{10. Example: the plane curve \(y^2=x^2(x+1)\)}
+	
+	Consider
+	\[
+	X=V(y^2-x^2(x+1))\subseteq \mathbb A_k^2.
+	\]
+	Expanding,
+	\[
+	f(x,y)=y^2-x^3-x^2.
+	\]
+	
+	At the origin,
+	\[
+	\frac{\partial f}{\partial x}=-3x^2-2x,
+	\qquad
+	\frac{\partial f}{\partial y}=2y.
+	\]
+	So at \((0,0)\),
+	\[
+	\frac{\partial f}{\partial x}(0,0)=0,
+	\qquad
+	\frac{\partial f}{\partial y}(0,0)=0.
+	\]
+	Hence
+	\[
+	T_{(0,0)}X=k^2.
+	\]
+	
+	So the origin is singular.
+	
+	If one looks only at the lowest-degree homogeneous part of the defining equation, one sees
+	\[
+	y^2-x^2=(y-x)(y+x),
+	\]
+	which suggests two tangent directions. The Zariski tangent space itself is still \(2\)-dimensional, namely the whole ambient plane, but the tangent cone splits into two lines. This illustrates that tangent space and tangent cone are related but not identical notions.
+	
+	\subsection*{11. Example: the dual numbers}
+	
+	Now take the nonreduced scheme
+	\[
+	X=\operatorname{Spec}(k[\varepsilon]/(\varepsilon^2)).
+	\]
+	
+	This scheme has only one point, with local ring
+	\[
+	A=k[\varepsilon]/(\varepsilon^2),
+	\]
+	and maximal ideal
+	\[
+	\mathfrak m=(\varepsilon).
+	\]
+	
+	Since
+	\[
+	\varepsilon^2=0,
+	\]
+	we have
+	\[
+	\mathfrak m^2=0.
+	\]
+	
+	Therefore
+	\[
+	\mathfrak m/\mathfrak m^2\cong (\varepsilon),
+	\]
+	which is \(1\)-dimensional over the residue field
+	\[
+	k(x)=A/\mathfrak m\cong k.
+	\]
+	
+	Hence
+	\[
+	\dim_k T_xX=1.
+	\]
+	
+	\subsubsection*{Interpretation}
+	
+	This is very important conceptually: topologically \(X\) has only one point, but its tangent space is nonzero. So tangent spaces detect infinitesimal thickness and nilpotent structure, not just the set of ordinary points.
+	
+	This is one of the key reasons the definition via \(\mathfrak m/\mathfrak m^2\) is so powerful in algebraic geometry.
+	
+	\subsection*{12. Example: a fat point in the plane}
+	
+	Consider
+	\[
+	X=\operatorname{Spec}(k[x,y]/(x,y)^2).
+	\]
+	
+	Here
+	\[
+	(x,y)^2=(x^2,xy,y^2),
+	\]
+	so the coordinate ring is
+	\[
+	A=k[x,y]/(x^2,xy,y^2).
+	\]
+	
+	This scheme has one point, corresponding to the maximal ideal
+	\[
+	\mathfrak m=(x,y).
+	\]
+	
+	Since all products of elements of \(\mathfrak m\) vanish,
+	\[
+	\mathfrak m^2=0.
+	\]
+	
+	Hence
+	\[
+	\mathfrak m/\mathfrak m^2=\mathfrak m
+	\]
+	is generated by the classes of \(x\) and \(y\), so it is \(2\)-dimensional over \(k\). Therefore
+	\[
+	\dim_k T_xX=2.
+	\]
+	
+	Again, there is only one underlying point, but the tangent space is \(2\)-dimensional because the point carries nontrivial infinitesimal structure.
+	
+	\subsection*{13. Example: a non-\(k\)-rational point}
+	
+	The use of the residue field \(k(x)\) in the definition becomes important when the point is not \(k\)-rational.
+	
+	Let
+	\[
+	X=\operatorname{Spec}(\mathbb R[t]),
+	\]
+	and take the closed point
+	\[
+	x=(t^2+1).
+	\]
+	
+	This is a closed point of the affine line over \(\mathbb R\), but it is not an \(\mathbb R\)-rational point, because
+	\[
+	k(x)=\mathbb R[t]/(t^2+1)\cong \mathbb C.
+	\]
+	
+	Now the maximal ideal in the local ring is generated by the class of \(t^2+1\), and
+	\[
+	\mathfrak m_x/\mathfrak m_x^2
+	\]
+	is \(1\)-dimensional over \(\mathbb C\). Hence
+	\[
+	\dim_{\mathbb C} T_xX=1.
+	\]
+	
+	So the tangent space is \(1\)-dimensional over the residue field \(\mathbb C\), not over the base field \(\mathbb R\).
+	
+	\subsubsection*{Interpretation}
+	
+	This shows why the definition is
+	\[
+	T_xX=\operatorname{Hom}_{k(x)}(\mathfrak m_x/\mathfrak m_x^2,k(x))
+	\]
+	and not always over the base field \(k\): the natural linear structure of the tangent space is over the residue field of the point.
+	
+	\subsection*{14. Example: affine \(n\)-space}
+	
+	More generally, let
+	\[
+	X=\mathbb A_k^n=\operatorname{Spec}(k[x_1,\dots,x_n]),
+	\]
+	and let
+	\[
+	p=(a_1,\dots,a_n)\in \mathbb A_k^n(k).
+	\]
+	
+	Then
+	\[
+	\mathfrak m_p=(x_1-a_1,\dots,x_n-a_n).
+	\]
+	
+	Modulo \(\mathfrak m_p^2\), the classes
+	\[
+	\overline{x_1-a_1},\dots,\overline{x_n-a_n}
+	\]
+	form a basis of \(\mathfrak m_p/\mathfrak m_p^2\). Therefore
+	\[
+	\dim_k(\mathfrak m_p/\mathfrak m_p^2)=n,
+	\]
+	and hence
+	\[
+	\dim_k T_p\mathbb A_k^n=n.
+	\]
+	
+	This is exactly what one expects: the tangent space to \(n\)-dimensional affine space is \(n\)-dimensional.
+	
+	\subsection*{15. Smoothness criterion via tangent space}
+	
+	These examples illustrate a central general principle.
+	
+	If \(X\) is a variety of dimension \(d\), then at a smooth point \(x\) one expects
+	\[
+	\dim_{k(x)} T_xX=d.
+	\]
+	
+	If instead
+	\[
+	\dim_{k(x)}T_xX>d,
+	\]
+	then \(x\) is singular.
+	
+	This is exactly what we saw:
+	
+	\begin{itemize}
+		\item on \(\mathbb A^1\), tangent dimension is \(1\);
+		\item on \(\mathbb A^2\), tangent dimension is \(2\);
+		\item on the parabola, tangent dimension is \(1\) at every point;
+		\item at the node \(xy=0\), tangent dimension at the origin is \(2\);
+		\item at the cusp \(y^2-x^3=0\), tangent dimension at the origin is \(2\);
+		\item for nonreduced schemes like \(k[\varepsilon]/(\varepsilon^2)\), the tangent space detects infinitesimal thickening.
+	\end{itemize}
+	
+	So the tangent space is one of the most important tools for detecting smooth points, singular points, and infinitesimal structure.
+	
+	\subsection*{16. Conceptual summary}
+	
+	Let \(x\in X\). Then:
+	
+	\begin{itemize}
+		\item \(\mathfrak m_x\) consists of functions vanishing at \(x\);
+		\item \(\mathfrak m_x^2\) consists of products of such functions, hence second-order vanishing;
+		\item \(\mathfrak m_x/\mathfrak m_x^2\) records first-order vanishing data;
+		\item its dual
+		\[
+		T_xX=\operatorname{Hom}_{k(x)}(\mathfrak m_x/\mathfrak m_x^2,k(x))
+		\]
+		is the space of first-order directions through the point.
+	\end{itemize}
+	
+	So one may think of
+	\[
+	\mathfrak m_x/\mathfrak m_x^2
+	\]
+	as the \emph{cotangent space}, and
+	\[
+	T_xX
+	\]
+	as the \emph{tangent space}, i.e. the best linear approximation to the scheme near the point.
+	
+	\subsection*{17. One-line intuition}
+	
+	A useful slogan is:
+	
+	\[
+	\boxed{
+		\text{The Zariski tangent space is what remains after keeping only the linear part of the local equations at the point.}
+	}
+	\]
+	
+	That is exactly why:
+	
+	\begin{itemize}
+		\item smooth points give the expected tangent dimension;
+		\item singular points give a tangent space that is too large;
+		\item nilpotents create tangent directions even when there is only one underlying point.
+	\end{itemize}
+	
+	\subsection*{What is \(\mathbb A^1_k\)? Is it a polynomial ring or is it \(\mathbb R\)?}
+	
+	The affine line
+	\[
+	\mathbb A^1_k
+	\]
+	is \emph{not} itself a polynomial and it is also \emph{not} simply the field \(k\) or the set \(\mathbb R\) (unless one is speaking only informally about rational points).
+	
+	It is the \emph{affine line over the field \(k\)}, defined by
+	\[
+	\mathbb A^1_k=\operatorname{Spec}(k[t]).
+	\]
+	
+	So one must distinguish carefully between the \emph{geometric object} and the \emph{ring of functions on it}.
+	
+	\subsubsection*{1. Algebraic point of view}
+	
+	The ring
+	\[
+	k[t]
+	\]
+	is the polynomial ring in one variable over \(k\).
+	
+	The affine line
+	\[
+	\mathbb A^1_k=\operatorname{Spec}(k[t])
+	\]
+	is the geometric space associated with that ring.
+	
+	Thus:
+	
+	\[
+	k[t]
+	=
+	\text{the ring of polynomial functions in one variable,}
+	\]
+	
+	whereas
+	
+	\[
+	\mathbb A^1_k
+	=
+	\text{the geometric object whose coordinate ring is }k[t].
+	\]
+	
+	So \(\mathbb A^1_k\) is \emph{not} the polynomial ring itself. Rather, it is the scheme whose coordinate ring is \(k[t]\).
+	
+	This is exactly analogous to the general philosophy of algebraic geometry:
+	
+	\[
+	\text{geometric space}
+	\longleftrightarrow
+	\text{ring of functions on that space.}
+	\]
+	
+	In this case,
+	
+	\[
+	\mathbb A^1_k
+	\longleftrightarrow
+	k[t].
+	\]
+	
+	\subsubsection*{2. Pointwise point of view}
+	
+	If one asks for the \(k\)-rational points of the affine line, then one gets
+	\[
+	\mathbb A^1_k(k)=k.
+	\]
+	
+	So as far as \(k\)-rational points are concerned, the affine line behaves like the set \(k\).
+	
+	For example:
+	\[
+	\mathbb A^1_{\mathbb C}(\mathbb C)=\mathbb C,
+	\qquad
+	\mathbb A^1_{\mathbb R}(\mathbb R)=\mathbb R.
+	\]
+	
+	This is why people often say informally that ``the affine line over \(k\) is just \(k\).''
+	
+	But this is only true at the level of \(k\)-rational points. As a scheme, \(\mathbb A^1_k\) contains more structure than just the set \(k\).
+	
+	\subsubsection*{3. Why \(\mathbb A^1_{\mathbb R}\) is more than just \(\mathbb R\)}
+	
+	Over \(\mathbb R\), one has
+	\[
+	\mathbb A^1_{\mathbb R}=\operatorname{Spec}(\mathbb R[t]).
+	\]
+	
+	Its \(\mathbb R\)-rational points are indeed the real numbers:
+	\[
+	\mathbb A^1_{\mathbb R}(\mathbb R)=\mathbb R.
+	\]
+	
+	However, as a scheme, \(\mathbb A^1_{\mathbb R}\) also has closed points that are not real points in the ordinary sense.
+	
+	For example, the ideal
+	\[
+	(t^2+1)
+	\]
+	is maximal in \(\mathbb R[t]\), because \(t^2+1\) is irreducible over \(\mathbb R\). So it defines a closed point of \(\operatorname{Spec}(\mathbb R[t])\).
+	
+	The residue field of this point is
+	\[
+	\mathbb R[t]/(t^2+1)\cong \mathbb C.
+	\]
+	
+	So this point is not an \(\mathbb R\)-rational point; it is a closed point whose field of definition is \(\mathbb C\).
+	
+	This shows that
+	\[
+	\mathbb A^1_{\mathbb R}
+	\]
+	as a scheme is richer than the ordinary set \(\mathbb R\).
+	
+	\subsubsection*{4. Closed points of \(\operatorname{Spec}(k[t])\)}
+	
+	More generally, the points of
+	\[
+	\operatorname{Spec}(k[t])
+	\]
+	correspond to prime ideals of \(k[t]\).
+	
+	Since \(k[t]\) is a principal ideal domain, its prime ideals are:
+	\begin{itemize}
+		\item the zero ideal \((0)\), which is the generic point;
+		\item ideals \((f)\), where \(f\in k[t]\) is irreducible.
+	\end{itemize}
+	
+	So the closed points of \(\mathbb A^1_k\) correspond to irreducible polynomials in \(k[t]\), not just to elements of \(k\).
+	
+	If \(k\) is algebraically closed, every irreducible polynomial is linear, so every closed point has the form
+	\[
+	(t-a),\qquad a\in k.
+	\]
+	In that case the closed points really do correspond exactly to elements of \(k\).
+	
+	But if \(k\) is not algebraically closed, then there are also irreducible polynomials of higher degree, and these give additional closed points.
+	
+	\subsubsection*{5. Coordinate ring versus underlying set}
+	
+	It is very important not to confuse:
+	\begin{itemize}
+		\item the field \(k\),
+		\item the polynomial ring \(k[t]\),
+		\item the affine line \(\mathbb A^1_k=\operatorname{Spec}(k[t])\).
+	\end{itemize}
+	
+	These are three different things.
+	
+	\paragraph{(a) The field \(k\).}
+	This is the base field of scalars.
+	
+	\paragraph{(b) The ring \(k[t]\).}
+	This is the ring of polynomial expressions in one variable with coefficients in \(k\).
+	
+	\paragraph{(c) The scheme \(\mathbb A^1_k\).}
+	This is the geometric object associated to the ring \(k[t]\).
+	
+	So:
+	\[
+	k \neq k[t] \neq \mathbb A^1_k.
+	\]
+	
+	They are related, but they are not the same object.
+	
+	\subsubsection*{6. Analogy}
+	
+	A very useful analogy is:
+	\[
+	\mathbb A^1_k
+	\longleftrightarrow
+	\text{a line},
+	\qquad
+	k[t]
+	\longleftrightarrow
+	\text{polynomial functions on that line}.
+	\]
+	
+	So the line itself is the geometric object, and the polynomial ring is the algebra of functions on it.
+	
+	This is similar to the idea from calculus or differential geometry that one distinguishes between:
+	\begin{itemize}
+		\item a space,
+		\item and functions defined on that space.
+	\end{itemize}
+	
+	\subsubsection*{7. Best summary}
+	
+	The cleanest summary is:
+	
+	\[
+	\boxed{
+		\mathbb A^1_k \text{ is the geometric object, and } k[t] \text{ is its polynomial coordinate ring.}
+	}
+	\]
+	
+	So if one asks:
+	
+	\begin{itemize}
+		\item ``Is \(\mathbb A^1\) a polynomial ring?'' --- no. It is the geometric space associated to the polynomial ring \(k[t]\).
+		\item ``Is \(\mathbb A^1_{\mathbb R}\) equal to \(\mathbb R\)?'' --- its \(\mathbb R\)-rational points are \(\mathbb R\), but as a scheme it contains more information than the set \(\mathbb R\) alone.
+	\end{itemize}
+	
+	\subsubsection*{8. Final slogan}
+	
+	A useful slogan is:
+	
+	\[
+	\boxed{
+		\mathbb A^1_k=\text{the affine line over }k,
+		\qquad
+		k[t]=\text{the ring of polynomial functions on that line.}
+	}
+	\]
+	
+	\subsection*{Dual numbers and their geometric meaning}
+	
+	The \emph{dual numbers} over a field \(k\) are defined as the quotient ring
+	\[
+	k[\varepsilon]/(\varepsilon^2).
+	\]
+	This means that \(\varepsilon\) is a formal symbol satisfying
+	\[
+	\varepsilon^2=0,
+	\]
+	but \(\varepsilon\neq 0\).
+	
+	So every element of the dual number ring has the form
+	\[
+	a+b\varepsilon,
+	\qquad a,b\in k.
+	\]
+	
+	This looks formally similar to complex numbers \(a+bi\), but the rule is different:
+	for complex numbers one has \(i^2=-1\), while for dual numbers one has
+	\[
+	\varepsilon^2=0.
+	\]
+	
+	\subsubsection*{Addition and multiplication}
+	
+	If
+	\[
+	a+b\varepsilon,\qquad c+d\varepsilon\in k[\varepsilon]/(\varepsilon^2),
+	\]
+	then their sum is
+	\[
+	(a+b\varepsilon)+(c+d\varepsilon)=(a+c)+(b+d)\varepsilon,
+	\]
+	and their product is
+	\[
+	(a+b\varepsilon)(c+d\varepsilon)=ac+(ad+bc)\varepsilon+b d\,\varepsilon^2.
+	\]
+	Since \(\varepsilon^2=0\), this simplifies to
+	\[
+	(a+b\varepsilon)(c+d\varepsilon)=ac+(ad+bc)\varepsilon.
+	\]
+	
+	So multiplication in the dual numbers keeps only constant and first-order terms.
+	
+	\subsubsection*{Concrete example}
+	
+	For example,
+	\[
+	(2+3\varepsilon)(5+\varepsilon)
+	=
+	10+2\varepsilon+15\varepsilon+3\varepsilon^2.
+	\]
+	Because \(\varepsilon^2=0\), this becomes
+	\[
+	(2+3\varepsilon)(5+\varepsilon)=10+17\varepsilon.
+	\]
+	
+	\subsubsection*{Units and nilpotents}
+	
+	An element
+	\[
+	a+b\varepsilon
+	\]
+	is invertible if and only if \(a\neq 0\). Indeed, if \(a\neq 0\), then
+	\[
+	(a+b\varepsilon)^{-1}=a^{-1}-a^{-2}b\,\varepsilon.
+	\]
+	This is checked directly:
+	\[
+	(a+b\varepsilon)\bigl(a^{-1}-a^{-2}b\,\varepsilon\bigr)
+	=
+	1+\bigl(-a^{-1}b+a^{-1}b\bigr)\varepsilon
+	=
+	1.
+	\]
+	
+	If \(a=0\), then the element is of the form \(b\varepsilon\), and
+	\[
+	(b\varepsilon)^2=b^2\varepsilon^2=0.
+	\]
+	So such an element is nilpotent.
+	
+	Thus the dual number ring contains a nonzero nilpotent element, namely \(\varepsilon\). This is why it is a standard example of a \emph{nonreduced} ring.
+	
+	\subsubsection*{Why dual numbers matter in algebraic geometry}
+	
+	The ring
+	\[
+	k[\varepsilon]/(\varepsilon^2)
+	\]
+	is the simplest ring that contains first-order infinitesimal information. The corresponding affine scheme is
+	\[
+	\operatorname{Spec}\bigl(k[\varepsilon]/(\varepsilon^2)\bigr).
+	\]
+	
+	Topologically, this scheme has only one point, because the only prime ideal is
+	\[
+	(\varepsilon).
+	\]
+	Indeed, the quotient by this ideal is
+	\[
+	k[\varepsilon]/(\varepsilon)\cong k,
+	\]
+	which is a field, so \((\varepsilon)\) is maximal. Since every prime ideal must contain all nilpotent elements, and \(\varepsilon\) is nilpotent, there are no other prime ideals.
+	
+	So as a topological space,
+	\[
+	\operatorname{Spec}\bigl(k[\varepsilon]/(\varepsilon^2)\bigr)
+	\]
+	is just one point.
+	
+	However, algebraically it is not the same as \(\operatorname{Spec}(k)\), because the ring has an extra nilpotent element \(\varepsilon\). This means that the point is not an ordinary reduced point, but a \emph{fat point}, or an \emph{infinitesimal thickening} of a point.
+	
+	\subsubsection*{Geometric intuition}
+	
+	One may think of an element
+	\[
+	a+b\varepsilon
+	\]
+	as consisting of:
+	
+	\begin{itemize}
+		\item a genuine value \(a\),
+		\item plus a first-order infinitesimal correction \(b\varepsilon\).
+	\end{itemize}
+	
+	Because \(\varepsilon^2=0\), all second-order and higher-order effects disappear. So dual numbers retain exactly first-order information and discard everything quadratic or higher.
+	
+	This is why they are so naturally connected with tangent vectors and linear approximation.
+	
+	\subsubsection*{Dual numbers and tangent vectors}
+	
+	A very important idea in algebraic geometry is that a tangent vector at a point \(x\in X\) can be described by a morphism
+	\[
+	\operatorname{Spec}\bigl(k[\varepsilon]/(\varepsilon^2)\bigr)\to X
+	\]
+	whose closed point maps to \(x\).
+	
+	Such a morphism represents a first-order infinitesimal motion away from the point \(x\). In other words, it records a direction at \(x\), but only up to first order.
+	
+	That is why dual numbers are often used as the algebraic object encoding tangent directions.
+	
+	\subsubsection*{Relation with the Zariski tangent space}
+	
+	Let
+	\[
+	X=\operatorname{Spec}\bigl(k[\varepsilon]/(\varepsilon^2)\bigr).
+	\]
+	Since there is only one point, call it \(x\). The local ring at \(x\) is
+	\[
+	\mathcal O_{X,x}=k[\varepsilon]/(\varepsilon^2),
+	\]
+	and its maximal ideal is
+	\[
+	\mathfrak m_x=(\varepsilon).
+	\]
+	
+	Because
+	\[
+	\varepsilon^2=0,
+	\]
+	we have
+	\[
+	\mathfrak m_x^2=0.
+	\]
+	
+	Therefore
+	\[
+	\mathfrak m_x/\mathfrak m_x^2
+	\cong
+	(\varepsilon),
+	\]
+	which is \(1\)-dimensional over the residue field
+	\[
+	k(x)=\mathcal O_{X,x}/\mathfrak m_x\cong k.
+	\]
+	
+	Hence the Zariski tangent space is
+	\[
+	T_xX=\operatorname{Hom}_k(\mathfrak m_x/\mathfrak m_x^2,k),
+	\]
+	so
+	\[
+	\dim_k T_xX=1.
+	\]
+	
+	Thus even though the scheme has only one underlying point, it has a nontrivial tangent direction.
+	
+	\subsubsection*{Why this is important}
+	
+	This example shows something fundamental:
+	
+	\begin{quote}
+		A scheme can have only one point topologically, but still carry nontrivial infinitesimal structure.
+	\end{quote}
+	
+	That infinitesimal structure is detected by nilpotent elements in the ring, and the dual numbers are the simplest example of this phenomenon.
+	
+	So dual numbers are not just an algebraic curiosity. They are one of the basic tools for understanding:
+	
+	\begin{itemize}
+		\item tangent vectors,
+		\item infinitesimal neighborhoods,
+		\item nonreduced schemes,
+		\item first-order deformations.
+	\end{itemize}
+	
+	\subsubsection*{Summary}
+	
+	The dual numbers over \(k\) are
+	\[
+	k[\varepsilon]/(\varepsilon^2),
+	\]
+	whose elements are
+	\[
+	a+b\varepsilon.
+	\]
+	
+	They satisfy:
+	\begin{itemize}
+		\item \(\varepsilon^2=0\),
+		\item \(\varepsilon\neq 0\),
+		\item they form a nonreduced ring,
+		\item their spectrum is a single fat point,
+		\item they encode first-order infinitesimal information,
+		\item they are closely tied to tangent spaces and tangent vectors.
+	\end{itemize}
+	
+	A useful slogan is:
+	
+	\[
+	\boxed{
+		\text{Dual numbers are the algebra of first-order infinitesimals.}
+	}
+	\]
+	
+	\end{document}
+	
+	
+	

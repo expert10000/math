@@ -1,0 +1,3700 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+
+\usepackage{centernot}
+
+\DeclareMathOperator{\rank}{rank}
+
+\DeclareMathOperator{\Deck}{Deck}
+
+\usepackage{tikz-cd}
+
+\usepackage{tocloft}
+\setlength{\cftsubsecnumwidth}{3.2em}
+
+\newtheorem{prop}{Proposition}[section]
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\RP}{\mathbb{R}\mathrm{P}}
+
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Chi}{\chi}
+\newcommand{\del}{\partial}
+
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{example}[definition]{Example}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Algebraic Topology 9},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\fancyhf{}
+\lhead{Theory of Algebraic Topology 9}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+
+\newcommand{\longdash}{\mathrel{\text{---}}}
+
+\title{\vspace{-1.5em}\bfseries Theory of Algebraic Topology 9}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in algebraic topology
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+\section{Simplicial maps, induced maps on homology, and explicit examples for \texorpdfstring{$S^1$}{S1}, \texorpdfstring{$S^2$}{S2}, and the torus}
+
+\subsection{Introduction}
+
+After constructing simplicial homology groups, the next fundamental step is to understand how maps between spaces act on those groups. This is one of the central ideas of algebraic topology: a map between spaces should induce corresponding algebraic maps between their homology groups.
+
+In the simplicial setting, this begins with the notion of a \emph{simplicial map}. Such a map respects the simplicial structure and therefore induces homomorphisms on chain groups. Because these homomorphisms commute with the boundary operators, they descend to homomorphisms on homology groups. These induced maps allow one to compare spaces, detect whether a map preserves or reverses orientation, determine whether loops survive or are killed, and study how surfaces are mapped.
+
+The purpose of this section is:
+\begin{itemize}
+	\item to define simplicial maps,
+	\item to explain the induced maps on chain groups and homology,
+	\item to state the functorial properties of these constructions,
+	\item and to work through explicit examples involving \(S^1\), \(S^2\), and the torus \(T^2\).
+\end{itemize}
+
+\subsection{Simplicial maps}
+
+\subsubsection{Definition}
+
+Let \(K\) and \(L\) be simplicial complexes. A \emph{simplicial map}
+\[
+f:K\to L
+\]
+is a map from the vertex set of \(K\) to the vertex set of \(L\) such that whenever
+\[
+[v_0,\dots,v_k]
+\]
+is a simplex of \(K\), the set of image vertices
+\[
+f(v_0),\dots,f(v_k)
+\]
+spans a simplex of \(L\).
+
+Thus a simplicial map sends vertices to vertices in such a way that simplices are sent to simplices, possibly of lower dimension.
+
+\subsubsection{Geometric meaning}
+
+Once a simplicial map is specified on the vertices, it extends linearly over each simplex. If
+\[
+x=\sum_{i=0}^k t_i v_i
+\qquad\text{with}\qquad
+t_i\ge 0,\ \sum_{i=0}^k t_i=1
+\]
+is a point of the simplex \([v_0,\dots,v_k]\), then one defines
+\[
+f(x)=\sum_{i=0}^k t_i f(v_i).
+\]
+
+So simplicial maps are piecewise-linear maps between the geometric realizations of simplicial complexes.
+
+\subsubsection{Dimension may drop}
+
+It is important to note that the image of a simplex need not have the same dimension as the original simplex.
+
+For example:
+\begin{itemize}
+	\item an edge may be sent to another edge,
+	\item an edge may collapse to a point if both vertices have the same image,
+	\item a triangle may map to a triangle,
+	\item a triangle may collapse to an edge,
+	\item or a triangle may collapse to a point.
+\end{itemize}
+
+The requirement is only that the images of the vertices span some simplex in the target complex.
+
+\subsubsection{Examples of simplicial maps}
+
+\paragraph{Identity map.}
+For any simplicial complex \(K\), the identity on vertices gives a simplicial map
+\[
+\operatorname{id}_K:K\to K.
+\]
+
+\paragraph{Constant map to a vertex.}
+If \(w\) is a vertex of \(L\), the map sending every vertex of \(K\) to \(w\) is simplicial, because every simplex of \(K\) is sent to the \(0\)-simplex \([w]\).
+
+\paragraph{Vertex permutation.}
+If a simplicial complex has symmetries, a permutation of the vertices preserving simplices defines a simplicial automorphism.
+
+\subsection{Induced maps on chain groups}
+
+\subsubsection{Definition on simplices}
+
+Let
+\[
+f:K\to L
+\]
+be a simplicial map. For each \(k\ge 0\), one defines a homomorphism
+\[
+f_\#:C_k(K)\to C_k(L)
+\]
+on the simplicial chain groups.
+
+If \([v_0,\dots,v_k]\) is an oriented \(k\)-simplex of \(K\), define
+\[
+f_\#([v_0,\dots,v_k])=
+[f(v_0),\dots,f(v_k)]
+\]
+provided the images \(f(v_0),\dots,f(v_k)\) are distinct and span a \(k\)-simplex of \(L\).
+
+If the image simplex has repeated vertices, so the dimension has dropped, then one sets
+\[
+f_\#([v_0,\dots,v_k])=0.
+\]
+
+After that, extend linearly to all \(k\)-chains.
+
+\subsubsection{Why the zero is necessary}
+
+Suppose an edge \([v_0,v_1]\) is mapped to a single vertex because
+\[
+f(v_0)=f(v_1).
+\]
+Then its image is not a \(1\)-simplex. Since \(f_\#\) must map \(1\)-chains to \(1\)-chains, the correct value is zero.
+
+Likewise, if a triangle collapses to an edge or point, it contributes zero to \(C_2(L)\).
+
+\subsubsection{Linearity}
+
+If
+\[
+c=\sum_i n_i\sigma_i\in C_k(K),
+\]
+then
+\[
+f_\#(c)=\sum_i n_i f_\#(\sigma_i).
+\]
+
+Thus \(f_\#\) is a homomorphism of abelian groups.
+
+\subsubsection{Example}
+
+Suppose \(K\) is a triangle with vertices \(v_0,v_1,v_2\), and \(L\) is an edge with vertices \(w_0,w_1\). Let
+\[
+f(v_0)=w_0,\qquad f(v_1)=w_1,\qquad f(v_2)=w_1.
+\]
+Then
+\[
+f_\#([v_0,v_1])=[w_0,w_1],
+\]
+\[
+f_\#([v_1,v_2])=0,
+\]
+because both endpoints map to \(w_1\), and
+\[
+f_\#([v_0,v_1,v_2])=0,
+\]
+because the triangle collapses to an edge.
+
+\subsection{Compatibility with the boundary operator}
+
+\subsubsection{Chain maps}
+
+The crucial fact is that simplicial maps commute with boundary operators:
+\[
+\partial \circ f_\# = f_\# \circ \partial.
+\]
+
+Equivalently, for every \(k\),
+\[
+\partial_k f_\# = f_\# \partial_k.
+\]
+
+A family of homomorphisms satisfying this condition is called a \emph{chain map}.
+
+\subsubsection{Meaning of the identity}
+
+This identity says that taking the image of a simplex and then taking its boundary gives the same result as first taking the boundary of the simplex and then mapping each face.
+
+So simplicial maps respect the chain-complex structure.
+
+\subsubsection{Consequence for cycles}
+
+If \(c\in C_k(K)\) is a cycle, then
+\[
+\partial c=0.
+\]
+Hence
+\[
+\partial(f_\#c)=f_\#(\partial c)=f_\#(0)=0.
+\]
+So \(f_\#c\) is again a cycle.
+
+\subsubsection{Consequence for boundaries}
+
+If \(c\in C_k(K)\) is a boundary, say
+\[
+c=\partial d
+\]
+for some \(d\in C_{k+1}(K)\), then
+\[
+f_\#(c)=f_\#(\partial d)=\partial(f_\#d).
+\]
+So \(f_\#c\) is again a boundary.
+
+This is exactly why \(f_\#\) descends to homology.
+
+\subsection{Induced maps on homology}
+
+Since \(f_\#\) sends cycles to cycles and boundaries to boundaries, it induces a well-defined homomorphism
+\[
+f_*:H_k(K)\to H_k(L).
+\]
+
+If a class in homology is represented by a cycle \(c\), then
+\[
+f_*([c])=[f_\#(c)].
+\]
+
+This is called the \emph{induced map on homology}.
+
+\subsubsection{Why this is well-defined}
+
+Suppose two cycles \(c\) and \(c'\) represent the same homology class. Then
+\[
+c-c'=\partial d
+\]
+for some \((k+1)\)-chain \(d\). Applying \(f_\#\), we obtain
+\[
+f_\#(c)-f_\#(c')=f_\#(\partial d)=\partial(f_\#d),
+\]
+so \(f_\#(c)\) and \(f_\#(c')\) differ by a boundary. Hence they define the same homology class in \(H_k(L)\).
+
+\subsection{Functoriality}
+
+The construction of induced maps satisfies two fundamental rules.
+
+\subsubsection{Identity}
+
+For the identity simplicial map,
+\[
+(\operatorname{id}_K)_*=\operatorname{id}_{H_k(K)}.
+\]
+
+\subsubsection{Composition}
+
+If
+\[
+f:K\to L,\qquad g:L\to M
+\]
+are simplicial maps, then
+\[
+(g\circ f)_*=g_*\circ f_*.
+\]
+
+Thus homology is a functor from simplicial complexes and simplicial maps to abelian groups and homomorphisms.
+
+\subsection{First basic examples}
+
+\subsubsection{The identity map}
+
+If \(f=\operatorname{id}_K\), then the induced map on every chain group is the identity, and therefore
+\[
+f_*=\operatorname{id}
+\]
+on all homology groups.
+
+\subsubsection{A constant map}
+
+Suppose all vertices of \(K\) are sent to one vertex \(w\in L\). Then every simplex of positive dimension collapses. Hence
+\[
+f_\#=0
+\]
+on \(C_k(K)\) for every \(k\ge 1\). Therefore
+\[
+f_*=0
+\]
+on \(H_k(K)\) for every \(k\ge 1\).
+
+On \(H_0\), the map records only the connected component of \(w\).
+
+So constant maps kill all positive-dimensional homology.
+
+\subsection{Explicit examples for \texorpdfstring{$S^1$}{S1}}
+
+\subsubsection{A triangulation of \texorpdfstring{$S^1$}{S1}}
+
+We regard \(S^1\) as the boundary of a triangle with vertices \(v_0,v_1,v_2\) and edges
+\[
+[v_0,v_1],\qquad [v_1,v_2],\qquad [v_2,v_0].
+\]
+Its fundamental \(1\)-cycle is
+\[
+c=[v_0,v_1]+[v_1,v_2]+[v_2,v_0].
+\]
+This generates
+\[
+H_1(S^1)\cong \mathbb{Z}.
+\]
+
+\subsubsection{Map from \texorpdfstring{$S^1$}{S1} to a point}
+
+Let
+\[
+f:S^1\to \{*\}
+\]
+be the constant map.
+
+Since
+\[
+H_1(S^1)\cong \mathbb{Z},
+\qquad
+H_1(\{*\})=0,
+\]
+the induced map
+\[
+f_*:H_1(S^1)\to H_1(\{*\})
+\]
+is necessarily zero.
+
+Geometrically, the essential loop of the circle disappears when the circle is collapsed to a point.
+
+On \(H_0\), both spaces are connected, so
+\[
+f_*:H_0(S^1)\to H_0(\{*\})
+\]
+is an isomorphism.
+
+\subsubsection{Inclusion of the boundary into the filled triangle}
+
+Let \(K\) be the boundary of a triangle and \(L\) the filled triangle. The inclusion
+\[
+i:K\hookrightarrow L
+\]
+is simplicial.
+
+Now
+\[
+H_1(K)\cong \mathbb{Z},
+\qquad
+H_1(L)=0.
+\]
+Hence
+\[
+i_*:H_1(K)\to H_1(L)
+\]
+is the zero map.
+
+This is a fundamental example. The loop around the boundary is nontrivial in \(K\), but inside the filled triangle it becomes the boundary of the \(2\)-simplex and therefore becomes trivial in homology.
+
+\subsubsection{Reflection of \texorpdfstring{$S^1$}{S1}}
+
+Let
+\[
+r:S^1\to S^1
+\]
+be a reflection reversing the orientation of the circle.
+
+Since
+\[
+H_1(S^1)\cong \mathbb{Z},
+\]
+the induced map must be multiplication by either \(1\) or \(-1\). Because the orientation is reversed, one gets
+\[
+r_*=-\operatorname{id}
+\]
+on \(H_1(S^1)\).
+
+Thus if \([c]\) denotes the standard generator of \(H_1(S^1)\), then
+\[
+r_*([c])=-[c].
+\]
+
+On \(H_0(S^1)\cong \mathbb{Z}\), however, reflection acts as the identity.
+
+\subsubsection{Degree \texorpdfstring{$n$}{n} maps on \texorpdfstring{$S^1$}{S1}}
+
+A map
+\[
+f:S^1\to S^1
+\]
+of degree \(n\) wraps the circle around itself \(n\) times. On first homology,
+\[
+f_*:H_1(S^1)\to H_1(S^1)
+\]
+is multiplication by \(n\):
+\[
+f_*(x)=nx.
+\]
+
+Since
+\[
+H_1(S^1)\cong \mathbb{Z},
+\]
+this completely determines the induced map.
+
+Examples:
+\[
+n=1 \implies f_*=\operatorname{id},
+\]
+\[
+n=-1 \implies f_*=-\operatorname{id},
+\]
+\[
+n=2 \implies f_*(x)=2x.
+\]
+
+Geometrically, the integer \(n\) measures how many times the image of a generator winds around the target circle, with sign determined by orientation.
+
+\subsubsection{The antipodal map on \texorpdfstring{$S^1$}{S1}}
+
+Consider
+\[
+a:S^1\to S^1,\qquad a(x)=-x.
+\]
+On \(S^1\), this map is rotation by \(\pi\), so it preserves orientation. Therefore its degree is \(1\), and hence
+\[
+a_*=\operatorname{id}
+\]
+on \(H_1(S^1)\).
+
+This is worth emphasizing because it contrasts with the antipodal map on \(S^2\).
+
+\subsection{Explicit examples for \texorpdfstring{$S^2$}{S2}}
+
+\subsubsection{A triangulation of \texorpdfstring{$S^2$}{S2}}
+
+We may triangulate \(S^2\) as the boundary of a tetrahedron. If the four triangular faces are oriented consistently outward and denoted by
+\[
+\sigma_1,\sigma_2,\sigma_3,\sigma_4,
+\]
+then the chain
+\[
+c=\sigma_1+\sigma_2+\sigma_3+\sigma_4
+\]
+with suitable orientations is a \(2\)-cycle generating
+\[
+H_2(S^2)\cong \mathbb{Z}.
+\]
+
+\subsubsection{Maps \texorpdfstring{$S^2\to S^2$}{S2 to S2} and degree}
+
+Since
+\[
+H_2(S^2)\cong \mathbb{Z},
+\]
+every continuous map
+\[
+f:S^2\to S^2
+\]
+induces a homomorphism
+\[
+f_*:H_2(S^2)\to H_2(S^2).
+\]
+Any homomorphism \(\mathbb{Z}\to\mathbb{Z}\) is multiplication by an integer, so there exists an integer \(d\) such that
+\[
+f_*(x)=dx.
+\]
+This integer is the \emph{degree} of the map.
+
+Thus the degree is exactly the factor by which the map acts on the fundamental class of the sphere.
+
+\subsubsection{Examples of degrees}
+
+\paragraph{Identity map.}
+The identity has degree \(1\), so
+\[
+(\operatorname{id}_{S^2})_*=\operatorname{id}
+\]
+on \(H_2(S^2)\).
+
+\paragraph{Constant map.}
+A constant map has degree \(0\), so it induces the zero map on \(H_2(S^2)\).
+
+\paragraph{Orientation-reversing map.}
+Any orientation-reversing homeomorphism of \(S^2\) has degree \(-1\), hence acts by multiplication by \(-1\) on \(H_2(S^2)\).
+
+\subsubsection{The antipodal map on \texorpdfstring{$S^2$}{S2}}
+
+Consider
+\[
+a:S^2\to S^2,\qquad a(x)=-x.
+\]
+On \(S^2\), the antipodal map reverses orientation, so its degree is \(-1\). Therefore
+\[
+a_*=-\operatorname{id}
+\]
+on
+\[
+H_2(S^2)\cong \mathbb{Z}.
+\]
+
+Hence if \([S^2]\) denotes the fundamental class, then
+\[
+a_*([S^2])=-[S^2].
+\]
+
+\subsubsection{Map from \texorpdfstring{$S^2$}{S2} to \texorpdfstring{$S^1$}{S1}}
+
+Let
+\[
+f:S^2\to S^1.
+\]
+Then
+\[
+H_2(S^2)\cong \mathbb{Z},
+\qquad
+H_2(S^1)=0.
+\]
+So automatically
+\[
+f_*:H_2(S^2)\to H_2(S^1)
+\]
+is the zero map.
+
+Thus the fundamental \(2\)-dimensional homology class of the sphere must vanish in the circle, because the circle has no \(2\)-dimensional homology.
+
+\subsection{Explicit examples for the torus}
+
+\subsubsection{Homology of the torus}
+
+For the torus \(T^2\),
+\[
+H_0(T^2)\cong \mathbb{Z},\qquad
+H_1(T^2)\cong \mathbb{Z}^2,\qquad
+H_2(T^2)\cong \mathbb{Z}.
+\]
+
+Geometrically:
+\begin{itemize}
+	\item \(H_0\) records connectedness,
+	\item \(H_1\) is generated by the two basic loops of the torus,
+	\item \(H_2\) is generated by the fundamental class of the whole surface.
+\end{itemize}
+
+Let us denote by
+\[
+[a],\ [b]
+\]
+the two standard generators of \(H_1(T^2)\), corresponding to the meridian and longitude.
+
+\subsubsection{Inclusion of a circle into the torus}
+
+Choose a meridian circle on the torus and let
+\[
+i:S^1\hookrightarrow T^2
+\]
+be the inclusion.
+
+Since
+\[
+H_1(S^1)\cong \mathbb{Z},
+\qquad
+H_1(T^2)\cong \mathbb{Z}^2,
+\]
+the induced map
+\[
+i_*:H_1(S^1)\to H_1(T^2)
+\]
+sends the generator of \(\mathbb{Z}\) to one of the standard generators of \(\mathbb{Z}^2\). For example,
+\[
+i_*(1)=(1,0).
+\]
+
+If instead one includes the longitude circle, then the image is
+\[
+i_*(1)=(0,1).
+\]
+
+Thus the two generators of \(H_1(T^2)\) are detected by including the two basic circles of the torus.
+
+\subsubsection{Projection from the torus to a circle}
+
+Think of the torus as
+\[
+T^2=S^1\times S^1.
+\]
+Projection onto the first factor gives
+\[
+p_1:T^2\to S^1.
+\]
+
+On first homology,
+\[
+(p_1)_*:H_1(T^2)\to H_1(S^1)
+\]
+is the homomorphism
+\[
+(p_1)_*(m,n)=m.
+\]
+
+Similarly, projection onto the second factor gives
+\[
+(p_2)_*(m,n)=n.
+\]
+
+So projection forgets one loop direction and keeps the other.
+
+\subsubsection{Collapsing one factor}
+
+A closely related map
+\[
+f:T^2\to S^1
+\]
+may collapse one circle factor while preserving the other. On \(H_1\), the induced map again has the form
+\[
+f_*(m,n)=m
+\]
+or
+\[
+f_*(m,n)=n,
+\]
+depending on which factor survives.
+
+This shows clearly that induced maps may keep some homology classes while killing others.
+
+\subsubsection{Maps from the torus to itself}
+
+Any continuous map
+\[
+f:T^2\to T^2
+\]
+induces a homomorphism
+\[
+f_*:H_1(T^2)\to H_1(T^2),
+\]
+that is, a homomorphism
+\[
+\mathbb{Z}^2\to \mathbb{Z}^2.
+\]
+Such a homomorphism is represented by a \(2\times 2\) integer matrix:
+\[
+f_*=
+\begin{pmatrix}
+	a & b\\
+	c & d
+\end{pmatrix}.
+\]
+
+Thus on \(H_1\), maps of the torus are described algebraically by integer matrices.
+
+\subsubsection{Action on \texorpdfstring{$H_2$}{H2}}
+
+Since
+\[
+H_2(T^2)\cong \mathbb{Z},
+\]
+every map
+\[
+f:T^2\to T^2
+\]
+induces on \(H_2\) multiplication by some integer:
+\[
+f_*:H_2(T^2)\to H_2(T^2),
+\qquad
+x\mapsto kx.
+\]
+For orientation-preserving homeomorphisms one gets \(k=1\), for orientation-reversing ones \(k=-1\), and for constant maps \(k=0\).
+
+This integer is the degree of the map on the closed oriented surface \(T^2\).
+
+\subsection{Comparing the three spaces}
+
+It is useful to compare what induced maps can do on the homology of \(S^1\), \(S^2\), and \(T^2\).
+
+\subsubsection{For \texorpdfstring{$S^1$}{S1}}
+
+The important group is
+\[
+H_1(S^1)\cong \mathbb{Z}.
+\]
+Thus any self-map of \(S^1\) acts on first homology by multiplication by an integer, namely the degree.
+
+\subsubsection{For \texorpdfstring{$S^2$}{S2}}
+
+The important group is
+\[
+H_2(S^2)\cong \mathbb{Z}.
+\]
+So any self-map of \(S^2\) acts on second homology by multiplication by its degree.
+
+\subsubsection{For the torus}
+
+The torus has
+\[
+H_1(T^2)\cong \mathbb{Z}^2,
+\qquad
+H_2(T^2)\cong \mathbb{Z}.
+\]
+Thus a self-map of the torus is more complicated:
+\begin{itemize}
+	\item on \(H_1\), it is given by a \(2\times 2\) integer matrix,
+	\item on \(H_2\), it is given by multiplication by an integer.
+\end{itemize}
+
+So the torus has a richer homological algebra than either \(S^1\) or \(S^2\).
+
+\subsection{Why induced maps are important}
+
+The induced map on homology translates geometry into algebra.
+
+A map between spaces may:
+\begin{itemize}
+	\item preserve a class,
+	\item send it to its negative,
+	\item multiply it by an integer,
+	\item embed one generator into a larger group,
+	\item project away one component of homology,
+	\item or kill a class entirely.
+\end{itemize}
+
+This makes homology a powerful tool for understanding not only spaces themselves, but also maps between spaces.
+
+For example:
+\begin{itemize}
+	\item the inclusion \(S^1\hookrightarrow D^2\) kills the fundamental class of the circle,
+	\item reflection of \(S^1\) changes the sign of the generator of \(H_1\),
+	\item the antipodal map on \(S^2\) changes the sign of the fundamental class of \(H_2\),
+	\item projection \(T^2\to S^1\) keeps one generator of \(H_1(T^2)\) and forgets the other.
+\end{itemize}
+
+\subsection{A compact summary of the constructions}
+
+\paragraph{Simplicial map.}
+A vertex map preserving simplices:
+\[
+f:K\to L.
+\]
+
+\paragraph{Induced map on chains.}
+\[
+f_\#:C_k(K)\to C_k(L),
+\]
+defined by sending a simplex to its image simplex if the dimension is preserved, and to zero if the simplex collapses.
+
+\paragraph{Chain map identity.}
+\[
+\partial f_\# = f_\#\partial.
+\]
+
+\paragraph{Induced map on homology.}
+\[
+f_*:H_k(K)\to H_k(L),
+\qquad
+f_*([c])=[f_\#(c)].
+\]
+
+\paragraph{Functoriality.}
+\[
+(g\circ f)_*=g_*\circ f_*,
+\qquad
+(\operatorname{id})_*=\operatorname{id}.
+\]
+
+\subsection{Final summary}
+
+A simplicial map between simplicial complexes induces homomorphisms on chain groups, and because these commute with the boundary operator, they descend to homomorphisms on homology groups. This provides the bridge from topology to algebra not only for spaces, but also for maps between spaces.
+
+For \(S^1\), self-maps act on
+\[
+H_1(S^1)\cong \mathbb{Z}
+\]
+by multiplication by the degree.
+
+For \(S^2\), self-maps act on
+\[
+H_2(S^2)\cong \mathbb{Z}
+\]
+by multiplication by the degree.
+
+For the torus, self-maps act on
+\[
+H_1(T^2)\cong \mathbb{Z}^2
+\]
+by integer matrices and on
+\[
+H_2(T^2)\cong \mathbb{Z}
+\]
+by multiplication by the degree.
+
+The examples of inclusions, constant maps, reflections, antipodal maps, and projections show concretely how induced maps on homology record whether loops and surface classes are preserved, reversed, multiplied, or killed. In this way, induced maps are one of the main tools by which algebraic topology studies the structure of spaces and the behavior of maps between them.
+
+\subsection{What is a \texorpdfstring{$4$}{4}-simplex, and must it live in \texorpdfstring{$\mathbb{R}^4$}{R4}?}
+
+A \(4\)-simplex is the \(4\)-dimensional analogue of the familiar lower-dimensional simplices:
+\begin{itemize}
+	\item a \(0\)-simplex is a point,
+	\item a \(1\)-simplex is a line segment,
+	\item a \(2\)-simplex is a filled triangle,
+	\item a \(3\)-simplex is a filled tetrahedron,
+	\item a \(4\)-simplex is the simplest possible \(4\)-dimensional convex polytope.
+\end{itemize}
+
+If \(v_0,v_1,v_2,v_3,v_4\) are affinely independent points, then the \(4\)-simplex they span is
+\[
+[v_0,v_1,v_2,v_3,v_4]
+=
+\left\{
+\sum_{i=0}^4 t_i v_i
+\;\middle|\;
+t_i\ge 0,\ \sum_{i=0}^4 t_i=1
+\right\}.
+\]
+
+Thus a \(4\)-simplex consists of all convex combinations of its five vertices.
+
+\subsubsection{Must a \(4\)-simplex live in \(\mathbb{R}^4\)?}
+
+A \(4\)-simplex must live in a space of dimension at least \(4\), but it does not have to live specifically in \(\mathbb{R}^4\).
+
+More precisely:
+\begin{itemize}
+	\item it can live in \(\mathbb{R}^4\),
+	\item it can also live in \(\mathbb{R}^5\), \(\mathbb{R}^6\), and higher-dimensional Euclidean spaces,
+	\item but it cannot live as a genuine \(4\)-simplex in \(\mathbb{R}^3\).
+\end{itemize}
+
+The reason is that a \(4\)-simplex has dimension \(4\), so its five vertices must be affinely independent. In \(\mathbb{R}^3\), no set of five points can be affinely independent, because \(\mathbb{R}^3\) has dimension only \(3\). Therefore a genuine \(4\)-simplex cannot exist inside \(\mathbb{R}^3\).
+
+So the smallest ambient space in which a \(4\)-simplex can exist is \(\mathbb{R}^4\), but higher-dimensional ambient spaces are also possible.
+
+\subsubsection{The standard \(4\)-simplex}
+
+The standard \(4\)-simplex is
+\[
+\Delta^4
+=
+\left\{
+(t_0,t_1,t_2,t_3,t_4)\in \mathbb{R}^5
+\;\middle|\;
+t_i\ge 0,\ \sum_{i=0}^4 t_i=1
+\right\}.
+\]
+
+Although this is written as a subset of \(\mathbb{R}^5\), it lies in the affine hyperplane
+\[
+t_0+t_1+t_2+t_3+t_4=1,
+\]
+which has dimension \(4\). Therefore \(\Delta^4\) is a \(4\)-dimensional object sitting inside \(\mathbb{R}^5\).
+
+This is completely analogous to the standard \(2\)-simplex
+\[
+\Delta^2
+=
+\left\{
+(t_0,t_1,t_2)\in \mathbb{R}^3
+\;\middle|\;
+t_i\ge 0,\ t_0+t_1+t_2=1
+\right\},
+\]
+which is a \(2\)-dimensional triangle sitting inside \(\mathbb{R}^3\).
+
+\subsubsection{Why \(\mathbb{R}^3\) is not enough}
+
+In \(\mathbb{R}^3\), one can have at most four affinely independent points. That is why:
+\begin{itemize}
+	\item \(4\) vertices may form a \(3\)-simplex, that is, a tetrahedron,
+	\item but \(5\) vertices can never form a genuine \(4\)-simplex in \(\mathbb{R}^3\).
+\end{itemize}
+
+Any five points in \(\mathbb{R}^3\) are necessarily affinely dependent, so they lie in an affine subspace of dimension at most \(3\).
+
+\subsubsection{Faces of a \(4\)-simplex}
+
+A \(4\)-simplex has:
+\begin{itemize}
+	\item \(5\) vertices,
+	\item \(10\) edges,
+	\item \(10\) triangular \(2\)-faces,
+	\item \(5\) tetrahedral \(3\)-faces.
+\end{itemize}
+
+Its boundary is the union of its five tetrahedral faces.
+
+This fits the general pattern:
+\begin{itemize}
+	\item the boundary of a triangle consists of \(3\) edges,
+	\item the boundary of a tetrahedron consists of \(4\) triangles,
+	\item the boundary of a \(4\)-simplex consists of \(5\) tetrahedra.
+\end{itemize}
+
+\subsubsection{General pattern}
+
+A \(k\)-simplex always has exactly \(k+1\) vertices.
+
+So:
+\[
+\begin{array}{c|c|c}
+	\text{simplex} & \text{dimension} & \text{number of vertices} \\ \hline
+	0\text{-simplex} & 0 & 1 \\
+	1\text{-simplex} & 1 & 2 \\
+	2\text{-simplex} & 2 & 3 \\
+	3\text{-simplex} & 3 & 4 \\
+	4\text{-simplex} & 4 & 5
+\end{array}
+\]
+
+\subsubsection{Summary}
+
+A \(4\)-simplex is the simplest \(4\)-dimensional simplex, determined by \(5\) affinely independent vertices. It does not have to live specifically in \(\mathbb{R}^4\), but it must live in a space of dimension at least \(4\). The smallest such space is \(\mathbb{R}^4\). It cannot exist as a genuine \(4\)-simplex inside \(\mathbb{R}^3\), because five points in \(\mathbb{R}^3\) are always affinely dependent.
+
+
+\subsection{Examples of simplicial complexes and how to recognize them}
+
+A simplicial complex is a space built from simplices glued together in a very controlled and combinatorial way. The definition is simple, but its meaning becomes much clearer through examples.
+
+Recall that a collection \(K\) of simplices is a simplicial complex if it satisfies the following two conditions:
+\begin{enumerate}
+	\item whenever a simplex \(\sigma\) belongs to \(K\), every face of \(\sigma\) also belongs to \(K\),
+	\item whenever \(\sigma,\tau\in K\), the intersection \(\sigma\cap\tau\) is either empty or a common face of both \(\sigma\) and \(\tau\).
+\end{enumerate}
+
+These two rules are exactly what make simplicial complexes well behaved. The first says that simplices cannot appear without their boundary pieces. The second says that simplices may only meet in a clean simplicial way, not in an arbitrary or distorted manner.
+
+The best way to understand this is through examples.
+
+\subsubsection{Example 1: a single vertex}
+
+The simplest possible simplicial complex consists of one vertex:
+\[
+K=\{[v_0]\}.
+\]
+
+This is a simplicial complex because:
+\begin{itemize}
+	\item the only simplex is the vertex itself,
+	\item a vertex has no nontrivial proper faces to include,
+	\item there are no problematic intersections to check.
+\end{itemize}
+
+Its geometric realization is just a single point. This is the smallest nonempty simplicial complex.
+
+\subsubsection{Example 2: a single edge}
+
+Take two vertices \(v_0,v_1\) and the edge joining them:
+\[
+K=\{[v_0],[v_1],[v_0,v_1]\}.
+\]
+
+This is a simplicial complex because:
+\begin{itemize}
+	\item the edge \([v_0,v_1]\) is included,
+	\item its faces \([v_0]\) and \([v_1]\) are also included,
+	\item intersections are either empty or one of the vertices.
+\end{itemize}
+
+Geometrically, the realization is a closed interval. This is the simplest one-dimensional example.
+
+\subsubsection{Example 3: a filled triangle}
+
+Take three vertices \(v_0,v_1,v_2\), all three edges, and the triangle:
+\[
+K=
+\{
+[v_0],[v_1],[v_2],
+[v_0,v_1],[v_1,v_2],[v_0,v_2],
+[v_0,v_1,v_2]
+\}.
+\]
+
+This is a simplicial complex. If the triangle is included, then all of its edges and vertices must also be included. That is exactly what the first rule requires.
+
+Its realization is a filled triangular region, which is topologically a disk.
+
+This is one of the most important examples because it shows how a \(2\)-dimensional region is built from a \(2\)-simplex together with all its lower-dimensional faces.
+
+\subsubsection{Example 4: the boundary of a triangle}
+
+Now take the same three vertices and the same three edges, but do \emph{not} include the filled triangle:
+\[
+K=
+\{
+[v_0],[v_1],[v_2],
+[v_0,v_1],[v_1,v_2],[v_2,v_0]
+\}.
+\]
+
+This is also a simplicial complex.
+
+Its realization is a polygonal circle, so topologically it is \(S^1\).
+
+This example is extremely important because it shows that the same vertices and edges can produce a very different topological space depending on whether the interior \(2\)-simplex is included.
+
+Compare:
+\begin{itemize}
+	\item the filled triangle, which is contractible,
+	\item the boundary of the triangle, which has one essential loop.
+\end{itemize}
+
+So one extra simplex can change the topology completely.
+
+\subsubsection{Example 5: two triangles sharing an edge}
+
+Take four vertices \(v_0,v_1,v_2,v_3\), and consider the two triangles
+\[
+[v_0,v_1,v_2],
+\qquad
+[v_1,v_2,v_3].
+\]
+Include also all of their edges and vertices.
+
+Then one obtains a simplicial complex. The reason is that the two triangles intersect in the edge
+\[
+[v_1,v_2],
+\]
+which is a face of both.
+
+Geometrically, this looks like a quadrilateral region divided into two triangular pieces. It is a very standard and important example of how simplices may be glued together.
+
+This illustrates the second rule of simplicial complexes very clearly: simplices are allowed to meet, but only along common faces.
+
+\subsubsection{Example 6: a square triangulated by a diagonal}
+
+A square itself is not a simplex, but it can be turned into a simplicial complex by subdividing it into triangles.
+
+Take vertices \(v_0,v_1,v_2,v_3\), and include the two triangles
+\[
+[v_0,v_1,v_2],
+\qquad
+[v_0,v_2,v_3],
+\]
+along with all their edges and vertices.
+
+This forms a simplicial complex. Its realization is a filled square.
+
+This is a very useful example because it shows that simplicial complexes can describe shapes more general than single simplices. A square is not itself a simplex, but it can be represented as a union of simplices.
+
+This idea is fundamental in topology: complicated spaces are often studied by triangulating them into simpler pieces.
+
+\subsubsection{Example 7: the boundary of a tetrahedron}
+
+Take four vertices \(v_0,v_1,v_2,v_3\), and include the four triangular faces
+\[
+[v_1,v_2,v_3],\qquad
+[v_0,v_2,v_3],\qquad
+[v_0,v_1,v_3],\qquad
+[v_0,v_1,v_2],
+\]
+together with all edges and vertices.
+
+This gives a simplicial complex. Its realization is the boundary of a tetrahedron, which is homeomorphic to the sphere \(S^2\).
+
+This is one of the most important examples in all of simplicial topology, because it shows that the sphere can be built from finitely many triangles.
+
+It is also a perfect example for homology:
+\[
+H_0(S^2)\cong \mathbb{Z},\qquad
+H_1(S^2)=0,\qquad
+H_2(S^2)\cong \mathbb{Z}.
+\]
+
+So this complex gives a concrete combinatorial model of the \(2\)-sphere.
+
+\subsubsection{Example 8: the full tetrahedron}
+
+Now include not only the boundary faces, but also the \(3\)-simplex
+\[
+[v_0,v_1,v_2,v_3]
+\]
+itself, along with all of its faces.
+
+This is again a simplicial complex.
+
+Its realization is a solid tetrahedron, which is contractible.
+
+This example is the \(3\)-dimensional analogue of the difference between the boundary of a triangle and the filled triangle:
+\begin{itemize}
+	\item the boundary of a tetrahedron is a sphere,
+	\item the full tetrahedron is a solid \(3\)-dimensional body and is contractible.
+\end{itemize}
+
+Again, adding one higher-dimensional simplex drastically changes the topology.
+
+\subsubsection{Example 9: a finite graph as a simplicial complex}
+
+Any finite graph can be viewed as a \(1\)-dimensional simplicial complex.
+
+For example, take vertices
+\[
+v_0,v_1,v_2,v_3
+\]
+and edges
+\[
+[v_0,v_1],\qquad [v_1,v_2],\qquad [v_2,v_3].
+\]
+Together with the vertices, these form a simplicial complex.
+
+So simplicial complexes are not restricted to surfaces or solids. Graphs are among the simplest and most important examples.
+
+In this sense, simplicial complexes generalize graphs to higher dimensions.
+
+\subsubsection{Example 10: two disconnected components}
+
+Take two filled triangles far apart from each other, with no intersection at all. Then the union of all simplices from both triangles forms a simplicial complex.
+
+This is valid because:
+\begin{itemize}
+	\item each triangle includes all of its faces,
+	\item simplices from one triangle have empty intersection with simplices from the other.
+\end{itemize}
+
+This example shows that a simplicial complex need not be connected.
+
+In this case the space has two connected components, so
+\[
+H_0\cong \mathbb{Z}^2.
+\]
+
+\subsubsection{Example 11: a cone over a simplicial complex}
+
+Start with the boundary of a triangle, that is, a simplicial model of \(S^1\). Add one new vertex \(w\), and join it to every edge of the boundary. This gives the triangles
+\[
+[w,v_0,v_1],\qquad
+[w,v_1,v_2],\qquad
+[w,v_2,v_0],
+\]
+together with all lower-dimensional faces.
+
+This forms a simplicial complex. Geometrically, it is the cone over the circle, which is topologically a disk.
+
+This is a very instructive example because the original circle had nontrivial \(H_1\), but after coning it off, the loop becomes the boundary of the new \(2\)-chain, so the resulting complex has trivial \(H_1\).
+
+So cones provide a simple mechanism for killing homology classes.
+
+\subsubsection{Example 12: a triangulated torus}
+
+A torus can also be realized as a simplicial complex, although its triangulation is more complicated than the previous examples.
+
+One standard way is to begin with a square, subdivide it into triangles, and then identify opposite sides appropriately. After these identifications, one obtains a simplicial complex whose realization is the torus \(T^2\).
+
+This is one of the most important examples because it has richer topology:
+\[
+H_0(T^2)\cong \mathbb{Z},\qquad
+H_1(T^2)\cong \mathbb{Z}^2,\qquad
+H_2(T^2)\cong \mathbb{Z}.
+\]
+
+So the torus has:
+\begin{itemize}
+	\item one connected component,
+	\item two independent \(1\)-dimensional holes,
+	\item one \(2\)-dimensional fundamental class.
+\end{itemize}
+
+This makes it one of the standard examples for comparing different homology groups.
+
+\subsubsection{How to recognize whether a collection of simplices is a simplicial complex}
+
+When checking whether a collection of simplices forms a simplicial complex, the safest method is to verify the two defining rules explicitly.
+
+\paragraph{Step 1: check faces.}
+Every time a simplex is present, all its faces must also be present.
+
+For example:
+\begin{itemize}
+	\item if \([v_0,v_1]\) is included, then \([v_0]\) and \([v_1]\) must be included,
+	\item if \([v_0,v_1,v_2]\) is included, then all three edges and all three vertices must also be included,
+	\item if \([v_0,v_1,v_2,v_3]\) is included, then all triangular faces, edges, and vertices must be included.
+\end{itemize}
+
+\paragraph{Step 2: check intersections.}
+Any two simplices may intersect only in a common face, or not at all.
+
+Examples of allowed intersections:
+\begin{itemize}
+	\item two edges meeting at one common vertex,
+	\item two triangles sharing an edge,
+	\item two tetrahedra sharing a triangular face.
+\end{itemize}
+
+Examples of forbidden intersections:
+\begin{itemize}
+	\item two edges crossing in the middle without a vertex there,
+	\item two triangles meeting along only half an edge,
+	\item two simplices overlapping in a shape that is not a face of both.
+\end{itemize}
+
+So the guiding question is:
+\begin{quote}
+	Do simplices meet only in full shared faces?
+\end{quote}
+
+If the answer is yes, and all faces are included, then the structure is a simplicial complex.
+
+\subsubsection{Non-examples}
+
+Non-examples are just as important for understanding the definition.
+
+\paragraph{A triangle without its edges.}
+The collection
+\[
+K=\{[v_0,v_1,v_2]\}
+\]
+is \emph{not} a simplicial complex, because the edges and vertices are missing. The first defining rule fails.
+
+\paragraph{Two triangles meeting badly.}
+Suppose two triangles intersect in some irregular set, for example in only part of an edge, or in a crossing shape that is not a face of both. Then this is \emph{not} a simplicial complex, because the second defining rule fails.
+
+These examples show that the definition is restrictive on purpose. It excludes bad gluings and forces the space to have a clean combinatorial structure.
+
+\subsubsection{A useful comparison table}
+
+It is helpful to collect the most important examples in one place:
+\[
+\begin{array}{c|c|c}
+	\text{example} & \text{realization} & \text{main point} \\ \hline
+	\{[v_0]\} & \text{point} & \text{smallest simplicial complex} \\
+	\{[v_0],[v_1],[v_0,v_1]\} & \text{interval} & \text{basic 1-dimensional example} \\
+	\text{boundary of triangle} & S^1 & \text{first essential loop} \\
+	\text{filled triangle} & D^2 & \text{contractible 2-complex} \\
+	\text{two triangles sharing edge} & \text{surface patch} & \text{valid gluing rule} \\
+	\text{boundary of tetrahedron} & S^2 & \text{sphere from triangles} \\
+	\text{full tetrahedron} & \text{solid tetrahedron} & \text{contractible 3-complex} \\
+	\text{finite graph} & \text{graph} & \text{1-dimensional complex} \\
+	\text{disconnected union} & \text{several components} & \text{need not be connected} \\
+	\text{triangulated torus} & T^2 & \text{rich homology}
+\end{array}
+\]
+
+\subsubsection{Conceptual importance}
+
+Simplicial complexes are important because they allow one to replace geometric spaces with combinatorial objects made from vertices, edges, triangles, tetrahedra, and higher-dimensional simplices.
+
+Once a space is described as a simplicial complex, one can define:
+\begin{itemize}
+	\item chain groups,
+	\item boundary maps,
+	\item cycles and boundaries,
+	\item homology groups,
+	\item and induced maps on homology.
+\end{itemize}
+
+So simplicial complexes provide the bridge between geometry and algebra.
+
+\subsubsection{Summary}
+
+To recognize a simplicial complex, one should remember two basic rules:
+\begin{itemize}
+	\item every simplex must come with all of its faces,
+	\item simplices may meet only in common faces.
+\end{itemize}
+
+The best examples to keep in mind are:
+\begin{itemize}
+	\item a point,
+	\item an interval,
+	\item the boundary of a triangle,
+	\item a filled triangle,
+	\item two triangles sharing an edge,
+	\item the boundary of a tetrahedron,
+	\item a graph,
+	\item a triangulated torus.
+\end{itemize}
+
+These examples show how simplicial complexes range from the simplest discrete objects to important spaces such as circles, spheres, and tori, while still retaining a clean combinatorial structure that makes homology computable.
+
+
+\section{De Rham Cohomology}
+
+De Rham cohomology is one of the most important bridges between differential geometry and topology. It begins with smooth differential forms on a manifold and the exterior derivative, and from these purely differential objects it produces invariants that depend only on the global topology of the space. The central idea is simple but deep: locally, many differential forms look like derivatives of other forms, but globally this can fail, and that failure records the presence of topological holes.
+
+\subsection{Differential forms}
+
+\textbf{Differential forms are the basic objects in de Rham theory.} Let \(M\) be a smooth manifold of dimension \(n\). For each \(k\ge 0\), a smooth \(k\)-form on \(M\) is a smooth section of the bundle \(\Lambda^k T^*M\). The vector space of smooth \(k\)-forms is denoted by
+\[
+\Omega^k(M).
+\]
+
+In local coordinates \((x^1,\dots,x^n)\), a \(k\)-form can be written as
+\[
+\omega=\sum_{1\le i_1<\cdots<i_k\le n} f_{i_1\cdots i_k}(x)\, dx^{i_1}\wedge \cdots \wedge dx^{i_k},
+\]
+where the coefficients \(f_{i_1\cdots i_k}\) are smooth functions.
+
+The first few cases are especially important:
+
+\begin{itemize}
+	\item A \(0\)-form is just a smooth function \(f\in C^\infty(M)\).
+	\item A \(1\)-form looks locally like
+	\[
+	\omega=\sum_{i=1}^n f_i\,dx^i.
+	\]
+	\item A \(2\)-form looks locally like
+	\[
+	\omega=\sum_{i<j} f_{ij}\,dx^i\wedge dx^j.
+	\]
+\end{itemize}
+
+The wedge product \(\wedge\) is alternating, so
+\[
+dx^i\wedge dx^j=-dx^j\wedge dx^i,
+\qquad
+dx^i\wedge dx^i=0.
+\]
+This antisymmetry is one of the main reasons differential forms are so well adapted to orientation and integration.
+
+\subsection{The exterior derivative}
+
+\textbf{The exterior derivative is the differential operator that drives the whole theory.} For each \(k\ge 0\), there is a linear map
+\[
+d:\Omega^k(M)\to \Omega^{k+1}(M),
+\]
+called the exterior derivative. It generalizes the usual differential of a function.
+
+For a smooth function \(f\in \Omega^0(M)\), one has
+\[
+df=\sum_{i=1}^n \frac{\partial f}{\partial x^i}\,dx^i.
+\]
+
+More generally, the exterior derivative is characterized by the following properties:
+
+\begin{enumerate}
+	\item \(d\) is linear;
+	\item \(d^2=0\), that is,
+	\[
+	d(d\omega)=0
+	\quad\text{for every form }\omega;
+	\]
+	\item \(d\) satisfies the graded Leibniz rule:
+	\[
+	d(\alpha\wedge\beta)=d\alpha\wedge\beta+(-1)^p\alpha\wedge d\beta
+	\]
+	when \(\alpha\) is a \(p\)-form.
+\end{enumerate}
+
+A very concrete example appears in \(\mathbb{R}^2\). If
+\[
+\omega=P(x,y)\,dx+Q(x,y)\,dy,
+\]
+then
+\[
+d\omega=\left(\frac{\partial Q}{\partial x}-\frac{\partial P}{\partial y}\right)\,dx\wedge dy.
+\]
+Thus, in the plane, the condition \(d\omega=0\) becomes
+\[
+\frac{\partial Q}{\partial x}=\frac{\partial P}{\partial y}.
+\]
+
+\subsection{The de Rham complex}
+
+\textbf{Because \(d^2=0\), differential forms form a cochain complex.} Namely,
+\[
+0 \longrightarrow \Omega^0(M)\xrightarrow{d}\Omega^1(M)\xrightarrow{d}\Omega^2(M)\xrightarrow{d}\cdots\xrightarrow{d}\Omega^n(M)\longrightarrow 0.
+\]
+This is called the \emph{de Rham complex} of \(M\).
+
+The condition \(d^2=0\) means that the image of each map is contained in the kernel of the next:
+\[
+\operatorname{im}(d:\Omega^{k-1}(M)\to \Omega^k(M))
+\subseteq
+\ker(d:\Omega^k(M)\to \Omega^{k+1}(M)).
+\]
+This inclusion is the starting point of cohomology.
+
+\subsection{Closed and exact forms}
+
+\textbf{The distinction between closed and exact forms is the heart of de Rham cohomology.} A \(k\)-form \(\omega\in \Omega^k(M)\) is called:
+
+\begin{itemize}
+	\item \emph{closed} if \(d\omega=0\),
+	\item \emph{exact} if there exists \(\eta\in \Omega^{k-1}(M)\) such that
+	\[
+	\omega=d\eta.
+	\]
+\end{itemize}
+
+Since \(d^2=0\), every exact form is automatically closed:
+\[
+\omega=d\eta \implies d\omega=d^2\eta=0.
+\]
+So exact forms form a subspace of the closed forms.
+
+The essential question is:
+
+\begin{center}
+	Which closed forms are exact?
+\end{center}
+
+Locally, on simple open sets, the answer is often ``all of them.'' Globally, however, this may fail. The failure of closed forms to be exact is precisely what de Rham cohomology measures.
+
+\subsection{Definition of de Rham cohomology}
+
+\textbf{The cohomology group is the quotient of closed forms by exact forms.} The \(k\)-th de Rham cohomology group of \(M\) is defined by
+\[
+H^k_{\mathrm{dR}}(M)
+=
+\frac{\ker\bigl(d:\Omega^k(M)\to \Omega^{k+1}(M)\bigr)}
+{\operatorname{im}\bigl(d:\Omega^{k-1}(M)\to \Omega^k(M)\bigr)}.
+\]
+
+Equivalently:
+\[
+H^k_{\mathrm{dR}}(M)
+=
+\frac{\{\text{closed \(k\)-forms}\}}
+{\{\text{exact \(k\)-forms}\}}.
+\]
+
+An element of \(H^k_{\mathrm{dR}}(M)\) is called a \emph{de Rham cohomology class}. If \(\omega\) is closed, its class is denoted by
+\[
+[\omega]\in H^k_{\mathrm{dR}}(M).
+\]
+
+Two closed forms \(\omega\) and \(\omega'\) represent the same class if and only if they differ by an exact form:
+\[
+[\omega]=[\omega']
+\iff
+\omega-\omega'=d\eta
+\]
+for some \((k-1)\)-form \(\eta\).
+
+\subsection{Why this measures topology}
+
+\textbf{De Rham cohomology is a global invariant, not a local one.} The reason is the Poincar\'e lemma.
+
+\begin{quote}
+	If \(U\subseteq \mathbb{R}^n\) is contractible, then every closed \(k\)-form on \(U\) with \(k\ge 1\) is exact.
+\end{quote}
+
+So on small or contractible regions there is no interesting cohomology in positive degree. Any nontrivial cohomology class must therefore come from the global geometry of the manifold, not from local coordinate behavior.
+
+This is why de Rham cohomology detects holes. Roughly speaking:
+
+\begin{itemize}
+	\item \(H^0_{\mathrm{dR}}(M)\) detects connected components;
+	\item \(H^1_{\mathrm{dR}}(M)\) detects loop-like holes;
+	\item \(H^2_{\mathrm{dR}}(M)\) detects two-dimensional enclosed structure;
+	\item higher \(H^k_{\mathrm{dR}}(M)\) detect higher-dimensional obstructions.
+\end{itemize}
+
+\subsection{The group \(H^0_{\mathrm{dR}}(M)\)}
+
+\textbf{Degree \(0\) cohomology records connected components.} A \(0\)-form is a smooth function \(f\). It is closed exactly when
+\[
+df=0.
+\]
+But \(df=0\) means that all directional derivatives of \(f\) vanish, so \(f\) is locally constant. Therefore
+\[
+H^0_{\mathrm{dR}}(M)
+=
+\{\text{locally constant functions on }M\}.
+\]
+
+If \(M\) is connected, every locally constant function is constant, so
+\[
+H^0_{\mathrm{dR}}(M)\cong \mathbb{R}.
+\]
+If \(M\) has \(r\) connected components, then
+\[
+H^0_{\mathrm{dR}}(M)\cong \mathbb{R}^r.
+\]
+
+\subsection{Example: Euclidean space \(\mathbb{R}^n\)}
+
+\textbf{Contractible spaces have trivial higher de Rham cohomology.} Since \(\mathbb{R}^n\) is contractible, the Poincar\'e lemma gives
+\[
+H^0_{\mathrm{dR}}(\mathbb{R}^n)\cong \mathbb{R},
+\qquad
+H^k_{\mathrm{dR}}(\mathbb{R}^n)=0
+\quad\text{for all }k\ge 1.
+\]
+
+This agrees with the intuition that \(\mathbb{R}^n\) has no holes.
+
+The same conclusion holds for any contractible manifold, such as a disk \(D^n\) or an interval \([0,1]\).
+
+\subsection{Example: the circle \(S^1\)}
+
+\textbf{The circle is the first example with nontrivial first cohomology.} For \(S^1\), one has
+\[
+H^0_{\mathrm{dR}}(S^1)\cong \mathbb{R},
+\qquad
+H^1_{\mathrm{dR}}(S^1)\cong \mathbb{R},
+\qquad
+H^k_{\mathrm{dR}}(S^1)=0
+\quad\text{for }k\ge 2.
+\]
+
+The nontrivial class in degree \(1\) reflects the fact that \(S^1\) has one essential loop.
+
+A standard representative comes from the punctured plane \(\mathbb{R}^2\setminus\{0\}\):
+\[
+\omega=\frac{-y\,dx+x\,dy}{x^2+y^2}.
+\]
+This form is closed on \(\mathbb{R}^2\setminus\{0\}\), and its restriction to the unit circle gives a closed \(1\)-form on \(S^1\). It is not exact globally.
+
+To see this, parametrize the unit circle by
+\[
+x=\cos t,\qquad y=\sin t,\qquad 0\le t\le 2\pi.
+\]
+Then
+\[
+dx=-\sin t\,dt,\qquad dy=\cos t\,dt,
+\]
+so
+\[
+\omega
+=
+\frac{-\sin t(-\sin t\,dt)+\cos t(\cos t\,dt)}{1}
+=
+dt.
+\]
+Hence
+\[
+\int_{S^1}\omega=\int_0^{2\pi}dt=2\pi.
+\]
+
+If \(\omega\) were exact, say \(\omega=df\), then
+\[
+\int_{S^1}\omega=\int_{S^1}df=0,
+\]
+which is impossible. Therefore \([\omega]\neq 0\), and this class generates \(H^1_{\mathrm{dR}}(S^1)\).
+
+\subsection{Example: the punctured plane \(\mathbb{R}^2\setminus\{0\}\)}
+
+\textbf{The punctured plane has the same de Rham cohomology as the circle.} Topologically, \(\mathbb{R}^2\setminus\{0\}\) deformation retracts onto \(S^1\). Therefore
+\[
+H^0_{\mathrm{dR}}(\mathbb{R}^2\setminus\{0\})\cong \mathbb{R},
+\qquad
+H^1_{\mathrm{dR}}(\mathbb{R}^2\setminus\{0\})\cong \mathbb{R},
+\qquad
+H^k_{\mathrm{dR}}(\mathbb{R}^2\setminus\{0\})=0
+\quad\text{for }k\ge 2.
+\]
+
+Again, the form
+\[
+\omega=\frac{-y\,dx+x\,dy}{x^2+y^2}
+\]
+represents the nontrivial class in \(H^1_{\mathrm{dR}}(\mathbb{R}^2\setminus\{0\})\).
+
+This is one of the most important examples in the subject: it shows clearly that a hole in the space produces a closed form that cannot be written globally as a derivative.
+
+\subsection{Example: the sphere \(S^2\)}
+
+\textbf{The sphere has nontrivial cohomology in top degree.} For \(S^2\),
+\[
+H^0_{\mathrm{dR}}(S^2)\cong \mathbb{R},
+\qquad
+H^1_{\mathrm{dR}}(S^2)=0,
+\qquad
+H^2_{\mathrm{dR}}(S^2)\cong \mathbb{R}.
+\]
+
+The vanishing of \(H^1\) reflects the fact that every loop on the sphere can be contracted. The nontrivial \(H^2\) comes from the area form.
+
+Indeed, on any \(2\)-dimensional manifold, every \(2\)-form is automatically closed if there are no \(3\)-forms. In particular, the standard area form \(\omega\) on \(S^2\) is closed.
+
+However, \(\omega\) is not exact. If \(\omega=d\eta\), then by Stokes' theorem,
+\[
+\int_{S^2}\omega=\int_{S^2}d\eta=\int_{\partial S^2}\eta=0,
+\]
+since \(S^2\) has no boundary. But the total area of the sphere is nonzero, so
+\[
+\int_{S^2}\omega\neq 0.
+\]
+This contradiction shows that \([\omega]\neq 0\), and thus \(H^2_{\mathrm{dR}}(S^2)\) is nontrivial.
+
+\subsection{Example: the \(n\)-sphere \(S^n\)}
+
+\textbf{More generally, the sphere has cohomology only in degrees \(0\) and \(n\).} One has
+\[
+H^k_{\mathrm{dR}}(S^n)\cong
+\begin{cases}
+	\mathbb{R}, & k=0,\\
+	\mathbb{R}, & k=n,\\
+	0, & \text{otherwise}.
+\end{cases}
+\]
+
+Thus spheres are cohomologically very simple: they have one connected component and one top-dimensional fundamental class.
+
+\subsection{Example: the torus \(T^2=S^1\times S^1\)}
+
+\textbf{The torus is the basic example with two independent \(1\)-dimensional classes.} Its de Rham cohomology is
+\[
+H^0_{\mathrm{dR}}(T^2)\cong \mathbb{R},
+\qquad
+H^1_{\mathrm{dR}}(T^2)\cong \mathbb{R}^2,
+\qquad
+H^2_{\mathrm{dR}}(T^2)\cong \mathbb{R}.
+\]
+
+This matches the geometric picture:
+
+\begin{itemize}
+	\item \(H^0\): the torus is connected;
+	\item \(H^1\): there are two independent loop directions, one around the hole and one around the tube;
+	\item \(H^2\): the torus is a closed oriented surface, so it has a top-degree class.
+\end{itemize}
+
+If \(\theta\) and \(\phi\) are angular coordinates on the two \(S^1\)-factors, then the closed \(1\)-forms
+\[
+d\theta,\qquad d\phi
+\]
+represent the two generators of \(H^1_{\mathrm{dR}}(T^2)\), and
+\[
+d\theta\wedge d\phi
+\]
+represents a generator of \(H^2_{\mathrm{dR}}(T^2)\).
+
+So one can think of
+\[
+H^1_{\mathrm{dR}}(T^2)
+=
+\mathbb{R}[d\theta]\oplus \mathbb{R}[d\phi].
+\]
+
+\subsection{Example: the cylinder \(S^1\times \mathbb{R}\)}
+
+\textbf{The cylinder has the same de Rham cohomology as the circle.} Since \(S^1\times \mathbb{R}\) deformation retracts onto \(S^1\),
+\[
+H^0_{\mathrm{dR}}(S^1\times \mathbb{R})\cong \mathbb{R},
+\qquad
+H^1_{\mathrm{dR}}(S^1\times \mathbb{R})\cong \mathbb{R},
+\qquad
+H^k_{\mathrm{dR}}(S^1\times \mathbb{R})=0
+\quad\text{for }k\ge 2.
+\]
+
+This is a good reminder that de Rham cohomology is insensitive to stretching and bending; it depends only on the topology.
+
+\subsection{Integration and cohomology classes}
+
+\textbf{Cohomology classes can be tested by integration over cycles.} If \(\omega\) is a closed \(k\)-form and \(C\) is a \(k\)-cycle, then \(\int_C \omega\) depends only on the cohomology class \([\omega]\), not on the particular representative.
+
+Indeed, if \(\omega'=\omega+d\eta\), then
+\[
+\int_C \omega'
+=
+\int_C \omega+\int_C d\eta
+=
+\int_C \omega+\int_{\partial C}\eta
+=
+\int_C \omega,
+\]
+because \(\partial C=0\).
+
+This makes de Rham cohomology dual in spirit to homology: homology gives cycles, and cohomology gives differential forms that can be integrated over them.
+
+\subsection{Stokes' theorem}
+
+\textbf{Stokes' theorem explains why exact forms vanish on cycles.} In full generality, if \(M\) is an oriented manifold with boundary and \(\eta\) is a compactly supported \((n-1)\)-form, then
+\[
+\int_M d\eta = \int_{\partial M}\eta.
+\]
+
+This generalizes several classical theorems from vector calculus, including the fundamental theorem of calculus, Green's theorem, the divergence theorem, and the classical form of Stokes' theorem.
+
+It is also the reason exact forms do not contribute to cohomology: when integrated over closed cycles, they always give zero.
+
+\subsection{The de Rham theorem}
+
+\textbf{The central theorem says that de Rham cohomology equals singular cohomology with real coefficients.} For every smooth manifold \(M\),
+\[
+H^k_{\mathrm{dR}}(M)\cong H^k(M;\mathbb{R}).
+\]
+
+This is one of the most beautiful theorems in topology and geometry. The left-hand side is defined analytically, using smooth differential forms; the right-hand side is defined topologically, using singular cochains. The theorem says that these two constructions produce the same invariant.
+
+So de Rham cohomology is not just an analytic gadget: it genuinely computes topological information.
+
+\subsection{Why de Rham cohomology uses \(\mathbb{R}\)}
+
+\textbf{De Rham cohomology naturally has real coefficients.} Differential forms are real-valued objects, and integration produces real numbers. As a result, the groups \(H^k_{\mathrm{dR}}(M)\) are real vector spaces.
+
+This means that de Rham cohomology detects the free real part of cohomology, but not torsion. For example, if a space has cohomology with a \(\mathbb{Z}/2\)-torsion piece, that part disappears after passing to real coefficients.
+
+So de Rham cohomology is often simpler than integral cohomology:
+\[
+H^k_{\mathrm{dR}}(M)\cong H^k(M;\mathbb{R})
+\]
+remembers Betti numbers but forgets torsion.
+
+\subsection{Ring structure}
+
+\textbf{De Rham cohomology is not only a graded vector space but also a graded ring.} If \(\alpha\) and \(\beta\) are closed forms, then
+\[
+d(\alpha\wedge\beta)=d\alpha\wedge\beta+(-1)^p\alpha\wedge d\beta=0,
+\]
+so \(\alpha\wedge\beta\) is also closed. Moreover, if one of the forms is exact, then the wedge product is exact up to the appropriate degree, so the wedge product descends to cohomology classes:
+\[
+H^p_{\mathrm{dR}}(M)\times H^q_{\mathrm{dR}}(M)\to H^{p+q}_{\mathrm{dR}}(M).
+\]
+
+Thus
+\[
+H^*_{\mathrm{dR}}(M)=\bigoplus_{k\ge 0}H^k_{\mathrm{dR}}(M)
+\]
+becomes a graded-commutative ring, called the \emph{de Rham cohomology ring}.
+
+For the torus \(T^2\), for example, if \(a=[d\theta]\) and \(b=[d\phi]\), then
+\[
+a\wedge b=[d\theta\wedge d\phi]
+\]
+is the nonzero class in degree \(2\).
+
+\subsection{Betti numbers}
+
+\textbf{The dimensions of de Rham cohomology groups are the Betti numbers.} Since the groups \(H^k_{\mathrm{dR}}(M)\) are real vector spaces, one can define
+\[
+b_k(M)=\dim H^k_{\mathrm{dR}}(M).
+\]
+
+These numbers are topological invariants. For example:
+\[
+b_0(S^1)=1,\qquad b_1(S^1)=1;
+\]
+\[
+b_0(S^2)=1,\qquad b_2(S^2)=1;
+\]
+\[
+b_0(T^2)=1,\qquad b_1(T^2)=2,\qquad b_2(T^2)=1.
+\]
+
+They agree with the Betti numbers coming from singular or simplicial homology after passing to real coefficients.
+
+\subsection{Relation with vector calculus}
+
+\textbf{De Rham theory is a geometric generalization of grad, curl, and div.} In Euclidean space, differential forms and the exterior derivative organize the familiar operators of vector calculus into one unified framework.
+
+Very roughly:
+
+\begin{itemize}
+	\item \(0\)-forms correspond to scalar fields;
+	\item \(1\)-forms correspond to vector fields after choosing a metric;
+	\item \(d\) on \(0\)-forms is the gradient;
+	\item \(d\) on \(1\)-forms is related to curl;
+	\item \(d\) on \(2\)-forms is related to divergence.
+\end{itemize}
+
+The identity
+\[
+d^2=0
+\]
+contains, in one statement, familiar identities such as
+\[
+\operatorname{curl}(\nabla f)=0,
+\qquad
+\operatorname{div}(\operatorname{curl} F)=0.
+\]
+
+So de Rham cohomology may be viewed as the global topological refinement of these local differential identities.
+
+\subsection{Summary of standard examples}
+
+\textbf{A compact list of basic de Rham cohomology groups is useful to remember.} For connected manifolds, one has:
+\[
+H^k_{\mathrm{dR}}(\mathbb{R}^n)=
+\begin{cases}
+	\mathbb{R}, & k=0,\\
+	0, & k\ge 1,
+\end{cases}
+\]
+\[
+H^k_{\mathrm{dR}}(S^1)=
+\begin{cases}
+	\mathbb{R}, & k=0,1,\\
+	0, & \text{otherwise},
+\end{cases}
+\]
+\[
+H^k_{\mathrm{dR}}(S^2)=
+\begin{cases}
+	\mathbb{R}, & k=0,2,\\
+	0, & \text{otherwise},
+\end{cases}
+\]
+\[
+H^k_{\mathrm{dR}}(T^2)=
+\begin{cases}
+	\mathbb{R}, & k=0,2,\\
+	\mathbb{R}^2, & k=1,\\
+	0, & \text{otherwise}.
+\end{cases}
+\]
+
+These examples already show the main principle: de Rham cohomology measures the global failure of closed forms to be exact, and that failure is caused by the topology of the underlying manifold.
+
+\subsection{Comparison with homology}
+
+\textbf{Homology and de Rham cohomology describe the same topology from two complementary points of view.} Homology is built from chains, cycles, and boundaries. De Rham cohomology is built from differential forms, closed forms, and exact forms.
+
+One may think of the relation this way:
+
+\begin{itemize}
+	\item homology provides geometric cycles;
+	\item cohomology provides forms that can be integrated over those cycles.
+\end{itemize}
+
+Thus homology detects holes geometrically, while cohomology detects them analytically. The de Rham theorem says that these two viewpoints are compatible and, over \(\mathbb{R}\), essentially equivalent.
+
+\subsection{Final intuition}
+
+\textbf{The best conceptual summary is that de Rham cohomology measures global obstructions.} On small contractible pieces, closed forms are exact. When one passes to the whole manifold, that local exactness can fail. The resulting quotient
+\[
+\frac{\text{closed forms}}{\text{exact forms}}
+\]
+records precisely how the global shape of the manifold prevents the existence of global primitives.
+
+That is why de Rham cohomology is such a natural and powerful invariant: it transforms topology into a problem about differential forms, derivatives, and integration.
+
+\section{Problem 1 A singular cycle in \(\mathbb{R}\) that is a boundary}
+
+\textbf{We construct explicitly a singular \(2\)-chain in \(\mathbb{R}\) whose boundary is the path from \(0\) to \(1\) together with the path back from \(1\) to \(0\).}
+
+\subsection{Problem statement}
+
+Let
+\[
+\sigma_1,\sigma_2:[0,1]\to \mathbb{R}
+\]
+be given by
+\[
+\sigma_1(x)=x,
+\qquad
+\sigma_2(x)=1-x.
+\]
+Identifying \([0,1]\) with the standard \(1\)-simplex \(\Delta^1\), the singular \(1\)-chain
+\[
+\sigma_1+\sigma_2\in C_1(\mathbb{R})
+\]
+is a cycle. Find an element \(x\in C_2(\mathbb{R})\) such that
+\[
+\partial x=\sigma_1+\sigma_2.
+\]
+
+\subsection{Idea of the construction}
+
+\textbf{The chain \(\sigma_1+\sigma_2\) goes from \(0\) to \(1\) and then immediately back from \(1\) to \(0\), so geometrically it should bound a degenerate \(2\)-simplex.}
+
+Since the target space is just \(\mathbb{R}\), any singular \(2\)-simplex \(\Delta^2\to \mathbb{R}\) must collapse the triangle onto an interval. That is enough for singular homology: the simplex may be degenerate, and its boundary may still produce a nontrivial \(1\)-chain.
+
+We will exhibit explicit singular \(2\)-simplices whose boundaries combine to \(\sigma_1+\sigma_2\).
+
+\subsection{The singular \(2\)-simplices}
+
+\textbf{We define two singular \(2\)-simplices on the standard triangle \(\Delta^2\).}
+
+Let
+\[
+\Delta^2=\{(t_0,t_1,t_2)\in \mathbb{R}^3 \mid t_0,t_1,t_2\ge 0,\ t_0+t_1+t_2=1\}.
+\]
+Define maps
+\[
+\tau_1,\tau_2:\Delta^2\to \mathbb{R}
+\]
+by
+\[
+\tau_1(t_0,t_1,t_2)=t_1,
+\qquad
+\tau_2(t_0,t_1,t_2)=t_2.
+\]
+
+These are singular \(2\)-simplices in \(\mathbb{R}\). In vertex notation one may write
+\[
+\tau_1=[0,1,0],
+\qquad
+\tau_2=[0,0,1].
+\]
+This means:
+
+\begin{itemize}
+	\item \(\tau_1\) sends the three vertices of \(\Delta^2\) to \(0,1,0\),
+	\item \(\tau_2\) sends the three vertices of \(\Delta^2\) to \(0,0,1\).
+\end{itemize}
+
+\subsection{Boundary formula}
+
+\textbf{For a singular \(2\)-simplex \([a,b,c]\), the boundary is}
+\[
+\partial[a,b,c]=[b,c]-[a,c]+[a,b].
+\]
+
+We now apply this formula to \(\tau_1\) and \(\tau_2\).
+
+\subsection{Computing \(\partial \tau_1\)}
+
+\textbf{First compute the boundary of the simplex \([0,1,0]\).}
+
+We have
+\[
+\partial\tau_1
+=
+\partial[0,1,0]
+=
+[1,0]-[0,0]+[0,1].
+\]
+
+Now interpret these edges:
+
+\begin{itemize}
+	\item \([0,1]\) is the path \(\sigma_1\),
+	\item \([1,0]\) is the path \(\sigma_2\),
+	\item \([0,0]\) is the constant singular \(1\)-simplex at \(0\), denote it by \(c_0\).
+\end{itemize}
+
+Therefore
+\[
+\partial\tau_1=\sigma_2-c_0+\sigma_1.
+\]
+
+\subsection{Computing \(\partial \tau_2\)}
+
+\textbf{Now compute the boundary of the simplex \([0,0,1]\).}
+
+We get
+\[
+\partial\tau_2
+=
+\partial[0,0,1]
+=
+[0,1]-[0,1]+[0,0].
+\]
+Hence
+\[
+\partial\tau_2=c_0.
+\]
+
+\subsection{Choosing the required \(2\)-chain}
+
+\textbf{Now we add the two \(2\)-simplices so that the constant edge cancels.}
+
+Set
+\[
+x=\tau_1+\tau_2.
+\]
+Then
+\[
+\partial x
+=
+\partial\tau_1+\partial\tau_2
+=
+(\sigma_2-c_0+\sigma_1)+c_0
+=
+\sigma_1+\sigma_2.
+\]
+
+Thus \(x\in C_2(\mathbb{R})\) satisfies exactly the required condition.
+
+\subsection{Final answer}
+
+\textbf{A valid singular \(2\)-chain is}
+\[
+\boxed{x=\tau_1+\tau_2}
+\]
+where
+\[
+\tau_1(t_0,t_1,t_2)=t_1,
+\qquad
+\tau_2(t_0,t_1,t_2)=t_2.
+\]
+Its boundary is
+\[
+\boxed{\partial x=\sigma_1+\sigma_2.}
+\]
+
+Equivalently, in vertex notation,
+\[
+\boxed{x=[0,1,0]+[0,0,1].}
+\]
+
+\subsection{Geometric comment}
+
+\textbf{This example shows well that in singular homology a simplex need not be nondegenerate.}
+
+The \(2\)-simplices above are collapsed triangles in \(\mathbb{R}\), but they are still legitimate singular simplices, and their boundaries can produce ordinary paths. This is one reason singular homology is flexible: it allows arbitrary continuous maps from simplices, not only embedded geometric simplices.
+
+\section{A singular cycle in \(\mathbb{R}\) that is a boundary: examples and diagrams}
+
+\textbf{This example illustrates concretely that a path going from \(0\) to \(1\) and then back from \(1\) to \(0\) is a singular \(1\)-cycle in \(\mathbb{R}\), and in fact it is the boundary of a singular \(2\)-chain.}
+
+\subsection{The singular \(1\)-simplices}
+
+Let
+\[
+\sigma_1,\sigma_2:[0,1]\to \mathbb{R}
+\]
+be defined by
+\[
+\sigma_1(x)=x,
+\qquad
+\sigma_2(x)=1-x.
+\]
+
+Thus:
+
+\begin{itemize}
+	\item \(\sigma_1\) is the path from \(0\) to \(1\),
+	\item \(\sigma_2\) is the path from \(1\) back to \(0\).
+\end{itemize}
+
+So the singular \(1\)-chain
+\[
+\sigma_1+\sigma_2\in C_1(\mathbb{R})
+\]
+goes out and comes back.
+
+\subsection{Diagram of the two paths}
+
+\textbf{The first path goes from \(0\) to \(1\), and the second returns from \(1\) to \(0\).}
+
+\[
+\begin{tikzpicture}[scale=2]
+	\fill (0,0) circle (1.2pt) node[below] {\(0\)};
+	\fill (2,0) circle (1.2pt) node[below] {\(1\)};
+	
+	\draw[->, thick] (0,0.15) -- (2,0.15) node[midway, above] {\(\sigma_1\)};
+	\draw[<-, thick] (0,-0.15) -- (2,-0.15) node[midway, below] {\(\sigma_2\)};
+\end{tikzpicture}
+\]
+
+This makes it easy to see that the endpoints cancel in the boundary.
+
+\subsection{Checking that \(\sigma_1+\sigma_2\) is a cycle}
+
+\textbf{We now compute its boundary.}
+
+For a singular \(1\)-simplex \(\sigma:[0,1]\to X\), the boundary is
+\[
+\partial \sigma = \sigma(1)-\sigma(0).
+\]
+
+Hence
+\[
+\partial \sigma_1 = 1-0,
+\qquad
+\partial \sigma_2 = 0-1.
+\]
+
+Therefore
+\[
+\partial(\sigma_1+\sigma_2)
+=
+(1-0)+(0-1)=0.
+\]
+
+So \(\sigma_1+\sigma_2\) is a singular \(1\)-cycle.
+
+\subsection{Why it should be a boundary}
+
+\textbf{Geometrically, the two paths go along the same interval in opposite directions, so together they should form the boundary of a collapsed or degenerate triangle in \(\mathbb{R}\).}
+
+Since singular homology allows arbitrary continuous maps from simplices, including degenerate ones, this is possible.
+
+\subsection{A concrete \(2\)-chain whose boundary is \(\sigma_1+\sigma_2\)}
+
+Let
+\[
+\Delta^2=\{(t_0,t_1,t_2)\in\mathbb{R}^3 \mid t_0,t_1,t_2\ge 0,\ t_0+t_1+t_2=1\}.
+\]
+
+Define two singular \(2\)-simplices
+\[
+\tau_1,\tau_2:\Delta^2\to \mathbb{R}
+\]
+by
+\[
+\tau_1(t_0,t_1,t_2)=t_1,
+\qquad
+\tau_2(t_0,t_1,t_2)=t_2.
+\]
+
+In vertex notation:
+\[
+\tau_1=[0,1,0],
+\qquad
+\tau_2=[0,0,1].
+\]
+
+This means:
+
+\begin{itemize}
+	\item \(\tau_1\) sends the three vertices of \(\Delta^2\) to \(0,1,0\),
+	\item \(\tau_2\) sends the three vertices of \(\Delta^2\) to \(0,0,1\).
+\end{itemize}
+
+\subsection{Diagram of the degenerate triangles}
+
+\textbf{Each triangle is mapped into the interval \([0,1]\subset\mathbb{R}\).}
+
+The simplex \(\tau_1=[0,1,0]\) has vertices sent to \(0,1,0\), so its edges are:
+
+\[
+[1,0]-[0,0]+[0,1].
+\]
+
+The simplex \(\tau_2=[0,0,1]\) has vertices sent to \(0,0,1\), so its edges are:
+
+\[
+[0,1]-[0,1]+[0,0].
+\]
+
+One may picture them as follows.
+
+\[
+\begin{tikzpicture}[scale=2]
+	\coordinate (A) at (0,0);
+	\coordinate (B) at (1.6,0);
+	\coordinate (C) at (0.5,1.2);
+	
+	\fill (A) circle (1.2pt) node[left] {\(0\)};
+	\fill (B) circle (1.2pt) node[right] {\(1\)};
+	\fill (C) circle (1.2pt) node[above] {\(0\)};
+	
+	\draw[thick] (A)--(B)--(C)--cycle;
+	\node at (0.8,-0.35) {\(\tau_1=[0,1,0]\)};
+\end{tikzpicture}
+\qquad
+\begin{tikzpicture}[scale=2]
+	\coordinate (A) at (0,0);
+	\coordinate (B) at (1.6,0);
+	\coordinate (C) at (0.5,1.2);
+	
+	\fill (A) circle (1.2pt) node[left] {\(0\)};
+	\fill (B) circle (1.2pt) node[right] {\(0\)};
+	\fill (C) circle (1.2pt) node[above] {\(1\)};
+	
+	\draw[thick] (A)--(B)--(C)--cycle;
+	\node at (0.8,-0.35) {\(\tau_2=[0,0,1]\)};
+\end{tikzpicture}
+\]
+
+These are not ordinary geometric triangles in \(\mathbb{R}\), but singular \(2\)-simplices whose images collapse onto the interval.
+
+\subsection{Boundary formula}
+
+For a singular \(2\)-simplex \([a,b,c]\), the boundary is
+\[
+\partial[a,b,c]=[b,c]-[a,c]+[a,b].
+\]
+
+We now compute the boundaries.
+
+\subsection{Boundary of \(\tau_1=[0,1,0]\)}
+
+\[
+\partial\tau_1
+=
+[1,0]-[0,0]+[0,1].
+\]
+
+Now:
+
+\begin{itemize}
+	\item \([1,0]=\sigma_2\),
+	\item \([0,1]=\sigma_1\),
+	\item \([0,0]=c_0\), the constant singular \(1\)-simplex at \(0\).
+\end{itemize}
+
+So
+\[
+\partial\tau_1=\sigma_2-c_0+\sigma_1.
+\]
+
+\subsection{Boundary of \(\tau_2=[0,0,1]\)}
+
+\[
+\partial\tau_2
+=
+[0,1]-[0,1]+[0,0]
+=
+c_0.
+\]
+
+\subsection{Add the two \(2\)-simplices}
+
+Let
+\[
+x=\tau_1+\tau_2.
+\]
+
+Then
+\[
+\partial x
+=
+\partial\tau_1+\partial\tau_2
+=
+(\sigma_2-c_0+\sigma_1)+c_0
+=
+\sigma_1+\sigma_2.
+\]
+
+Thus
+\[
+\boxed{\partial x=\sigma_1+\sigma_2.}
+\]
+
+So the cycle \(\sigma_1+\sigma_2\) is a boundary.
+
+\subsection{Summary chart}
+
+\[
+\begin{array}{|c|c|c|}
+	\hline
+	\text{Singular simplex} & \text{Description} & \text{Boundary} \\
+	\hline
+	\sigma_1(x)=x & \text{path }0\to1 & 1-0 \\
+	\hline
+	\sigma_2(x)=1-x & \text{path }1\to0 & 0-1 \\
+	\hline
+	\sigma_1+\sigma_2 & \text{go out and back} & 0 \\
+	\hline
+	\tau_1=[0,1,0] & \text{degenerate }2\text{-simplex} & \sigma_2-c_0+\sigma_1 \\
+	\hline
+	\tau_2=[0,0,1] & \text{degenerate }2\text{-simplex} & c_0 \\
+	\hline
+	x=\tau_1+\tau_2 & \text{desired }2\text{-chain} & \sigma_1+\sigma_2 \\
+	\hline
+\end{array}
+\]
+
+\subsection{Geometric interpretation}
+
+\textbf{This is a good example showing the flexibility of singular homology.}
+
+Although there is no ordinary \(2\)-dimensional region in \(\mathbb{R}\) bounded by the interval from \(0\) to \(1\) and back, singular homology allows degenerate simplices. These collapsed \(2\)-simplices are still valid singular chains, and together they show that the back-and-forth loop is homologous to zero.
+
+\subsection{Final answer}
+
+A valid choice is
+\[
+\boxed{x=\tau_1+\tau_2=[0,1,0]+[0,0,1]}
+\]
+and it satisfies
+\[
+\boxed{\partial x=\sigma_1+\sigma_2.}
+\]
+
+\section{A singular cycle in \(\mathbb{R}\) that is a boundary: concrete examples and colored diagrams}
+
+\textbf{This example shows that the path from \(0\) to \(1\) together with the path back from \(1\) to \(0\) is a singular \(1\)-cycle in \(\mathbb{R}\), and in fact it is the boundary of a singular \(2\)-chain made of degenerate \(2\)-simplices.}
+
+\subsection{The singular \(1\)-simplices}
+
+Let
+\[
+\sigma_1,\sigma_2:[0,1]\to \mathbb{R}
+\]
+be defined by
+\[
+\sigma_1(x)=x,
+\qquad
+\sigma_2(x)=1-x.
+\]
+
+Thus:
+
+\begin{itemize}
+	\item \(\sigma_1\) is the path from \(0\) to \(1\),
+	\item \(\sigma_2\) is the path from \(1\) back to \(0\).
+\end{itemize}
+
+So the singular \(1\)-chain
+\[
+\sigma_1+\sigma_2\in C_1(\mathbb{R})
+\]
+goes out and comes back.
+
+\subsection{Colored diagram of the two paths}
+
+\textbf{The blue arrow goes from \(0\) to \(1\), and the red arrow returns from \(1\) to \(0\).}
+
+\[
+\begin{tikzpicture}[scale=1.2]
+	% points
+	\fill (0,0) circle (2pt) node[below=4pt] {\(0\)};
+	\fill (4,0) circle (2pt) node[below=4pt] {\(1\)};
+	
+	% interval
+	\draw[thick] (0,0) -- (4,0);
+	
+	% arrows
+	\draw[->, very thick, blue] (0,0.35) -- (4,0.35)
+	node[midway, above=2pt] {\(\sigma_1\)};
+	\draw[<-, very thick, red] (0,-0.35) -- (4,-0.35)
+	node[midway, below=2pt] {\(\sigma_2\)};
+\end{tikzpicture}
+\]
+
+This picture makes it visually clear that the endpoints cancel in the boundary.
+
+\subsection{Checking that \(\sigma_1+\sigma_2\) is a cycle}
+
+\textbf{For a singular \(1\)-simplex \(\sigma:[0,1]\to X\), the boundary is}
+\[
+\partial \sigma = \sigma(1)-\sigma(0).
+\]
+
+Hence
+\[
+\partial \sigma_1 = 1-0,
+\qquad
+\partial \sigma_2 = 0-1.
+\]
+
+Therefore
+\[
+\partial(\sigma_1+\sigma_2)
+=
+(1-0)+(0-1)=0.
+\]
+
+So \(\sigma_1+\sigma_2\) is a singular \(1\)-cycle.
+
+\subsection{Why it should be a boundary}
+
+\textbf{Geometrically, the path goes from \(0\) to \(1\) and then back to \(0\), so one expects it to bound a degenerate \(2\)-simplex.}
+
+In singular homology, simplices need not be nondegenerate. A singular \(2\)-simplex is simply any continuous map \(\Delta^2\to \mathbb{R}\), even if the image collapses onto an interval.
+
+\subsection{A concrete \(2\)-chain whose boundary is \(\sigma_1+\sigma_2\)}
+
+Let
+\[
+\Delta^2=\{(t_0,t_1,t_2)\in\mathbb{R}^3 \mid t_0,t_1,t_2\ge0,\; t_0+t_1+t_2=1\}.
+\]
+
+Define two singular \(2\)-simplices
+\[
+\tau_1,\tau_2:\Delta^2\to \mathbb{R}
+\]
+by
+\[
+\tau_1(t_0,t_1,t_2)=t_1,
+\qquad
+\tau_2(t_0,t_1,t_2)=t_2.
+\]
+
+In vertex notation:
+\[
+\tau_1=[0,1,0],
+\qquad
+\tau_2=[0,0,1].
+\]
+
+This means:
+
+\begin{itemize}
+	\item \(\tau_1\) sends the three vertices of \(\Delta^2\) to \(0,1,0\),
+	\item \(\tau_2\) sends the three vertices of \(\Delta^2\) to \(0,0,1\).
+\end{itemize}
+
+\subsection{Colored diagram of the first degenerate \(2\)-simplex \(\tau_1=[0,1,0]\)}
+
+\textbf{The triangle is mapped to the interval \([0,1]\subset \mathbb{R}\). Its three edges are colored to match the terms in the boundary formula.}
+
+\[
+\begin{tikzpicture}[scale=1.5]
+	% triangle vertices in domain
+	\coordinate (A) at (0,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (0.8,1.4);
+	
+	% triangle
+	\draw[thick] (A)--(B)--(C)--cycle;
+	
+	% labels on vertices of domain
+	\fill (A) circle (1.5pt) node[below left] {\(v_0\)};
+	\fill (B) circle (1.5pt) node[below right] {\(v_1\)};
+	\fill (C) circle (1.5pt) node[above] {\(v_2\)};
+	
+	% image labels
+	\node at (-0.2,-0.35) {\(\tau_1(v_0)=0\)};
+	\node at (2.2,-0.35) {\(\tau_1(v_1)=1\)};
+	\node at (0.8,1.75) {\(\tau_1(v_2)=0\)};
+	
+	% oriented edges
+	\draw[->, very thick, red] (B) -- (C) node[midway, right] {\([1,0]\)};
+	\draw[->, very thick, gray] (A) -- (C) node[midway, left] {\([0,0]\)};
+	\draw[->, very thick, blue] (A) -- (B) node[midway, below] {\([0,1]\)};
+	
+	% label
+	\node at (1,-0.8) {\(\tau_1=[0,1,0]\)};
+\end{tikzpicture}
+\]
+
+So
+\[
+\partial \tau_1 = [1,0]-[0,0]+[0,1].
+\]
+
+Now interpret the terms:
+
+\begin{itemize}
+	\item \([0,1]=\sigma_1\) (blue edge),
+	\item \([1,0]=\sigma_2\) (red edge),
+	\item \([0,0]=c_0\), the constant singular \(1\)-simplex at \(0\) (gray edge).
+\end{itemize}
+
+Hence
+\[
+\partial\tau_1=\sigma_2-c_0+\sigma_1.
+\]
+
+\subsection{Colored diagram of the second degenerate \(2\)-simplex \(\tau_2=[0,0,1]\)}
+
+\[
+\begin{tikzpicture}[scale=1.5]
+	% triangle vertices
+	\coordinate (A) at (0,0);
+	\coordinate (B) at (2,0);
+	\coordinate (C) at (0.8,1.4);
+	
+	% triangle
+	\draw[thick] (A)--(B)--(C)--cycle;
+	
+	% vertices
+	\fill (A) circle (1.5pt) node[below left] {\(v_0\)};
+	\fill (B) circle (1.5pt) node[below right] {\(v_1\)};
+	\fill (C) circle (1.5pt) node[above] {\(v_2\)};
+	
+	% images
+	\node at (-0.2,-0.35) {\(\tau_2(v_0)=0\)};
+	\node at (2.2,-0.35) {\(\tau_2(v_1)=0\)};
+	\node at (0.8,1.75) {\(\tau_2(v_2)=1\)};
+	
+	% oriented edges
+	\draw[->, very thick, blue] (B) -- (C) node[midway, right] {\([0,1]\)};
+	\draw[->, very thick, blue] (A) -- (C) node[midway, left] {\([0,1]\)};
+	\draw[->, very thick, gray] (A) -- (B) node[midway, below] {\([0,0]\)};
+	
+	% label
+	\node at (1,-0.8) {\(\tau_2=[0,0,1]\)};
+\end{tikzpicture}
+\]
+
+Therefore
+\[
+\partial\tau_2=[0,1]-[0,1]+[0,0]=c_0.
+\]
+
+\subsection{Collapsing picture in \(\mathbb{R}\)}
+
+\textbf{Both triangles collapse onto the interval \([0,1]\). The colored edges show what appears in the boundary.}
+
+\[
+\begin{tikzpicture}[scale=1.1]
+	% image interval
+	\draw[thick] (0,0)--(4,0);
+	\fill (0,0) circle (2pt) node[below] {\(0\)};
+	\fill (4,0) circle (2pt) node[below] {\(1\)};
+	
+	% tau1 edges
+	\draw[->, very thick, blue] (0,0.35)--(4,0.35)
+	node[midway, above=2pt] {\([0,1]=\sigma_1\)};
+	\draw[<-, very thick, red] (0,-0.35)--(4,-0.35)
+	node[midway, below=2pt] {\([1,0]=\sigma_2\)};
+	\draw[very thick, gray] (0,-0.75)--(0,-0.75)
+	node[left=8pt] {\([0,0]=c_0\)};
+\end{tikzpicture}
+\]
+
+In \(\partial\tau_1\), the red and blue arrows appear together with the constant edge.  
+In \(\partial\tau_2\), a constant edge appears again and cancels the one from \(\partial\tau_1\).
+
+\subsection{Adding the two \(2\)-simplices}
+
+Let
+\[
+x=\tau_1+\tau_2.
+\]
+
+Then
+\[
+\partial x
+=
+\partial\tau_1+\partial\tau_2
+=
+(\sigma_2-c_0+\sigma_1)+c_0
+=
+\sigma_1+\sigma_2.
+\]
+
+Thus
+\[
+\boxed{\partial x=\sigma_1+\sigma_2.}
+\]
+
+So the cycle \(\sigma_1+\sigma_2\) is a boundary.
+
+\subsection{Summary chart}
+
+\[
+\renewcommand{\arraystretch}{1.4}
+\begin{array}{|c|c|c|}
+	\hline
+	\textbf{Simplex / chain} & \textbf{Description} & \textbf{Boundary} \\
+	\hline
+	\color{blue}{\sigma_1(x)=x} & \color{blue}{\text{path }0\to1} & 1-0 \\
+	\hline
+	\color{red}{\sigma_2(x)=1-x} & \color{red}{\text{path }1\to0} & 0-1 \\
+	\hline
+	\color{blue}{\sigma_1}+\color{red}{\sigma_2} & \text{go out and back} & 0 \\
+	\hline
+	\tau_1=[0,1,0] & \text{degenerate }2\text{-simplex} & \sigma_2-c_0+\sigma_1 \\
+	\hline
+	\tau_2=[0,0,1] & \text{degenerate }2\text{-simplex} & c_0 \\
+	\hline
+	x=\tau_1+\tau_2 & \text{required }2\text{-chain} & \sigma_1+\sigma_2 \\
+	\hline
+\end{array}
+\]
+
+\subsection{Geometric interpretation}
+
+\textbf{This example shows the flexibility of singular homology.}
+
+Although there is no ordinary \(2\)-dimensional region in \(\mathbb{R}\) bounded by the path \(0\to1\to0\), singular homology allows degenerate simplices. These collapsed triangles are still legitimate singular \(2\)-simplices, and together they provide a \(2\)-chain whose boundary is the back-and-forth path.
+
+\subsection{Final answer}
+
+A valid choice is
+\[
+\boxed{x=\tau_1+\tau_2=[0,1,0]+[0,0,1]}
+\]
+and it satisfies
+\[
+\boxed{\partial x=\sigma_1+\sigma_2.}
+\]
+
+\bigskip
+
+\textbf{Optional packages for the figures:}
+\[
+\texttt{\textbackslash usepackage\{tikz,xcolor\}}
+\]
+No extra TikZ libraries are needed for the diagrams above.
+
+\subsection{A single combined figure}
+
+\textbf{The following figure summarizes the cycle \(\sigma_1+\sigma_2\), the two degenerate \(2\)-simplices \(\tau_1=[0,1,0]\), \(\tau_2=[0,0,1]\), and the cancellation of the constant edge.}
+
+\begin{figure}[htbp]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, font=\small]
+			
+			% ---------- helper styles ----------
+			\tikzset{
+				formula/.style={font=\scriptsize, align=center, text width=3.6cm},
+				tauLabel/.style={font=\small},
+			}
+			
+			%================ LEFT PANEL ==================
+			\begin{scope}[shift={(0,0)}]
+				\node[font=\bfseries] at (2.2,2.0) {The cycle \(\sigma_1+\sigma_2\) in \(\mathbb{R}\)};
+				
+				% interval
+				\draw[thick] (0,1) -- (4.2,1);
+				\fill (0,1) circle (2pt) node[below=4pt] {\(0\)};
+				\fill (4.2,1) circle (2pt) node[below=4pt] {\(1\)};
+				
+				% arrows
+				\draw[->, very thick, blue] (0,1.35) -- (4.2,1.35)
+				node[midway, above=2pt] {\(\sigma_1\)};
+				\draw[<-, very thick, red] (0,0.65) -- (4.2,0.65)
+				node[midway, below=2pt] {\(\sigma_2\)};
+				
+				% formulas
+				\node[align=center] at (2.1,-0.1)
+				{\(
+					\partial\sigma_1 = 1-0,\qquad
+					\partial\sigma_2 = 0-1
+					\)\\[1mm]
+					\(
+					\partial(\sigma_1+\sigma_2)=0
+					\)};
+			\end{scope}
+			
+			% separator 1 (extend lower so it matches the formula area)
+			\draw[dashed] (5.0,-2.05) -- (5.0,2.3);
+			
+			%================ MIDDLE PANEL ==================
+			\begin{scope}[shift={(5.7,0)}]
+				\node[font=\bfseries] at (3.7,2.0) {Degenerate \(2\)-simplices};
+				
+				%----- tau_1
+				\begin{scope}[shift={(0,0)}]
+					\coordinate (A) at (0,0.15);
+					\coordinate (B) at (1.9,0.15);
+					\coordinate (C) at (0.8,1.45);
+					
+					\draw[thick] (A)--(B)--(C)--cycle;
+					
+					\fill (A) circle (1.5pt) node[below left] {\(0\)};
+					\fill (B) circle (1.5pt) node[below right] {\(1\)};
+					\fill (C) circle (1.5pt) node[above] {\(0\)};
+					
+					\draw[->, very thick, red] (B) -- (C)
+					node[midway, right] {\([1,0]\)};
+					\draw[->, very thick, gray] (A) -- (C)
+					node[midway, left] {\([0,0]\)};
+					\draw[->, very thick, blue] (A) -- (B)
+					node[midway, below] {\([0,1]\)};
+					
+					\node[tauLabel] at (0.95,-0.55) {\(\tau_1=[0,1,0]\)};
+					
+					% WRAPPED formulas (no overlap)
+					\node[formula] at (0.95,-1.55) {$
+						\begin{aligned}
+							\partial\tau_1 &= [1,0]-[0,0]+[0,1]\\
+							&= \sigma_2-c_0+\sigma_1
+						\end{aligned}
+						$};
+				\end{scope}
+				
+				%----- tau_2  (shift a bit more right to give breathing room)
+				\begin{scope}[shift={(4.5,0)}]
+					\coordinate (A) at (0,0.15);
+					\coordinate (B) at (1.9,0.15);
+					\coordinate (C) at (0.8,1.45);
+					
+					\draw[thick] (A)--(B)--(C)--cycle;
+					
+					\fill (A) circle (1.5pt) node[below left] {\(0\)};
+					\fill (B) circle (1.5pt) node[below right] {\(0\)};
+					\fill (C) circle (1.5pt) node[above] {\(1\)};
+					
+					\draw[->, very thick, blue] (B) -- (C)
+					node[midway, right] {\([0,1]\)};
+					\draw[->, very thick, blue] (A) -- (C)
+					node[midway, left] {\([0,1]\)};
+					\draw[->, very thick, gray] (A) -- (B)
+					node[midway, below] {\([0,0]\)};
+					
+					\node[tauLabel] at (0.95,-0.55) {\(\tau_2=[0,0,1]\)};
+					
+					% WRAPPED formulas (no overlap)
+					\node[formula] at (0.95,-1.55) {$
+						\begin{aligned}
+							\partial\tau_2 &= [0,1]-[0,1]+[0,0]\\
+							&= c_0
+						\end{aligned}
+						$};
+				\end{scope}
+			\end{scope}
+			
+			% separator 2 (extend lower so it matches the formula area)
+			\draw[dashed] (14.1,-2.05) -- (14.1,2.3);
+			
+	%================ RIGHT PANEL ==================
+	\begin{scope}[shift={(14.8,0)}]
+		\node[font=\bfseries] at (2.2,2.0) {Cancellation};
+		
+		% move this computation block a bit DOWN (1.2 -> 1.05)
+		\node[align=center] at (2.2,1.05)
+		{\(
+			x=\tau_1+\tau_2
+			\)\\[1mm]
+			\(
+			\partial x=(\textcolor{red}{\sigma_2}-c_0+\textcolor{blue}{\sigma_1})+c_0
+			\)\\[1mm]
+			\(
+			=\textcolor{blue}{\sigma_1}+\textcolor{red}{\sigma_2}
+			\)};
+		
+		% interval
+		\draw[thick] (0.1,0) -- (4.3,0);
+		\fill (0.1,0) circle (2pt) node[below=4pt] {\(0\)};
+		\fill (4.3,0) circle (2pt) node[below=4pt] {\(1\)};
+		
+		% arrows
+		\draw[->, very thick, blue] (0.1,0.35) -- (4.3,0.35)
+		node[midway, above=2pt, text=blue] {\(\sigma_1\)};
+		\draw[<-, very thick, red] (0.1,-0.35) -- (4.3,-0.35)
+		node[midway, below=2pt, text=red] {\(\sigma_2\)};
+		
+		% move this “boxed + sentence” block DOWN (−1.0 -> −1.35)
+		\node[align=center] at (2.2,-1.35)
+		{\(
+			\boxed{\partial x=\textcolor{blue}{\sigma_1}+\textcolor{red}{\sigma_2}}
+			\)\\[1mm]
+			so \(\sigma_1+\sigma_2\) is a boundary.};
+	\end{scope}
+			
+		\end{tikzpicture}%
+	}
+	\caption{The cycle \(\sigma_1+\sigma_2\), the degenerate singular \(2\)-simplices \(\tau_1,\tau_2\), and the cancellation giving \(\partial x=\sigma_1+\sigma_2\).}
+\end{figure}
+
+\subsection{Interpretation of the combined figure}
+
+\textbf{The left panel shows the singular \(1\)-cycle \(\sigma_1+\sigma_2\), which goes from \(0\) to \(1\) and back again. Its boundary is zero because the endpoints cancel.}
+
+\textbf{The middle panel shows two degenerate singular \(2\)-simplices.} The first one,
+\[
+\tau_1=[0,1,0],
+\]
+has boundary
+\[
+\partial\tau_1=\sigma_2-c_0+\sigma_1,
+\]
+where \(c_0=[0,0]\) is the constant \(1\)-simplex at \(0\). The second one,
+\[
+\tau_2=[0,0,1],
+\]
+has boundary
+\[
+\partial\tau_2=c_0.
+\]
+
+\textbf{The right panel shows that when we add the two \(2\)-simplices, the constant edge cancels:}
+\[
+x=\tau_1+\tau_2,
+\qquad
+\partial x=\sigma_1+\sigma_2.
+\]
+
+Thus the back-and-forth path is not only a cycle but also a boundary.
+
+\subsection{Final answer}
+
+A valid singular \(2\)-chain is
+\[
+\boxed{x=\tau_1+\tau_2=[0,1,0]+[0,0,1]}
+\]
+and it satisfies
+\[
+\boxed{\partial x=\sigma_1+\sigma_2.}
+\]
+
+
+\section{Problem 2 Contractible chain complexes and the reduced chain complex of a simplex}
+
+\subsection{Problem statement}
+
+Suppose \((C_*,d)\) is a chain complex over a ring \(R\). We say that \(C\) is \emph{contractible} if there is an \(R\)-linear map
+\[
+H_k : C_k \to C_{k+1}
+\]
+for all \(k\), such that
+\[
+dH + Hd = \operatorname{id}_C.
+\]
+Show that if \(C\) is contractible, then
+\[
+H_*(C)=0.
+\]
+Show moreover that \(\widetilde{S}_*(\Delta^n)\) is contractible for all \(n \ge 0\).
+
+\subsection{Solution}
+
+\textbf{Solution.}
+
+We prove the two statements separately.
+
+\subsubsection{If \(C\) is contractible, then \(H_*(C)=0\)}
+
+Recall that
+\[
+H_k(C)=\frac{Z_k(C)}{B_k(C)},
+\qquad
+Z_k(C)=\ker(d_k),
+\qquad
+B_k(C)=\operatorname{im}(d_{k+1}).
+\]
+So it is enough to show that every cycle is a boundary.
+
+Let \(z\in C_k\) be a cycle. Then
+\[
+dz=0.
+\]
+Since \(C\) is contractible, we have
+\[
+dH+Hd=\operatorname{id}_C.
+\]
+Applying this identity to \(z\), we obtain
+\[
+z=(dH+Hd)(z)=dH(z)+H(dz)=dH(z)+H(0)=dH(z).
+\]
+Thus \(z\in \operatorname{im}(d)=B_k(C)\). Therefore every cycle is a boundary, so
+\[
+Z_k(C)\subseteq B_k(C).
+\]
+On the other hand, for every chain complex one always has
+\[
+B_k(C)\subseteq Z_k(C),
+\]
+because \(d^2=0\). Hence
+\[
+Z_k(C)=B_k(C),
+\]
+and therefore
+\[
+H_k(C)=\frac{Z_k(C)}{B_k(C)}=0
+\]
+for every \(k\).
+
+Thus a contractible chain complex has trivial homology:
+\[
+H_*(C)=0.
+\]
+
+\subsubsection{The reduced simplicial chain complex \(\widetilde{S}_*(\Delta^n)\) is contractible}
+
+Let
+\[
+\Delta^n=[v_0,v_1,\dots,v_n]
+\]
+be the standard \(n\)-simplex. We will define an explicit contracting homotopy
+\[
+H_q : \widetilde{S}_q(\Delta^n)\to \widetilde{S}_{q+1}(\Delta^n)
+\]
+by coning simplices to the vertex \(v_0\).
+
+\paragraph{Step 1: Definition of \(H\) in degrees \(q\ge 0\).}
+
+Let
+\[
+\sigma=[v_{i_0},v_{i_1},\dots,v_{i_q}]
+\]
+be an oriented simplex of \(\Delta^n\), written with increasing indices \(i_0<i_1<\cdots<i_q\). Define
+\[
+H_q(\sigma)=
+\begin{cases}
+	[v_0,v_{i_0},v_{i_1},\dots,v_{i_q}], & \text{if } i_0>0,\\[1mm]
+	0, & \text{if } i_0=0.
+\end{cases}
+\]
+Then extend \(R\)-linearly to all chains.
+
+Since we are working with the reduced chain complex, we must also define the map in degree \(-1\):
+\[
+H_{-1}: \widetilde{S}_{-1}(\Delta^n)=R \longrightarrow \widetilde{S}_0(\Delta^n),
+\qquad
+H_{-1}(1)=[v_0].
+\]
+
+We will show that
+\[
+\partial H + H\partial=\operatorname{id}_{\widetilde{S}_*(\Delta^n)}.
+\]
+
+\paragraph{Step 2: Verification in degrees \(q\ge 1\).}
+
+Take a simplex
+\[
+\sigma=[v_{i_0},\dots,v_{i_q}].
+\]
+
+\medskip
+
+\noindent
+\emph{Case 1: \(i_0>0\).}
+
+Then
+\[
+H(\sigma)=[v_0,v_{i_0},\dots,v_{i_q}].
+\]
+Its boundary is
+\[
+\partial H(\sigma)
+=
+\partial [v_0,v_{i_0},\dots,v_{i_q}]
+=
+[v_{i_0},\dots,v_{i_q}]
++
+\sum_{j=1}^{q+1}(-1)^j
+[v_0,v_{i_0},\dots,\widehat{v_{i_{j-1}}},\dots,v_{i_q}].
+\]
+Reindexing the sum gives
+\[
+\partial H(\sigma)
+=
+\sigma
+-
+\sum_{j=0}^{q}(-1)^j
+[v_0,v_{i_0},\dots,\widehat{v_{i_j}},\dots,v_{i_q}].
+\]
+But the second term is exactly \(H(\partial \sigma)\), because every face
+\[
+[v_{i_0},\dots,\widehat{v_{i_j}},\dots,v_{i_q}]
+\]
+still has smallest vertex \(>0\). Therefore
+\[
+\partial H(\sigma)=\sigma-H(\partial \sigma),
+\]
+hence
+\[
+(\partial H+H\partial)(\sigma)=\sigma.
+\]
+
+\medskip
+
+\noindent
+\emph{Case 2: \(i_0=0\).}
+
+Then
+\[
+\sigma=[v_0,v_{i_1},\dots,v_{i_q}]
+\]
+and by definition
+\[
+H(\sigma)=0.
+\]
+Now
+\[
+\partial \sigma
+=
+[v_{i_1},\dots,v_{i_q}]
++
+\sum_{j=1}^{q}(-1)^j
+[v_0,v_{i_1},\dots,\widehat{v_{i_j}},\dots,v_{i_q}].
+\]
+Applying \(H\), all terms in the sum with first vertex \(v_0\) are sent to \(0\), while the first term becomes
+\[
+H([v_{i_1},\dots,v_{i_q}])=[v_0,v_{i_1},\dots,v_{i_q}]=\sigma.
+\]
+Thus
+\[
+H(\partial \sigma)=\sigma.
+\]
+Since \(H(\sigma)=0\), we obtain
+\[
+(\partial H+H\partial)(\sigma)=0+\sigma=\sigma.
+\]
+
+So for every simplex in degree \(q\ge 1\),
+\[
+(\partial H+H\partial)(\sigma)=\sigma.
+\]
+
+\paragraph{Step 3: Verification in degree \(0\).}
+
+Now let us check the identity on vertices.
+
+Take a \(0\)-simplex \([v_i]\).
+
+\medskip
+
+\noindent
+\emph{If \(i=0\):} then \(H([v_0])=0\), and in the reduced complex
+\[
+\partial([v_0])=1\in \widetilde{S}_{-1}(\Delta^n)=R.
+\]
+Hence
+\[
+H\partial([v_0])=H_{-1}(1)=[v_0].
+\]
+Therefore
+\[
+(\partial H+H\partial)([v_0])=0+[v_0]=[v_0].
+\]
+
+\medskip
+
+\noindent
+\emph{If \(i>0\):} then
+\[
+H([v_i])=[v_0,v_i].
+\]
+So
+\[
+\partial H([v_i])=\partial [v_0,v_i]=[v_i]-[v_0].
+\]
+Also
+\[
+\partial([v_i])=1,
+\qquad
+H\partial([v_i])=H_{-1}(1)=[v_0].
+\]
+Hence
+\[
+(\partial H+H\partial)([v_i])
+=
+([v_i]-[v_0])+[v_0]
+=
+[v_i].
+\]
+
+Thus the identity also holds in degree \(0\).
+
+\paragraph{Step 4: Verification in degree \(-1\).}
+
+Finally, for the generator \(1\in R=\widetilde{S}_{-1}(\Delta^n)\), we have
+\[
+\partial H_{-1}(1)=\partial([v_0])=1.
+\]
+So
+\[
+(\partial H+H\partial)(1)=1.
+\]
+
+Therefore
+\[
+\partial H + H\partial=\operatorname{id}_{\widetilde{S}_*(\Delta^n)}.
+\]
+This proves that \(\widetilde{S}_*(\Delta^n)\) is contractible.
+
+\subsubsection{Conclusion}
+
+We have shown:
+
+\begin{enumerate}
+	\item If a chain complex \(C\) is contractible, then all of its homology groups vanish:
+	\[
+	H_*(C)=0.
+	\]
+	\item For every \(n\ge 0\), the reduced simplicial chain complex of the simplex \(\Delta^n\) is contractible:
+	\[
+	\widetilde{S}_*(\Delta^n)\ \text{is contractible}.
+	\]
+\end{enumerate}
+
+In particular,
+\[
+\widetilde{H}_*(\Delta^n)=0
+\qquad \text{for all } n\ge 0.
+\]
+
+\subsection{Examples of contractible spaces and reduced homology}
+
+\textbf{Contractible spaces.}
+A topological space \(X\) is called \emph{contractible} if the identity map
+\[
+\operatorname{id}_X : X \to X
+\]
+is homotopic to a constant map. Intuitively, this means that the whole space can be continuously shrunk to a point inside itself. Contractible spaces are homotopy equivalent to a point, so they have the same homology as a point. In particular,
+\[
+H_0(X)\cong \mathbb{Z}, \qquad H_n(X)=0 \text{ for } n\ge 1,
+\]
+provided \(X\) is nonempty and connected. Equivalently,
+\[
+\widetilde{H}_n(X)=0 \qquad \text{for all } n.
+\]
+
+\subsubsection{Basic examples of contractible spaces}
+
+\paragraph{Example 1: A point.}
+The one-point space \(\{*\}\) is contractible. Indeed, the identity map is already equal to a constant map. Its homology is
+\[
+H_0(\{*\})\cong \mathbb{Z}, \qquad H_n(\{*\})=0 \text{ for } n\ge 1,
+\]
+and its reduced homology is
+\[
+\widetilde{H}_n(\{*\})=0 \qquad \text{for all } n.
+\]
+
+\paragraph{Example 2: The interval \([0,1]\).}
+The interval is contractible. A contraction to the point \(0\) is given by the homotopy
+\[
+F:[0,1]\times [0,1]\to [0,1], \qquad F(x,t)=(1-t)x.
+\]
+At time \(t=0\), this is the identity map:
+\[
+F(x,0)=x,
+\]
+and at time \(t=1\), everything has collapsed to the point \(0\):
+\[
+F(x,1)=0.
+\]
+Thus \([0,1]\) is contractible.
+
+\paragraph{Example 3: Euclidean space \(\mathbb{R}^n\).}
+The same idea works in any dimension:
+\[
+F:\mathbb{R}^n\times [0,1]\to \mathbb{R}^n, \qquad F(x,t)=(1-t)x.
+\]
+This deforms the identity map to the constant map at the origin. Hence \(\mathbb{R}^n\) is contractible.
+
+\paragraph{Example 4: The closed disk \(D^n\).}
+The disk
+\[
+D^n=\{x\in \mathbb{R}^n : \|x\|\le 1\}
+\]
+is contractible by the same formula
+\[
+F(x,t)=(1-t)x.
+\]
+Every point moves linearly toward the center. So \(D^n\) is contractible for every \(n\).
+
+\paragraph{Example 5: The simplex \(\Delta^n\).}
+Every simplex is contractible. Geometrically, \(\Delta^n\) is convex, so for any chosen vertex \(v_0\), every point \(x\in \Delta^n\) can be moved linearly toward \(v_0\). Thus \(\Delta^n\) contracts to a point. In particular,
+\[
+\widetilde{H}_k(\Delta^n)=0 \qquad \text{for all } k.
+\]
+This is exactly the geometric reason behind the chain-level fact proved earlier: the reduced chain complex \(\widetilde{S}_*(\Delta^n)\) is contractible.
+
+\paragraph{Example 6: Convex and star-shaped subsets of \(\mathbb{R}^n\).}
+Any convex subset \(A\subseteq \mathbb{R}^n\) is contractible. If \(p\in A\), then
+\[
+F(x,t)=(1-t)x+tp
+\]
+defines a contraction of \(A\) to \(p\), because convexity guarantees that the whole line segment from \(x\) to \(p\) stays inside \(A\).
+
+More generally, any star-shaped subset of \(\mathbb{R}^n\) is contractible by the same formula, provided there is a point \(p\) such that the segment from every \(x\in A\) to \(p\) lies in \(A\).
+
+\subsubsection{Examples of spaces that are not contractible}
+
+It is useful to compare the above spaces with spaces that are not contractible.
+
+\paragraph{Example 7: The circle \(S^1\).}
+The circle is not contractible. Intuitively, it has a one-dimensional hole. Algebraically,
+\[
+H_1(S^1)\cong \mathbb{Z},
+\]
+so
+\[
+\widetilde{H}_1(S^1)\cong \mathbb{Z}\neq 0.
+\]
+Since contractible spaces have trivial reduced homology, \(S^1\) cannot be contractible.
+
+\paragraph{Example 8: The sphere \(S^n\) for \(n\ge 1\).}
+The \(n\)-sphere is not contractible, because
+\[
+\widetilde{H}_n(S^n)\cong \mathbb{Z}.
+\]
+Thus a sphere has nontrivial topology in dimension \(n\).
+
+\paragraph{Example 9: The torus \(T^2\).}
+The torus is not contractible. It has essential loops, and in fact
+\[
+H_1(T^2)\cong \mathbb{Z}\oplus \mathbb{Z}.
+\]
+So its topology is far from trivial.
+
+\subsubsection{What reduced homology means}
+
+Ordinary homology in degree \(0\) counts connected components. If a space \(X\) has \(m\) connected components, then
+\[
+H_0(X)\cong \mathbb{Z}^m.
+\]
+In particular, even a single point has
+\[
+H_0(\{*\})\cong \mathbb{Z}.
+\]
+Reduced homology modifies this by removing one copy of \(\mathbb{Z}\), so that a connected space has reduced \(0\)-th homology equal to \(0\):
+\[
+\widetilde{H}_0(X)=0 \qquad \text{if } X \text{ is connected}.
+\]
+Thus reduced homology is often cleaner, because it removes the unavoidable connectedness contribution.
+
+\subsubsection{Basic examples of reduced homology}
+
+\paragraph{Example 10: A point.}
+For a point,
+\[
+H_0(\{*\})\cong \mathbb{Z},
+\qquad
+\widetilde{H}_0(\{*\})=0.
+\]
+All higher homology groups are zero. So reduced homology makes the point completely trivial:
+\[
+\widetilde{H}_n(\{*\})=0 \qquad \text{for all } n.
+\]
+
+\paragraph{Example 11: Two points.}
+Let \(X=\{a,b\}\). Then \(X\) has two connected components, so
+\[
+H_0(X)\cong \mathbb{Z}\oplus \mathbb{Z}.
+\]
+Reduced homology removes one copy of \(\mathbb{Z}\), hence
+\[
+\widetilde{H}_0(X)\cong \mathbb{Z}.
+\]
+More generally, if \(X\) has \(m\) connected components, then
+\[
+\widetilde{H}_0(X)\cong \mathbb{Z}^{m-1}.
+\]
+
+\paragraph{Example 12: The interval \([0,1]\).}
+Since \([0,1]\) is connected and contractible,
+\[
+H_0([0,1])\cong \mathbb{Z}, \qquad H_n([0,1])=0 \text{ for } n\ge 1,
+\]
+and therefore
+\[
+\widetilde{H}_n([0,1])=0 \qquad \text{for all } n.
+\]
+
+\paragraph{Example 13: The disk \(D^2\).}
+Similarly,
+\[
+\widetilde{H}_n(D^2)=0 \qquad \text{for all } n,
+\]
+because \(D^2\) is contractible.
+
+\paragraph{Example 14: The circle \(S^1\).}
+For the circle,
+\[
+H_0(S^1)\cong \mathbb{Z}, \qquad H_1(S^1)\cong \mathbb{Z},
+\]
+and all other homology groups vanish. Reduced homology changes only degree \(0\), so
+\[
+\widetilde{H}_0(S^1)=0, \qquad \widetilde{H}_1(S^1)\cong \mathbb{Z}.
+\]
+Thus reduced homology removes the connectedness contribution but keeps the essential hole.
+
+\paragraph{Example 15: The sphere \(S^n\).}
+For \(n\ge 1\),
+\[
+\widetilde{H}_k(S^n)=
+\begin{cases}
+	\mathbb{Z}, & k=n,\\[1mm]
+	0, & k\neq n.
+\end{cases}
+\]
+For example,
+\[
+\widetilde{H}_1(S^1)\cong \mathbb{Z}, \qquad
+\widetilde{H}_2(S^2)\cong \mathbb{Z}.
+\]
+
+\paragraph{Example 16: The simplex \(\Delta^n\).}
+Since \(\Delta^n\) is contractible,
+\[
+\widetilde{H}_k(\Delta^n)=0 \qquad \text{for all } k.
+\]
+This is the homological statement corresponding to the fact that \(\Delta^n\) can be shrunk to a point.
+
+\subsubsection{Reduced chain complex: concrete picture}
+
+For a simplicial complex \(X\), the reduced chain complex is obtained from the usual chain complex by adding an augmentation map
+\[
+\cdots \longrightarrow C_1(X)\xrightarrow{\partial_1} C_0(X)\xrightarrow{\varepsilon} \mathbb{Z}\longrightarrow 0,
+\]
+where
+\[
+\varepsilon\!\left(\sum_i n_i v_i\right)=\sum_i n_i.
+\]
+So the reduced complex is
+\[
+\widetilde{C}_n(X)=
+\begin{cases}
+	C_n(X), & n\ge 0,\\
+	\mathbb{Z}, & n=-1,
+\end{cases}
+\]
+with the same boundary maps in positive degrees and the augmentation map in degree \(0\).
+
+The effect is that for a connected complex, the final copy of \(\mathbb{Z}\) in \(H_0\) disappears. This is why reduced homology is often the more natural invariant in algebraic topology.
+
+\subsubsection{Summary}
+
+The main points are the following.
+
+\begin{enumerate}
+	\item Contractible spaces are spaces that can be shrunk to a point.
+	\item Examples include a point, an interval, a disk, \(\mathbb{R}^n\), and any simplex \(\Delta^n\).
+	\item For every nonempty contractible space \(X\),
+	\[
+	\widetilde{H}_n(X)=0 \qquad \text{for all } n.
+	\]
+	\item Reduced homology differs from ordinary homology only in degree \(0\): it removes one copy of \(\mathbb{Z}\).
+	\item For connected spaces,
+	\[
+	\widetilde{H}_0(X)=0.
+	\]
+	\item For disconnected spaces, \(\widetilde{H}_0(X)\) measures the number of connected components minus one.
+\end{enumerate}
+
+\section{Problem 3 Cone contractibility and homology of the suspension}
+
+\subsection{Problem statement}
+
+Let \(X\) be a topological space. The \emph{cone} on \(X\) is defined by
+\[
+CX := X\times I /(X\times \{0\}).
+\]
+Show that \(CX\) is contractible.
+
+The \emph{suspension} of \(X\) is defined by
+\[
+\Sigma X := CX /(X\times \{1\}).
+\]
+Express \(\widetilde H_*(\Sigma X)\) in terms of \(\widetilde H_*(X)\).
+
+\subsection{Solution}
+
+\noindent\textbf{Solution.}
+We first prove that the cone \(CX\) is contractible.
+
+By definition, all points of \(X\times \{0\}\) are identified to a single point, called the cone point. Denote the equivalence class of \((x,t)\in X\times I\) by \([x,t]\). Consider the homotopy
+\[
+F:CX\times I \longrightarrow CX,
+\qquad
+F([x,t],s)=[x,(1-s)t].
+\]
+This is well-defined, because if \(t=0\), then \([x,0]\) is already the cone point, independent of \(x\).
+
+Now:
+\[
+F([x,t],0)=[x,t],
+\]
+so \(F(-,0)=\mathrm{id}_{CX}\), and
+\[
+F([x,t],1)=[x,0],
+\]
+which is the cone point for every \([x,t]\in CX\). Therefore \(F\) is a contraction of \(CX\) to a point. Hence
+\[
+CX \simeq *.
+\]
+So \(CX\) is contractible.
+
+Next, let
+\[
+A:=X\times \{1\}\subset CX.
+\]
+This subspace is naturally homeomorphic to \(X\). By the definition of suspension,
+\[
+\Sigma X = CX/A.
+\]
+For reduced homology of a quotient, we have
+\[
+\widetilde H_n(\Sigma X)\cong H_n(CX,A).
+\]
+Now consider the long exact sequence of the pair \((CX,A)\):
+\[
+\cdots \to H_n(A)\to H_n(CX)\to H_n(CX,A)\to H_{n-1}(A)\to H_{n-1}(CX)\to \cdots
+\]
+Since \(CX\) is contractible,
+\[
+\widetilde H_n(CX)=0
+\qquad \text{for all } n,
+\]
+so the exact sequence reduces to isomorphisms
+\[
+H_n(CX,A)\cong \widetilde H_{n-1}(A).
+\]
+Because \(A\cong X\), this becomes
+\[
+H_n(CX,A)\cong \widetilde H_{n-1}(X).
+\]
+Combining this with \(\widetilde H_n(\Sigma X)\cong H_n(CX,A)\), we obtain
+\[
+\widetilde H_n(\Sigma X)\cong \widetilde H_{n-1}(X)
+\qquad \text{for all } n.
+\]
+
+Thus the reduced homology of the suspension is the reduced homology of \(X\), shifted up by one degree.
+
+\subsection{Conclusion}
+
+We have shown that
+\[
+CX \text{ is contractible}
+\]
+and
+\[
+\boxed{\widetilde H_n(\Sigma X)\cong \widetilde H_{n-1}(X)\quad \text{for all } n.}
+\]
+
+\section{Problem 4 Splitting over a free quotient and classification of two exact sequences}
+
+\subsection{Problem statement}
+
+Suppose
+\[
+0\longrightarrow H \longrightarrow G \longrightarrow \mathbb Z^n \longrightarrow 0
+\]
+is an exact sequence of abelian groups. Show that
+\[
+G\cong H\oplus \mathbb Z^n.
+\]
+
+Determine the possible isomorphism types of \(G\) in the exact sequences
+\[
+0\longrightarrow \mathbb Z/4 \longrightarrow G \longrightarrow \mathbb Z/4 \longrightarrow 0
+\]
+and
+\[
+0\longrightarrow \mathbb Z \longrightarrow G \longrightarrow \mathbb Z/4 \longrightarrow 0.
+\]
+
+\subsection{Splitting of the sequence with quotient \(\mathbb Z^n\)}
+
+\noindent\textbf{Solution.}
+Let
+\[
+\pi:G\to \mathbb Z^n
+\]
+be the surjective homomorphism in the exact sequence
+\[
+0\to H\to G\overset{\pi}{\to}\mathbb Z^n\to 0.
+\]
+Let \(e_1,\dots,e_n\) be the standard basis of \(\mathbb Z^n\). Since \(\pi\) is surjective, for each \(i\) there exists \(g_i\in G\) such that
+\[
+\pi(g_i)=e_i.
+\]
+Define
+\[
+s:\mathbb Z^n\to G,
+\qquad
+s(a_1,\dots,a_n)=a_1g_1+\cdots+a_ng_n.
+\]
+Then
+\[
+\pi(s(a_1,\dots,a_n))
+=
+a_1e_1+\cdots+a_ne_n
+=
+(a_1,\dots,a_n),
+\]
+so
+\[
+\pi\circ s=\mathrm{id}_{\mathbb Z^n}.
+\]
+Thus \(s\) is a right inverse of \(\pi\), so the sequence splits. Therefore
+\[
+G\cong H\oplus \mathbb Z^n.
+\]
+
+Hence every short exact sequence of abelian groups with quotient \(\mathbb Z^n\) is split.
+
+\subsection{Classification of}
+\[
+0\longrightarrow \mathbb Z/4 \longrightarrow G \longrightarrow \mathbb Z/4 \longrightarrow 0
+\]
+
+\noindent\textbf{Solution.}
+Since both kernel and quotient have order \(4\), the group \(G\) has order
+\[
+|G|=4\cdot 4=16.
+\]
+By the structure theorem for finite abelian groups, the abelian groups of order \(16\) are
+\[
+\mathbb Z/16,\qquad
+\mathbb Z/8\oplus \mathbb Z/2,\qquad
+\mathbb Z/4\oplus \mathbb Z/4,\qquad
+\mathbb Z/4\oplus \mathbb Z/2\oplus \mathbb Z/2,\qquad
+(\mathbb Z/2)^4.
+\]
+We must determine which of these admit a subgroup isomorphic to \(\mathbb Z/4\) whose quotient is also isomorphic to \(\mathbb Z/4\).
+
+\medskip
+
+\noindent
+\textbf{1. The group \(\mathbb Z/16\).}
+It contains the subgroup \(4\mathbb Z/16\cong \mathbb Z/4\), and
+\[
+(\mathbb Z/16)/(4\mathbb Z/16)\cong \mathbb Z/4.
+\]
+So this case occurs.
+
+\medskip
+
+\noindent
+\textbf{2. The group \(\mathbb Z/8\oplus \mathbb Z/2\).}
+Take the subgroup generated by \((2,1)\). This element has order \(4\), so
+\[
+\langle (2,1)\rangle \cong \mathbb Z/4.
+\]
+The quotient has order \(4\), and one checks that it is cyclic, hence
+\[
+(\mathbb Z/8\oplus \mathbb Z/2)/\langle (2,1)\rangle \cong \mathbb Z/4.
+\]
+So this case also occurs.
+
+\medskip
+
+\noindent
+\textbf{3. The group \(\mathbb Z/4\oplus \mathbb Z/4\).}
+Take the first factor as kernel:
+\[
+\mathbb Z/4\oplus 0 \cong \mathbb Z/4.
+\]
+Then
+\[
+(\mathbb Z/4\oplus \mathbb Z/4)/(\mathbb Z/4\oplus 0)\cong \mathbb Z/4.
+\]
+So this case occurs as well.
+
+\medskip
+
+\noindent
+\textbf{4. The groups \(\mathbb Z/4\oplus \mathbb Z/2\oplus \mathbb Z/2\) and \((\mathbb Z/2)^4\).}
+These do not occur. Indeed, if \(G/N\cong \mathbb Z/4\) is cyclic, then \(G\) is generated by \(N\) together with one lift of a generator of \(G/N\). Since \(N\cong \mathbb Z/4\) is generated by one element, this would imply that \(G\) is generated by at most two elements. But both
+\[
+\mathbb Z/4\oplus \mathbb Z/2\oplus \mathbb Z/2
+\quad \text{and} \quad
+(\mathbb Z/2)^4
+\]
+require at least three generators, so they are impossible.
+
+Therefore the only possible isomorphism types are
+\[
+\boxed{
+	G\cong \mathbb Z/16,
+	\qquad
+	G\cong \mathbb Z/8\oplus \mathbb Z/2,
+	\qquad
+	G\cong \mathbb Z/4\oplus \mathbb Z/4.
+}
+\]
+
+\subsection{Classification of}
+\[
+0\longrightarrow \mathbb Z \longrightarrow G \longrightarrow \mathbb Z/4 \longrightarrow 0
+\]
+
+\noindent\textbf{Solution.}
+Now \(G\) is a finitely generated abelian group whose quotient by a subgroup isomorphic to \(\mathbb Z\) is finite. Hence \(G\) has rank \(1\). By the structure theorem for finitely generated abelian groups,
+\[
+G\cong \mathbb Z\oplus T,
+\]
+where \(T\) is a finite abelian group.
+
+Because \(G/\mathbb Z\cong \mathbb Z/4\), the quotient has order \(4\). Hence the subgroup \(\mathbb Z\subset G\) has index \(4\). This severely restricts the possibilities. The only possible isomorphism types are
+\[
+\mathbb Z,\qquad \mathbb Z\oplus \mathbb Z/2,\qquad \mathbb Z\oplus \mathbb Z/4.
+\]
+We now show that all three actually occur.
+
+\medskip
+
+\noindent
+\textbf{1. The group \(\mathbb Z\).}
+Consider
+\[
+0\longrightarrow \mathbb Z \overset{\iota}{\longrightarrow} \mathbb Z \longrightarrow \mathbb Z/4 \longrightarrow 0,
+\]
+where \(\iota(n)=4n\), and the map \(\mathbb Z\to \mathbb Z/4\) is reduction modulo \(4\). Then the kernel is \(4\mathbb Z\cong \mathbb Z\), so this gives an exact sequence of the required form. Thus \(G\cong \mathbb Z\) occurs.
+
+\medskip
+
+\noindent
+\textbf{2. The group \(\mathbb Z\oplus \mathbb Z/2\).}
+Let \(G=\mathbb Z\oplus \mathbb Z/2\), and define a homomorphism
+\[
+\varphi:\mathbb Z\oplus \mathbb Z/2\to \mathbb Z/4
+\]
+by
+\[
+\varphi(n,\overline a)=\overline{n+2a}.
+\]
+This is surjective. Its kernel is generated by \((2,\overline 1)\), hence
+\[
+\ker(\varphi)\cong \mathbb Z.
+\]
+Therefore we obtain an exact sequence
+\[
+0\longrightarrow \mathbb Z \longrightarrow \mathbb Z\oplus \mathbb Z/2 \longrightarrow \mathbb Z/4 \longrightarrow 0.
+\]
+So \(G\cong \mathbb Z\oplus \mathbb Z/2\) occurs.
+
+\medskip
+
+\noindent
+\textbf{3. The group \(\mathbb Z\oplus \mathbb Z/4\).}
+Let \(G=\mathbb Z\oplus \mathbb Z/4\), and define
+\[
+\psi:\mathbb Z\oplus \mathbb Z/4\to \mathbb Z/4
+\]
+by
+\[
+\psi(n,\overline a)=\overline{n+a}.
+\]
+This map is surjective. Its kernel is generated by \((1,\overline{-1})\), so
+\[
+\ker(\psi)\cong \mathbb Z.
+\]
+Hence we get an exact sequence
+\[
+0\longrightarrow \mathbb Z \longrightarrow \mathbb Z\oplus \mathbb Z/4 \longrightarrow \mathbb Z/4 \longrightarrow 0.
+\]
+So \(G\cong \mathbb Z\oplus \mathbb Z/4\) also occurs.
+
+Therefore the possible isomorphism types are exactly
+\[
+\boxed{
+	G\cong \mathbb Z,
+	\qquad
+	G\cong \mathbb Z\oplus \mathbb Z/2,
+	\qquad
+	G\cong \mathbb Z\oplus \mathbb Z/4.
+}
+\]
+
+\subsection{Conclusion}
+
+For the split exact sequence with free quotient, we have
+\[
+\boxed{G\cong H\oplus \mathbb Z^n.}
+\]
+
+For
+\[
+0\to \mathbb Z/4\to G\to \mathbb Z/4\to 0,
+\]
+the possible isomorphism types are
+\[
+\boxed{
+	\mathbb Z/16,\quad
+	\mathbb Z/8\oplus \mathbb Z/2,\quad
+	\mathbb Z/4\oplus \mathbb Z/4.
+}
+\]
+
+For
+\[
+0\to \mathbb Z\to G\to \mathbb Z/4\to 0,
+\]
+the possible isomorphism types are
+\[
+\boxed{
+	\mathbb Z,\quad
+	\mathbb Z\oplus \mathbb Z/2,\quad
+	\mathbb Z\oplus \mathbb Z/4.
+}
+\]
+
+\end{document}
+

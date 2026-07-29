@@ -1,0 +1,1571 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue,
+	citecolor=blue
+}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Commutative Algebra 14},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\fancyhf{}
+\lhead{Theory of Commutative Algebra 16}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\kk}{\mathbf{k}}
+\newcommand{\A}{\mathbb A}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\F}{\mathbb F}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\m}{\mathfrak m}
+\newcommand{\p}{\mathfrak p}
+
+\theoremstyle{definition}
+
+\newtheorem{example}[definition]{Example}
+
+
+
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\newcommand{\Coker}{\operatorname{Coker}}
+
+
+
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+
+
+\newcommand{\kerf}{\operatorname{Ker}}
+
+\newcommand{\pd}{\operatorname{pd}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\syz}{\operatorname{Syz}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+
+
+
+
+
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!60!black,
+	urlcolor=blue!60!black,
+	citecolor=blue!60!black
+}
+
+\title{\vspace{-1.5em}\bfseries Theory of Commutative Algebra 16}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in commutative algebra
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+\section{Left exactness, right exactness, free modules, projective modules, flat modules, and when exactness fails}
+
+\textbf{Purpose.}
+In the previous sections, we studied exact sequences, free resolutions, minimal free resolutions, syzygies, projective dimension, and Betti numbers.
+The next natural step is to understand which standard constructions preserve exactness and which do not.
+This leads to the notions of left exactness, right exactness, flat modules, and projective modules.
+It also explains why localization behaves well, while passing to quotients often destroys exactness on the left.
+
+\subsection{ Exact, left exact, and right exact functors}
+
+Let
+\[
+0 \longrightarrow A' \xrightarrow{u} A \xrightarrow{v} A'' \longrightarrow 0
+\]
+be a short exact sequence of \(R\)-modules.
+
+A functor \(F\) is called \emph{exact} if it sends every short exact sequence to a short exact sequence:
+\[
+0 \longrightarrow F(A') \longrightarrow F(A) \longrightarrow F(A'') \longrightarrow 0.
+\]
+
+A functor \(F\) is called \emph{left exact} if it preserves exactness on the left:
+\[
+0 \longrightarrow F(A') \longrightarrow F(A) \longrightarrow F(A'').
+\]
+So a left exact functor preserves injectivity and kernels, but it may fail to preserve surjectivity.
+
+A functor \(F\) is called \emph{right exact} if it preserves exactness on the right:
+\[
+F(A') \longrightarrow F(A) \longrightarrow F(A'') \longrightarrow 0.
+\]
+So a right exact functor preserves surjectivity and cokernels, but it may fail to preserve injectivity.
+
+Thus:
+\begin{itemize}
+	\item exact \(=\) preserves both sides,
+	\item left exact \(=\) preserves kernels,
+	\item right exact \(=\) preserves cokernels.
+\end{itemize}
+
+\subsection{ The two fundamental functors: tensor and Hom}
+
+For modules, the two most important functors in this context are:
+\[
+-\otimes_R N
+\qquad\text{and}\qquad
+\operatorname{Hom}_R(M,-),
+\]
+where \(M\) and \(N\) are fixed \(R\)-modules.
+
+Their basic exactness properties are:
+
+\begin{itemize}
+	\item the tensor functor \( -\otimes_R N \) is always right exact,
+	\item the Hom functor \( \operatorname{Hom}_R(M,-) \) is always left exact.
+\end{itemize}
+
+This is one of the most important basic facts in homological algebra.
+
+\subsection{ Why tensor is always right exact}
+
+Take an exact sequence
+\[
+A' \xrightarrow{u} A \xrightarrow{v} A'' \longrightarrow 0.
+\]
+Tensoring with \(N\) gives
+\[
+A'\otimes_R N \xrightarrow{u\otimes 1} A\otimes_R N \xrightarrow{v\otimes 1} A''\otimes_R N \longrightarrow 0.
+\]
+
+So surjectivity always survives after tensoring.
+This is the meaning of right exactness of tensor product.
+
+\subsubsection*{Concrete example over \(\mathbb Z\)}
+
+Consider
+\[
+\mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+Tensor with \(\mathbb Z/2\mathbb Z\).
+Since
+\[
+\mathbb Z\otimes_{\mathbb Z}\mathbb Z/2\mathbb Z \cong \mathbb Z/2\mathbb Z,
+\]
+we obtain
+\[
+\mathbb Z/2\mathbb Z \xrightarrow{\cdot 2} \mathbb Z/2\mathbb Z
+\longrightarrow
+(\mathbb Z/2\mathbb Z)\otimes_{\mathbb Z}(\mathbb Z/2\mathbb Z)
+\longrightarrow 0.
+\]
+But multiplication by \(2\) on \(\mathbb Z/2\mathbb Z\) is zero, so this becomes
+\[
+\mathbb Z/2\mathbb Z \xrightarrow{0} \mathbb Z/2\mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+This is still exact on the right, as expected.
+
+\subsection{ Why tensor is not always left exact}
+
+Now start with the short exact sequence
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+Tensor with \(\mathbb Z/2\mathbb Z\). Then
+\[
+0 \longrightarrow \mathbb Z/2\mathbb Z \xrightarrow{0} \mathbb Z/2\mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+
+The first map is zero, so it is not injective.
+Hence exactness on the left has failed.
+
+Therefore tensor product is not left exact in general.
+
+\medskip
+
+\textbf{Interpretation.}
+Tensor product preserves cokernels automatically, but it need not preserve kernels.
+
+\subsection{ Flat modules: when tensor becomes exact}
+
+An \(R\)-module \(N\) is called \emph{flat} if the functor
+\[
+-\otimes_R N
+\]
+is exact.
+
+Since tensor product is always right exact, flatness is exactly the condition needed to guarantee that tensor product also preserves injectivity and kernels.
+
+So:
+\[
+N\text{ is flat}
+\quad\Longleftrightarrow\quad
+-\otimes_R N \text{ is exact.}
+\]
+
+\subsubsection*{Examples of flat modules}
+
+\begin{itemize}
+	\item every free module is flat,
+	\item every projective module is flat,
+	\item every localization \(S^{-1}R\) is flat as an \(R\)-module.
+\end{itemize}
+
+\subsubsection*{Example of a non-flat module}
+
+The module
+\[
+\mathbb Z/2\mathbb Z
+\]
+is not flat over \(\mathbb Z\), because tensoring with it destroys injectivity in the example above.
+
+\subsection{ Why free modules are flat}
+
+Suppose \(F\) is a free \(R\)-module:
+\[
+F\cong \bigoplus_{i\in I} R.
+\]
+Then for any \(R\)-module \(A\),
+\[
+A\otimes_R F
+\cong
+A\otimes_R \left(\bigoplus_{i\in I} R\right)
+\cong
+\bigoplus_{i\in I}(A\otimes_R R)
+\cong
+\bigoplus_{i\in I} A.
+\]
+
+So tensoring with a free module is just taking a direct sum of copies of the original module.
+
+Since direct sums preserve exact sequences, free modules are flat.
+
+This is one of the main reasons free modules interact so well with exactness.
+
+\subsection{ Why Hom is always left exact}
+
+Now consider the Hom functor
+\[
+\operatorname{Hom}_R(M,-)
+\]
+for a fixed module \(M\).
+
+Start with a short exact sequence
+\[
+0 \longrightarrow A' \xrightarrow{u} A \xrightarrow{v} A'' \longrightarrow 0.
+\]
+Applying \(\operatorname{Hom}_R(M,-)\) gives
+\[
+0 \longrightarrow \operatorname{Hom}_R(M,A')
+\longrightarrow \operatorname{Hom}_R(M,A)
+\longrightarrow \operatorname{Hom}_R(M,A'').
+\]
+
+Thus \(\operatorname{Hom}_R(M,-)\) preserves injectivity and kernels.
+That is why it is left exact.
+
+\medskip
+
+\textbf{Interpretation.}
+Hom preserves kernels on the target side, but it need not preserve cokernels.
+
+\subsection{ Why Hom is not always right exact}
+
+Take again the short exact sequence over \(\mathbb Z\):
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+Apply the functor
+\[
+\operatorname{Hom}_{\mathbb Z}(\mathbb Z/2\mathbb Z,-).
+\]
+This gives
+\[
+0 \longrightarrow \operatorname{Hom}_{\mathbb Z}(\mathbb Z/2\mathbb Z,\mathbb Z)
+\longrightarrow \operatorname{Hom}_{\mathbb Z}(\mathbb Z/2\mathbb Z,\mathbb Z)
+\longrightarrow \operatorname{Hom}_{\mathbb Z}(\mathbb Z/2\mathbb Z,\mathbb Z/2\mathbb Z).
+\]
+
+Now
+\[
+\operatorname{Hom}_{\mathbb Z}(\mathbb Z/2\mathbb Z,\mathbb Z)=0,
+\]
+because \(\mathbb Z\) has no nonzero element of order \(2\).
+
+But
+\[
+\operatorname{Hom}_{\mathbb Z}(\mathbb Z/2\mathbb Z,\mathbb Z/2\mathbb Z)\cong \mathbb Z/2\mathbb Z.
+\]
+
+So the sequence becomes
+\[
+0 \longrightarrow 0 \longrightarrow 0 \longrightarrow \mathbb Z/2\mathbb Z.
+\]
+The last map is not surjective, so exactness fails on the right.
+
+Therefore Hom is not right exact in general.
+
+\subsection{ Projective modules: when Hom becomes exact}
+
+An \(R\)-module \(P\) is called \emph{projective} if the functor
+\[
+\operatorname{Hom}_R(P,-)
+\]
+is exact.
+
+Since Hom is always left exact, projectivity is exactly the extra condition that makes Hom preserve surjectivity as well.
+
+So:
+\[
+P\text{ is projective}
+\quad\Longleftrightarrow\quad
+\operatorname{Hom}_R(P,-)\text{ is exact.}
+\]
+
+\subsubsection*{Examples of projective modules}
+
+\begin{itemize}
+	\item every free module is projective,
+	\item every direct summand of a free module is projective.
+\end{itemize}
+
+\subsection{ Why free modules are projective}
+
+Let
+\[
+F=\bigoplus_{i\in I} R
+\]
+be free.
+Then
+\[
+\operatorname{Hom}_R(F,M)
+\cong
+\operatorname{Hom}_R\left(\bigoplus_{i\in I}R,M\right)
+\cong
+\prod_{i\in I}\operatorname{Hom}_R(R,M)
+\cong
+\prod_{i\in I} M.
+\]
+
+Thus Hom from a free module is just a product of copies of the target module.
+This is why free modules preserve exactness strongly enough to be projective.
+
+\medskip
+
+\textbf{Hierarchy.}
+The basic implication chain is
+\[
+\text{free} \Longrightarrow \text{projective} \Longrightarrow \text{flat}.
+\]
+
+In general, the converse implications need not hold.
+
+\subsection{ Projective modules and splitting of exact sequences}
+
+Projective modules can also be characterized by a lifting or splitting property.
+
+An \(R\)-module \(P\) is projective if and only if every surjection
+\[
+E \twoheadrightarrow P
+\]
+splits.
+
+Equivalently, every short exact sequence
+\[
+0 \longrightarrow K \longrightarrow E \longrightarrow P \longrightarrow 0
+\]
+splits.
+
+Thus projective modules are exactly those modules that do not create extension obstructions on the right.
+
+\subsubsection*{Concrete counterexample}
+
+Over \(A=k[x]\), the module
+\[
+A/(x)
+\]
+is not projective.
+Indeed, the sequence
+\[
+0 \longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x) \longrightarrow 0
+\]
+does not split.
+
+This is a concrete example showing that not every short exact sequence splits.
+
+\subsection{ Free, projective, and flat modules compared}
+
+It is useful to summarize the three notions.
+
+\subsubsection*{Free modules}
+
+A module is free if it has a basis.
+This is the strongest and most concrete notion.
+
+\subsubsection*{Projective modules}
+
+A module is projective if it is a direct summand of a free module, or equivalently if Hom from it is exact, or equivalently if short exact sequences ending in it split.
+
+\subsubsection*{Flat modules}
+
+A module is flat if tensoring with it is exact.
+
+Thus:
+\[
+\text{free} \Longrightarrow \text{projective} \Longrightarrow \text{flat}.
+\]
+
+These notions answer different exactness questions:
+\begin{itemize}
+	\item free and projective control exactness of Hom,
+	\item flat controls exactness of tensor.
+\end{itemize}
+
+\subsection{ Localization is exact}
+
+Let \(S\subseteq R\) be a multiplicative set.
+The localization functor
+\[
+S^{-1}(-)
+\]
+is exact.
+
+So if
+\[
+0 \longrightarrow A' \longrightarrow A \longrightarrow A'' \longrightarrow 0
+\]
+is exact, then
+\[
+0 \longrightarrow S^{-1}A' \longrightarrow S^{-1}A \longrightarrow S^{-1}A'' \longrightarrow 0
+\]
+is also exact.
+
+\subsubsection*{Reason}
+
+Localization can be written as tensor product:
+\[
+S^{-1}M \cong M\otimes_R S^{-1}R.
+\]
+So localization is tensoring with the module \(S^{-1}R\).
+
+But \(S^{-1}R\) is flat.
+Therefore localization is exact.
+
+\subsubsection*{Concrete example}
+
+Start with the exact sequence
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 6} \mathbb Z \longrightarrow \mathbb Z/6\mathbb Z \longrightarrow 0.
+\]
+Localize at \((5)\). Then
+\[
+0 \longrightarrow \mathbb Z_{(5)} \xrightarrow{\cdot 6} \mathbb Z_{(5)}
+\longrightarrow (\mathbb Z/6\mathbb Z)_{(5)} \longrightarrow 0.
+\]
+Since \(6\) is a unit in \(\mathbb Z_{(5)}\), the map is an isomorphism and
+\[
+(\mathbb Z/6\mathbb Z)_{(5)}=0.
+\]
+The sequence remains exact.
+
+\subsection{ Why quotienting is more dangerous}
+
+Passing from \(R\) to a quotient ring \(R/I\) is the same as tensoring with \(R/I\):
+\[
+M\otimes_R R/I \cong M/IM.
+\]
+
+But the module \(R/I\) is usually not flat.
+So exactness need not survive on the left.
+
+\subsubsection*{Standard counterexample}
+
+Take
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+Tensor with \(\mathbb Z/2\mathbb Z\). Then
+\[
+0 \longrightarrow \mathbb Z/2\mathbb Z \xrightarrow{0} \mathbb Z/2\mathbb Z
+\longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+Exactness fails at the left.
+
+So quotienting often behaves worse than localization because quotient modules are usually not flat.
+
+\subsection{ Contravariant Hom in the first variable}
+
+So far we considered the covariant functor
+\[
+\operatorname{Hom}_R(M,-).
+\]
+
+There is also the contravariant functor
+\[
+\operatorname{Hom}_R(-,N).
+\]
+
+If
+\[
+0 \longrightarrow A' \longrightarrow A \longrightarrow A'' \longrightarrow 0
+\]
+is exact, then applying \(\operatorname{Hom}_R(-,N)\) gives a reversed sequence
+\[
+0 \longrightarrow \operatorname{Hom}_R(A'',N)
+\longrightarrow \operatorname{Hom}_R(A,N)
+\longrightarrow \operatorname{Hom}_R(A',N).
+\]
+
+This is again left exact, but now the arrows reverse because the functor is contravariant.
+
+This behavior becomes important later in duality and in the definition of \(\operatorname{Ext}\).
+
+\subsection{ What fails to commute with what}
+
+The exactness behavior can now be summarized in a practical way.
+
+\subsubsection*{Tensor does not commute with kernels in general}
+
+Tensor product is not left exact in general, so
+\[
+\ker(f)\otimes_R N
+\]
+need not equal
+\[
+\ker(f\otimes 1).
+\]
+This is exactly what fails in the \(\mathbb Z/2\mathbb Z\) example.
+
+\subsubsection*{Hom does not commute with cokernels in general}
+
+Hom is not right exact in general, so cokernels are not preserved automatically by \(\operatorname{Hom}_R(M,-)\).
+
+\subsubsection*{Quotienting often destroys left exactness}
+
+Since quotienting is tensoring with \(R/I\), and \(R/I\) is usually not flat, kernels may be lost.
+
+\subsubsection*{Localization preserves exactness}
+
+Since localization is tensoring with the flat module \(S^{-1}R\), exactness survives completely.
+
+\subsection{ Standard summary table}
+
+\[
+\begin{array}{|c|c|c|}
+	\hline
+	\text{Functor} & \text{Always} & \text{Exact when} \\
+	\hline
+	-\otimes_R N & \text{right exact} & N \text{ is flat} \\
+	\hline
+	\operatorname{Hom}_R(M,-) & \text{left exact} & M \text{ is projective} \\
+	\hline
+	S^{-1}(-) & \text{exact} & \text{always} \\
+	\hline
+	-\otimes_R R/I & \text{right exact} & R/I \text{ flat, which is rare} \\
+	\hline
+\end{array}
+\]
+
+This table organizes most of the basic phenomena encountered in exact sequence calculations.
+
+\subsection{Best concrete examples to remember}
+
+The following examples are the ones worth memorizing.
+
+\subsubsection*{Tensor failure}
+
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0
+\]
+tensor with \(\mathbb Z/2\mathbb Z\):
+\[
+0 \longrightarrow \mathbb Z/2\mathbb Z \xrightarrow{0} \mathbb Z/2\mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+This is not left exact.
+
+\subsubsection*{Hom failure}
+
+Apply \(\operatorname{Hom}_{\mathbb Z}(\mathbb Z/2\mathbb Z,-)\) to the same sequence:
+\[
+0 \longrightarrow 0 \longrightarrow 0 \longrightarrow \mathbb Z/2\mathbb Z.
+\]
+This is not right exact.
+
+\subsubsection*{Localization success}
+
+Localize a short exact sequence:
+\[
+0 \longrightarrow A' \longrightarrow A \longrightarrow A'' \longrightarrow 0.
+\]
+Exactness survives:
+\[
+0 \longrightarrow S^{-1}A' \longrightarrow S^{-1}A \longrightarrow S^{-1}A'' \longrightarrow 0.
+\]
+
+\subsubsection*{Nonsplit exact sequence}
+
+\[
+0 \longrightarrow k[x] \xrightarrow{\cdot x} k[x] \longrightarrow k[x]/(x) \longrightarrow 0
+\]
+does not split because \(k[x]/(x)\) is not projective.
+
+\subsection{Final perspective}
+
+The notions introduced in this section explain the exactness phenomena seen throughout the previous examples.
+
+\begin{itemize}
+	\item Tensor product is always right exact.
+	\item It becomes fully exact when the module used for tensoring is flat.
+	\item Hom is always left exact.
+	\item It becomes fully exact when the first module is projective.
+	\item Free modules are both projective and flat.
+	\item Localization is exact because it is tensoring with a flat module.
+	\item Quotienting often destroys left exactness because quotient modules are usually not flat.
+\end{itemize}
+
+So the key structural principles are:
+
+\[
+\text{flatness controls tensor}
+\qquad\text{and}\qquad
+\text{projectivity controls Hom.}
+\]
+
+These ideas form the bridge from concrete exact sequence computations to the deeper machinery of homological algebra.
+
+
+\section{Kernels, images, cokernels, and many concrete examples}
+
+\textbf{Purpose.}
+In the previous sections, we repeatedly computed kernels and images in order to check exactness.
+A closely related notion, which appears constantly in algebra and homological algebra, is the \emph{cokernel}.
+This section gives clean definitions of kernel, image, and cokernel, explains their meaning, and works through many concrete examples over \(\mathbb Z\), polynomial rings, quotient maps, multiplication maps, inclusions of ideals, and localizations.
+
+\subsection{ Definition of kernel, image, and cokernel}
+
+Let
+\[
+f:M\longrightarrow N
+\]
+be a homomorphism of \(R\)-modules.
+
+\subsubsection*{Kernel}
+
+The \emph{kernel} of \(f\) is
+\[
+\ker(f)=\{m\in M:f(m)=0\}.
+\]
+It is a submodule of \(M\).
+
+It measures which elements of the source are sent to zero.
+
+\subsubsection*{Image}
+
+The \emph{image} of \(f\) is
+\[
+\operatorname{im}(f)=\{f(m):m\in M\}.
+\]
+It is a submodule of \(N\).
+
+It measures which elements of the target are actually hit by the map.
+
+\subsubsection*{Cokernel}
+
+The \emph{cokernel} of \(f\) is the quotient module
+\[
+\operatorname{coker}(f)=N/\operatorname{im}(f).
+\]
+
+So the cokernel measures how much of the target remains after modding out by everything the map hits.
+
+\medskip
+
+\textbf{Very important picture.}
+For a map
+\[
+f:M\to N,
+\]
+the kernel lives inside \(M\), the image lives inside \(N\), and the cokernel is a quotient of \(N\):
+\[
+\ker(f)\subseteq M,
+\qquad
+\operatorname{im}(f)\subseteq N,
+\qquad
+\operatorname{coker}(f)=N/\operatorname{im}(f).
+\]
+
+\subsection{ Why cokernels matter}
+
+If the image of \(f\) is all of \(N\), then
+\[
+\operatorname{im}(f)=N,
+\]
+so
+\[
+\operatorname{coker}(f)=N/N=0.
+\]
+Thus:
+\[
+f \text{ is surjective } \Longleftrightarrow \operatorname{coker}(f)=0.
+\]
+
+Similarly:
+\[
+f \text{ is injective } \Longleftrightarrow \ker(f)=0.
+\]
+
+So kernels detect failure of injectivity, while cokernels detect failure of surjectivity.
+
+\subsection{ First example over \(\mathbb Z\): multiplication by \(n\)}
+
+Consider
+\[
+f:\mathbb Z \longrightarrow \mathbb Z,
+\qquad
+f(m)=nm.
+\]
+
+\subsubsection*{Kernel}
+
+We have
+\[
+\ker(f)=\{m\in\mathbb Z:nm=0\}.
+\]
+If \(n\neq 0\), then \(\mathbb Z\) is a domain, so
+\[
+\ker(f)=0.
+\]
+
+If \(n=0\), then \(f=0\), so
+\[
+\ker(f)=\mathbb Z.
+\]
+
+\subsubsection*{Image}
+
+The image is
+\[
+\operatorname{im}(f)=n\mathbb Z.
+\]
+
+\subsubsection*{Cokernel}
+
+The cokernel is
+\[
+\operatorname{coker}(f)=\mathbb Z/n\mathbb Z.
+\]
+
+So for multiplication by \(n\), the cokernel is exactly the familiar quotient module.
+
+\subsubsection*{Special cases}
+
+If \(n=2\), then
+\[
+\operatorname{coker}(f)=\mathbb Z/2\mathbb Z.
+\]
+
+If \(n=1\), then \(f\) is the identity map, so
+\[
+\operatorname{im}(f)=\mathbb Z,
+\qquad
+\operatorname{coker}(f)=0.
+\]
+
+\subsection{ The zero map}
+
+Let
+\[
+f:M\longrightarrow N,
+\qquad
+f(m)=0
+\]
+for all \(m\in M\).
+
+Then:
+\[
+\ker(f)=M,
+\qquad
+\operatorname{im}(f)=0,
+\qquad
+\operatorname{coker}(f)=N.
+\]
+
+So the zero map has the largest possible kernel and the largest possible cokernel.
+
+\subsection{ The identity map}
+
+Let
+\[
+\operatorname{id}_M:M\to M.
+\]
+
+Then:
+\[
+\ker(\operatorname{id}_M)=0,
+\qquad
+\operatorname{im}(\operatorname{id}_M)=M,
+\qquad
+\operatorname{coker}(\operatorname{id}_M)=0.
+\]
+
+So the identity map is both injective and surjective, exactly as the kernel and cokernel show.
+
+\subsection{ Quotient maps}
+
+Let \(I\subseteq A\) be an ideal, and consider the quotient map
+\[
+\pi:A\longrightarrow A/I,
+\qquad
+\pi(a)=a+I.
+\]
+
+\subsubsection*{Kernel}
+
+By definition,
+\[
+\ker(\pi)=I.
+\]
+
+\subsubsection*{Image}
+
+The quotient map is surjective, so
+\[
+\operatorname{im}(\pi)=A/I.
+\]
+
+\subsubsection*{Cokernel}
+
+Since the image is the whole target,
+\[
+\operatorname{coker}(\pi)=0.
+\]
+
+So quotient maps are the standard examples of surjective maps whose kernel is exactly the ideal being quotiented out.
+
+\subsection{7. Inclusion maps}
+
+Let \(I\subseteq A\) be an ideal, and consider the inclusion
+\[
+\iota:I\hookrightarrow A.
+\]
+
+\subsubsection*{Kernel}
+
+Since \(\iota\) is injective,
+\[
+\ker(\iota)=0.
+\]
+
+\subsubsection*{Image}
+
+Its image is just \(I\) inside \(A\):
+\[
+\operatorname{im}(\iota)=I.
+\]
+
+\subsubsection*{Cokernel}
+
+The cokernel is
+\[
+\operatorname{coker}(\iota)=A/I.
+\]
+
+So quotient modules arise naturally as cokernels of inclusion maps.
+
+\medskip
+
+\textbf{This is one of the most important viewpoints:}
+\[
+A/I \cong \operatorname{coker}(I\hookrightarrow A).
+\]
+
+\subsection{ Principal ideals in \(k[x]\)}
+
+Let
+\[
+A=k[x]
+\]
+and consider multiplication by a nonzero polynomial \(f\):
+\[
+\mu_f:A\longrightarrow A,
+\qquad
+\mu_f(g)=fg.
+\]
+
+\subsubsection*{Kernel}
+
+Since \(A\) is a domain and \(f\neq 0\),
+\[
+\ker(\mu_f)=0.
+\]
+
+\subsubsection*{Image}
+
+The image is the principal ideal
+\[
+\operatorname{im}(\mu_f)=(f).
+\]
+
+\subsubsection*{Cokernel}
+
+The cokernel is
+\[
+\operatorname{coker}(\mu_f)=A/(f).
+\]
+
+Thus the familiar exact sequence
+\[
+0\longrightarrow A\xrightarrow{\cdot f} A \longrightarrow A/(f)\longrightarrow 0
+\]
+can be read as saying that \(A/(f)\) is the cokernel of multiplication by \(f\).
+
+\subsubsection*{Special case: multiplication by \(x\)}
+
+For
+\[
+\mu_x:k[x]\to k[x],
+\qquad
+g\mapsto xg,
+\]
+we have
+\[
+\ker(\mu_x)=0,
+\qquad
+\operatorname{im}(\mu_x)=(x),
+\qquad
+\operatorname{coker}(\mu_x)=k[x]/(x)\cong k.
+\]
+
+\subsection{ Example in two variables: multiplication by \(x\) on \(k[x,y]\)}
+
+Let
+\[
+A=k[x,y],
+\qquad
+\mu_x:A\to A,
+\qquad
+\mu_x(f)=xf.
+\]
+
+Then:
+\[
+\ker(\mu_x)=0
+\]
+because \(A\) is a domain,
+\[
+\operatorname{im}(\mu_x)=(x),
+\]
+and hence
+\[
+\operatorname{coker}(\mu_x)=A/(x)\cong k[y].
+\]
+
+So the cokernel identifies the geometric effect of setting \(x=0\).
+
+\subsection{ Example in two variables: the map \(A^2\to A\)}
+
+Let
+\[
+A=k[x,y]
+\]
+and define
+\[
+d_1:A^2\longrightarrow A,
+\qquad
+d_1(a,b)=ax+by.
+\]
+
+This is the map appearing in the resolution of \(k=A/(x,y)\).
+
+\subsubsection*{Image}
+
+By definition,
+\[
+\operatorname{im}(d_1)=\{ax+by:a,b\in A\}=(x,y).
+\]
+
+\subsubsection*{Kernel}
+
+We want all pairs \((a,b)\) such that
+\[
+ax+by=0.
+\]
+As computed before, every such pair has the form
+\[
+(a,b)=(-cy,cx)
+\]
+for some \(c\in A\).
+So
+\[
+\ker(d_1)=\{(-cy,cx):c\in A\}.
+\]
+
+\subsubsection*{Cokernel}
+
+The cokernel is
+\[
+\operatorname{coker}(d_1)=A/(x,y)\cong k.
+\]
+
+This is a very good example because kernel and cokernel are both nontrivial:
+\begin{itemize}
+	\item the kernel is the module of relations among \(x\) and \(y\),
+	\item the cokernel is the quotient obtained by killing both \(x\) and \(y\).
+\end{itemize}
+
+\subsection{ Example: the map \(A\to A^2\) in the Koszul-type resolution}
+
+Again let
+\[
+A=k[x,y]
+\]
+and define
+\[
+d_2:A\longrightarrow A^2,
+\qquad
+d_2(c)=(-cy,cx).
+\]
+
+\subsubsection*{Kernel}
+
+If
+\[
+(-cy,cx)=(0,0),
+\]
+then
+\[
+cy=0
+\qquad\text{and}\qquad
+cx=0.
+\]
+Since \(A\) is a domain,
+\[
+c=0.
+\]
+So
+\[
+\ker(d_2)=0.
+\]
+
+\subsubsection*{Image}
+
+The image is
+\[
+\operatorname{im}(d_2)=\{(-cy,cx):c\in A\}.
+\]
+
+\subsubsection*{Cokernel}
+
+The cokernel is
+\[
+\operatorname{coker}(d_2)=A^2/\{(-cy,cx):c\in A\}.
+\]
+
+Unlike earlier examples, this cokernel is not usually simplified immediately into a familiar quotient ring, but it is still a perfectly valid cokernel and is exactly the module that appears as the next target in the resolution.
+
+In fact, because
+\[
+\operatorname{im}(d_2)=\ker(d_1),
+\]
+the cokernel of \(d_2\) is
+\[
+\operatorname{coker}(d_2)=A^2/\ker(d_1),
+\]
+which is isomorphic to \(\operatorname{im}(d_1)=(x,y)\) by the first isomorphism theorem.
+
+So
+\[
+\operatorname{coker}(d_2)\cong (x,y).
+\]
+
+\subsection{ First isomorphism theorem and cokernels}
+
+For any homomorphism
+\[
+f:M\to N,
+\]
+the first isomorphism theorem says
+\[
+M/\ker(f)\cong \operatorname{im}(f).
+\]
+
+This is closely related to cokernels, because the cokernel is
+\[
+N/\operatorname{im}(f).
+\]
+
+So every map gives rise to two natural quotient modules:
+\[
+M/\ker(f)
+\qquad\text{and}\qquad
+N/\operatorname{im}(f).
+\]
+
+The first is isomorphic to the image, while the second is the cokernel.
+
+\medskip
+
+\textbf{Heuristic picture.}
+A map \(f:M\to N\) factors in two basic stages:
+\[
+M \twoheadrightarrow M/\ker(f) \cong \operatorname{im}(f) \hookrightarrow N.
+\]
+The cokernel then measures how much larger \(N\) is than the image.
+
+\subsection{ Example: cokernel of an inclusion of ideals}
+
+Let
+\[
+A=k[x,y]
+\]
+and consider the inclusion
+\[
+(x)\hookrightarrow A.
+\]
+
+Then:
+\[
+\ker=0,
+\qquad
+\operatorname{im}=(x),
+\qquad
+\operatorname{coker}=A/(x)\cong k[y].
+\]
+
+Now consider instead
+\[
+(x,y)\hookrightarrow A.
+\]
+Then:
+\[
+\ker=0,
+\qquad
+\operatorname{im}=(x,y),
+\qquad
+\operatorname{coker}=A/(x,y)\cong k.
+\]
+
+So different ideals give different cokernels, and these quotients often have geometric meaning.
+
+\subsection{ Example over \(\mathbb Z\): inclusion \(2\mathbb Z\hookrightarrow \mathbb Z\)}
+
+Consider
+\[
+\iota:2\mathbb Z\hookrightarrow \mathbb Z.
+\]
+
+Then
+\[
+\ker(\iota)=0,
+\qquad
+\operatorname{im}(\iota)=2\mathbb Z,
+\]
+and the cokernel is
+\[
+\operatorname{coker}(\iota)=\mathbb Z/2\mathbb Z.
+\]
+
+This is the simplest concrete example of a quotient arising as a cokernel of an inclusion.
+
+More generally, for
+\[
+n\mathbb Z\hookrightarrow \mathbb Z,
+\]
+we have
+\[
+\operatorname{coker}=\mathbb Z/n\mathbb Z.
+\]
+
+\subsection{ Example: a map with nontrivial kernel and nontrivial cokernel}
+
+Let
+\[
+f:\mathbb Z\longrightarrow \mathbb Z,
+\qquad
+f(m)=0.
+\]
+We already saw:
+\[
+\ker(f)=\mathbb Z,
+\qquad
+\operatorname{im}(f)=0,
+\qquad
+\operatorname{coker}(f)=\mathbb Z.
+\]
+
+Now consider
+\[
+g:\mathbb Z^2\longrightarrow \mathbb Z,
+\qquad
+g(a,b)=2a+4b.
+\]
+
+\subsubsection*{Kernel}
+
+We want
+\[
+2a+4b=0.
+\]
+So
+\[
+a=-2b.
+\]
+Hence
+\[
+\ker(g)=\{(-2b,b):b\in\mathbb Z\}.
+\]
+
+\subsubsection*{Image}
+
+The image is
+\[
+\operatorname{im}(g)=2\mathbb Z.
+\]
+
+\subsubsection*{Cokernel}
+
+Thus
+\[
+\operatorname{coker}(g)=\mathbb Z/2\mathbb Z.
+\]
+
+This is a good example where the source has more generators than the target, yet the cokernel is still nonzero because the map is not surjective.
+
+\subsection{ Cokernels in exact sequences}
+
+Suppose
+\[
+M\xrightarrow{f}N\xrightarrow{g}P\to 0
+\]
+is exact.
+Then exactness at \(N\) and \(P\) means:
+\[
+\operatorname{im}(f)=\ker(g)
+\qquad\text{and}\qquad
+\operatorname{im}(g)=P.
+\]
+
+Since \(g\) is surjective, its cokernel is zero:
+\[
+\operatorname{coker}(g)=0.
+\]
+
+Also, because \(\operatorname{im}(f)=\ker(g)\), the quotient
+\[
+N/\operatorname{im}(f)
+\]
+is naturally isomorphic to \(P\).
+So one may rewrite exactness as:
+\[
+\operatorname{coker}(f)\cong P.
+\]
+
+This is an extremely useful way to read exact sequences.
+
+\subsubsection*{Example}
+
+In
+\[
+0\to (x)\hookrightarrow k[x]\twoheadrightarrow k[x]/(x)\to 0,
+\]
+the cokernel of the inclusion \((x)\hookrightarrow k[x]\) is exactly
+\[
+k[x]/(x).
+\]
+
+\subsection{ Cokernels and surjectivity failures}
+
+If a map fails to be surjective, the cokernel measures precisely the missing part.
+
+\subsubsection*{Example: multiplication by \(2\) on \(\mathbb Z\)}
+
+The map
+\[
+\mathbb Z\xrightarrow{\cdot 2}\mathbb Z
+\]
+misses all odd integers.
+The image is \(2\mathbb Z\), so the cokernel is
+\[
+\mathbb Z/2\mathbb Z.
+\]
+This records the obstruction to solving
+\[
+2m=n
+\]
+for arbitrary \(n\in \mathbb Z\).
+
+\subsubsection*{Example: multiplication by \(x\) on \(k[x]\)}
+
+The map
+\[
+k[x]\xrightarrow{\cdot x}k[x]
+\]
+misses all polynomials with nonzero constant term.
+Its cokernel is
+\[
+k[x]/(x)\cong k.
+\]
+This records exactly the constant term.
+
+\subsection{18. Localization and cokernels}
+
+Localization preserves cokernels because localization is exact.
+
+If
+\[
+f:M\to N,
+\]
+then after localizing at a multiplicative set \(S\),
+\[
+S^{-1}\operatorname{coker}(f)\cong \operatorname{coker}(S^{-1}f).
+\]
+
+\subsubsection*{Example}
+
+Take
+\[
+f:\mathbb Z\to\mathbb Z,
+\qquad
+f(m)=6m.
+\]
+Then
+\[
+\operatorname{coker}(f)=\mathbb Z/6\mathbb Z.
+\]
+
+Localize at \((5)\). Then
+\[
+f_{(5)}:\mathbb Z_{(5)}\to\mathbb Z_{(5)},
+\qquad
+r\mapsto 6r.
+\]
+Since \(6\) is a unit in \(\mathbb Z_{(5)}\), the map is surjective, so
+\[
+\operatorname{coker}(f_{(5)})=0.
+\]
+
+On the other hand,
+\[
+(\mathbb Z/6\mathbb Z)_{(5)}=0.
+\]
+So indeed
+\[
+\operatorname{coker}(f_{(5)})\cong (\operatorname{coker}(f))_{(5)}.
+\]
+
+\subsubsection*{Another example}
+
+Localize instead at \((2)\). Then
+\[
+\operatorname{coker}(f_{(2)})\cong \mathbb Z_{(2)}/6\mathbb Z_{(2)}\cong \mathbb Z_{(2)}/2\mathbb Z_{(2)}\cong \mathbb F_2.
+\]
+
+So localization can shrink or simplify a cokernel.
+
+\subsection{ Quotienting and cokernels}
+
+If \(I\subseteq R\) is an ideal, then the quotient functor
+\[
+-\otimes_R R/I
+\]
+is right exact.
+So cokernels behave well under quotienting:
+\[
+\operatorname{coker}(f)\otimes_R R/I
+\cong
+\operatorname{coker}(f\otimes_R R/I).
+\]
+
+However, kernels need not behave well in the same way because quotienting is not left exact in general.
+
+So cokernels are more stable under quotienting than kernels are.
+
+\subsection{ Standard examples worth remembering}
+
+The following are the basic examples to memorize.
+
+\subsubsection*{Multiplication by \(n\) on \(\mathbb Z\)}
+
+\[
+f:\mathbb Z\to\mathbb Z,\quad f(m)=nm.
+\]
+Then
+\[
+\ker(f)=0 \text{ if } n\neq 0,
+\qquad
+\operatorname{im}(f)=n\mathbb Z,
+\qquad
+\operatorname{coker}(f)=\mathbb Z/n\mathbb Z.
+\]
+
+\subsubsection*{Inclusion of an ideal}
+
+\[
+I\hookrightarrow A.
+\]
+Then
+\[
+\ker=0,
+\qquad
+\operatorname{im}=I,
+\qquad
+\operatorname{coker}=A/I.
+\]
+
+\subsubsection*{Quotient map}
+
+\[
+A\twoheadrightarrow A/I.
+\]
+Then
+\[
+\ker=I,
+\qquad
+\operatorname{im}=A/I,
+\qquad
+\operatorname{coker}=0.
+\]
+
+\subsubsection*{Multiplication by \(f\) on \(k[x]\)}
+
+\[
+k[x]\xrightarrow{\cdot f}k[x].
+\]
+Then
+\[
+\ker=0,
+\qquad
+\operatorname{im}=(f),
+\qquad
+\operatorname{coker}=k[x]/(f).
+\]
+
+\subsubsection*{The map \(A^2\to A\), \((a,b)\mapsto ax+by\)}
+
+For \(A=k[x,y]\),
+\[
+\ker=\{(-cy,cx):c\in A\},
+\qquad
+\operatorname{im}=(x,y),
+\qquad
+\operatorname{coker}=A/(x,y)\cong k.
+\]
+
+\subsection{ Final perspective}
+
+Kernel, image, and cokernel are the three basic modules attached to a homomorphism
+\[
+f:M\to N.
+\]
+
+They measure three different things:
+\begin{itemize}
+	\item the kernel measures what is killed,
+	\item the image measures what is hit,
+	\item the cokernel measures what is missed.
+\end{itemize}
+
+In formulas:
+\[
+\ker(f)\subseteq M,
+\qquad
+\operatorname{im}(f)\subseteq N,
+\qquad
+\operatorname{coker}(f)=N/\operatorname{im}(f).
+\]
+
+The most important structural facts are:
+\begin{itemize}
+	\item \(f\) is injective if and only if \(\ker(f)=0\),
+	\item \(f\) is surjective if and only if \(\operatorname{coker}(f)=0\),
+	\item quotient modules \(A/I\) naturally arise as cokernels of inclusion maps,
+	\item many exact sequences can be read as statements about cokernels,
+	\item cokernels behave well under right exact functors such as tensor product and quotienting,
+	\item cokernels also behave well under localization because localization is exact.
+\end{itemize}
+
+So once a map is written down explicitly, a very effective method is:
+\[
+\text{compute } \ker(f),\ \operatorname{im}(f),\ \operatorname{coker}(f),
+\]
+because these three objects usually reveal the whole structure of the map.
+
+
+\end{document}
