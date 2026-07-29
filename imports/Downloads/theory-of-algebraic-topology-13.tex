@@ -1,0 +1,7539 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+\usepackage{array}
+
+\usepackage{float}
+
+\usepackage{centernot}
+
+\DeclareMathOperator{\rank}{rank}
+
+\DeclareMathOperator{\Deck}{Deck}
+
+\usepackage{tikz-cd}
+
+\usepackage{tocloft}
+\setlength{\cftsubsecnumwidth}{3.2em}
+
+\newtheorem{prop}{Proposition}[section]
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\RP}{\mathbb{R}\mathrm{P}}
+
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Chi}{\chi}
+\newcommand{\del}{\partial}
+
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{example}[definition]{Example}
+
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric}
+
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Algebraic Topology 13},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\fancyhf{}
+\lhead{Theory of Algebraic Topology 13}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+
+\newcommand{\longdash}{\mathrel{\text{---}}}
+
+\title{\vspace{-1.5em}\bfseries Theory of Algebraic Topology 13}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in algebraic topology
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+
+\section{Problem 1 Products, Künneth Formula, Universal Coefficient Theorem, and Euler Characteristic}
+
+\subsection{Problem 1: The space \(X=L_4^3\times \mathbb{RP}^3\)}
+
+\textbf{Problem.}
+Let
+\[
+X=L_4^3\times \mathbb{RP}^3.
+\]
+\begin{enumerate}
+	\item[(a)] Write out \(C_*^{\mathrm{cell}}(X)\) and use it to compute \(H_*(X)\).
+	\item[(b)] Compute \(H_*(X)\) using the Künneth formula and verify that it agrees with the answer in part (a).
+	\item[(c)] Use the universal coefficient theorem and the answer to part (b) to compute \(H^*(X)\) and \(H_*(X;\mathbb Z/2)\).
+	\item[(d)] Use the universal coefficient theorem to compute \(H_*(L_4^3;\mathbb Z/2)\) and \(H_*(\mathbb{RP}^3;\mathbb Z/2)\). Use this answer to compute \(H_*(X;\mathbb Z/2)\) and verify that it agrees with the answer in part (c).
+\end{enumerate}
+
+\subsubsection{The cellular chain complexes of \(L_4^3\) and \(\mathbb{RP}^3\)}
+
+The lens space \(L_4^3\) has a CW-structure with one cell in each dimension
+\[
+0,1,2,3.
+\]
+Its cellular chain complex is
+\[
+0
+\longrightarrow C_3(L_4^3)\cong \mathbb Z
+\xrightarrow{\partial_3=0}
+C_2(L_4^3)\cong \mathbb Z
+\xrightarrow{\partial_2=4}
+C_1(L_4^3)\cong \mathbb Z
+\xrightarrow{\partial_1=0}
+C_0(L_4^3)\cong \mathbb Z
+\longrightarrow 0.
+\]
+Therefore
+\[
+H_0(L_4^3)\cong \mathbb Z,
+\qquad
+H_1(L_4^3)\cong \mathbb Z/4,
+\qquad
+H_2(L_4^3)=0,
+\qquad
+H_3(L_4^3)\cong \mathbb Z.
+\]
+
+Similarly, \(\mathbb{RP}^3\) has a CW-structure with one cell in each dimension
+\[
+0,1,2,3.
+\]
+Its cellular chain complex is
+\[
+0
+\longrightarrow C_3(\mathbb{RP}^3)\cong \mathbb Z
+\xrightarrow{\partial_3=0}
+C_2(\mathbb{RP}^3)\cong \mathbb Z
+\xrightarrow{\partial_2=2}
+C_1(\mathbb{RP}^3)\cong \mathbb Z
+\xrightarrow{\partial_1=0}
+C_0(\mathbb{RP}^3)\cong \mathbb Z
+\longrightarrow 0.
+\]
+Hence
+\[
+H_0(\mathbb{RP}^3)\cong \mathbb Z,
+\qquad
+H_1(\mathbb{RP}^3)\cong \mathbb Z/2,
+\qquad
+H_2(\mathbb{RP}^3)=0,
+\qquad
+H_3(\mathbb{RP}^3)\cong \mathbb Z.
+\]
+
+\subsubsection{Part (a): The cellular chain complex of \(X\)}
+
+The product CW-structure on
+\[
+X=L_4^3\times \mathbb{RP}^3
+\]
+has one cell \(e_{i,j}\) in dimension \(i+j\) for each pair
+\[
+0\leq i\leq 3,
+\qquad
+0\leq j\leq 3.
+\]
+Here \(e_{i,j}\) denotes the product of the \(i\)-cell of \(L_4^3\) with the \(j\)-cell of \(\mathbb{RP}^3\).
+
+Thus
+\[
+C_n^{\mathrm{cell}}(X)
+\cong
+\bigoplus_{i+j=n}
+C_i^{\mathrm{cell}}(L_4^3)\otimes C_j^{\mathrm{cell}}(\mathbb{RP}^3).
+\]
+Therefore the chain groups are
+\[
+C_0(X)\cong \mathbb Z,
+\]
+\[
+C_1(X)\cong \mathbb Z^2,
+\]
+\[
+C_2(X)\cong \mathbb Z^3,
+\]
+\[
+C_3(X)\cong \mathbb Z^4,
+\]
+\[
+C_4(X)\cong \mathbb Z^3,
+\]
+\[
+C_5(X)\cong \mathbb Z^2,
+\]
+\[
+C_6(X)\cong \mathbb Z.
+\]
+
+The cellular differential on the product is given by
+\[
+\partial(a\otimes b)
+=
+\partial a\otimes b
++
+(-1)^{|a|}a\otimes \partial b.
+\]
+
+We use the following ordered bases:
+\[
+C_0=\langle e_{0,0}\rangle,
+\]
+\[
+C_1=\langle e_{1,0},e_{0,1}\rangle,
+\]
+\[
+C_2=\langle e_{2,0},e_{1,1},e_{0,2}\rangle,
+\]
+\[
+C_3=\langle e_{3,0},e_{2,1},e_{1,2},e_{0,3}\rangle,
+\]
+\[
+C_4=\langle e_{3,1},e_{2,2},e_{1,3}\rangle,
+\]
+\[
+C_5=\langle e_{3,2},e_{2,3}\rangle,
+\]
+\[
+C_6=\langle e_{3,3}\rangle.
+\]
+
+With respect to these bases, the boundary maps are as follows.
+
+First,
+\[
+\partial_1=0.
+\]
+Next,
+\[
+\partial_2(e_{2,0})=4e_{1,0},
+\qquad
+\partial_2(e_{1,1})=0,
+\qquad
+\partial_2(e_{0,2})=2e_{0,1}.
+\]
+Hence
+\[
+[\partial_2]
+=
+\begin{pmatrix}
+	4 & 0 & 0\\
+	0 & 0 & 2
+\end{pmatrix}.
+\]
+
+For \(\partial_3\), we get
+\[
+\partial_3(e_{3,0})=0,
+\]
+\[
+\partial_3(e_{2,1})=4e_{1,1},
+\]
+\[
+\partial_3(e_{1,2})=-2e_{1,1},
+\]
+\[
+\partial_3(e_{0,3})=0.
+\]
+Thus
+\[
+[\partial_3]
+=
+\begin{pmatrix}
+	0 & 0 & 0 & 0\\
+	0 & 4 & -2 & 0\\
+	0 & 0 & 0 & 0
+\end{pmatrix}.
+\]
+
+For \(\partial_4\), we have
+\[
+\partial_4(e_{3,1})=0,
+\]
+\[
+\partial_4(e_{2,2})
+=
+2e_{2,1}+4e_{1,2},
+\]
+\[
+\partial_4(e_{1,3})=0.
+\]
+So
+\[
+[\partial_4]
+=
+\begin{pmatrix}
+	0 & 0 & 0\\
+	0 & 2 & 0\\
+	0 & 4 & 0\\
+	0 & 0 & 0
+\end{pmatrix}.
+\]
+
+For \(\partial_5\), we obtain
+\[
+\partial_5(e_{3,2})=-2e_{3,1},
+\qquad
+\partial_5(e_{2,3})=4e_{1,3}.
+\]
+Hence
+\[
+[\partial_5]
+=
+\begin{pmatrix}
+	-2 & 0\\
+	0 & 0\\
+	0 & 4
+\end{pmatrix}.
+\]
+
+Finally,
+\[
+\partial_6(e_{3,3})=0.
+\]
+Therefore
+\[
+\partial_6=0.
+\]
+
+So the full cellular chain complex is
+\[
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{\partial_6=0}
+\mathbb Z^2
+\xrightarrow{\partial_5}
+\mathbb Z^3
+\xrightarrow{\partial_4}
+\mathbb Z^4
+\xrightarrow{\partial_3}
+\mathbb Z^3
+\xrightarrow{\partial_2}
+\mathbb Z^2
+\xrightarrow{\partial_1=0}
+\mathbb Z
+\longrightarrow 0.
+\]
+
+We now compute homology degree by degree.
+
+In degree \(0\),
+\[
+H_0(X)\cong \mathbb Z.
+\]
+
+In degree \(1\),
+\[
+H_1(X)
+=
+\ker \partial_1/\operatorname{im}\partial_2
+=
+\mathbb Z^2/\langle 4e_{1,0},2e_{0,1}\rangle.
+\]
+Hence
+\[
+H_1(X)\cong \mathbb Z/4\oplus \mathbb Z/2.
+\]
+
+In degree \(2\), the map \(\partial_2\) sends
+\[
+a e_{2,0}+b e_{1,1}+c e_{0,2}
+\]
+to
+\[
+4a e_{1,0}+2c e_{0,1}.
+\]
+Thus
+\[
+\ker \partial_2=\langle e_{1,1}\rangle\cong \mathbb Z.
+\]
+Also,
+\[
+\operatorname{im}\partial_3
+=
+\langle 4e_{1,1},-2e_{1,1}\rangle
+=
+\langle 2e_{1,1}\rangle.
+\]
+Therefore
+\[
+H_2(X)
+\cong
+\mathbb Z/\langle 2\rangle
+\cong
+\mathbb Z/2.
+\]
+
+In degree \(3\), an element of \(C_3\) has the form
+\[
+a e_{3,0}+b e_{2,1}+c e_{1,2}+d e_{0,3}.
+\]
+The condition that it lies in \(\ker \partial_3\) is
+\[
+4b-2c=0.
+\]
+Equivalently,
+\[
+c=2b.
+\]
+Thus
+\[
+\ker \partial_3
+=
+\langle e_{3,0},\, e_{2,1}+2e_{1,2},\, e_{0,3}\rangle
+\cong \mathbb Z^3.
+\]
+Meanwhile
+\[
+\operatorname{im}\partial_4
+=
+\langle 2e_{2,1}+4e_{1,2}\rangle
+=
+\langle 2(e_{2,1}+2e_{1,2})\rangle.
+\]
+Therefore
+\[
+H_3(X)
+\cong
+\mathbb Z\oplus \mathbb Z/2\oplus \mathbb Z
+\cong
+\mathbb Z^2\oplus \mathbb Z/2.
+\]
+
+In degree \(4\), we have
+\[
+\partial_4(ae_{3,1}+be_{2,2}+ce_{1,3})
+=
+b(2e_{2,1}+4e_{1,2}).
+\]
+Therefore
+\[
+\ker \partial_4
+=
+\langle e_{3,1},e_{1,3}\rangle
+\cong \mathbb Z^2.
+\]
+Also,
+\[
+\operatorname{im}\partial_5
+=
+\langle -2e_{3,1},4e_{1,3}\rangle.
+\]
+Hence
+\[
+H_4(X)
+\cong
+\mathbb Z/2\oplus \mathbb Z/4.
+\]
+Equivalently,
+\[
+H_4(X)\cong \mathbb Z/4\oplus \mathbb Z/2.
+\]
+
+In degree \(5\),
+\[
+\partial_5(ae_{3,2}+be_{2,3})
+=
+-2a e_{3,1}+4b e_{1,3}.
+\]
+This vanishes only if
+\[
+a=0,
+\qquad
+b=0.
+\]
+Therefore
+\[
+\ker \partial_5=0.
+\]
+Since \(\operatorname{im}\partial_6=0\), we get
+\[
+H_5(X)=0.
+\]
+
+Finally, in degree \(6\),
+\[
+\partial_6=0,
+\]
+and there are no \(7\)-cells. Therefore
+\[
+H_6(X)\cong \mathbb Z.
+\]
+
+Thus
+\[
+\boxed{
+	H_k(X)\cong
+	\begin{cases}
+		\mathbb Z, & k=0,6,\\[1mm]
+		\mathbb Z/4\oplus \mathbb Z/2, & k=1,4,\\[1mm]
+		\mathbb Z/2, & k=2,\\[1mm]
+		\mathbb Z^2\oplus \mathbb Z/2, & k=3,\\[1mm]
+		0, & k=5.
+\end{cases}}
+\]
+
+\subsubsection{Part (b): Computation using the Künneth formula}
+
+The integral Künneth theorem gives a short exact sequence
+\[
+0
+\longrightarrow
+\bigoplus_{i+j=n}
+H_i(L_4^3)\otimes H_j(\mathbb{RP}^3)
+\longrightarrow
+H_n(X)
+\longrightarrow
+\bigoplus_{i+j=n-1}
+\operatorname{Tor}\bigl(H_i(L_4^3),H_j(\mathbb{RP}^3)\bigr)
+\longrightarrow
+0.
+\]
+
+We use the standard facts
+\[
+\mathbb Z\otimes G\cong G,
+\]
+\[
+\mathbb Z/m\otimes \mathbb Z/n\cong \mathbb Z/\gcd(m,n),
+\]
+and
+\[
+\operatorname{Tor}(\mathbb Z/m,\mathbb Z/n)
+\cong
+\mathbb Z/\gcd(m,n).
+\]
+
+Since
+\[
+H_*(L_4^3)
+=
+(\mathbb Z,\mathbb Z/4,0,\mathbb Z),
+\]
+and
+\[
+H_*(\mathbb{RP}^3)
+=
+(\mathbb Z,\mathbb Z/2,0,\mathbb Z),
+\]
+we compute degree by degree.
+
+For \(n=0\),
+\[
+H_0(X)
+\cong
+H_0(L_4^3)\otimes H_0(\mathbb{RP}^3)
+\cong
+\mathbb Z.
+\]
+
+For \(n=1\),
+\[
+H_1(X)
+\cong
+(H_1(L_4^3)\otimes H_0(\mathbb{RP}^3))
+\oplus
+(H_0(L_4^3)\otimes H_1(\mathbb{RP}^3)).
+\]
+Thus
+\[
+H_1(X)
+\cong
+\mathbb Z/4\oplus \mathbb Z/2.
+\]
+
+For \(n=2\), the only nonzero tensor contribution is
+\[
+H_1(L_4^3)\otimes H_1(\mathbb{RP}^3)
+\cong
+\mathbb Z/4\otimes \mathbb Z/2
+\cong
+\mathbb Z/2.
+\]
+There is no nonzero Tor contribution in this degree. Therefore
+\[
+H_2(X)\cong \mathbb Z/2.
+\]
+
+For \(n=3\), the tensor contributions are
+\[
+H_3(L_4^3)\otimes H_0(\mathbb{RP}^3)
+\cong
+\mathbb Z,
+\]
+and
+\[
+H_0(L_4^3)\otimes H_3(\mathbb{RP}^3)
+\cong
+\mathbb Z.
+\]
+The Tor contribution is
+\[
+\operatorname{Tor}(H_1(L_4^3),H_1(\mathbb{RP}^3))
+=
+\operatorname{Tor}(\mathbb Z/4,\mathbb Z/2)
+\cong
+\mathbb Z/2.
+\]
+Hence
+\[
+H_3(X)
+\cong
+\mathbb Z^2\oplus \mathbb Z/2.
+\]
+
+For \(n=4\), the tensor contributions are
+\[
+H_3(L_4^3)\otimes H_1(\mathbb{RP}^3)
+\cong
+\mathbb Z/2,
+\]
+and
+\[
+H_1(L_4^3)\otimes H_3(\mathbb{RP}^3)
+\cong
+\mathbb Z/4.
+\]
+There is no nonzero Tor contribution. Thus
+\[
+H_4(X)
+\cong
+\mathbb Z/4\oplus \mathbb Z/2.
+\]
+
+For \(n=5\), all tensor and Tor terms vanish. Therefore
+\[
+H_5(X)=0.
+\]
+
+For \(n=6\),
+\[
+H_6(X)
+\cong
+H_3(L_4^3)\otimes H_3(\mathbb{RP}^3)
+\cong
+\mathbb Z.
+\]
+
+Thus the Künneth formula gives
+\[
+\boxed{
+	H_k(X)\cong
+	\begin{cases}
+		\mathbb Z, & k=0,6,\\[1mm]
+		\mathbb Z/4\oplus \mathbb Z/2, & k=1,4,\\[1mm]
+		\mathbb Z/2, & k=2,\\[1mm]
+		\mathbb Z^2\oplus \mathbb Z/2, & k=3,\\[1mm]
+		0, & k=5.
+\end{cases}}
+\]
+This agrees exactly with the computation using cellular chains.
+
+\subsubsection{Part (c): Integral cohomology and mod-\(2\) homology of \(X\)}
+
+The universal coefficient theorem for cohomology says that there is a short exact sequence
+\[
+0
+\longrightarrow
+\operatorname{Ext}(H_{n-1}(X),\mathbb Z)
+\longrightarrow
+H^n(X)
+\longrightarrow
+\operatorname{Hom}(H_n(X),\mathbb Z)
+\longrightarrow
+0.
+\]
+
+We use
+\[
+\operatorname{Hom}(\mathbb Z,\mathbb Z)\cong \mathbb Z,
+\qquad
+\operatorname{Hom}(\mathbb Z/m,\mathbb Z)=0,
+\]
+and
+\[
+\operatorname{Ext}(\mathbb Z,\mathbb Z)=0,
+\qquad
+\operatorname{Ext}(\mathbb Z/m,\mathbb Z)\cong \mathbb Z/m.
+\]
+
+Since
+\[
+H_0(X)\cong \mathbb Z,
+\]
+\[
+H_1(X)\cong \mathbb Z/4\oplus \mathbb Z/2,
+\]
+\[
+H_2(X)\cong \mathbb Z/2,
+\]
+\[
+H_3(X)\cong \mathbb Z^2\oplus \mathbb Z/2,
+\]
+\[
+H_4(X)\cong \mathbb Z/4\oplus \mathbb Z/2,
+\]
+\[
+H_5(X)=0,
+\]
+\[
+H_6(X)\cong \mathbb Z,
+\]
+we obtain
+\[
+H^0(X)\cong \mathbb Z,
+\]
+\[
+H^1(X)=0,
+\]
+\[
+H^2(X)\cong \mathbb Z/4\oplus \mathbb Z/2,
+\]
+\[
+H^3(X)\cong \mathbb Z^2\oplus \mathbb Z/2,
+\]
+\[
+H^4(X)\cong \mathbb Z/2,
+\]
+\[
+H^5(X)\cong \mathbb Z/4\oplus \mathbb Z/2,
+\]
+\[
+H^6(X)\cong \mathbb Z.
+\]
+
+Therefore
+\[
+\boxed{
+	H^k(X)\cong
+	\begin{cases}
+		\mathbb Z, & k=0,6,\\[1mm]
+		0, & k=1,\\[1mm]
+		\mathbb Z/4\oplus \mathbb Z/2, & k=2,5,\\[1mm]
+		\mathbb Z^2\oplus \mathbb Z/2, & k=3,\\[1mm]
+		\mathbb Z/2, & k=4.
+\end{cases}}
+\]
+
+Now we compute \(H_*(X;\mathbb Z/2)\). The universal coefficient theorem for homology says that
+\[
+0
+\longrightarrow
+H_n(X)\otimes \mathbb Z/2
+\longrightarrow
+H_n(X;\mathbb Z/2)
+\longrightarrow
+\operatorname{Tor}(H_{n-1}(X),\mathbb Z/2)
+\longrightarrow
+0.
+\]
+
+Since the coefficient group is a field, the sequence splits, although not canonically. We use
+\[
+\mathbb Z\otimes \mathbb Z/2\cong \mathbb Z/2,
+\]
+\[
+\mathbb Z/m\otimes \mathbb Z/2
+\cong
+\mathbb Z/\gcd(m,2),
+\]
+and
+\[
+\operatorname{Tor}(\mathbb Z/m,\mathbb Z/2)
+\cong
+\mathbb Z/\gcd(m,2).
+\]
+
+For \(n=0\),
+\[
+H_0(X;\mathbb Z/2)\cong \mathbb Z/2.
+\]
+
+For \(n=1\),
+\[
+H_1(X)\otimes \mathbb Z/2
+\cong
+(\mathbb Z/4\oplus \mathbb Z/2)\otimes \mathbb Z/2
+\cong
+(\mathbb Z/2)^2.
+\]
+Also,
+\[
+\operatorname{Tor}(H_0(X),\mathbb Z/2)=0.
+\]
+Hence
+\[
+H_1(X;\mathbb Z/2)\cong (\mathbb Z/2)^2.
+\]
+
+For \(n=2\),
+\[
+H_2(X)\otimes \mathbb Z/2
+\cong
+\mathbb Z/2,
+\]
+and
+\[
+\operatorname{Tor}(H_1(X),\mathbb Z/2)
+\cong
+\operatorname{Tor}(\mathbb Z/4,\mathbb Z/2)
+\oplus
+\operatorname{Tor}(\mathbb Z/2,\mathbb Z/2)
+\cong
+(\mathbb Z/2)^2.
+\]
+Therefore
+\[
+H_2(X;\mathbb Z/2)\cong (\mathbb Z/2)^3.
+\]
+
+For \(n=3\),
+\[
+H_3(X)\otimes \mathbb Z/2
+\cong
+(\mathbb Z^2\oplus \mathbb Z/2)\otimes \mathbb Z/2
+\cong
+(\mathbb Z/2)^3.
+\]
+Also,
+\[
+\operatorname{Tor}(H_2(X),\mathbb Z/2)
+\cong
+\mathbb Z/2.
+\]
+Thus
+\[
+H_3(X;\mathbb Z/2)\cong (\mathbb Z/2)^4.
+\]
+
+For \(n=4\),
+\[
+H_4(X)\otimes \mathbb Z/2
+\cong
+(\mathbb Z/4\oplus \mathbb Z/2)\otimes \mathbb Z/2
+\cong
+(\mathbb Z/2)^2.
+\]
+Also,
+\[
+\operatorname{Tor}(H_3(X),\mathbb Z/2)
+\cong
+\mathbb Z/2.
+\]
+Therefore
+\[
+H_4(X;\mathbb Z/2)\cong (\mathbb Z/2)^3.
+\]
+
+For \(n=5\),
+\[
+H_5(X)\otimes \mathbb Z/2=0,
+\]
+and
+\[
+\operatorname{Tor}(H_4(X),\mathbb Z/2)
+\cong
+\operatorname{Tor}(\mathbb Z/4,\mathbb Z/2)
+\oplus
+\operatorname{Tor}(\mathbb Z/2,\mathbb Z/2)
+\cong
+(\mathbb Z/2)^2.
+\]
+Hence
+\[
+H_5(X;\mathbb Z/2)\cong (\mathbb Z/2)^2.
+\]
+
+For \(n=6\),
+\[
+H_6(X)\otimes \mathbb Z/2
+\cong
+\mathbb Z/2,
+\]
+and
+\[
+\operatorname{Tor}(H_5(X),\mathbb Z/2)=0.
+\]
+Thus
+\[
+H_6(X;\mathbb Z/2)\cong \mathbb Z/2.
+\]
+
+Therefore
+\[
+\boxed{
+	H_k(X;\mathbb Z/2)\cong
+	\begin{cases}
+		\mathbb Z/2, & k=0,6,\\[1mm]
+		(\mathbb Z/2)^2, & k=1,5,\\[1mm]
+		(\mathbb Z/2)^3, & k=2,4,\\[1mm]
+		(\mathbb Z/2)^4, & k=3.
+\end{cases}}
+\]
+
+\subsubsection{Part (d): Mod-\(2\) homology of the factors and verification}
+
+First consider \(L_4^3\). We know
+\[
+H_0(L_4^3)\cong \mathbb Z,
+\qquad
+H_1(L_4^3)\cong \mathbb Z/4,
+\qquad
+H_2(L_4^3)=0,
+\qquad
+H_3(L_4^3)\cong \mathbb Z.
+\]
+
+Using the universal coefficient theorem for homology,
+\[
+0
+\longrightarrow
+H_n(L_4^3)\otimes \mathbb Z/2
+\longrightarrow
+H_n(L_4^3;\mathbb Z/2)
+\longrightarrow
+\operatorname{Tor}(H_{n-1}(L_4^3),\mathbb Z/2)
+\longrightarrow
+0,
+\]
+we get
+\[
+H_0(L_4^3;\mathbb Z/2)\cong \mathbb Z/2,
+\]
+\[
+H_1(L_4^3;\mathbb Z/2)\cong \mathbb Z/2,
+\]
+\[
+H_2(L_4^3;\mathbb Z/2)\cong \mathbb Z/2,
+\]
+\[
+H_3(L_4^3;\mathbb Z/2)\cong \mathbb Z/2.
+\]
+Thus
+\[
+\boxed{
+	H_k(L_4^3;\mathbb Z/2)\cong \mathbb Z/2
+	\quad\text{for }k=0,1,2,3.}
+\]
+
+Now consider \(\mathbb{RP}^3\). We know
+\[
+H_0(\mathbb{RP}^3)\cong \mathbb Z,
+\qquad
+H_1(\mathbb{RP}^3)\cong \mathbb Z/2,
+\qquad
+H_2(\mathbb{RP}^3)=0,
+\qquad
+H_3(\mathbb{RP}^3)\cong \mathbb Z.
+\]
+Again by the universal coefficient theorem,
+\[
+H_0(\mathbb{RP}^3;\mathbb Z/2)\cong \mathbb Z/2,
+\]
+\[
+H_1(\mathbb{RP}^3;\mathbb Z/2)\cong \mathbb Z/2,
+\]
+\[
+H_2(\mathbb{RP}^3;\mathbb Z/2)\cong \mathbb Z/2,
+\]
+\[
+H_3(\mathbb{RP}^3;\mathbb Z/2)\cong \mathbb Z/2.
+\]
+Therefore
+\[
+\boxed{
+	H_k(\mathbb{RP}^3;\mathbb Z/2)\cong \mathbb Z/2
+	\quad\text{for }k=0,1,2,3.}
+\]
+
+Now apply the Künneth formula over the field \(\mathbb Z/2\). Since \(\mathbb Z/2\) is a field, there are no Tor terms:
+\[
+H_n(X;\mathbb Z/2)
+\cong
+\bigoplus_{i+j=n}
+H_i(L_4^3;\mathbb Z/2)
+\otimes_{\mathbb Z/2}
+H_j(\mathbb{RP}^3;\mathbb Z/2).
+\]
+
+Each factor has one copy of \(\mathbb Z/2\) in degrees \(0,1,2,3\). Therefore the dimension of \(H_n(X;\mathbb Z/2)\) is the number of pairs
+\[
+(i,j)
+\]
+such that
+\[
+i+j=n,
+\qquad
+0\leq i,j\leq 3.
+\]
+
+These numbers are
+\[
+1,2,3,4,3,2,1
+\]
+in degrees
+\[
+0,1,2,3,4,5,6.
+\]
+Hence
+\[
+\boxed{
+	H_k(X;\mathbb Z/2)\cong
+	\begin{cases}
+		\mathbb Z/2, & k=0,6,\\[1mm]
+		(\mathbb Z/2)^2, & k=1,5,\\[1mm]
+		(\mathbb Z/2)^3, & k=2,4,\\[1mm]
+		(\mathbb Z/2)^4, & k=3.
+\end{cases}}
+\]
+This agrees exactly with the computation in part (c).
+
+\section{Problem 2: Basic properties of the Euler characteristic}
+
+\textbf{Problem.}
+If \(X\) is a finite cell complex, define the Euler characteristic by
+\[
+\chi(X)=\sum_k (-1)^k n_k,
+\]
+where \(n_k\) is the number of \(k\)-cells in \(X\). Prove the following properties of \(\chi\):
+\begin{enumerate}
+	\item[(a)] \(\chi(X)=P_{\mathbb F}(X)\big|_{t=-1}\), where \(\mathbb F\) is any field.
+	\item[(b)] \(\chi(X\times Y)=\chi(X)\chi(Y)\).
+	\item[(c)] If \(A\) and \(B\) are subcomplexes of \(X\), then
+	\[
+	\chi(A\cup B)=\chi(A)+\chi(B)-\chi(A\cap B).
+	\]
+\end{enumerate}
+
+\subsubsection{Part (a): Euler characteristic and the Poincaré polynomial}
+
+Let \(\mathbb F\) be a field. The Poincaré polynomial of \(X\) over \(\mathbb F\) is
+\[
+P_{\mathbb F}(X)
+=
+\sum_k \beta_k^{\mathbb F}(X)t^k,
+\]
+where
+\[
+\beta_k^{\mathbb F}(X)
+=
+\dim_{\mathbb F} H_k(X;\mathbb F)
+\]
+is the \(k\)-th Betti number of \(X\) with coefficients in \(\mathbb F\).
+
+We want to prove that
+\[
+\chi(X)=P_{\mathbb F}(X)\big|_{t=-1}.
+\]
+
+The cellular chain complex of \(X\) with coefficients in \(\mathbb F\) is
+\[
+\cdots
+\longrightarrow
+C_k(X;\mathbb F)
+\xrightarrow{\partial_k}
+C_{k-1}(X;\mathbb F)
+\longrightarrow
+\cdots.
+\]
+Because \(X\) has \(n_k\) many \(k\)-cells, we have
+\[
+C_k(X;\mathbb F)\cong \mathbb F^{n_k}.
+\]
+Therefore
+\[
+\dim_{\mathbb F} C_k(X;\mathbb F)=n_k.
+\]
+
+For a finite-dimensional chain complex over a field, the alternating sum of the dimensions of the chain groups equals the alternating sum of the dimensions of the homology groups:
+\[
+\sum_k (-1)^k \dim_{\mathbb F} C_k(X;\mathbb F)
+=
+\sum_k (-1)^k \dim_{\mathbb F} H_k(X;\mathbb F).
+\]
+
+For completeness, we recall why this is true. Let
+\[
+Z_k=\ker \partial_k
+\]
+be the group of \(k\)-cycles, and let
+\[
+B_k=\operatorname{im}\partial_{k+1}
+\]
+be the group of \(k\)-boundaries. Then
+\[
+H_k(X;\mathbb F)=Z_k/B_k.
+\]
+Since all groups are finite-dimensional vector spaces over \(\mathbb F\),
+\[
+\dim Z_k=\dim H_k+\dim B_k.
+\]
+Also, by rank-nullity applied to
+\[
+\partial_k:C_k\to C_{k-1},
+\]
+we have
+\[
+\dim C_k=\dim Z_k+\dim B_{k-1}.
+\]
+Therefore
+\[
+\dim C_k
+=
+\dim H_k+\dim B_k+\dim B_{k-1}.
+\]
+Taking alternating sums gives
+\[
+\sum_k (-1)^k \dim C_k
+=
+\sum_k (-1)^k \dim H_k
++
+\sum_k (-1)^k \dim B_k
++
+\sum_k (-1)^k \dim B_{k-1}.
+\]
+The last two sums cancel because
+\[
+\sum_k (-1)^k \dim B_{k-1}
+=
+-\sum_k (-1)^k \dim B_k.
+\]
+Hence
+\[
+\sum_k (-1)^k \dim C_k
+=
+\sum_k (-1)^k \dim H_k.
+\]
+
+Now
+\[
+\chi(X)
+=
+\sum_k (-1)^k n_k
+=
+\sum_k (-1)^k \dim_{\mathbb F} C_k(X;\mathbb F).
+\]
+Therefore
+\[
+\chi(X)
+=
+\sum_k (-1)^k \dim_{\mathbb F} H_k(X;\mathbb F)
+=
+\sum_k (-1)^k \beta_k^{\mathbb F}(X).
+\]
+But
+\[
+P_{\mathbb F}(X)\big|_{t=-1}
+=
+\sum_k \beta_k^{\mathbb F}(X)(-1)^k.
+\]
+Hence
+\[
+\boxed{
+	\chi(X)=P_{\mathbb F}(X)\big|_{t=-1}.}
+\]
+
+\subsubsection{Part (b): Multiplicativity under products}
+
+We prove that
+\[
+\chi(X\times Y)=\chi(X)\chi(Y).
+\]
+
+Let \(X\) and \(Y\) be finite cell complexes. Suppose \(X\) has \(n_i\) cells of dimension \(i\), and \(Y\) has \(m_j\) cells of dimension \(j\).
+
+The product CW-structure on \(X\times Y\) has one \((i+j)\)-cell for each pair consisting of an \(i\)-cell of \(X\) and a \(j\)-cell of \(Y\). Therefore, the number of \(k\)-cells of \(X\times Y\) is
+\[
+\sum_{i+j=k} n_i m_j.
+\]
+Thus
+\[
+\chi(X\times Y)
+=
+\sum_k (-1)^k
+\left(
+\sum_{i+j=k} n_i m_j
+\right).
+\]
+Changing the order of summation gives
+\[
+\chi(X\times Y)
+=
+\sum_{i,j} (-1)^{i+j}n_i m_j.
+\]
+Since
+\[
+(-1)^{i+j}=(-1)^i(-1)^j,
+\]
+we get
+\[
+\chi(X\times Y)
+=
+\left(\sum_i (-1)^i n_i\right)
+\left(\sum_j (-1)^j m_j\right).
+\]
+Therefore
+\[
+\chi(X\times Y)=\chi(X)\chi(Y).
+\]
+
+Hence
+\[
+\boxed{\chi(X\times Y)=\chi(X)\chi(Y).}
+\]
+
+Equivalently, one can prove this using part (a) and the Künneth formula over a field. Indeed, over a field \(\mathbb F\),
+\[
+H_n(X\times Y;\mathbb F)
+\cong
+\bigoplus_{i+j=n}
+H_i(X;\mathbb F)\otimes_{\mathbb F}H_j(Y;\mathbb F).
+\]
+Taking dimensions gives
+\[
+\beta_n^{\mathbb F}(X\times Y)
+=
+\sum_{i+j=n}
+\beta_i^{\mathbb F}(X)\beta_j^{\mathbb F}(Y).
+\]
+Hence
+\[
+P_{\mathbb F}(X\times Y)
+=
+P_{\mathbb F}(X)P_{\mathbb F}(Y).
+\]
+Evaluating at \(t=-1\), we obtain
+\[
+\chi(X\times Y)
+=
+P_{\mathbb F}(X\times Y)\big|_{t=-1}
+=
+P_{\mathbb F}(X)\big|_{t=-1}
+P_{\mathbb F}(Y)\big|_{t=-1}.
+\]
+Using part (a), this becomes
+\[
+\chi(X\times Y)=\chi(X)\chi(Y).
+\]
+
+\subsubsection{Part (c): Inclusion-exclusion for subcomplexes}
+
+Let \(A\) and \(B\) be subcomplexes of \(X\). We want to prove that
+\[
+\chi(A\cup B)=\chi(A)+\chi(B)-\chi(A\cap B).
+\]
+
+Because \(A\) and \(B\) are subcomplexes, their union \(A\cup B\) and their intersection \(A\cap B\) are also cell complexes built from cells of \(X\).
+
+For each \(k\), let
+\[
+n_k(A)
+\]
+denote the number of \(k\)-cells of \(A\), and similarly define
+\[
+n_k(B),
+\qquad
+n_k(A\cup B),
+\qquad
+n_k(A\cap B).
+\]
+
+For each fixed dimension \(k\), the ordinary inclusion-exclusion principle for finite sets gives
+\[
+n_k(A\cup B)
+=
+n_k(A)+n_k(B)-n_k(A\cap B).
+\]
+
+Now take alternating sums over all \(k\):
+\[
+\chi(A\cup B)
+=
+\sum_k (-1)^k n_k(A\cup B).
+\]
+Substituting the formula above gives
+\[
+\chi(A\cup B)
+=
+\sum_k (-1)^k
+\left(
+n_k(A)+n_k(B)-n_k(A\cap B)
+\right).
+\]
+Therefore
+\[
+\chi(A\cup B)
+=
+\sum_k (-1)^k n_k(A)
++
+\sum_k (-1)^k n_k(B)
+-
+\sum_k (-1)^k n_k(A\cap B).
+\]
+Hence
+\[
+\chi(A\cup B)
+=
+\chi(A)+\chi(B)-\chi(A\cap B).
+\]
+
+Thus
+\[
+\boxed{
+	\chi(A\cup B)=\chi(A)+\chi(B)-\chi(A\cap B).}
+\]
+
+\subsubsection{Summary}
+
+For
+\[
+X=L_4^3\times \mathbb{RP}^3,
+\]
+we have
+\[
+\boxed{
+	H_k(X)\cong
+	\begin{cases}
+		\mathbb Z, & k=0,6,\\[1mm]
+		\mathbb Z/4\oplus \mathbb Z/2, & k=1,4,\\[1mm]
+		\mathbb Z/2, & k=2,\\[1mm]
+		\mathbb Z^2\oplus \mathbb Z/2, & k=3,\\[1mm]
+		0, & k=5.
+\end{cases}}
+\]
+
+Also,
+\[
+\boxed{
+	H^k(X)\cong
+	\begin{cases}
+		\mathbb Z, & k=0,6,\\[1mm]
+		0, & k=1,\\[1mm]
+		\mathbb Z/4\oplus \mathbb Z/2, & k=2,5,\\[1mm]
+		\mathbb Z^2\oplus \mathbb Z/2, & k=3,\\[1mm]
+		\mathbb Z/2, & k=4.
+\end{cases}}
+\]
+
+Finally,
+\[
+\boxed{
+	H_k(X;\mathbb Z/2)\cong
+	\begin{cases}
+		\mathbb Z/2, & k=0,6,\\[1mm]
+		(\mathbb Z/2)^2, & k=1,5,\\[1mm]
+		(\mathbb Z/2)^3, & k=2,4,\\[1mm]
+		(\mathbb Z/2)^4, & k=3.
+\end{cases}}
+\]
+
+For every finite cell complex \(X\),
+\[
+\boxed{
+	\chi(X)=P_{\mathbb F}(X)\big|_{t=-1}}
+\]
+for any field \(\mathbb F\). Moreover,
+\[
+\boxed{
+	\chi(X\times Y)=\chi(X)\chi(Y)}
+\]
+and, for subcomplexes \(A,B\subseteq X\),
+\[
+\boxed{
+	\chi(A\cup B)=\chi(A)+\chi(B)-\chi(A\cap B).}
+\]
+\section{Self-contained theory for products, Künneth formula, UCT, and Euler characteristic}
+
+\subsection{Cell complexes and cellular chains}
+
+A \textbf{CW complex} is a topological space built by attaching cells dimension by dimension. A \(k\)-cell is a copy of the open ball
+\[
+e^k\cong \mathring{D}^k.
+\]
+The closed disk \(D^k\) is attached along its boundary sphere
+\[
+\partial D^k=S^{k-1}.
+\]
+
+Thus a CW complex is constructed in stages:
+\[
+X^0\subseteq X^1\subseteq X^2\subseteq \cdots,
+\]
+where \(X^k\) is called the \(k\)-skeleton of \(X\). The space \(X^k\) is obtained from \(X^{k-1}\) by attaching \(k\)-cells.
+
+The cellular chain group in dimension \(k\) is the free abelian group generated by the \(k\)-cells:
+\[
+C_k^{\mathrm{cell}}(X)\cong \mathbb Z^{n_k},
+\]
+where \(n_k\) is the number of \(k\)-cells of \(X\).
+
+The cellular chain complex is
+\[
+\cdots
+\longrightarrow
+C_k^{\mathrm{cell}}(X)
+\xrightarrow{\partial_k}
+C_{k-1}^{\mathrm{cell}}(X)
+\longrightarrow
+\cdots
+\longrightarrow
+C_1^{\mathrm{cell}}(X)
+\xrightarrow{\partial_1}
+C_0^{\mathrm{cell}}(X)
+\longrightarrow 0.
+\]
+
+The homology groups are
+\[
+H_k(X)=\ker \partial_k/\operatorname{im}\partial_{k+1}.
+\]
+
+Here
+\[
+Z_k(X)=\ker \partial_k
+\]
+is the group of \(k\)-cycles, and
+\[
+B_k(X)=\operatorname{im}\partial_{k+1}
+\]
+is the group of \(k\)-boundaries.
+
+Thus
+\[
+H_k(X)=Z_k(X)/B_k(X).
+\]
+
+Intuitively:
+\begin{itemize}
+	\item \(k\)-cycles are closed \(k\)-dimensional objects;
+	\item \(k\)-boundaries are cycles that bound \((k+1)\)-dimensional objects;
+	\item homology measures cycles modulo those cycles that are already boundaries.
+\end{itemize}
+
+\subsection{Cellular chain complex of \(\mathbb{RP}^n\)}
+
+Real projective space is defined as
+\[
+\mathbb{RP}^n=S^n/(x\sim -x).
+\]
+It identifies antipodal points on the sphere.
+
+There is a standard CW decomposition of \(\mathbb{RP}^n\) with one cell in every dimension
+\[
+0,1,\dots,n.
+\]
+Hence
+\[
+C_k^{\mathrm{cell}}(\mathbb{RP}^n)\cong \mathbb Z
+\qquad
+\text{for }0\leq k\leq n.
+\]
+
+The cellular boundary maps alternate between multiplication by \(2\) and multiplication by \(0\):
+\[
+\partial_k=
+\begin{cases}
+	0, & k \text{ odd},\\
+	2, & k \text{ even}.
+\end{cases}
+\]
+
+For \(\mathbb{RP}^3\), the cellular chain complex is therefore
+\[
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{0}
+\mathbb Z
+\xrightarrow{2}
+\mathbb Z
+\xrightarrow{0}
+\mathbb Z
+\longrightarrow 0.
+\]
+
+So
+\[
+C_3(\mathbb{RP}^3)\cong \mathbb Z,
+\quad
+C_2(\mathbb{RP}^3)\cong \mathbb Z,
+\quad
+C_1(\mathbb{RP}^3)\cong \mathbb Z,
+\quad
+C_0(\mathbb{RP}^3)\cong \mathbb Z.
+\]
+
+The homology groups are
+\[
+H_0(\mathbb{RP}^3)\cong \mathbb Z,
+\]
+\[
+H_1(\mathbb{RP}^3)\cong \mathbb Z/2,
+\]
+\[
+H_2(\mathbb{RP}^3)=0,
+\]
+\[
+H_3(\mathbb{RP}^3)\cong \mathbb Z.
+\]
+
+The group \(H_1(\mathbb{RP}^3)\cong \mathbb Z/2\) records the fact that the fundamental one-dimensional loop in \(\mathbb{RP}^3\) has order \(2\). Going around twice becomes null-homologous.
+
+\subsection{Cellular chain complex of the lens space \(L_p^3\)}
+
+A lens space \(L_p^3\) is a closed \(3\)-manifold whose first homology is
+\[
+H_1(L_p^3)\cong \mathbb Z/p.
+\]
+
+For the lens space \(L_p^3\), there is a CW decomposition with one cell in every dimension
+\[
+0,1,2,3.
+\]
+
+The cellular chain complex has the form
+\[
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{0}
+\mathbb Z
+\xrightarrow{p}
+\mathbb Z
+\xrightarrow{0}
+\mathbb Z
+\longrightarrow 0.
+\]
+
+For \(L_4^3\), this becomes
+\[
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{0}
+\mathbb Z
+\xrightarrow{4}
+\mathbb Z
+\xrightarrow{0}
+\mathbb Z
+\longrightarrow 0.
+\]
+
+Therefore
+\[
+H_0(L_4^3)\cong \mathbb Z,
+\]
+\[
+H_1(L_4^3)\cong \mathbb Z/4,
+\]
+\[
+H_2(L_4^3)=0,
+\]
+\[
+H_3(L_4^3)\cong \mathbb Z.
+\]
+
+The torsion group
+\[
+H_1(L_4^3)\cong \mathbb Z/4
+\]
+means that there is a one-dimensional homology class whose fourth multiple is zero.
+
+\subsection{Product CW complexes}
+
+If \(X\) and \(Y\) are CW complexes, then \(X\times Y\) has a natural product CW structure.
+
+If \(e^i\) is an \(i\)-cell of \(X\), and \(f^j\) is a \(j\)-cell of \(Y\), then
+\[
+e^i\times f^j
+\]
+is an \((i+j)\)-cell of \(X\times Y\).
+
+Therefore,
+\[
+C_n^{\mathrm{cell}}(X\times Y)
+\cong
+\bigoplus_{i+j=n}
+C_i^{\mathrm{cell}}(X)\otimes C_j^{\mathrm{cell}}(Y).
+\]
+
+The boundary map on the tensor product chain complex is
+\[
+\partial(a\otimes b)
+=
+\partial a\otimes b
++
+(-1)^{|a|}a\otimes \partial b,
+\]
+where \(|a|\) denotes the degree of \(a\).
+
+The sign
+\[
+(-1)^{|a|}
+\]
+is essential. It ensures that
+\[
+\partial^2=0.
+\]
+
+For
+\[
+X=L_4^3\times \mathbb{RP}^3,
+\]
+each factor has one cell in dimensions \(0,1,2,3\). Thus the number of cells in each dimension of the product is given by the number of pairs \((i,j)\) with
+\[
+i+j=n,
+\qquad
+0\leq i,j\leq 3.
+\]
+
+Hence the cellular chain groups have ranks
+\[
+1,2,3,4,3,2,1
+\]
+in dimensions
+\[
+0,1,2,3,4,5,6.
+\]
+
+So
+\[
+C_0(X)\cong \mathbb Z,
+\]
+\[
+C_1(X)\cong \mathbb Z^2,
+\]
+\[
+C_2(X)\cong \mathbb Z^3,
+\]
+\[
+C_3(X)\cong \mathbb Z^4,
+\]
+\[
+C_4(X)\cong \mathbb Z^3,
+\]
+\[
+C_5(X)\cong \mathbb Z^2,
+\]
+\[
+C_6(X)\cong \mathbb Z.
+\]
+
+This gives a cellular chain complex
+\[
+0
+\longrightarrow
+\mathbb Z
+\longrightarrow
+\mathbb Z^2
+\longrightarrow
+\mathbb Z^3
+\longrightarrow
+\mathbb Z^4
+\longrightarrow
+\mathbb Z^3
+\longrightarrow
+\mathbb Z^2
+\longrightarrow
+\mathbb Z
+\longrightarrow
+0.
+\]
+
+The actual maps depend on the cellular boundary maps of the two factors.
+
+\subsection{Tensor products of cyclic groups}
+
+The Künneth formula uses tensor products of abelian groups. The most important rules in this problem are:
+\[
+\mathbb Z\otimes A\cong A,
+\]
+\[
+A\otimes \mathbb Z\cong A,
+\]
+and
+\[
+\mathbb Z/m\otimes \mathbb Z/n
+\cong
+\mathbb Z/\gcd(m,n).
+\]
+
+For example,
+\[
+\mathbb Z/4\otimes \mathbb Z/2
+\cong
+\mathbb Z/2.
+\]
+
+Also,
+\[
+\mathbb Z/4\otimes \mathbb Z
+\cong
+\mathbb Z/4,
+\]
+and
+\[
+\mathbb Z/2\otimes \mathbb Z
+\cong
+\mathbb Z/2.
+\]
+
+If \(A\) is free abelian, then tensoring with \(A\) does not create torsion beyond what is already present. For instance,
+\[
+\mathbb Z^r\otimes G\cong G^r.
+\]
+
+\subsection{The Tor functor for cyclic groups}
+
+The integral Künneth formula also involves the functor
+\[
+\operatorname{Tor}(-,-).
+\]
+
+For cyclic groups,
+\[
+\operatorname{Tor}(\mathbb Z/m,\mathbb Z/n)
+\cong
+\mathbb Z/\gcd(m,n).
+\]
+
+In particular,
+\[
+\operatorname{Tor}(\mathbb Z/4,\mathbb Z/2)
+\cong
+\mathbb Z/2.
+\]
+
+Also,
+\[
+\operatorname{Tor}(\mathbb Z,A)=0
+\]
+for every abelian group \(A\), because \(\mathbb Z\) is free.
+
+Therefore,
+\[
+\operatorname{Tor}(\mathbb Z,\mathbb Z/2)=0,
+\]
+\[
+\operatorname{Tor}(\mathbb Z,\mathbb Z/4)=0.
+\]
+
+The Tor term measures hidden torsion interaction between the homology groups of two spaces.
+
+For example, in the product
+\[
+L_4^3\times \mathbb{RP}^3,
+\]
+the torsion groups
+\[
+H_1(L_4^3)\cong \mathbb Z/4
+\]
+and
+\[
+H_1(\mathbb{RP}^3)\cong \mathbb Z/2
+\]
+interact to produce
+\[
+\operatorname{Tor}(\mathbb Z/4,\mathbb Z/2)
+\cong
+\mathbb Z/2.
+\]
+
+This is exactly the extra \(\mathbb Z/2\) contribution that appears in degree \(3\) of the product.
+
+\subsection{The integral Künneth formula}
+
+Let \(X\) and \(Y\) be spaces whose homology groups are finitely generated. The integral Künneth formula gives a short exact sequence
+\[
+0
+\longrightarrow
+\bigoplus_{i+j=n}
+H_i(X)\otimes H_j(Y)
+\longrightarrow
+H_n(X\times Y)
+\longrightarrow
+\bigoplus_{i+j=n-1}
+\operatorname{Tor}(H_i(X),H_j(Y))
+\longrightarrow
+0.
+\]
+
+This sequence splits, but not naturally. Therefore, as a group,
+\[
+H_n(X\times Y)
+\cong
+\left(
+\bigoplus_{i+j=n}
+H_i(X)\otimes H_j(Y)
+\right)
+\oplus
+\left(
+\bigoplus_{i+j=n-1}
+\operatorname{Tor}(H_i(X),H_j(Y))
+\right),
+\]
+although the splitting is not canonical.
+
+The formula says that homology of a product has two types of contributions:
+
+\begin{enumerate}
+	\item \textbf{Tensor contributions}
+	\[
+	H_i(X)\otimes H_j(Y),
+	\qquad i+j=n.
+	\]
+	These come from taking an \(i\)-dimensional class in \(X\) and a \(j\)-dimensional class in \(Y\), producing an \((i+j)\)-dimensional class in \(X\times Y\).
+	
+	\item \textbf{Tor contributions}
+	\[
+	\operatorname{Tor}(H_i(X),H_j(Y)),
+	\qquad i+j=n-1.
+	\]
+	These arise from torsion interactions between the homology of \(X\) and the homology of \(Y\).
+\end{enumerate}
+
+For the space
+\[
+X=L_4^3\times \mathbb{RP}^3,
+\]
+the nonzero integral homology groups of the factors are
+\[
+H_0(L_4^3)\cong \mathbb Z,
+\qquad
+H_1(L_4^3)\cong \mathbb Z/4,
+\qquad
+H_3(L_4^3)\cong \mathbb Z,
+\]
+and
+\[
+H_0(\mathbb{RP}^3)\cong \mathbb Z,
+\qquad
+H_1(\mathbb{RP}^3)\cong \mathbb Z/2,
+\qquad
+H_3(\mathbb{RP}^3)\cong \mathbb Z.
+\]
+
+The most important torsion interaction is
+\[
+\operatorname{Tor}(H_1(L_4^3),H_1(\mathbb{RP}^3))
+=
+\operatorname{Tor}(\mathbb Z/4,\mathbb Z/2)
+\cong
+\mathbb Z/2.
+\]
+
+\subsection{The Künneth formula over a field}
+
+If \(\mathbb F\) is a field, then the Künneth formula becomes simpler:
+\[
+H_n(X\times Y;\mathbb F)
+\cong
+\bigoplus_{i+j=n}
+H_i(X;\mathbb F)\otimes_{\mathbb F}H_j(Y;\mathbb F).
+\]
+
+There is no Tor term over a field.
+
+This is because homology groups over a field are vector spaces, and vector spaces are free modules over the field.
+
+Therefore, if
+\[
+\dim_{\mathbb F}H_i(X;\mathbb F)=\beta_i(X;\mathbb F),
+\]
+and
+\[
+\dim_{\mathbb F}H_j(Y;\mathbb F)=\beta_j(Y;\mathbb F),
+\]
+then
+\[
+\dim_{\mathbb F}H_n(X\times Y;\mathbb F)
+=
+\sum_{i+j=n}
+\beta_i(X;\mathbb F)\beta_j(Y;\mathbb F).
+\]
+
+This is especially useful for coefficients in
+\[
+\mathbb Z/2.
+\]
+
+For example, if each factor has one copy of \(\mathbb Z/2\) in degrees \(0,1,2,3\), then the product has dimensions
+\[
+1,2,3,4,3,2,1
+\]
+in degrees
+\[
+0,1,2,3,4,5,6.
+\]
+
+\subsection{The universal coefficient theorem for homology}
+
+The universal coefficient theorem for homology relates homology with integer coefficients to homology with coefficients in an abelian group \(G\).
+
+It gives a short exact sequence
+\[
+0
+\longrightarrow
+H_n(X)\otimes G
+\longrightarrow
+H_n(X;G)
+\longrightarrow
+\operatorname{Tor}(H_{n-1}(X),G)
+\longrightarrow
+0.
+\]
+
+This sequence splits, although not naturally.
+
+Thus, as an abstract group,
+\[
+H_n(X;G)
+\cong
+(H_n(X)\otimes G)
+\oplus
+\operatorname{Tor}(H_{n-1}(X),G).
+\]
+
+For \(G=\mathbb Z/2\), this becomes
+\[
+H_n(X;\mathbb Z/2)
+\cong
+(H_n(X)\otimes \mathbb Z/2)
+\oplus
+\operatorname{Tor}(H_{n-1}(X),\mathbb Z/2).
+\]
+
+The first term
+\[
+H_n(X)\otimes \mathbb Z/2
+\]
+reduces ordinary \(n\)-dimensional homology classes modulo \(2\).
+
+The second term
+\[
+\operatorname{Tor}(H_{n-1}(X),\mathbb Z/2)
+\]
+detects \(2\)-torsion in the previous integral homology group.
+
+Thus mod-\(2\) homology sees two things:
+\begin{enumerate}
+	\item ordinary homology classes reduced modulo \(2\);
+	\item hidden \(2\)-torsion from one dimension lower.
+\end{enumerate}
+
+For example, if
+\[
+H_1(X)\cong \mathbb Z/4\oplus \mathbb Z/2,
+\]
+then
+\[
+H_1(X)\otimes \mathbb Z/2
+\cong
+(\mathbb Z/2)^2.
+\]
+Also,
+\[
+\operatorname{Tor}(H_1(X),\mathbb Z/2)
+\cong
+(\mathbb Z/2)^2.
+\]
+
+This is why mod-\(2\) homology often has more generators than one might expect from the free part alone.
+
+\subsection{The universal coefficient theorem for cohomology}
+
+The universal coefficient theorem for cohomology says
+\[
+0
+\longrightarrow
+\operatorname{Ext}(H_{n-1}(X),\mathbb Z)
+\longrightarrow
+H^n(X;\mathbb Z)
+\longrightarrow
+\operatorname{Hom}(H_n(X),\mathbb Z)
+\longrightarrow
+0.
+\]
+
+This sequence also splits, although not naturally. Hence, as an abstract group,
+\[
+H^n(X;\mathbb Z)
+\cong
+\operatorname{Hom}(H_n(X),\mathbb Z)
+\oplus
+\operatorname{Ext}(H_{n-1}(X),\mathbb Z).
+\]
+
+We use the following facts:
+\[
+\operatorname{Hom}(\mathbb Z,\mathbb Z)\cong \mathbb Z,
+\]
+\[
+\operatorname{Hom}(\mathbb Z^r,\mathbb Z)\cong \mathbb Z^r,
+\]
+\[
+\operatorname{Hom}(\mathbb Z/m,\mathbb Z)=0.
+\]
+
+The Hom term detects the free part of \(H_n(X)\).
+
+We also use
+\[
+\operatorname{Ext}(\mathbb Z,\mathbb Z)=0,
+\]
+\[
+\operatorname{Ext}(\mathbb Z^r,\mathbb Z)=0,
+\]
+and
+\[
+\operatorname{Ext}(\mathbb Z/m,\mathbb Z)\cong \mathbb Z/m.
+\]
+
+The Ext term detects torsion in \(H_{n-1}(X)\).
+
+Therefore, integral cohomology in degree \(n\) receives:
+\begin{enumerate}
+	\item a free contribution from \(H_n(X)\);
+	\item a torsion contribution from \(H_{n-1}(X)\).
+\end{enumerate}
+
+For example, if
+\[
+H_2(X)\cong \mathbb Z/2
+\]
+and
+\[
+H_3(X)\cong \mathbb Z^2\oplus \mathbb Z/2,
+\]
+then
+\[
+H^3(X)
+\cong
+\operatorname{Hom}(H_3(X),\mathbb Z)
+\oplus
+\operatorname{Ext}(H_2(X),\mathbb Z).
+\]
+Now
+\[
+\operatorname{Hom}(\mathbb Z^2\oplus \mathbb Z/2,\mathbb Z)
+\cong
+\mathbb Z^2,
+\]
+and
+\[
+\operatorname{Ext}(\mathbb Z/2,\mathbb Z)
+\cong
+\mathbb Z/2.
+\]
+So
+\[
+H^3(X)\cong \mathbb Z^2\oplus \mathbb Z/2.
+\]
+
+\subsection{Poincaré polynomial}
+
+Let \(X\) be a space whose homology groups over a field \(\mathbb F\) are finite-dimensional. The \(k\)-th Betti number over \(\mathbb F\) is
+\[
+\beta_k^{\mathbb F}(X)
+=
+\dim_{\mathbb F}H_k(X;\mathbb F).
+\]
+
+The Poincaré polynomial of \(X\) over \(\mathbb F\) is
+\[
+P_{\mathbb F}(X)
+=
+\sum_{k\geq 0}
+\beta_k^{\mathbb F}(X)t^k.
+\]
+
+For example, if
+\[
+H_0(X;\mathbb F)\cong \mathbb F,
+\qquad
+H_1(X;\mathbb F)\cong \mathbb F^2,
+\qquad
+H_2(X;\mathbb F)\cong \mathbb F,
+\]
+and all other homology groups vanish, then
+\[
+P_{\mathbb F}(X)=1+2t+t^2.
+\]
+
+Evaluating at \(t=-1\) gives
+\[
+P_{\mathbb F}(X)\big|_{t=-1}
+=
+\sum_k (-1)^k\beta_k^{\mathbb F}(X).
+\]
+
+This alternating sum is equal to the Euler characteristic:
+\[
+\chi(X)=P_{\mathbb F}(X)\big|_{t=-1}.
+\]
+
+\subsection{Euler characteristic}
+
+Let \(X\) be a finite cell complex. If \(n_k\) is the number of \(k\)-cells of \(X\), then the Euler characteristic of \(X\) is
+\[
+\chi(X)=\sum_k (-1)^k n_k.
+\]
+
+Equivalently,
+\[
+\chi(X)
+=
+n_0-n_1+n_2-n_3+\cdots.
+\]
+
+For a finite graph,
+\[
+\chi(X)=V-E,
+\]
+where \(V\) is the number of vertices and \(E\) is the number of edges.
+
+For a closed triangulated surface,
+\[
+\chi(X)=V-E+F.
+\]
+
+For a finite CW complex, the Euler characteristic can also be computed from Betti numbers:
+\[
+\chi(X)=\sum_k (-1)^k\beta_k^{\mathbb F}(X).
+\]
+
+This number is independent of the field \(\mathbb F\), even though the individual Betti numbers may depend on \(\mathbb F\).
+
+The reason is that the alternating sum of the dimensions of the chain groups equals the alternating sum of the dimensions of the homology groups:
+\[
+\sum_k (-1)^k\dim_{\mathbb F}C_k(X;\mathbb F)
+=
+\sum_k (-1)^k\dim_{\mathbb F}H_k(X;\mathbb F).
+\]
+
+Since
+\[
+\dim_{\mathbb F}C_k(X;\mathbb F)=n_k,
+\]
+we obtain
+\[
+\chi(X)
+=
+\sum_k (-1)^k n_k
+=
+\sum_k (-1)^k\beta_k^{\mathbb F}(X).
+\]
+
+\subsection{Euler characteristic and products}
+
+If \(X\) and \(Y\) are finite cell complexes, then
+\[
+\chi(X\times Y)=\chi(X)\chi(Y).
+\]
+
+This can be proved directly from cells.
+
+Suppose \(X\) has \(n_i\) cells in dimension \(i\), and \(Y\) has \(m_j\) cells in dimension \(j\). Then \(X\times Y\) has
+\[
+n_i m_j
+\]
+cells of dimension \(i+j\) coming from products of \(i\)-cells of \(X\) with \(j\)-cells of \(Y\).
+
+Therefore
+\[
+\chi(X\times Y)
+=
+\sum_{i,j}(-1)^{i+j}n_i m_j.
+\]
+
+Since
+\[
+(-1)^{i+j}=(-1)^i(-1)^j,
+\]
+we have
+\[
+\chi(X\times Y)
+=
+\left(\sum_i(-1)^i n_i\right)
+\left(\sum_j(-1)^j m_j\right).
+\]
+
+Hence
+\[
+\chi(X\times Y)=\chi(X)\chi(Y).
+\]
+
+Equivalently, using Poincaré polynomials over a field,
+\[
+P_{\mathbb F}(X\times Y)
+=
+P_{\mathbb F}(X)P_{\mathbb F}(Y).
+\]
+Evaluating at \(t=-1\), we get
+\[
+\chi(X\times Y)
+=
+\chi(X)\chi(Y).
+\]
+
+\subsection{Euler characteristic and inclusion-exclusion}
+
+If \(A\) and \(B\) are finite subcomplexes of a cell complex \(X\), then
+\[
+\chi(A\cup B)=\chi(A)+\chi(B)-\chi(A\cap B).
+\]
+
+This is the Euler characteristic version of the inclusion-exclusion principle.
+
+For each dimension \(k\), let \(n_k(A)\) be the number of \(k\)-cells of \(A\), and similarly for \(B\), \(A\cup B\), and \(A\cap B\). Then
+\[
+n_k(A\cup B)
+=
+n_k(A)+n_k(B)-n_k(A\cap B).
+\]
+
+Taking alternating sums gives
+\[
+\sum_k(-1)^k n_k(A\cup B)
+=
+\sum_k(-1)^k n_k(A)
++
+\sum_k(-1)^k n_k(B)
+-
+\sum_k(-1)^k n_k(A\cap B).
+\]
+
+Therefore
+\[
+\chi(A\cup B)=\chi(A)+\chi(B)-\chi(A\cap B).
+\]
+
+This formula is especially useful when a space is built by gluing two subspaces together along a common intersection.
+
+\subsection{Quick reference table for the main algebraic tools}
+
+\[
+\begin{array}{c|c}
+	\textbf{Tool} & \textbf{Formula} \\ \hline
+	\text{Tensor with } \mathbb Z
+	&
+	\mathbb Z\otimes G\cong G
+	\\[1mm]
+	\text{Tensor cyclic groups}
+	&
+	\mathbb Z/m\otimes \mathbb Z/n
+	\cong
+	\mathbb Z/\gcd(m,n)
+	\\[1mm]
+	\text{Tor of cyclic groups}
+	&
+	\operatorname{Tor}(\mathbb Z/m,\mathbb Z/n)
+	\cong
+	\mathbb Z/\gcd(m,n)
+	\\[1mm]
+	\text{Hom of free group}
+	&
+	\operatorname{Hom}(\mathbb Z^r,\mathbb Z)
+	\cong
+	\mathbb Z^r
+	\\[1mm]
+	\text{Hom of torsion group}
+	&
+	\operatorname{Hom}(\mathbb Z/m,\mathbb Z)=0
+	\\[1mm]
+	\text{Ext of free group}
+	&
+	\operatorname{Ext}(\mathbb Z^r,\mathbb Z)=0
+	\\[1mm]
+	\text{Ext of cyclic group}
+	&
+	\operatorname{Ext}(\mathbb Z/m,\mathbb Z)
+	\cong
+	\mathbb Z/m
+\end{array}
+\]
+
+\subsection{Quick reference table for the spaces in Problem 1}
+
+\[
+\begin{array}{c|cccc}
+	\textbf{Space} & H_0 & H_1 & H_2 & H_3 \\ \hline
+	L_4^3
+	&
+	\mathbb Z
+	&
+	\mathbb Z/4
+	&
+	0
+	&
+	\mathbb Z
+	\\[1mm]
+	\mathbb{RP}^3
+	&
+	\mathbb Z
+	&
+	\mathbb Z/2
+	&
+	0
+	&
+	\mathbb Z
+\end{array}
+\]
+
+With \(\mathbb Z/2\)-coefficients, both spaces have
+\[
+H_k(-;\mathbb Z/2)\cong \mathbb Z/2
+\]
+for
+\[
+k=0,1,2,3.
+\]
+
+Thus
+\[
+P_{\mathbb Z/2}(L_4^3)=1+t+t^2+t^3,
+\]
+and
+\[
+P_{\mathbb Z/2}(\mathbb{RP}^3)=1+t+t^2+t^3.
+\]
+
+Therefore
+\[
+P_{\mathbb Z/2}(L_4^3\times \mathbb{RP}^3)
+=
+(1+t+t^2+t^3)^2.
+\]
+
+Expanding,
+\[
+(1+t+t^2+t^3)^2
+=
+1+2t+3t^2+4t^3+3t^4+2t^5+t^6.
+\]
+
+Hence
+\[
+\dim_{\mathbb Z/2}H_k(L_4^3\times \mathbb{RP}^3;\mathbb Z/2)
+=
+1,2,3,4,3,2,1
+\]
+in degrees
+\[
+0,1,2,3,4,5,6.
+\]
+
+\subsection{Conceptual summary}
+
+The two problems combine four central ideas.
+
+First, cellular homology lets us compute \(H_*(X)\) from the cells of \(X\). For spaces such as
+\[
+L_4^3
+\qquad\text{and}\qquad
+\mathbb{RP}^3,
+\]
+the cellular chain complexes are very small: each has one cell in dimensions \(0,1,2,3\). The difference is in the attaching maps:
+\[
+\partial_2=4
+\]
+for \(L_4^3\), and
+\[
+\partial_2=2
+\]
+for \(\mathbb{RP}^3\).
+
+Second, the product CW structure allows us to build the cellular chain complex of
+\[
+L_4^3\times \mathbb{RP}^3.
+\]
+The chain groups are obtained by combining cells whose dimensions add to the desired degree.
+
+Third, the Künneth formula gives a more conceptual way to compute the homology of the product. It says that product homology contains tensor-product contributions and, over \(\mathbb Z\), additional Tor contributions.
+
+Fourth, the universal coefficient theorem explains how to pass from integral homology to cohomology and to homology with coefficients in \(\mathbb Z/2\). In particular:
+\[
+H^n(X)
+\]
+depends on
+\[
+H_n(X)
+\]
+through Hom and on
+\[
+H_{n-1}(X)
+\]
+through Ext, while
+\[
+H_n(X;\mathbb Z/2)
+\]
+depends on
+\[
+H_n(X)
+\]
+through tensoring with \(\mathbb Z/2\) and on
+\[
+H_{n-1}(X)
+\]
+through Tor.
+
+Finally, the Euler characteristic is an alternating count of cells:
+\[
+\chi(X)=\sum_k(-1)^k n_k.
+\]
+It can also be computed as an alternating sum of Betti numbers:
+\[
+\chi(X)=\sum_k(-1)^k\beta_k^{\mathbb F}(X)
+=
+P_{\mathbb F}(X)\big|_{t=-1}.
+\]
+It is multiplicative under products:
+\[
+\chi(X\times Y)=\chi(X)\chi(Y),
+\]
+and satisfies inclusion-exclusion:
+\[
+\chi(A\cup B)=\chi(A)+\chi(B)-\chi(A\cap B).
+\]
+
+
+\section{Problem 3. Naturality of the Boundary Map for Cross Products}
+
+\subsection*{Statement}
+
+Let
+\[
+\Phi_{(X,A)}:
+H^*(X,A)\otimes H^*(Y)
+\longrightarrow
+H^*(X\times Y,A\times Y)
+\]
+be defined by
+\[
+\Phi_{(X,A)}(\alpha\otimes \beta)=\alpha\times \beta.
+\]
+Similarly, define
+\[
+\Phi_A:
+H^*(A)\otimes H^*(Y)
+\longrightarrow
+H^*(A\times Y)
+\]
+by
+\[
+\Phi_A(\alpha\otimes \beta)=\alpha\times \beta.
+\]
+Show that the cross product commutes with the connecting homomorphism in the long exact sequence of a pair. In the usual convention, this means
+\[
+\delta_{(X\times Y,A\times Y)}\circ \Phi_A
+=
+\Phi_{(X,A)}\circ(\delta_{(X,A)}\otimes 1).
+\]
+Equivalently, with the boundary notation used in the problem, this is written as
+\[
+\delta\Phi_{(X,A)}=\Phi_A\delta .
+\]
+
+\subsection*{Solution}
+
+Let
+\[
+\alpha\in H^p(A),
+\qquad
+\beta\in H^q(Y).
+\]
+We want to show that
+\[
+\delta(\alpha\times \beta)
+=
+(\delta\alpha)\times \beta.
+\]
+
+Choose cocycle representatives
+\[
+a\in C^p(A),
+\qquad
+b\in C^q(Y),
+\]
+with
+\[
+da=0,
+\qquad
+db=0.
+\]
+To compute the connecting homomorphism
+\[
+\delta_{(X,A)}:H^p(A)\to H^{p+1}(X,A),
+\]
+extend \(a\) to a cochain
+\[
+\widetilde a\in C^p(X).
+\]
+Then the relative cochain
+\[
+d\widetilde a
+\]
+vanishes on \(A\), because \(a\) was a cocycle on \(A\). Hence
+\[
+[d\widetilde a]\in H^{p+1}(X,A),
+\]
+and by definition
+\[
+\delta[\alpha]=[d\widetilde a].
+\]
+
+Now consider the product pair
+\[
+(X\times Y,A\times Y).
+\]
+The cochain \(a\times b\) on \(A\times Y\) is extended by
+\[
+\widetilde a\times b
+\]
+on \(X\times Y\). Therefore
+\[
+\delta(\alpha\times \beta)
+=
+[d(\widetilde a\times b)].
+\]
+
+Using the Leibniz rule for the coboundary of a cross product,
+\[
+d(\widetilde a\times b)
+=
+d\widetilde a\times b
++
+(-1)^p\widetilde a\times db.
+\]
+But \(b\) is a cocycle, so \(db=0\). Therefore
+\[
+d(\widetilde a\times b)
+=
+d\widetilde a\times b.
+\]
+Hence
+\[
+\delta(\alpha\times \beta)
+=
+[d\widetilde a\times b]
+=
+[d\widetilde a]\times [b]
+=
+(\delta\alpha)\times \beta.
+\]
+
+Thus the diagram
+
+\[
+\begin{tikzcd}
+	H^p(A)\otimes H^q(Y)
+	\arrow[r,"\Phi_A"]
+	\arrow[d,"\delta\otimes 1"']
+	&
+	H^{p+q}(A\times Y)
+	\arrow[d,"\delta"]
+	\\
+	H^{p+1}(X,A)\otimes H^q(Y)
+	\arrow[r,"\Phi_{(X,A)}"']
+	&
+	H^{p+q+1}(X\times Y,A\times Y)
+\end{tikzcd}
+\]
+
+commutes.
+
+Therefore
+\[
+\boxed{
+	\delta(\alpha\times\beta)
+	=
+	(\delta\alpha)\times\beta
+}
+\]
+and so
+\[
+\boxed{
+	\delta\Phi_{(X,A)}
+	=
+	\Phi_A\delta
+}
+\]
+in the notation of the problem.
+
+\section{Problem 4. Diagonal Maps and Cup Products}
+
+\subsection*{Statement}
+
+If \(X\) is a space, let
+\[
+\Delta_X:X\to X\times X
+\]
+be the diagonal map
+\[
+\Delta_X(x)=(x,x).
+\]
+Compute
+\[
+\Delta_{S^2}^*:H^*(S^2\times S^2)\to H^*(S^2)
+\]
+and
+\[
+\Delta_{T^2}^*:H^*(T^2\times T^2)\to H^*(T^2).
+\]
+
+\subsection*{Main idea}
+
+The diagonal map turns external products into cup products. Namely, if
+\[
+\alpha\in H^p(X),
+\qquad
+\beta\in H^q(X),
+\]
+then
+\[
+\Delta_X^*(\alpha\times \beta)
+=
+\alpha\smile \beta.
+\]
+
+Indeed, the cup product is defined by
+\[
+\alpha\smile \beta
+=
+\Delta_X^*(\alpha\times \beta).
+\]
+
+\subsection*{Part I. The case of \(S^2\)}
+
+Let
+\[
+u\in H^2(S^2;\mathbb Z)
+\]
+be a generator. Then
+\[
+H^*(S^2;\mathbb Z)
+\cong
+\mathbb Z[u]/(u^2),
+\qquad
+|u|=2.
+\]
+The relation \(u^2=0\) holds because
+\[
+H^4(S^2;\mathbb Z)=0.
+\]
+
+By the Künneth formula,
+\[
+H^*(S^2\times S^2;\mathbb Z)
+\cong
+H^*(S^2;\mathbb Z)\otimes H^*(S^2;\mathbb Z).
+\]
+Let
+\[
+u_1=\pi_1^*(u),
+\qquad
+u_2=\pi_2^*(u),
+\]
+where
+\[
+\pi_1,\pi_2:S^2\times S^2\to S^2
+\]
+are the two projections.
+
+Then
+\[
+H^*(S^2\times S^2;\mathbb Z)
+\cong
+\mathbb Z[u_1,u_2]/(u_1^2,u_2^2),
+\qquad
+|u_1|=|u_2|=2.
+\]
+
+The diagonal map satisfies
+\[
+\pi_1\circ \Delta_{S^2}=\operatorname{id}_{S^2},
+\qquad
+\pi_2\circ \Delta_{S^2}=\operatorname{id}_{S^2}.
+\]
+Therefore
+\[
+\Delta_{S^2}^*(u_1)=u,
+\qquad
+\Delta_{S^2}^*(u_2)=u.
+\]
+
+Since \(\Delta_{S^2}^*\) is a ring homomorphism,
+\[
+\Delta_{S^2}^*(u_1u_2)
+=
+\Delta_{S^2}^*(u_1)\Delta_{S^2}^*(u_2)
+=
+u^2
+=
+0.
+\]
+
+Hence
+\[
+\boxed{
+	\Delta_{S^2}^*(1)=1
+}
+\]
+\[
+\boxed{
+	\Delta_{S^2}^*(u_1)=u,
+	\qquad
+	\Delta_{S^2}^*(u_2)=u
+}
+\]
+and
+\[
+\boxed{
+	\Delta_{S^2}^*(u_1u_2)=0.
+}
+\]
+
+Equivalently, in degrees:
+\[
+H^0(S^2\times S^2)\cong \mathbb Z
+\longrightarrow
+H^0(S^2)\cong \mathbb Z
+\]
+is the identity,
+\[
+H^2(S^2\times S^2)\cong \mathbb Z u_1\oplus \mathbb Z u_2
+\longrightarrow
+H^2(S^2)\cong \mathbb Z u
+\]
+is given by
+\[
+au_1+bu_2\longmapsto (a+b)u,
+\]
+and
+\[
+H^4(S^2\times S^2)\cong \mathbb Z(u_1u_2)
+\longrightarrow
+H^4(S^2)=0
+\]
+is the zero map.
+
+\subsection*{Part II. The case of \(T^2\)}
+
+Let
+\[
+T^2=S^1\times S^1.
+\]
+The cohomology ring of the torus is
+\[
+H^*(T^2;\mathbb Z)
+\cong
+\Lambda_{\mathbb Z}(\alpha,\beta),
+\]
+where
+\[
+|\alpha|=|\beta|=1.
+\]
+Thus
+\[
+H^0(T^2)\cong \mathbb Z,
+\]
+\[
+H^1(T^2)\cong \mathbb Z\alpha\oplus \mathbb Z\beta,
+\]
+and
+\[
+H^2(T^2)\cong \mathbb Z(\alpha\beta).
+\]
+Write
+\[
+\omega=\alpha\beta.
+\]
+Because the cup product is graded-commutative,
+\[
+\beta\alpha=-\alpha\beta=-\omega.
+\]
+
+Now consider
+\[
+T^2\times T^2.
+\]
+Let
+\[
+\alpha_1=\pi_1^*(\alpha),
+\qquad
+\beta_1=\pi_1^*(\beta),
+\]
+and
+\[
+\alpha_2=\pi_2^*(\alpha),
+\qquad
+\beta_2=\pi_2^*(\beta),
+\]
+where
+\[
+\pi_1,\pi_2:T^2\times T^2\to T^2
+\]
+are the two projections.
+
+Since
+\[
+\pi_1\circ \Delta_{T^2}
+=
+\operatorname{id}_{T^2},
+\qquad
+\pi_2\circ \Delta_{T^2}
+=
+\operatorname{id}_{T^2},
+\]
+we get
+\[
+\Delta_{T^2}^*(\alpha_1)=\alpha,
+\qquad
+\Delta_{T^2}^*(\beta_1)=\beta,
+\]
+and
+\[
+\Delta_{T^2}^*(\alpha_2)=\alpha,
+\qquad
+\Delta_{T^2}^*(\beta_2)=\beta.
+\]
+
+Therefore \(\Delta_{T^2}^*\) is determined by
+\[
+\boxed{
+	\alpha_1\mapsto \alpha,
+	\qquad
+	\beta_1\mapsto \beta,
+	\qquad
+	\alpha_2\mapsto \alpha,
+	\qquad
+	\beta_2\mapsto \beta.
+}
+\]
+
+Since \(\Delta_{T^2}^*\) is a ring homomorphism, we can compute all products.
+
+For degree \(2\), we obtain:
+\[
+\Delta_{T^2}^*(\alpha_1\beta_1)
+=
+\alpha\beta
+=
+\omega,
+\]
+\[
+\Delta_{T^2}^*(\alpha_2\beta_2)
+=
+\alpha\beta
+=
+\omega,
+\]
+\[
+\Delta_{T^2}^*(\alpha_1\alpha_2)
+=
+\alpha\alpha
+=
+0,
+\]
+\[
+\Delta_{T^2}^*(\beta_1\beta_2)
+=
+\beta\beta
+=
+0,
+\]
+\[
+\Delta_{T^2}^*(\alpha_1\beta_2)
+=
+\alpha\beta
+=
+\omega,
+\]
+and
+\[
+\Delta_{T^2}^*(\beta_1\alpha_2)
+=
+\beta\alpha
+=
+-\omega.
+\]
+
+Thus
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_1\beta_1)=\omega
+}
+\]
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_2\beta_2)=\omega
+}
+\]
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_1\alpha_2)=0
+}
+\]
+\[
+\boxed{
+	\Delta_{T^2}^*(\beta_1\beta_2)=0
+}
+\]
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_1\beta_2)=\omega
+}
+\]
+and
+\[
+\boxed{
+	\Delta_{T^2}^*(\beta_1\alpha_2)=-\omega.
+}
+\]
+
+All classes of degree \(3\) and \(4\) in \(H^*(T^2\times T^2)\) map to zero because
+\[
+H^3(T^2)=0
+\]
+and
+\[
+H^4(T^2)=0.
+\]
+
+Therefore the diagonal map sends the generators from both factors to the same generators on \(T^2\), and then multiplies them using the ordinary cup product on \(T^2\).
+
+\section{Problem 5. Relative Cup Products and Open Covers by Contractible Sets}
+
+\subsection*{Statement}
+
+Let \(U,V\subset X\) be open sets. If
+\[
+x\in H^*(X,U)
+\]
+and
+\[
+y\in H^*(X,V),
+\]
+show that
+\[
+x\smile y\in H^*(X,U\cup V).
+\]
+
+Using this, show that if \(X\) has a covering by \(n\) contractible open subsets, then
+\[
+a_1\smile a_2\smile \cdots \smile a_n=0
+\]
+whenever
+\[
+a_1,\dots,a_n\in H^*(X)
+\]
+have positive degree.
+
+Deduce that if \(T^k\) can be covered by \(n\) contractible open subsets, then
+\[
+n>k.
+\]
+Finally, find a covering of \(T^2\) by three contractible open subsets.
+
+\subsection*{Part I. The relative cup product}
+
+Let
+\[
+x\in H^p(X,U),
+\qquad
+y\in H^q(X,V).
+\]
+The external product gives
+\[
+x\times y
+\in
+H^{p+q}(X\times X, U\times X\cup X\times V).
+\]
+
+Now consider the diagonal map
+\[
+\Delta:X\to X\times X,
+\qquad
+\Delta(z)=(z,z).
+\]
+If
+\[
+z\in U\cup V,
+\]
+then either \(z\in U\) or \(z\in V\). Hence
+\[
+(z,z)\in U\times X
+\]
+or
+\[
+(z,z)\in X\times V.
+\]
+Therefore
+\[
+\Delta(U\cup V)
+\subset
+U\times X\cup X\times V.
+\]
+
+Thus \(\Delta\) is a map of pairs
+\[
+\Delta:
+(X,U\cup V)
+\longrightarrow
+(X\times X, U\times X\cup X\times V).
+\]
+
+Pulling back the external product by \(\Delta\), we obtain
+\[
+\Delta^*(x\times y)
+\in
+H^{p+q}(X,U\cup V).
+\]
+
+By definition, this is the relative cup product:
+\[
+x\smile y
+=
+\Delta^*(x\times y).
+\]
+
+Therefore
+\[
+\boxed{
+	x\smile y\in H^{p+q}(X,U\cup V).
+}
+\]
+
+\subsection*{Part II. Vanishing of products from a contractible open cover}
+
+Assume that
+\[
+X=U_1\cup U_2\cup \cdots \cup U_n,
+\]
+where each \(U_i\) is contractible and open.
+
+Let
+\[
+a_i\in H^{d_i}(X)
+\]
+with
+\[
+d_i>0.
+\]
+Since \(U_i\) is contractible,
+\[
+H^{d_i}(U_i)=0
+\]
+for \(d_i>0\). Therefore the restriction of \(a_i\) to \(U_i\) is zero:
+\[
+a_i|_{U_i}=0.
+\]
+
+From the long exact sequence of the pair \((X,U_i)\),
+\[
+\cdots
+\to
+H^{d_i}(X,U_i)
+\to
+H^{d_i}(X)
+\to
+H^{d_i}(U_i)
+\to
+\cdots,
+\]
+we conclude that \(a_i\) comes from a relative cohomology class. Thus there exists
+\[
+\widetilde a_i\in H^{d_i}(X,U_i)
+\]
+such that its image in \(H^{d_i}(X)\) is \(a_i\).
+
+Now use the relative cup product repeatedly:
+\[
+\widetilde a_1\smile \widetilde a_2
+\in
+H^*(X,U_1\cup U_2),
+\]
+then
+\[
+\widetilde a_1\smile \widetilde a_2\smile \widetilde a_3
+\in
+H^*(X,U_1\cup U_2\cup U_3),
+\]
+and so on. Finally,
+\[
+\widetilde a_1\smile \cdots \smile \widetilde a_n
+\in
+H^*(X,U_1\cup\cdots\cup U_n).
+\]
+But
+\[
+U_1\cup\cdots\cup U_n=X.
+\]
+Hence
+\[
+H^*(X,U_1\cup\cdots\cup U_n)
+=
+H^*(X,X)
+=
+0.
+\]
+Therefore
+\[
+\widetilde a_1\smile\cdots\smile \widetilde a_n=0.
+\]
+
+Passing to absolute cohomology gives
+\[
+a_1\smile a_2\smile \cdots \smile a_n=0.
+\]
+
+Thus
+\[
+\boxed{
+	a_1\smile a_2\smile\cdots\smile a_n=0
+}
+\]
+for all positive-degree classes \(a_1,\dots,a_n\in H^*(X)\).
+
+\subsection*{Part III. Application to the torus \(T^k\)}
+
+The cohomology ring of the \(k\)-torus is
+\[
+H^*(T^k;\mathbb Z)
+\cong
+\Lambda_{\mathbb Z}(\alpha_1,\dots,\alpha_k),
+\]
+where
+\[
+|\alpha_i|=1.
+\]
+The product
+\[
+\alpha_1\smile \alpha_2\smile\cdots\smile \alpha_k
+\]
+is the orientation class of \(T^k\). In particular,
+\[
+\alpha_1\smile \cdots\smile \alpha_k\neq 0.
+\]
+
+Moreover, for every \(r\leq k\),
+\[
+\alpha_1\smile\cdots\smile\alpha_r\neq 0.
+\]
+
+Suppose \(T^k\) could be covered by \(n\) contractible open subsets with
+\[
+n\leq k.
+\]
+Then by the result above, every product of \(n\) positive-degree cohomology classes would have to vanish.
+
+But
+\[
+\alpha_1\smile\cdots\smile\alpha_n\neq 0.
+\]
+This is a contradiction.
+
+Therefore
+\[
+\boxed{
+	n>k.
+}
+\]
+
+So \(T^k\) cannot be covered by \(k\) or fewer contractible open subsets.
+
+\subsection*{Part IV. A covering of \(T^2\) by three contractible open subsets}
+
+We represent \(T^2\) as the quotient of a square by identifying opposite sides:
+
+\[
+T^2
+=
+[0,1]\times[0,1]/\sim,
+\]
+where
+\[
+(0,y)\sim (1,y)
+\]
+and
+\[
+(x,0)\sim (x,1).
+\]
+
+The square model has one \(0\)-cell, two \(1\)-cells, and one \(2\)-cell. We construct three open subsets.
+
+\begin{enumerate}
+	\item \(U_0\): a small open neighborhood of the unique vertex of the quotient. In the square picture, this appears as four small neighborhoods of the four corners. After identifying the corners, these four pieces become one open disk. Hence \(U_0\) is contractible.
+	
+	\item \(U_2\): a large open disk contained in the interior of the square. This covers the middle of the \(2\)-cell. Since it is an open disk, \(U_2\) is contractible.
+	
+	\item \(U_1\): an open regular neighborhood of a tree joining the middle parts of the two \(1\)-cells. In the square picture, this appears as thin strips near the middle portions of the boundary edges, together with a small bridge through the interior. Since a regular neighborhood of a tree in a surface is an open disk, \(U_1\) is contractible.
+\end{enumerate}
+
+Choosing the neighborhoods large enough, these three open sets cover the whole torus:
+\[
+T^2=U_0\cup U_1\cup U_2.
+\]
+
+The following picture is schematic. Opposite edges of the square are identified.
+
+\[
+\begin{tikzpicture}[scale=4, line cap=round, line join=round]
+	
+	% square
+	\draw[thick] (0,0) rectangle (1,1);
+	
+	% edge labels and arrows
+	\draw[->, thick] (0.22,0) -- (0.78,0);
+	\node[below] at (0.5,0) {$a$};
+	
+	\draw[->, thick] (0.78,1) -- (0.22,1);
+	\node[above] at (0.5,1) {$a$};
+	
+	\draw[->, thick] (0,0.22) -- (0,0.78);
+	\node[left] at (0,0.5) {$b$};
+	
+	\draw[->, thick] (1,0.78) -- (1,0.22);
+	\node[right] at (1,0.5) {$b$};
+	
+	% U2 central disk
+	\fill[green!25, rounded corners=8pt] (0.25,0.25) rectangle (0.75,0.75);
+	\node[green!45!black, font=\bfseries] at (0.5,0.5) {$U_2$};
+	
+	% U1 boundary strips and bridge
+	\draw[blue!25, line width=18pt] (0.25,0.03) -- (0.75,0.03);
+	\draw[blue!25, line width=18pt] (0.25,0.97) -- (0.75,0.97);
+	\draw[blue!25, line width=18pt] (0.03,0.25) -- (0.03,0.75);
+	\draw[blue!25, line width=18pt] (0.97,0.25) -- (0.97,0.75);
+	\draw[blue!25, line width=18pt] (0.5,0.03) .. controls (0.45,0.22) and (0.22,0.45) .. (0.03,0.5);
+	
+	\node[blue!60!black, font=\bfseries] at (0.23,0.28) {$U_1$};
+	
+	% U0 corner neighborhoods
+	\foreach \x/\y in {0/0,1/0,0/1,1/1}
+	{
+		\fill[red!25] (\x,\y) circle (0.12);
+	}
+	\node[red!60!black, font=\bfseries] at (0.13,0.13) {$U_0$};
+	
+	% corner dots
+	\foreach \x/\y in {0/0,1/0,0/1,1/1}
+	{
+		\fill (\x,\y) circle (0.012);
+	}
+	
+\end{tikzpicture}
+\]
+
+After quotienting the square to form the torus:
+
+\[
+\boxed{
+	U_0\simeq \text{open disk},
+	\qquad
+	U_1\simeq \text{open disk},
+	\qquad
+	U_2\simeq \text{open disk}.
+}
+\]
+
+Hence each \(U_i\) is contractible, and
+\[
+\boxed{
+	T^2=U_0\cup U_1\cup U_2.
+}
+\]
+
+This agrees with the lower bound from cup products. Since
+\[
+H^*(T^2)\cong \Lambda(\alpha,\beta)
+\]
+and
+\[
+\alpha\smile\beta\neq 0,
+\]
+the torus cannot be covered by two contractible open sets. But the construction above shows that it can be covered by three. Therefore the minimal number is exactly three:
+\[
+\boxed{
+	T^2 \text{ can be covered by } 3 \text{ contractible open subsets, but not by } 2.
+}
+\]
+
+% ============================================================
+% Requires, if not already loaded:
+% \usepackage{amsmath,amssymb,amsthm}
+% \usepackage{tikz}
+% \usepackage{tikz-cd}
+% \usepackage[most]{tcolorbox}
+% ============================================================
+
+\section{Theory Behind Cross Products, Diagonal Maps, Relative Cup Products, and Contractible Covers}
+
+\subsection{The common idea behind Problems 3--5}
+
+The three problems are all consequences of one fundamental principle:
+
+\[
+\boxed{
+	\text{cup products are obtained from cross products by pulling back along the diagonal map.}
+}
+\]
+
+More precisely, if \(X\) is a topological space and
+
+\[
+\Delta_X:X\longrightarrow X\times X,
+\qquad
+\Delta_X(x)=(x,x),
+\]
+
+is the diagonal map, then for cohomology classes
+
+\[
+\alpha\in H^p(X),
+\qquad
+\beta\in H^q(X),
+\]
+
+the cup product is defined by
+
+\[
+\boxed{
+	\alpha\smile \beta
+	=
+	\Delta_X^*(\alpha\times \beta).
+}
+\]
+
+Thus the basic mechanism is
+
+\[
+\text{cross product}
+\quad+\quad
+\text{diagonal pullback}
+\quad=\quad
+\text{cup product}.
+\]
+
+In diagram form:
+
+\[
+\begin{tikzcd}[column sep=large]
+	H^p(X)\otimes H^q(X)
+	\arrow[r,"\times"]
+	&
+	H^{p+q}(X\times X)
+	\arrow[r,"\Delta_X^*"]
+	&
+	H^{p+q}(X)
+\end{tikzcd}
+\]
+
+and the resulting composite is precisely
+
+\[
+\alpha\otimes\beta
+\longmapsto
+\alpha\smile\beta.
+\]
+
+The three problems use this idea in different ways:
+
+\begin{itemize}
+	\item Problem 3 studies how cross products behave with the connecting homomorphism in relative cohomology.
+	\item Problem 4 computes diagonal pullbacks explicitly for \(S^2\) and \(T^2\).
+	\item Problem 5 uses relative cup products to prove lower bounds for coverings by contractible open sets.
+\end{itemize}
+
+\subsection{Cohomology is contravariant}
+
+A continuous map
+
+\[
+f:X\to Y
+\]
+
+induces a map in homology
+
+\[
+f_*:H_n(X)\to H_n(Y).
+\]
+
+Thus homology is covariant.
+
+Cohomology goes in the opposite direction. The same continuous map
+
+\[
+f:X\to Y
+\]
+
+induces
+
+\[
+f^*:H^n(Y)\to H^n(X).
+\]
+
+Thus cohomology is contravariant.
+
+This reversal of arrows is essential for the diagonal map. Since
+
+\[
+\Delta_X:X\to X\times X,
+\]
+
+contravariance gives
+
+\[
+\Delta_X^*:H^*(X\times X)\to H^*(X).
+\]
+
+So the diagonal map allows us to take a class on \(X\times X\) and pull it back to a class on \(X\).
+
+This is exactly what is needed in the definition of the cup product:
+
+\[
+\alpha\times\beta\in H^{p+q}(X\times X),
+\]
+
+but
+
+\[
+\alpha\smile\beta\in H^{p+q}(X).
+\]
+
+The diagonal pullback performs the passage
+
+\[
+H^{p+q}(X\times X)
+\longrightarrow
+H^{p+q}(X).
+\]
+
+\subsection{The cohomological cross product}
+
+Let \(X\) and \(Y\) be topological spaces. The cohomological cross product is a bilinear map
+
+\[
+\times:
+H^p(X)\otimes H^q(Y)
+\longrightarrow
+H^{p+q}(X\times Y).
+\]
+
+Given
+
+\[
+\alpha\in H^p(X),
+\qquad
+\beta\in H^q(Y),
+\]
+
+their cross product is written
+
+\[
+\alpha\times\beta\in H^{p+q}(X\times Y).
+\]
+
+Intuitively, the class
+
+\[
+\alpha\times\beta
+\]
+
+measures \(\alpha\) in the \(X\)-direction and \(\beta\) in the \(Y\)-direction.
+
+For example, if
+
+\[
+X=S^2,
+\qquad
+Y=S^2,
+\]
+
+and
+
+\[
+u\in H^2(S^2;\mathbb Z)
+\]
+
+is the fundamental cohomology class of \(S^2\), then on
+
+\[
+S^2\times S^2
+\]
+
+we get two natural degree \(2\) classes:
+
+\[
+u_1=u\times 1,
+\qquad
+u_2=1\times u.
+\]
+
+Equivalently,
+
+\[
+u_1=\pi_1^*(u),
+\qquad
+u_2=\pi_2^*(u),
+\]
+
+where
+
+\[
+\pi_1:S^2\times S^2\to S^2,
+\qquad
+\pi_2:S^2\times S^2\to S^2
+\]
+
+are the two projections.
+
+The class \(u_1\) comes from the first sphere, while \(u_2\) comes from the second sphere.
+
+\subsection{The cochain-level Leibniz rule}
+
+At the cochain level, the cross product satisfies a graded Leibniz rule.
+
+If
+
+\[
+a\in C^p(X),
+\qquad
+b\in C^q(Y),
+\]
+
+then
+
+\[
+a\times b\in C^{p+q}(X\times Y),
+\]
+
+and the coboundary satisfies
+
+\[
+\boxed{
+	d(a\times b)
+	=
+	da\times b
+	+
+	(-1)^p a\times db.
+}
+\]
+
+This is the cohomological analogue of the product rule
+
+\[
+d(fg)=df\cdot g+f\cdot dg.
+\]
+
+The sign
+
+\[
+(-1)^p
+\]
+
+appears because cochains are graded objects.
+
+If \(b\) is a cocycle, then
+
+\[
+db=0.
+\]
+
+Therefore the formula becomes
+
+\[
+d(a\times b)=da\times b.
+\]
+
+This simple identity is the reason why the cross product is compatible with the connecting homomorphism in the long exact sequence of a pair.
+
+\subsection{Relative cohomology and the connecting homomorphism}
+
+Let \(A\subset X\). The relative cohomology group
+
+\[
+H^n(X,A)
+\]
+
+measures cohomology of \(X\) relative to \(A\).
+
+A useful intuition is
+
+\[
+H^n(X,A)\cong \widetilde H^n(X/A)
+\]
+
+under suitable hypotheses. Thus, morally, relative cohomology treats \(A\) as collapsed or ignored.
+
+The long exact sequence of a pair is
+
+\[
+\cdots
+\longrightarrow
+H^n(X,A)
+\longrightarrow
+H^n(X)
+\longrightarrow
+H^n(A)
+\xrightarrow{\delta}
+H^{n+1}(X,A)
+\longrightarrow
+H^{n+1}(X)
+\longrightarrow
+\cdots .
+\]
+
+The connecting homomorphism
+
+\[
+\delta:H^n(A)\to H^{n+1}(X,A)
+\]
+
+measures the obstruction to extending a cohomology class on \(A\) to a cohomology class on \(X\).
+
+Indeed, if
+
+\[
+\alpha\in H^n(A)
+\]
+
+extends to a class
+
+\[
+\widetilde\alpha\in H^n(X),
+\]
+
+then
+
+\[
+\delta\alpha=0.
+\]
+
+If \(\alpha\) does not extend, then
+
+\[
+\delta\alpha
+\]
+
+records the obstruction.
+
+\subsection{Cross products and relative boundary maps}
+
+Let \((X,A)\) be a pair and let \(Y\) be another space. The cross product gives maps
+
+\[
+H^p(A)\otimes H^q(Y)
+\longrightarrow
+H^{p+q}(A\times Y)
+\]
+
+and
+
+\[
+H^{p+1}(X,A)\otimes H^q(Y)
+\longrightarrow
+H^{p+q+1}(X\times Y,A\times Y).
+\]
+
+The naturality statement is that the following diagram commutes:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	H^p(A)\otimes H^q(Y)
+	\arrow[r,"\times"]
+	\arrow[d,"\delta\otimes 1"']
+	&
+	H^{p+q}(A\times Y)
+	\arrow[d,"\delta"]
+	\\
+	H^{p+1}(X,A)\otimes H^q(Y)
+	\arrow[r,"\times"']
+	&
+	H^{p+q+1}(X\times Y,A\times Y)
+\end{tikzcd}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	\delta(\alpha\times\beta)
+	=
+	(\delta\alpha)\times\beta.
+}
+\]
+
+Here
+
+\[
+\alpha\in H^p(A),
+\qquad
+\beta\in H^q(Y).
+\]
+
+\subsubsection*{Cochain explanation}
+
+Choose cocycle representatives
+
+\[
+a\in C^p(A),
+\qquad
+b\in C^q(Y),
+\]
+
+with
+
+\[
+da=0,
+\qquad
+db=0.
+\]
+
+To compute
+
+\[
+\delta[\alpha]\in H^{p+1}(X,A),
+\]
+
+extend \(a\) to a cochain
+
+\[
+\widetilde a\in C^p(X).
+\]
+
+Then
+
+\[
+d\widetilde a
+\]
+
+vanishes on \(A\), because \(a\) was already a cocycle on \(A\). Thus
+
+\[
+[d\widetilde a]\in H^{p+1}(X,A)
+\]
+
+represents
+
+\[
+\delta[\alpha].
+\]
+
+Now consider the product
+
+\[
+a\times b
+\]
+
+on
+
+\[
+A\times Y.
+\]
+
+It is extended to \(X\times Y\) by
+
+\[
+\widetilde a\times b.
+\]
+
+Therefore
+
+\[
+\delta(\alpha\times\beta)
+=
+[d(\widetilde a\times b)].
+\]
+
+Using the Leibniz rule,
+
+\[
+d(\widetilde a\times b)
+=
+d\widetilde a\times b
++
+(-1)^p\widetilde a\times db.
+\]
+
+Since \(b\) is a cocycle,
+
+\[
+db=0.
+\]
+
+Hence
+
+\[
+d(\widetilde a\times b)
+=
+d\widetilde a\times b.
+\]
+
+Therefore
+
+\[
+\delta(\alpha\times\beta)
+=
+[d\widetilde a\times b]
+=
+[d\widetilde a]\times[b]
+=
+(\delta\alpha)\times\beta.
+\]
+
+Thus
+
+\[
+\boxed{
+	\delta(\alpha\times\beta)
+	=
+	(\delta\alpha)\times\beta.
+}
+\]
+
+\subsection{The diagonal map and the cup product}
+
+For any topological space \(X\), the diagonal map is
+
+\[
+\Delta_X:X\to X\times X,
+\qquad
+\Delta_X(x)=(x,x).
+\]
+
+Geometrically, \(\Delta_X\) embeds \(X\) into \(X\times X\) as the set of equal pairs:
+
+\[
+\Delta_X(X)=\{(x,x):x\in X\}.
+\]
+
+For example, if \(X=\mathbb R\), then
+
+\[
+\Delta_{\mathbb R}(t)=(t,t)
+\]
+
+is the ordinary diagonal line inside \(\mathbb R^2\).
+
+In cohomology, the diagonal map gives
+
+\[
+\Delta_X^*:H^*(X\times X)\to H^*(X).
+\]
+
+The cup product is defined by
+
+\[
+\boxed{
+	\alpha\smile\beta
+	=
+	\Delta_X^*(\alpha\times\beta).
+}
+\]
+
+Thus the cup product is not an independent mysterious operation. It is the external cross product restricted back to \(X\) using the diagonal.
+
+\[
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+	\node (A) at (0,0) {\(\alpha,\beta\in H^*(X)\)};
+	\node (B) at (5,0) {\(\alpha\times\beta\in H^*(X\times X)\)};
+	\node (C) at (10,0) {\(\alpha\smile\beta\in H^*(X)\)};
+	
+	\draw[->, thick] (A) -- node[above] {cross product} (B);
+	\draw[->, thick] (B) -- node[above] {\(\Delta_X^*\)} (C);
+\end{tikzpicture}
+\]
+
+\subsection{Diagonal maps on \(S^2\)}
+
+Let
+
+\[
+u\in H^2(S^2;\mathbb Z)
+\]
+
+be a generator. The cohomology ring of \(S^2\) is
+
+\[
+H^*(S^2;\mathbb Z)
+\cong
+\mathbb Z[u]/(u^2),
+\qquad
+|u|=2.
+\]
+
+The relation
+
+\[
+u^2=0
+\]
+
+does not mean that \(u=0\). It means that
+
+\[
+u^2\in H^4(S^2;\mathbb Z),
+\]
+
+but
+
+\[
+H^4(S^2;\mathbb Z)=0.
+\]
+
+So the square of the degree \(2\) generator must vanish.
+
+Now consider
+
+\[
+S^2\times S^2.
+\]
+
+Let
+
+\[
+u_1=\pi_1^*(u),
+\qquad
+u_2=\pi_2^*(u),
+\]
+
+where
+
+\[
+\pi_1,\pi_2:S^2\times S^2\to S^2
+\]
+
+are the projections.
+
+By the Künneth formula,
+
+\[
+H^*(S^2\times S^2;\mathbb Z)
+\cong
+\mathbb Z[u_1,u_2]/(u_1^2,u_2^2),
+\qquad
+|u_1|=|u_2|=2.
+\]
+
+The diagonal map
+
+\[
+\Delta_{S^2}:S^2\to S^2\times S^2
+\]
+
+satisfies
+
+\[
+\pi_1\circ\Delta_{S^2}=\operatorname{id}_{S^2},
+\qquad
+\pi_2\circ\Delta_{S^2}=\operatorname{id}_{S^2}.
+\]
+
+Therefore
+
+\[
+\Delta_{S^2}^*(u_1)=u,
+\qquad
+\Delta_{S^2}^*(u_2)=u.
+\]
+
+Since \(\Delta_{S^2}^*\) is a ring homomorphism,
+
+\[
+\Delta_{S^2}^*(u_1u_2)
+=
+\Delta_{S^2}^*(u_1)\Delta_{S^2}^*(u_2)
+=
+u^2
+=
+0.
+\]
+
+Thus the complete behavior is
+
+\[
+\boxed{
+	\Delta_{S^2}^*(1)=1,
+}
+\]
+
+\[
+\boxed{
+	\Delta_{S^2}^*(u_1)=u,
+	\qquad
+	\Delta_{S^2}^*(u_2)=u,
+}
+\]
+
+and
+
+\[
+\boxed{
+	\Delta_{S^2}^*(u_1u_2)=0.
+}
+\]
+
+In degree \(2\), this means
+
+\[
+au_1+bu_2
+\longmapsto
+(a+b)u.
+\]
+
+In degree \(4\), the generator
+
+\[
+u_1u_2\in H^4(S^2\times S^2)
+\]
+
+maps to zero because
+
+\[
+H^4(S^2)=0.
+\]
+
+\subsection{Diagonal maps on \(T^2\)}
+
+The torus is
+
+\[
+T^2=S^1\times S^1.
+\]
+
+Its cohomology ring is
+
+\[
+H^*(T^2;\mathbb Z)
+\cong
+\Lambda_{\mathbb Z}(\alpha,\beta),
+\]
+
+where
+
+\[
+|\alpha|=|\beta|=1.
+\]
+
+This means that
+
+\[
+\alpha^2=0,
+\qquad
+\beta^2=0,
+\qquad
+\alpha\beta=-\beta\alpha.
+\]
+
+Let
+
+\[
+\omega=\alpha\beta.
+\]
+
+Then
+
+\[
+\omega\in H^2(T^2;\mathbb Z)
+\]
+
+is the orientation class of the torus.
+
+Geometrically:
+
+\begin{itemize}
+	\item \(\alpha\) detects winding in one circle direction;
+	\item \(\beta\) detects winding in the other circle direction;
+	\item \(\alpha\beta\) detects the two-dimensional fundamental class.
+\end{itemize}
+
+Now consider
+
+\[
+T^2\times T^2.
+\]
+
+Let
+
+\[
+\alpha_1=\pi_1^*(\alpha),
+\qquad
+\beta_1=\pi_1^*(\beta),
+\]
+
+and
+
+\[
+\alpha_2=\pi_2^*(\alpha),
+\qquad
+\beta_2=\pi_2^*(\beta).
+\]
+
+The diagonal map
+
+\[
+\Delta_{T^2}:T^2\to T^2\times T^2
+\]
+
+satisfies
+
+\[
+\pi_1\circ\Delta_{T^2}=\operatorname{id}_{T^2},
+\qquad
+\pi_2\circ\Delta_{T^2}=\operatorname{id}_{T^2}.
+\]
+
+Therefore
+
+\[
+\Delta_{T^2}^*(\alpha_1)=\alpha,
+\qquad
+\Delta_{T^2}^*(\beta_1)=\beta,
+\]
+
+and
+
+\[
+\Delta_{T^2}^*(\alpha_2)=\alpha,
+\qquad
+\Delta_{T^2}^*(\beta_2)=\beta.
+\]
+
+Hence
+
+\[
+\boxed{
+	\alpha_1\mapsto \alpha,
+	\qquad
+	\beta_1\mapsto \beta,
+	\qquad
+	\alpha_2\mapsto \alpha,
+	\qquad
+	\beta_2\mapsto \beta.
+}
+\]
+
+All products are computed by replacing each subscripted generator by its unsubscripted version and using the exterior algebra rules.
+
+For example,
+
+\[
+\Delta_{T^2}^*(\alpha_1\beta_2)
+=
+\alpha\beta
+=
+\omega.
+\]
+
+Also,
+
+\[
+\Delta_{T^2}^*(\alpha_1\alpha_2)
+=
+\alpha\alpha
+=
+0.
+\]
+
+The sign in
+
+\[
+\Delta_{T^2}^*(\beta_1\alpha_2)
+\]
+
+comes from graded commutativity:
+
+\[
+\beta\alpha
+=
+(-1)^{1\cdot 1}\alpha\beta
+=
+-\alpha\beta.
+\]
+
+Thus
+
+\[
+\Delta_{T^2}^*(\beta_1\alpha_2)
+=
+-\omega.
+\]
+
+The important degree \(2\) computations are
+
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_1\beta_1)=\omega,
+}
+\]
+
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_2\beta_2)=\omega,
+}
+\]
+
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_1\alpha_2)=0,
+}
+\]
+
+\[
+\boxed{
+	\Delta_{T^2}^*(\beta_1\beta_2)=0,
+}
+\]
+
+\[
+\boxed{
+	\Delta_{T^2}^*(\alpha_1\beta_2)=\omega,
+}
+\]
+
+and
+
+\[
+\boxed{
+	\Delta_{T^2}^*(\beta_1\alpha_2)=-\omega.
+}
+\]
+
+All degree \(3\) and degree \(4\) classes in \(H^*(T^2\times T^2)\) map to zero because
+
+\[
+H^3(T^2)=0
+\]
+
+and
+
+\[
+H^4(T^2)=0.
+\]
+
+\subsection{Relative cup products}
+
+Let \(U,V\subset X\) be open subsets.
+
+Suppose
+
+\[
+x\in H^p(X,U),
+\qquad
+y\in H^q(X,V).
+\]
+
+The relative cup product satisfies
+
+\[
+\boxed{
+	x\smile y\in H^{p+q}(X,U\cup V).
+}
+\]
+
+The reason is intuitive.
+
+A class in \(H^p(X,U)\) vanishes on \(U\), while a class in \(H^q(X,V)\) vanishes on \(V\). Therefore their product vanishes wherever either factor vanishes, namely on
+
+\[
+U\cup V.
+\]
+
+At the level of cross products, we first form
+
+\[
+x\times y
+\in
+H^{p+q}(X\times X, U\times X\cup X\times V).
+\]
+
+Now consider the diagonal map
+
+\[
+\Delta:X\to X\times X,
+\qquad
+\Delta(z)=(z,z).
+\]
+
+If
+
+\[
+z\in U\cup V,
+\]
+
+then either \(z\in U\) or \(z\in V\).
+
+If \(z\in U\), then
+
+\[
+(z,z)\in U\times X.
+\]
+
+If \(z\in V\), then
+
+\[
+(z,z)\in X\times V.
+\]
+
+Hence
+
+\[
+\Delta(U\cup V)
+\subset
+U\times X\cup X\times V.
+\]
+
+Therefore the diagonal is a map of pairs
+
+\[
+\Delta:
+(X,U\cup V)
+\longrightarrow
+(X\times X, U\times X\cup X\times V).
+\]
+
+Pulling back the external product gives
+
+\[
+\Delta^*(x\times y)
+\in
+H^{p+q}(X,U\cup V).
+\]
+
+By definition,
+
+\[
+x\smile y
+=
+\Delta^*(x\times y).
+\]
+
+Thus
+
+\[
+\boxed{
+	x\smile y\in H^{p+q}(X,U\cup V).
+}
+\]
+
+\subsection{Contractible open covers and vanishing cup products}
+
+Suppose that \(X\) has a cover by \(n\) contractible open sets:
+
+\[
+X=U_1\cup U_2\cup\cdots\cup U_n.
+\]
+
+Let
+
+\[
+a_1,\dots,a_n\in H^*(X)
+\]
+
+be positive-degree cohomology classes.
+
+Write
+
+\[
+a_i\in H^{d_i}(X),
+\qquad
+d_i>0.
+\]
+
+Because each \(U_i\) is contractible,
+
+\[
+H^{d_i}(U_i)=0
+\]
+
+for \(d_i>0\). Therefore the restriction of \(a_i\) to \(U_i\) is zero:
+
+\[
+a_i|_{U_i}=0.
+\]
+
+Now use the long exact sequence of the pair \((X,U_i)\):
+
+\[
+\cdots
+\longrightarrow
+H^{d_i}(X,U_i)
+\longrightarrow
+H^{d_i}(X)
+\longrightarrow
+H^{d_i}(U_i)
+\longrightarrow
+\cdots .
+\]
+
+Since
+
+\[
+a_i|_{U_i}=0,
+\]
+
+the class \(a_i\) comes from a relative class
+
+\[
+\widetilde a_i\in H^{d_i}(X,U_i).
+\]
+
+Now multiply these relative classes:
+
+\[
+\widetilde a_1\smile \widetilde a_2
+\in
+H^*(X,U_1\cup U_2),
+\]
+
+then
+
+\[
+\widetilde a_1\smile\widetilde a_2\smile\widetilde a_3
+\in
+H^*(X,U_1\cup U_2\cup U_3),
+\]
+
+and continuing,
+
+\[
+\widetilde a_1\smile\cdots\smile \widetilde a_n
+\in
+H^*(X,U_1\cup\cdots\cup U_n).
+\]
+
+But
+
+\[
+U_1\cup\cdots\cup U_n=X.
+\]
+
+Therefore
+
+\[
+H^*(X,U_1\cup\cdots\cup U_n)
+=
+H^*(X,X)
+=
+0.
+\]
+
+Hence
+
+\[
+\widetilde a_1\smile\cdots\smile \widetilde a_n=0.
+\]
+
+Passing to absolute cohomology gives
+
+\[
+\boxed{
+	a_1\smile a_2\smile\cdots\smile a_n=0.
+}
+\]
+
+Thus we have proved the important principle:
+
+\[
+\boxed{
+	\text{If }X\text{ is covered by }n\text{ contractible open sets, then every }n\text{-fold product of positive-degree classes vanishes.}
+}
+\]
+
+\subsection{Cup-length}
+
+The cup-length of a space \(X\) is the largest integer \(r\) such that there exist positive-degree cohomology classes
+
+\[
+a_1,\dots,a_r\in H^*(X)
+\]
+
+with
+
+\[
+a_1\smile a_2\smile\cdots\smile a_r\neq 0.
+\]
+
+Thus
+
+\[
+\operatorname{cup\text{-}length}(X)
+=
+\max
+\left\{
+r:
+\exists a_1,\dots,a_r,\ |a_i|>0,\ 
+a_1\cdots a_r\neq 0
+\right\}.
+\]
+
+The previous theorem implies:
+
+\[
+\boxed{
+	\text{If }X\text{ can be covered by }n\text{ contractible open sets, then }
+	n>\operatorname{cup\text{-}length}(X).
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	n\geq \operatorname{cup\text{-}length}(X)+1.
+}
+\]
+
+This is closely related to the Lusternik--Schnirelmann category of a space. In many contexts, the cup-length gives a lower bound for how many contractible pieces are needed to cover a space.
+
+\subsection{The cup-length of the torus \(T^k\)}
+
+The \(k\)-dimensional torus is
+
+\[
+T^k=(S^1)^k.
+\]
+
+Its cohomology ring is
+
+\[
+H^*(T^k;\mathbb Z)
+\cong
+\Lambda_{\mathbb Z}(\alpha_1,\dots,\alpha_k),
+\]
+
+where
+
+\[
+|\alpha_i|=1.
+\]
+
+This is an exterior algebra, so
+
+\[
+\alpha_i^2=0
+\]
+
+for every \(i\), and
+
+\[
+\alpha_i\alpha_j=-\alpha_j\alpha_i
+\]
+
+for \(i\neq j\).
+
+The product
+
+\[
+\alpha_1\smile\alpha_2\smile\cdots\smile\alpha_k
+\]
+
+is nonzero. It is the top-dimensional cohomology class, also called the orientation class of \(T^k\).
+
+Therefore
+
+\[
+\operatorname{cup\text{-}length}(T^k)=k.
+\]
+
+Hence, if \(T^k\) can be covered by \(n\) contractible open subsets, then
+
+\[
+n>\operatorname{cup\text{-}length}(T^k)=k.
+\]
+
+So
+
+\[
+\boxed{
+	n>k.
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	n\geq k+1.
+}
+\]
+
+For the ordinary torus \(T^2\), this gives
+
+\[
+n\geq 3.
+\]
+
+Thus \(T^2\) cannot be covered by two contractible open subsets.
+
+\subsection{Why the torus \(T^2\) needs three contractible open sets}
+
+The torus has two independent degree \(1\) cohomology classes
+
+\[
+\alpha,\beta\in H^1(T^2;\mathbb Z),
+\]
+
+and their product is nonzero:
+
+\[
+\alpha\smile\beta\neq 0.
+\]
+
+This product lies in
+
+\[
+H^2(T^2;\mathbb Z)\cong \mathbb Z
+\]
+
+and represents the orientation class of the torus.
+
+If \(T^2\) could be covered by two contractible open sets,
+
+\[
+T^2=U\cup V,
+\]
+
+then the vanishing theorem would imply that every product of two positive-degree cohomology classes must vanish.
+
+In particular, it would imply
+
+\[
+\alpha\smile\beta=0.
+\]
+
+But this is false.
+
+Therefore \(T^2\) cannot be covered by two contractible open sets.
+
+Since one can construct a cover by three contractible open sets, the minimal number is exactly
+
+\[
+\boxed{3}.
+\]
+
+\subsection{A geometric picture of a three-set cover of \(T^2\)}
+
+Represent the torus as the quotient of a square by identifying opposite sides:
+
+\[
+T^2=[0,1]\times[0,1]/\sim,
+\]
+
+where
+
+\[
+(0,y)\sim(1,y),
+\qquad
+(x,0)\sim(x,1).
+\]
+
+The square model has:
+
+\[
+1\text{ vertex},
+\qquad
+2\text{ edge loops},
+\qquad
+1\text{ face}.
+\]
+
+A natural cover by three contractible open sets is:
+
+\[
+U_0=\text{a small neighborhood of the identified vertex},
+\]
+
+\[
+U_1=\text{a regular neighborhood of a tree-like part of the }1\text{-skeleton},
+\]
+
+\[
+U_2=\text{a large open disk inside the }2\text{-cell}.
+\]
+
+The key point is that \(U_1\) must be chosen around a tree, not around the full \(1\)-skeleton. A neighborhood of the full \(1\)-skeleton of the torus would contain loops and would not be contractible. A tree has no cycles, and a regular neighborhood of a tree in a surface is an open disk.
+
+The following diagram is schematic. Opposite sides of the square are identified.
+
+\[
+\begin{tikzpicture}[scale=4, line cap=round, line join=round]
+	
+	% square
+	\draw[thick] (0,0) rectangle (1,1);
+	
+	% side arrows
+	\draw[->, thick] (0.22,0) -- (0.78,0);
+	\node[below] at (0.5,0) {$a$};
+	
+	\draw[->, thick] (0.78,1) -- (0.22,1);
+	\node[above] at (0.5,1) {$a$};
+	
+	\draw[->, thick] (0,0.22) -- (0,0.78);
+	\node[left] at (0,0.5) {$b$};
+	
+	\draw[->, thick] (1,0.78) -- (1,0.22);
+	\node[right] at (1,0.5) {$b$};
+	
+	% U2 central disk
+	\fill[green!25, rounded corners=8pt] (0.25,0.25) rectangle (0.75,0.75);
+	\node[green!45!black, font=\bfseries] at (0.5,0.5) {$U_2$};
+	
+	% U1 strips near edges and bridge
+	\draw[blue!25, line width=18pt] (0.25,0.03) -- (0.75,0.03);
+	\draw[blue!25, line width=18pt] (0.25,0.97) -- (0.75,0.97);
+	\draw[blue!25, line width=18pt] (0.03,0.25) -- (0.03,0.75);
+	\draw[blue!25, line width=18pt] (0.97,0.25) -- (0.97,0.75);
+	\draw[blue!25, line width=18pt] (0.5,0.03)
+	.. controls (0.45,0.22) and (0.22,0.45) ..
+	(0.03,0.5);
+	
+	\node[blue!60!black, font=\bfseries] at (0.23,0.28) {$U_1$};
+	
+	% U0 corner neighborhoods
+	\foreach \x/\y in {0/0,1/0,0/1,1/1}
+	{
+		\fill[red!25] (\x,\y) circle (0.12);
+	}
+	
+	\node[red!60!black, font=\bfseries] at (0.13,0.13) {$U_0$};
+	
+	% corner dots
+	\foreach \x/\y in {0/0,1/0,0/1,1/1}
+	{
+		\fill (\x,\y) circle (0.012);
+	}
+	
+\end{tikzpicture}
+\]
+
+After the quotient identifications:
+
+\[
+U_0\simeq \text{open disk},
+\qquad
+U_1\simeq \text{open disk},
+\qquad
+U_2\simeq \text{open disk}.
+\]
+
+Thus each \(U_i\) is contractible, and
+
+\[
+T^2=U_0\cup U_1\cup U_2.
+\]
+
+Therefore
+
+\[
+\boxed{
+	T^2\text{ can be covered by three contractible open sets, but not by two.}
+}
+\]
+
+\subsection{Summary of the theory}
+
+The logical chain behind Problems 3--5 is:
+
+\[
+\text{relative cohomology}
+\Longrightarrow
+\text{relative cross product}
+\Longrightarrow
+\text{diagonal pullback}
+\Longrightarrow
+\text{relative cup product}
+\Longrightarrow
+\text{vanishing theorem for contractible covers}.
+\]
+
+Problem 3 proves that cross products behave well with connecting homomorphisms:
+
+\[
+\delta(\alpha\times\beta)
+=
+(\delta\alpha)\times\beta.
+\]
+
+Problem 4 uses the diagonal map to compute cup products:
+
+\[
+\alpha\smile\beta
+=
+\Delta_X^*(\alpha\times\beta).
+\]
+
+Problem 5 uses relative cup products to show that if
+
+\[
+X=U_1\cup\cdots\cup U_n
+\]
+
+is a cover by contractible open sets, then every \(n\)-fold cup product of positive-degree cohomology classes must vanish:
+
+\[
+a_1\smile\cdots\smile a_n=0.
+\]
+
+For the torus,
+
+\[
+H^*(T^k;\mathbb Z)
+\cong
+\Lambda_{\mathbb Z}(\alpha_1,\dots,\alpha_k),
+\]
+
+and
+
+\[
+\alpha_1\smile\cdots\smile\alpha_k\neq 0.
+\]
+
+Therefore the torus has cup-length \(k\), and any cover of \(T^k\) by contractible open sets must have more than \(k\) members:
+
+\[
+\boxed{
+	n>k.
+}
+\]
+
+For \(T^2\), the exact minimum is
+
+\[
+\boxed{
+	3.
+}
+\]
+% ============================================================
+% Concrete examples for cross products, diagonal maps,
+% relative cup products, cup-length, and contractible covers
+%
+% Suggested packages, if not already loaded:
+% \usepackage{amsmath,amssymb,amsthm}
+% \usepackage{tikz}
+% \usepackage[most]{tcolorbox}
+% ============================================================
+
+\section{Concrete Examples for Cross Products, Diagonal Maps, Cup Products, and Contractible Covers}
+
+\subsection{Overview of the examples}
+
+The purpose of this section is to make the theory from Problems 3--5 more concrete. The main ideas are:
+
+\[
+\text{cross product}
+\quad+\quad
+\text{diagonal pullback}
+\quad=\quad
+\text{cup product},
+\]
+
+and
+
+\[
+\text{nonzero cup products}
+\quad\Longrightarrow\quad
+\text{lower bounds on contractible open covers}.
+\]
+
+Unless stated otherwise, all cohomology groups are taken with coefficients in \(\mathbb Z\).
+
+We organize the examples into three levels:
+
+\begin{itemize}
+	\item easy examples, where the computations show the basic mechanism;
+	\item medium examples, where the cup product gives useful covering obstructions;
+	\item deeper examples, where the cohomology ring structure becomes essential.
+\end{itemize}
+
+\subsection{Easy Examples}
+
+\subsubsection{Example 1. The diagonal map on \(S^1\)}
+
+Let
+
+\[
+X=S^1.
+\]
+
+The cohomology ring of the circle is
+
+\[
+H^*(S^1)\cong \Lambda(a),
+\qquad
+|a|=1.
+\]
+
+Thus
+
+\[
+H^0(S^1)\cong \mathbb Z,
+\qquad
+H^1(S^1)\cong \mathbb Z a,
+\]
+
+and
+
+\[
+a^2=0.
+\]
+
+Now consider
+
+\[
+S^1\times S^1=T^2.
+\]
+
+Let
+
+\[
+a_1=\pi_1^*(a),
+\qquad
+a_2=\pi_2^*(a),
+\]
+
+where
+
+\[
+\pi_1:S^1\times S^1\to S^1,
+\qquad
+\pi_2:S^1\times S^1\to S^1
+\]
+
+are the two projections. Then
+
+\[
+H^*(S^1\times S^1)
+\cong
+\Lambda(a_1,a_2).
+\]
+
+The diagonal map is
+
+\[
+\Delta:S^1\to S^1\times S^1,
+\qquad
+\Delta(x)=(x,x).
+\]
+
+Since
+
+\[
+\pi_1\circ \Delta=\operatorname{id}_{S^1},
+\qquad
+\pi_2\circ \Delta=\operatorname{id}_{S^1},
+\]
+
+we get
+
+\[
+\Delta^*(a_1)=a,
+\qquad
+\Delta^*(a_2)=a.
+\]
+
+Now compute the top product on \(S^1\times S^1\):
+
+\[
+\Delta^*(a_1a_2)
+=
+\Delta^*(a_1)\Delta^*(a_2)
+=
+aa
+=
+a^2
+=
+0.
+\]
+
+Therefore
+
+\[
+\boxed{
+	\Delta^*(a_1)=a,
+}
+\]
+
+\[
+\boxed{
+	\Delta^*(a_2)=a,
+}
+\]
+
+and
+
+\[
+\boxed{
+	\Delta^*(a_1a_2)=0.
+}
+\]
+
+This is the simplest model of the diagonal map. The diagonal identifies the two circle directions, so both \(a_1\) and \(a_2\) become the same class \(a\). But their product becomes \(a^2\), which is zero because \(S^1\) has no degree \(2\) cohomology.
+
+\subsubsection{Example 2. Why \(S^1\) cannot be covered by one contractible open set}
+
+The circle has
+
+\[
+H^1(S^1)\cong \mathbb Z.
+\]
+
+Let
+
+\[
+a\in H^1(S^1)
+\]
+
+be a generator. Then
+
+\[
+a\neq 0.
+\]
+
+The cup-length of \(S^1\) is \(1\), because there exists one nonzero positive-degree class, but every product of two positive-degree classes is zero:
+
+\[
+a^2=0.
+\]
+
+Thus
+
+\[
+\operatorname{cup\text{-}length}(S^1)=1.
+\]
+
+The vanishing theorem for contractible open covers says:
+
+\[
+\text{if }X\text{ is covered by }n\text{ contractible open sets, then every }n\text{-fold product of positive-degree classes vanishes.}
+\]
+
+If \(S^1\) could be covered by one contractible open set, then every one-fold positive-degree class would vanish. But
+
+\[
+a\neq 0.
+\]
+
+Therefore \(S^1\) cannot be covered by one contractible open set. Equivalently, \(S^1\) itself is not contractible.
+
+However, \(S^1\) can be covered by two contractible open arcs. For example, take two open arcs \(U_1,U_2\) whose union is the whole circle:
+
+\[
+S^1=U_1\cup U_2.
+\]
+
+Each \(U_i\) is homeomorphic to an open interval, hence contractible.
+
+Thus the minimal number of contractible open sets needed to cover \(S^1\) is
+
+\[
+\boxed{2.}
+\]
+
+This agrees with the cup-length bound:
+
+\[
+\operatorname{cup\text{-}length}(S^1)=1,
+\]
+
+so we need at least
+
+\[
+1+1=2
+\]
+
+contractible open sets.
+
+\subsubsection{Example 3. Why \(S^2\) needs at least two contractible open sets}
+
+The cohomology ring of \(S^2\) is
+
+\[
+H^*(S^2)
+\cong
+\mathbb Z[u]/(u^2),
+\qquad
+|u|=2.
+\]
+
+Here
+
+\[
+u\neq 0,
+\]
+
+but
+
+\[
+u^2=0.
+\]
+
+The reason is that
+
+\[
+u^2\in H^4(S^2),
+\]
+
+but
+
+\[
+H^4(S^2)=0.
+\]
+
+Hence
+
+\[
+\operatorname{cup\text{-}length}(S^2)=1.
+\]
+
+Therefore \(S^2\) cannot be covered by one contractible open set.
+
+But \(S^2\) can be covered by two contractible open sets. Let
+
+\[
+U_N=S^2\setminus \{\text{south pole}\},
+\]
+
+and
+
+\[
+U_S=S^2\setminus \{\text{north pole}\}.
+\]
+
+Each of these spaces is homeomorphic to \(\mathbb R^2\), hence contractible:
+
+\[
+U_N\simeq \mathbb R^2,
+\qquad
+U_S\simeq \mathbb R^2.
+\]
+
+Also,
+
+\[
+S^2=U_N\cup U_S.
+\]
+
+Therefore the minimal number of contractible open sets needed to cover \(S^2\) is
+
+\[
+\boxed{2.}
+\]
+
+\subsection{Medium Examples}
+
+\subsubsection{Example 4. A concrete diagonal computation on \(T^2\)}
+
+Let
+
+\[
+T^2=S^1\times S^1.
+\]
+
+The cohomology ring is
+
+\[
+H^*(T^2)
+\cong
+\Lambda(\alpha,\beta),
+\qquad
+|\alpha|=|\beta|=1.
+\]
+
+Thus
+
+\[
+\alpha^2=0,
+\qquad
+\beta^2=0,
+\qquad
+\beta\alpha=-\alpha\beta.
+\]
+
+Let
+
+\[
+\omega=\alpha\beta.
+\]
+
+Then
+
+\[
+\omega\in H^2(T^2)
+\]
+
+is the orientation class of the torus.
+
+Now consider
+
+\[
+T^2\times T^2.
+\]
+
+Let
+
+\[
+\alpha_1=\pi_1^*(\alpha),
+\qquad
+\beta_1=\pi_1^*(\beta),
+\]
+
+and
+
+\[
+\alpha_2=\pi_2^*(\alpha),
+\qquad
+\beta_2=\pi_2^*(\beta).
+\]
+
+The diagonal map
+
+\[
+\Delta:T^2\to T^2\times T^2
+\]
+
+satisfies
+
+\[
+\Delta^*(\alpha_1)=\alpha,
+\qquad
+\Delta^*(\beta_1)=\beta,
+\]
+
+and
+
+\[
+\Delta^*(\alpha_2)=\alpha,
+\qquad
+\Delta^*(\beta_2)=\beta.
+\]
+
+Now compute
+
+\[
+\Delta^*\bigl((\alpha_1+\beta_2)(\beta_1-\alpha_2)\bigr).
+\]
+
+First expand:
+
+\[
+(\alpha_1+\beta_2)(\beta_1-\alpha_2)
+=
+\alpha_1\beta_1
+-
+\alpha_1\alpha_2
++
+\beta_2\beta_1
+-
+\beta_2\alpha_2.
+\]
+
+Apply \(\Delta^*\) term by term.
+
+First,
+
+\[
+\Delta^*(\alpha_1\beta_1)
+=
+\alpha\beta
+=
+\omega.
+\]
+
+Second,
+
+\[
+\Delta^*(\alpha_1\alpha_2)
+=
+\alpha\alpha
+=
+0.
+\]
+
+Third,
+
+\[
+\Delta^*(\beta_2\beta_1)
+=
+\beta\beta
+=
+0.
+\]
+
+Fourth,
+
+\[
+\Delta^*(\beta_2\alpha_2)
+=
+\beta\alpha
+=
+-\alpha\beta
+=
+-\omega.
+\]
+
+Therefore
+
+\[
+\Delta^*(-\beta_2\alpha_2)
+=
+-(-\omega)
+=
+\omega.
+\]
+
+Combining the four terms gives
+
+\[
+\Delta^*\bigl((\alpha_1+\beta_2)(\beta_1-\alpha_2)\bigr)
+=
+\omega-0+0+\omega.
+\]
+
+Hence
+
+\[
+\boxed{
+	\Delta^*\bigl((\alpha_1+\beta_2)(\beta_1-\alpha_2)\bigr)
+	=
+	2\omega.
+}
+\]
+
+This example shows why signs matter. Since \(\alpha\) and \(\beta\) both have degree \(1\), they anticommute:
+
+\[
+\beta\alpha=-\alpha\beta.
+\]
+
+\subsubsection{Example 5. Why \(T^2\) cannot be covered by two contractible open sets}
+
+The cohomology ring of the torus is
+
+\[
+H^*(T^2)
+\cong
+\Lambda(\alpha,\beta).
+\]
+
+The essential fact is
+
+\[
+\alpha\beta\neq 0.
+\]
+
+Indeed,
+
+\[
+\alpha\beta=\omega,
+\]
+
+where \(\omega\) is the fundamental cohomology class of \(T^2\).
+
+Thus
+
+\[
+\operatorname{cup\text{-}length}(T^2)=2.
+\]
+
+Suppose, for contradiction, that
+
+\[
+T^2=U\cup V,
+\]
+
+where \(U\) and \(V\) are contractible open sets.
+
+By the vanishing theorem for contractible open covers, every product of two positive-degree cohomology classes would vanish. Therefore we would get
+
+\[
+\alpha\beta=0.
+\]
+
+But this contradicts
+
+\[
+\alpha\beta=\omega\neq 0.
+\]
+
+Hence \(T^2\) cannot be covered by two contractible open sets.
+
+Since \(T^2\) can be covered by three contractible open sets, the exact minimum is
+
+\[
+\boxed{3.}
+\]
+
+\subsubsection{Example 6. The three-torus \(T^3\)}
+
+Let
+
+\[
+T^3=S^1\times S^1\times S^1.
+\]
+
+Its cohomology ring is
+
+\[
+H^*(T^3)
+\cong
+\Lambda(\alpha,\beta,\gamma),
+\]
+
+where
+
+\[
+|\alpha|=|\beta|=|\gamma|=1.
+\]
+
+The product
+
+\[
+\alpha\beta\gamma
+\]
+
+lies in
+
+\[
+H^3(T^3).
+\]
+
+It is nonzero and represents the orientation class of \(T^3\):
+
+\[
+\alpha\beta\gamma\neq 0.
+\]
+
+Therefore
+
+\[
+\operatorname{cup\text{-}length}(T^3)=3.
+\]
+
+If \(T^3\) can be covered by \(n\) contractible open sets, then
+
+\[
+n>\operatorname{cup\text{-}length}(T^3)=3.
+\]
+
+Thus
+
+\[
+\boxed{
+	n\geq 4.
+}
+\]
+
+So \(T^3\) cannot be covered by three contractible open sets.
+
+The pattern is:
+
+\[
+T^1\text{ needs at least }2,
+\]
+
+\[
+T^2\text{ needs at least }3,
+\]
+
+\[
+T^3\text{ needs at least }4,
+\]
+
+and in general,
+
+\[
+\boxed{
+	T^k\text{ needs at least }k+1\text{ contractible open sets.}
+}
+\]
+
+\subsubsection{Example 7. Product of spheres \(S^m\times S^n\)}
+
+Let
+
+\[
+X=S^m\times S^n,
+\qquad
+m,n>0.
+\]
+
+Let
+
+\[
+a\in H^m(S^m),
+\qquad
+b\in H^n(S^n)
+\]
+
+be generators.
+
+On
+
+\[
+S^m\times S^n,
+\]
+
+define
+
+\[
+\alpha=\pi_1^*(a)\in H^m(S^m\times S^n),
+\]
+
+and
+
+\[
+\beta=\pi_2^*(b)\in H^n(S^m\times S^n).
+\]
+
+Their cup product is
+
+\[
+\alpha\beta\in H^{m+n}(S^m\times S^n).
+\]
+
+This class is nonzero. It is the orientation class of the product manifold:
+
+\[
+\alpha\beta\neq 0.
+\]
+
+Therefore
+
+\[
+\operatorname{cup\text{-}length}(S^m\times S^n)=2.
+\]
+
+So any cover of \(S^m\times S^n\) by contractible open sets must contain at least
+
+\[
+2+1=3
+\]
+
+sets.
+
+Hence
+
+\[
+\boxed{
+	S^m\times S^n\text{ cannot be covered by two contractible open sets.}
+}
+\]
+
+For example,
+
+\[
+S^2\times S^2
+\]
+
+has a nonzero product
+
+\[
+u_1u_2\neq 0
+\]
+
+in degree \(4\). Therefore \(S^2\times S^2\) needs at least three contractible open sets.
+
+This example shows that the product structure of cohomology detects more than the individual cohomology groups.
+
+\subsection{Deep Examples}
+
+\subsubsection{Example 8. Boundary map compatibility for \((D^2,S^1)\times S^1\)}
+
+Consider the pair
+
+\[
+(D^2,S^1).
+\]
+
+The long exact sequence of the pair contains
+
+\[
+H^1(D^2)
+\longrightarrow
+H^1(S^1)
+\xrightarrow{\delta}
+H^2(D^2,S^1)
+\longrightarrow
+H^2(D^2).
+\]
+
+Since
+
+\[
+H^1(D^2)=0
+\]
+
+and
+
+\[
+H^2(D^2)=0,
+\]
+
+the connecting homomorphism
+
+\[
+\delta:H^1(S^1)\to H^2(D^2,S^1)
+\]
+
+is an isomorphism.
+
+Let
+
+\[
+a\in H^1(S^1)
+\]
+
+be a generator. Then
+
+\[
+\delta a
+\]
+
+is a generator of
+
+\[
+H^2(D^2,S^1).
+\]
+
+Now cross with another circle \(S^1\). Let
+
+\[
+b\in H^1(S^1)
+\]
+
+be a generator.
+
+Then
+
+\[
+a\times b\in H^2(S^1\times S^1).
+\]
+
+The relative pair becomes
+
+\[
+(D^2\times S^1,\ S^1\times S^1).
+\]
+
+Problem 3 gives the naturality identity
+
+\[
+\delta(a\times b)
+=
+(\delta a)\times b.
+\]
+
+The right-hand side is a class in
+
+\[
+H^3(D^2\times S^1,\ S^1\times S^1).
+\]
+
+Geometrically,
+
+\[
+D^2\times S^1
+\]
+
+is a solid torus, while
+
+\[
+S^1\times S^1
+\]
+
+is its boundary torus.
+
+Thus
+
+\[
+(\delta a)\times b
+\]
+
+is the relative fundamental cohomology class of the solid torus relative to its boundary.
+
+So the identity
+
+\[
+\boxed{
+	\delta(a\times b)
+	=
+	(\delta a)\times b
+}
+\]
+
+says that the boundary obstruction on \(S^1\), crossed with another \(S^1\), becomes the relative volume class of the solid torus.
+
+In words:
+
+\[
+\boxed{
+	\text{the boundary class of the disk, crossed with the circle direction, gives the relative top class of the solid torus.}
+}
+\]
+
+\subsubsection{Example 9. Complex projective space \(\mathbb{CP}^n\)}
+
+The cohomology ring of complex projective space is
+
+\[
+H^*(\mathbb{CP}^n;\mathbb Z)
+\cong
+\mathbb Z[u]/(u^{n+1}),
+\qquad
+|u|=2.
+\]
+
+The class
+
+\[
+u\in H^2(\mathbb{CP}^n;\mathbb Z)
+\]
+
+is called the hyperplane class.
+
+Its powers are
+
+\[
+1,u,u^2,\dots,u^n,
+\]
+
+with
+
+\[
+u^n\neq 0,
+\]
+
+but
+
+\[
+u^{n+1}=0.
+\]
+
+Therefore the cup-length is
+
+\[
+\operatorname{cup\text{-}length}(\mathbb{CP}^n)=n.
+\]
+
+Indeed, the product
+
+\[
+\underbrace{u\smile u\smile\cdots\smile u}_{n\text{ times}}
+=
+u^n
+\]
+
+is nonzero, while the \((n+1)\)-fold product is zero.
+
+Therefore any contractible open cover of \(\mathbb{CP}^n\) must have at least
+
+\[
+n+1
+\]
+
+sets.
+
+Thus
+
+\[
+\boxed{
+	\mathbb{CP}^n\text{ cannot be covered by }n\text{ contractible open sets.}
+}
+\]
+
+It needs at least
+
+\[
+\boxed{
+	n+1
+}
+\]
+
+contractible open sets.
+
+For example,
+
+\[
+\mathbb{CP}^1\cong S^2.
+\]
+
+Here
+
+\[
+H^*(\mathbb{CP}^1)
+\cong
+\mathbb Z[u]/(u^2),
+\]
+
+so the cup-length is \(1\), and at least two contractible open sets are needed.
+
+For \(\mathbb{CP}^2\),
+
+\[
+H^*(\mathbb{CP}^2)
+\cong
+\mathbb Z[u]/(u^3),
+\qquad
+|u|=2.
+\]
+
+Here
+
+\[
+u^2\neq 0,
+\]
+
+so
+
+\[
+\operatorname{cup\text{-}length}(\mathbb{CP}^2)=2.
+\]
+
+Therefore \(\mathbb{CP}^2\) needs at least three contractible open sets.
+
+This example is deeper than the torus example in one important way. For the torus, the nonzero top product comes from multiplying different degree \(1\) classes. For \(\mathbb{CP}^n\), the obstruction comes from repeatedly multiplying one degree \(2\) class.
+
+\subsubsection{Example 10. Real projective space \(\mathbb{RP}^n\)}
+
+For real projective space, it is most natural to use coefficients in
+
+\[
+\mathbb F_2.
+\]
+
+The cohomology ring is
+
+\[
+H^*(\mathbb{RP}^n;\mathbb F_2)
+\cong
+\mathbb F_2[t]/(t^{n+1}),
+\qquad
+|t|=1.
+\]
+
+Thus
+
+\[
+1,t,t^2,\dots,t^n
+\]
+
+are nonzero, but
+
+\[
+t^{n+1}=0.
+\]
+
+In particular,
+
+\[
+t^n\neq 0.
+\]
+
+Therefore
+
+\[
+\operatorname{cup\text{-}length}(\mathbb{RP}^n)=n.
+\]
+
+So every contractible open cover of \(\mathbb{RP}^n\) must have at least
+
+\[
+n+1
+\]
+
+sets.
+
+Hence
+
+\[
+\boxed{
+	\mathbb{RP}^n\text{ cannot be covered by }n\text{ contractible open sets.}
+}
+\]
+
+For example, for \(\mathbb{RP}^2\),
+
+\[
+H^*(\mathbb{RP}^2;\mathbb F_2)
+\cong
+\mathbb F_2[t]/(t^3).
+\]
+
+Here
+
+\[
+t^2\neq 0,
+\]
+
+so
+
+\[
+\operatorname{cup\text{-}length}(\mathbb{RP}^2)=2.
+\]
+
+Therefore \(\mathbb{RP}^2\) needs at least
+
+\[
+3
+\]
+
+contractible open sets.
+
+This example is important because with ordinary \(\mathbb Z\)-coefficients, torsion phenomena can hide some cup-product information. With \(\mathbb F_2\)-coefficients, the powers of the degree \(1\) class become clearly visible.
+
+\subsubsection{Example 11. Wedge of circles versus the torus}
+
+Compare
+
+\[
+S^1\vee S^1
+\]
+
+with
+
+\[
+T^2.
+\]
+
+Both spaces have two independent degree \(1\) cohomology classes.
+
+For the wedge of circles,
+
+\[
+H^1(S^1\vee S^1)
+\cong
+\mathbb Z^2.
+\]
+
+Let
+
+\[
+a,b\in H^1(S^1\vee S^1)
+\]
+
+be the two generators.
+
+However,
+
+\[
+H^2(S^1\vee S^1)=0.
+\]
+
+Therefore
+
+\[
+ab=0.
+\]
+
+So the cup-length of \(S^1\vee S^1\) is
+
+\[
+\operatorname{cup\text{-}length}(S^1\vee S^1)=1.
+\]
+
+Thus cup-length only forces at least
+
+\[
+2
+\]
+
+contractible open sets.
+
+Now compare this with the torus. For \(T^2\),
+
+\[
+H^1(T^2)
+\cong
+\mathbb Z^2,
+\]
+
+with generators
+
+\[
+\alpha,\beta.
+\]
+
+But now
+
+\[
+H^2(T^2)\cong \mathbb Z,
+\]
+
+and
+
+\[
+\alpha\beta\neq 0.
+\]
+
+Therefore
+
+\[
+\operatorname{cup\text{-}length}(T^2)=2.
+\]
+
+So \(T^2\) needs at least
+
+\[
+3
+\]
+
+contractible open sets.
+
+The important conclusion is:
+
+\[
+\boxed{
+	H^1(S^1\vee S^1)\cong H^1(T^2),
+}
+\]
+
+but their cohomology rings are different.
+
+For the wedge,
+
+\[
+ab=0,
+\]
+
+while for the torus,
+
+\[
+\alpha\beta\neq 0.
+\]
+
+Thus the torus has a genuinely two-dimensional cup product, while the wedge of circles does not.
+
+This example shows that cohomology groups alone are not enough. The ring structure matters.
+
+\subsubsection{Example 12. A space with nonzero cohomology but zero positive-degree products}
+
+Let
+
+\[
+X=S^2\vee S^2.
+\]
+
+Then
+
+\[
+H^2(X)\cong \mathbb Z\oplus \mathbb Z.
+\]
+
+Let
+
+\[
+u,v\in H^2(X)
+\]
+
+be the two generators, one from each sphere.
+
+Since \(X\) has no \(4\)-dimensional cells,
+
+\[
+H^4(X)=0.
+\]
+
+Therefore every product of degree \(2\) classes is zero:
+
+\[
+u^2=0,
+\qquad
+v^2=0,
+\qquad
+uv=0.
+\]
+
+So even though
+
+\[
+H^2(X)\neq 0,
+\]
+
+all products of positive-degree classes vanish.
+
+Thus
+
+\[
+\operatorname{cup\text{-}length}(S^2\vee S^2)=1.
+\]
+
+This only gives the lower bound that at least two contractible open sets are needed.
+
+Now compare this with
+
+\[
+S^2\times S^2.
+\]
+
+There,
+
+\[
+H^2(S^2\times S^2)
+\cong
+\mathbb Z u_1\oplus \mathbb Z u_2,
+\]
+
+and
+
+\[
+u_1u_2\neq 0.
+\]
+
+The product
+
+\[
+u_1u_2
+\]
+
+generates
+
+\[
+H^4(S^2\times S^2)\cong \mathbb Z.
+\]
+
+Therefore
+
+\[
+\operatorname{cup\text{-}length}(S^2\times S^2)=2.
+\]
+
+Hence \(S^2\times S^2\) needs at least three contractible open sets.
+
+Again, the important difference is the product structure:
+
+\[
+S^2\vee S^2
+\quad\text{has zero degree }2\text{ products},
+\]
+
+whereas
+
+\[
+S^2\times S^2
+\quad\text{has a nonzero degree }4\text{ product}.
+\]
+
+\subsection{Summary Table}
+
+The following table summarizes the main examples.
+
+\[
+\begin{array}{c|c|c|c}
+	\text{Space}
+	&
+	\text{Cohomology ring idea}
+	&
+	\text{Cup-length}
+	&
+	\text{Cover lower bound}
+	\\
+	\hline
+	S^1
+	&
+	\Lambda(a),\ |a|=1
+	&
+	1
+	&
+	\geq 2
+	\\
+	S^2
+	&
+	\mathbb Z[u]/(u^2),\ |u|=2
+	&
+	1
+	&
+	\geq 2
+	\\
+	T^2
+	&
+	\Lambda(\alpha,\beta)
+	&
+	2
+	&
+	\geq 3
+	\\
+	T^3
+	&
+	\Lambda(\alpha,\beta,\gamma)
+	&
+	3
+	&
+	\geq 4
+	\\
+	T^k
+	&
+	\Lambda(\alpha_1,\dots,\alpha_k)
+	&
+	k
+	&
+	\geq k+1
+	\\
+	S^m\times S^n
+	&
+	\alpha\beta\neq 0
+	&
+	2
+	&
+	\geq 3
+	\\
+	\mathbb{CP}^n
+	&
+	\mathbb Z[u]/(u^{n+1})
+	&
+	n
+	&
+	\geq n+1
+	\\
+	\mathbb{RP}^n
+	&
+	\mathbb F_2[t]/(t^{n+1})
+	&
+	n
+	&
+	\geq n+1
+	\\
+	S^1\vee S^1
+	&
+	\text{all positive products vanish}
+	&
+	1
+	&
+	\geq 2
+	\\
+	S^2\vee S^2
+	&
+	\text{all degree }2\text{ products vanish}
+	&
+	1
+	&
+	\geq 2
+\end{array}
+\]
+
+\subsection{Conceptual Summary}
+
+The examples show three levels of understanding.
+
+At the easy level, the examples
+
+\[
+S^1
+\qquad
+\text{and}
+\qquad
+S^2
+\]
+
+show that a single nonzero positive-degree cohomology class already proves that a space is not contractible.
+
+At the medium level, the examples
+
+\[
+T^2,
+\qquad
+T^3,
+\qquad
+S^m\times S^n
+\]
+
+show that nonzero products of positive-degree classes force a space to require more contractible open sets in a cover.
+
+At the deeper level, the examples
+
+\[
+\mathbb{CP}^n
+\qquad
+\text{and}
+\qquad
+\mathbb{RP}^n
+\]
+
+show that long powers of a single class can force strong lower bounds on the size of a contractible open cover.
+
+The central principle is:
+
+\[
+\boxed{
+	\text{nonzero cup products obstruct small contractible open covers.}
+}
+\]
+
+Equivalently,
+
+\[
+\boxed{
+	\operatorname{cup\text{-}length}(X)+1
+	\leq
+	\text{minimum number of contractible open sets needed to cover }X.
+}
+\]
+
+Thus the richer the multiplication in the cohomology ring, the harder it is to cover the space by a small number of contractible open pieces.
+
+
+% ============================================================
+% Problems 6--7: Surfaces, degree, and Hopf invariant
+%
+% Suggested packages:
+% \usepackage{amsmath,amssymb,amsthm}
+% \usepackage{tikz}
+% \usepackage{tikz-cd}
+% \usepackage[most]{tcolorbox}
+% ============================================================
+
+
+
+\section{Problem 6. Maps between closed orientable surfaces of different genus}
+
+\subsubsection*{Statement}
+
+Let \(\Sigma_g\) be the closed orientable surface of genus \(g\). Suppose
+
+\[
+\varphi:\Sigma_g\longrightarrow \Sigma_h
+\]
+
+is a continuous map, where
+
+\[
+g<h.
+\]
+
+Show that the induced map
+
+\[
+\varphi_*:H_2(\Sigma_g)\longrightarrow H_2(\Sigma_h)
+\]
+
+is the zero map.
+
+The hint suggests considering
+
+\[
+\varphi^*:H^1(\Sigma_h)\longrightarrow H^1(\Sigma_g).
+\]
+
+\subsubsection*{Geometric idea}
+
+The group
+
+\[
+H_2(\Sigma_g;\mathbb Z)\cong \mathbb Z
+\]
+
+is generated by the fundamental class
+
+\[
+[\Sigma_g].
+\]
+
+Therefore the map \(\varphi_*\) is multiplication by an integer \(d\):
+
+\[
+\varphi_*[\Sigma_g]=d[\Sigma_h].
+\]
+
+This integer \(d\) is the degree of \(\varphi\), written
+
+\[
+d=\deg(\varphi).
+\]
+
+Thus the problem is equivalent to proving
+
+\[
+\deg(\varphi)=0.
+\]
+
+The key idea is:
+
+\[
+\boxed{
+	\text{If }\deg(\varphi)\neq 0,\text{ then }\varphi^*:H^1(\Sigma_h;\mathbb Q)\to H^1(\Sigma_g;\mathbb Q)
+	\text{ must be injective.}
+}
+\]
+
+But
+
+\[
+\dim_{\mathbb Q}H^1(\Sigma_h;\mathbb Q)=2h
+\]
+
+and
+
+\[
+\dim_{\mathbb Q}H^1(\Sigma_g;\mathbb Q)=2g.
+\]
+
+Since \(g<h\), we have
+
+\[
+2g<2h.
+\]
+
+So an injective linear map
+
+\[
+\mathbb Q^{2h}\longrightarrow \mathbb Q^{2g}
+\]
+
+cannot exist. Therefore the degree must be zero.
+
+\subsubsection*{Dimension diagram}
+
+The contradiction can be visualized as follows:
+
+\[
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+	\node[draw, rounded corners, fill=blue!8, minimum width=4.2cm, minimum height=1cm] (A) at (0,0)
+	{\(H^1(\Sigma_h;\mathbb Q)\cong \mathbb Q^{2h}\)};
+	
+	\node[draw, rounded corners, fill=green!8, minimum width=4.2cm, minimum height=1cm] (B) at (7,0)
+	{\(H^1(\Sigma_g;\mathbb Q)\cong \mathbb Q^{2g}\)};
+	
+	\draw[->, thick] (A) -- node[above] {\(\varphi^*\)} node[below] {\(\text{would be injective if }\deg(\varphi)\neq 0\)} (B);
+	
+	\node at (3.5,-1.2) {\(2h>2g\), so injection is impossible.};
+\end{tikzpicture}
+\]
+
+\subsubsection*{Solution}
+
+Choose orientations on \(\Sigma_g\) and \(\Sigma_h\). Since both are closed connected orientable surfaces,
+
+\[
+H_2(\Sigma_g;\mathbb Z)\cong \mathbb Z,
+\qquad
+H_2(\Sigma_h;\mathbb Z)\cong \mathbb Z.
+\]
+
+Let
+
+\[
+[\Sigma_g]\in H_2(\Sigma_g;\mathbb Z),
+\qquad
+[\Sigma_h]\in H_2(\Sigma_h;\mathbb Z)
+\]
+
+be the fundamental classes.
+
+Then there exists an integer \(d\in \mathbb Z\) such that
+
+\[
+\varphi_*[\Sigma_g]=d[\Sigma_h].
+\]
+
+We need to show that
+
+\[
+d=0.
+\]
+
+Suppose, for contradiction, that
+
+\[
+d\neq 0.
+\]
+
+We work with rational coefficients. Consider the induced map
+
+\[
+\varphi^*:H^1(\Sigma_h;\mathbb Q)\longrightarrow H^1(\Sigma_g;\mathbb Q).
+\]
+
+We claim that \(\varphi^*\) is injective.
+
+Let
+
+\[
+0\neq \alpha\in H^1(\Sigma_h;\mathbb Q).
+\]
+
+By Poincaré duality on the closed orientable surface \(\Sigma_h\), the pairing
+
+\[
+H^1(\Sigma_h;\mathbb Q)\times H^1(\Sigma_h;\mathbb Q)
+\longrightarrow
+\mathbb Q
+\]
+
+given by
+
+\[
+(\alpha,\beta)
+\longmapsto
+\langle \alpha\smile \beta,[\Sigma_h]\rangle
+\]
+
+is nondegenerate. Therefore there exists
+
+\[
+\beta\in H^1(\Sigma_h;\mathbb Q)
+\]
+
+such that
+
+\[
+\langle \alpha\smile \beta,[\Sigma_h]\rangle\neq 0.
+\]
+
+Now use naturality of the cup product and the definition of degree:
+
+\[
+\begin{aligned}
+	\left\langle \varphi^*\alpha\smile \varphi^*\beta,[\Sigma_g]\right\rangle
+	&=
+	\left\langle \varphi^*(\alpha\smile \beta),[\Sigma_g]\right\rangle \\
+	&=
+	\left\langle \alpha\smile \beta,\varphi_*[\Sigma_g]\right\rangle \\
+	&=
+	\left\langle \alpha\smile \beta,d[\Sigma_h]\right\rangle \\
+	&=
+	d\left\langle \alpha\smile \beta,[\Sigma_h]\right\rangle.
+\end{aligned}
+\]
+
+Since
+
+\[
+d\neq 0
+\]
+
+and
+
+\[
+\left\langle \alpha\smile \beta,[\Sigma_h]\right\rangle\neq 0,
+\]
+
+we obtain
+
+\[
+\left\langle \varphi^*\alpha\smile \varphi^*\beta,[\Sigma_g]\right\rangle\neq 0.
+\]
+
+In particular,
+
+\[
+\varphi^*\alpha\neq 0.
+\]
+
+Thus every nonzero class in \(H^1(\Sigma_h;\mathbb Q)\) has nonzero pullback. Therefore
+
+\[
+\varphi^*:H^1(\Sigma_h;\mathbb Q)\to H^1(\Sigma_g;\mathbb Q)
+\]
+
+is injective.
+
+But
+
+\[
+\dim_{\mathbb Q}H^1(\Sigma_h;\mathbb Q)=2h
+\]
+
+and
+
+\[
+\dim_{\mathbb Q}H^1(\Sigma_g;\mathbb Q)=2g.
+\]
+
+Since \(g<h\),
+
+\[
+2g<2h.
+\]
+
+So an injective linear map
+
+\[
+\mathbb Q^{2h}\longrightarrow \mathbb Q^{2g}
+\]
+
+cannot exist.
+
+This contradiction shows that our assumption was false. Hence
+
+\[
+d=0.
+\]
+
+Therefore
+
+\[
+\varphi_*[\Sigma_g]=0.
+\]
+
+Since \(H_2(\Sigma_g)\) is generated by \([\Sigma_g]\), it follows that
+
+\[
+\boxed{
+	\varphi_*:H_2(\Sigma_g)\longrightarrow H_2(\Sigma_h)
+	\text{ is the zero map.}
+}
+\]
+
+\subsubsection*{Summary chart}
+
+\[
+\begin{array}{c|c|c}
+	\text{Surface} & H^1(-;\mathbb Q) & \dim_{\mathbb Q}H^1(-;\mathbb Q) \\
+	\hline
+	\Sigma_g & \mathbb Q^{2g} & 2g \\
+	\Sigma_h & \mathbb Q^{2h} & 2h
+\end{array}
+\]
+
+Since \(g<h\), one has
+
+\[
+2g<2h.
+\]
+
+Thus a nonzero-degree map would force an impossible injection
+
+\[
+H^1(\Sigma_h;\mathbb Q)\hookrightarrow H^1(\Sigma_g;\mathbb Q).
+\]
+
+Therefore the degree is zero.
+
+\section{Problem 7. The Hopf invariant}
+
+\subsubsection*{Statement}
+
+Given a map
+
+\[
+\phi:S^{2n-1}\longrightarrow S^n,
+\]
+
+let
+
+\[
+X_\phi=S^n\cup_\phi D^{2n}.
+\]
+
+The cohomology of \(X_\phi\) has the form
+
+\[
+H^*(X_\phi)=\langle 1,x_n,x_{2n}\rangle,
+\]
+
+where
+
+\[
+x_i\in H^i(X_\phi).
+\]
+
+Thus
+
+\[
+x_n^2=H(\phi)x_{2n}
+\]
+
+for some integer
+
+\[
+H(\phi)\in \mathbb Z.
+\]
+
+\begin{enumerate}
+	\item[(a)] Show that the map
+	\[
+	[\phi]\longmapsto H(\phi)
+	\]
+	defines a homomorphism
+	\[
+	H:\pi_{2n-1}(S^n)\longrightarrow \mathbb Z.
+	\]
+	The integer \(H(\phi)\) is called the Hopf invariant.
+	
+	\item[(b)] By considering a cell decomposition of \(S^n\times S^n\), show that \(H\) is nontrivial for every even \(n\). Deduce that
+	\[
+	\pi_{4m-1}(S^{2m})
+	\]
+	is infinite for all \(m>0\).
+\end{enumerate}
+
+\subsection{The mapping cone \(X_\phi\)}
+
+The space
+
+\[
+X_\phi=S^n\cup_\phi D^{2n}
+\]
+
+is obtained by attaching a \(2n\)-cell to \(S^n\) using the attaching map
+
+\[
+\phi:S^{2n-1}\to S^n.
+\]
+
+Thus \(X_\phi\) has one cell in dimension \(0\), one cell in dimension \(n\), and one cell in dimension \(2n\).
+
+Schematically:
+
+\[
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+	\node[draw, rounded corners, fill=blue!8, minimum width=2.7cm, minimum height=1cm] (A) at (0,0) {\(S^n\)};
+	\node[draw, rounded corners, fill=orange!12, minimum width=2.7cm, minimum height=1cm] (B) at (5,0) {\(D^{2n}\)};
+	\node[draw, rounded corners, fill=green!10, minimum width=3.2cm, minimum height=1cm] (C) at (10,0) {\(X_\phi\)};
+	
+	\draw[->, thick] (A) -- node[above] {attach via \(\phi\)} (B);
+	\draw[->, thick] (B) -- node[above] {result} (C);
+	
+	\node at (5,-1.1) {\(\partial D^{2n}=S^{2n-1}\xrightarrow{\ \phi\ }S^n\)};
+\end{tikzpicture}
+\]
+
+The cellular cochain groups are
+
+\[
+C^0(X_\phi)\cong \mathbb Z,
+\qquad
+C^n(X_\phi)\cong \mathbb Z,
+\qquad
+C^{2n}(X_\phi)\cong \mathbb Z,
+\]
+
+and there are no cells in the dimensions between \(n\) and \(2n\). Therefore
+
+\[
+H^0(X_\phi)\cong \mathbb Z,
+\qquad
+H^n(X_\phi)\cong \mathbb Z,
+\qquad
+H^{2n}(X_\phi)\cong \mathbb Z.
+\]
+
+Let
+
+\[
+x_n\in H^n(X_\phi),
+\qquad
+x_{2n}\in H^{2n}(X_\phi)
+\]
+
+be generators. Then the product
+
+\[
+x_n^2=x_n\smile x_n
+\]
+
+lies in
+
+\[
+H^{2n}(X_\phi)\cong \mathbb Z.
+\]
+
+Hence there is a unique integer \(H(\phi)\) such that
+
+\[
+\boxed{
+	x_n^2=H(\phi)x_{2n}.
+}
+\]
+
+This integer is the Hopf invariant of \(\phi\).
+
+\subsection{Part (a). The Hopf invariant is a homomorphism}
+
+\subsubsection*{Step 1. Dependence only on the homotopy class}
+
+If
+
+\[
+\phi\simeq \psi:S^{2n-1}\to S^n,
+\]
+
+then the corresponding cell complexes
+
+\[
+X_\phi=S^n\cup_\phi D^{2n}
+\]
+
+and
+
+\[
+X_\psi=S^n\cup_\psi D^{2n}
+\]
+
+are homotopy equivalent. The equivalence preserves the \(n\)-cell and the \(2n\)-cell up to orientation choices. Therefore the coefficient of \(x_{2n}\) in the square \(x_n^2\) is unchanged up to the corresponding orientation convention.
+
+Thus
+
+\[
+H(\phi)=H(\psi).
+\]
+
+So the Hopf invariant depends only on the homotopy class
+
+\[
+[\phi]\in \pi_{2n-1}(S^n).
+\]
+
+\subsubsection*{Step 2. Odd-dimensional case}
+
+If \(n\) is odd, then graded commutativity gives
+
+\[
+x_n^2
+=
+(-1)^{n^2}x_n^2
+=
+(-1)^n x_n^2
+=
+-x_n^2.
+\]
+
+Hence
+
+\[
+2x_n^2=0.
+\]
+
+But
+
+\[
+H^{2n}(X_\phi)\cong \mathbb Z
+\]
+
+has no torsion. Therefore
+
+\[
+x_n^2=0.
+\]
+
+Thus
+
+\[
+H(\phi)=0
+\]
+
+for every \(\phi\) when \(n\) is odd.
+
+So in odd dimensions, the Hopf invariant is the zero homomorphism:
+
+\[
+\boxed{
+	H:\pi_{2n-1}(S^n)\to \mathbb Z
+	\text{ is identically zero if }n\text{ is odd.}
+}
+\]
+
+\subsubsection*{Step 3. Additivity}
+
+Now suppose \(n\) is even.
+
+Let
+
+\[
+\phi,\psi:S^{2n-1}\to S^n
+\]
+
+represent elements of
+
+\[
+\pi_{2n-1}(S^n).
+\]
+
+Their sum
+
+\[
+\phi+\psi
+\]
+
+is represented by first pinching the domain sphere to a wedge and then applying \(\phi\) on one summand and \(\psi\) on the other:
+
+\[
+S^{2n-1}
+\xrightarrow{\text{pinch}}
+S^{2n-1}\vee S^{2n-1}
+\xrightarrow{\phi\vee \psi}
+S^n.
+\]
+
+Diagrammatically:
+
+\[
+\begin{tikzcd}[column sep=large]
+	S^{2n-1}
+	\arrow[r,"\text{pinch}"]
+	&
+	S^{2n-1}\vee S^{2n-1}
+	\arrow[r,"\phi\vee\psi"]
+	&
+	S^n
+\end{tikzcd}
+\]
+
+The Hopf invariant can also be described cochain-theoretically.
+
+Let
+
+\[
+u\in C^n(S^n)
+\]
+
+be a cocycle representing the generator of
+
+\[
+H^n(S^n;\mathbb Z).
+\]
+
+Since
+
+\[
+H^n(S^{2n-1};\mathbb Z)=0,
+\]
+
+the pullback
+
+\[
+\phi^*u
+\]
+
+is exact. Hence there exists a cochain
+
+\[
+v_\phi\in C^{n-1}(S^{2n-1})
+\]
+
+such that
+
+\[
+dv_\phi=\phi^*u.
+\]
+
+One cochain formula for the Hopf invariant is
+
+\[
+H(\phi)
+=
+\left\langle v_\phi\smile \phi^*u,\,[S^{2n-1}]\right\rangle.
+\]
+
+Equivalently,
+
+\[
+H(\phi)
+=
+\left\langle v_\phi\smile dv_\phi,\,[S^{2n-1}]\right\rangle.
+\]
+
+For the sum \(\phi+\psi\), the domain sphere may be viewed as two large pieces joined along a thin region. On one piece the map is \(\phi\), and on the other piece the map is \(\psi\). A primitive for \((\phi+\psi)^*u\) can be chosen to agree with \(v_\phi\) on the first piece and with \(v_\psi\) on the second piece.
+
+Since the two pieces contribute independently, the integral splits:
+
+\[
+H(\phi+\psi)=H(\phi)+H(\psi).
+\]
+
+Therefore
+
+\[
+\boxed{
+	H([\phi]+[\psi])=H([\phi])+H([\psi]).
+}
+\]
+
+So
+
+\[
+\boxed{
+	H:\pi_{2n-1}(S^n)\longrightarrow \mathbb Z
+}
+\]
+
+is a group homomorphism.
+
+\subsection{Part (b). Nontriviality for even \(n\)}
+
+We now show that for every even \(n\), there exists a map
+
+\[
+\phi:S^{2n-1}\to S^n
+\]
+
+with
+
+\[
+H(\phi)\neq 0.
+\]
+
+The map will arise from the top cell of
+
+\[
+S^n\times S^n.
+\]
+
+\subsubsection*{Cell decomposition of \(S^n\times S^n\)}
+
+The sphere \(S^n\) has one \(0\)-cell and one \(n\)-cell:
+
+\[
+S^n=e^0\cup e^n.
+\]
+
+Therefore
+
+\[
+S^n\times S^n
+\]
+
+has cells in dimensions
+
+\[
+0,\quad n,\quad n,\quad 2n.
+\]
+
+More precisely,
+
+\[
+S^n\times S^n
+=
+e^0
+\cup e^n_1
+\cup e^n_2
+\cup e^{2n}.
+\]
+
+The \(n\)-skeleton is
+
+\[
+S^n\vee S^n.
+\]
+
+The top cell is attached by a map
+
+\[
+S^{2n-1}\longrightarrow S^n\vee S^n.
+\]
+
+This attaching map is the Whitehead product
+
+\[
+[\iota_1,\iota_2],
+\]
+
+where
+
+\[
+\iota_1:S^n\to S^n\vee S^n
+\]
+
+and
+
+\[
+\iota_2:S^n\to S^n\vee S^n
+\]
+
+are the inclusions of the two wedge summands.
+
+Thus
+
+\[
+S^n\times S^n
+\simeq
+(S^n\vee S^n)\cup_{[\iota_1,\iota_2]}e^{2n}.
+\]
+
+\subsubsection*{Cell-structure diagram}
+
+\[
+\begin{tikzpicture}[scale=1.0, every node/.style={font=\small}]
+	\node[draw, rounded corners, fill=blue!8, minimum width=3.4cm, minimum height=1cm] (A) at (0,0)
+	{\(S^n\vee S^n\)};
+	
+	\node[draw, rounded corners, fill=orange!12, minimum width=3.4cm, minimum height=1cm] (B) at (6,0)
+	{\(e^{2n}\)};
+	
+	\node[draw, rounded corners, fill=green!10, minimum width=4cm, minimum height=1cm] (C) at (12,0)
+	{\(S^n\times S^n\)};
+	
+	\draw[->, thick] (A) -- node[above] {attach by \([\iota_1,\iota_2]\)} (B);
+	\draw[->, thick] (B) -- node[above] {result} (C);
+	
+	\node at (6,-1.1)
+	{\(\partial e^{2n}=S^{2n-1}\xrightarrow{\ [\iota_1,\iota_2]\ }S^n\vee S^n\)};
+\end{tikzpicture}
+\]
+
+Now let
+
+\[
+\nabla:S^n\vee S^n\longrightarrow S^n
+\]
+
+be the fold map. It is defined by taking each wedge summand identically onto \(S^n\):
+
+\[
+\nabla|_{S^n_1}=\operatorname{id}_{S^n},
+\qquad
+\nabla|_{S^n_2}=\operatorname{id}_{S^n}.
+\]
+
+Compose the attaching map with the fold map:
+
+\[
+S^{2n-1}
+\xrightarrow{[\iota_1,\iota_2]}
+S^n\vee S^n
+\xrightarrow{\nabla}
+S^n.
+\]
+
+Define
+
+\[
+\phi=\nabla\circ[\iota_1,\iota_2].
+\]
+
+This map is the Whitehead square
+
+\[
+\phi=[\iota,\iota]\in \pi_{2n-1}(S^n).
+\]
+
+\subsubsection*{A map from \(S^n\times S^n\) to \(X_\phi\)}
+
+Since the top cell of \(S^n\times S^n\) is attached by
+
+\[
+[\iota_1,\iota_2],
+\]
+
+and since \(X_\phi\) is obtained by attaching a \(2n\)-cell to \(S^n\) by
+
+\[
+\phi=\nabla\circ[\iota_1,\iota_2],
+\]
+
+the fold map extends to a cellular map
+
+\[
+q:S^n\times S^n\longrightarrow X_\phi.
+\]
+
+The diagram is:
+
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	S^{2n-1}
+	\arrow[r,"{[\iota_1,\iota_2]}"]
+	\arrow[d,equal]
+	&
+	S^n\vee S^n
+	\arrow[d,"\nabla"]
+	\\
+	S^{2n-1}
+	\arrow[r,"\phi"']
+	&
+	S^n
+\end{tikzcd}
+\]
+
+After attaching the \(2n\)-cells, this gives
+
+\[
+q:S^n\times S^n\to X_\phi.
+\]
+
+\subsubsection*{Cohomology computation}
+
+Let
+
+\[
+a=\pi_1^*(u)\in H^n(S^n\times S^n),
+\]
+
+and
+
+\[
+b=\pi_2^*(u)\in H^n(S^n\times S^n),
+\]
+
+where
+
+\[
+u\in H^n(S^n)
+\]
+
+is a generator.
+
+Then
+
+\[
+H^*(S^n\times S^n)
+\]
+
+has generators
+
+\[
+1,\quad a,\quad b,\quad ab.
+\]
+
+Here
+
+\[
+ab\in H^{2n}(S^n\times S^n)
+\]
+
+is the top cohomology class.
+
+Since \(a\) and \(b\) come from the two sphere factors, we have
+
+\[
+a^2=0,
+\qquad
+b^2=0.
+\]
+
+Also,
+
+\[
+ba=(-1)^n ab.
+\]
+
+Now let
+
+\[
+x=x_n\in H^n(X_\phi),
+\qquad
+y=x_{2n}\in H^{2n}(X_\phi).
+\]
+
+By construction, the fold map sends the \(n\)-dimensional generator of \(X_\phi\) to the sum of the two generators in \(S^n\times S^n\). Therefore
+
+\[
+q^*(x)=a+b.
+\]
+
+Also, choosing orientations consistently,
+
+\[
+q^*(y)=ab.
+\]
+
+Now compute:
+
+\[
+q^*(x^2)=q^*(x)^2.
+\]
+
+Since
+
+\[
+q^*(x)=a+b,
+\]
+
+we get
+
+\[
+q^*(x^2)=(a+b)^2.
+\]
+
+Expand:
+
+\[
+(a+b)^2=a^2+ab+ba+b^2.
+\]
+
+Using
+
+\[
+a^2=0,
+\qquad
+b^2=0,
+\qquad
+ba=(-1)^n ab,
+\]
+
+we obtain
+
+\[
+(a+b)^2
+=
+ab+(-1)^n ab.
+\]
+
+Hence
+
+\[
+(a+b)^2
+=
+\bigl(1+(-1)^n\bigr)ab.
+\]
+
+On the other hand, by definition of the Hopf invariant,
+
+\[
+x^2=H(\phi)y.
+\]
+
+Applying \(q^*\), we get
+
+\[
+q^*(x^2)
+=
+H(\phi)q^*(y)
+=
+H(\phi)ab.
+\]
+
+Therefore
+
+\[
+H(\phi)ab
+=
+\bigl(1+(-1)^n\bigr)ab.
+\]
+
+Since \(ab\neq 0\), it follows that
+
+\[
+\boxed{
+	H(\phi)=1+(-1)^n.
+}
+\]
+
+Thus
+
+\[
+H(\phi)=
+\begin{cases}
+	2, & n\text{ even},\\
+	0, & n\text{ odd}.
+\end{cases}
+\]
+
+In particular, when \(n\) is even,
+
+\[
+\boxed{
+	H(\phi)=2\neq 0.
+}
+\]
+
+Therefore \(H\) is nontrivial for every even \(n\).
+
+\subsubsection*{Summary chart for \(S^n\times S^n\)}
+
+\[
+\begin{array}{c|c|c}
+	\text{Object} & \text{Description} & \text{Role}\\ \hline
+	S^n\vee S^n & n\text{-skeleton of }S^n\times S^n & \text{two }n\text{-cells}\\
+	e^{2n} & \text{top cell} & \text{creates }H^{2n}\\
+	\left[\iota_1,\iota_2\right] & S^{2n-1}\to S^n\vee S^n & \text{attaching map of top cell}\\
+	\nabla & S^n\vee S^n\to S^n & \text{fold map}\\
+	\phi=\nabla\circ\left[\iota_1,\iota_2\right] & S^{2n-1}\to S^n & \text{Whitehead square}\\
+	H(\phi) & \text{Hopf invariant} & 1+(-1)^n
+\end{array}
+\]
+
+\subsection{Deduction: \(\pi_{4m-1}(S^{2m})\) is infinite}
+
+Now take
+
+\[
+n=2m.
+\]
+
+Then \(n\) is even. From the previous subsection, there exists
+
+\[
+\phi:S^{2n-1}\to S^n
+\]
+
+such that
+
+\[
+H(\phi)=2\neq 0.
+\]
+
+Therefore the homomorphism
+
+\[
+H:\pi_{2n-1}(S^n)\to \mathbb Z
+\]
+
+has nonzero image.
+
+A nonzero subgroup of \(\mathbb Z\) is infinite. Hence
+
+\[
+\pi_{2n-1}(S^n)
+\]
+
+must be infinite.
+
+Since
+
+\[
+n=2m,
+\]
+
+we have
+
+\[
+2n-1=4m-1.
+\]
+
+Therefore
+
+\[
+\pi_{2n-1}(S^n)
+=
+\pi_{4m-1}(S^{2m}).
+\]
+
+Thus
+
+\[
+\boxed{
+	\pi_{4m-1}(S^{2m})\text{ is infinite for every }m>0.
+}
+\]
+
+\subsection{Conceptual summary}
+
+Problem 6 uses the interaction between degree, cup products, and Poincaré duality.
+
+If
+
+\[
+\deg(\varphi)\neq 0,
+\]
+
+then the pullback
+
+\[
+\varphi^*:H^1(\Sigma_h;\mathbb Q)\to H^1(\Sigma_g;\mathbb Q)
+\]
+
+would preserve enough of the intersection pairing to be injective. But this is impossible when \(g<h\), because
+
+\[
+\dim H^1(\Sigma_h;\mathbb Q)=2h>2g=\dim H^1(\Sigma_g;\mathbb Q).
+\]
+
+Therefore
+
+\[
+\varphi_*:H_2(\Sigma_g)\to H_2(\Sigma_h)
+\]
+
+is zero.
+
+Problem 7 uses cup products in a two-cell complex
+
+\[
+X_\phi=S^n\cup_\phi D^{2n}.
+\]
+
+The Hopf invariant \(H(\phi)\) measures the square of the middle-dimensional cohomology class:
+
+\[
+x_n^2=H(\phi)x_{2n}.
+\]
+
+The cell decomposition
+
+\[
+S^n\times S^n=(S^n\vee S^n)\cup_{[\iota_1,\iota_2]}e^{2n}
+\]
+
+shows that the Whitehead square
+
+\[
+[\iota,\iota]\in \pi_{2n-1}(S^n)
+\]
+
+has Hopf invariant
+
+\[
+H([\iota,\iota])=1+(-1)^n.
+\]
+
+Hence for even \(n\),
+
+\[
+H([\iota,\iota])=2\neq 0.
+\]
+
+Therefore the Hopf invariant homomorphism is nontrivial for even \(n\), and consequently
+
+\[
+\pi_{4m-1}(S^{2m})
+\]
+
+is infinite for all \(m>0\).
+
+\end{document}
+

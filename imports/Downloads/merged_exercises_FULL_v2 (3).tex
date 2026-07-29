@@ -1,0 +1,95 @@
+
+
+\section*{Exercise 3.6 (*)}
+Suppose $f:(a,b)\to\mathbb{R}$ is uniformly continuous, and $(x_j)_{j=0}^\infty,(y_j)_{j=0}^\infty\subset(a,b)$ satisfy
+$x_j\to a$ and $y_j\to b$.
+\begin{enumerate}
+\renewcommand\labelenumi{(\alph{enumi})}
+\item Show that the sequences $(f(x_j))_{j=0}^\infty$ and $(f(y_j))_{j=0}^\infty$ are Cauchy.
+
+\begin{solution}
+Given $\varepsilon>0$ choose $\delta>0$ such that $|u-v|<\delta\Rightarrow |f(u)-f(v)|<\varepsilon$ (uniform continuity).
+Since $x_j\to a$ and $y_j\to b$, both $(x_j)$ and $(y_j)$ are Cauchy. Hence there is $N$ with
+$|x_j-x_k|<\delta$ and $|y_j-y_k|<\delta$ for all $j,k\ge N$, which implies
+$|f(x_j)-f(x_k)|<\varepsilon$ and $|f(y_j)-f(y_k)|<\varepsilon$ for $j,k\ge N$. Thus both image sequences are Cauchy.
+\end{solution}
+
+\item Setting $f_L:=\lim_{j\to\infty}f(x_j)$ and $f_R:=\lim_{j\to\infty}f(y_j)$, show that
+\[
+\tilde f:[a,b]\to\mathbb{R},\qquad
+\tilde f(x)=
+\begin{cases}
+f_L,& x=a,\\
+f(x),& a<x<b,\\
+f_R,& x=b,
+\end{cases}
+\]
+is continuous on $[a,b]$.
+
+\begin{solution}
+By (a) the limits $f_L,f_R$ exist (Cauchy in $\mathbb{R}$ hence convergent). On $(a,b)$, $\tilde f=f$, so continuity holds.
+We check continuity at $a$; the case $b$ is analogous.
+
+Let $\varepsilon>0$. Pick $\delta>0$ for uniform continuity of $f$ and choose $J$ large so that
+$|x_J-a|<\delta/2$ and $|f(x_J)-f_L|<\varepsilon$. If $0<|t-a|<\delta/2$, then
+$|t-x_J|\le |t-a|+|x_J-a|<\delta$, hence
+\[
+|\tilde f(t)-\tilde f(a)|=|f(t)-f_L|\le |f(t)-f(x_J)|+|f(x_J)-f_L|<\varepsilon+\varepsilon=2\varepsilon.
+\]
+Therefore $\tilde f$ is continuous at $a$. A symmetric argument using $(y_j)$ gives continuity at $b$.
+Thus $\tilde f$ is continuous on $[a,b]$.
+\end{solution}
+
+\item Deduce that $f$ is uniformly continuous on $(a,b)$ if and only if there exists a continuous
+$\tilde f:[a,b]\to\mathbb{R}$ with $\tilde f(x)=f(x)$ for all $x\in(a,b)$ (i.e.\ $\tilde f$ is an extension of $f$).
+
+\begin{solution}
+($\Rightarrow$) If $f$ is uniformly continuous, parts (a)--(b) construct a continuous extension $\tilde f$ on $[a,b]$.
+
+($\Leftarrow$) If such $\tilde f$ exists, then $\tilde f$ is continuous on the compact set $[a,b]$, hence uniformly
+continuous. Its restriction to $(a,b)$ equals $f$ and is therefore uniformly continuous.
+\end{solution}
+\end{enumerate}
+
+
+\section*{Exercise 3.5 (*)}
+Let $E\subset\mathbb{R}^n$ be compact. Define $C^0(E,\mathbb{R}^m)$ to be the set of all continuous
+functions $f:E\to\mathbb{R}^m$, equipped with the norm
+\[
+\|f\|_{C^0}:=\sup_{x\in E}\|f(x)\| \in [0,\infty).
+\]
+Show that $C^0(E,\mathbb{R}^m)$ is complete.
+
+\begin{solution}
+Let $(f_k)$ be a Cauchy sequence in the sup norm $\|\cdot\|_{C^0}$.
+Then, for every $x\in E$,
+\[
+\|f_k(x)-f_\ell(x)\|\le \|f_k-f_\ell\|_{C^0}\xrightarrow[k,\ell\to\infty]{} 0,
+\]
+so for each $x$ the sequence $(f_k(x))$ is Cauchy in $\mathbb{R}^m$ and hence converges. Define
+$f(x):=\lim_{k\to\infty}f_k(x)$; this gives a function $f:E\to\mathbb{R}^m$.
+
+\emph{Uniform convergence.} Given $\varepsilon>0$, choose $N$ so that $\|f_k-f_\ell\|_{C^0}<\varepsilon$ for
+all $k,\ell\ge N$. Fix $\ell\ge N$ and let $k\to\infty$; by the pointwise limit we obtain
+\[
+\|f-f_\ell\|_{C^0}=\sup_{x\in E}\|f(x)-f_\ell(x)\|\le \varepsilon.
+\]
+Thus $f_k\to f$ uniformly on $E$. In particular, $\|f\|_{C^0}\le \|f-f_\ell\|_{C^0}+\|f_\ell\|_{C^0}<\infty$, so $f$ is bounded.
+
+\emph{Continuity of the limit.} Let $x\in E$ and $\varepsilon>0$. Choose $\ell\ge N$ so that
+$\|f-f_\ell\|_{C^0}<\varepsilon/3$. Since $f_\ell$ is continuous at $x$, there exists $\delta>0$ with
+$\|y-x\|<\delta\Rightarrow \|f_\ell(y)-f_\ell(x)\|<\varepsilon/3$. Then for $\|y-x\|<\delta$,
+\[
+\|f(y)-f(x)\|\le \|f(y)-f_\ell(y)\|+\|f_\ell(y)-f_\ell(x)\|+\|f_\ell(x)-f(x)\|<\varepsilon.
+\]
+Hence $f$ is continuous on $E$, i.e.\ $f\in C^0(E,\mathbb{R}^m)$.
+
+\emph{Convergence in norm.} With the same $N$ as above, fix $\ell\ge N$. For $k\ge N$,
+\[
+\|f_k-f\|_{C^0}\le \|f_k-f_\ell\|_{C^0}+\|f_\ell-f\|_{C^0}\le \varepsilon+\varepsilon=2\varepsilon,
+\]
+so letting $\varepsilon\downarrow 0$ (or starting with $\varepsilon/2$) gives $\|f_k-f\|_{C^0}\to 0$.
+
+Therefore every Cauchy sequence in $C^0(E,\mathbb{R}^m)$ converges (in $\|\cdot\|_{C^0}$) to an element of
+$C^0(E,\mathbb{R}^m)$. Thus $C^0(E,\mathbb{R}^m)$ is complete.
+\end{solution}

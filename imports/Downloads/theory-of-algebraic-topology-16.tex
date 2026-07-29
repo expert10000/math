@@ -1,0 +1,5486 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Encoding / fonts
+% ------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+
+% ------------------------------------------------------------
+% Page layout
+% ------------------------------------------------------------
+\usepackage{geometry}
+\geometry{margin=1in}
+
+% ------------------------------------------------------------
+% Math
+% ------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+% ------------------------------------------------------------
+% Colors + links + bookmarks
+% ------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Algebraic Topology 16},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in algebraic topology},
+	pdfcreator={OpenAI}
+}
+
+% ------------------------------------------------------------
+% Lists
+% ------------------------------------------------------------
+\usepackage{enumitem}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+
+% ------------------------------------------------------------
+% Tables / floats / captions
+% ------------------------------------------------------------
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{float}     % provides [H]
+\usepackage{placeins}  % provides \FloatBarrier
+\usepackage{subcaption}
+\usepackage{adjustbox}
+
+% ------------------------------------------------------------
+% ToC spacing tweaks (only needed if you really want it)
+% ------------------------------------------------------------
+\usepackage{tocloft}
+\setlength{\cftsubsecnumwidth}{3.2em}
+
+% ------------------------------------------------------------
+% TikZ (load once, then libraries)
+% ------------------------------------------------------------
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric}
+\usepackage{tikz-cd}
+
+% ------------------------------------------------------------
+% Fancy headers
+% ------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Theory of Algebraic Topology 16}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+
+% ------------------------------------------------------------
+% Misc math symbols
+% ------------------------------------------------------------
+\usepackage{centernot}
+
+% ------------------------------------------------------------
+% Section numbering / spacing
+% ------------------------------------------------------------
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+\setcounter{secnumdepth}{2}
+\setcounter{tocdepth}{2}
+
+% ------------------------------------------------------------
+% Theorems
+% ------------------------------------------------------------
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{example}[definition]{Example}
+\newtheorem{prop}{Proposition}[section]
+\newtheorem{remark}{Remark}[section]
+\newtheorem{theorem}[prop]{Theorem}
+
+% ------------------------------------------------------------
+% Common number sets + shorthand
+% ------------------------------------------------------------
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Ztwo}{\mathbb{Z}/2\mathbb{Z}}
+\newcommand{\RP}{\mathbb{R}\mathrm{P}}
+
+\newcommand{\Chi}{\chi}
+\newcommand{\del}{\partial}
+\newcommand{\longdash}{\mathrel{\text{---}}}
+
+% ------------------------------------------------------------
+% Operators
+% ------------------------------------------------------------
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\rank}{rank}
+\DeclareMathOperator{\Deck}{Deck}
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+% ------------------------------------------------------------
+% Title
+% ------------------------------------------------------------
+\title{\vspace{-1.5em}\bfseries Theory of Algebraic Topology 16}
+\author{}
+\date{\today}
+
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in algebraic topology
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+% Required packages in the preamble:
+% \usepackage{amsmath,amssymb,amsthm}
+% \usepackage{tikz}
+% \usepackage{tikz-cd}
+% \usepackage{booktabs}
+% \usepackage{array}
+% \usetikzlibrary{arrows.meta,positioning,calc}
+
+\section{Sphere Fibers and Sphere Bundles}
+
+\subsection{Basic idea}
+
+A \emph{fiber bundle} is a space \(E\), called the \emph{total space}, together with a continuous projection map
+\[
+p:E\to B,
+\]
+where \(B\) is called the \emph{base space}. For each point \(b\in B\), the \emph{fiber over \(b\)} is the inverse image
+\[
+p^{-1}(b)=\{e\in E:p(e)=b\}.
+\]
+
+If every fiber is homeomorphic to a sphere \(S^n\), then one obtains an \emph{\(S^n\)-bundle}, or \emph{sphere bundle},
+\[
+S^n \longrightarrow E \xrightarrow{p} B.
+\]
+
+The geometric meaning is that over every point of the base space \(B\), one places a copy of the sphere \(S^n\). Thus the total space \(E\) is built from a whole family of spheres parametrized by the points of \(B\).
+
+Locally, a sphere bundle looks like a product:
+\[
+p^{-1}(U)\cong U\times S^n,
+\]
+where \(U\subseteq B\) is a sufficiently small open set. Globally, however, the bundle may be twisted, so in general one need not have
+\[
+E\cong B\times S^n.
+\]
+
+This is the main idea of a fiber bundle: locally it is simple, but globally it may contain nontrivial twisting.
+
+\subsection{The bundle diagram}
+
+A sphere bundle is often represented by the diagram
+\[
+\begin{tikzcd}
+	S^n \arrow[r] & E \arrow[d,"p"] \\
+	& B
+\end{tikzcd}
+\]
+
+Here \(S^n\) is the typical fiber, \(E\) is the total space, and \(p:E\to B\) is the projection map. For every point \(b\in B\), the fiber is
+\[
+p^{-1}(b)\cong S^n.
+\]
+
+\subsection{Local triviality}
+
+The defining condition of a fiber bundle is \emph{local triviality}. This means that for every point \(b\in B\), there exists an open neighborhood \(U\subseteq B\) such that the part of the total space lying above \(U\) is homeomorphic to a product:
+\[
+p^{-1}(U)\cong U\times S^n.
+\]
+
+This homeomorphism is required to respect the projection to \(U\). In diagram form, this means that the following diagram commutes:
+\[
+\begin{tikzcd}[column sep=large,row sep=large]
+	p^{-1}(U) \arrow[r,"\varphi_U"] \arrow[d,"p"'] 
+	& U\times S^n \arrow[d,"\mathrm{pr}_1"] \\
+	U \arrow[r,equal] 
+	& U .
+\end{tikzcd}
+\]
+
+Thus, over a small open set \(U\), the bundle behaves exactly like the product \(U\times S^n\). The nontriviality of the bundle comes from how these local product pieces are glued together on overlaps.
+
+\subsection{Transition functions and twisting}
+
+Suppose \(B\) is covered by open sets \(\{U_i\}\), and over each \(U_i\) the bundle is trivial:
+\[
+p^{-1}(U_i)\cong U_i\times S^n.
+\]
+
+On an overlap \(U_i\cap U_j\), the two local trivializations may differ by a map
+\[
+g_{ij}:U_i\cap U_j\to \operatorname{Homeo}(S^n).
+\]
+
+These maps are called \emph{transition functions}. They describe how the spherical fibers are glued together.
+
+For sphere bundles coming from real vector bundles, the transition functions often lie in an orthogonal group:
+\[
+g_{ij}:U_i\cap U_j\to O(n+1),
+\]
+because \(S^n\) is the unit sphere in \(\mathbb{R}^{n+1}\).
+
+Thus one can think of a sphere bundle as a product \(B\times S^n\) locally, but with possible rotations, reflections, or more general transformations used to glue the fibers together globally.
+
+\subsection{Sphere bundles from vector bundles}
+
+One of the most important sources of sphere bundles comes from vector bundles.
+
+Let
+\[
+\pi:V\to B
+\]
+be a real vector bundle of rank \(r\). This means that each fiber is a vector space
+\[
+V_b\cong \mathbb{R}^r.
+\]
+
+If the vector bundle is equipped with a fiberwise norm, then inside each vector space \(V_b\) we can take the unit sphere
+\[
+S(V_b)=\{v\in V_b:\|v\|=1\}.
+\]
+
+The union of all these unit spheres forms the \emph{unit sphere bundle}
+\[
+S(V)=\{v\in V:\|v\|=1\}.
+\]
+
+The projection
+\[
+S(V)\to B
+\]
+has fiber
+\[
+S^{r-1}.
+\]
+
+Therefore a rank \(r\) vector bundle gives rise to an \(S^{r-1}\)-bundle:
+\[
+\boxed{
+	\text{rank }r\text{ vector bundle }V\to B
+	\quad\Longrightarrow\quad
+	S^{r-1}\text{-bundle }S(V)\to B.
+}
+\]
+
+For example, if \(V\to B\) has rank \(3\), then every fiber is isomorphic to \(\mathbb{R}^3\), and the unit sphere in each fiber is
+\[
+S^2\subset \mathbb{R}^3.
+\]
+Hence the associated unit sphere bundle is an \(S^2\)-bundle over \(B\).
+
+\subsection{Disk bundles and sphere bundles}
+
+From a vector bundle \(V\to B\), one can also form the \emph{unit disk bundle}
+\[
+D(V)=\{v\in V:\|v\|\leq 1\}.
+\]
+
+Each fiber is a disk:
+\[
+D(V)_b\cong D^r.
+\]
+
+The boundary of this disk fiber is the unit sphere:
+\[
+\partial D^r=S^{r-1}.
+\]
+
+Therefore, fiber by fiber, the boundary of the disk bundle is the sphere bundle:
+\[
+\boxed{
+	\partial D(V)=S(V).
+}
+\]
+
+Thus disk bundles and sphere bundles are closely related:
+\[
+S(V)\subset D(V)\subset V.
+\]
+
+In each fiber, this is simply the inclusion
+\[
+S^{r-1}\subset D^r\subset \mathbb{R}^r.
+\]
+
+\subsection{Diagram: general sphere bundle}
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.1, every node/.style={font=\small}]
+		
+		% Base line
+		\draw[thick] (-3,0) -- (3,0);
+		\node at (3.35,0) {$B$};
+		
+		% Points and fibers
+		\foreach \x/\lab in {-2/b_1,-0.8/b_2,0.8/b_3,2/b_4}
+		{
+			\fill (\x,0) circle (1.5pt);
+			\draw[dashed] (\x,0) -- (\x,0.75);
+			\draw[thick] (\x,1.1) circle (0.35);
+			\node at (\x,-0.35) {$\lab$};
+			\node at (\x,1.65) {$S^n$};
+		}
+		
+		\node at (0,2.25) {Total space \(E\) made from sphere fibers};
+		
+		% Projection arrow
+		\draw[->, thick] (3.7,1.2) -- (3.7,0.1);
+		\node[right] at (3.7,0.65) {$p:E\to B$};
+		
+	\end{tikzpicture}
+\end{center}
+
+The picture shows that every point \(b\in B\) has a sphere \(S^n\) lying above it. The total space \(E\) is obtained by collecting all these fibers.
+
+\subsection{Diagram: disk bundle and sphere boundary}
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.15, every node/.style={font=\small}]
+		
+		% Parameters
+		\def\R{0.45}
+		\def\yTopBase{0}
+		\def\yTopCtr{1.35}
+		\def\yBotBase{-2.55}
+		\def\yBotCtr{-1.20}
+		
+		%================= TOP: Disk bundle =================
+		\draw[thick] (-3,\yTopBase) -- (3,\yTopBase);
+		\node[right] at (3.15,\yTopBase) {$B$};
+		
+		\foreach \x in {-2,-0.7,0.7,2}{
+			\fill (\x,\yTopBase) circle (1.5pt);
+			\draw[dashed] (\x,\yTopBase) -- (\x,\yTopCtr-\R);
+			\draw[fill=gray!15, thick] (\x,\yTopCtr) circle (\R);
+		}
+		
+		\node[font=\bfseries, fill=white, inner sep=2pt] at (0,2.20)
+		{Disk bundle $D(V)$};
+		
+		\node[fill=white, inner sep=1pt] at (-0.7,\yTopCtr) {$D^r$};
+		
+		%================= MIDDLE ARROW =================
+		\draw[->, thick] (0.7,0.45) -- (0.7,-0.55);
+		\node[align=center, fill=white, inner sep=2pt] at (1.55,-0.05)
+		{take boundary\\ fiberwise};
+		
+		%================= BOTTOM: Sphere bundle =================
+		\draw[thick] (-3,\yBotBase) -- (3,\yBotBase);
+		\node[right] at (3.15,\yBotBase) {$B$};
+		
+		\foreach \x in {-2,-0.7,0.7,2}{
+			\fill (\x,\yBotBase) circle (1.5pt);
+			\draw[dashed] (\x,\yBotBase) -- (\x,\yBotCtr-\R);
+			\draw[thick] (\x,\yBotCtr) circle (\R);
+		}
+		
+		\node[font=\bfseries, fill=white, inner sep=2pt] at (0,-0.35)
+		{Sphere bundle $S(V)=\partial D(V)$};
+		
+		\node[fill=white, inner sep=1pt] at (-0.7,\yBotCtr) {$S^{r-1}$};
+		
+	\end{tikzpicture}
+\end{center}
+
+This diagram expresses the fiberwise identity
+\[
+\partial D^r=S^{r-1},
+\]
+and therefore
+\[
+\partial D(V)=S(V).
+\]
+
+\subsection{Example 1: The trivial sphere bundle}
+
+The simplest sphere bundle is the product bundle
+\[
+E=B\times S^n.
+\]
+
+The projection is
+\[
+p:B\times S^n\to B,
+\qquad
+p(b,x)=b.
+\]
+
+The fiber over a point \(b\in B\) is
+\[
+p^{-1}(b)=\{b\}\times S^n\cong S^n.
+\]
+
+This bundle is called \emph{trivial} because the total space is globally a product:
+\[
+E\cong B\times S^n.
+\]
+
+There is no twisting.
+
+\subsection{Example 2: The cylinder as an \(S^1\)-bundle}
+
+Consider
+\[
+E=[0,1]\times S^1.
+\]
+
+The projection
+\[
+p:[0,1]\times S^1\to [0,1],
+\qquad
+p(t,z)=t,
+\]
+makes \(E\) into an \(S^1\)-bundle over the interval \([0,1]\).
+
+For each point \(t\in[0,1]\), the fiber is
+\[
+p^{-1}(t)=\{t\}\times S^1\cong S^1.
+\]
+
+Geometrically, this is a cylinder. The base is an interval, and above every point of the interval sits a circle.
+
+\subsection{Example 3: The torus as a trivial circle bundle}
+
+The torus can be written as a product
+\[
+T^2=S^1\times S^1.
+\]
+
+Projection onto the first factor gives
+\[
+p:S^1\times S^1\to S^1,
+\qquad
+p(x,y)=x.
+\]
+
+The fiber over \(x\in S^1\) is
+\[
+p^{-1}(x)=\{x\}\times S^1\cong S^1.
+\]
+
+Thus
+\[
+S^1\longrightarrow T^2\longrightarrow S^1
+\]
+is a trivial circle bundle.
+
+In this case, the base is a circle and the fiber is also a circle. Since there is no twisting, the total space is the product of two circles:
+\[
+T^2=S^1\times S^1.
+\]
+
+\subsection{Example 4: The Klein bottle as a nontrivial circle bundle}
+
+The Klein bottle is also an \(S^1\)-bundle over \(S^1\):
+\[
+S^1\longrightarrow K\longrightarrow S^1.
+\]
+
+However, unlike the torus, the Klein bottle is not the product \(S^1\times S^1\). When one travels once around the base circle, the circle fiber is reflected.
+
+Thus the torus and Klein bottle can be compared as follows:
+\[
+\boxed{
+	T^2=S^1\times S^1
+	\quad\text{is the trivial circle bundle over }S^1.
+}
+\]
+\[
+\boxed{
+	K
+	\quad\text{is the nontrivial circle bundle over }S^1.
+}
+\]
+
+The difference is the twisting of the fiber. The torus glues circle fibers without reflection, while the Klein bottle glues them with a reflection.
+
+\subsection{Example 5: The Hopf fibration}
+
+One of the most important examples of a sphere bundle is the \emph{Hopf fibration}
+\[
+S^1\longrightarrow S^3\longrightarrow S^2.
+\]
+
+Here the total space is \(S^3\), the base is \(S^2\), and the fiber is \(S^1\).
+
+This means that over every point of \(S^2\), there is a circle \(S^1\). The total space obtained from all these circle fibers is \(S^3\).
+
+The Hopf fibration is not a product:
+\[
+S^3\not\cong S^2\times S^1.
+\]
+
+Indeed, the topology is different. For example,
+\[
+\pi_1(S^3)=0,
+\]
+whereas
+\[
+\pi_1(S^2\times S^1)\cong \mathbb{Z}.
+\]
+
+Thus the Hopf fibration is a genuinely nontrivial circle bundle.
+
+Geometrically, the circle fibers in the Hopf fibration are linked with one another inside \(S^3\). This linking behavior is one of the most famous features of the Hopf fibration.
+
+\subsection{Example 6: The unit tangent bundle of \(S^2\)}
+
+For a smooth manifold \(M\), the tangent bundle is
+\[
+TM\to M.
+\]
+
+The fiber over a point \(x\in M\) is the tangent space
+\[
+T_xM.
+\]
+
+If \(M=S^2\), then each tangent space is two-dimensional:
+\[
+T_xS^2\cong \mathbb{R}^2.
+\]
+
+The unit vectors in \(T_xS^2\) form a circle:
+\[
+S(T_xS^2)\cong S^1.
+\]
+
+Therefore the unit tangent bundle of the sphere,
+\[
+US^2\to S^2,
+\]
+is an \(S^1\)-bundle:
+\[
+S^1\longrightarrow US^2\longrightarrow S^2.
+\]
+
+This bundle is nontrivial. In fact, one has the important identification
+\[
+US^2\cong SO(3)\cong \mathbb{RP}^3.
+\]
+
+This example shows that even very natural sphere bundles, such as the unit tangent bundle of a sphere, can be globally nontrivial.
+
+\subsection{Summary table of examples}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{4cm}
+			>{\centering\arraybackslash}p{2.4cm}
+			>{\centering\arraybackslash}p{2.2cm}
+			>{\centering\arraybackslash}p{3cm}
+			>{\centering\arraybackslash}p{2cm}}
+		\toprule
+		\textbf{Construction} & \textbf{Base \(B\)} & \textbf{Fiber} & \textbf{Total space \(E\)} & \textbf{Trivial?} \\
+		\midrule
+		Product bundle & \(B\) & \(S^n\) & \(B\times S^n\) & Yes \\
+		Cylinder & \([0,1]\) & \(S^1\) & \([0,1]\times S^1\) & Yes \\
+		Torus projection & \(S^1\) & \(S^1\) & \(T^2=S^1\times S^1\) & Yes \\
+		Klein bottle & \(S^1\) & \(S^1\) & \(K\) & No \\
+		Hopf fibration & \(S^2\) & \(S^1\) & \(S^3\) & No \\
+		Unit tangent bundle of \(S^2\) & \(S^2\) & \(S^1\) & \(US^2\cong \mathbb{RP}^3\) & No \\
+		Unit sphere bundle of rank \(r\) vector bundle & \(B\) & \(S^{r-1}\) & \(S(V)\) & Depends \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsection{Chart: vector fiber, disk fiber, and sphere fiber}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{3.5cm}
+			>{\centering\arraybackslash}p{3cm}
+			>{\centering\arraybackslash}p{4cm}
+			>{\centering\arraybackslash}p{3cm}}
+		\toprule
+		\textbf{Fiber object} & \textbf{Shape} & \textbf{Formula} & \textbf{Boundary} \\
+		\midrule
+		Vector fiber & \(\mathbb{R}^r\) & all vectors \(v\) & none \\
+		Disk fiber & \(D^r\) & \(\|v\|\leq 1\) & \(S^{r-1}\) \\
+		Sphere fiber & \(S^{r-1}\) & \(\|v\|=1\) & none \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+Thus, inside each vector fiber, one has
+\[
+S^{r-1}\subset D^r\subset \mathbb{R}^r.
+\]
+
+Fiberwise over the base \(B\), this becomes
+\[
+S(V)\subset D(V)\subset V.
+\]
+
+\subsection{Conceptual comparison: trivial and nontrivial bundles}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{4cm}
+			>{\raggedright\arraybackslash}p{5cm}
+			>{\raggedright\arraybackslash}p{5cm}}
+		\toprule
+		\textbf{Feature} & \textbf{Trivial sphere bundle} & \textbf{Nontrivial sphere bundle} \\
+		\midrule
+		Local form & \(U\times S^n\) & \(U\times S^n\) \\
+		Global form & \(B\times S^n\) & not necessarily \(B\times S^n\) \\
+		Twisting & no twisting & fibers twist when glued \\
+		Example & \(T^2=S^1\times S^1\) & Klein bottle, Hopf fibration \\
+		Transition functions & can be chosen globally constant & carry nontrivial gluing information \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+The important point is that both trivial and nontrivial bundles are locally products. The difference is global.
+
+\subsection{Geometric intuition}
+
+A sphere bundle is not a single sphere. It is a family of spheres indexed by the base space.
+
+For each point \(b\in B\), there is a sphere above it:
+\[
+b\longmapsto p^{-1}(b)\cong S^n.
+\]
+
+The total space is the union of all these fibers:
+\[
+E=\bigcup_{b\in B}p^{-1}(b).
+\]
+
+If the fibers are glued together without twisting, then the total space is a product:
+\[
+E\cong B\times S^n.
+\]
+
+If the fibers are glued together with twisting, the total space is a nontrivial sphere bundle.
+
+Therefore the main intuition is:
+\[
+\boxed{
+	\text{A sphere bundle measures how spherical fibers twist over a base space.}
+}
+\]
+
+Sphere bundles appear naturally in topology, differential geometry, vector bundle theory, characteristic classes, tangent bundles, normal bundles, and fibrations such as the Hopf fibration.
+	
+\section{Problems 9--11: Vector Bundles, Euler Characteristic, and Lefschetz Fixed Points}
+
+Throughout this section, manifolds are assumed to be compact when necessary, and
+cohomology is taken with coefficients in a field \(F\) when the Lefschetz
+pairing is discussed.
+
+\section{Problem 9}
+
+\textbf{Problem.}
+Construct a \(3\)-dimensional real vector bundle over \(S^4\) which has no
+nonvanishing section.
+
+\medskip
+
+\noindent\textbf{Solution.}
+
+We construct the bundle by the clutching construction.
+
+Write
+\[
+S^4=D^4_+\cup D^4_-,
+\]
+where
+\[
+D^4_+\cap D^4_-=S^3.
+\]
+A real oriented rank-\(3\) vector bundle over \(S^4\) is obtained by taking two
+trivial bundles
+\[
+D^4_+\times \mathbb R^3
+\qquad\text{and}\qquad
+D^4_-\times \mathbb R^3
+\]
+and gluing them along the equator \(S^3\) by a map
+\[
+g:S^3\to SO(3).
+\]
+
+Such maps are classified up to homotopy by
+\[
+\pi_3(SO(3)).
+\]
+It is known that
+\[
+\pi_3(SO(3))\cong \mathbb Z.
+\]
+
+Choose \(g:S^3\to SO(3)\) to represent a nonzero element of
+\[
+\pi_3(SO(3)).
+\]
+For example, one may take the universal covering map
+\[
+S^3\cong SU(2)\longrightarrow SO(3).
+\]
+
+Let
+\[
+E_g\to S^4
+\]
+be the rank-\(3\) real vector bundle obtained from this nontrivial clutching map.
+
+We claim that \(E_g\) has no nonvanishing section.
+
+Suppose, for contradiction, that \(E_g\) had a nowhere-zero section
+\[
+s:S^4\to E_g.
+\]
+After choosing a bundle metric, we can normalize \(s\) and assume that it is a
+unit section. Then each fiber splits as
+\[
+(E_g)_x
+=
+\langle s(x)\rangle\oplus s(x)^\perp.
+\]
+Therefore the bundle splits as
+\[
+E_g\cong \varepsilon^1\oplus \xi,
+\]
+where \(\varepsilon^1\) is the trivial real line bundle and \(\xi\) is an
+oriented real \(2\)-plane bundle.
+
+Equivalently, the structure group of \(E_g\) reduces from \(SO(3)\) to the
+stabilizer of a unit vector in \(\mathbb R^3\). This stabilizer is
+\[
+SO(2)\subset SO(3).
+\]
+Thus the clutching map \(g:S^3\to SO(3)\) would be homotopic to a map whose image
+lies in \(SO(2)\). In other words, its homotopy class would lie in the image of
+\[
+\pi_3(SO(2))\longrightarrow \pi_3(SO(3)).
+\]
+
+But
+\[
+SO(2)\cong S^1,
+\]
+and hence
+\[
+\pi_3(SO(2))=\pi_3(S^1)=0.
+\]
+Therefore the image of
+\[
+\pi_3(SO(2))\to \pi_3(SO(3))
+\]
+is zero. This would force the clutching class of \(E_g\) in
+\[
+\pi_3(SO(3))\cong \mathbb Z
+\]
+to be zero, contradicting the choice of \(g\).
+
+Hence \(E_g\) has no nonvanishing section.
+
+Therefore
+\[
+\boxed{
+	\text{A rank-\(3\) real vector bundle over \(S^4\) defined by a nonzero clutching map }
+	S^3\to SO(3)
+	\text{ has no nonvanishing section.}
+}
+\]
+
+\section{Problem 10}
+
+\textbf{Problem.}
+If \(M\) is a closed odd-dimensional manifold, show that
+\[
+\chi(M)=0.
+\]
+Next, suppose \(M\) is a compact odd-dimensional manifold with boundary. Show
+that
+\[
+\chi(M)=\frac{1}{2}\chi(\partial M).
+\]
+Conclude that \(\mathbb{RP}^2\) does not bound a compact \(3\)-manifold and that
+\(\mathbb{CP}^2\) does not bound a compact \(5\)-manifold. Does
+\(\mathbb{RP}^3\) bound a compact \(4\)-manifold? Does \(\mathbb{CP}^3\) bound a
+compact \(7\)-manifold?
+
+\medskip
+
+\noindent\textbf{Solution.}
+
+\subsubsection*{Step 1: Closed odd-dimensional manifolds}
+
+Let \(M\) be a closed \(n\)-dimensional manifold, where \(n\) is odd. We compute
+the Euler characteristic using Betti numbers over a field \(F\):
+\[
+\chi(M)=\sum_{i=0}^n (-1)^i b_i(M),
+\]
+where
+\[
+b_i(M)=\dim_F H_i(M;F).
+\]
+
+By Poincar\'e duality,
+\[
+H_i(M;F)\cong H_{n-i}(M;F),
+\]
+so
+\[
+b_i(M)=b_{n-i}(M).
+\]
+
+Since \(n\) is odd, the terms in the Euler characteristic cancel in pairs:
+\[
+(-1)^i b_i + (-1)^{n-i}b_{n-i}
+=
+(-1)^i b_i + (-1)^{n-i}b_i.
+\]
+But \(n\) is odd, so
+\[
+(-1)^{n-i}=-(-1)^i.
+\]
+Therefore
+\[
+(-1)^i b_i + (-1)^{n-i}b_i=0.
+\]
+
+All terms cancel pairwise, and hence
+\[
+\chi(M)=0.
+\]
+
+Thus
+\[
+\boxed{
+	\chi(M)=0
+	\quad
+	\text{for every closed odd-dimensional manifold }M.
+}
+\]
+
+\subsubsection*{Step 2: Compact odd-dimensional manifolds with boundary}
+
+Now suppose \(M\) is a compact odd-dimensional manifold with boundary
+\[
+\partial M.
+\]
+
+Consider the double of \(M\):
+\[
+DM=M\cup_{\partial M} M.
+\]
+The double \(DM\) is a closed odd-dimensional manifold. Therefore, by Step 1,
+\[
+\chi(DM)=0.
+\]
+
+Using additivity of Euler characteristic, we get
+\[
+\chi(DM)
+=
+\chi(M)+\chi(M)-\chi(\partial M).
+\]
+Hence
+\[
+0=2\chi(M)-\chi(\partial M).
+\]
+Therefore
+\[
+\chi(M)=\frac{1}{2}\chi(\partial M).
+\]
+
+Thus
+\[
+\boxed{
+	\chi(M)=\frac{1}{2}\chi(\partial M)
+}
+\]
+for every compact odd-dimensional manifold \(M\) with boundary.
+
+\subsubsection*{Step 3: Consequence for boundaries}
+
+If a closed manifold \(N\) bounds a compact odd-dimensional manifold \(M\), then
+\[
+N=\partial M.
+\]
+The formula above gives
+\[
+\chi(M)=\frac{1}{2}\chi(N).
+\]
+Since \(\chi(M)\) is an integer, \(\chi(N)\) must be even.
+
+Thus a necessary condition for \(N\) to bound a compact odd-dimensional manifold
+is:
+\[
+\chi(N)\equiv 0\pmod 2.
+\]
+
+\subsubsection*{Step 4: \(\mathbb{RP}^2\)}
+
+The Euler characteristic of real projective space is
+\[
+\chi(\mathbb{RP}^{2})=1.
+\]
+This is odd. Therefore \(\mathbb{RP}^2\) cannot be the boundary of a compact
+\(3\)-manifold.
+
+Hence
+\[
+\boxed{
+	\mathbb{RP}^2
+	\text{ does not bound a compact }3\text{-manifold.}
+}
+\]
+
+\subsubsection*{Step 5: \(\mathbb{CP}^2\)}
+
+The Euler characteristic of complex projective space is
+\[
+\chi(\mathbb{CP}^n)=n+1.
+\]
+Thus
+\[
+\chi(\mathbb{CP}^2)=3.
+\]
+This is odd. Therefore \(\mathbb{CP}^2\) cannot be the boundary of a compact
+\(5\)-manifold.
+
+Hence
+\[
+\boxed{
+	\mathbb{CP}^2
+	\text{ does not bound a compact }5\text{-manifold.}
+}
+\]
+
+\subsubsection*{Step 6: Does \(\mathbb{RP}^3\) bound a compact \(4\)-manifold?}
+
+Yes.
+
+A standard construction uses the disk bundle of an oriented real \(2\)-plane
+bundle over \(S^2\) with Euler number \(2\). Let
+\[
+\xi\to S^2
+\]
+be an oriented real \(2\)-plane bundle with Euler class
+\[
+e(\xi)=2\in H^2(S^2;\mathbb Z)\cong \mathbb Z.
+\]
+Let
+\[
+D(\xi)
+\]
+be its disk bundle and
+\[
+S(\xi)
+\]
+its circle bundle. Then
+\[
+\partial D(\xi)=S(\xi).
+\]
+
+The oriented circle bundle over \(S^2\) with Euler number \(2\) is the lens space
+\[
+L(2,1),
+\]
+and
+\[
+L(2,1)\cong \mathbb{RP}^3.
+\]
+Hence
+\[
+\partial D(\xi)\cong \mathbb{RP}^3.
+\]
+
+Therefore
+\[
+\boxed{
+	\mathbb{RP}^3
+	\text{ bounds a compact }4\text{-manifold.}
+}
+\]
+
+\subsubsection*{Step 7: Does \(\mathbb{CP}^3\) bound a compact \(7\)-manifold?}
+
+Yes.
+
+Recall that \(\mathbb{CP}^3\) may be realized as the twistor space of \(S^4\).
+Equivalently,
+\[
+\mathbb{CP}^3
+\cong
+S(\Lambda^2_+(TS^4)),
+\]
+where
+\[
+\Lambda^2_+(TS^4)\to S^4
+\]
+is the real rank-\(3\) vector bundle of self-dual \(2\)-forms on \(S^4\), and
+\(S(\Lambda^2_+(TS^4))\) denotes its sphere bundle.
+
+Let
+\[
+D(\Lambda^2_+(TS^4))
+\]
+be the corresponding disk bundle. Since a sphere bundle is the boundary of the
+disk bundle, we have
+\[
+\partial D(\Lambda^2_+(TS^4))
+=
+S(\Lambda^2_+(TS^4)).
+\]
+Therefore
+\[
+\partial D(\Lambda^2_+(TS^4))
+\cong
+\mathbb{CP}^3.
+\]
+
+The base \(S^4\) has dimension \(4\), and the disk fibers have dimension \(3\).
+Hence the disk bundle has dimension
+\[
+4+3=7.
+\]
+
+Therefore
+\[
+\boxed{
+	\mathbb{CP}^3
+	\text{ bounds a compact }7\text{-manifold.}
+}
+\]
+
+\section{Problem 11}
+
+\textbf{Problem.}
+Suppose \(F\) is a field, and \(M\) is a closed \(F\)-oriented manifold. Let
+\[
+\{a_i\}
+\]
+be a homogeneous basis of \(H^*(M;F)\), and let
+\[
+\{b_i\}
+\]
+be the dual basis with respect to the cup product pairing, meaning
+\[
+\langle a_i\smile b_j,[M]\rangle=\delta_{ij}.
+\]
+Given a map
+\[
+f:M\to M,
+\]
+let
+\[
+\Lambda_f=\{(p,f(p))\in M\times M\}
+\]
+be the graph of \(f\).
+
+\begin{enumerate}
+	\item[(a)] Express \(PD_{M\times M}(\Lambda_f)\) in terms of the \(a_i\) and \(b_i\).
+	\item[(b)] Define the Lefschetz number of \(f\) by
+	\[
+	L(f)=\sum_{j=0}^{n}(-1)^j\operatorname{Tr} f_j^*,
+	\]
+	where
+	\[
+	f_j^*:H^j(M;F)\to H^j(M;F).
+	\]
+	Show that
+	\[
+	L(f)=\Lambda_f\cdot \Delta,
+	\]
+	where \(\Delta\subset M\times M\) is the diagonal.
+	\item[(c)] Deduce that if \(L(f)\neq 0\), then \(f\) must have a fixed point.
+	\item[(d)] Show that any map
+	\[
+	f:\mathbb{CP}^2\to \mathbb{CP}^2
+	\]
+	has a fixed point.
+\end{enumerate}
+
+\medskip
+
+\noindent\textbf{Solution.}
+
+\subsubsection*{Part (a)}
+
+Let
+\[
+\Delta=\{(p,p)\in M\times M\}
+\]
+be the diagonal. The standard formula for the Poincar\'e dual of the diagonal is
+\[
+PD_{M\times M}(\Delta)
+=
+\sum_i (-1)^{|a_i|}
+p_1^*(a_i)\smile p_2^*(b_i),
+\]
+where
+\[
+p_1,p_2:M\times M\to M
+\]
+are the projections, and \(|a_i|\) denotes the degree of \(a_i\).
+
+The graph of \(f\) is
+\[
+\Lambda_f=\{(p,f(p))\mid p\in M\}.
+\]
+It is the image of the embedding
+\[
+\Gamma_f:M\to M\times M,
+\qquad
+\Gamma_f(p)=(p,f(p)).
+\]
+
+Equivalently, \(\Lambda_f\) is obtained from the diagonal by applying the map
+\[
+\operatorname{id}\times f:M\times M\to M\times M
+\]
+to the first copy of \(M\) in the diagonal picture. The corresponding
+Poincar\'e dual formula is obtained by applying \(f^*\) to the second factor in
+the diagonal formula. Thus
+\[
+PD_{M\times M}(\Lambda_f)
+=
+\sum_i (-1)^{|a_i|}
+p_1^*(a_i)\smile p_2^*(f^*b_i).
+\]
+
+Equivalently, depending on the convention for the graph
+\[
+p\longmapsto (f(p),p)
+\]
+rather than
+\[
+p\longmapsto (p,f(p)),
+\]
+one obtains the equivalent formula
+\[
+PD_{M\times M}(\Lambda_f)
+=
+\sum_i (-1)^{|a_i|}
+p_1^*(f^*a_i)\smile p_2^*(b_i).
+\]
+
+With the convention in this problem,
+\[
+\Lambda_f=\{(p,f(p))\},
+\]
+we use
+\[
+\boxed{
+	PD_{M\times M}(\Lambda_f)
+	=
+	\sum_i (-1)^{|a_i|}
+	p_1^*(a_i)\smile p_2^*(f^*b_i).
+}
+\]
+
+\subsubsection*{Part (b)}
+
+We want to show that
+\[
+L(f)=\Lambda_f\cdot \Delta.
+\]
+
+The intersection number of \(\Lambda_f\) with the diagonal \(\Delta\) is
+\[
+\Lambda_f\cdot \Delta
+=
+\langle PD(\Lambda_f)\smile PD(\Delta),[M\times M]\rangle.
+\]
+
+There is a useful equivalent way to compute this intersection number. Pull back
+\(PD(\Lambda_f)\) along the diagonal map
+\[
+\delta:M\to M\times M,
+\qquad
+\delta(p)=(p,p).
+\]
+Then
+\[
+\Lambda_f\cdot \Delta
+=
+\langle \delta^*PD(\Lambda_f),[M]\rangle.
+\]
+
+Using the formula from part (a),
+\[
+PD(\Lambda_f)
+=
+\sum_i (-1)^{|a_i|}
+p_1^*(a_i)\smile p_2^*(f^*b_i).
+\]
+Since
+\[
+p_1\circ \delta=\operatorname{id}_M,
+\qquad
+p_2\circ \delta=\operatorname{id}_M,
+\]
+we get
+\[
+\delta^*PD(\Lambda_f)
+=
+\sum_i (-1)^{|a_i|}
+a_i\smile f^*b_i.
+\]
+
+Therefore
+\[
+\Lambda_f\cdot \Delta
+=
+\sum_i (-1)^{|a_i|}
+\langle a_i\smile f^*b_i,[M]\rangle.
+\]
+
+Now group the basis elements by degree. For each \(j\), let
+\[
+\{a_{j,\alpha}\}_\alpha
+\]
+be a basis of \(H^j(M;F)\), and let
+\[
+\{b_{j,\alpha}\}_\alpha
+\]
+be the dual basis in \(H^{n-j}(M;F)\), so that
+\[
+\langle a_{j,\alpha}\smile b_{j,\beta},[M]\rangle=\delta_{\alpha\beta}.
+\]
+
+The map
+\[
+f^*:H^{n-j}(M;F)\to H^{n-j}(M;F)
+\]
+has a matrix in the basis \(\{b_{j,\alpha}\}\). By duality, this trace agrees
+with the trace of
+\[
+f^*:H^j(M;F)\to H^j(M;F).
+\]
+Therefore
+\[
+\sum_\alpha
+\langle a_{j,\alpha}\smile f^*b_{j,\alpha},[M]\rangle
+=
+\operatorname{Tr}\left(f^*:H^j(M;F)\to H^j(M;F)\right).
+\]
+
+Since \(|a_{j,\alpha}|=j\), we obtain
+\[
+\Lambda_f\cdot \Delta
+=
+\sum_{j=0}^{n}
+(-1)^j
+\operatorname{Tr}\left(f^*:H^j(M;F)\to H^j(M;F)\right).
+\]
+
+By definition, the right-hand side is the Lefschetz number:
+\[
+L(f)
+=
+\sum_{j=0}^{n}
+(-1)^j
+\operatorname{Tr}(f_j^*).
+\]
+
+Hence
+\[
+\boxed{
+	L(f)=\Lambda_f\cdot \Delta.
+}
+\]
+
+\subsubsection*{Part (c)}
+
+A point of the graph \(\Lambda_f\) has the form
+\[
+(p,f(p)).
+\]
+A point of the diagonal \(\Delta\) has the form
+\[
+(p,p).
+\]
+
+Therefore
+\[
+(p,f(p))\in \Delta
+\]
+if and only if
+\[
+f(p)=p.
+\]
+
+Thus
+\[
+\Lambda_f\cap \Delta
+\]
+is precisely the set of fixed points of \(f\).
+
+If \(f\) had no fixed point, then
+\[
+\Lambda_f\cap \Delta=\varnothing.
+\]
+In that case their intersection number would be zero:
+\[
+\Lambda_f\cdot \Delta=0.
+\]
+
+But by part (b),
+\[
+\Lambda_f\cdot \Delta=L(f).
+\]
+Hence if \(f\) has no fixed point, then
+\[
+L(f)=0.
+\]
+
+Taking the contrapositive, if
+\[
+L(f)\neq 0,
+\]
+then \(f\) must have a fixed point.
+
+Therefore
+\[
+\boxed{
+	L(f)\neq 0
+	\quad\Longrightarrow\quad
+	f\text{ has a fixed point.}
+}
+\]
+
+This is the Lefschetz fixed point theorem in this setting.
+
+\subsubsection*{Part (d)}
+
+Let
+\[
+f:\mathbb{CP}^2\to \mathbb{CP}^2
+\]
+be any continuous map. We will show that \(f\) has a fixed point.
+
+Work with rational coefficients:
+\[
+F=\mathbb Q.
+\]
+The cohomology ring of \(\mathbb{CP}^2\) is
+\[
+H^*(\mathbb{CP}^2;\mathbb Q)
+\cong
+\mathbb Q[h]/(h^3),
+\qquad
+\deg h=2.
+\]
+
+Thus
+\[
+H^0(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q,
+\]
+\[
+H^2(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\langle h\rangle,
+\]
+and
+\[
+H^4(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\langle h^2\rangle.
+\]
+All other cohomology groups vanish.
+
+Since \(H^2(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\), the map \(f^*\) acts by
+multiplication by some integer \(d\):
+\[
+f^*(h)=d\,h.
+\]
+Because \(f^*\) preserves cup products,
+\[
+f^*(h^2)=f^*(h\smile h)=f^*(h)\smile f^*(h)=d^2h^2.
+\]
+
+Therefore the traces of \(f^*\) on cohomology are:
+\[
+\operatorname{Tr}(f^*:H^0\to H^0)=1,
+\]
+\[
+\operatorname{Tr}(f^*:H^2\to H^2)=d,
+\]
+and
+\[
+\operatorname{Tr}(f^*:H^4\to H^4)=d^2.
+\]
+
+Since all nonzero cohomology groups occur in even degrees, the Lefschetz number
+is
+\[
+L(f)=1+d+d^2.
+\]
+
+Now
+\[
+d^2+d+1
+\]
+is never zero for an integer \(d\). Indeed,
+\[
+d^2+d+1
+=
+\left(d+\frac12\right)^2+\frac34
+>0.
+\]
+Therefore
+\[
+L(f)\neq 0.
+\]
+
+By part (c), \(f\) must have a fixed point.
+
+Hence
+\[
+\boxed{
+	\text{Every continuous map }
+	f:\mathbb{CP}^2\to \mathbb{CP}^2
+	\text{ has a fixed point.}
+}
+\]	
+	
+\section{Theory for Problems 9--11: Clutching, Euler Characteristic, Boundaries, and Lefschetz Fixed Points}
+
+These three problems are connected by a general theme:
+\[
+\text{global topology}
+\quad\longrightarrow\quad
+\text{algebraic invariant}
+\quad\longrightarrow\quad
+\text{geometric consequence}.
+\]
+
+Problem 9 uses clutching functions to construct a vector bundle with no nonzero
+section. Problem 10 uses Poincar\'e duality and Euler characteristic to obstruct
+some manifolds from being boundaries. Problem 11 uses the Lefschetz number as an
+intersection number between the graph of a map and the diagonal.
+
+\subsection{Vector Bundles over Spheres and Clutching Functions}
+
+Let
+\[
+E\to S^n
+\]
+be a rank-\(r\) real vector bundle. We can decompose the sphere as two disks
+glued along their common boundary:
+\[
+S^n=D^n_+\cup D^n_-,
+\]
+with
+\[
+D^n_+\cap D^n_-=S^{n-1}.
+\]
+
+Since each disk is contractible, every vector bundle over each disk is trivial:
+\[
+E|_{D^n_+}\cong D^n_+\times \mathbb R^r,
+\]
+and
+\[
+E|_{D^n_-}\cong D^n_-\times \mathbb R^r.
+\]
+
+Thus the bundle is determined by how these two trivial bundles are glued together
+along the equator \(S^{n-1}\). The gluing is described by a map
+\[
+g:S^{n-1}\to GL_r(\mathbb R).
+\]
+
+If the bundle is oriented and equipped with a metric, we may take
+\[
+g:S^{n-1}\to SO(r).
+\]
+
+This map is called the \emph{clutching function}. The homotopy class of \(g\)
+determines the isomorphism class of the vector bundle. For oriented rank-\(r\)
+real vector bundles over \(S^n\), one obtains the classification
+\[
+\{\text{oriented rank-}r\text{ bundles over }S^n\}
+\cong
+\pi_{n-1}(SO(r)).
+\]
+
+\subsection{Rank-\(3\) Bundles over \(S^4\)}
+
+In Problem 9, we want a rank-\(3\) real vector bundle over \(S^4\). The relevant
+clutching group is
+\[
+\pi_3(SO(3)).
+\]
+
+A classical fact is
+\[
+\pi_3(SO(3))\cong \mathbb Z.
+\]
+
+Therefore there are infinitely many oriented rank-\(3\) real vector bundles over
+\(S^4\). The trivial bundle corresponds to the zero element of
+\[
+\pi_3(SO(3)).
+\]
+
+A nontrivial clutching map
+\[
+g:S^3\to SO(3)
+\]
+produces a nontrivial rank-\(3\) bundle.
+
+A standard nontrivial example comes from the double covering
+\[
+SU(2)\cong S^3\longrightarrow SO(3).
+\]
+This map represents a nonzero element of \(\pi_3(SO(3))\).
+
+\subsection{Nonvanishing Sections and Reduction of Structure Group}
+
+Let
+\[
+E\to B
+\]
+be an oriented rank-\(3\) real vector bundle.
+
+A nowhere-zero section
+\[
+s:B\to E
+\]
+chooses a nonzero vector in every fiber. After choosing a bundle metric, we can
+normalize it and assume
+\[
+\|s(b)\|=1
+\]
+for every \(b\in B\).
+
+Then every fiber splits as
+\[
+E_b=\langle s(b)\rangle\oplus s(b)^\perp.
+\]
+Globally, this gives a splitting
+\[
+E\cong \varepsilon^1\oplus \xi,
+\]
+where \(\varepsilon^1\) is the trivial real line bundle and \(\xi\) is an
+oriented rank-\(2\) real vector bundle.
+
+Equivalently, the structure group reduces from
+\[
+SO(3)
+\]
+to the stabilizer of a unit vector in \(\mathbb R^3\). This stabilizer is
+\[
+SO(2).
+\]
+
+Thus
+\[
+\text{a nonvanishing section}
+\quad\Longrightarrow\quad
+\text{the clutching map factors through }SO(2).
+\]
+
+For a bundle over \(S^4\), this means that the clutching map would come from a
+map
+\[
+S^3\to SO(2).
+\]
+
+But
+\[
+SO(2)\cong S^1,
+\]
+and
+\[
+\pi_3(S^1)=0.
+\]
+
+Therefore every \(SO(2)\)-valued clutching map over \(S^4\) is null-homotopic.
+So a rank-\(3\) bundle over \(S^4\) with nonzero clutching class in
+\[
+\pi_3(SO(3))\cong \mathbb Z
+\]
+cannot admit a nowhere-zero section.
+
+This is the main idea behind Problem 9.
+
+\subsection{Why the Euler Class Alone Does Not Solve Problem 9}
+
+For an oriented rank-\(3\) bundle
+\[
+E\to S^4,
+\]
+the Euler class would live in
+\[
+e(E)\in H^3(S^4;\mathbb Z).
+\]
+
+But
+\[
+H^3(S^4;\mathbb Z)=0.
+\]
+
+Therefore
+\[
+e(E)=0
+\]
+for every oriented rank-\(3\) bundle over \(S^4\).
+
+So the Euler class cannot detect the obstruction in Problem 9. The obstruction
+is instead detected by the clutching map:
+\[
+[g]\in \pi_3(SO(3)).
+\]
+
+This is an important lesson: the Euler class is not the only obstruction to a
+nonzero section. In this example, the obstruction is homotopical rather than
+cohomological in degree \(3\).
+
+\subsection{Euler Characteristic}
+
+For a finite CW complex or compact manifold \(M\), the Euler characteristic is
+\[
+\chi(M)=\sum_{i=0}^{n}(-1)^i b_i(M),
+\]
+where
+\[
+b_i(M)=\dim_F H_i(M;F)
+\]
+is the \(i\)-th Betti number over a field \(F\).
+
+The Euler characteristic is additive under decompositions. If
+\[
+X=A\cup B,
+\]
+then
+\[
+\chi(X)=\chi(A)+\chi(B)-\chi(A\cap B).
+\]
+
+This additivity is crucial in the boundary formula from Problem 10.
+
+\subsection{Closed Odd-Dimensional Manifolds Have Euler Characteristic Zero}
+
+Let \(M^n\) be a closed manifold with \(n\) odd. Poincar\'e duality over a field
+gives
+\[
+H_i(M;F)\cong H_{n-i}(M;F).
+\]
+Therefore
+\[
+b_i=b_{n-i}.
+\]
+
+Now compute
+\[
+\chi(M)=\sum_{i=0}^n(-1)^i b_i.
+\]
+
+Pair the \(i\)-th term with the \((n-i)\)-th term:
+\[
+(-1)^i b_i+(-1)^{n-i}b_{n-i}.
+\]
+
+Since \(b_i=b_{n-i}\), this becomes
+\[
+\left((-1)^i+(-1)^{n-i}\right)b_i.
+\]
+
+Because \(n\) is odd,
+\[
+(-1)^{n-i}=-(-1)^i.
+\]
+Thus each pair cancels:
+\[
+(-1)^i b_i+(-1)^{n-i}b_{n-i}=0.
+\]
+
+Hence
+\[
+\chi(M)=0.
+\]
+
+Therefore
+\[
+\boxed{
+	\text{Every closed odd-dimensional manifold has Euler characteristic }0.
+}
+\]
+
+\subsection{Compact Odd-Dimensional Manifolds with Boundary}
+
+Now suppose \(M\) is compact, odd-dimensional, and has boundary
+\[
+\partial M.
+\]
+
+The key construction is the \emph{double} of \(M\):
+\[
+DM=M\cup_{\partial M}M.
+\]
+
+This means that we glue two copies of \(M\) along their common boundary. The
+double \(DM\) is a closed odd-dimensional manifold. Therefore
+\[
+\chi(DM)=0.
+\]
+
+Using additivity of Euler characteristic, we get
+\[
+\chi(DM)=\chi(M)+\chi(M)-\chi(\partial M).
+\]
+Hence
+\[
+0=2\chi(M)-\chi(\partial M).
+\]
+Therefore
+\[
+\chi(M)=\frac{1}{2}\chi(\partial M).
+\]
+
+Thus
+\[
+\boxed{
+	\chi(M)=\frac12\chi(\partial M)
+}
+\]
+for every compact odd-dimensional manifold \(M\) with boundary.
+
+\subsection{Euler Characteristic as a Boundary Obstruction}
+
+Suppose \(N\) is a closed even-dimensional manifold and
+\[
+N=\partial M
+\]
+for some compact odd-dimensional manifold \(M\).
+
+Then
+\[
+\chi(M)=\frac12\chi(N).
+\]
+
+Since \(\chi(M)\) is an integer, we must have
+\[
+\chi(N)\in 2\mathbb Z.
+\]
+
+Thus
+\[
+\boxed{
+	\text{If }N\text{ bounds a compact odd-dimensional manifold, then }\chi(N)
+	\text{ is even.}
+}
+\]
+
+This gives a simple obstruction to being a boundary.
+
+\subsection{Real and Complex Projective Spaces}
+
+The Euler characteristics needed in Problem 10 are
+\[
+\chi(\mathbb{RP}^{2m})=1,
+\]
+\[
+\chi(\mathbb{RP}^{2m+1})=0,
+\]
+and
+\[
+\chi(\mathbb{CP}^{n})=n+1.
+\]
+
+Thus
+\[
+\chi(\mathbb{RP}^{2})=1,
+\]
+\[
+\chi(\mathbb{RP}^{3})=0,
+\]
+\[
+\chi(\mathbb{CP}^{2})=3,
+\]
+and
+\[
+\chi(\mathbb{CP}^{3})=4.
+\]
+
+Therefore \(\mathbb{RP}^2\) cannot bound a compact \(3\)-manifold, because
+\[
+\chi(\mathbb{RP}^2)=1
+\]
+is odd.
+
+Similarly, \(\mathbb{CP}^2\) cannot bound a compact \(5\)-manifold, because
+\[
+\chi(\mathbb{CP}^2)=3
+\]
+is odd.
+
+On the other hand,
+\[
+\chi(\mathbb{RP}^3)=0
+\]
+and
+\[
+\chi(\mathbb{CP}^3)=4
+\]
+are even. Hence Euler characteristic does not obstruct them from bounding.
+
+Indeed, both do bound compact manifolds in the examples described below.
+
+\subsection{Examples of Boundaries}
+
+\subsubsection{\(\mathbb{RP}^3\)}
+
+The space
+\[
+\mathbb{RP}^3
+\]
+is diffeomorphic to the lens space
+\[
+L(2,1).
+\]
+
+It is the circle bundle over \(S^2\) with Euler number \(2\). Equivalently, if
+\[
+\xi\to S^2
+\]
+is the oriented real \(2\)-plane bundle with
+\[
+e(\xi)=2\in H^2(S^2;\mathbb Z)\cong \mathbb Z,
+\]
+then its disk bundle \(D(\xi)\) is a compact \(4\)-manifold and
+\[
+\partial D(\xi)=S(\xi)\cong \mathbb{RP}^3.
+\]
+
+Thus
+\[
+\boxed{
+	\mathbb{RP}^3\text{ bounds a compact }4\text{-manifold.}
+}
+\]
+
+\subsubsection{\(\mathbb{CP}^3\)}
+
+The space
+\[
+\mathbb{CP}^3
+\]
+can be realized as the twistor space of \(S^4\). Equivalently,
+\[
+\mathbb{CP}^3\cong S(\Lambda^2_+(TS^4)),
+\]
+where
+\[
+\Lambda^2_+(TS^4)\to S^4
+\]
+is the rank-\(3\) real vector bundle of self-dual \(2\)-forms.
+
+The sphere bundle is the boundary of the disk bundle:
+\[
+S(\Lambda^2_+(TS^4))=\partial D(\Lambda^2_+(TS^4)).
+\]
+
+Since the base has dimension \(4\) and the disk fiber has dimension \(3\), the
+disk bundle has dimension
+\[
+4+3=7.
+\]
+
+Therefore
+\[
+\boxed{
+	\mathbb{CP}^3\text{ bounds a compact }7\text{-manifold.}
+}
+\]
+
+\subsection{The Diagonal and the Graph of a Map}
+
+Let \(M\) be a closed \(F\)-oriented manifold, and let
+\[
+f:M\to M
+\]
+be a continuous map.
+
+The \emph{diagonal} is
+\[
+\Delta=\{(p,p)\in M\times M\}.
+\]
+
+The \emph{graph} of \(f\) is
+\[
+\Lambda_f=\{(p,f(p))\in M\times M\}.
+\]
+
+A point lies in both \(\Delta\) and \(\Lambda_f\) precisely when
+\[
+(p,p)=(p,f(p)).
+\]
+That is,
+\[
+f(p)=p.
+\]
+
+Therefore
+\[
+\boxed{
+	\Lambda_f\cap \Delta
+	=
+	\{\text{fixed points of }f\}.
+}
+\]
+
+Thus fixed point theory can be translated into intersection theory. This is the
+key geometric idea behind the Lefschetz fixed point theorem.
+
+\subsection{Poincar\'e Dual of the Diagonal}
+
+Let
+\[
+\{a_i\}
+\]
+be a homogeneous basis of \(H^*(M;F)\), and let
+\[
+\{b_i\}
+\]
+be the dual basis with respect to the Poincar\'e pairing:
+\[
+\langle a_i\smile b_j,[M]\rangle=\delta_{ij}.
+\]
+
+The Poincar\'e dual of the diagonal in \(M\times M\) is expressed in terms of
+these bases. A standard formula is
+\[
+PD_{M\times M}(\Delta)
+=
+\sum_i (-1)^{|a_i|}
+p_1^*(a_i)\smile p_2^*(b_i),
+\]
+where
+\[
+p_1,p_2:M\times M\to M
+\]
+are the two projections, and \(|a_i|\) denotes the degree of \(a_i\).
+
+The sign
+\[
+(-1)^{|a_i|}
+\]
+comes from the Koszul sign convention in graded cohomology.
+
+Conceptually, this formula says that the diagonal class is the cohomological
+kernel of the identity map, just as
+\[
+\sum_i e_i\otimes e_i^*
+\]
+is the identity tensor in linear algebra.
+
+\subsection{Poincar\'e Dual of the Graph}
+
+The graph
+\[
+\Lambda_f=\{(p,f(p))\}
+\]
+is related to the diagonal. Depending on whether one writes the graph as
+\[
+p\longmapsto (p,f(p))
+\]
+or as
+\[
+p\longmapsto (f(p),p),
+\]
+the pullback \(f^*\) appears on the second or first factor.
+
+With the convention
+\[
+\Lambda_f=\{(p,f(p))\},
+\]
+one may write
+\[
+PD(\Lambda_f)
+=
+\sum_i (-1)^{|a_i|}
+p_1^*(a_i)\smile p_2^*(f^*b_i).
+\]
+
+Equivalently, with the convention
+\[
+\Lambda_f=\{(f(p),p)\},
+\]
+one obtains
+\[
+PD(\Lambda_f)
+=
+\sum_i (-1)^{|a_i|}
+p_1^*(f^*a_i)\smile p_2^*(b_i).
+\]
+
+Both conventions lead to the same Lefschetz number. The important point is:
+\[
+\boxed{
+	\text{the graph class is obtained from the diagonal class by inserting }f^*.
+}
+\]
+
+\subsection{Lefschetz Number}
+
+The Lefschetz number of a map
+\[
+f:M\to M
+\]
+is
+\[
+L(f)=\sum_{j=0}^{n}(-1)^j
+\operatorname{Tr}
+\left(
+f^*:H^j(M;F)\to H^j(M;F)
+\right).
+\]
+
+This is an alternating sum of traces on cohomology.
+
+It is a homotopy invariant:
+\[
+f\simeq g
+\quad\Longrightarrow\quad
+L(f)=L(g).
+\]
+
+So \(L(f)\) depends only on the induced action of \(f\) on cohomology, not on
+pointwise geometry.
+
+\subsection{Lefschetz Number as an Intersection Number}
+
+The central result in Problem 11 is
+\[
+L(f)=\Lambda_f\cdot \Delta.
+\]
+
+The right-hand side is an intersection number in \(M\times M\). This statement
+connects algebra and geometry:
+\[
+\text{algebraic trace on cohomology}
+=
+\text{intersection number of graph and diagonal}.
+\]
+
+If \(\Lambda_f\) and \(\Delta\) intersect transversely, then
+\[
+\Lambda_f\cdot \Delta
+\]
+is the signed count of fixed points of \(f\). Thus, in favorable cases,
+\[
+L(f)=\sum_{p=f(p)} \operatorname{index}_p(f).
+\]
+
+Even without transversality, the intersection number remains well-defined
+algebraically and gives a fixed-point obstruction.
+
+\subsection{Lefschetz Fixed Point Theorem}
+
+Since fixed points are exactly the intersection points
+\[
+\Lambda_f\cap \Delta,
+\]
+if \(f\) has no fixed point, then
+\[
+\Lambda_f\cap \Delta=\varnothing.
+\]
+
+Therefore
+\[
+\Lambda_f\cdot \Delta=0.
+\]
+
+But
+\[
+\Lambda_f\cdot \Delta=L(f).
+\]
+
+Hence
+\[
+f\text{ has no fixed point}
+\quad\Longrightarrow\quad
+L(f)=0.
+\]
+
+Taking the contrapositive gives the Lefschetz fixed point theorem:
+\[
+\boxed{
+	L(f)\neq 0
+	\quad\Longrightarrow\quad
+	f\text{ has a fixed point}.
+}
+\]
+
+This is the main conclusion of Problem 11.
+
+\subsection{Application to \(\mathbb{CP}^2\)}
+
+The rational cohomology ring of \(\mathbb{CP}^2\) is
+\[
+H^*(\mathbb{CP}^2;\mathbb Q)
+\cong
+\mathbb Q[h]/(h^3),
+\qquad
+\deg h=2.
+\]
+
+Thus the only nonzero rational cohomology groups are
+\[
+H^0(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q,
+\]
+\[
+H^2(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\langle h\rangle,
+\]
+and
+\[
+H^4(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\langle h^2\rangle.
+\]
+
+Any continuous map
+\[
+f:\mathbb{CP}^2\to \mathbb{CP}^2
+\]
+induces
+\[
+f^*(h)=d\,h
+\]
+for some integer \(d\).
+
+Since \(f^*\) preserves cup products,
+\[
+f^*(h^2)=f^*(h)^2=d^2h^2.
+\]
+
+Therefore the traces are
+\[
+\operatorname{Tr}(f^*|H^0)=1,
+\]
+\[
+\operatorname{Tr}(f^*|H^2)=d,
+\]
+and
+\[
+\operatorname{Tr}(f^*|H^4)=d^2.
+\]
+
+All these cohomology groups are in even degrees, so
+\[
+L(f)=1+d+d^2.
+\]
+
+But
+\[
+d^2+d+1
+=
+\left(d+\frac12\right)^2+\frac34
+>0.
+\]
+
+Therefore
+\[
+L(f)\neq 0.
+\]
+
+By the Lefschetz fixed point theorem, \(f\) must have a fixed point. Hence
+\[
+\boxed{
+	\text{Every continuous map }f:\mathbb{CP}^2\to\mathbb{CP}^2
+	\text{ has a fixed point.}
+}
+\]
+
+\subsection{Summary of Problems 9--11}
+
+The three problems can be summarized as follows:
+\[
+\begin{array}{c|c|c}
+	\text{Problem} & \text{Main tool} & \text{Main conclusion} \\
+	\hline
+	9
+	&
+	\text{clutching functions}
+	&
+	\text{a nontrivial rank-}3\text{ bundle over }S^4\text{ has no section}
+	\\[1mm]
+	10
+	&
+	\text{Euler characteristic and doubling}
+	&
+	\chi(M)=0\text{ for closed odd }M,\quad
+	\chi(M)=\frac12\chi(\partial M)
+	\\[1mm]
+	11
+	&
+	\text{graph-diagonal intersection}
+	&
+	L(f)\neq 0\Rightarrow f\text{ has a fixed point}
+\end{array}
+\]
+
+The conceptual chain is:
+\[
+\text{Problem 9: vector bundle topology}
+\quad\Longrightarrow\quad
+\text{sections obstructed by clutching}.
+\]
+
+\[
+\text{Problem 10: manifold topology}
+\quad\Longrightarrow\quad
+\text{Euler characteristic obstructs boundaries}.
+\]
+
+\[
+\text{Problem 11: fixed point theory}
+\quad\Longrightarrow\quad
+\text{cohomological trace forces intersections}.
+\]
+
+Thus the common pattern is
+\[
+\boxed{
+	\text{algebraic topology converts geometry into computable invariants.}
+}
+\]	
+	
+\FloatBarrier
+
+% ============================================================
+% Subsection: Figures and Tables for Problems 9--11 (FULL CODE)
+% Note: Put required packages in the PREAMBLE:
+%   \usepackage{tikz}
+%   \usetikzlibrary{positioning,arrows.meta,calc}
+%   \usepackage{booktabs,array}
+%   \usepackage{adjustbox}
+%   \usepackage{subcaption}
+%   \usepackage{placeins}
+% ============================================================
+
+\subsection{Figures and Tables for Problems 9--11}
+
+The following figures and tables summarize the main mechanisms used in
+Problems 9--11.
+
+\renewcommand{\arraystretch}{1.15}
+\setlength{\tabcolsep}{5pt}
+
+% --- shared TikZ styles (consistent across all flowcharts) ---
+\tikzset{
+	flowbox/.style={
+		rectangle,
+		rounded corners=7pt,
+		draw=black,
+		line width=0.85pt,
+		align=center,
+		text width=3.9cm,
+		minimum height=8.5mm,
+		inner sep=3pt
+	},
+	flowboxwide/.style={
+		flowbox,
+		text width=4.2cm
+	},
+	flowarrow/.style={
+		-{Latex[length=2.1mm,width=1.7mm]},
+		line width=0.9pt
+	}
+}
+
+% ------------------------------------------------------------
+% (A) Problem 9: put the two clutching charts SIDE BY SIDE
+% ------------------------------------------------------------
+\begin{figure}[htbp]
+	\centering
+	
+	\begin{minipage}{0.49\textwidth}
+		\centering
+		\begin{adjustbox}{max width=\linewidth, max height=0.48\textheight, keepaspectratio}
+			\begin{tikzpicture}[font=\footnotesize, node distance=0.95cm]
+				\node[flowbox, fill=blue!8] (sphere) {Decompose the sphere\\
+					\(S^4=D^4_+\cup D^4_-\)};
+				\node[flowbox, fill=green!10, below=of sphere] (trivial) {Bundle is trivial over each disk\\
+					\(D^4_\pm\times \mathbb R^3\)};
+				\node[flowbox, fill=yellow!15, below=of trivial] (equator) {Glue along the equator\\
+					\(D^4_+\cap D^4_-=S^3\)};
+				\node[flowbox, fill=orange!15, below=of equator] (clutch) {Clutching function\\
+					\(g:S^3\to SO(3)\)};
+				\node[flowbox, fill=red!10, below=of clutch] (class) {Classification group\\
+					\(\pi_3(SO(3))\cong \mathbb Z\)};
+				
+				\draw[flowarrow] (sphere) -- (trivial);
+				\draw[flowarrow] (trivial) -- (equator);
+				\draw[flowarrow] (equator) -- (clutch);
+				\draw[flowarrow] (clutch) -- (class);
+			\end{tikzpicture}
+		\end{adjustbox}
+		\subcaption{Clutching construction.}
+		\label{fig:clutching-s4}
+	\end{minipage}\hfill
+	\begin{minipage}{0.49\textwidth}
+		\centering
+		\begin{adjustbox}{max width=\linewidth, max height=0.48\textheight, keepaspectratio}
+			\begin{tikzpicture}[font=\footnotesize, node distance=0.95cm]
+				\node[flowboxwide, fill=blue!8] (section) {Assume a nonvanishing section exists};
+				\node[flowboxwide, fill=green!10, below=of section] (split) {Then the bundle splits\\
+					\(E\cong \varepsilon^1\oplus \xi\)};
+				\node[flowboxwide, fill=yellow!15, below=of split] (reduce) {Structure group reduces\\
+					\(SO(3)\rightsquigarrow SO(2)\)};
+				\node[flowboxwide, fill=orange!15, below=of reduce] (pi) {Clutching map factors through\\
+					\(S^3\to SO(2)\cong S^1\)};
+				\node[flowboxwide, fill=red!10, below=of pi] (zero) {But\\
+					\(\pi_3(SO(2))=\pi_3(S^1)=0\)};
+				\node[flowboxwide, fill=purple!10, below=of zero] (contradiction) {Contradiction if\\
+					\([g]\neq 0\in \pi_3(SO(3))\)};
+				
+				\draw[flowarrow] (section) -- (split);
+				\draw[flowarrow] (split) -- (reduce);
+				\draw[flowarrow] (reduce) -- (pi);
+				\draw[flowarrow] (pi) -- (zero);
+				\draw[flowarrow] (zero) -- (contradiction);
+			\end{tikzpicture}
+		\end{adjustbox}
+		\subcaption{No nonvanishing section for a nontrivial class.}
+		\label{fig:no-section-obstruction}
+	\end{minipage}
+	
+	\caption{Problem 9 (rank-$3$ bundles over $S^4$): clutching construction and the obstruction to a nonvanishing section. \emph{Source: own material.}}
+	\label{fig:problem9-flowcharts}
+\end{figure}
+
+% ------------------------------------------------------------
+% (B) Table: main ingredients in Problem 9
+% ------------------------------------------------------------
+\begin{table}[htbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{6pt}
+	\renewcommand{\arraystretch}{1.15}
+	\caption{Main ingredients in Problem 9. \emph{Source: own material.}}
+	\label{tab:problem9-summary}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}p{8.1cm}}
+		\toprule
+		\textbf{Concept} & \textbf{Role in the construction} \\
+		\midrule
+		Clutching map & A rank-\(3\) bundle over \(S^4\) is built from a map \(g:S^3\to SO(3)\). \\
+		Classification group & Oriented rank-\(3\) bundles over \(S^4\) are classified by \(\pi_3(SO(3))\cong \mathbb Z\). \\
+		Nonzero section & A nowhere-zero section would reduce the structure group from \(SO(3)\) to \(SO(2)\). \\
+		Obstruction & Since \(\pi_3(SO(2))=0\), a nonzero class in \(\pi_3(SO(3))\) cannot come from \(SO(2)\). \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+% ------------------------------------------------------------
+% (C) Problem 10: Euler characteristic (compact single chart)
+% ------------------------------------------------------------
+\begin{figure}[htbp]
+	\centering
+	\begin{adjustbox}{max width=0.56\textwidth, max height=0.55\textheight, keepaspectratio}
+		\begin{tikzpicture}[font=\footnotesize, node distance=0.95cm]
+			\node[flowbox, fill=blue!8] (closed) {Closed odd-dimensional manifold\\ \(M^n\), \(n\) odd};
+			\node[flowbox, fill=green!10, below=of closed] (pd) {Poincar\'e duality\\ \(b_i=b_{n-i}\)};
+			\node[flowbox, fill=yellow!15, below=of pd] (cancel) {Euler characteristic terms cancel in pairs};
+			\node[flowbox, fill=orange!15, below=of cancel] (zero) {\(\chi(M)=0\)};
+			
+			\draw[flowarrow] (closed) -- (pd);
+			\draw[flowarrow] (pd) -- (cancel);
+			\draw[flowarrow] (cancel) -- (zero);
+		\end{tikzpicture}
+	\end{adjustbox}
+	\caption{Why closed odd-dimensional manifolds have Euler characteristic zero. \emph{Source: own material.}}
+	\label{fig:odd-closed-chi-zero}
+\end{figure}
+
+% (Optional) keep floats from drifting too far past this subsection
+\FloatBarrier
+
+\begin{table}[tbp]
+	\centering
+	\footnotesize
+	\setlength{\tabcolsep}{6pt}
+	\renewcommand{\arraystretch}{1.15}
+	\caption{Main ingredients in Problem 9. \emph{Source: own material.}}
+	\label{tab:problem9-summary}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}p{8.1cm}}
+		\toprule
+		\textbf{Concept} & \textbf{Role in the construction} \\
+		\midrule
+		Clutching map & A rank-\(3\) bundle over \(S^4\) is built from a map \(g:S^3\to SO(3)\). \\
+		Classification group & Oriented rank-\(3\) bundles over \(S^4\) are classified by \(\pi_3(SO(3))\cong \mathbb Z\). \\
+		Nonzero section & A nowhere-zero section would reduce the structure group from \(SO(3)\) to \(SO(2)\). \\
+		Obstruction & Since \(\pi_3(SO(2))=0\), a nonzero class in \(\pi_3(SO(3))\) cannot come from \(SO(2)\). \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{adjustbox}{max width=0.58\textwidth, max height=0.70\textheight, keepaspectratio}
+		\begin{tikzpicture}[font=\small, node distance=1.0cm]
+			\node[flowbox, fill=blue!8] (closed) {Closed odd-dimensional manifold\\ \(M^n\), \(n\) odd};
+			\node[flowbox, fill=green!10, below=of closed] (pd) {Poincar\'e duality\\ \(b_i=b_{n-i}\)};
+			\node[flowbox, fill=yellow!15, below=of pd] (cancel) {Euler characteristic terms cancel in pairs};
+			\node[flowbox, fill=orange!15, below=of cancel] (zero) {\(\chi(M)=0\)};
+			
+			\draw[flowarrow] (closed) -- (pd);
+			\draw[flowarrow] (pd) -- (cancel);
+			\draw[flowarrow] (cancel) -- (zero);
+		\end{tikzpicture}
+	\end{adjustbox}
+	\caption{Why closed odd-dimensional manifolds have Euler characteristic zero. \emph{Source: own material.}}
+	\label{fig:odd-closed-chi-zero}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{adjustbox}{max width=0.64\textwidth, max height=0.72\textheight, keepaspectratio}
+		\begin{tikzpicture}[font=\small, node distance=1.0cm]
+			\node[flowboxwide, fill=blue!8] (M) {Compact odd-dimensional manifold\\ \(M\) with boundary};
+			\node[flowboxwide, fill=green!10, below=of M] (double) {Double along the boundary\\
+				\(DM=M\cup_{\partial M}M\)};
+			\node[flowboxwide, fill=yellow!15, below=of double] (closed) {The double \(DM\) is closed and odd-dimensional};
+			\node[flowboxwide, fill=orange!15, below=of closed] (add) {Additivity\\
+				\(\chi(DM)=2\chi(M)-\chi(\partial M)\)};
+			\node[flowboxwide, fill=red!10, below=of add] (formula) {Since \(\chi(DM)=0\),\\
+				\(\chi(M)=\frac{1}{2}\chi(\partial M)\)};
+			
+			\draw[flowarrow] (M) -- (double);
+			\draw[flowarrow] (double) -- (closed);
+			\draw[flowarrow] (closed) -- (add);
+			\draw[flowarrow] (add) -- (formula);
+		\end{tikzpicture}
+	\end{adjustbox}
+	\caption{The double construction and the boundary formula for Euler characteristic. \emph{Source: own material.}}
+	\label{fig:double-boundary-chi}
+\end{figure}
+
+\begin{table}[tbp]
+	\centering
+	\footnotesize
+	\caption{Boundary obstruction from Euler characteristic in Problem 10. \emph{Source: own material.}}
+	\label{tab:boundary-obstruction}
+	\begin{tabular}{c|c|c|c}
+		\toprule
+		\textbf{Manifold \(N\)} & \(\chi(N)\) & \textbf{Even?} & \textbf{Conclusion} \\
+		\midrule
+		\(\mathbb{RP}^2\) & \(1\) & no & does not bound a compact \(3\)-manifold \\
+		\(\mathbb{CP}^2\) & \(3\) & no & does not bound a compact \(5\)-manifold \\
+		\(\mathbb{RP}^3\) & \(0\) & yes & Euler characteristic gives no obstruction; it does bound \\
+		\(\mathbb{CP}^3\) & \(4\) & yes & Euler characteristic gives no obstruction; it does bound \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}[tbp]
+	\centering
+	\footnotesize
+	\caption{Examples of compact manifolds bounded by \(\mathbb{RP}^3\) and \(\mathbb{CP}^3\). \emph{Source: own material.}}
+	\label{tab:positive-boundary-examples}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{3.2cm}|>{\raggedright\arraybackslash}p{5.1cm}|>{\raggedright\arraybackslash}p{3.7cm}}
+		\toprule
+		\textbf{Boundary} & \textbf{Bounding manifold} & \textbf{Reason} \\
+		\midrule
+		\(\mathbb{RP}^3\) & Disk bundle \(D(\xi)\) of an oriented \(2\)-plane bundle \(\xi\to S^2\) with \(e(\xi)=2\) & \(\partial D(\xi)=S(\xi)\cong L(2,1)\cong \mathbb{RP}^3\) \\
+		\midrule
+		\(\mathbb{CP}^3\) & Disk bundle \(D(\Lambda^2_+(TS^4))\) & \(\partial D(\Lambda^2_+(TS^4))\cong S(\Lambda^2_+(TS^4))\cong \mathbb{CP}^3\) \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{figure}[tbp]
+	\centering
+	\resizebox{0.74\textwidth}{!}{%
+		\begin{tikzpicture}[font=\small, node distance=1.25cm]
+			\node[flowbox, fill=blue!8] (graph) {Graph of \(f\)\\
+				\(\Lambda_f=\{(p,f(p))\}\)};
+			\node[flowbox, fill=green!10, right=2.5cm of graph] (diag) {Diagonal\\
+				\(\Delta=\{(p,p)\}\)};
+			\node[flowboxwide, fill=yellow!15, below=1.6cm of $(graph)!0.5!(diag)$] (intersect) {Intersection condition\\
+				\((p,f(p))=(p,p)\)};
+			\node[flowboxwide, fill=orange!15, below=of intersect] (fixed) {Equivalent to\\
+				\(f(p)=p\)};
+			\node[flowboxwide, fill=red!10, below=of fixed] (conclusion) {\(\Lambda_f\cap\Delta\) is the fixed point set of \(f\)};
+			
+			\draw[flowarrow] (graph) -- (intersect);
+			\draw[flowarrow] (diag) -- (intersect);
+			\draw[flowarrow] (intersect) -- (fixed);
+			\draw[flowarrow] (fixed) -- (conclusion);
+		\end{tikzpicture}%
+	}
+	\caption{Fixed points as intersections of the graph of \(f\) with the diagonal. \emph{Source: own material.}}
+	\label{fig:graph-diagonal-fixed-points}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{adjustbox}{max width=0.68\textwidth, max height=0.72\textheight, keepaspectratio}
+		\begin{tikzpicture}[font=\small, node distance=1.0cm]
+			\node[flowboxwide, fill=blue!8] (basis) {Choose dual bases\\
+				\(\{a_i\}\), \(\{b_i\}\)};
+			\node[flowboxwide, fill=green!10, below=of basis] (diag) {Diagonal class\\
+				\(PD(\Delta)=\sum_i(-1)^{|a_i|}p_1^*a_i\smile p_2^*b_i\)};
+			\node[flowboxwide, fill=yellow!15, below=of diag] (graph) {Graph class obtained by inserting \(f^*\)};
+			\node[flowboxwide, fill=orange!15, below=of graph] (inter) {Intersection number\\
+				\(\Lambda_f\cdot\Delta\)};
+			\node[flowboxwide, fill=red!10, below=of inter] (lefschetz) {Lefschetz number\\
+				\(L(f)=\sum_j(-1)^j\operatorname{Tr}\!\bigl(f^*:H^j(M;F)\to H^j(M;F)\bigr)\)};
+			
+			\draw[flowarrow] (basis) -- (diag);
+			\draw[flowarrow] (diag) -- (graph);
+			\draw[flowarrow] (graph) -- (inter);
+			\draw[flowarrow] (inter) -- (lefschetz);
+		\end{tikzpicture}
+	\end{adjustbox}
+	\caption{From the diagonal class to the Lefschetz number. \emph{Source: own material.}}
+	\label{fig:diagonal-to-lefschetz}
+\end{figure}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{adjustbox}{max width=0.60\textwidth, max height=0.72\textheight, keepaspectratio}
+		\begin{tikzpicture}[font=\small, node distance=0.95cm]
+			\node[flowbox, fill=blue!8] (L) {Compute the Lefschetz number \(L(f)\)};
+			\node[flowbox, fill=green!10, below=of L] (inter) {Use\\
+				\(L(f)=\Lambda_f\cdot\Delta\)};
+			\node[flowbox, fill=yellow!15, below=of inter] (nonzero) {If \(L(f)\neq 0\), then\\
+				\(\Lambda_f\cdot\Delta\neq 0\)};
+			\node[flowbox, fill=orange!15, below=of nonzero] (meet) {Therefore\\
+				\(\Lambda_f\cap\Delta\neq\varnothing\)};
+			\node[flowbox, fill=red!10, below=of meet] (fixed) {Hence \(f\) has a fixed point};
+			
+			\draw[flowarrow] (L) -- (inter);
+			\draw[flowarrow] (inter) -- (nonzero);
+			\draw[flowarrow] (nonzero) -- (meet);
+			\draw[flowarrow] (meet) -- (fixed);
+		\end{tikzpicture}
+	\end{adjustbox}
+	\caption{Logical structure of the Lefschetz fixed point criterion. \emph{Source: own material.}}
+	\label{fig:lefschetz-fixed-point-criterion}
+\end{figure}
+
+\begin{table}[tbp]
+	\centering
+	\footnotesize
+	\caption{Lefschetz number computation for a map \(f:\mathbb{CP}^2\to\mathbb{CP}^2\). \emph{Source: own material.}}
+	\label{tab:cp2-lefschetz}
+	\begin{tabular}{c|c|c|c}
+		\toprule
+		\textbf{Degree} & \textbf{Cohomology group} & \textbf{Generator} & \textbf{Trace of \(f^*\)} \\
+		\midrule
+		\(0\) & \(H^0(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\) & \(1\) & \(1\) \\
+		\(2\) & \(H^2(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\) & \(h\) & \(d\) \\
+		\(4\) & \(H^4(\mathbb{CP}^2;\mathbb Q)\cong \mathbb Q\) & \(h^2\) & \(d^2\) \\
+		\bottomrule
+	\end{tabular}
+	
+	\medskip
+	\[
+	L(f)=1+d+d^2\neq 0.
+	\]
+\end{table}
+
+\begin{figure}[tbp]
+	\centering
+	\resizebox{0.92\textwidth}{!}{%
+		\begin{tikzpicture}[font=\small, node distance=1.35cm]
+			\node[flowbox, fill=blue!8] (p9) {Problem 9\\ Clutching functions};
+			\node[flowbox, fill=green!10, right=2.1cm of p9] (p10) {Problem 10\\ Euler characteristic};
+			\node[flowbox, fill=yellow!15, right=2.1cm of p10] (p11) {Problem 11\\ Lefschetz number};
+			
+			\node[flowboxwide, fill=orange!15, below=1.6cm of p9] (c9) {Nontrivial bundle over \(S^4\)\\ has no nonzero section};
+			\node[flowboxwide, fill=orange!15, below=1.6cm of p10] (c10) {Odd-dimensional boundary formula\\
+				\(\chi(M)=\frac12\chi(\partial M)\)};
+			\node[flowboxwide, fill=orange!15, below=1.6cm of p11] (c11) {\(L(f)\neq 0\)\\ forces a fixed point};
+			
+			\draw[flowarrow] (p9) -- (c9);
+			\draw[flowarrow] (p10) -- (c10);
+			\draw[flowarrow] (p11) -- (c11);
+		\end{tikzpicture}%
+	}
+	\caption{Conceptual summary of Problems 9--11. \emph{Source: own material.}}
+	\label{fig:summary-9-11}
+\end{figure}
+
+\FloatBarrier
+
+
+\section{A \(3\)-Dimensional Real Vector Bundle over \(S^4\) with No Nonvanishing Section}
+
+\subsection{Problem}
+
+Construct a real vector bundle
+\[
+E \longrightarrow S^4
+\]
+of rank \(3\) which has no nonvanishing section.
+
+In other words, we want a \(3\)-dimensional real vector bundle over \(S^4\) such that there is no continuous section
+\[
+s:S^4\longrightarrow E
+\]
+satisfying
+\[
+s(x)\neq 0
+\qquad
+\text{for every }x\in S^4.
+\]
+
+\subsection{Main Idea}
+
+The construction uses the \emph{clutching construction}. We decompose the sphere \(S^4\) into two closed \(4\)-balls glued along their common boundary:
+\[
+S^4 = D^4_+ \cup_{S^3} D^4_- .
+\]
+
+Since each \(D^4_\pm\) is contractible, every vector bundle over \(D^4_\pm\) is trivial. Therefore, a rank-\(3\) real vector bundle over \(S^4\) can be obtained by taking two trivial bundles
+\[
+D^4_+ \times \mathbb R^3
+\qquad
+\text{and}
+\qquad
+D^4_- \times \mathbb R^3,
+\]
+and gluing them along the equator \(S^3\) using a continuous map
+\[
+g:S^3\longrightarrow GL_3(\mathbb R).
+\]
+
+If we want the bundle to be oriented and equipped with a Euclidean metric, we may take the gluing map to land in \(SO(3)\):
+\[
+g:S^3\longrightarrow SO(3).
+\]
+
+The resulting bundle is denoted
+\[
+E_g \longrightarrow S^4.
+\]
+
+The key point is that the homotopy class of the clutching map
+\[
+[g]\in \pi_3(SO(3))
+\]
+determines the isomorphism class of the oriented rank-\(3\) vector bundle over \(S^4\).
+
+Since
+\[
+\pi_3(SO(3))\cong \mathbb Z,
+\]
+there exist nontrivial rank-\(3\) vector bundles over \(S^4\).
+
+\subsection{Step 1: The Clutching Construction}
+
+Let
+\[
+S^4 = D^4_+ \cup_{S^3} D^4_-,
+\]
+where
+\[
+\partial D^4_+ = \partial D^4_- = S^3.
+\]
+
+Let
+\[
+g:S^3\longrightarrow SO(3)
+\]
+be a continuous map.
+
+Define
+\[
+E_g =
+\bigl(D^4_+ \times \mathbb R^3\bigr)
+\sqcup
+\bigl(D^4_- \times \mathbb R^3\bigr)
+/\sim,
+\]
+where the equivalence relation is given by
+\[
+(q,v)_+ \sim (q,g(q)v)_-,
+\qquad
+q\in S^3,\quad v\in \mathbb R^3.
+\]
+
+Thus \(E_g\) is obtained by gluing two trivial rank-\(3\) bundles along the equator \(S^3\).
+
+\[
+\boxed{
+	E_g =
+	D^4_+ \times \mathbb R^3
+	\cup_g
+	D^4_- \times \mathbb R^3
+}
+\]
+
+The bundle projection is induced from the natural projections
+\[
+D^4_\pm \times \mathbb R^3 \longrightarrow D^4_\pm.
+\]
+
+\subsection{Step 2: Choosing the Clutching Map}
+
+We now choose a specific nontrivial map
+\[
+g:S^3\longrightarrow SO(3).
+\]
+
+Identify \(S^3\) with the group of unit quaternions:
+\[
+S^3=\{q\in \mathbb H: |q|=1\}.
+\]
+
+Also identify
+\[
+\mathbb R^3
+\cong
+\operatorname{Im}\mathbb H
+=
+\{ai+bj+ck : a,b,c\in \mathbb R\}.
+\]
+
+For \(q\in S^3\), define
+\[
+g(q):\operatorname{Im}\mathbb H\longrightarrow \operatorname{Im}\mathbb H
+\]
+by
+\[
+g(q)(v)=qvq^{-1}.
+\]
+
+This is quaternionic conjugation. It preserves the Euclidean norm on
+\(\operatorname{Im}\mathbb H\), and it preserves orientation. Hence
+\[
+g(q)\in SO(3).
+\]
+
+Therefore we obtain a continuous map
+\[
+g:S^3\longrightarrow SO(3),
+\qquad
+g(q)(v)=qvq^{-1}.
+\]
+
+This map is the standard double covering
+\[
+S^3\cong SU(2)\longrightarrow SO(3).
+\]
+
+It represents a generator, up to sign, of
+\[
+\pi_3(SO(3))\cong \mathbb Z.
+\]
+
+Hence
+\[
+[g]\neq 0\in \pi_3(SO(3)).
+\]
+
+\subsection{Step 3: Definition of the Bundle}
+
+Using the above clutching map, define
+\[
+E =
+\bigl(D^4_+ \times \operatorname{Im}\mathbb H\bigr)
+\sqcup
+\bigl(D^4_- \times \operatorname{Im}\mathbb H\bigr)
+/\sim,
+\]
+where
+\[
+(q,v)_+ \sim (q,qvq^{-1})_-,
+\qquad
+q\in S^3,\quad v\in \operatorname{Im}\mathbb H.
+\]
+
+Thus
+\[
+E\longrightarrow S^4
+\]
+is a real vector bundle of rank \(3\).
+
+Equivalently,
+\[
+\boxed{
+	E =
+	D^4_+ \times \mathbb R^3
+	\cup_g
+	D^4_- \times \mathbb R^3,
+	\qquad
+	g(q)(v)=qvq^{-1}.
+}
+\]
+
+\subsection{Step 4: Why the Bundle is Nontrivial}
+
+The isomorphism classes of oriented real rank-\(3\) vector bundles over \(S^4\) are classified by
+\[
+\pi_3(SO(3)).
+\]
+
+Indeed, the equator in the decomposition
+\[
+S^4=D^4_+\cup_{S^3}D^4_-
+\]
+is \(S^3\), and the transition map along this equator is a map
+\[
+S^3\to SO(3).
+\]
+
+Two clutching maps define isomorphic bundles if and only if they are homotopic. Therefore, since
+\[
+[g]\neq 0\in \pi_3(SO(3)),
+\]
+the bundle \(E\) is nontrivial.
+
+In particular,
+\[
+E\ncong S^4\times \mathbb R^3.
+\]
+
+\subsection{Step 5: Why a Nonvanishing Section Would Trivialize the Bundle}
+
+Suppose, for contradiction, that \(E\) admits a nonvanishing section
+\[
+s:S^4\longrightarrow E.
+\]
+
+Then for every \(x\in S^4\),
+\[
+s(x)\in E_x
+\qquad
+\text{and}
+\qquad
+s(x)\neq 0.
+\]
+
+Since \(E\) has a Euclidean metric, we may normalize \(s\). Thus we obtain a unit section
+\[
+\widehat{s}:S^4\longrightarrow E
+\]
+such that
+\[
+\|\widehat{s}(x)\|=1
+\qquad
+\text{for every }x\in S^4.
+\]
+
+This gives a trivial line subbundle
+\[
+\varepsilon^1 \subset E.
+\]
+
+Since \(E\) has rank \(3\), its orthogonal complement has rank \(2\). Hence
+\[
+E\cong \varepsilon^1\oplus F,
+\]
+where \(F\to S^4\) is an oriented real rank-\(2\) vector bundle.
+
+Now oriented real rank-\(2\) vector bundles are classified by their Euler class:
+\[
+e(F)\in H^2(S^4;\mathbb Z).
+\]
+
+But
+\[
+H^2(S^4;\mathbb Z)=0.
+\]
+
+Therefore
+\[
+e(F)=0,
+\]
+so \(F\) is trivial. Hence
+\[
+F\cong \varepsilon^2.
+\]
+
+Consequently,
+\[
+E\cong \varepsilon^1\oplus \varepsilon^2
+\cong \varepsilon^3.
+\]
+
+Thus \(E\) would be trivial.
+
+But this contradicts the fact that \(E\) was constructed using a nontrivial clutching map
+\[
+[g]\neq 0\in \pi_3(SO(3)).
+\]
+
+Therefore \(E\) cannot admit a nonvanishing section.
+
+\[
+\boxed{
+	E\to S^4 \text{ has no nonvanishing section.}
+}
+\]
+
+\subsection{Equivalent Clutching Interpretation of the Obstruction}
+
+There is another way to see the same contradiction.
+
+If \(E\) had a nowhere-zero section, then the structure group of \(E\) would reduce from \(SO(3)\) to the subgroup fixing a unit vector. This subgroup is
+\[
+SO(2)\subset SO(3).
+\]
+
+Therefore the clutching map
+\[
+g:S^3\longrightarrow SO(3)
+\]
+would be homotopic to a map landing in \(SO(2)\):
+\[
+S^3\longrightarrow SO(2).
+\]
+
+But
+\[
+SO(2)\cong S^1,
+\]
+and hence
+\[
+\pi_3(SO(2))
+=
+\pi_3(S^1)
+=
+0.
+\]
+
+So every map
+\[
+S^3\to SO(2)
+\]
+is null-homotopic. Hence \(g\) would be null-homotopic in \(SO(3)\).
+
+This contradicts
+\[
+[g]\neq 0\in \pi_3(SO(3)).
+\]
+
+Therefore, again,
+\[
+E
+\]
+has no nonvanishing section.
+
+\subsection{Characteristic Class Viewpoint}
+
+For an oriented rank-\(3\) real vector bundle
+\[
+E\to S^4,
+\]
+the Euler class satisfies
+\[
+e(E)\in H^3(S^4;\mathbb Z).
+\]
+
+However,
+\[
+H^3(S^4;\mathbb Z)=0.
+\]
+
+Therefore
+\[
+e(E)=0.
+\]
+
+So the Euler class does not detect the obstruction in this example.
+
+Instead, the obstruction is detected by the first Pontryagin class:
+\[
+p_1(E)\in H^4(S^4;\mathbb Z).
+\]
+
+Since
+\[
+H^4(S^4;\mathbb Z)\cong \mathbb Z,
+\]
+there is a generator
+\[
+u\in H^4(S^4;\mathbb Z).
+\]
+
+For the bundle constructed above, one has
+\[
+p_1(E)=\pm 4u.
+\]
+
+In particular,
+\[
+p_1(E)\neq 0.
+\]
+
+If \(E\) had a nonvanishing section, then
+\[
+E\cong \varepsilon^1\oplus F,
+\]
+where \(F\) is an oriented rank-\(2\) bundle over \(S^4\).
+
+But every oriented rank-\(2\) vector bundle over \(S^4\) is trivial, since
+\[
+H^2(S^4;\mathbb Z)=0.
+\]
+
+Thus \(F\cong \varepsilon^2\), and hence
+\[
+E\cong \varepsilon^3.
+\]
+
+Therefore
+\[
+p_1(E)=0,
+\]
+which contradicts
+\[
+p_1(E)=\pm 4u\neq 0.
+\]
+
+Thus the characteristic class viewpoint also proves that \(E\) has no nonvanishing section.
+
+\subsection{Summary Table}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.35}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{0.32\textwidth}
+			>{\raggedright\arraybackslash}p{0.58\textwidth}}
+		\hline
+		\textbf{Object} & \textbf{Meaning} \\
+		\hline
+		\(S^4=D^4_+\cup_{S^3}D^4_-\) 
+		& Decomposition of \(S^4\) into two \(4\)-balls glued along the equator. \\
+		
+		\(D^4_\pm\times \mathbb R^3\) 
+		& Trivial rank-\(3\) bundles over the two hemispheres. \\
+		
+		\(g:S^3\to SO(3)\) 
+		& Clutching map used to glue the two trivial bundles. \\
+		
+		\(g(q)(v)=qvq^{-1}\) 
+		& Quaternionic conjugation, giving a rotation of \(\mathbb R^3\cong\operatorname{Im}\mathbb H\). \\
+		
+		\([g]\in \pi_3(SO(3))\) 
+		& Homotopy class classifying the bundle. \\
+		
+		\(\pi_3(SO(3))\cong \mathbb Z\) 
+		& There are infinitely many oriented rank-\(3\) bundles over \(S^4\). \\
+		
+		\([g]\neq 0\) 
+		& The chosen bundle is nontrivial. \\
+		
+		Nonvanishing section 
+		& Would split \(E\) as \(\varepsilon^1\oplus F\). \\
+		
+		\(H^2(S^4;\mathbb Z)=0\) 
+		& Forces every oriented rank-\(2\) bundle \(F\to S^4\) to be trivial. \\
+		
+		Contradiction 
+		& A nonvanishing section would make \(E\) trivial, but \(E\) is nontrivial. \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Final Answer}
+
+The required vector bundle is
+\[
+\boxed{
+	E =
+	\bigl(D^4_+ \times \operatorname{Im}\mathbb H\bigr)
+	\cup_g
+	\bigl(D^4_- \times \operatorname{Im}\mathbb H\bigr),
+}
+\]
+where the clutching map
+\[
+g:S^3\to SO(3)
+\]
+is defined by
+\[
+\boxed{
+	g(q)(v)=qvq^{-1}.
+}
+\]
+
+Since \(g\) represents a nonzero element of
+\[
+\pi_3(SO(3))\cong \mathbb Z,
+\]
+the bundle \(E\) is nontrivial.
+
+If \(E\) had a nonvanishing section, then
+\[
+E\cong \varepsilon^1\oplus F,
+\]
+where \(F\) is an oriented rank-\(2\) vector bundle over \(S^4\). But
+\[
+H^2(S^4;\mathbb Z)=0,
+\]
+so \(F\) is trivial, and hence \(E\) would be trivial. This contradicts the nontriviality of the clutching map.
+
+Therefore
+\[
+\boxed{
+	E\to S^4 \text{ is a real rank-\(3\) vector bundle with no nonvanishing section.}
+}
+\]
+
+\subsection{How to Understand \(D^4_\pm\times \mathbb R^3\)}
+
+In the summary table we used the notation
+\[
+D^4_\pm\times \mathbb R^3.
+\]
+
+This means the trivial rank-\(3\) vector bundle over the two hemispheres of \(S^4\). Let us explain this carefully.
+
+\subsubsection{The Sphere \(S^4\)}
+
+The \(4\)-sphere is defined by
+\[
+S^4
+=
+\left\{
+(x_0,x_1,x_2,x_3,x_4)\in \mathbb R^5
+:
+x_0^2+x_1^2+x_2^2+x_3^2+x_4^2=1
+\right\}.
+\]
+
+Although \(S^4\) is sitting inside \(\mathbb R^5\), it is a \(4\)-dimensional manifold.
+
+For comparison:
+\[
+S^1\subset \mathbb R^2,
+\qquad
+S^2\subset \mathbb R^3,
+\qquad
+S^3\subset \mathbb R^4,
+\qquad
+S^4\subset \mathbb R^5.
+\]
+
+So \(S^4\) is the higher-dimensional analogue of the usual sphere \(S^2\).
+
+\subsubsection{The Two Hemispheres \(D^4_+\) and \(D^4_-\)}
+
+We split \(S^4\) into two hemispheres:
+\[
+D^4_+
+=
+\{x\in S^4: x_0\geq 0\},
+\]
+and
+\[
+D^4_-
+=
+\{x\in S^4: x_0\leq 0\}.
+\]
+
+Each of these spaces is homeomorphic to the closed \(4\)-disk
+\[
+D^4
+=
+\{y\in \mathbb R^4:\|y\|\leq 1\}.
+\]
+
+Thus
+\[
+D^4_+\cong D^4,
+\qquad
+D^4_-\cong D^4.
+\]
+
+Their common boundary is the equator:
+\[
+D^4_+\cap D^4_-=S^3.
+\]
+
+Therefore we may write
+\[
+S^4=D^4_+\cup_{S^3}D^4_-.
+\]
+
+This means that \(S^4\) is obtained by gluing two \(4\)-disks along their common boundary \(S^3\).
+
+\[
+\boxed{
+	S^4
+	=
+	\text{upper }4\text{-disk}
+	\cup_{\text{equator }S^3}
+	\text{lower }4\text{-disk}
+}
+\]
+
+This is analogous to the familiar decomposition
+\[
+S^2=D^2_+\cup_{S^1}D^2_-,
+\]
+where the usual sphere is obtained by gluing two disks along their boundary circle.
+
+\subsubsection{The Product \(D^4_\pm\times \mathbb R^3\)}
+
+The expression
+\[
+D^4_\pm\times \mathbb R^3
+\]
+means the Cartesian product
+\[
+D^4_\pm\times \mathbb R^3
+=
+\{(x,v):x\in D^4_\pm,\ v\in \mathbb R^3\}.
+\]
+
+Here:
+
+\[
+x\in D^4_\pm
+\]
+is a point of the base space, and
+\[
+v\in \mathbb R^3
+\]
+is a vector attached to that point.
+
+There is a projection map
+\[
+\pi:D^4_\pm\times \mathbb R^3\longrightarrow D^4_\pm
+\]
+defined by
+\[
+\pi(x,v)=x.
+\]
+
+So the projection forgets the vector \(v\) and remembers only the base point \(x\).
+
+\subsubsection{Fibers}
+
+For a fixed point
+\[
+x\in D^4_\pm,
+\]
+the fiber over \(x\) is
+\[
+\pi^{-1}(x)
+=
+\{(x,v):v\in \mathbb R^3\}.
+\]
+
+This is naturally identified with
+\[
+\mathbb R^3.
+\]
+
+Thus
+\[
+\pi^{-1}(x)\cong \mathbb R^3.
+\]
+
+So above every point of \(D^4_\pm\) there is a copy of \(\mathbb R^3\).
+
+\[
+\boxed{
+	\text{Base point }x\in D^4_\pm
+	\quad
+	\longmapsto
+	\quad
+	\text{fiber }\mathbb R^3\text{ above }x.
+}
+\]
+
+\subsubsection{Why the Bundle Has Rank \(3\)}
+
+A real vector bundle has a real vector space attached to every point of the base.
+
+In our case, the fiber over every point is
+\[
+\mathbb R^3.
+\]
+
+Therefore every fiber has dimension \(3\). Hence the vector bundle has rank \(3\).
+
+\[
+\boxed{
+	\operatorname{rank}(D^4_\pm\times \mathbb R^3)
+	=
+	\dim(\mathbb R^3)
+	=
+	3.
+}
+\]
+
+The base \(D^4_\pm\) is \(4\)-dimensional, but the fibers are \(3\)-dimensional.
+
+So one should not confuse:
+
+\[
+\dim D^4_\pm=4
+\]
+
+with
+
+\[
+\dim \mathbb R^3=3.
+\]
+
+The rank of the vector bundle is the dimension of the fiber, not the dimension of the base.
+
+\subsubsection{Why the Bundle is Trivial}
+
+A vector bundle
+\[
+E\to B
+\]
+is called trivial if it is globally of the form
+\[
+B\times V,
+\]
+where \(V\) is a fixed vector space.
+
+In our case, over each hemisphere we have
+\[
+D^4_\pm\times \mathbb R^3.
+\]
+
+This is already written as a product. Therefore it is a trivial bundle.
+
+\[
+\boxed{
+	D^4_\pm\times \mathbb R^3
+	\text{ is the trivial rank-}3\text{ bundle over }D^4_\pm.
+}
+\]
+
+There is no twisting inside \(D^4_+\) or inside \(D^4_-\). The possible twisting appears only when we glue the two trivial bundles along the equator \(S^3\).
+
+\subsubsection{Geometric Interpretation}
+
+The expression
+\[
+D^4_\pm\times \mathbb R^3
+\]
+should be understood as follows:
+
+\[
+\boxed{
+	\text{Over every point of the hemisphere }D^4_\pm,
+	\text{ place one copy of }\mathbb R^3.
+}
+\]
+
+So we have:
+
+\[
+\begin{array}{c}
+	\text{base point }x\in D^4_\pm
+	\\[1mm]
+	\downarrow
+	\\[1mm]
+	\text{fiber }\pi^{-1}(x)\cong \mathbb R^3.
+\end{array}
+\]
+
+The total space consists of all pairs
+\[
+(x,v),
+\]
+where \(x\) is a point of the hemisphere and \(v\) is a vector in the copy of \(\mathbb R^3\) sitting above \(x\).
+
+\subsubsection{Analogy with Lower-Dimensional Cases}
+
+It is useful to compare with lower-dimensional examples.
+
+A trivial rank-\(1\) bundle over an interval is
+\[
+[0,1]\times \mathbb R.
+\]
+
+Above every point of the interval there is a copy of \(\mathbb R\).
+
+A trivial rank-\(2\) bundle over a disk is
+\[
+D^2\times \mathbb R^2.
+\]
+
+Above every point of the disk there is a copy of \(\mathbb R^2\).
+
+In our construction we use
+\[
+D^4_\pm\times \mathbb R^3.
+\]
+
+Above every point of the \(4\)-disk there is a copy of \(\mathbb R^3\).
+
+\[
+\begin{array}{c|c|c}
+	\text{Base} & \text{Fiber} & \text{Trivial bundle} \\
+	\hline
+	[0,1] & \mathbb R & [0,1]\times \mathbb R \\
+	D^2 & \mathbb R^2 & D^2\times \mathbb R^2 \\
+	D^4_\pm & \mathbb R^3 & D^4_\pm\times \mathbb R^3
+\end{array}
+\]
+
+\subsubsection{Why We Use Trivial Bundles on the Hemispheres}
+
+The hemispheres \(D^4_+\) and \(D^4_-\) are contractible. A fundamental fact about vector bundles says:
+
+\[
+\boxed{
+	\text{Every vector bundle over a contractible space is trivial.}
+}
+\]
+
+Since
+\[
+D^4_+\simeq \{\text{point}\},
+\qquad
+D^4_-\simeq \{\text{point}\},
+\]
+every rank-\(3\) vector bundle over \(D^4_+\) or \(D^4_-\) is trivial.
+
+Therefore, when constructing a vector bundle over \(S^4\), the interesting information cannot come from the individual pieces
+\[
+D^4_+\times \mathbb R^3
+\]
+and
+\[
+D^4_-\times \mathbb R^3.
+\]
+
+The interesting information comes from the gluing along the equator
+\[
+S^3.
+\]
+
+\subsubsection{How the Two Trivial Pieces Are Glued}
+
+We begin with two trivial bundles:
+\[
+D^4_+\times \mathbb R^3
+\]
+and
+\[
+D^4_-\times \mathbb R^3.
+\]
+
+Their boundaries are
+\[
+S^3\times \mathbb R^3
+\]
+on both sides.
+
+To glue them, we choose a map
+\[
+g:S^3\longrightarrow SO(3).
+\]
+
+For a point
+\[
+q\in S^3
+\]
+and a vector
+\[
+v\in \mathbb R^3,
+\]
+we identify
+\[
+(q,v)_+
+\sim
+(q,g(q)v)_-.
+\]
+
+Thus the base point \(q\) is glued to the same base point \(q\), but the fiber vector \(v\) may be rotated by the matrix \(g(q)\).
+
+So the gluing rule is
+\[
+\boxed{
+	(q,v)_+
+	\sim
+	(q,g(q)v)_-.
+}
+\]
+
+This is the key mechanism of the clutching construction.
+
+\subsubsection{Where the Nontriviality Comes From}
+
+Each piece
+\[
+D^4_+\times \mathbb R^3
+\]
+and
+\[
+D^4_-\times \mathbb R^3
+\]
+is trivial.
+
+However, after gluing them together, the resulting bundle over \(S^4\) may be nontrivial.
+
+The nontriviality is encoded by the clutching map
+\[
+g:S^3\to SO(3).
+\]
+
+If \(g\) is homotopic to the constant map, then the resulting bundle is trivial.
+
+If \(g\) represents a nonzero element of
+\[
+\pi_3(SO(3)),
+\]
+then the resulting bundle is nontrivial.
+
+In our example, we choose
+\[
+g(q)(v)=qvq^{-1},
+\]
+where
+\[
+q\in S^3\subset \mathbb H
+\]
+is a unit quaternion and
+\[
+v\in \operatorname{Im}\mathbb H\cong \mathbb R^3.
+\]
+
+This map represents a nonzero element of
+\[
+\pi_3(SO(3))\cong \mathbb Z.
+\]
+
+Therefore the final bundle is nontrivial.
+
+\subsubsection{Short Summary}
+
+The notation
+\[
+D^4_\pm\times \mathbb R^3
+\]
+means:
+
+\[
+\boxed{
+	\text{the trivial rank-}3\text{ vector bundle over the upper or lower hemisphere of }S^4.
+}
+\]
+
+More explicitly,
+\[
+D^4_\pm\times \mathbb R^3
+=
+\{(x,v):x\in D^4_\pm,\ v\in \mathbb R^3\}.
+\]
+
+The projection is
+\[
+\pi(x,v)=x.
+\]
+
+The fiber over \(x\) is
+\[
+\pi^{-1}(x)=\{x\}\times \mathbb R^3\cong \mathbb R^3.
+\]
+
+Thus above every point of the hemisphere \(D^4_\pm\) we place one copy of \(\mathbb R^3\).
+
+The bundle is trivial over each hemisphere, but the final bundle over \(S^4\) can be nontrivial because the two trivial pieces are glued along the equator \(S^3\) using a nontrivial map
+\[
+g:S^3\to SO(3).
+\]
+
+\section{Rank \(1\), Rank \(2\), and Rank \(3\) Real Vector Bundles}
+
+\subsection{Definition of a Real Vector Bundle}
+
+A real vector bundle is a continuous map
+\[
+\pi:E\longrightarrow B
+\]
+such that for every point \(x\in B\), the fiber
+\[
+E_x=\pi^{-1}(x)
+\]
+is a real vector space, and locally the bundle looks like a product.
+
+More precisely, for every point \(x\in B\), there exists an open neighborhood
+\[
+U\subset B
+\]
+such that
+\[
+\pi^{-1}(U)\cong U\times \mathbb R^r.
+\]
+
+The number \(r\) is called the \emph{rank} of the vector bundle.
+
+Thus
+\[
+\boxed{
+	\operatorname{rank}(E)=\dim(E_x).
+}
+\]
+
+The rank is the dimension of the fiber, not the dimension of the base.
+
+\subsection{Basic Interpretation}
+
+A vector bundle should be understood as follows:
+
+\[
+\boxed{
+	\text{Over every point }x\in B,\text{ there is a vector space }E_x.
+}
+\]
+
+So the base space \(B\) tells us where the fibers are placed, and the fibers tell us what vector spaces sit above the points of \(B\).
+
+For a rank \(r\) real vector bundle,
+\[
+E_x\cong \mathbb R^r
+\]
+for every \(x\in B\).
+
+Therefore:
+\[
+\begin{array}{c|c|c}
+	\text{Rank} & \text{Fiber} & \text{Name} \\
+	\hline
+	1 & \mathbb R & \text{real line bundle} \\
+	2 & \mathbb R^2 & \text{real plane bundle} \\
+	3 & \mathbb R^3 & \text{rank-}3\text{ real vector bundle}
+\end{array}
+\]
+
+\subsection{The Trivial Rank-\(r\) Bundle}
+
+The simplest vector bundle over a space \(B\) is the product bundle
+\[
+B\times \mathbb R^r\longrightarrow B.
+\]
+
+The projection is
+\[
+\pi:B\times \mathbb R^r\longrightarrow B,
+\qquad
+\pi(x,v)=x.
+\]
+
+The fiber over \(x\in B\) is
+\[
+\pi^{-1}(x)=\{x\}\times \mathbb R^r.
+\]
+
+Hence
+\[
+\pi^{-1}(x)\cong \mathbb R^r.
+\]
+
+This bundle is called the \emph{trivial rank-\(r\) real vector bundle} over \(B\). It is often denoted by
+\[
+\varepsilon^r_B.
+\]
+
+Thus
+\[
+\varepsilon^r_B=B\times \mathbb R^r.
+\]
+
+For example,
+\[
+\varepsilon^1_B=B\times \mathbb R,
+\]
+\[
+\varepsilon^2_B=B\times \mathbb R^2,
+\]
+and
+\[
+\varepsilon^3_B=B\times \mathbb R^3.
+\]
+
+\subsection{Rank \(1\) Vector Bundles: Line Bundles}
+
+A rank \(1\) real vector bundle is called a \emph{real line bundle}. Its fibers are copies of \(\mathbb R\).
+
+Thus, if
+\[
+\pi:L\to B
+\]
+is a real line bundle, then for every \(x\in B\),
+\[
+L_x=\pi^{-1}(x)\cong \mathbb R.
+\]
+
+So above every point of \(B\), there is one real line.
+
+\subsubsection{Example: The Trivial Line Bundle over \(S^1\)}
+
+The trivial line bundle over the circle is
+\[
+S^1\times \mathbb R\longrightarrow S^1.
+\]
+
+The projection is
+\[
+\pi(x,t)=x.
+\]
+
+The fiber over \(x\in S^1\) is
+\[
+\pi^{-1}(x)=\{x\}\times \mathbb R\cong \mathbb R.
+\]
+
+Geometrically, the total space looks like a cylinder.
+
+This bundle has a nonvanishing section
+\[
+s:S^1\to S^1\times \mathbb R
+\]
+defined by
+\[
+s(x)=(x,1).
+\]
+
+Indeed,
+\[
+s(x)\neq 0
+\]
+in every fiber.
+
+Therefore
+\[
+S^1\times \mathbb R
+\]
+is a trivial rank \(1\) bundle.
+
+\subsubsection{Example: The Möbius Line Bundle}
+
+The Möbius band is also a rank \(1\) real vector bundle over \(S^1\).
+
+Its projection is
+\[
+\pi:M\to S^1,
+\]
+where \(M\) denotes the Möbius band.
+
+For every point \(x\in S^1\), the fiber is a line:
+\[
+M_x\cong \mathbb R.
+\]
+
+Locally, the Möbius band looks like a product:
+\[
+U\times \mathbb R.
+\]
+
+However, globally it is twisted. It is not isomorphic to
+\[
+S^1\times \mathbb R.
+\]
+
+Thus
+\[
+\boxed{
+	\text{The Möbius band is a nontrivial real line bundle over }S^1.
+}
+\]
+
+The geometric reason is that when one goes once around the circle, the fiber direction is reversed.
+
+In clutching language, the transition function takes values in
+\[
+O(1)=\{\pm 1\}.
+\]
+
+The trivial line bundle corresponds to gluing by \(+1\), while the Möbius bundle corresponds to gluing by \(-1\).
+
+\subsection{Rank \(2\) Vector Bundles: Plane Bundles}
+
+A rank \(2\) real vector bundle is often called a \emph{real plane bundle}. Its fibers are copies of \(\mathbb R^2\).
+
+Thus, if
+\[
+\pi:E\to B
+\]
+is a rank \(2\) real vector bundle, then
+\[
+E_x\cong \mathbb R^2
+\]
+for every \(x\in B\).
+
+So above every point of the base space, there is a plane.
+
+\subsubsection{Example: The Trivial Rank \(2\) Bundle}
+
+The trivial rank \(2\) bundle over \(B\) is
+\[
+B\times \mathbb R^2\longrightarrow B.
+\]
+
+The projection is
+\[
+\pi(x,v)=x.
+\]
+
+The fiber over \(x\in B\) is
+\[
+\pi^{-1}(x)=\{x\}\times \mathbb R^2\cong \mathbb R^2.
+\]
+
+This bundle has two globally defined sections
+\[
+s_1(x)=(x,(1,0)),
+\]
+and
+\[
+s_2(x)=(x,(0,1)).
+\]
+
+For every \(x\in B\), the vectors
+\[
+s_1(x),s_2(x)
+\]
+form a basis of the fiber
+\[
+E_x\cong \mathbb R^2.
+\]
+
+Therefore
+\[
+B\times \mathbb R^2
+\]
+is a trivial rank \(2\) bundle.
+
+\subsubsection{Example: The Tangent Bundle of \(S^2\)}
+
+The tangent bundle of the \(2\)-sphere is
+\[
+TS^2\longrightarrow S^2.
+\]
+
+For each point \(p\in S^2\), the fiber is the tangent plane at \(p\):
+\[
+(TS^2)_p=T_pS^2.
+\]
+
+Since \(S^2\) is \(2\)-dimensional,
+\[
+T_pS^2\cong \mathbb R^2.
+\]
+
+Therefore
+\[
+TS^2
+\]
+is a rank \(2\) real vector bundle over \(S^2\).
+
+However, \(TS^2\) is not trivial. If it were trivial, then there would exist two everywhere linearly independent tangent vector fields on \(S^2\). In particular, there would exist one nowhere-zero tangent vector field on \(S^2\).
+
+But the hairy ball theorem says that every continuous tangent vector field on \(S^2\) must vanish somewhere.
+
+Hence
+\[
+\boxed{
+	TS^2\to S^2
+	\text{ is a nontrivial rank }2\text{ real vector bundle.}
+}
+\]
+
+\subsubsection{Example: The Tangent Bundle of \(S^1\)}
+
+The tangent bundle of the circle is
+\[
+TS^1\longrightarrow S^1.
+\]
+
+Since \(S^1\) is \(1\)-dimensional, each tangent space is
+\[
+T_pS^1\cong \mathbb R.
+\]
+
+Therefore
+\[
+TS^1
+\]
+is a rank \(1\) bundle, not a rank \(2\) bundle.
+
+In fact,
+\[
+TS^1\cong S^1\times \mathbb R.
+\]
+
+Thus the tangent bundle of the circle is trivial.
+
+\subsection{Rank \(3\) Vector Bundles}
+
+A rank \(3\) real vector bundle has fibers isomorphic to
+\[
+\mathbb R^3.
+\]
+
+Thus, if
+\[
+\pi:E\to B
+\]
+is a rank \(3\) real vector bundle, then for every point \(x\in B\),
+\[
+E_x\cong \mathbb R^3.
+\]
+
+So above every point of \(B\), there is a \(3\)-dimensional real vector space.
+
+\subsubsection{Example: The Trivial Rank \(3\) Bundle}
+
+The trivial rank \(3\) bundle over \(B\) is
+\[
+B\times \mathbb R^3\longrightarrow B.
+\]
+
+The projection is
+\[
+\pi(x,v)=x.
+\]
+
+The fiber over \(x\in B\) is
+\[
+\pi^{-1}(x)=\{x\}\times \mathbb R^3\cong \mathbb R^3.
+\]
+
+This bundle has three globally defined sections:
+\[
+s_1(x)=(x,(1,0,0)),
+\]
+\[
+s_2(x)=(x,(0,1,0)),
+\]
+and
+\[
+s_3(x)=(x,(0,0,1)).
+\]
+
+For every \(x\in B\), these three vectors form a basis of the fiber:
+\[
+s_1(x),s_2(x),s_3(x)
+\]
+is a basis of
+\[
+E_x\cong \mathbb R^3.
+\]
+
+Therefore
+\[
+B\times \mathbb R^3
+\]
+is a trivial rank \(3\) vector bundle.
+
+\subsubsection{Example: The Tangent Bundle of \(S^3\)}
+
+The tangent bundle of \(S^3\) is
+\[
+TS^3\longrightarrow S^3.
+\]
+
+Since \(S^3\) is \(3\)-dimensional, each tangent space satisfies
+\[
+T_pS^3\cong \mathbb R^3.
+\]
+
+Therefore
+\[
+TS^3
+\]
+is a rank \(3\) real vector bundle.
+
+A special fact is that \(S^3\) is parallelizable. This means that its tangent bundle is trivial:
+\[
+TS^3\cong S^3\times \mathbb R^3.
+\]
+
+Hence
+\[
+\boxed{
+	TS^3\to S^3
+	\text{ is a trivial rank }3\text{ real vector bundle.}
+}
+\]
+
+\subsubsection{Example: A Nontrivial Rank \(3\) Bundle over \(S^4\)}
+
+In the previous construction, we considered a rank \(3\) real vector bundle
+\[
+E\longrightarrow S^4.
+\]
+
+Here the base is \(S^4\), but the fibers are copies of \(\mathbb R^3\):
+\[
+E_x\cong \mathbb R^3.
+\]
+
+We construct this bundle by decomposing
+\[
+S^4=D^4_+\cup_{S^3}D^4_-.
+\]
+
+Over each hemisphere, the bundle is trivial:
+\[
+D^4_+\times \mathbb R^3
+\]
+and
+\[
+D^4_-\times \mathbb R^3.
+\]
+
+Then we glue these two trivial bundles along the equator \(S^3\) using a clutching map
+\[
+g:S^3\to SO(3).
+\]
+
+Thus
+\[
+E=
+D^4_+\times \mathbb R^3
+\cup_g
+D^4_-\times \mathbb R^3.
+\]
+
+In our example, we choose
+\[
+g(q)(v)=qvq^{-1},
+\]
+where
+\[
+q\in S^3\subset \mathbb H
+\]
+is a unit quaternion and
+\[
+v\in \operatorname{Im}\mathbb H\cong \mathbb R^3.
+\]
+
+This clutching map represents a nonzero element of
+\[
+\pi_3(SO(3))\cong \mathbb Z.
+\]
+
+Therefore the resulting rank \(3\) vector bundle over \(S^4\) is nontrivial.
+
+Moreover, this bundle has no nonvanishing section.
+
+\subsection{Sections of Vector Bundles}
+
+Let
+\[
+\pi:E\to B
+\]
+be a vector bundle.
+
+A section is a continuous map
+\[
+s:B\to E
+\]
+such that
+\[
+\pi(s(x))=x
+\]
+for every \(x\in B\).
+
+Equivalently, a section chooses one vector from each fiber:
+\[
+s(x)\in E_x.
+\]
+
+A section is called nonvanishing if
+\[
+s(x)\neq 0
+\]
+for every \(x\in B\).
+
+\subsubsection{Example: Sections of a Trivial Bundle}
+
+For the trivial bundle
+\[
+E=B\times \mathbb R^r,
+\]
+a section has the form
+\[
+s(x)=(x,f(x)),
+\]
+where
+\[
+f:B\to \mathbb R^r
+\]
+is a continuous map.
+
+For example, in the trivial rank \(3\) bundle
+\[
+B\times \mathbb R^3,
+\]
+the section
+\[
+s(x)=(x,(1,0,0))
+\]
+is nonvanishing.
+
+\subsubsection{Example: Sections of a Tangent Bundle}
+
+For a tangent bundle
+\[
+TM\to M,
+\]
+a section is exactly a vector field on \(M\).
+
+Indeed, a section
+\[
+s:M\to TM
+\]
+assigns to every point \(p\in M\) a tangent vector
+\[
+s(p)\in T_pM.
+\]
+
+Thus
+\[
+\boxed{
+	\text{Sections of }TM
+	=
+	\text{vector fields on }M.
+}
+\]
+
+A nonvanishing section of \(TM\) is a vector field which is never zero.
+
+\subsection{Local Triviality}
+
+A vector bundle does not need to be globally a product. However, it must be locally a product.
+
+This means that for each point \(x\in B\), there exists an open neighborhood \(U\subset B\) such that
+\[
+\pi^{-1}(U)\cong U\times \mathbb R^r.
+\]
+
+Therefore every vector bundle looks locally like a trivial bundle.
+
+The difference between a trivial and nontrivial bundle is global.
+
+For example, the Möbius band is locally a product:
+\[
+U\times \mathbb R,
+\]
+but globally it is twisted and is not isomorphic to
+\[
+S^1\times \mathbb R.
+\]
+
+Thus
+\[
+\boxed{
+	\text{Vector bundles are locally trivial but may be globally nontrivial.}
+}
+\]
+
+\subsection{Transition Functions}
+
+Let
+\[
+\pi:E\to B
+\]
+be a rank \(r\) real vector bundle.
+
+Choose open sets
+\[
+U_i\subset B
+\]
+such that
+\[
+\pi^{-1}(U_i)\cong U_i\times \mathbb R^r.
+\]
+
+On an overlap
+\[
+U_i\cap U_j,
+\]
+the two trivializations may differ by an invertible linear map.
+
+Therefore we obtain transition functions
+\[
+g_{ij}:U_i\cap U_j\to GL_r(\mathbb R).
+\]
+
+These functions describe how the local product pieces are glued together.
+
+If the vector bundle is equipped with a Euclidean metric, the structure group may be reduced to
+\[
+O(r).
+\]
+
+If the bundle is additionally oriented, the structure group may be reduced to
+\[
+SO(r).
+\]
+
+For rank \(3\), the oriented transition functions take values in
+\[
+SO(3).
+\]
+
+Thus a rank \(3\) oriented real vector bundle is locally glued by maps
+\[
+g_{ij}:U_i\cap U_j\to SO(3).
+\]
+
+\subsection{Triviality and Global Frames}
+
+A rank \(r\) vector bundle
+\[
+E\to B
+\]
+is trivial if and only if it admits \(r\) everywhere linearly independent global sections.
+
+That means there exist sections
+\[
+s_1,\dots,s_r:B\to E
+\]
+such that, for every \(x\in B\),
+\[
+s_1(x),\dots,s_r(x)
+\]
+form a basis of the fiber
+\[
+E_x.
+\]
+
+Such a collection is called a global frame.
+
+Therefore:
+\[
+\boxed{
+	\text{Rank }1\text{ bundle is trivial}
+	\Longleftrightarrow
+	\text{it has one nonvanishing section.}
+}
+\]
+
+\[
+\boxed{
+	\text{Rank }2\text{ bundle is trivial}
+	\Longleftrightarrow
+	\text{it has two everywhere independent sections.}
+}
+\]
+
+\[
+\boxed{
+	\text{Rank }3\text{ bundle is trivial}
+	\Longleftrightarrow
+	\text{it has three everywhere independent sections.}
+}
+\]
+
+For a rank \(3\) bundle, one nonvanishing section does not generally trivialize the whole bundle. It only splits off a trivial line bundle:
+\[
+E\cong \varepsilon^1\oplus F,
+\]
+where \(F\) is a rank \(2\) vector bundle.
+
+However, in the special case of our bundle over \(S^4\), if such a section existed, then \(F\) would be an oriented rank \(2\) vector bundle over \(S^4\). Since
+\[
+H^2(S^4;\mathbb Z)=0,
+\]
+the bundle \(F\) would be trivial. Hence \(E\) would be trivial.
+
+This contradicts the nontrivial clutching construction. Therefore our rank \(3\) bundle over \(S^4\) has no nonvanishing section.
+
+\subsection{Comparison Table}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.35}
+	\begin{tabular}{c|c|c|c}
+		\hline
+		\textbf{Rank} & \textbf{Name} & \textbf{Fiber} & \textbf{Typical Example} \\
+		\hline
+		\(1\) & Line bundle & \(\mathbb R\) & Möbius band over \(S^1\) \\
+		\(2\) & Plane bundle & \(\mathbb R^2\) & \(TS^2\to S^2\) \\
+		\(3\) & Rank-\(3\) bundle & \(\mathbb R^3\) & Clutched bundle \(E\to S^4\) \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Examples Table}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.35}
+	\begin{tabular}{c|c|c|c}
+		\hline
+		\textbf{Bundle} & \textbf{Base} & \textbf{Fiber} & \textbf{Trivial?} \\
+		\hline
+		\(S^1\times \mathbb R\) & \(S^1\) & \(\mathbb R\) & Yes \\
+		Möbius band & \(S^1\) & \(\mathbb R\) & No \\
+		\(S^2\times \mathbb R^2\) & \(S^2\) & \(\mathbb R^2\) & Yes \\
+		\(TS^2\) & \(S^2\) & \(\mathbb R^2\) & No \\
+		\(S^3\times \mathbb R^3\) & \(S^3\) & \(\mathbb R^3\) & Yes \\
+		\(TS^3\) & \(S^3\) & \(\mathbb R^3\) & Yes \\
+		\(E\to S^4\) & \(S^4\) & \(\mathbb R^3\) & No \\
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection{Final Summary}
+
+A real vector bundle is a family of vector spaces varying continuously over a base space.
+
+\[
+\boxed{
+	\text{Base space }B
+	+
+	\text{fiber }\mathbb R^r
+	=
+	\text{rank }r\text{ real vector bundle.}
+}
+\]
+
+Rank \(1\) bundles have fibers \(\mathbb R\), so they are line bundles.
+
+Rank \(2\) bundles have fibers \(\mathbb R^2\), so they are plane bundles.
+
+Rank \(3\) bundles have fibers \(\mathbb R^3\).
+
+A bundle is trivial if all fibers fit together globally as a product:
+\[
+B\times \mathbb R^r.
+\]
+
+A bundle may be locally trivial but globally nontrivial. The Möbius band is the basic rank \(1\) example, \(TS^2\) is a basic rank \(2\) example, and the clutched bundle
+\[
+E=
+D^4_+\times \mathbb R^3
+\cup_g
+D^4_-\times \mathbb R^3
+\]
+with
+\[
+g(q)(v)=qvq^{-1}
+\]
+is a rank \(3\) example over \(S^4\) with no nonvanishing section.
+
+\subsection{The Case \(B=S^2\): Trivial Plane Bundle versus Tangent Bundle}
+
+Let
+\[
+B=S^2.
+\]
+
+A natural first idea is to take the product bundle
+\[
+B\times \mathbb R^2\longrightarrow B.
+\]
+
+Since \(B=S^2\), this becomes
+\[
+S^2\times \mathbb R^2\longrightarrow S^2.
+\]
+
+The projection is
+\[
+\pi:S^2\times \mathbb R^2\longrightarrow S^2,
+\qquad
+\pi(p,v)=p.
+\]
+
+For each point \(p\in S^2\), the fiber is
+\[
+\pi^{-1}(p)=\{p\}\times \mathbb R^2.
+\]
+
+Thus
+\[
+\pi^{-1}(p)\cong \mathbb R^2.
+\]
+
+Therefore
+\[
+S^2\times \mathbb R^2\to S^2
+\]
+is a rank \(2\) real vector bundle.
+
+However, it is important to distinguish this trivial bundle from the tangent bundle of the sphere.
+
+\subsubsection{The Trivial Plane Bundle over \(S^2\)}
+
+The bundle
+\[
+S^2\times \mathbb R^2\longrightarrow S^2
+\]
+means that above every point \(p\in S^2\), we attach the same fixed model vector space
+\[
+\mathbb R^2.
+\]
+
+So we should think of it as
+\[
+\boxed{
+	\text{At every point }p\in S^2,
+	\text{ place one fixed copy of }\mathbb R^2.
+}
+\]
+
+The total space consists of pairs
+\[
+(p,v),
+\]
+where
+\[
+p\in S^2,
+\qquad
+v\in \mathbb R^2.
+\]
+
+This bundle is globally a product, so it is trivial:
+\[
+\boxed{
+	S^2\times \mathbb R^2
+	\text{ is the trivial rank }2\text{ bundle over }S^2.
+}
+\]
+
+It has two globally defined linearly independent sections:
+\[
+s_1:S^2\to S^2\times \mathbb R^2,
+\qquad
+s_1(p)=(p,(1,0)),
+\]
+and
+\[
+s_2:S^2\to S^2\times \mathbb R^2,
+\qquad
+s_2(p)=(p,(0,1)).
+\]
+
+For every point \(p\in S^2\), the two vectors
+\[
+s_1(p),s_2(p)
+\]
+form a basis of the fiber
+\[
+\{p\}\times \mathbb R^2.
+\]
+
+Hence
+\[
+s_1,s_2
+\]
+form a global frame. This is exactly what it means for a rank \(2\) bundle to be trivial.
+
+\subsubsection{The Tangent Bundle of \(S^2\)}
+
+The tangent bundle of the sphere is written
+\[
+TS^2\longrightarrow S^2.
+\]
+
+Its fiber over a point \(p\in S^2\) is the tangent plane at \(p\):
+\[
+(TS^2)_p=T_pS^2.
+\]
+
+Since \(S^2\) is a \(2\)-dimensional manifold, each tangent plane is a \(2\)-dimensional real vector space:
+\[
+T_pS^2\cong \mathbb R^2.
+\]
+
+Therefore
+\[
+TS^2
+\]
+is also a rank \(2\) real vector bundle.
+
+But now the fiber over \(p\) is not just a fixed abstract copy of \(\mathbb R^2\). It is the actual tangent plane to the sphere at \(p\).
+
+A useful concrete description is:
+\[
+\boxed{
+	TS^2=
+	\{(p,v)\in S^2\times \mathbb R^3: p\cdot v=0\}.
+}
+\]
+
+Here \(S^2\subset \mathbb R^3\), so a point
+\[
+p\in S^2
+\]
+is a unit vector in \(\mathbb R^3\), and
+\[
+v\in \mathbb R^3.
+\]
+
+The condition
+\[
+p\cdot v=0
+\]
+means that \(v\) is perpendicular to \(p\). Since the radius vector \(p\) is normal to the sphere at \(p\), the vectors perpendicular to \(p\) form the tangent plane:
+\[
+T_pS^2=\{v\in \mathbb R^3:p\cdot v=0\}.
+\]
+
+The projection is
+\[
+\pi:TS^2\longrightarrow S^2,
+\qquad
+\pi(p,v)=p.
+\]
+
+The fiber over \(p\) is
+\[
+\pi^{-1}(p)
+=
+\{(p,v):v\in \mathbb R^3,\ p\cdot v=0\}.
+\]
+
+Thus
+\[
+\pi^{-1}(p)\cong T_pS^2.
+\]
+
+So we have
+\[
+\boxed{
+	(TS^2)_p=T_pS^2
+	=
+	\{v\in \mathbb R^3:p\cdot v=0\}.
+}
+\]
+
+\subsubsection{Why \(TS^2\) is Not the Same as \(S^2\times \mathbb R^2\)}
+
+Both bundles
+\[
+S^2\times \mathbb R^2\to S^2
+\]
+and
+\[
+TS^2\to S^2
+\]
+have fibers isomorphic to \(\mathbb R^2\).
+
+However, they are not the same vector bundle.
+
+The trivial bundle
+\[
+S^2\times \mathbb R^2
+\]
+has one fixed copy of \(\mathbb R^2\) over every point.
+
+The tangent bundle
+\[
+TS^2
+\]
+has the tangent plane
+\[
+T_pS^2
+\]
+over each point \(p\). These tangent planes rotate as \(p\) moves around the sphere.
+
+Locally, \(TS^2\) looks like a product:
+\[
+\pi^{-1}(U)\cong U\times \mathbb R^2
+\]
+for sufficiently small open sets
+\[
+U\subset S^2.
+\]
+
+But globally,
+\[
+TS^2
+\]
+is twisted.
+
+In fact,
+\[
+\boxed{
+	TS^2\ncong S^2\times \mathbb R^2.
+}
+\]
+
+One reason is the hairy ball theorem:
+
+\[
+\boxed{
+	\text{Every continuous tangent vector field on }S^2
+	\text{ vanishes somewhere.}
+}
+\]
+
+If
+\[
+TS^2\cong S^2\times \mathbb R^2,
+\]
+then \(TS^2\) would have a global frame, and in particular it would have a nowhere-zero tangent vector field.
+
+But the hairy ball theorem says that this is impossible.
+
+Therefore
+\[
+TS^2
+\]
+is nontrivial.
+
+\subsubsection{Comparison}
+
+The two bundles should be compared as follows:
+
+\[
+\begin{array}{c|c|c|c}
+	\text{Bundle} & \text{Base} & \text{Fiber over }p & \text{Trivial?} \\
+	\hline
+	S^2\times \mathbb R^2\to S^2
+	&
+	S^2
+	&
+	\{p\}\times \mathbb R^2\cong \mathbb R^2
+	&
+	\text{Yes}
+	\\
+	TS^2\to S^2
+	&
+	S^2
+	&
+	T_pS^2\cong \mathbb R^2
+	&
+	\text{No}
+\end{array}
+\]
+
+Thus we have the important distinction:
+\[
+\boxed{
+	\text{Every tangent plane }T_pS^2
+	\text{ is isomorphic to }\mathbb R^2,
+}
+\]
+but
+\[
+\boxed{
+	\text{the whole tangent bundle }TS^2
+	\text{ is not globally }S^2\times \mathbb R^2.
+}
+\]
+
+\subsubsection{Best Summary}
+
+The trivial rank \(2\) bundle over \(S^2\) is
+\[
+\boxed{
+	S^2\times \mathbb R^2\to S^2.
+}
+\]
+
+It means:
+\[
+\boxed{
+	\text{same fixed plane }\mathbb R^2\text{ over every point of }S^2.
+}
+\]
+
+The tangent bundle of \(S^2\) is
+\[
+\boxed{
+	TS^2\to S^2.
+}
+\]
+
+It means:
+\[
+\boxed{
+	\text{the actual tangent plane }T_pS^2\text{ over each point }p\in S^2.
+}
+\]
+
+Although
+\[
+T_pS^2\cong \mathbb R^2
+\]
+for each individual point \(p\), the bundle as a whole is twisted:
+\[
+\boxed{
+	TS^2\ncong S^2\times \mathbb R^2.
+}
+\]
+
+\section{Euler Characteristic of Closed Odd-Dimensional Manifolds}
+
+\subsection{Basic definitions}
+
+\begin{definition}[Manifold]
+	An \emph{$n$-dimensional manifold} is a topological space $M$ such that every point
+	$p \in M$ has a neighbourhood homeomorphic to an open subset of $\mathbb{R}^n$.
+	In other words, locally $M$ looks like $\mathbb{R}^n$.
+\end{definition}
+
+\begin{example}
+	The circle $S^1$ is a $1$-dimensional manifold, because near every point it looks
+	like an open interval in $\mathbb{R}$.
+\end{example}
+
+\begin{example}
+	The sphere $S^2$ is a $2$-dimensional manifold, because near every point it looks
+	like an open disk in $\mathbb{R}^2$.
+\end{example}
+
+\begin{example}
+	The $3$-sphere $S^3$ is a $3$-dimensional manifold. Although it is harder to
+	visualize, locally every point has a neighbourhood homeomorphic to an open ball
+	in $\mathbb{R}^3$.
+\end{example}
+
+\begin{definition}[Closed manifold]
+	A manifold $M$ is called \emph{closed} if it is compact and has no boundary.
+\end{definition}
+
+\begin{example}
+	The circle $S^1$ is closed. It is compact and has no boundary.
+\end{example}
+
+\begin{example}
+	The interval $[0,1]$ is compact, but it is not closed as a manifold without
+	boundary, because it has boundary points $0$ and $1$.
+\end{example}
+
+\begin{example}
+	The sphere $S^2$ is closed. The disk $D^2$ is not closed as a manifold without
+	boundary, because its boundary is $S^1$.
+\end{example}
+
+\subsection{Betti numbers}
+
+Let $M$ be a topological space. Its homology groups $H_i(M;F)$ measure
+$i$-dimensional holes in $M$, where $F$ is a field.
+
+\begin{definition}[Betti number]
+	The $i$-th Betti number of $M$ over a field $F$ is
+	\[
+	b_i(M) = \dim_F H_i(M;F).
+	\]
+\end{definition}
+
+Intuitively:
+
+\[
+\begin{array}{c|l}
+	b_0(M) & \text{number of connected components},\\
+	b_1(M) & \text{number of independent loops},\\
+	b_2(M) & \text{number of independent enclosed voids or surfaces},\\
+	b_i(M) & \text{number of independent $i$-dimensional holes}.
+\end{array}
+\]
+
+\begin{example}
+	For the circle $S^1$ we have
+	\[
+	b_0(S^1)=1, \qquad b_1(S^1)=1.
+	\]
+	There is one connected component and one independent loop.
+\end{example}
+
+\begin{example}
+	For the sphere $S^2$ we have
+	\[
+	b_0(S^2)=1, \qquad b_1(S^2)=0, \qquad b_2(S^2)=1.
+	\]
+	There is one connected component, no tunnel, and one $2$-dimensional spherical
+	surface class.
+\end{example}
+
+\subsection{Euler characteristic}
+
+\begin{definition}[Euler characteristic]
+	Let $M$ be a space with finite-dimensional homology groups. The Euler
+	characteristic of $M$ is defined by
+	\[
+	\chi(M)=\sum_{i=0}^{n}(-1)^i b_i(M).
+	\]
+\end{definition}
+
+Thus the Euler characteristic is the alternating sum of Betti numbers:
+
+\[
+\chi(M)
+=
+b_0(M)-b_1(M)+b_2(M)-b_3(M)+\cdots+(-1)^n b_n(M).
+\]
+
+\subsection{Step 1: Closed odd-dimensional manifolds}
+
+Let $M$ be a closed $n$-dimensional manifold, where $n$ is odd. We compute the
+Euler characteristic using Betti numbers over a field $F$:
+
+\[
+\chi(M)=\sum_{i=0}^{n}(-1)^i b_i(M).
+\]
+
+The key fact is Poincaré duality.
+
+\begin{theorem}[Poincaré duality]
+	If $M$ is a closed $n$-dimensional manifold, then the Betti numbers satisfy
+	\[
+	b_i(M)=b_{n-i}(M).
+	\]
+
+	If $M$ is orientable, this holds over any field $F$. For a general closed
+	manifold, one may work over $\mathbb{F}_2$.
+\end{theorem}
+
+Now suppose that $n$ is odd. Pair the terms $i$ and $n-i$ in the Euler
+characteristic:
+
+\[
+(-1)^i b_i(M) + (-1)^{n-i} b_{n-i}(M).
+\]
+
+By Poincaré duality,
+
+\[
+b_{n-i}(M)=b_i(M).
+\]
+
+Therefore the paired terms become
+
+\[
+(-1)^i b_i(M) + (-1)^{n-i} b_i(M).
+\]
+
+Since $n$ is odd, the signs $(-1)^i$ and $(-1)^{n-i}$ are opposite. Hence
+
+\[
+(-1)^i + (-1)^{n-i}=0.
+\]
+
+So each pair cancels:
+
+\[
+(-1)^i b_i(M) + (-1)^{n-i} b_{n-i}(M)=0.
+\]
+
+Therefore,
+
+\[
+\boxed{\chi(M)=0.}
+\]
+
+So every closed odd-dimensional manifold has Euler characteristic zero.
+
+\subsection{Example 1: The circle $S^1$}
+
+The circle $S^1$ is a closed $1$-dimensional manifold. Its Betti numbers are
+
+\[
+b_0(S^1)=1, \qquad b_1(S^1)=1.
+\]
+
+Therefore
+
+\[
+\chi(S^1)
+=
+b_0(S^1)-b_1(S^1)
+=
+1-1
+=
+0.
+\]
+
+Thus
+
+\[
+\boxed{\chi(S^1)=0.}
+\]
+
+This agrees with the theorem, because $S^1$ is closed and odd-dimensional.
+
+\subsection{Example 2: The $3$-sphere $S^3$}
+
+The $3$-sphere $S^3$ is a closed $3$-dimensional manifold. Its Betti numbers are
+
+\[
+b_0(S^3)=1, \qquad b_1(S^3)=0, \qquad b_2(S^3)=0, \qquad b_3(S^3)=1.
+\]
+
+Hence
+
+\[
+\chi(S^3)
+=
+b_0(S^3)-b_1(S^3)+b_2(S^3)-b_3(S^3).
+\]
+
+Substituting the Betti numbers gives
+
+\[
+\chi(S^3)
+=
+1-0+0-1
+=
+0.
+\]
+
+Thus
+
+\[
+\boxed{\chi(S^3)=0.}
+\]
+
+Again, this matches the general theorem.
+
+\subsection{Example 3: The $3$-torus $T^3$}
+
+The $3$-torus is
+
+\[
+T^3=S^1 \times S^1 \times S^1.
+\]
+
+It is a closed $3$-dimensional manifold. Its Betti numbers are
+
+\[
+b_0(T^3)=1, \qquad
+b_1(T^3)=3, \qquad
+b_2(T^3)=3, \qquad
+b_3(T^3)=1.
+\]
+
+Therefore
+
+\[
+\chi(T^3)
+=
+b_0(T^3)-b_1(T^3)+b_2(T^3)-b_3(T^3).
+\]
+
+So
+
+\[
+\chi(T^3)
+=
+1-3+3-1
+=
+0.
+\]
+
+Thus
+
+\[
+\boxed{\chi(T^3)=0.}
+\]
+
+This is another example of a closed odd-dimensional manifold with Euler
+characteristic zero.
+
+\subsection{Comparison with even-dimensional manifolds}
+
+The cancellation argument depends on $n$ being odd. In even dimension, the signs
+of paired terms do not cancel in the same way.
+
+For example, the sphere $S^2$ has Betti numbers
+
+\[
+b_0(S^2)=1, \qquad b_1(S^2)=0, \qquad b_2(S^2)=1.
+\]
+
+Hence
+
+\[
+\chi(S^2)
+=
+1-0+1
+=
+2.
+\]
+
+So
+
+\[
+\boxed{\chi(S^2)=2.}
+\]
+
+Thus closed even-dimensional manifolds do not necessarily have Euler
+characteristic zero.
+
+\subsection{Summary}
+
+For a closed $n$-dimensional manifold $M$, Poincaré duality gives
+
+\[
+b_i(M)=b_{n-i}(M).
+\]
+
+If $n$ is odd, then the Euler characteristic terms cancel in pairs:
+
+\[
+(-1)^i b_i(M)
++
+(-1)^{n-i} b_{n-i}(M)
+=
+0.
+\]
+
+Therefore,
+
+\[
+\boxed{\text{If $M$ is a closed odd-dimensional manifold, then } \chi(M)=0.}
+\]
+
+\section{Betti Numbers and Euler Characteristic: Definitions and Examples}
+
+\subsection{Definition of Betti numbers}
+
+Let $X$ be a topological space and let $F$ be a field, for example
+$F=\mathbb{Q}$, $\mathbb{R}$, or $\mathbb{F}_2$.
+
+\begin{definition}[Betti number]
+	The $i$-th Betti number of $X$ over the field $F$ is defined as
+	\[
+	b_i(X)=\dim_F H_i(X;F),
+	\]
+	where $H_i(X;F)$ is the $i$-th homology group of $X$ with coefficients in $F$.
+\end{definition}
+
+Intuitively, Betti numbers count independent holes of different dimensions:
+\[
+\begin{array}{c|l}
+	b_0(X) & \text{number of connected components},\\
+	b_1(X) & \text{number of independent loops},\\
+	b_2(X) & \text{number of independent enclosed surfaces or voids},\\
+	b_3(X) & \text{number of independent $3$-dimensional holes}.
+\end{array}
+\]
+
+\subsection{Definition of Euler characteristic}
+
+\begin{definition}[Euler characteristic]
+	Let $X$ be a space whose homology groups are finite-dimensional over $F$.
+	The Euler characteristic of $X$ is
+	\[
+	\chi(X)=\sum_{i\geq 0}(-1)^i b_i(X).
+	\]
+\end{definition}
+
+Equivalently, if $X$ has dimension $n$, then
+\[
+\chi(X)
+=
+b_0(X)-b_1(X)+b_2(X)-b_3(X)+\cdots+(-1)^n b_n(X).
+\]
+
+Thus the Euler characteristic is an alternating sum of Betti numbers.
+
+\subsection{Example 1: The circle $S^1$}
+
+The circle $S^1$ is connected, so
+\[
+b_0(S^1)=1.
+\]
+
+It has one independent loop, namely the loop going once around the circle, so
+\[
+b_1(S^1)=1.
+\]
+
+There are no higher-dimensional holes, so
+\[
+b_i(S^1)=0
+\qquad
+\text{for } i\geq 2.
+\]
+
+Therefore the only nonzero Betti numbers are
+\[
+b_0(S^1)=1,
+\qquad
+b_1(S^1)=1.
+\]
+
+Now compute the Euler characteristic:
+\[
+\chi(S^1)
+=
+b_0(S^1)-b_1(S^1).
+\]
+
+Substituting the Betti numbers gives
+\[
+\chi(S^1)=1-1=0.
+\]
+
+Hence
+\[
+\boxed{\chi(S^1)=0.}
+\]
+
+So the circle has Euler characteristic zero.
+
+\subsection{Example 2: The sphere $S^2$}
+
+The sphere $S^2$ is connected, hence
+\[
+b_0(S^2)=1.
+\]
+
+Every loop on $S^2$ can be contracted to a point. Therefore there are no
+independent $1$-dimensional loops:
+\[
+b_1(S^2)=0.
+\]
+
+However, the whole sphere represents one fundamental $2$-dimensional homology
+class. Hence
+\[
+b_2(S^2)=1.
+\]
+
+There are no higher-dimensional homology groups, so
+\[
+b_i(S^2)=0
+\qquad
+\text{for } i\geq 3.
+\]
+
+Thus the Betti numbers are
+\[
+b_0(S^2)=1,
+\qquad
+b_1(S^2)=0,
+\qquad
+b_2(S^2)=1.
+\]
+
+Now compute:
+\[
+\chi(S^2)
+=
+b_0(S^2)-b_1(S^2)+b_2(S^2).
+\]
+
+Substituting the values gives
+\[
+\chi(S^2)=1-0+1=2.
+\]
+
+Therefore
+\[
+\boxed{\chi(S^2)=2.}
+\]
+
+This is an example of a closed even-dimensional manifold whose Euler
+characteristic is not zero.
+
+\subsection{Example 3: The $3$-sphere $S^3$}
+
+The $3$-sphere $S^3$ is connected, so
+\[
+b_0(S^3)=1.
+\]
+
+It has no independent $1$-dimensional loops, so
+\[
+b_1(S^3)=0.
+\]
+
+It also has no independent $2$-dimensional homology classes, so
+\[
+b_2(S^3)=0.
+\]
+
+Since $S^3$ is a closed connected $3$-dimensional manifold, it has one
+top-dimensional fundamental class:
+\[
+b_3(S^3)=1.
+\]
+
+Thus
+\[
+b_0(S^3)=1,
+\qquad
+b_1(S^3)=0,
+\qquad
+b_2(S^3)=0,
+\qquad
+b_3(S^3)=1.
+\]
+
+Now compute the Euler characteristic:
+\[
+\chi(S^3)
+=
+b_0(S^3)-b_1(S^3)+b_2(S^3)-b_3(S^3).
+\]
+
+Substituting the Betti numbers gives
+\[
+\chi(S^3)=1-0+0-1=0.
+\]
+
+Hence
+\[
+\boxed{\chi(S^3)=0.}
+\]
+
+This agrees with the general fact that every closed odd-dimensional manifold
+has Euler characteristic zero.
+
+\subsection{Example 4: The $3$-torus $T^3$}
+
+The $3$-torus is the product
+\[
+T^3=S^1\times S^1\times S^1.
+\]
+
+It is a closed $3$-dimensional manifold. It has three independent circular
+directions. Therefore
+\[
+b_1(T^3)=3.
+\]
+
+The Betti numbers of $T^3$ can be computed using the Künneth formula. A compact
+way to remember them is to use the polynomial
+\[
+(1+t)^3.
+\]
+
+Expanding gives
+\[
+(1+t)^3=1+3t+3t^2+t^3.
+\]
+
+The coefficients give the Betti numbers:
+\[
+b_0(T^3)=1,
+\qquad
+b_1(T^3)=3,
+\qquad
+b_2(T^3)=3,
+\qquad
+b_3(T^3)=1.
+\]
+
+Now compute:
+\[
+\chi(T^3)
+=
+b_0(T^3)-b_1(T^3)+b_2(T^3)-b_3(T^3).
+\]
+
+Substituting the values gives
+\[
+\chi(T^3)=1-3+3-1=0.
+\]
+
+Therefore
+\[
+\boxed{\chi(T^3)=0.}
+\]
+
+Again, the Euler characteristic is zero because $T^3$ is a closed
+odd-dimensional manifold.
+
+\subsection{Example 5: The interval $[0,1]$}
+
+The interval $[0,1]$ is connected, so
+\[
+b_0([0,1])=1.
+\]
+
+It has no loop, hence
+\[
+b_1([0,1])=0.
+\]
+
+There are no higher-dimensional holes:
+\[
+b_i([0,1])=0
+\qquad
+\text{for } i\geq 2.
+\]
+
+Therefore
+\[
+\chi([0,1])
+=
+b_0([0,1])-b_1([0,1]).
+\]
+
+Substituting gives
+\[
+\chi([0,1])=1-0=1.
+\]
+
+Hence
+\[
+\boxed{\chi([0,1])=1.}
+\]
+
+Notice that $[0,1]$ is compact, but it has boundary. Therefore it is not a
+closed manifold in the sense of compact manifold without boundary.
+
+\subsection{Example 6: The disk $D^2$}
+
+The disk $D^2$ is connected, so
+\[
+b_0(D^2)=1.
+\]
+
+Every loop in the disk can be contracted to a point, so
+\[
+b_1(D^2)=0.
+\]
+
+Although the disk is $2$-dimensional, it is filled in and has boundary. It does
+not give a nontrivial $2$-dimensional homology class. Therefore
+\[
+b_2(D^2)=0.
+\]
+
+Thus
+\[
+b_0(D^2)=1,
+\qquad
+b_1(D^2)=0,
+\qquad
+b_2(D^2)=0.
+\]
+
+Now compute:
+\[
+\chi(D^2)
+=
+b_0(D^2)-b_1(D^2)+b_2(D^2).
+\]
+
+Substituting gives
+\[
+\chi(D^2)=1-0+0=1.
+\]
+
+Hence
+\[
+\boxed{\chi(D^2)=1.}
+\]
+
+The disk is not closed as a manifold without boundary, because
+\[
+\partial D^2=S^1.
+\]
+
+\subsection{General rule for spheres}
+
+For the $n$-sphere $S^n$, the Betti numbers are
+\[
+b_i(S^n)
+=
+\begin{cases}
+	1, & i=0,\\
+	1, & i=n,\\
+	0, & \text{otherwise}.
+\end{cases}
+\]
+
+Therefore
+\[
+\chi(S^n)
+=
+b_0(S^n)+(-1)^n b_n(S^n).
+\]
+
+Since
+\[
+b_0(S^n)=1
+\qquad
+\text{and}
+\qquad
+b_n(S^n)=1,
+\]
+we get
+\[
+\chi(S^n)=1+(-1)^n.
+\]
+
+Hence
+\[
+\chi(S^n)
+=
+\begin{cases}
+	2, & n \text{ even},\\
+	0, & n \text{ odd}.
+\end{cases}
+\]
+
+For example,
+\[
+\chi(S^1)=0,
+\qquad
+\chi(S^2)=2,
+\qquad
+\chi(S^3)=0,
+\qquad
+\chi(S^4)=2.
+\]
+
+\subsection{Summary table}
+
+\[
+\begin{array}{c|c|c|c}
+	X & \text{Betti numbers} & \chi(X) & \text{Comment} \\
+	\hline
+	S^1 & 1,1 & 0 & \text{closed odd-dimensional} \\
+	S^2 & 1,0,1 & 2 & \text{closed even-dimensional} \\
+	S^3 & 1,0,0,1 & 0 & \text{closed odd-dimensional} \\
+	T^3 & 1,3,3,1 & 0 & \text{closed odd-dimensional} \\
+\left[0,1\right] & 1,0 & 1 & \text{has boundary}\\
+	D^2 & 1,0,0 & 1 & \text{has boundary}
+\end{array}
+\]
+
+\subsection{Main conclusion}
+
+For a closed $n$-dimensional manifold $M$, Poincaré duality gives
+\[
+b_i(M)=b_{n-i}(M).
+\]
+
+If $n$ is odd, the terms in the Euler characteristic pair with opposite signs:
+\[
+(-1)^i b_i(M)
++
+(-1)^{n-i}b_{n-i}(M)
+=
+0.
+\]
+
+Therefore
+\[
+\boxed{\chi(M)=0.}
+\]
+
+Thus every closed odd-dimensional manifold has Euler characteristic zero.
+
+\end{document}
+
+
