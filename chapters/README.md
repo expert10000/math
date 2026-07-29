@@ -43,8 +43,8 @@ Compile all chapter TeX files:
 .\chapters\compile-all.ps1
 ```
 
-Generated PDFs and logs are written to `content/pdfs/chapters/`, which is
-intentionally ignored by git.
+Generated PDFs and logs are written to `content/`, which is intentionally
+ignored by git except for `PDF_INDEX.tsv`.
 
 See `COMPILE_AUDIT.md` for the latest local compile result.
 

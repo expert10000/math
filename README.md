@@ -44,7 +44,7 @@ No publication stack has been chosen yet. Candidate stacks include Jupyter Book,
 |-- figures/                               # existing curated figures
 |-- imports/                               # legacy/imported snapshots; not yet curated
 |-- content/
-|   `-- pdfs/                              # local generated PDFs; ignored by git
+|   `-- PDF_INDEX.tsv                      # local generated PDF index
 |-- releases/                              # intentional published release artifacts
 |-- courses/                               # future course modules
 |-- chapters/                              # future modular LaTeX chapter sources

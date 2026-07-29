@@ -13,7 +13,7 @@ Still failing:       44
 Generated PDFs and logs are local review artifacts in:
 
 ```text
-content/pdfs/chapters/
+content/
 ```
 
 That folder is ignored by git.
@@ -43,5 +43,5 @@ That folder is ignored by git.
 The detailed local failure report is:
 
 ```text
-content/pdfs/chapters/compile-failures.tsv
+content/compile-failures.tsv
 ```

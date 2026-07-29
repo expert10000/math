@@ -78,12 +78,11 @@ releases/
 Generated release PDFs or other intentional public artifacts.
 
 ```text
-content/pdfs/
+content/
 ```
 
-Local generated PDFs and compile logs, including `content/pdfs/chapters/`.
-This folder is ignored by git and is used for review builds, not source
-control.
+Local generated PDFs and compile logs. Generated files in this folder are
+ignored by git, except for the tracked `PDF_INDEX.tsv`.
 
 ```text
 imports/
