@@ -26,15 +26,8 @@ Future course-ready material. Use this for modules that have learning objectives
 chapters/
 ```
 
-Future modular LaTeX chapters extracted from standalone manuscripts.
-
-```text
-chapters/imported/
-```
-
-Cleaned imported TeX sources promoted from the non-destructive `tex_test/`
-merge. This folder keeps deduplicated TeX files, referenced figures, a manifest
-back to the raw import sources, and compile helpers.
+Main LaTeX chapter workspace. It contains cleaned TeX sources, referenced
+figures, compile helpers, and the import manifest.
 
 ```text
 figures/
@@ -88,8 +81,8 @@ Generated release PDFs or other intentional public artifacts.
 pdfs/
 ```
 
-Local generated PDFs and compile logs. This folder is ignored by git and is used
-for review builds, not source control.
+Local generated PDFs and compile logs, including `pdfs/chapters/`. This folder
+is ignored by git and is used for review builds, not source control.
 
 ```text
 imports/

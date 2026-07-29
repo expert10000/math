@@ -7,7 +7,8 @@ The current core sequence is the standalone LaTeX series:
 - `theory-of-algebraic-geometry-1.tex` through `theory-of-algebraic-geometry-22.tex`
 - `exact_sequences_sheaves_reorganized_full/exact_sequences_sheaves_reorganized_full.tex`
 - supporting figures in `figures/`
-- legacy and imported source material in `imports/`
+- chapter source material in `chapters/`
+- legacy/imported raw snapshots in `imports/`
 
 ## Project goal
 
@@ -38,9 +39,8 @@ No publication stack has been chosen yet. Candidate stacks include Jupyter Book,
 
 ```text
 .
-|-- theory-of-algebraic-geometry-*.tex     # current curated standalone notes
 |-- exact_sequences_sheaves_reorganized_full/
-|-- chapters/imported/                     # cleaned imported TeX sources
+|-- chapters/                              # cleaned chapter TeX sources and figures
 |-- figures/                               # existing curated figures
 |-- imports/                               # legacy/imported snapshots; not yet curated
 |-- pdfs/                                  # local generated PDFs; ignored by git
@@ -66,8 +66,8 @@ See:
 
 For now, add new curated algebraic-geometry chapters at the repository root only if they continue the existing `theory-of-algebraic-geometry-N.tex` sequence.
 
-Cleaned imported TeX material lives in `chapters/imported/`. Raw snapshots stay
-inside `imports/` until reviewed.
+Cleaned TeX material lives in `chapters/`. Raw snapshots stay inside `imports/`
+until reviewed.
 
 ## License
 
