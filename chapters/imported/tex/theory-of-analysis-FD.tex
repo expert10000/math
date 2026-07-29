@@ -1,0 +1,6229 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- packages ---
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage[shortlabels]{enumitem} % <— only enumitem, shortlabels enables [(a)] if you want it
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{{figures/}}
+% raphicspath{{./figs/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{centernot}
+\newcommand{\qed}{\hfill$\square$}
+\usepackage{booktabs,tabularx}
+
+ \usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,calc}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{tikz-cd} 
+
+\usepackage{fontspec}
+
+\usepackage{amsmath,amssymb,amsthm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newenvironment{statement}{\par\noindent\textbf{Statement.}\ }{\par}
+
+% --- theorem setups ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark} % unnumbered
+
+
+\theoremstyle{remark}
+\newtheorem*{counterexample}{Counterexample}
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Log}{Log}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\gap}{\vspace{6pt}}
+
+\newcommand{\axes}[3]{%
+	\draw[->,thin] (#1) -- ++(2.0,0) node[right] {#2};
+	\draw[->,thin] (#1) -- ++(0,2.0) node[above] {#3};
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlist{itemsep=6pt, topsep=6pt, parsep=2pt, partopsep=2pt}
+
+% SCOPED header: bold ends immediately after the line
+\newcommand{\probheader}[1]{%
+	\par\vspace{8pt}%
+	{\Large\bfseries #1\par}% <- braces scope the bold
+	\vspace{6pt}%
+}
+
+% Thin separator (optional)
+\newcommand{\sep}{\vspace{6pt}\hrule\vspace{8pt}}
+
+
+\geometry{margin=1in}
+\setlength{\parskip}{0.9em}
+\setlength{\parindent}{0pt}
+\linespread{1.12}
+\setlist[itemize]{topsep=0.3em,itemsep=0.2em}
+\setlist[enumerate]{topsep=0.3em,itemsep=0.2em}
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+% --- HEADER ---
+\fancyhead[L]{\textit{Analysis Fourier and Distributions}}
+\fancyhead[R]{\textit{Exercises}}
+
+\title{\Large Analysis Fourier and Distributions}
+\author{}
+\date{}
+
+
+\begin{document}
+	
+	\maketitle
+
+
+\section*{Exercise 1.1 — A meromorphic function and a Fourier series}
+
+Fix $\theta\in[0,2\pi]$ and consider the meromorphic function
+\[
+F(z) = \frac{1}{1+z^2}\,\frac{\cos\bigl((\pi-\theta)z\bigr)}{2\sin(\pi z)}.
+\]
+
+\subsection*{Problem}
+
+\begin{enumerate}[(a)]
+	\item Show that $F$ has poles at $z=\pm i$ and at each integer $z=n$, $n\in\mathbb{Z}$. Compute the residues at these poles and verify that
+	\[
+	\Res(F,\pm i)
+	= -\frac{\cosh(\pi-\theta)}{4\sinh\pi},
+	\qquad
+	\Res(F,n)
+	= \frac{\cos(n\theta)}{2\pi\,(1+n^2)}.
+	\]
+	
+	\item For each $N\in\mathbb{N}$ define four curves $\Gamma^{(N)}_j$ on $[-1,1]$ by
+	\[
+	\Gamma^{(N)}_1(t) = \Bigl(N+\tfrac12\Bigr)(1+it),\qquad
+	\Gamma^{(N)}_2(t) = \Bigl(N+\tfrac12\Bigr)(-t+i),
+	\]
+	\[
+	\Gamma^{(N)}_3(t) = \Bigl(N+\tfrac12\Bigr)(-1-it),\qquad
+	\Gamma^{(N)}_4(t) = \Bigl(N+\tfrac12\Bigr)(t-i),
+	\]
+	and let $\Gamma^{(N)}$ be the closed contour obtained by following
+	$\Gamma^{(N)}_1,\Gamma^{(N)}_2,\Gamma^{(N)}_3,\Gamma^{(N)}_4$ in turn.
+	Sketch $\Gamma^{(N)}$ in the complex plane and indicate the locations of the poles of $F$ relative to this rectangle.
+	
+	\item Show that there exists a constant $C>0$, independent of $N$, such that for all integers $N\ge 1$ and all $\theta\in[0,2\pi]$,
+	\[
+	\left| \int_{\Gamma^{(N)}} F(z)\,dz \right|
+	\le \frac{C}{N}.
+	\]
+	
+	\item Using Cauchy’s residue theorem applied to $\Gamma^{(N)}$, show that for $0\le\theta\le 2\pi$,
+	\[
+	\left|
+	\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+	- \sum_{n=-N}^N \frac{e^{in\theta}}{1+n^2}
+	\right|
+	\le \frac{C}{N},
+	\]
+	and deduce that
+	\[
+	\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+	= \sum_{n=-\infty}^{\infty} \frac{e^{in\theta}}{1+n^2},
+	\]
+	with the series converging uniformly in $\theta\in[0,2\pi]$.
+\end{enumerate}
+
+\subsection*{Theory and background}
+
+The function $F$ is meromorphic on $\mathbb{C}$, being the product of the entire function
+$\cos\bigl((\pi-\theta)z\bigr)$ with the factors $(1+z^2)^{-1}$ and $(\sin\pi z)^{-1}$.
+The only singularities of $F$ are poles arising from zeros of $1+z^2$ and $\sin(\pi z)$.
+
+The equation $1+z^2=0$ has solutions $z=\pm i$, which give simple poles of $F$.
+The function $\sin(\pi z)$ vanishes simply at each integer $z=n\in\mathbb{Z}$, so
+$(\sin\pi z)^{-1}$ has simple poles there. Since $1+z^2$ does not vanish at any integer,
+$F$ also has simple poles at all $z=n\in\mathbb{Z}$.
+
+For a simple pole at $a\in\mathbb{C}$, the residue is given by
+\[
+\Res(F,a) = \lim_{z\to a} (z-a)\,F(z).
+\]
+At an integer $n$ one uses the local behaviour
+$\sin(\pi z) = \pi(-1)^n(z-n) + O\bigl((z-n)^2\bigr)$ and evaluates the remaining factors at $z=n$.
+At $z=\pm i$ one factors $1+z^2=(z-i)(z+i)$ and again evaluates the remaining analytic part at the pole.
+
+The contour $\Gamma^{(N)}$ is a rectangle with vertices
+\[
+\pm\Bigl(N+\tfrac12\Bigr)\pm i,
+\]
+with horizontal sides at $\Im z=\pm1$ and vertical sides at $\Re z=\pm(N+\tfrac12)$.
+For each fixed $N$, the contour encloses the poles at $z=\pm i$ and at the integers $n$ with $|n|\le N$.
+
+Cauchy’s residue theorem states that for such a closed contour,
+\[
+\int_{\Gamma^{(N)}} F(z)\,dz
+= 2\pi i \sum_{a\in\mathcal{P}_N} \Res(F,a),
+\]
+where $\mathcal{P}_N$ is the finite set of poles of $F$ inside $\Gamma^{(N)}$.
+Here $\mathcal{P}_N=\{-i,+i\}\cup\{n\in\mathbb{Z}:|n|\le N\}$.
+
+To estimate the integral along $\Gamma^{(N)}$ one uses the estimation lemma
+\[
+\left|\int_{\Gamma^{(N)}} F(z)\,dz\right|
+\le \sup_{z\in\Gamma^{(N)}} |F(z)|\cdot \operatorname{length}(\Gamma^{(N)}).
+\]
+On the vertical segments, $z = \pm\bigl(N+\tfrac12\bigr) + it$ with $-1\le t\le 1$, the factor
+$1/(1+z^2)$ is of order $1/N^2$, whereas $\cos\bigl((\pi-\theta)z\bigr)$ and
+$1/\sin(\pi z)$ are uniformly bounded in $N$, since $\Im z$ stays in a compact set.
+On the horizontal segments, $\Re z$ is bounded and $\Im z=\pm1$, so $F$ remains uniformly bounded.
+Combining these facts gives a bound of the form
+\[
+\left|\int_{\Gamma^{(N)}} F(z)\,dz\right|
+\le \frac{C}{N}
+\]
+for some constant $C$ independent of $N$ and $\theta$.
+
+Substituting the residue computations into the residue theorem gives an identity of the form
+\[
+\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+- \sum_{n=-N}^N \frac{e^{in\theta}}{1+n^2}
+= \frac{1}{2\pi i}\int_{\Gamma^{(N)}} F(z)\,dz,
+\]
+so that the absolute value of the difference is bounded by $C/N$.
+Letting $N\to\infty$ shows that the Fourier series
+\[
+\sum_{n=-\infty}^{\infty} \frac{e^{in\theta}}{1+n^2}
+\]
+converges uniformly in $\theta\in[0,2\pi]$ and represents $\cosh(\pi-\theta)/(2\sinh\pi)$.
+
+\section*{Exercise 1.1 — Solution}
+
+We consider, for fixed $\theta\in[0,2\pi]$, the meromorphic function
+\[
+F(z) = \frac{1}{1+z^2}\,\frac{\cos\bigl((\pi-\theta)z\bigr)}{2\sin(\pi z)}.
+\]
+
+\subsection*{(a) Poles and residues}
+
+The factor $\cos\bigl((\pi-\theta)z\bigr)$ is entire, so the singularities of $F$
+arise from the denominators $1+z^2$ and $\sin(\pi z)$.
+
+\begin{itemize}
+	\item The zeros of $1+z^2$ are $z=\pm i$, and these are simple.
+	\item The zeros of $\sin(\pi z)$ are the integers $z=n\in\mathbb{Z}$,
+	and each zero is simple, so $(\sin\pi z)^{-1}$ has simple poles at all integers.
+\end{itemize}
+Thus $F$ has simple poles at $z=\pm i$ and at each $z=n\in\mathbb{Z}$.
+
+For a simple pole at $a$, we have
+\[
+\Res(F,a) = \lim_{z\to a}(z-a)F(z).
+\]
+
+\paragraph{Residues at $\pm i$.}
+
+We factor
+\[
+1+z^2=(z-i)(z+i).
+\]
+Hence the residue of $(1+z^2)^{-1}$ at $z=i$ is
+\[
+\Res\Bigl(\frac{1}{1+z^2},i\Bigr)
+=\frac{1}{2i}, \qquad
+\Res\Bigl(\frac{1}{1+z^2},-i\Bigr)
+=-\frac{1}{2i}.
+\]
+Using $\cos(ix)=\cosh x$ and $\sin(ix)=i\sinh x$ we have
+\[
+\cos\bigl((\pi-\theta)i\bigr)=\cosh(\pi-\theta),
+\qquad
+\sin(\pi i)=i\sinh\pi,
+\qquad
+\sin(-\pi i)=-i\sinh\pi.
+\]
+Therefore
+\[
+\Res(F,i)
+=\frac{1}{2i}\cdot\frac{\cosh(\pi-\theta)}{2\sin(\pi i)}
+=\frac{1}{2i}\cdot\frac{\cosh(\pi-\theta)}{2i\sinh\pi}
+=-\frac{\cosh(\pi-\theta)}{4\sinh\pi},
+\]
+and
+\[
+\Res(F,-i)
+=-\frac{1}{2i}\cdot\frac{\cosh(\pi-\theta)}{2\sin(-\pi i)}
+=-\frac{1}{2i}\cdot\frac{\cosh(\pi-\theta)}{-2i\sinh\pi}
+=-\frac{\cosh(\pi-\theta)}{4\sinh\pi}.
+\]
+Thus
+\[
+\Res(F,\pm i)=-\frac{\cosh(\pi-\theta)}{4\sinh\pi}.
+\]
+
+\paragraph{Residues at integers.}
+
+Let $n\in\mathbb{Z}$. Near $z=n$ we have
+\[
+\sin(\pi z)
+=\sin\bigl(\pi n + \pi(z-n)\bigr)
+=\sin(\pi n)\cos(\pi(z-n))
++\cos(\pi n)\sin(\pi(z-n)).
+\]
+Since $\sin(\pi n)=0$ and $\cos(\pi n)=(-1)^n$, it follows that
+\[
+\sin(\pi z)
+=(-1)^n\pi(z-n) + O\bigl((z-n)^2\bigr),
+\]
+and therefore
+\[
+\frac{1}{\sin(\pi z)}
+=\frac{(-1)^n}{\pi}\frac{1}{z-n}+O(1).
+\]
+The other factors are analytic at $z=n$, so
+\[
+\Res(F,n)
+=\frac{1}{1+n^2}\cdot\frac{\cos\bigl((\pi-\theta)n\bigr)}{2}
+\cdot\frac{(-1)^n}{\pi}.
+\]
+Using
+\[
+\cos\bigl((\pi-\theta)n\bigr)
+=\cos(\pi n-n\theta)
+=\cos(\pi n)\cos(n\theta)+\sin(\pi n)\sin(n\theta)
+=(-1)^n\cos(n\theta),
+\]
+we obtain
+\[
+\Res(F,n)
+=\frac{(-1)^n}{2\pi(1+n^2)}\cdot (-1)^n\cos(n\theta)
+=\frac{\cos(n\theta)}{2\pi(1+n^2)}.
+\]
+
+\subsection*{(b) The contour $\Gamma^{(N)}$}
+
+For $N\in\mathbb{N}$, the four curves
+\[
+\Gamma^{(N)}_1(t)=\Bigl(N+\tfrac12\Bigr)(1+it),\quad
+\Gamma^{(N)}_2(t)=\Bigl(N+\tfrac12\Bigr)(-t+i),
+\]
+\[
+\Gamma^{(N)}_3(t)=\Bigl(N+\tfrac12\Bigr)(-1-it),\quad
+\Gamma^{(N)}_4(t)=\Bigl(N+\tfrac12\Bigr)(t-i),
+\qquad -1\le t\le 1,
+\]
+form the sides of the rectangle whose vertices are
+\[
+\pm\Bigl(N+\tfrac12\Bigr)\pm i.
+\]
+We denote by $\Gamma^{(N)}$ the closed contour obtained by successively
+traversing $\Gamma^{(N)}_1,\dots,\Gamma^{(N)}_4$.
+
+This rectangle encloses the poles at $z=\pm i$ and at $z=n$ for all integers
+$n$ with $|n|\le N$.
+
+A schematic picture is shown in Figure~\ref{fig:contour-poles}.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=0.9]
+		% axes
+		\draw[->] (-4.5,0) -- (4.5,0) node[below right] {$\Re z$};
+		\draw[->] (0,-2) -- (0,2) node[left] {$\Im z$};
+		
+		% choose N=3 for illustration
+		\def\N{3}
+		\coordinate (A) at (-\N-0.5,-1);
+		\coordinate (B) at (\N+0.5,-1);
+		\coordinate (C) at (\N+0.5,1);
+		\coordinate (D) at (-\N-0.5,1);
+		
+		% rectangle
+		\draw[thick,blue] (A) -- (B) -- (C) -- (D) -- cycle;
+		\node[blue] at (3.8,1.1) {$\Gamma^{(N)}$};
+		
+		% integer poles (inside)
+		\foreach \n in {-3,-2,-1,0,1,2,3}{
+			\fill[red] (\n,0) circle (1.5pt);
+		}
+		% labels
+		\node[red] at (-3.0,0.3) {$-3$};
+		\node[red] at (0,0.3) {$0$};
+		\node[red] at (3.0,0.3) {$3$};
+		
+		% poles at +/- i
+		\fill[red] (0,1) circle (1.5pt);
+		\fill[red] (0,-1) circle (1.5pt);
+		\node[red] at (0.4,1) {$i$};
+		\node[red] at (0.45,-1) {$-i$};
+	\end{tikzpicture}
+	\caption{The contour $\Gamma^{(N)}$ and the poles of $F$.}
+	\label{fig:contour-poles}
+\end{figure}
+
+\subsection*{(c) Estimate of the contour integral}
+
+We claim that there exists a constant $C>0$, independent of $N$ and $\theta$,
+such that
+\[
+\left|\int_{\Gamma^{(N)}} F(z)\,dz\right|\le \frac{C}{N}
+\qquad\text{for all } N\ge1.
+\]
+
+A standard way to see this is to decompose $\Gamma^{(N)}$ into its four sides
+and apply the estimation lemma.
+
+On the vertical sides we have $z=\pm\bigl(N+\tfrac12\bigr)+it$ with $|t|\le1$.
+Then $|z|^2\asymp N^2$ and hence
+\[
+\left|\frac{1}{1+z^2}\right|\le \frac{C_1}{N^2}.
+\]
+Moreover, for such $z$ the imaginary part is bounded, so both
+$\cos\bigl((\pi-\theta)z\bigr)$ and $1/\sin(\pi z)$ are uniformly bounded in
+$N$. The length of each vertical side is $2$, so the total contribution of the
+vertical sides is $O(N^{-2})$.
+
+On the horizontal sides we have $z=x\pm i$ with
+$-(N+\tfrac12)\le x\le N+\tfrac12$. Using explicit expressions for
+$\cos\bigl((\pi-\theta)(x\pm i)\bigr)$ and $\sin\bigl(\pi(x\pm i)\bigr)$, one
+checks that
+\[
+|F(x+i)-F(x-i)| \le \frac{C_2}{1+|x|^3}
+\qquad\text{for all }x\in\mathbb{R},
+\]
+and that $|F(x\pm i)|\le C_3/(1+x^2)$ for large $|x|$. Writing the integral
+over the two horizontal sides as
+\[
+\int_{-(N+1/2)}^{N+1/2} \bigl(F(x+i)-F(x-i)\bigr)\,dx,
+\]
+one sees that the tail for $|x|\ge N$ is $O(N^{-2})$, while the integral over
+$|x|\le N$ remains bounded independently of $N$. Altogether this yields a
+bound of the form
+\[
+\left|\int_{\Gamma^{(N)}} F(z)\,dz\right|
+\le \frac{C}{N}
+\]
+for some constant $C$ independent of $N$.
+
+\subsection*{(d) Residue theorem and the Fourier series}
+
+By Cauchy’s residue theorem,
+\[
+\int_{\Gamma^{(N)}} F(z)\,dz
+=2\pi i\sum_{a\in\mathcal{P}_N}\Res(F,a),
+\]
+where $\mathcal{P}_N=\{-i,+i\}\cup\{n\in\mathbb{Z}:|n|\le N\}$ is the set of
+poles inside the rectangle. Using the residues computed in part (a),
+\[
+\sum_{a\in\mathcal{P}_N}\Res(F,a)
+= \Res(F,i)+\Res(F,-i)
++\sum_{n=-N}^N \Res(F,n)
+= -\frac{\cosh(\pi-\theta)}{2\sinh\pi}
++\sum_{n=-N}^N \frac{\cos(n\theta)}{2\pi(1+n^2)}.
+\]
+Therefore
+\[
+\int_{\Gamma^{(N)}} F(z)\,dz
+= 2\pi i\left(
+-\frac{\cosh(\pi-\theta)}{2\sinh\pi}
++\sum_{n=-N}^N \frac{\cos(n\theta)}{2\pi(1+n^2)}
+\right),
+\]
+or equivalently
+\[
+\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+-\sum_{n=-N}^N \frac{\cos(n\theta)}{2\pi(1+n^2)}
+= -\frac{1}{2\pi i}\int_{\Gamma^{(N)}} F(z)\,dz.
+\]
+
+Using the estimate from part (c) we obtain
+\[
+\left|
+\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+-\sum_{n=-N}^N \frac{\cos(n\theta)}{2\pi(1+n^2)}
+\right|
+\le \frac{1}{2\pi}
+\left|\int_{\Gamma^{(N)}} F(z)\,dz\right|
+\le \frac{C}{N}.
+\]
+Since
+\[
+\frac{1}{2\pi}\sum_{n=-N}^N \frac{\cos(n\theta)}{1+n^2}
+= \Re\left(\sum_{n=-N}^N \frac{e^{in\theta}}{1+n^2}\right),
+\]
+we can rewrite this in the complex exponential form
+\[
+\left|
+\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+-\sum_{n=-N}^N \frac{e^{in\theta}}{1+n^2}
+\right|
+\le \frac{C}{N}.
+\]
+Letting $N\to\infty$ gives, uniformly in $\theta\in[0,2\pi]$,
+\[
+\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+=\sum_{n=-\infty}^{\infty} \frac{e^{in\theta}}{1+n^2},
+\]
+which is the desired Fourier series representation.
+\qedhere
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+\medskip
+
+We first recall the residues already computed:
+\begin{align*}
+	\Res(F,\pm i) &= -\,\frac{\cosh(\pi-\theta)}{4\sinh\pi},\\[4pt]
+	\Res(F,n) &= \frac{\cos(n\theta)}{2\pi(1+n^2)}, \qquad n\in\mathbb{Z}.
+\end{align*}
+
+The set of poles inside $\Gamma^{(N)}$ is
+\[
+\mathcal{P}_N = \{-i,+i\}\cup\{n\in\mathbb{Z}:|n|\le N\},
+\]
+so
+\begin{equation*}
+	\sum_{a\in\mathcal{P}_N} \Res(F,a)
+	= \Res(F,i)+\Res(F,-i)+\sum_{n=-N}^{N}\Res(F,n).
+\end{equation*}
+
+Now substitute the explicit formulas and simplify **step by step**:
+\begin{align*}
+	\sum_{a\in\mathcal{P}_N} \Res(F,a)
+	&= \left(-\frac{\cosh(\pi-\theta)}{4\sinh\pi}\right)
+	+\left(-\frac{\cosh(\pi-\theta)}{4\sinh\pi}\right)
+	+\sum_{n=-N}^{N}\frac{\cos(n\theta)}{2\pi(1+n^2)}\\[6pt]
+	&= -\frac{\cosh(\pi-\theta)}{4\sinh\pi}
+	-\frac{\cosh(\pi-\theta)}{4\sinh\pi}
+	+\sum_{n=-N}^{N}\frac{\cos(n\theta)}{2\pi(1+n^2)}\\[6pt]
+	&= -\left(
+	\frac{\cosh(\pi-\theta)}{4\sinh\pi}
+	+\frac{\cosh(\pi-\theta)}{4\sinh\pi}
+	\right)
+	+\sum_{n=-N}^{N}\frac{\cos(n\theta)}{2\pi(1+n^2)}\\[6pt]
+	&= -\frac{2\cosh(\pi-\theta)}{4\sinh\pi}
+	+\sum_{n=-N}^{N}\frac{\cos(n\theta)}{2\pi(1+n^2)}\\[6pt]
+	&= -\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+	+\sum_{n=-N}^{N}\frac{\cos(n\theta)}{2\pi(1+n^2)}.
+\end{align*}
+
+Hence
+\[
+\boxed{
+	\sum_{a\in\mathcal{P}_N} \Res(F,a)
+	= -\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+	+\sum_{n=-N}^{N}\frac{\cos(n\theta)}{2\pi(1+n^2)}.
+}
+\]
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+\medskip
+
+\clearpage
+
+
+% Figure 1: z- to w-plane mapping of the contour
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/Downloads_.figs_F_mapping_z_to_w.png}
+	\caption{Left: the rectangular contour $\Gamma^{(N)}$ in the $z$-plane
+		for $N=3$, enclosing the poles of
+		$F(z)=\dfrac{1}{1+z^2}\dfrac{\cos((\pi-\theta)z)}{2\sin(\pi z)}$
+		at $z=\pm i$ and at the integers with $|n|\le N$.
+		Right: the image $F(\Gamma^{(N)})$ in the $w$-plane for
+		$\theta=\pi/3$. This visualises how the contour integral in
+		Cauchy’s residue theorem is transported under $F$.}
+	\label{fig:Gamma-mapping}
+\end{figure}
+
+% Figure 2: F(x) along the real axis
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_.figs_F_real_theta_pi_over_3.png}
+	\caption{Real and imaginary parts of $F(x)$ for real $x$ and $\theta=\pi/3$.
+		The dashed curve shows $\Im F(x)$ and the solid curve shows
+		$\Re F(x)$. The large spikes correspond to simple poles at the
+		integers $x=n\in\mathbb{Z}$; small gaps have been inserted in the
+		plot near the poles to avoid plotting the singular values.}
+	\label{fig:F-real-line}
+\end{figure}
+
+% Figure 3: Magnitude of F in the complex plane
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_.figs_F_mag_theta_pi_over_3.png}
+	\caption{Density plot of the magnitude $\lvert F(z)\rvert$ for
+		$-4\le \Re z\le 4$ and $-2\le \Im z\le 2$, with $\theta=\pi/3$.
+		Brighter regions indicate larger values of $\lvert F(z)\rvert$,
+		while dark spots mark the locations of the poles at integers
+		$z=n$ and at $z=\pm i$. The plot illustrates the growth and
+		singularity structure of $F$ in the complex plane.}
+	\label{fig:F-magnitude}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/Downloads_.figs_F_mapping_z_to_w_theta_pi_over_4.png}
+	\caption{Left: the rectangular contour $\Gamma^{(N)}$ in the $z$-plane for
+		$N=3$, enclosing the poles of
+		$F(z)=\dfrac{1}{1+z^2}\dfrac{\cos((\pi-\theta)z)}{2\sin(\pi z)}$
+		at $z=\pm i$ and the integers with $\lvert n\rvert\le N$.
+		Right: the image $F(\Gamma^{(N)})$ in the $w$-plane for
+		$\theta=\pi/4$. Compared to $\theta=\pi/3$, the lobes in the
+		$w$-plane rotate and change shape, illustrating the dependence of
+		the contour image on the parameter $\theta$.}
+	\label{fig:Gamma-mapping-theta-pi-over-4}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/Downloads_.figs_F_mapping_z_to_w_theta_pi_over_2.png}
+	\caption{Left: the contour $\Gamma^{(N)}$ in the $z$-plane for $N=3$.
+		Right: the image $F(\Gamma^{(N)})$ in the $w$-plane for
+		$\theta=\pi/2$. In this case $\pi-\theta=\pi/2$, so the cosine
+		factor involves $\cos\!\bigl(\tfrac{\pi}{2}z\bigr)$ and the
+		resulting image becomes more symmetric, with the loops in the
+		$w$-plane reflecting this special choice of parameter.}
+	\label{fig:Gamma-mapping-theta-pi-over-2}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/Downloads_.figs_F_mapping_z_to_w_theta_pi_over_8.png}
+	\caption{Left: the contour $\Gamma^{(N)}$ in the $z$-plane for $N=3$.
+		Right: the image $F(\Gamma^{(N)})$ in the $w$-plane for
+		$\theta=\pi/8$. For a small value of $\theta$ the factor
+		$\cos((\pi-\theta)z)$ is close to $\cos(\pi z)$, and the loops in
+		the $w$-plane are correspondingly close to those for $\theta=0$,
+		while still showing a visible deformation.}
+	\label{fig:Gamma-mapping-theta-pi-over-8}
+\end{figure}
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+\medskip
+
+\clearpage
+
+\[
+\frac{\cosh\pi}{2\sinh\pi}
+= \sum_{n=-\infty}^{\infty}\frac{1}{1+n^2}.
+\]
+
+\[
+1 + 2\sum_{n=1}^{\infty}\frac{1}{1+n^2}
+= \frac{\cosh\pi}{2\sinh\pi},
+\qquad
+\sum_{n=1}^{\infty}\frac{1}{1+n^2}
+= \frac{1}{2}\Bigl(\frac{\cosh\pi}{2\sinh\pi}-1\Bigr).
+\]
+
+
+\section*{Exercise 1.2 — Periodic Green’s function on the circle}
+
+
+Suppose that $f \in C^0(\mathbb{R})$ is a continuous function with period $2\pi$,
+i.e.\ $f(\theta) = f(\theta + 2\pi)$. For $\theta \in [0,2\pi)$ define
+\[
+\psi(\theta)
+:= \int_{0}^{\theta} f(\alpha)
+\frac{\cosh(\pi - \theta + \alpha)}{2\sinh \pi}\,d\alpha
++ \int_{\theta}^{2\pi} f(\alpha)
+\frac{\cosh(-\pi - \theta + \alpha)}{2\sinh \pi}\,d\alpha,
+\]
+and extend $\psi$ to a function on $\mathbb{R}$ by periodicity:
+\[
+\psi(\theta + 2\pi) = \psi(\theta), \qquad \theta\in\mathbb{R}.
+\]
+
+\begin{enumerate}[(a)]
+	\item Show that $\psi \in C^0(\mathbb{R})$.
+	
+	\item By differentiating the defining formula directly, show that
+	\[
+	\psi'(\theta)
+	= - \int_{0}^{\theta} f(\alpha)
+	\frac{\sinh(\pi - \theta + \alpha)}{2\sinh \pi}\,d\alpha
+	- \int_{\theta}^{2\pi} f(\alpha)
+	\frac{\sinh(-\pi - \theta + \alpha)}{2\sinh \pi}\,d\alpha,
+	\]
+	and deduce that $\psi \in C^1(\mathbb{R})$.
+	
+	\item Differentiating once more, show that
+	\[
+	\psi''(\theta) = - f(\theta) + \psi(\theta), \qquad \theta\in\mathbb{R},
+	\]
+	and conclude that $\psi \in C^2(\mathbb{R})$ is a $2\pi$-periodic solution
+	of the inhomogeneous ODE
+	\[
+	\psi''(\theta) + f(\theta) = \psi(\theta), \qquad \theta\in\mathbb{R}.
+	\]
+\end{enumerate}
+
+
+Suppose that $f\in C^0(\mathbb{R})$ is a continuous function with period $2\pi$,
+i.e.\ $f(\theta)=f(\theta+2\pi)$. For $\theta\in[0,2\pi]$ define
+\[
+\psi(\theta)
+:= \int_0^\theta f(\alpha)\,
+\frac{\cosh(\pi-\theta+\alpha)}{2\sinh\pi}\,d\alpha
++ \int_\theta^{2\pi} f(\alpha)\,
+\frac{\cosh(-\pi-\theta+\alpha)}{2\sinh\pi}\,d\alpha,
+\]
+and extend $\psi$ to a function on $\mathbb{R}$ by periodicity:
+$\psi(\theta)=\psi(\theta+2\pi)$.
+
+\subsection*{(a) Continuity of $\psi$}
+
+For $(\theta,\alpha)\in[0,2\pi]\times[0,2\pi]$ set
+\[
+K_1(\theta,\alpha)
+=\frac{\cosh(\pi-\theta+\alpha)}{2\sinh\pi},
+\qquad
+K_2(\theta,\alpha)
+=\frac{\cosh(-\pi-\theta+\alpha)}{2\sinh\pi}.
+\]
+These kernels are continuous (indeed real-analytic) in both variables, and
+$f$ is continuous. Thus the integrands
+\[
+(\theta,\alpha)\mapsto f(\alpha)K_1(\theta,\alpha),\qquad
+(\theta,\alpha)\mapsto f(\alpha)K_2(\theta,\alpha)
+\]
+are continuous on the compact set $[0,2\pi]\times[0,2\pi]$. It follows from
+the standard theorem on parameter-dependent integrals that
+\[
+\theta\mapsto \int_0^\theta f(\alpha)K_1(\theta,\alpha)\,d\alpha,
+\qquad
+\theta\mapsto \int_\theta^{2\pi} f(\alpha)K_2(\theta,\alpha)\,d\alpha
+\]
+are continuous on $(0,2\pi)$; hence $\psi$ is continuous on $(0,2\pi)$.
+
+At the endpoints one checks that the one-sided limits agree with the
+periodic extension. Using $2\pi$-periodicity of $f$ and the evenness of
+$\cosh$, we obtain
+\[
+\lim_{\theta\to 0^+}\psi(\theta)
+=\int_0^{2\pi} f(\alpha)\frac{\cosh(-\pi-\alpha)}{2\sinh\pi}\,d\alpha
+=\int_0^{2\pi} f(\alpha)\frac{\cosh(-\pi+\alpha)}{2\sinh\pi}\,d\alpha
+=\psi(2\pi).
+\]
+Together with the periodic extension $\psi(\theta+2\pi)=\psi(\theta)$ this
+shows that $\psi\in C^0(\mathbb{R})$.
+
+\subsection*{(b) First derivative and $C^1$-regularity}
+
+Write
+\[
+\psi(\theta)=I_1(\theta)+I_2(\theta),
+\]
+where
+\[
+I_1(\theta)=\int_0^\theta f(\alpha)K_1(\theta,\alpha)\,d\alpha,
+\qquad
+I_2(\theta)=\int_\theta^{2\pi} f(\alpha)K_2(\theta,\alpha)\,d\alpha.
+\]
+Since $K_1,K_2$ are smooth and $f$ is continuous, we may differentiate
+under the integral sign using Leibniz' rule. For $I_1$ we obtain
+\[
+I_1'(\theta)
+= f(\theta)K_1(\theta,\theta)
++ \int_0^\theta f(\alpha)\,\partial_\theta K_1(\theta,\alpha)\,d\alpha.
+\]
+A direct computation yields
+\[
+K_1(\theta,\theta)=\frac{\cosh\pi}{2\sinh\pi},\qquad
+\partial_\theta K_1(\theta,\alpha)
+= -\frac{\sinh(\pi-\theta+\alpha)}{2\sinh\pi},
+\]
+so that
+\[
+I_1'(\theta)
+= f(\theta)\frac{\cosh\pi}{2\sinh\pi}
+-\int_0^\theta f(\alpha)\,
+\frac{\sinh(\pi-\theta+\alpha)}{2\sinh\pi}\,d\alpha.
+\]
+
+Similarly,
+\[
+I_2'(\theta)
+= -f(\theta)K_2(\theta,\theta)
++ \int_\theta^{2\pi}f(\alpha)\,\partial_\theta K_2(\theta,\alpha)\,d\alpha,
+\]
+with
+\[
+K_2(\theta,\theta)=\frac{\cosh(-\pi)}{2\sinh\pi}
+=\frac{\cosh\pi}{2\sinh\pi},
+\qquad
+\partial_\theta K_2(\theta,\alpha)
+= -\frac{\sinh(-\pi-\theta+\alpha)}{2\sinh\pi}.
+\]
+Thus
+\[
+I_2'(\theta)
+= -f(\theta)\frac{\cosh\pi}{2\sinh\pi}
+-\int_\theta^{2\pi} f(\alpha)\,
+\frac{\sinh(-\pi-\theta+\alpha)}{2\sinh\pi}\,d\alpha.
+\]
+
+Adding $I_1'(\theta)$ and $I_2'(\theta)$, the boundary terms cancel and we
+obtain
+\[
+\psi'(\theta)
+= -\int_0^\theta f(\alpha)\,
+\frac{\sinh(\pi-\theta+\alpha)}{2\sinh\pi}\,d\alpha
+-\int_\theta^{2\pi} f(\alpha)\,
+\frac{\sinh(-\pi-\theta+\alpha)}{2\sinh\pi}\,d\alpha.
+\]
+The integrands are continuous in $(\theta,\alpha)$, so the same argument as
+in part (a) shows that $\psi'$ is continuous on $\mathbb{R}$. Hence
+$\psi\in C^1(\mathbb{R})$.
+
+\subsection*{(c) Second derivative and the equation $\psi''=-f+\psi$}
+
+Set
+\[
+\widetilde K_1(\theta,\alpha)
+= -\frac{\sinh(\pi-\theta+\alpha)}{2\sinh\pi},\qquad
+\widetilde K_2(\theta,\alpha)
+= -\frac{\sinh(-\pi-\theta+\alpha)}{2\sinh\pi},
+\]
+so that the formula above can be written as
+\[
+\psi'(\theta)
+= \int_0^\theta f(\alpha)\,\widetilde K_1(\theta,\alpha)\,d\alpha
++\int_\theta^{2\pi} f(\alpha)\,\widetilde K_2(\theta,\alpha)\,d\alpha.
+\]
+Differentiating again and using Leibniz' rule once more, we obtain
+\[
+\psi''(\theta)
+= f(\theta)\widetilde K_1(\theta,\theta)
+-f(\theta)\widetilde K_2(\theta,\theta)
++\int_0^\theta f(\alpha)\,\partial_\theta\widetilde K_1(\theta,\alpha)\,d\alpha
++\int_\theta^{2\pi} f(\alpha)\,\partial_\theta\widetilde K_2(\theta,\alpha)\,d\alpha.
+\]
+A direct computation shows that
+\[
+\widetilde K_1(\theta,\theta)=-\frac{1}{2},\qquad
+\widetilde K_2(\theta,\theta)=+\frac{1}{2},
+\]
+and
+\[
+\partial_\theta\widetilde K_1(\theta,\alpha)
+= \frac{\cosh(\pi-\theta+\alpha)}{2\sinh\pi},\qquad
+\partial_\theta\widetilde K_2(\theta,\alpha)
+= \frac{\cosh(-\pi-\theta+\alpha)}{2\sinh\pi}.
+\]
+Hence
+\[
+f(\theta)\widetilde K_1(\theta,\theta)
+- f(\theta)\widetilde K_2(\theta,\theta)
+= -\frac12 f(\theta)-\frac12 f(\theta)
+= -f(\theta),
+\]
+while
+\[
+\int_0^\theta f(\alpha)\,\partial_\theta\widetilde K_1(\theta,\alpha)\,d\alpha
++\int_\theta^{2\pi} f(\alpha)\,\partial_\theta\widetilde K_2(\theta,\alpha)\,d\alpha
+= \psi(\theta).
+\]
+Therefore
+\[
+\psi''(\theta) = -f(\theta)+\psi(\theta)
+\qquad (\theta\in(0,2\pi)),
+\]
+and by periodicity this holds for all $\theta\in\mathbb{R}$. The
+right-hand side is continuous, so $\psi''\in C^0(\mathbb{R})$ and
+$\psi\in C^2(\mathbb{R})$.
+
+\subsection*{Example: constant right-hand side}
+
+If $f(\theta)\equiv 1$, the equation becomes
+\[
+\psi''(\theta) = -1 + \psi(\theta),
+\]
+that is $(\psi''-\psi)(\theta)=-1$ with $\psi$ $2\pi$-periodic. Solving
+the ordinary differential equation gives
+\[
+\psi(\theta) = 1 + A e^\theta + B e^{-\theta}.
+\]
+The $2\pi$-periodicity forces $A=B=0$, so the unique periodic solution is
+$\psi(\theta)\equiv 1$, which agrees with the integral representation of
+$\psi$ for the constant function $f\equiv1$.
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+\medskip
+
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=9cm,
+			height=5cm,
+			xmin=-3.1416, xmax=3.1416,
+			ymin=0, ymax=1,
+			axis lines=middle,
+			xlabel={$\theta$},
+			ylabel={$G(\theta)$},
+			xtick={-3.1416,-1.5708,0,1.5708,3.1416},
+			xticklabels={$-\pi$,$-\frac{\pi}{2}$,$0$,$\frac{\pi}{2}$,$\pi$},
+			ytick={0,0.5,1},
+			domain=-3.1416:3.1416,
+			samples=300,
+			]
+			\addplot[thick]
+			{cosh(3.1416-abs(x)) / (2*sinh(3.1416))};
+		\end{axis}
+	\end{tikzpicture}
+	\caption{The periodic Green's kernel
+		$G(\theta)=\dfrac{\cosh(\pi-|\theta|)}{2\sinh\pi}$ on $[-\pi,\pi]$,
+		extended periodically to $\mathbb{R}$. Convolution with $G$ produces
+		the unique $2\pi$-periodic solution of $(-\psi''+\psi)=f$.}
+	\label{fig:periodic-green}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			width=9cm,
+			height=5cm,
+			xmin=0, xmax=6.2832,
+			ymin=-1.2, ymax=1.2,
+			axis lines=middle,
+			xlabel={$\theta$},
+			ylabel={},
+			xtick={0,1.5708,3.1416,4.7124,6.2832},
+			xticklabels={$0$,$\frac{\pi}{2}$,$\pi$,$\frac{3\pi}{2}$,$2\pi$},
+			ytick={-1,-0.5,0,0.5,1},
+			legend style={at={(0.02,0.98)},anchor=north west,draw=none,font=\scriptsize},
+			domain=0:6.2832,
+			samples=300,
+			]
+			% f(theta) = cos(theta)
+			\addplot[thick]
+			{cos(deg(x))};
+			\addlegendentry{$f(\theta)=\cos\theta$}
+			
+			% psi(theta) = (1/2) cos(theta)
+			\addplot[thick,dashed]
+			{0.5*cos(deg(x))};
+			\addlegendentry{$\psi(\theta)=\tfrac12\cos\theta$}
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Example with $f(\theta)=\cos\theta$. The unique $2\pi$-periodic
+		solution of $\psi''(\theta)=-f(\theta)+\psi(\theta)$ is
+		$\psi(\theta)=\tfrac12\cos\theta$, shown as the dashed curve.}
+	\label{fig:psi-example-cos}
+\end{figure}
+
+\subsection*{Periodic Green's kernel on the circle}
+
+Consider the differential operator
+\[
+L := -\frac{d^2}{d\theta^2} + 1
+\]
+acting on $2\pi$-periodic functions. On the Fourier basis
+$e^{in\theta}$, $n\in\mathbb{Z}$, we have
+\[
+L(e^{in\theta}) = (1+n^2)e^{in\theta},
+\]
+so $L$ is invertible on the space of $2\pi$-periodic functions, with
+bounded inverse
+\[
+L^{-1}\Bigl(\sum_{n\in\mathbb{Z}} \hat f_n e^{in\theta}\Bigr)
+= \sum_{n\in\mathbb{Z}} \frac{\hat f_n}{1+n^2}\,e^{in\theta}.
+\]
+
+\medskip
+
+The \emph{periodic Green's function} for $L$ is the $2\pi$-periodic
+distribution $G$ defined by
+\[
+L G = \delta_0\quad\text{on the circle},
+\]
+where $\delta_0$ is the periodic Dirac mass at $\theta=0$. Writing
+$G$ as a Fourier series
+\[
+G(\theta) = \sum_{n\in\mathbb{Z}} g_n e^{in\theta},
+\]
+the equation $LG=\delta_0$ becomes
+\[
+(1+n^2)g_n = \frac{1}{2\pi},\qquad n\in\mathbb{Z},
+\]
+since $\delta_0$ has Fourier coefficients $1/(2\pi)$. Thus
+\[
+g_n = \frac{1}{2\pi(1+n^2)},\qquad
+G(\theta) = \frac{1}{2\pi}\sum_{n\in\mathbb{Z}}
+\frac{e^{in\theta}}{1+n^2}.
+\]
+
+In Exercise~1.1 we showed that for $0\le\theta\le 2\pi$,
+\[
+\frac{\cosh(\pi-\theta)}{2\sinh\pi}
+= \sum_{n\in\mathbb{Z}}\frac{e^{in\theta}}{1+n^2},
+\]
+with uniform convergence in $\theta$. Combining this identity with the
+$2\pi$-periodicity of the Fourier series, and using the evenness of
+$\cosh$, one obtains the explicit formula
+\[
+G(\theta)
+= \frac{\cosh(\pi-|\theta|)}{2\sinh\pi},
+\qquad \theta\in[-\pi,\pi],
+\]
+extended $2\pi$-periodically to all $\theta\in\mathbb{R}$. The kernel
+$G$ is even, $G(-\theta)=G(\theta)$, and $C^\infty$ away from
+$\theta=0$, with a logarithmic-type singularity encoded in the jump of
+$G'$ at $\theta=0$ corresponding to the Dirac mass.
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+\medskip
+
+Given a continuous $2\pi$-periodic function $f$, the (formal)
+convolution
+\[
+(G*f)(\theta)
+:= \int_0^{2\pi} G(\theta-\alpha)f(\alpha)\,d\alpha
+\]
+defines a $2\pi$-periodic function. Since
+$G\in L^1([0,2\pi])$ and $f\in C^0(\mathbb{R})$, this integral is
+well-defined for all $\theta$, and the mapping
+$\theta\mapsto(G*f)(\theta)$ is continuous. Differentiating under the
+integral sign (justified by the smoothness of $G$ away from
+$\alpha=\theta$ and the Fourier-series representation), one finds
+\[
+\frac{d^2}{d\theta^2}(G*f)(\theta)
+= \int_0^{2\pi} G''(\theta-\alpha) f(\alpha)\,d\alpha,
+\]
+so that
+\[
+-(G*f)''(\theta) + (G*f)(\theta)
+= \int_0^{2\pi}\bigl(-G''(\theta-\alpha)+G(\theta-\alpha)\bigr)
+f(\alpha)\,d\alpha.
+\]
+Because $G$ satisfies $(-G''+G)=\delta_0$ on the circle, the integrand
+reduces to $\delta(\theta-\alpha)$ in the periodic sense, and hence
+\[
+-(G*f)''(\theta) + (G*f)(\theta) = f(\theta),
+\qquad \theta\in\mathbb{R}.
+\]
+
+Thus the function $\psi:=G*f$ is the unique $2\pi$-periodic solution of
+the inhomogeneous ODE
+\[
+-\psi''(\theta) + \psi(\theta) = f(\theta),
+\]
+and the explicit formula used in Exercise~1.2 is precisely the
+representation of this convolution when one chooses the branch
+$\theta\in[0,2\pi)$ and splits the integral at $\alpha=\theta$.
+
+The Green's function $G$ is defined by
+\[
+LG = \delta_0,
+\]
+i.e.\ $G$ is the response of the system $L$ to a unit point source at
+$\theta=0$. The operator
+\[
+L = -\frac{d^2}{d\theta^2} + 1
+\]
+is translation invariant on the circle: for every $\alpha\in\mathbb{R}$ and
+every sufficiently smooth $u$ we have
+\[
+L\big(u(\theta-\alpha)\big) = (Lu)(\theta-\alpha).
+\]
+Moreover, the Dirac mass at $\alpha$ is simply the translate of the Dirac
+mass at $0$:
+\[
+\delta_\alpha(\theta) = \delta_0(\theta-\alpha).
+\]
+
+Starting from $(LG)(\theta)=\delta_0(\theta)$ and replacing $\theta$ by
+$\theta-\alpha$, we obtain
+\[
+(LG)(\theta-\alpha) = \delta_0(\theta-\alpha) = \delta_\alpha(\theta).
+\]
+By translation invariance,
+\[
+(LG)(\theta-\alpha) = L\big(G(\theta-\alpha)\big),
+\]
+and hence
+\[
+L\big(G(\cdot-\alpha)\big) = \delta_\alpha.
+\]
+Thus the response to a point source located at $\alpha$ is exactly the
+translate $G(\cdot-\alpha)$ of the Green's function.
+
+
+\subsection*{Why we introduce $L := -\dfrac{d^2}{d\theta^2} + 1$ and what the Green's function means}
+
+The differential equation from Exercise~1.2 can be rewritten as
+\[
+-\psi''(\theta) + \psi(\theta) = f(\theta),
+\]
+so it is natural to introduce the linear operator
+\[
+L := -\frac{d^2}{d\theta^2} + 1.
+\]
+With this notation the problem takes the form
+\[
+L\psi = f \qquad \text{on the circle}.
+\]
+
+The addition of the ``$+1$'' term is important: the operator
+$-\frac{d^2}{d\theta^2}$ is not invertible on $2\pi$--periodic functions,
+since its kernel contains constants and trigonometric functions.
+However,
+\[
+L(e^{in\theta}) = (1+n^2)e^{in\theta},
+\]
+and $1+n^2>0$ for every $n\in\mathbb{Z}$, so $L$ is invertible on the
+space of $2\pi$--periodic functions.
+
+\medskip
+
+The \emph{periodic Green's function} for $L$ is the unique $2\pi$--periodic
+distribution $G$ satisfying
+\[
+LG = \delta_0,
+\]
+where $\delta_0$ is the periodic Dirac mass at $\theta=0$.  Thus $G$ is
+the response of the system $L$ to a unit point source at $\theta=0$.  A
+key property is that $L$ is translation invariant on the circle:
+\[
+L\big(u(\theta-\alpha)\big) = (Lu)(\theta-\alpha),
+\qquad \alpha\in\mathbb{R},
+\]
+for all sufficiently smooth $u$.  Since
+$\delta_\alpha(\theta)=\delta_0(\theta-\alpha)$, it follows that
+\[
+L\big(G(\theta-\alpha)\big) = \delta_\alpha(\theta).
+\]
+Thus the response to a point source located at $\alpha$ is simply the
+translate $G(\cdot-\alpha)$.
+
+\medskip
+
+A general $2\pi$--periodic function $f$ may be viewed formally as a
+superposition of point sources:
+\[
+f(\theta)
+= \int_0^{2\pi} f(\alpha)\,\delta_\alpha(\theta)\,d\alpha.
+\]
+By linearity of $L$, the corresponding solution must be the superposition
+of the individual responses:
+\[
+\psi(\theta)
+= \int_0^{2\pi} f(\alpha)\,G(\theta-\alpha)\,d\alpha,
+\]
+which is the periodic convolution $G * f$.  A direct computation using
+translation invariance gives
+\[
+L\psi(\theta)
+= \int_0^{2\pi} f(\alpha)\,L\big(G(\theta-\alpha)\big)\,d\alpha
+= \int_0^{2\pi} f(\alpha)\,\delta_\alpha(\theta)\,d\alpha
+= f(\theta),
+\]
+so $\psi=G*f$ is indeed the unique $2\pi$--periodic solution of
+$L\psi=f$.
+
+\medskip
+
+In Exercise~1.1 it was shown that
+\[
+\sum_{n\in\mathbb{Z}} \frac{e^{in\theta}}{1+n^2}
+= \frac{\cosh(\pi-|\theta|)}{2\sinh\pi},
+\qquad \theta\in[-\pi,\pi],
+\]
+with uniform convergence in $\theta$.  Since the Fourier coefficients of
+$\delta_0$ are $1/(2\pi)$, this identifies the periodic Green's function
+explicitly as
+\[
+G(\theta) = \frac{\cosh(\pi-|\theta|)}{2\sinh\pi},
+\qquad \theta\in[-\pi,\pi],
+\]
+extended $2\pi$--periodically.  This is exactly the kernel that appears in
+the integral defining $\psi(\theta)$ in Exercise~1.2.
+
+\subsubsection*{Fourier–series viewpoint on $L^{-1}$}
+
+Let $L = -\dfrac{d^2}{d\theta^2} + 1$ act on $2\pi$--periodic functions.
+The complex exponentials
+\[
+e_n(\theta) := e^{in\theta}, \qquad n\in\mathbb{Z},
+\]
+form an orthonormal basis of $L^2_{\mathrm{per}}([0,2\pi])$, and they are
+eigenfunctions of $L$:
+\[
+L e_n
+= -\frac{d^2}{d\theta^2}e^{in\theta} + e^{in\theta}
+= (n^2 + 1)e^{in\theta}
+= (1+n^2)e_n.
+\]
+Thus $L$ is \emph{diagonal} in the Fourier basis, with eigenvalues
+$\lambda_n = 1+n^2>0$.
+
+Let $f$ be a $2\pi$--periodic function with Fourier series
+\[
+f(\theta) = \sum_{n\in\mathbb{Z}} \hat f_n e^{in\theta},
+\qquad
+\hat f_n = \frac{1}{2\pi}\int_0^{2\pi} f(\theta)e^{-in\theta}\,d\theta.
+\]
+We look for a solution $\psi$ of $L\psi=f$ in the same form,
+\[
+\psi(\theta) = \sum_{n\in\mathbb{Z}} \hat \psi_n e^{in\theta}.
+\]
+Applying $L$ termwise gives
+\[
+L\psi
+= \sum_{n\in\mathbb{Z}} (1+n^2)\hat \psi_n e^{in\theta}.
+\]
+Hence the equation $L\psi=f$ is equivalent to
+\[
+(1+n^2)\hat \psi_n = \hat f_n,
+\qquad n\in\mathbb{Z},
+\]
+so
+\[
+\hat \psi_n = \frac{\hat f_n}{1+n^2}.
+\]
+Therefore
+\[
+\psi(\theta)
+= L^{-1}f(\theta)
+= \sum_{n\in\mathbb{Z}} \frac{\hat f_n}{1+n^2}\,e^{in\theta}.
+\]
+
+\medskip
+
+This shows that the inverse operator $L^{-1}$ multiplies each Fourier mode
+$e^{in\theta}$ by the factor $\dfrac{1}{1+n^2}$.  In particular, the kernel
+$G$ of $L^{-1}$ (the periodic Green's function) has Fourier coefficients
+\[
+\widehat{G}_n = \frac{1}{2\pi(1+n^2)},\qquad n\in\mathbb{Z},
+\]
+so
+\[
+G(\theta)
+= \frac{1}{2\pi}\sum_{n\in\mathbb{Z}} \frac{e^{in\theta}}{1+n^2}.
+\]
+Using the identity from Exercise~1.1,
+\[
+\sum_{n\in\mathbb{Z}} \frac{e^{in\theta}}{1+n^2}
+= \frac{\cosh(\pi-|\theta|)}{2\sinh\pi}, \qquad \theta\in[-\pi,\pi],
+\]
+we recover the explicit formula
+\[
+G(\theta)
+= \frac{\cosh(\pi-|\theta|)}{2\sinh\pi},\qquad \theta\in[-\pi,\pi],
+\]
+extended $2\pi$--periodically.  Thus the Green's function is nothing more
+than the integral kernel of $L^{-1}$ when viewed in the Fourier basis.
+
+\subsubsection*{Eigenvalues of $L$ and diagonalisation in the Fourier basis}
+
+Let
+\[
+L := -\frac{d^2}{d\theta^2} + 1
+\]
+act on $2\pi$--periodic functions.  Consider the Fourier basis
+\[
+e_n(\theta) := e^{in\theta},\qquad n\in\mathbb{Z}.
+\]
+We first compute the action of $L$ on $e_n$.  Differentiating,
+\[
+\frac{d}{d\theta}e^{in\theta} = in\,e^{in\theta},\qquad
+\frac{d^2}{d\theta^2}e^{in\theta} = (in)^2 e^{in\theta}
+= -n^2 e^{in\theta}.
+\]
+Hence
+\[
+L e_n
+= -\frac{d^2}{d\theta^2}e^{in\theta} + e^{in\theta}
+= -(-n^2 e^{in\theta}) + e^{in\theta}
+= (1+n^2)e^{in\theta}.
+\]
+Thus $e_n$ is an eigenfunction of $L$ with eigenvalue
+\[
+\lambda_n = 1+n^2.
+\]
+
+Because each basis vector $e_n$ is an eigenfunction of $L$, the operator
+acts diagonally in this basis.  That is, if we represent $L$ as an infinite
+matrix with respect to the basis $\{e_n\}_{n\in\mathbb{Z}}$, then
+\[
+L e_n = \lambda_n e_n \qquad\Longleftrightarrow\qquad
+(L)_{mn} = \lambda_n\,\delta_{mn},
+\]
+so only the diagonal entries are nonzero.  The Fourier basis therefore
+diagonalises $L$, with diagonal entries $\{\,1+n^2 : n\in\mathbb{Z}\,\}$.
+
+\subsubsection*{Why $L$ is diagonal in the Fourier basis}
+
+Think of writing a linear operator as an infinite matrix with respect to a
+basis.  If $\{v_k\}$ is a basis and
+\[
+Tv_k = \sum_j a_{jk}\,v_j,
+\]
+then the matrix of $T$ is the array $(a_{jk})$, where \emph{column $k$}
+records how $T$ acts on the $k$-th basis vector.
+
+If each basis vector $v_k$ is an eigenvector,
+\[
+T v_k = \lambda_k v_k,
+\]
+then
+\[
+T v_k = \lambda_k v_k
+= \lambda_k v_k + 0\cdot v_j \qquad (j\neq k).
+\]
+Therefore the matrix entries satisfy
+\[
+a_{kk} = \lambda_k, \qquad a_{jk}=0 \quad (j\neq k).
+\]
+Such a matrix has nonzero entries only on the diagonal; it is a
+\emph{diagonal matrix}.  Thus an operator is diagonal in a given basis
+precisely when every basis vector is an eigenvector.
+
+\medskip
+
+For our operator
+\[
+L := -\frac{d^2}{d\theta^2} + 1,
+\]
+the relevant basis is the Fourier basis $\{e_n\}_{n\in\mathbb{Z}}$ with
+$e_n(\theta)=e^{in\theta}$.  We showed earlier that
+\[
+L e_n = (1+n^2)\,e_n,
+\]
+so $e_n$ is an eigenfunction of $L$ with eigenvalue $1+n^2$.
+
+Hence the ``matrix'' of $L$ in the Fourier basis is
+\[
+\mathrm{diag}\bigl(\dots,\,
+1+(-2)^2,\,
+1+(-1)^2,\,
+1+0^2,\,
+1+1^2,\,
+1+2^2,\dots
+\bigr),
+\]
+i.e.\ diagonal with entries $1+n^2$.
+
+\medskip
+
+This is the precise sense in which we say:
+
+\[
+\boxed{\,L \text{ is diagonal in the Fourier basis, with eigenvalues }
+	\lambda_n = 1+n^2.\,}
+\]
+
+
+\bigskip
+\noindent\rule{\textwidth}{0.4pt}
+\medskip
+
+Given a continuous $2\pi$-periodic function $f$, the (formal) convolution
+\[
+(G * f)(\theta) := \int_0^{2\pi} G(\theta-\alpha)\,f(\alpha)\,d\alpha
+\]
+appears naturally from linearity and translation invariance of $L$.
+
+Indeed, $G$ is defined by $L G = \delta_0$, so $G$ is the response of the
+system $L$ to a unit point source at $0$.  Since $L$ is translation
+invariant on the circle, the response to a point source at $\alpha$ is the
+translate $G(\theta-\alpha)$, satisfying
+\[
+L\big(G(\theta-\alpha)\big) = \delta_\alpha(\theta).
+\]
+A general right-hand side $f$ may be viewed as a superposition of point
+sources,
+\[
+f(\theta) = \int_0^{2\pi} f(\alpha)\,\delta_\alpha(\theta)\,d\alpha.
+\]
+By linearity of $L$, the corresponding solution must be the superposition
+of the individual responses:
+\[
+\psi(\theta)
+= \int_0^{2\pi} f(\alpha)\,G(\theta-\alpha)\,d\alpha
+= (G * f)(\theta).
+\]
+Thus convolution with the Green's function $G$ is exactly the operation
+that sends $f$ to the unique $2\pi$-periodic solution $\psi$ of $L\psi=f$.
+
+
+\section*{Green functions for simple one–dimensional operators}
+
+In this section we collect a few basic examples of Green functions for
+second–order operators in one dimension.  Throughout, a Green function $G$
+for an operator $L$ is a distributional solution of
+\[
+LG = \delta_0,
+\]
+with boundary conditions specified by the domain of $L$ (whole line,
+finite interval, or circle).  For a given right–hand side $f$, the
+solution of $L u = f$ is then given by the convolution $u=G*f$ (or
+its appropriate periodic / bounded–interval analogue).
+
+\subsection*{1. The operator $L_0 u = -u''$ on $\mathbb{R}$}
+
+We look for $G_0$ such that
+\[
+-G_0''(x) = \delta_0(x)\qquad\text{on }\mathbb{R}.
+\]
+Away from $x=0$ we have $-G_0''=0$, hence $G_0$ is affine on $(-\infty,0)$
+and on $(0,\infty)$:
+\[
+G_0(x) = 
+\begin{cases}
+	a_+ x + b_+, & x>0,\\
+	a_- x + b_-, & x<0.
+\end{cases}
+\]
+We impose
+\begin{itemize}
+	\item symmetry $G_0(-x)=G_0(x)$ (by uniqueness and symmetry of the
+	operator), which gives $a_+ = -a_-$ and $b_+ = b_- =: b$;
+	\item continuity at $0$: $G_0(0^+)=G_0(0^-)$, already encoded above;
+	\item the distributional equation $-G_0''=\delta_0$, which is equivalent
+	to the jump condition $G_0'(0^+)-G_0'(0^-)=-1$.
+\end{itemize}
+Here $G_0'(0^+)=a_+$ and $G_0'(0^-)=a_-$, so
+\[
+a_+ - a_- = -1.
+\]
+Together with $a_+ = -a_-$ this yields $2a_+ = -1$, hence $a_+ = -\tfrac12$
+and $a_-=\tfrac12$.  Thus
+\[
+G_0(x) = -\frac12 |x|.
+\]
+
+\medskip
+
+\noindent\textbf{Figure.} The graph of $G_0$ is a ``V'' shaped function.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green_minus_d2.png}
+	\caption{Green's function $G_0(x) = -\tfrac12 |x|$ for the operator
+		$L_0 u = -u''$ on $\mathbb{R}$.  The function is continuous and
+		piecewise linear, and its second derivative is a Dirac mass at
+		$x=0$ in the distributional sense.}
+	\label{fig:green-minus-d2}
+\end{figure}
+
+\subsection*{2. The operator $L_1 u = -u''+u$ on $\mathbb{R}$}
+
+We now solve
+\[
+-G_1''(x) + G_1(x) = \delta_0(x)\qquad\text{on }\mathbb{R}.
+\]
+For $x\neq 0$ this reduces to the homogeneous ODE
+\[
+-G_1''(x) + G_1(x) = 0,
+\]
+whose general solution is $G_1(x)=A e^{x} + B e^{-x}$.  To obtain a Green
+function that is bounded at $\pm\infty$, we choose
+\[
+G_1(x) =
+\begin{cases}
+	C e^{-x}, & x>0,\\
+	C e^{x},  & x<0,
+\end{cases}
+\]
+so that $G_1$ decays at $\pm\infty$ and is even.
+
+Continuity at $0$ is automatic:
+\[
+G_1(0^+)=C = G_1(0^-).
+\]
+As before, the equation $-G_1''+G_1=\delta_0$ is equivalent to the jump
+condition
+\[
+G_1'(0^+) - G_1'(0^-) = -1.
+\]
+Differentiating,
+\[
+G_1'(x) =
+\begin{cases}
+	-C e^{-x}, & x>0,\\
+	C e^{x},   & x<0,
+\end{cases}
+\quad\Rightarrow\quad
+G_1'(0^+) = -C,\quad G_1'(0^-) = C.
+\]
+Hence
+\[
+G_1'(0^+)-G_1'(0^-)= -C - C = -2C = -1,
+\]
+so $C=\tfrac12$.  Therefore
+\[
+G_1(x) = \frac12 e^{-|x|}.
+\]
+
+\medskip
+
+\noindent\textbf{Figure.} The Green function is a symmetric, exponentially
+decaying bump.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green_minus_d2_plus_1.png}
+	\caption{Green's function $G_1(x)=\tfrac12 e^{-|x|}$ for
+		$L_1 u = -u''+u$ on $\mathbb{R}$.  The exponential decay shows
+		that high frequencies are strongly damped by $L_1^{-1}$.}
+	\label{fig:green-minus-d2-plus-1}
+\end{figure}
+
+\subsection*{3. The operator $L_\lambda u = -u''+\lambda u$ on $\mathbb{R}$}
+
+More generally, for $\lambda>0$ we consider
+\[
+-G_\lambda''(x) + \lambda G_\lambda(x) = \delta_0(x).
+\]
+For $x\neq 0$ the homogeneous equation is
+\[
+-G_\lambda''(x) + \lambda G_\lambda(x) = 0
+\quad\Longleftrightarrow\quad
+G_\lambda''(x) = \lambda G_\lambda(x),
+\]
+with solutions $G_\lambda(x)=A e^{\sqrt{\lambda} x}
++ B e^{-\sqrt{\lambda} x}$.  As in the previous case, boundedness and
+evenness lead to
+\[
+G_\lambda(x) =
+\begin{cases}
+	C e^{-\sqrt{\lambda}\,x}, & x>0,\\
+	C e^{\sqrt{\lambda}\,x},  & x<0.
+\end{cases}
+\]
+The jump condition for $-G_\lambda''+\lambda G_\lambda=\delta_0$
+again gives
+\[
+G_\lambda'(0^+)-G_\lambda'(0^-) = -1.
+\]
+Differentiating,
+\[
+G_\lambda'(x) =
+\begin{cases}
+	-C\sqrt{\lambda}\,e^{-\sqrt{\lambda}x}, & x>0,\\[0.3em]
+	C\sqrt{\lambda}\,e^{\sqrt{\lambda}x},   & x<0,
+\end{cases}
+\]
+so $G_\lambda'(0^+) = -C\sqrt{\lambda}$ and
+$G_\lambda'(0^-) = C\sqrt{\lambda}$.  Thus
+\[
+G_\lambda'(0^+)-G_\lambda'(0^-)
+= -C\sqrt{\lambda} - C\sqrt{\lambda}
+= -2C\sqrt{\lambda}
+= -1
+\quad\Longrightarrow\quad
+C = \frac{1}{2\sqrt{\lambda}}.
+\]
+Therefore
+\[
+G_\lambda(x) = \frac{1}{2\sqrt{\lambda}}\,e^{-\sqrt{\lambda}\,|x|}.
+\]
+
+\subsection*{4. Periodic operator $L_{\mathrm{per}}u = -u''+u$ on the circle}
+
+We finally consider the operator
+\[
+L_{\mathrm{per}}u := -\frac{d^2 u}{d\theta^2} + u
+\]
+on $2\pi$-periodic functions.  We seek a $2\pi$-periodic Green function
+$G_{\mathrm{per}}$ such that
+\[
+-G_{\mathrm{per}}''(\theta) + G_{\mathrm{per}}(\theta)
+= \delta_0(\theta)
+\]
+on the circle.  One way to construct $G_{\mathrm{per}}$ is to
+\emph{periodise} the line kernel $G_1$:
+\[
+G_{\mathrm{per}}(\theta)
+= \sum_{k\in\mathbb{Z}} G_1(\theta+2\pi k)
+= \frac12 \sum_{k\in\mathbb{Z}} e^{-|\theta+2\pi k|}.
+\]
+This series converges absolutely and defines a $2\pi$-periodic function
+which satisfies $(-G_{\mathrm{per}}''+G_{\mathrm{per}})=\delta_0$ in the
+periodic sense.
+
+Using the Fourier–series computation of Exercise~1.1, one obtains the
+closed form
+\[
+G_{\mathrm{per}}(\theta)
+= \frac{\cosh(\pi-|\theta|)}{2\sinh\pi},
+\qquad \theta\in[-\pi,\pi],
+\]
+extended $2\pi$-periodically.
+
+\medskip
+
+\noindent\textbf{Figure.} The periodic Green function is a smooth bump on
+the circle, symmetric around $0$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green_periodic_circle.png}
+	\caption{Periodic Green's function
+		$G_{\mathrm{per}}(\theta)
+		= \dfrac{\cosh(\pi-|\theta|)}{2\sinh\pi}$
+		for $L_{\mathrm{per}}u = -u''+u$ on the circle.  It can be
+		obtained either by periodising the line kernel
+		$G_1(x)=\tfrac12 e^{-|x|}$ or by inverting $L_{\mathrm{per}}$
+		in the Fourier basis.}
+	\label{fig:green-periodic-circle}
+\end{figure}
+
+\subsection*{5. Summary table}
+
+\begin{center}
+	\begin{tabular}{ccl}
+		\hline
+		Operator & Domain / BC & Green's function $G$ with $LG=\delta_0$ \\ \hline
+		$L_0 = -\dfrac{d^2}{dx^2}$ &
+		$\mathbb{R}$ &
+		$G_0(x) = -\dfrac12 |x|$ \\[0.7em]
+		$L_1 = -\dfrac{d^2}{dx^2} + 1$ &
+		$\mathbb{R}$ &
+		$G_1(x) = \dfrac12 e^{-|x|}$ \\[0.7em]
+		$L_\lambda = -\dfrac{d^2}{dx^2} + \lambda$ &
+		$\mathbb{R}$, $\lambda>0$ &
+		$G_\lambda(x) = \dfrac{1}{2\sqrt{\lambda}}e^{-\sqrt{\lambda}|x|}$ \\[0.7em]
+		$L_{\mathrm{per}} = -\dfrac{d^2}{d\theta^2} + 1$ &
+		Circle, $2\pi$-periodic &
+		$G_{\mathrm{per}}(\theta)
+		= \dfrac{\cosh(\pi-|\theta|)}{2\sinh\pi}$ on $[-\pi,\pi]$, periodic \\[0.3em]
+		\hline
+	\end{tabular}
+\end{center}
+
+\subsection*{6. Convolution representation}
+
+Given a continuous function $f$ on the domain of $L$, the solution of
+\[
+L u = f
+\]
+with the appropriate boundary conditions is obtained by convolving $f$
+with the corresponding Green function.  For example, on $\mathbb{R}$,
+\[
+u(x) = (G_\lambda * f)(x)
+:= \int_{\mathbb{R}} G_\lambda(x-y) f(y)\,dy,
+\]
+and on the circle
+\[
+u(\theta)
+= \int_0^{2\pi} G_{\mathrm{per}}(\theta-\alpha) f(\alpha)\,d\alpha.
+\]
+In this way the Green function is the integral kernel of the inverse
+operator $L^{-1}$.
+
+\subsection*{Dirichlet and Neumann Green functions on $(0,1)$}
+
+We consider the second--order operator $L_0 u = -u''$ on the interval
+$(0,1)$ with different boundary conditions.
+
+\subsubsection*{1. Dirichlet Green function}
+
+We first impose Dirichlet boundary conditions
+\[
+u(0) = u(1) = 0.
+\]
+A Dirichlet Green function $G_D(x,\xi)$ is a function such that
+\[
+-\partial_x^2 G_D(x,\xi) = \delta(x-\xi)\quad\text{for }0<x<1,
+\]
+with
+\[
+G_D(0,\xi)=G_D(1,\xi)=0.
+\]
+For $x\neq\xi$ we have $-G_D''=0$, hence $G_D$ is affine on each side:
+\[
+G_D(x,\xi) =
+\begin{cases}
+	a_- x + b_-, & 0\le x<\xi,\\[0.3em]
+	a_+ x + b_+, & \xi<x\le 1.
+\end{cases}
+\]
+From $G_D(0,\xi)=0$ we get $b_-=0$, and from $G_D(1,\xi)=0$ we obtain
+$a_+ + b_+ = 0$, i.e.\ $b_+ = -a_+$.  Continuity at $x=\xi$ gives
+\[
+a_- \xi = a_+ \xi + b_+ = a_+(\xi-1),
+\]
+and the jump condition
+\[
+G_{D,x}(\xi^+,\xi) - G_{D,x}(\xi^-,\xi) = -1
+\]
+(from $-G_D''=\delta$) reads $a_+ - a_- = -1$.  Solving these equations
+yields
+\[
+a_- = 1-\xi,\qquad a_+ = -\xi,
+\]
+so that
+\[
+G_D(x,\xi) =
+\begin{cases}
+	x(1-\xi), & 0\le x\le \xi,\\[0.3em]
+	\xi(1-x), & \xi\le x\le 1.
+\end{cases}
+\]
+This kernel is a ``tent'' function with peak at $x=\xi$ and zeros at both
+endpoints.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green_Dirichlet_01.png}
+	\caption{Dirichlet Green function $G_D(x,\xi)$ on $(0,1)$ for
+		$L_0 u = -u''$, plotted for $\xi=0.3$.  The function vanishes at
+		$x=0$ and $x=1$ and is piecewise linear with a kink at $x=\xi$.}
+	\label{fig:green-dirichlet-01}
+\end{figure}
+
+Given $f\in C([0,1])$, the unique solution of
+$-u''=f$ with $u(0)=u(1)=0$ is
+\[
+u(x) = \int_0^1 G_D(x,\xi)\,f(\xi)\,d\xi.
+\]
+
+\subsubsection*{2. Neumann Green function}
+
+We now impose Neumann boundary conditions
+\[
+u'(0) = u'(1) = 0.
+\]
+In this case $L_0 u = -u''$ has constants in its kernel, so the equation
+$-u''=f$ is solvable only if
+\[
+\int_0^1 f(x)\,dx = 0,
+\]
+and the solution is unique only up to an additive constant.  To define a
+Green function we seek $G_N(x,\xi)$ satisfying
+\[
+-\partial_x^2 G_N(x,\xi) = \delta(x-\xi) - 1
+\]
+on $(0,1)$, with Neumann boundary conditions
+\[
+G_{N,x}(0,\xi)=G_{N,x}(1,\xi)=0,
+\]
+and the normalisation
+\[
+\int_0^1 G_N(x,\xi)\,dx = 0\quad\text{for each fixed }\xi.
+\]
+For $x\neq\xi$ the equation reduces to $G_N''(x,\xi)=1$, so $G_N$ is
+quadratic on each side:
+\[
+G_N(x,\xi) =
+\begin{cases}
+	\tfrac12 x^2 + a_- x + b_-, & 0\le x<\xi,\\[0.3em]
+	\tfrac12 x^2 + a_+ x + b_+, & \xi<x\le 1.
+\end{cases}
+\]
+The Neumann conditions give $G_{N,x}(0,\xi)=0$ and $G_{N,x}(1,\xi)=0$,
+that is
+\[
+G_{N,x}(x,\xi) =
+\begin{cases}
+	x + a_-, & x<\xi,\\
+	x + a_+, & x>\xi,
+\end{cases}
+\quad\Rightarrow\quad
+a_- = 0,\qquad a_+ = -1.
+\]
+Continuity at $x=\xi$ implies $b_- = b_+ - \xi$, and the jump condition
+coming from $-G_N''=\delta-1$,
+\[
+G_{N,x}(\xi^+,\xi) - G_{N,x}(\xi^-,\xi) = -1,
+\]
+is automatically satisfied with $a_-=0$, $a_+ = -1$.  The normalisation
+$\int_0^1 G_N(x,\xi)\,dx = 0$ then determines $b_+$ and $b_-$; a short
+computation yields
+\[
+b_+ = \frac{\xi^2}{2} + \frac13,\qquad
+b_- = \frac{\xi^2}{2} - \xi + \frac13.
+\]
+Thus
+\[
+G_N(x,\xi) =
+\begin{cases}
+	\displaystyle \frac12 x^2 + \frac12\xi^2 - \xi + \frac13,
+	& 0\le x\le \xi,\\[0.7em]
+	\displaystyle \frac12 x^2 - x + \frac12\xi^2 + \frac13,
+	& \xi\le x\le 1.
+\end{cases}
+\]
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green_Neumann_01.png}
+	\caption{Neumann Green function $G_N(x,\xi)$ on $(0,1)$ for $L_0 u=-u''$,
+		plotted for $\xi=0.3$.  The derivative vanishes at $x=0$ and
+		$x=1$, and $G_N$ is piecewise quadratic with a slope jump of $-1$
+		at $x=\xi$.  The normalisation $\int_0^1 G_N(x,\xi)\,dx=0$
+		fixes the additive constant.}
+	\label{fig:green-neumann-01}
+\end{figure}
+
+If $f$ satisfies $\int_0^1 f(x)\,dx = 0$, then
+\[
+u(x) = \int_0^1 G_N(x,\xi)\,f(\xi)\,d\xi
+\]
+solves $-u''=f$ with Neumann boundary conditions $u'(0)=u'(1)=0$, and is
+determined up to an additive constant.
+
+\subsection*{Helmholtz and damped one--dimensional operators}
+
+\subsubsection*{1. Helmholtz operator on $\mathbb{R}$}
+
+Consider the Helmholtz operator
+\[
+L_H u := -u'' - k^2 u, \qquad k>0,
+\]
+on the real line.  A Green function $G_H$ satisfies
+\[
+-G_H''(x) - k^2 G_H(x) = \delta_0(x)\quad\text{on }\mathbb{R}.
+\]
+For $x\neq 0$ the homogeneous equation $G_H'' + k^2 G_H = 0$ has solutions
+$A\cos(kx)+B\sin(kx)$.  We look for an even Green function and try
+\[
+G_H(x) = -\frac{1}{2k}\,\sin(k|x|).
+\]
+For $x>0$ we have $G_H(x) = -\tfrac{1}{2k}\sin(kx)$ and for $x<0$,
+$G_H(x) = \tfrac{1}{2k}\sin(kx)$.  In both cases $G_H''+k^2G_H=0$, so the
+equation holds away from $x=0$.
+
+The derivative is
+\[
+G_H'(x) =
+\begin{cases}
+	-\tfrac12\cos(kx), & x>0,\\[0.2em]
+	\tfrac12\cos(kx),  & x<0,
+\end{cases}
+\]
+hence
+\[
+G_H'(0^+) = -\frac12, \qquad G_H'(0^-) = \frac12,
+\]
+and
+\[
+G_H'(0^+) - G_H'(0^-) = -1.
+\]
+This jump condition is equivalent to $-G_H''=\delta_0$ in the distribution
+sense, while the $-k^2 G_H$ term integrates to zero across $x=0$.  Thus
+\[
+G_H(x) = -\frac{1}{2k}\,\sin(k|x|)
+\]
+is a Green function for $L_H$ on $\mathbb{R}$.  It is oscillatory and does
+not decay at infinity.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green_Helmholtz_k2.png}
+	\caption{Helmholtz Green function
+		$G_H(x) = -\tfrac{1}{2k}\sin(k|x|)$ for $L_H u=-u''-k^2u$,
+		plotted for $k=2$.  The kernel is oscillatory and bounded.}
+	\label{fig:green-helmholtz}
+\end{figure}
+
+\subsubsection*{2. Damped operator on $\mathbb{R}$}
+
+Now consider the non-self-adjoint operator
+\[
+L_D u := -u'' + c u', \qquad c>0.
+\]
+We look for a one-sided (retarded) Green function $G_D$ solving
+\[
+-G_D''(x) + c G_D'(x) = \delta_0(x)
+\]
+and vanishing for $x>0$.
+
+For $x\neq 0$ we solve $-G_D''+cG_D'=0$, i.e.\ $G_D''-cG_D'=0$.  Writing
+$v=G_D'$ gives $v'-cv=0$ so $v(x)=A e^{cx}$ and
+\[
+G_D(x) = \frac{A}{c}e^{cx} + B.
+\]
+We prescribe
+\[
+G_D(x) =
+\begin{cases}
+	\alpha + \beta e^{cx}, & x<0,\\[0.3em]
+	0, & x>0,
+\end{cases}
+\]
+and impose continuity at $0$:
+\[
+\alpha + \beta = 0 \quad\Rightarrow\quad \alpha = -\beta.
+\]
+The jump condition from $-G_D''+cG_D'=\delta_0$ reads
+\[
+G_D'(0^+) - G_D'(0^-) = -1.
+\]
+Here $G_D'(x)=0$ for $x>0$ and $G_D'(x)=c\beta e^{cx}$ for $x<0$, so
+$G_D'(0^-) = c\beta$ and hence $-c\beta=-1$, i.e.\ $\beta = 1/c$ and
+$\alpha=-1/c$.  Thus
+\[
+G_D(x) =
+\begin{cases}
+	-\dfrac{1}{c} + \dfrac{1}{c}e^{cx}, & x<0,\\[0.4em]
+	0, & x>0.
+\end{cases}
+\]
+This kernel is continuous at $0$, has a slope jump of $-1$, and vanishes
+for $x>0$, so it is a retarded Green function for $L_D$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green_Damped_c1.png}
+	\caption{One-sided Green function $G_D$ for the damped operator
+		$L_D u=-u''+cu'$ on $\mathbb{R}$, plotted for $c=1$.  The kernel
+		vanishes for $x>0$ and decays exponentially as $x\to-\infty$.}
+	\label{fig:green-damped}
+\end{figure}
+
+\subsection*{Green function for $-\Delta$ in $\mathbb{R}^2$}
+
+In two dimensions the Laplacian is
+\[
+\Delta u = u_{xx} + u_{yy}.
+\]
+We seek a Green function $G:\mathbb{R}^2\setminus\{0\}\to\mathbb{R}$ such
+that
+\[
+-\Delta G(x) = \delta_0(x)
+\]
+in the sense of distributions.  By rotational symmetry we look for a
+radial function $G(x)=g(r)$ with $r=|x|$.  For a radial function $u(r)$ in
+$\mathbb{R}^2$ one has
+\[
+\Delta u = u''(r) + \frac{1}{r}u'(r).
+\]
+Thus away from the origin $-\Delta G=0$ becomes
+\[
+g''(r) + \frac{1}{r}g'(r) = 0.
+\]
+Writing $v(r)=g'(r)$, this is $v'(r) + \frac{1}{r}v(r)=0$, or equivalently
+$(rv(r))'=0$, so $v(r)=C/r$ and hence
+\[
+g(r) = C\log r + D.
+\]
+To fix the constant $C$ we integrate $-\Delta G$ over a disc $B_R$ and
+apply the divergence theorem:
+\[
+\int_{B_R} -\Delta G\,dx
+= \int_{\partial B_R} -\frac{\partial G}{\partial n}\,dS.
+\]
+If $G(x) = A\log|x|$, then $\partial G/\partial r = A/r$ and on $\partial
+B_R$ we obtain
+\[
+-\frac{\partial G}{\partial n} = -\frac{A}{R}.
+\]
+Since $dS = R\,d\theta$ on the circle of radius $R$,
+\[
+\int_{\partial B_R} -\frac{\partial G}{\partial n}\,dS
+= \int_0^{2\pi} \Bigl(-\frac{A}{R}\Bigr)R\,d\theta
+= -2\pi A.
+\]
+We require this flux to equal $1$ (because $-\Delta G = \delta_0$), hence
+$-2\pi A = 1$ and $A = -1/(2\pi)$.  Therefore
+\[
+G(x) = -\frac{1}{2\pi}\log|x|
+\]
+is a Green function for the Laplacian in $\mathbb{R}^2$ (unique up to an
+additive constant).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_Green2D_log_kernel.png}
+	\caption{Green function $G(x) = -\tfrac{1}{2\pi}\log r$ for
+		$-\Delta$ in $\mathbb{R}^2$ (plotted on $[-2,2]^2$ with a small
+		regularisation near $r=0$).  The level sets are concentric
+		circles and $G$ has a logarithmic singularity at the origin.}
+	\label{fig:green-2d-log}
+\end{figure}
+\subsection*{Green functions on the torus and sphere}
+
+\subsubsection*{1. Flat torus $\mathbb{T}^2$}
+
+Identify the flat torus $\mathbb{T}^2$ with $\mathbb{R}^2/(2\pi\mathbb{Z})^2$.
+The eigenfunctions of the Laplacian are
+\[
+e_{m,n}(x,y) = e^{i(mx+ny)}, \qquad (m,n)\in\mathbb{Z}^2,
+\]
+with eigenvalues
+\[
+-\Delta e_{m,n} = (m^2+n^2)e_{m,n}.
+\]
+The constant mode $(m,n)=(0,0)$ has eigenvalue $0$, so $-\Delta$ is not
+invertible on all of $L^2(\mathbb{T}^2)$.  To define a Green function
+$G_{\mathbb{T}}$ one imposes
+\[
+-\Delta G_{\mathbb{T}}(x,y)
+= \delta_0(x,y) - \frac{1}{(2\pi)^2},
+\]
+together with the normalisation $\int_{\mathbb{T}^2} G_{\mathbb{T}} = 0$.
+Expanding in the Fourier basis and inverting mode by mode yields
+\[
+G_{\mathbb{T}}(x,y)
+= \frac{1}{(2\pi)^2}
+\sum_{(m,n)\in\mathbb{Z}^2\setminus\{(0,0)\}}
+\frac{e^{i(mx+ny)}}{m^2+n^2}.
+\]
+This series represents the periodisation of the planar Green function
+$-(1/2\pi)\log|x|$ and has a logarithmic singularity at the origin.
+
+\subsubsection*{2. Round sphere $\mathbb{S}^2$}
+
+On the unit sphere $\mathbb{S}^2\subset\mathbb{R}^3$ the eigenfunctions of
+the Laplace--Beltrami operator are the spherical harmonics $Y_\ell^m$,
+$\ell=0,1,2,\dots$ and $|m|\le\ell$, with eigenvalues
+\[
+-\Delta_{\mathbb{S}^2} Y_\ell^m = \ell(\ell+1)\,Y_\ell^m.
+\]
+Again the constant mode ($\ell=0$) lies in the kernel.  A Green function
+$G_{\mathbb{S}^2}(p,q)$ is defined by
+\[
+-\Delta_{\mathbb{S}^2} G_{\mathbb{S}^2}(p,q)
+= \delta_q(p) - \frac{1}{4\pi},
+\]
+together with $\int_{\mathbb{S}^2} G_{\mathbb{S}^2}(p,q)\,dp = 0$ for each
+fixed $q$.  Using the completeness of the spherical harmonics one obtains
+the eigenfunction expansion
+\[
+G_{\mathbb{S}^2}(p,q)
+= \sum_{\ell=1}^\infty \sum_{m=-\ell}^{\ell}
+\frac{1}{\ell(\ell+1)}\,Y_\ell^m(p)\,\overline{Y_\ell^m(q)}.
+\]
+By rotational invariance, $G_{\mathbb{S}^2}(p,q)$ depends only on the
+geodesic distance $\gamma$ between $p$ and $q$ (equivalently on
+$\cos\gamma = p\cdot q$), and one can write it as an explicit function of
+$\gamma$ involving a logarithmic singularity as $\gamma\to 0$.  Locally,
+the behaviour of $G_{\mathbb{S}^2}$ near the diagonal $p=q$ is therefore
+similar to the planar Green function $-(1/2\pi)\log|x|$.
+
+
+\section*{Exercise 1.3 — Maximum principle for $-\psi''+\psi$ on the circle}
+
+Let $\phi\in C^2(\mathbb{R})$ be $2\pi$-periodic, i.e.\ $\phi(\theta+2\pi)
+= \phi(\theta)$ for all $\theta\in\mathbb{R}$, and suppose that
+\[
+-\phi''(\theta) + \phi(\theta) = 0, \qquad \theta\in\mathbb{R}.
+\]
+
+\begin{enumerate}
+	\item[(a)] Show that if $\phi$ attains a maximum at some $\theta_0\in\mathbb{R}$,
+	then $\phi(\theta_0)\le 0$.
+	
+	\item[(b)] Show that if $\phi$ attains a minimum at some $\theta_0\in\mathbb{R}$,
+	then $\phi(\theta_0)\ge 0$.
+	
+	\item[(c)] Deduce that $\phi\equiv 0$.
+	
+	\item[(d)] Let $f\in C^0(\mathbb{R})$ be a given $2\pi$-periodic function.
+	Conclude that there is at most one $\psi\in C^2(\mathbb{R})$ such
+	that $\psi(\theta+2\pi)=\psi(\theta)$ for all $\theta$ and
+	\[
+	-\psi''(\theta) + \psi(\theta) = f(\theta),
+	\qquad \theta\in\mathbb{R}.
+	\]
+\end{enumerate}
+
+Let $\phi\in C^2(\mathbb{R})$ be $2\pi$-periodic, i.e.\ $\phi(\theta+2\pi)=\phi(\theta)$
+for all $\theta\in\mathbb{R}$, and suppose that
+\[
+-\phi''(\theta) + \phi(\theta) = 0, \qquad \theta\in\mathbb{R}.
+\]
+Equivalently, $\phi''(\theta)=\phi(\theta)$.
+
+\subsection*{(a) Behaviour at a maximum}
+
+Suppose that $\phi$ attains a maximum at some $\theta_0\in\mathbb{R}$.
+By elementary calculus,
+\[
+\phi'(\theta_0) = 0, \qquad \phi''(\theta_0)\le 0.
+\]
+Evaluating the differential equation at $\theta_0$ gives
+\[
+0 = -\phi''(\theta_0)+\phi(\theta_0)
+\quad\Longrightarrow\quad
+\phi(\theta_0) = \phi''(\theta_0).
+\]
+Since $\phi''(\theta_0)\le 0$, it follows that
+\[
+\phi(\theta_0)\le 0.
+\]
+Thus any maximum value of $\phi$ must be non-positive.
+
+\subsection*{(b) Behaviour at a minimum}
+
+Suppose that $\phi$ attains a minimum at some $\theta_0\in\mathbb{R}$.  Then
+\[
+\phi'(\theta_0) = 0, \qquad \phi''(\theta_0)\ge 0.
+\]
+Once more, evaluating the equation at $\theta_0$ yields
+\[
+0 = -\phi''(\theta_0)+\phi(\theta_0)
+\quad\Longrightarrow\quad
+\phi(\theta_0)=\phi''(\theta_0)\ge 0.
+\]
+Thus any minimum value of $\phi$ must be non-negative.
+
+\subsection*{(c) Conclusion: $\phi\equiv 0$}
+
+Because $\phi$ is continuous and $2\pi$-periodic, it attains both a maximum
+and a minimum on $\mathbb{R}$.  Let
+\[
+M := \max_{\theta\in\mathbb{R}} \phi(\theta),
+\qquad
+m := \min_{\theta\in\mathbb{R}} \phi(\theta).
+\]
+From part (a), $M\le 0$, and from part (b), $m\ge 0$.  Since always
+$m\le M$, we obtain
+\[
+m \le M \le 0
+\quad\text{and}\quad
+m\ge 0.
+\]
+Hence $m=0$ and $M=0$.  A continuous function whose maximum and minimum
+are both equal to $0$ must be identically zero, so
+\[
+\phi(\theta)\equiv 0 \qquad\text{for all }\theta\in\mathbb{R}.
+\]
+
+\subsection*{(d) Uniqueness for $-\psi''+\psi=f$}
+
+Let $f\in C^0(\mathbb{R})$ be a given $2\pi$-periodic function and suppose
+that $\psi_1,\psi_2\in C^2(\mathbb{R})$ are $2\pi$-periodic solutions of
+\[
+-\psi''(\theta)+\psi(\theta) = f(\theta), \qquad \theta\in\mathbb{R}.
+\]
+Consider their difference
+\[
+\phi(\theta) := \psi_1(\theta)-\psi_2(\theta).
+\]
+Then $\phi$ is $2\pi$-periodic and satisfies
+\[
+-\phi''(\theta)+\phi(\theta)
+= \bigl(-\psi_1''(\theta)+\psi_1(\theta)\bigr)
+-\bigl(-\psi_2''(\theta)+\psi_2(\theta)\bigr)
+= f(\theta)-f(\theta)
+= 0.
+\]
+By part (c) we must have $\phi\equiv 0$, hence $\psi_1=\psi_2$.  Therefore
+there is at most one $\psi\in C^2(\mathbb{R})$ which is $2\pi$-periodic and
+solves $-\psi''+\psi=f$.
+
+\paragraph{Remark (Why ``on the circle''?).}
+A $2\pi$-periodic function $\phi\in C^2(\mathbb{R})$ naturally defines a
+function on the unit circle $S^1$ via
+\[
+\Phi(e^{i\theta}) := \phi(\theta).
+\]
+This is well defined because $\phi(\theta+2\pi)=\phi(\theta)$, so the
+value depends only on the class of $\theta$ in $\mathbb{R}/(2\pi\mathbb{Z})
+\simeq S^1$.  Conversely, any function on $S^1$ can be regarded as a
+$2\pi$-periodic function of $\theta$.  In this identification the operator
+\[
+L = -\frac{d^2}{d\theta^2} + 1
+\]
+is precisely $-\Delta_{S^1}+1$, the Laplacian plus a mass term on the
+circle.  Thus Exercise~1.3 can be viewed as a maximum principle for the
+operator $-\Delta_{S^1}+1$ on the compact manifold $S^1$.
+
+\paragraph{Remark: periodic solutions of $-\phi''=0$ vs.\ $-\phi''+\phi=0$.}
+
+It is important to distinguish between the operators $-\phi''$ and
+$-\phi''+\phi$ when working on the circle $S^{1}\cong\mathbb{R}/(2\pi\mathbb{Z})$.
+
+\subparagraph{1. The equation $-\phi''=0$.}
+Solving $-\phi''(\theta)=0$ gives
+\[
+\phi(\theta) = a\theta + b.
+\]
+If $\phi$ is $2\pi$-periodic, i.e.\ $\phi(\theta+2\pi)=\phi(\theta)$, then
+\[
+a(\theta+2\pi)+b = a\theta + b
+\quad\Longrightarrow\quad
+a=0.
+\]
+Hence the only $2\pi$-periodic solutions are \emph{constants}.  Therefore
+the kernel of $-\phi''$ on $S^1$ consists precisely of the constant
+functions:
+\[
+\ker(-\phi'') = \{\text{constants}\}.
+\]
+
+\subparagraph{2. The equation $-\phi''+\phi=0$.}
+Solving $\phi''(\theta)=\phi(\theta)$ gives
+\[
+\phi(\theta) = Ae^\theta + Be^{-\theta}.
+\]
+There is no nonzero $2\pi$-periodic solution of this form.  In
+Exercise~1.3(a)--(c) we proved a maximum principle showing that any
+$2\pi$-periodic $C^{2}$ solution of
+\[
+-\phi''(\theta) + \phi(\theta) = 0
+\]
+must satisfy $\phi\equiv 0$.  Thus the kernel of $-\phi''+\phi$ on $S^1$ is
+\emph{trivial}:
+\[
+\ker(-\phi''+\phi) = \{0\}.
+\]
+
+\subparagraph{3. Consequence for uniqueness in (d).}
+Suppose $\psi_{1},\psi_{2}$ are $2\pi$-periodic $C^{2}$ solutions of
+\[
+-\psi''(\theta)+\psi(\theta)=f(\theta).
+\]
+Then their difference $\phi=\psi_{1}-\psi_{2}$ satisfies
+\[
+-\phi''(\theta)+\phi(\theta)=0
+\]
+and is $2\pi$-periodic.  By the result above, $\phi\equiv 0$, hence
+$\psi_{1}=\psi_{2}$.  Therefore the inhomogeneous equation
+$-\psi''+\psi=f$ admits \emph{at most one} $2\pi$-periodic solution.
+
+\paragraph{Summary.}
+\[
+\begin{array}{c|c|c}
+	\text{Operator} & \text{General solution} & \text{$2\pi$-periodic solution} \\
+	\hline
+	-\phi'' & a\theta + b & \text{constants ($a=0$)} \\
+	-\phi''+\phi & Ae^\theta + Be^{-\theta} & \text{only zero} \\
+\end{array}
+\]
+This distinction explains why part (d) has uniqueness but not constant
+solutions.
+
+\section*{Exercise 1.4}
+
+\section*{Exercise 1.4}
+
+For $t\in\mathbb{R}$ let
+\[
+\chi(t) :=
+\begin{cases}
+	0, & t \le 0,\\[0.3em]
+	e^{-1/t}, & t > 0.
+\end{cases}
+\]
+
+\begin{enumerate}
+	\item[(a)] Show that $\chi \in C^\infty(\mathbb{R})$.
+	
+	\item[(b)] Show that there exists a function
+	$\psi \in C_0^\infty(\mathbb{R}^n)$ such that:
+	\begin{enumerate}
+		\item[(i)] $0 \le \psi(x) \le 1$ for all $x\in\mathbb{R}^n$;
+		\item[(ii)] $\operatorname{supp}\psi \subset B_2(0)$;
+		\item[(iii)] $\psi(x)=1$ for all $|x|\le 1$.
+	\end{enumerate}
+	
+	\medskip
+	
+	\noindent\textit{Hint:} First construct a smooth function
+	$\tilde\chi\in C^\infty(\mathbb{R})$ such that
+	\[
+	\tilde\chi(x)=0 \quad \text{for } x<-1,
+	\qquad
+	\tilde\chi(x)=1 \quad \text{for } x>1.
+	\]
+\end{enumerate}
+
+
+For $t\in\mathbb{R}$ let
+\[
+\chi(t) :=
+\begin{cases}
+	0, & t\le 0,\\[0.3em]
+	e^{-1/t}, & t>0.
+\end{cases}
+\]
+
+\subsection*{(a) Smoothness of $\chi$}
+
+For $t<0$ the function $\chi$ is identically zero, hence smooth.  For
+$t>0$ we have $\chi(t)=e^{-1/t}$, which is smooth as a composition of
+smooth functions.  The only nontrivial point is $t=0$.
+A straightforward induction shows that for each $k\in\mathbb{N}$ there is
+a polynomial $P_k$ such that, for $t>0$,
+\[
+\chi^{(k)}(t) = P_k(1/t)\,e^{-1/t}.
+\]
+Moreover, for every $m\ge 0$ one has
+\[
+\lim_{t\to 0^+} t^m e^{-1/t} = 0,
+\]
+so $P_k(1/t)e^{-1/t}\to 0$ as $t\to 0^+$.  On the other hand, for $t<0$
+all derivatives of $\chi$ vanish identically.  Therefore for each $k$ we
+can define $\chi^{(k)}(0):=0$ and obtain a continuous extension of
+$\chi^{(k)}$ to all of $\mathbb{R}$.  It follows that $\chi\in
+C^\infty(\mathbb{R})$.
+
+\subsection*{(b) Construction of a bump function $\psi$ on $\mathbb{R}^n$}
+
+\paragraph{Step 1: a one-dimensional smooth step.}
+Define
+\[
+\eta(x) := \frac{\chi(x)}{\chi(x)+\chi(1-x)}, \qquad x\in\mathbb{R}.
+\]
+The denominator is strictly positive for all $x$ (at least one of
+$\chi(x)$ or $\chi(1-x)$ is nonzero), and both numerator and denominator
+are smooth by part (a), so $\eta\in C^\infty(\mathbb{R})$.  By inspection,
+\[
+\eta(x) =
+\begin{cases}
+	0, & x\le 0,\\
+	1, & x\ge 1.
+\end{cases}
+\]
+Now set
+\[
+\tilde\chi(x) := \eta\!\left(\frac{x+1}{2}\right).
+\]
+Then $\tilde\chi\in C^\infty(\mathbb{R})$ and
+\[
+\tilde\chi(x)=0 \quad\text{for }x\le -1,\qquad
+\tilde\chi(x)=1 \quad\text{for }x\ge 1,
+\]
+as required in the hint.
+
+\paragraph{Step 2: a radial cutoff on $\mathbb{R}^n$.}
+Let $r=|x|$ and define
+\[
+h(r) := \tilde\chi(2-r), \qquad r\ge 0.
+\]
+Then $h$ is smooth on $[0,\infty)$ and satisfies
+\[
+h(r) =
+\begin{cases}
+	1, & 0\le r\le 1,\\
+	0, & r\ge 2.
+\end{cases}
+\]
+We now define a radial function $\psi$ on $\mathbb{R}^n$ by
+\[
+\psi(x) := h(|x|) = \tilde\chi(2-|x|).
+\]
+Since $h$ is smooth and depends only on $|x|$, standard arguments show
+that $\psi\in C^\infty(\mathbb{R}^n)$.  Moreover,
+$0\le\tilde\chi\le 1$ implies $0\le\psi\le 1$.  If $|x|\le 1$ then
+$2-|x|\ge 1$ so $\tilde\chi(2-|x|)=1$ and hence $\psi(x)=1$.  If
+$|x|\ge 2$ then $2-|x|\le 0$ so $\tilde\chi(2-|x|)=0$ and hence
+$\psi(x)=0$.  Thus $\operatorname{supp}\psi\subset B_2(0)$ and
+$\psi(x)=1$ for $|x|\le 1$.
+
+We conclude that $\psi\in C_0^\infty(\mathbb{R}^n)$ and
+\[
+0\le\psi\le 1,\qquad
+\operatorname{supp}\psi\subset B_2(0),\qquad
+\psi(x)=1\ \text{for }|x|\le 1,
+\]
+as required.
+
+\paragraph{Theory box: mollifiers and partitions of unity.}
+
+A \emph{mollifier} in $\mathbb{R}^n$ is a function
+$\rho\in C_0^\infty(\mathbb{R}^n)$ such that
+\[
+\rho(x)\ge 0 \quad\text{and}\quad
+\int_{\mathbb{R}^n}\rho(x)\,dx = 1.
+\]
+For $\varepsilon>0$ we define the rescaled mollifier
+\[
+\rho_\varepsilon(x) := \frac{1}{\varepsilon^n}
+\rho\!\left(\frac{x}{\varepsilon}\right).
+\]
+If $f\in L^1_{\mathrm{loc}}(\mathbb{R}^n)$, the mollified function
+$f_\varepsilon := \rho_\varepsilon * f$ is smooth, and as
+$\varepsilon\to 0$ one has $f_\varepsilon\to f$ in various senses (e.g.\
+in $L^p_{\mathrm{loc}}$, or uniformly when $f$ is continuous).  Normalised
+bump functions of the type constructed in Exercise~1.4 are the basic
+building blocks for such mollifiers.
+
+A \emph{partition of unity} on an open set $U\subset\mathbb{R}^n$ is a
+family $\{\varphi_j\}_{j\in J}\subset C^\infty(U)$ such that
+\begin{enumerate}
+	\item $0\le \varphi_j\le 1$ for all $j$;
+	\item the family is locally finite (for each $x\in U$ there is a
+	neighbourhood where only finitely many $\varphi_j$ are nonzero);
+	\item $\sum_{j\in J}\varphi_j(x)=1$ for all $x\in U$.
+\end{enumerate}
+Given an open cover $U=\bigcup_j U_j$, one can construct a partition of
+unity $\{\varphi_j\}$ \emph{subordinate} to this cover (i.e.\
+$\operatorname{supp}\varphi_j\subset U_j$ for each $j$).  The bump
+function $\psi$ from Exercise~1.4, with $\psi=1$ on $B_1(0)$ and
+$\operatorname{supp}\psi\subset B_2(0)$, is a model for such building
+blocks: by translating and rescaling $\psi$ one obtains the pieces of a
+partition of unity.  This construction is fundamental in analysis on
+manifolds, where partitions of unity allow one to glue local objects into
+global ones.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.45\textwidth]{figures/Downloads_chi_flat_function.png}
+	\caption{The flat function $\chi(t)$: $0$ for $t\le 0$, rapidly
+		increasing for $t>0$, with all derivatives vanishing at $t=0$.}
+	\label{fig:chi-flat}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.45\textwidth]{figures/Downloads_eta_smooth_step.png}
+	\caption{The smooth step $\eta(x) = \chi(x)/(\chi(x)+\chi(1-x))$:
+		$\eta(x)=0$ for $x\le 0$ and $\eta(x)=1$ for $x\ge 1$, with a
+		smooth transition in between.}
+	\label{fig:eta-step}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.45\textwidth]{figures/Downloads_psi_radial_bump.png}
+	\caption{The radial bump $\psi(|x|)$ obtained from $\tilde\chi$:
+		$\psi(r)=1$ for $0\le r\le 1$ and $\psi(r)=0$ for $r\ge 2$,
+		giving a smooth cutoff supported in $B_2(0)$.}
+	\label{fig:psi-radial}
+\end{figure}
+
+We use the standard Euclidean norm
+\[
+|x| = \sqrt{x_1^2 + \dots + x_n^2}, \qquad x\in\mathbb{R}^n,
+\]
+and denote by
+\[
+B_r(0) := \{ x\in\mathbb{R}^n : |x| < r \}
+\]
+the open ball of radius $r$ centred at the origin.  Thus $B_1(0)$ is the
+unit ball and $B_2(0)$ is the ball of radius $2$.  The conditions
+\[
+\psi(x)=1 \text{ for } |x|\le 1, \qquad \operatorname{supp}\psi\subset B_2(0),
+\]
+mean that $\psi$ is identically $1$ on the closed unit ball
+$\overline{B_1(0)}$ and vanishes outside the ball $B_2(0)$.
+
+
+\section*{Exercise 1.5}
+
+\begin{enumerate}
+	\item[(a)] Suppose $\phi \in \mathcal{E}(\mathbb{R}^n)$.
+	Let $\{x_l\}_{l=1}^\infty \subset \mathbb{R}^n$ be a sequence
+	with $x_l \to 0$.  Show that
+	\[
+	\tau_{x_l}\phi \to \phi, \qquad \text{as } l\to\infty,
+	\]
+	in $\mathcal{E}(\mathbb{R}^n)$, where $\tau_x$ is the
+	translation operator defined in equation~(1.2).
+	
+	\item[(b)] Suppose $\phi\in\mathcal{E}(\mathbb{R}^n)$.  Show that
+	\[
+	\Delta_i^h\phi \to D_i\phi, \qquad \text{as } h\to0,
+	\]
+	in $\mathcal{E}(\mathbb{R}^n)$, where $\Delta_i^h$ is the
+	difference quotient defined in Example~2.
+\end{enumerate}
+
+\emph{Translation operator.}
+For $x\in\mathbb{R}^n$ and $\phi:\mathbb{R}^n\to\mathbb{C}$ we define
+the translation operator $\tau_x$ by
+\[
+(\tau_x \phi)(y) := \phi(y - x), \qquad y\in\mathbb{R}^n.
+\]
+
+\emph{Difference quotient in the $i$-th direction.}
+Let $e_i$ denote the $i$-th coordinate vector in $\mathbb{R}^n$.
+For $h\neq 0$ and $\phi:\mathbb{R}^n\to\mathbb{C}$ we define
+\[
+(\Delta_i^h \phi)(x)
+:= \frac{\phi(x + h e_i) - \phi(x)}{h},
+\qquad x\in\mathbb{R}^n.
+\]
+Formally, $\Delta_i^h\phi$ approximates the partial derivative
+$D_i\phi = \partial_{x_i}\phi$ as $h\to 0$.
+
+
+\subsection*{Solution to Exercise 1.5}
+
+We use the standard Fréchet topology on $\mathcal{E}(\mathbb{R}^n)$
+given by the seminorms
+\[
+p_{K,m}(\phi)
+:= \sup_{\substack{x\in K\\ |\alpha|\le m}}
+\bigl|D^\alpha\phi(x)\bigr|,
+\]
+where $K\subset\mathbb{R}^n$ is compact and $m\in\mathbb{N}$.
+
+\subsubsection*{(a) Continuity of translations}
+
+Let $\phi\in\mathcal{E}(\mathbb{R}^n)$ and $x_l\to 0$ in $\mathbb{R}^n$.
+Recall that $(\tau_{x_l}\phi)(y)=\phi(y-x_l)$.  We must show that
+$\tau_{x_l}\phi\to\phi$ in $\mathcal{E}(\mathbb{R}^n)$, i.e.\ that for
+every compact $K$ and every $m\in\mathbb{N}$,
+\[
+p_{K,m}(\tau_{x_l}\phi - \phi) \to 0 \quad\text{as }l\to\infty.
+\]
+Fix such $K$ and $m$, and let $|\alpha|\le m$.  Then
+\[
+D^\alpha(\tau_{x_l}\phi)(y) = D^\alpha\phi(y-x_l),
+\]
+so
+\[
+\sup_{y\in K} \bigl|D^\alpha(\tau_{x_l}\phi)(y) - D^\alpha\phi(y)\bigr|
+= \sup_{y\in K} \bigl|D^\alpha\phi(y-x_l) - D^\alpha\phi(y)\bigr|.
+\]
+Choose a compact set $K'$ such that $K\cup(K-x_l)\subset K'$ for all $l$
+sufficiently large (for instance $K' = K + \overline{B_1(0)}$ if
+$|x_l|\le 1$ eventually).  The function $D^\alpha\phi$ is continuous on
+the compact set $K'$ and hence uniformly continuous there.  Thus for any
+$\varepsilon>0$ there exists $\delta>0$ such that
+$|z-z'|<\delta$ implies
+$|D^\alpha\phi(z)-D^\alpha\phi(z')|<\varepsilon$ for all $z,z'\in K'$.
+Since $x_l\to 0$, for $l$ large enough we have $|x_l|<\delta$, and then
+for all $y\in K$
+\[
+\bigl|D^\alpha\phi(y-x_l) - D^\alpha\phi(y)\bigr| < \varepsilon.
+\]
+Taking the supremum over $y\in K$ and $|\alpha|\le m$ shows that
+$p_{K,m}(\tau_{x_l}\phi - \phi) \le \varepsilon$ for all large $l$.
+Hence $p_{K,m}(\tau_{x_l}\phi - \phi)\to 0$ and $\tau_{x_l}\phi\to\phi$
+in $\mathcal{E}(\mathbb{R}^n)$.
+
+\subsubsection*{(b) Difference quotients converge to the derivative}
+
+Let $\phi\in\mathcal{E}(\mathbb{R}^n)$ and define, for $h\neq 0$,
+\[
+\Delta_i^h\phi(x) := \frac{\phi(x+he_i)-\phi(x)}{h},
+\]
+where $e_i$ is the $i$-th coordinate vector.  We must show that
+$\Delta_i^h\phi\to D_i\phi$ in $\mathcal{E}(\mathbb{R}^n)$ as $h\to 0$.
+
+Fix a compact $K\subset\mathbb{R}^n$ and $m\in\mathbb{N}$.  For a
+multi-index $\alpha$ with $|\alpha|\le m$ we compute
+\[
+D^\alpha(\Delta_i^h\phi)(x)
+= \frac{D^\alpha\phi(x+he_i) - D^\alpha\phi(x)}{h},
+\]
+and hence
+\[
+D^\alpha(\Delta_i^h\phi - D_i\phi)(x)
+= \frac{D^\alpha\phi(x+he_i) - D^\alpha\phi(x)}{h}
+- D_i D^\alpha\phi(x).
+\]
+Set $g(x) := D^\alpha\phi(x)$, so $g\in C^\infty$ and the expression
+becomes
+\[
+\frac{g(x+he_i) - g(x)}{h} - D_i g(x).
+\]
+Let $K'$ be a compact set containing $K$ and $K+he_i$ for all $x\in K$
+and $|h|$ small (e.g.\ $K' = K + \overline{B_1(0)}$).  On $K'$ the
+function $D_i g$ is continuous and therefore uniformly continuous.
+By the one-dimensional mean-value theorem, for each $x\in K$ there
+exists $\theta=\theta(x,h)\in(0,1)$ such that
+\[
+\frac{g(x+he_i) - g(x)}{h}
+= D_i g(x + \theta h e_i),
+\]
+so
+\[
+\left|
+\frac{g(x+he_i) - g(x)}{h} - D_i g(x)
+\right|
+= |D_i g(x+\theta h e_i) - D_i g(x)|.
+\]
+Given $\varepsilon>0$, uniform continuity of $D_i g$ on $K'$ yields
+$\delta>0$ such that $|z-z'|<\delta$ implies
+$|D_i g(z)-D_i g(z')|<\varepsilon$ for all $z,z'\in K'$.  For
+$|h|<\delta$ we have $|x+\theta h e_i - x| \le |h|<\delta$, so the right
+hand side is $<\varepsilon$ for all $x\in K$.  Thus
+\[
+\sup_{x\in K} \bigl| D^\alpha(\Delta_i^h\phi - D_i\phi)(x) \bigr|
+< \varepsilon
+\]
+for all $|\alpha|\le m$ and $|h|$ sufficiently small.  Hence
+$p_{K,m}(\Delta_i^h\phi - D_i\phi)\to 0$ as $h\to 0$, and therefore
+$\Delta_i^h\phi \to D_i\phi$ in $\mathcal{E}(\mathbb{R}^n)$.
+
+
+\paragraph{Example (Exercise 1.5 for $\phi(x)=e^{-x^2}$ in $\mathbb{R}$).}
+
+Let $\phi(x)=e^{-x^2}$.  
+For a sequence $x_l\to 0$ the translation
+$\tau_{x_l}\phi$ is given by
+\[
+(\tau_{x_l}\phi)(y)
+= \phi(y-x_l)
+= e^{-(y-x_l)^2}.
+\]
+
+\subparagraph*{(a) Translation example.}
+
+For each fixed $y\in\mathbb{R}$ we have
+\[
+e^{-(y-x_l)^2} \longrightarrow e^{-y^2} = \phi(y)
+\qquad \text{as } l\to\infty.
+\]
+The convergence is uniform on every compact interval $K=[-R,R]$ since
+\[
+(y-x_l)^2 \to y^2
+\quad\text{uniformly on } [-R,R],
+\]
+and the exponential function is uniformly continuous on bounded sets.
+Thus
+\[
+\sup_{y\in[-R,R]}
+\left| (\tau_{x_l}\phi)(y) - \phi(y) \right| \to 0.
+\]
+
+The same argument applies to all derivatives.  For example,
+\[
+\phi'(x) = -2x e^{-x^2},
+\qquad
+(\tau_{x_l}\phi)'(y)
+= -2(y-x_l)e^{-(y-x_l)^2},
+\]
+and one checks that
+\[
+(\tau_{x_l}\phi)'(y)
+\longrightarrow \phi'(y)
+\quad \text{uniformly on } [-R,R].
+\]
+Hence $\tau_{x_l}\phi\to \phi$ in $\mathcal{E}(\mathbb{R})$.
+
+\subparagraph*{(b) Difference quotient example.}
+
+In one dimension the difference quotient is
+\[
+(\Delta^h \phi)(x)
+= \frac{\phi(x+h)-\phi(x)}{h}
+= \frac{e^{-(x+h)^2} - e^{-x^2}}{h}.
+\]
+We know
+\[
+\phi'(x) = -2x e^{-x^2}.
+\]
+
+By the mean value theorem, for each $x$ and each small $h$,
+there exists $\theta=\theta(x,h)\in(0,1)$ such that
+\[
+\frac{e^{-(x+h)^2} - e^{-x^2}}{h}
+= \phi'(x+\theta h).
+\]
+Thus
+\[
+(\Delta^h\phi)(x) - \phi'(x)
+= \phi'(x+\theta h) - \phi'(x).
+\]
+
+Fix a compact interval $K=[-R,R]$.  
+For $|h|$ sufficiently small, all points 
+$x+\theta h$ with $x\in K$ lie in a slightly larger compact interval,
+say $[-R-1,R+1]$.  
+Since $\phi'$ is continuous on this compact set, it is uniformly
+continuous there.  
+Hence for any $\varepsilon>0$ there exists $\delta>0$ such that
+whenever $|h|<\delta$,
+\[
+\sup_{x\in[-R,R]}
+\left| \phi'(x+\theta(x,h) h) - \phi'(x) \right|
+< \varepsilon.
+\]
+
+Therefore
+\[
+\sup_{x\in[-R,R]}
+\bigl| (\Delta^h\phi)(x) - \phi'(x) \bigr|
+\longrightarrow 0
+\qquad \text{as } h\to 0.
+\]
+
+The same argument applies to all derivatives of $\Delta^h\phi$, since
+$d^k/dx^k$ applied to the difference quotient produces the same formula
+with $\phi'$ replaced by a higher derivative.  Consequently,
+\[
+\Delta^h\phi \to \phi' \quad\text{in }\mathcal{E}(\mathbb{R}).
+\]
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_phi_translations.png}
+	\caption{Translations $\tau_a\phi$ of $\phi(x)=e^{-x^2}$ for several values of $a$.}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/Downloads_phi_difference_quotients.png}
+	\caption{Difference quotients $\Delta^h\phi$ for $h=0.5,0.2,0.1$ compared with the derivative $\phi'(x)$.}
+\end{figure}
+
+\begin{theorem}[Continuity of translations and difference quotients in $\mathcal{E}(\mathbb{R}^n)$]
+	Let $\mathcal{E}(\mathbb{R}^n)$ denote the space of smooth functions
+	on $\mathbb{R}^n$ endowed with the usual Fréchet topology given by the
+	seminorms
+	\[
+	p_{K,m}(\phi)
+	:= \sup_{\substack{x\in K\\ |\alpha|\le m}}
+	|D^\alpha\phi(x)|,
+	\]
+	where $K\subset\mathbb{R}^n$ is compact and $m\in\mathbb{N}$.
+	
+	\begin{enumerate}
+		\item[(a)] For each fixed $x\in\mathbb{R}^n$ the translation operator
+		$\tau_x:\mathcal{E}(\mathbb{R}^n)\to\mathcal{E}(\mathbb{R}^n)$,
+		defined by $(\tau_x\phi)(y)=\phi(y-x)$, is continuous.
+		Moreover, if $x_l\to 0$ in $\mathbb{R}^n$ and $\phi\in\mathcal{E}$,
+		then
+		\[
+		\tau_{x_l}\phi \longrightarrow \phi
+		\quad\text{in }\mathcal{E}(\mathbb{R}^n).
+		\]
+		
+		\item[(b)] For each $i\in\{1,\dots,n\}$ and $h\neq 0$ the difference
+		quotient operator
+		\[
+		(\Delta_i^h\phi)(x)
+		:= \frac{\phi(x+he_i)-\phi(x)}{h}
+		\]
+		is a continuous linear map on $\mathcal{E}(\mathbb{R}^n)$, and
+		for every $\phi\in\mathcal{E}(\mathbb{R}^n)$ one has
+		\[
+		\Delta_i^h\phi \longrightarrow D_i\phi
+		\quad\text{in }\mathcal{E}(\mathbb{R}^n)
+		\quad\text{as } h\to 0.
+		\]
+	\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+	Fix a compact $K\subset\mathbb{R}^n$ and $m\in\mathbb{N}$.
+	
+	\emph{(a) Translations.}
+	For $|\alpha|\le m$ we have
+	\[
+	D^\alpha(\tau_x\phi)(y)=D^\alpha\phi(y-x).
+	\]
+	If $x_l\to 0$, choose a compact set $K'$ containing $K$ and $K-x_l$ for
+	all $l$ large.  Then $D^\alpha\phi$ is uniformly continuous on $K'$, so
+	given $\varepsilon>0$ there exists $\delta>0$ such that
+	$|z-z'|<\delta\Rightarrow |D^\alpha\phi(z)-D^\alpha\phi(z')|<\varepsilon$
+	for all $z,z'\in K'$.  For $l$ large enough we have $|x_l|<\delta$ and
+	therefore
+	\[
+	\sup_{y\in K} |D^\alpha\phi(y-x_l)-D^\alpha\phi(y)|
+	\le \varepsilon.
+	\]
+	Taking the supremum over $|\alpha|\le m$ yields
+	$p_{K,m}(\tau_{x_l}\phi-\phi)\to 0$, i.e.\ $\tau_{x_l}\phi\to\phi$ in
+	$\mathcal{E}(\mathbb{R}^n)$.
+	
+	\medskip\noindent
+	\emph{(b) Difference quotients.}
+	Let $g(x) := D^\alpha\phi(x)$ for some $|\alpha|\le m$.  Then
+	\[
+	D^\alpha(\Delta_i^h\phi)(x)
+	= \frac{g(x+he_i)-g(x)}{h}.
+	\]
+	By the mean value theorem,
+	\[
+	\frac{g(x+he_i)-g(x)}{h} = D_i g(x+\theta h e_i)
+	\]
+	for some $\theta=\theta(x,h)\in(0,1)$.  Choosing a compact $K'$ containing
+	$K$ and $K+he_i$ for all $|h|$ small, we see that $D_i g$ is uniformly
+	continuous on $K'$.  Hence for every $\varepsilon>0$ there exists
+	$\delta>0$ such that for $|h|<\delta$,
+	\[
+	\sup_{x\in K}
+	\bigl|D^\alpha(\Delta_i^h\phi)(x)-D_iD^\alpha\phi(x)\bigr|
+	= \sup_{x\in K}
+	|D_i g(x+\theta h e_i)-D_i g(x)|
+	< \varepsilon.
+	\]
+	Taking the supremum over $|\alpha|\le m$ shows that
+	$p_{K,m}(\Delta_i^h\phi - D_i\phi)\to 0$ as $h\to 0$, which is precisely
+	$\Delta_i^h\phi\to D_i\phi$ in $\mathcal{E}(\mathbb{R}^n)$.
+\end{proof}
+
+\section*{Exercise 1.6}
+
+\begin{enumerate}
+	\item[(a)] Show that $\mathcal{S}$ is a vector subspace of
+	$\mathcal{E}(\mathbb{R}^n)$.  Show that if
+	$\{\phi_j\}_{j=1}^\infty$ is a sequence of rapidly
+	decreasing functions which tends to zero in $\mathcal{S}$,
+	then $\phi_j \to 0$ in $\mathcal{E}(\mathbb{R}^n)$.
+	
+	\item[(b)] Show that $\mathcal{D}(\mathbb{R}^n)$ is a vector subspace
+	of $\mathcal{S}$.  Show that if $\{\phi_j\}_{j=1}^\infty$
+	is a sequence of compactly supported functions which tends
+	to zero in $\mathcal{D}(\mathbb{R}^n)$, then
+	$\phi_j \to 0$ in $\mathcal{S}$.
+	
+	\item[(c)] Give an example of a sequence
+	$\{\phi_j\}_{j=1}^\infty \subset C_0^\infty(\mathbb{R}^n)$
+	such that
+	\begin{enumerate}
+		\item[(i)] $\phi_j \to 0$ in $\mathcal{S}$, but
+		$\{\phi_j\}$ has no limit in
+		$\mathcal{D}(\mathbb{R}^n)$;
+		\item[(ii)] $\phi_j \to 0$ in $\mathcal{E}(\mathbb{R}^n)$,
+		but $\{\phi_j\}$ has no limit in $\mathcal{S}$.
+	\end{enumerate}
+\end{enumerate}
+
+\section*{Exercise 1.7}
+
+\begin{enumerate}
+	\item[(a)] Suppose $\phi\in\mathcal{S}$.  Let $\{x_l\}_{l=1}^\infty
+	\subset\mathbb{R}^n$ be a sequence with $x_l\to 0$.
+	Show that
+	\[
+	\tau_{x_l}\phi \to \phi, \qquad \text{as } l\to\infty,
+	\]
+	in $\mathcal{S}$, where $\tau_x$ is the translation
+	operator defined in equation~(1.2).
+	
+	\item[(b)] Suppose $\phi\in\mathcal{S}$, show that
+	\[
+	\Delta_i^h \phi \to D_i\phi, \qquad \text{as } h\to 0,
+	\]
+	in $\mathcal{S}$, where $\Delta_i^h$ is the difference
+	quotient defined in Example~2.
+\end{enumerate}
+
+% ==========================================================
+% Exercises 1.6–1.7 with full LaTeX solutions
+% ==============================================================
+
+\section*{Exercise 1.6}
+
+\begin{enumerate}
+	
+	% ------------------ 1.6(a) ------------------
+	\item[(a)]
+	Show that $\mathcal{S}(\mathbb{R}^n)$ is a vector subspace of
+	$\mathcal{E}(\mathbb{R}^n)$.  
+	Show that if $\{\phi_j\}_{j=1}^\infty$ is a sequence of rapidly
+	decreasing functions which tends to zero in $\mathcal{S}$, then
+	$\phi_j \to 0$ in $\mathcal{E}(\mathbb{R}^n)$.
+	
+	\medskip
+	\textbf{Solution.}
+	Every $\phi\in\mathcal{S}$ is smooth and satisfies
+	\[
+	q_{\alpha,\beta}(\phi)
+	= \sup_{x\in\mathbb{R}^n} |x^\alpha D^\beta\phi(x)| <\infty,
+	\qquad \forall\alpha,\beta,
+	\]
+	so in particular each derivative is bounded on every compact set.
+	Thus $\mathcal{S}\subset\mathcal{E}$ and is clearly a vector subspace.
+	
+	If $\phi_j\to 0$ in $\mathcal{S}$, then
+	\[
+	q_{\alpha,\beta}(\phi_j)\to 0
+	\qquad\forall\alpha,\beta.
+	\]
+	Fix a compact $K$ and $m\in\mathbb{N}$.  On $K$ we have $|x^\alpha|\le C_K$,
+	hence
+	\[
+	p_{K,m}(\phi_j)
+	= \sup_{x\in K,\,|\beta|\le m} |D^\beta\phi_j(x)|
+	\le \max_{|\beta|\le m} q_{0,\beta}(\phi_j)
+	\to 0.
+	\]
+	Thus $\phi_j\to 0$ in $\mathcal{E}$.
+	
+	% ------------------ 1.6(b) ------------------
+	\item[(b)]
+	Show that $\mathcal{D}(\mathbb{R}^n)$ is a vector subspace of
+	$\mathcal{S}(\mathbb{R}^n)$.  Show that if $\{\phi_j\}$ tends to $0$ in
+	$\mathcal{D}(\mathbb{R}^n)$, then $\phi_j\to 0$ in $\mathcal{S}$.
+	
+	\medskip
+	\textbf{Solution.}
+	If $\phi\in C_0^\infty(\mathbb{R}^n)$ and
+	$\operatorname{supp}\phi\subset B_R(0)$, then
+	\[
+	q_{\alpha,\beta}(\phi)
+	= \sup_{x\in B_R(0)} |x^\alpha D^\beta\phi(x)|
+	\le R^{|\alpha|}
+	\sup_{x\in B_R(0)}|D^\beta\phi(x)| <\infty,
+	\]
+	so $\phi\in\mathcal{S}$.  
+	Linear combinations preserve smoothness and compact support, so
+	$\mathcal{D}\subset\mathcal{S}$ as a subspace.
+	
+	If $\phi_j\to 0$ in $\mathcal{D}$, then for some compact $K$ we have
+	$\operatorname{supp}\phi_j\subset K$ and
+	\[
+	\sup_{x\in K,|\beta|\le m}|D^\beta\phi_j(x)|\to 0
+	\qquad\forall m.
+	\]
+	Hence
+	\[
+	q_{\alpha,\beta}(\phi_j)
+	= \sup_{x\in K} |x^\alpha D^\beta\phi_j(x)|
+	\le C_K \sup_{x\in K}|D^\beta\phi_j(x)|\to 0.
+	\]
+	Thus $\phi_j\to 0$ in $\mathcal{S}$.
+	
+	% ------------------ 1.6(c) ------------------
+	\item[(c)]
+	Give examples of sequences $\{\phi_j\}\subset C_0^\infty(\mathbb{R}^n)$ such that
+	\begin{enumerate}
+		\item[(i)] $\phi_j\to 0$ in $\mathcal{S}$, but the sequence has no limit in
+		$\mathcal{D}(\mathbb{R}^n)$;
+		\item[(ii)] $\phi_j\to 0$ in $\mathcal{E}(\mathbb{R}^n)$, but the sequence has
+		no limit in $\mathcal{S}$.
+	\end{enumerate}
+	
+	\medskip
+	\textbf{Solution.}
+	
+	Let $\psi\in C_0^\infty(\mathbb{R}^n)$, $\psi\not\equiv0$, with
+	${\rm supp}\,\psi\subset B_1(0)$.
+	
+	\medskip
+	\underline{(i) Converges in $\mathcal{S}$ but not in $\mathcal{D}$.}
+	Define
+	\[
+	\phi_j(x) = e^{-j^2}\,\psi(x - j e_1).
+	\]
+	Then ${\rm supp}\,\phi_j\subset B_1(je_1)$ escapes to infinity.
+	For any $\alpha,\beta$,
+	\[
+	|x^\alpha D^\beta\phi_j(x)|
+	\le C_{\alpha,\beta}(1+j)^{|\alpha|} e^{-j^2}\to 0.
+	\]
+	Thus $\phi_j\to0$ in $\mathcal{S}$.  
+	However, no convergent sequence in $\mathcal{D}$ may have supports escaping to
+	infinity, so $\{\phi_j\}$ has no limit in $\mathcal{D}$.
+	
+	\medskip
+	\underline{(ii) Converges in $\mathcal{E}$ but not in $\mathcal{S}$.}
+	Define
+	\[
+	\phi_j(x)=\psi(x - j e_1).
+	\]
+	For any compact $K$, $\phi_j\equiv 0$ on $K$ for large $j$, hence
+	$\phi_j\to 0$ in $\mathcal{E}$.
+	However,
+	\[
+	q_{\alpha,0}(\phi_j)
+	= \sup_{x}|x^\alpha\phi_j(x)|
+	\ge |j|^{|\alpha|}\max_{|y|\le 1}|\psi(y)|
+	\to\infty,
+	\]
+	so the sequence does not converge in $\mathcal{S}$.
+	
+\end{enumerate}
+
+% ==========================================================
+% Exercise 1.7
+% ==========================================================
+
+\section*{Exercise 1.7}
+
+\begin{enumerate}
+	
+	% ------------------ 1.7(a) ------------------
+	\item[(a)]
+	Suppose $\phi\in\mathcal{S}$.  Let $\{x_l\}\subset\mathbb{R}^n$ with $x_l\to 0$.
+	Show that
+	\[
+	\tau_{x_l}\phi \to \phi \qquad\text{in }\mathcal{S}.
+	\]
+	
+	\medskip
+	\textbf{Solution.}
+	Recall $\tau_{x}\phi(\xi)=\phi(\xi-x)$.
+	Fix $\alpha,\beta$.  Using
+	\[
+	\xi^\alpha = (\xi-x_l+x_l)^\alpha =
+	\sum_{\gamma\le\alpha} \binom{\alpha}{\gamma}
+	(\xi-x_l)^\gamma x_l^{\alpha-\gamma},
+	\]
+	we obtain
+	\[
+	q_{\alpha,\beta}(\tau_{x_l}\phi - \phi)
+	\le \sum_{\gamma<\alpha} C_{\alpha,\gamma}
+	|x_l|^{\alpha-\gamma} q_{\gamma,\beta}(\phi)
+	+ \sup_{\xi}
+	|\xi^\alpha (D^\beta\phi(\xi-x_l)-D^\beta\phi(\xi))|.
+	\]
+	The first sum $\to 0$ because $x_l\to 0$.  
+	The second term $\to 0$ because
+	$\xi^\alpha D^\beta\phi(\xi)$ is uniformly continuous
+	(it is rapidly decaying).  
+	Thus $q_{\alpha,\beta}(\tau_{x_l}\phi-\phi)\to 0$, proving convergence in
+	$\mathcal{S}$.
+	
+	% ------------------ 1.7(b) ------------------
+	\item[(b)]
+	Show that for $\phi\in\mathcal{S}$,
+	\[
+	\Delta_i^h\phi \to D_i\phi \qquad\text{in }\mathcal{S},
+	\quad h\to 0,
+	\]
+	where
+	\[
+	\Delta_i^h\phi(x)
+	= \frac{\phi(x+he_i)-\phi(x)}{h}.
+	\]
+	
+	\medskip
+	\textbf{Solution.}
+	Fix $\alpha,\beta$.  Use the mean value theorem in the $e_i$ direction:
+	\[
+	\frac{D^\beta\phi(x+he_i)-D^\beta\phi(x)}{h}
+	= D_iD^\beta\phi(x+\theta h e_i)
+	\]
+	for some $\theta\in(0,1)$.  
+	Hence
+	\[
+	x^\alpha D^\beta(\Delta_i^h\phi - D_i\phi)(x)
+	= x^\alpha\Bigl(D_iD^\beta\phi(x+\theta h e_i)
+	- D_iD^\beta\phi(x)\Bigr).
+	\]
+	The function $x^\alpha D_iD^\beta\phi(x)$ is continuous and decays
+	rapidly, hence uniformly continuous.  
+	Therefore the supremum over $x$ tends to $0$ as $h\to0$ and
+	\[
+	q_{\alpha,\beta}(\Delta_i^h\phi - D_i\phi)\to 0.
+	\]
+	Thus $\Delta_i^h\phi\to D_i\phi$ in $\mathcal{S}$.
+	
+\end{enumerate}
+
+% ----------------------------------------------------------
+% Theory box: E, D, S, seminorms and embeddings
+% ----------------------------------------------------------
+\begin{center}
+	\setlength{\fboxsep}{8pt}
+	\noindent\fbox{%
+		\parbox{0.95\textwidth}{%
+			\textbf{Spaces of test functions and their seminorms.}
+			
+			\smallskip
+			\begin{itemize}
+				\item \emph{Smooth functions:} 
+				\[
+				\mathcal{E}(\mathbb{R}^n) := C^\infty(\mathbb{R}^n)
+				\]
+				with the Fréchet topology generated by seminorms
+				\[
+				p_{K,m}(\phi)
+				:= \sup_{\substack{x\in K\\ |\alpha|\le m}} |D^\alpha\phi(x)|,
+				\qquad K\subset\mathbb{R}^n \text{ compact},\ m\in\mathbb{N}.
+				\]
+				
+				\item \emph{Compactly supported smooth functions:}
+				\[
+				\mathcal{D}(\mathbb{R}^n) := C_0^\infty(\mathbb{R}^n),
+				\]
+				endowed with the LF topology:
+				a sequence $\phi_j\to 0$ in $\mathcal{D}$ iff there exists a compact
+				$K$ such that $\operatorname{supp}\phi_j\subset K$ for all large $j$
+				and
+				\[
+				\sup_{x\in K,\,|\alpha|\le m} |D^\alpha\phi_j(x)| \to 0
+				\quad\forall m\in\mathbb{N}.
+				\]
+				
+				\item \emph{Schwartz space:}
+				\[
+				\mathcal{S}(\mathbb{R}^n)
+				:= \Bigl\{\phi\in C^\infty(\mathbb{R}^n) :
+				q_{\alpha,\beta}(\phi)<\infty\ \forall\alpha,\beta\Bigr\},
+				\]
+				where the seminorms are
+				\[
+				q_{\alpha,\beta}(\phi)
+				:= \sup_{x\in\mathbb{R}^n} |x^\alpha D^\beta\phi(x)|,
+				\qquad \alpha,\beta\in\mathbb{N}^n.
+				\]
+				They measure simultaneous control of all derivatives \emph{and} all
+				polynomial weights.
+			\end{itemize}
+			
+			\medskip
+			\textbf{Continuous embeddings.}
+			
+			\[
+			\mathcal{D}(\mathbb{R}^n) \subset \mathcal{S}(\mathbb{R}^n)
+			\subset \mathcal{E}(\mathbb{R}^n),
+			\]
+			and both inclusions are continuous:
+			\begin{itemize}
+				\item Every compactly supported smooth function is rapidly decreasing,
+				so $\mathcal{D}\subset\mathcal{S}$.
+				\item Every Schwartz function is smooth, so $\mathcal{S}\subset\mathcal{E}$.
+				\item Convergence in $\mathcal{D}$ $\Rightarrow$ convergence in $\mathcal{S}$
+				(Exercise~1.6(b)).
+				\item Convergence in $\mathcal{S}$ $\Rightarrow$ convergence in $\mathcal{E}$
+				(Exercise~1.6(a)).
+			\end{itemize}
+	} }
+\end{center}
+
+% ----------------------------------------------------------
+% Comparison table: E, D, S
+% ----------------------------------------------------------
+\begin{table}[ht]
+	\centering
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{|c|p{0.28\textwidth}|p{0.3\textwidth}|p{0.28\textwidth}|}
+		\hline
+		Space & Elements & Seminorms / topology & Convergence of a sequence $\phi_j\to 0$ \\ \hline
+		$\mathcal{E}$ &
+		$C^\infty$ functions on $\mathbb{R}^n$ &
+		Fréchet topology: $p_{K,m}(\phi) = 
+		\sup_{x\in K,|\alpha|\le m}|D^\alpha\phi(x)|$ &
+		For every compact $K$ and every $m$:
+		$p_{K,m}(\phi_j)\to 0$, i.e.\ all derivatives
+		converge to $0$ \emph{uniformly on each compact}. \\ \hline
+		$\mathcal{D}$ &
+		Compactly supported $C^\infty$ functions &
+		LF topology: inductive limit of $\mathcal{D}_K$
+		with fixed compact support $K$ &
+		There exists a compact $K$ s.t.\ 
+		$\operatorname{supp}\phi_j\subset K$ for all large $j$, and
+		$p_{K,m}(\phi_j)\to 0$ for all $m$.  Supports cannot
+		escape to infinity. \\ \hline
+		$\mathcal{S}$ &
+		Rapidly decreasing $C^\infty$ functions &
+		Schwartz seminorms:
+		$q_{\alpha,\beta}(\phi)=\sup_x|x^\alpha D^\beta\phi(x)|$ &
+		$q_{\alpha,\beta}(\phi_j)\to 0$ for every
+		$\alpha,\beta$, i.e.\ all derivatives tend to $0$
+		faster than any inverse polynomial, uniformly on $\mathbb{R}^n$. \\ \hline
+	\end{tabular}
+	\caption{Three topologies on smooth functions: 
+		$\mathcal{D}\subset\mathcal{S}\subset\mathcal{E}$.}
+\end{table}
+
+
+% ----------------------------------------------------------
+% Figure: sequences from Exercise 1.6(c)
+% Requires: \usepackage{tikz}
+% ----------------------------------------------------------
+\begin{figure}[ht]
+	\centering
+	
+	% ---------- (i) in S but not in D ----------
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\begin{tikzpicture}[scale=0.9]
+			% axes
+			\draw[->] (-0.5,0) -- (5,0) node[below] {$x$};
+			\draw[->] (0,-0.1) -- (0,1.6) node[left] {$\phi_j(x)$};
+			
+			% first bump (j small)
+			\draw[thick,blue]
+			plot[smooth,domain=-0.5:1.5]
+			(\x, {1.2*exp(-(\x-0.5)^2)});
+			
+			% second bump (further right, smaller)
+			\draw[thick,blue!60,dashed]
+			plot[smooth,domain=1.5:3.5]
+			(\x, {0.5*exp(-(\x-2.5)^2)});
+			
+			% third bump (even further right, tiny)
+			\draw[thick,blue!40,dotted]
+			plot[smooth,domain=3.5:5]
+			(\x, {0.15*exp(-(\x-4.5)^2)});
+			
+			\node at (1.2,1.3) {\small $\phi_1$};
+			\node at (2.7,0.7) {\small $\phi_2$};
+			\node at (4.2,0.3) {\small $\phi_3$};
+			
+			\node[align=center] at (2.3,-0.8)
+			{\small $\phi_j(x)=e^{-j^2}\psi(x-je_1)$:\\[-0.1em]
+				\small in $\mathcal{S}$ but not in $\mathcal{D}$};
+		\end{tikzpicture}
+	\end{minipage}
+	\hfill
+	% ---------- (ii) in E but not in S ----------
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\begin{tikzpicture}[scale=0.9]
+			% axes
+			\draw[->] (-0.5,0) -- (5,0) node[below] {$x$};
+			\draw[->] (0,-0.1) -- (0,1.8) node[left] {$\phi_j(x)$};
+			
+			% first bump (j small)
+			\draw[thick,red]
+			plot[smooth,domain=-0.5:1.5]
+			(\x, {1.4*exp(-(\x-0.5)^2)});
+			
+			% second bump (same height, further)
+			\draw[thick,red!70,dashed]
+			plot[smooth,domain=1.5:3.5]
+			(\x, {1.4*exp(-(\x-2.5)^2)});
+			
+			% third bump (same height, further)
+			\draw[thick,red!40,dotted]
+			plot[smooth,domain=3.5:5]
+			(\x, {1.4*exp(-(\x-4.5)^2)});
+			
+			\node at (1.2,1.5) {\small $\phi_1$};
+			\node at (2.7,1.5) {\small $\phi_2$};
+			\node at (4.2,1.5) {\small $\phi_3$};
+			
+			\node[align=center] at (2.3,-0.8)
+			{\small $\phi_j(x)=\psi(x-je_1)$:\\[-0.1em]
+				\small in $\mathcal{E}$ but not in $\mathcal{S}$};
+		\end{tikzpicture}
+	\end{minipage}
+	
+	\caption{Schematic of the sequences in Exercise~1.6(c):
+		left: scaled bumps converging in $\mathcal{S}$ but not in $\mathcal{D}$;
+		right: bumps of fixed height converging in $\mathcal{E}$ but not in
+		$\mathcal{S}$.}
+	\label{fig:schwartz-escaping-support}
+\end{figure}
+
+\paragraph{Examples of different convergences.}
+
+Fix $\psi\in C_0^\infty(\mathbb{R})$, $\psi\neq0$, $\operatorname{supp}\psi\subset[-1,1]$.
+
+\begin{itemize}
+	\item[(1)] $\displaystyle \phi_j(x) = \frac{1}{j}\psi(x)$:
+	converges to $0$ in $\mathcal{D},\mathcal{S},\mathcal{E}$.
+	
+	\item[(2)] $\displaystyle \phi_j(x) = e^{-j^2}\psi(x-j)$:
+	the supports escape to $+\infty$, but the factors $e^{-j^2}$ force
+	all Schwartz seminorms $q_{\alpha,\beta}(\phi_j)\to 0$.  Hence
+	$\phi_j\to 0$ in $\mathcal{S}$ but the sequence has no limit in
+	$\mathcal{D}$.
+	
+	\item[(3)] $\displaystyle \phi_j(x) = \psi(x-j)$:
+	for any compact $K$, one has $\phi_j\equiv 0$ on $K$ for all large $j$,
+	so $\phi_j\to 0$ in $\mathcal{E}$.  However
+	$q_{1,0}(\phi_j)\sim j\to\infty$, so there is no convergence in
+	$\mathcal{S}$.
+	
+	\item[(4)] $\displaystyle \phi_j(x) = e^{-(x-a_j)^2}$ with $a_j\to 0$:
+	translations of a Gaussian.  Then $\phi_j\to\phi$ in
+	$\mathcal{S}$ (and hence in $\mathcal{E}$).
+	
+	\item[(5)] $\displaystyle \phi_h(x) = \frac{\phi(x+h)-\phi(x)}{h}$ with
+	$\phi(x)=e^{-x^2}$:
+	difference quotients; one checks that
+	$\phi_h\to\phi'$ in $\mathcal{S}$ as $h\to0$.
+\end{itemize}
+
+\clearpage
+
+\section*{Exercise 2.1 (*): Schwartz functions and integrability}
+
+Assume $f,g,h\in \mathcal{S}(\mathbb{R}^n)$.
+
+\begin{enumerate}
+	\item[(a)] Show that for any multi-index $\alpha$ and any $1\le p<\infty$,
+	one has $D^\alpha f\in L^p(\mathbb{R}^n)$.
+	
+	\item[(b)] Define
+	\[
+	F:\mathbb{R}^n\times\mathbb{R}^n\to\mathbb{C},\qquad
+	F(x,y)=f(x)\,g(y-x).
+	\]
+	Show that $F\in L^1(\mathbb{R}^n\times\mathbb{R}^n)$.
+	
+	\item[(c)] For each $x\in\mathbb{R}^n$, set
+	\[
+	G_x:\mathbb{R}^n\times\mathbb{R}^n\to\mathbb{C},\qquad
+	G_x(y,z)=f(y)\,g(z)\,h(x-y-z).
+	\]
+	Show that $G_x\in L^1(\mathbb{R}^n\times\mathbb{R}^n)$ for
+	every $x$.
+\end{enumerate}
+
+\subsection*{Solution}
+
+\paragraph{(a) $D^\alpha f\in L^p$.}
+Since $f\in\mathcal{S}(\mathbb{R}^n)$, for each multi-index $\alpha$ and
+each integer $N>0$ there exists $C_{\alpha,N}>0$ such that
+\[
+|D^\alpha f(x)|
+\le \frac{C_{\alpha,N}}{(1+|x|)^N}
+\qquad \forall x\in\mathbb{R}^n.
+\]
+Fix $1\le p<\infty$ and choose $N$ with $Np>n$. Then
+\[
+|D^\alpha f(x)|^p \le \frac{C_{\alpha,N}^p}{(1+|x|)^{Np}},
+\]
+and the right-hand side is integrable on $\mathbb{R}^n$. Hence
+$\|D^\alpha f\|_{L^p}<\infty$, so $D^\alpha f\in L^p(\mathbb{R}^n)$.
+
+\paragraph{(b) $F\in L^1(\mathbb{R}^{2n})$.}
+We compute
+\[
+\begin{aligned}
+	\iint_{\mathbb{R}^n\times\mathbb{R}^n}
+	|F(x,y)|\,dx\,dy
+	&= \iint |f(x)g(y-x)|\,dx\,dy \\
+	&= \int_{\mathbb{R}^n} |f(x)|
+	\left( \int_{\mathbb{R}^n} |g(y-x)|\,dy \right) dx \\
+	&\text{(let $t=y-x$ so $dy=dt$)}\\
+	&= \int_{\mathbb{R}^n} |f(x)|
+	\left( \int_{\mathbb{R}^n} |g(t)|\,dt \right) dx \\
+	&= \|g\|_{L^1(\mathbb{R}^n)} \,
+	\|f\|_{L^1(\mathbb{R}^n)} < \infty,
+\end{aligned}
+\]
+since $f,g\in\mathcal{S}\subset L^1$. Therefore $F\in L^1(\mathbb{R}^{2n})$.
+
+\paragraph{(c) $G_x\in L^1(\mathbb{R}^{2n})$ for each fixed $x$.}
+Fix $x\in\mathbb{R}^n$ and consider
+\[
+I(x) := \iint_{\mathbb{R}^n\times\mathbb{R}^n}
+|G_x(y,z)|\,dy\,dz
+= \iint |f(y)g(z)h(x-y-z)|\,dy\,dz.
+\]
+Make the change of variables $(y,z)\mapsto (y,w)$ with $w:=y+z$.
+Then $z=w-y$, the Jacobian is $1$, and
+\[
+\begin{aligned}
+	I(x)
+	&= \int_{\mathbb{R}^n}\int_{\mathbb{R}^n}
+	|f(y)|\,|g(w-y)|\,|h(x-w)|\,dy\,dw \\
+	&= \int_{\mathbb{R}^n}
+	|h(x-w)|
+	\left( \int_{\mathbb{R}^n} |f(y)|\,|g(w-y)|\,dy \right) dw \\
+	&= \int_{\mathbb{R}^n}
+	|h(x-w)|\,\bigl(|f|*|g|\bigr)(w)\,dw \\
+	&= \bigl(|f|*|g|*|h|\bigr)(x).
+\end{aligned}
+\]
+Since $f,g,h\in\mathcal{S}\subset L^1$, the convolution
+$|f|*|g|\in L^1$ and then $(|f|*|g|)*|h|\in L^1$. In particular,
+$(|f|*|g|*|h|)(x)<\infty$ for every $x$, so $I(x)<\infty$ and
+$G_x\in L^1(\mathbb{R}^{2n})$.
+
+\qedhere
+
+\subsection*{Schwartz functions: definition, examples, integrability}
+
+\begin{definition}[Schwartz space]
+	The Schwartz space $\mathcal{S}(\mathbb{R}^n)$ consists of all
+	functions $f\in C^\infty(\mathbb{R}^n)$ such that
+	\[
+	q_{\alpha,\beta}(f)
+	:= \sup_{x\in\mathbb{R}^n} |x^\alpha D^\beta f(x)| < \infty
+	\qquad\text{for all multi-indices }\alpha,\beta.
+	\]
+	Equivalently, for every multi-index $\beta$ and $N\in\mathbb{N}$ there
+	exists $C_{N,\beta}>0$ such that
+	\[
+	|D^\beta f(x)| \le \frac{C_{N,\beta}}{(1+|x|)^N},
+	\qquad x\in\mathbb{R}^n.
+	\]
+\end{definition}
+
+\paragraph{Examples.}
+\begin{itemize}
+	\item The Gaussian $f(x)=e^{-|x|^2}$ belongs to $\mathcal{S}(\mathbb{R}^n)$,
+	since each derivative is a polynomial times $e^{-|x|^2}$.
+	\item More generally, for any polynomial $P$ we have
+	$P(x)e^{-|x|^2}\in\mathcal{S}(\mathbb{R}^n)$.
+	\item Every compactly supported smooth function is Schwartz, so
+	$\mathcal{D}(\mathbb{R}^n)\subset\mathcal{S}(\mathbb{R}^n)$.
+	\item If $f\in\mathcal{S}$, then all derivatives $D^\alpha f$,
+	translations $x\mapsto f(x-a)$, and polynomial multiples
+	$x\mapsto P(x)f(x)$ also lie in $\mathcal{S}$.
+\end{itemize}
+
+\paragraph{Integrability properties.}
+Let $f\in\mathcal{S}(\mathbb{R}^n)$.
+
+\begin{itemize}
+	\item For every multi-index $\alpha$ and every $1\le p<\infty$,
+	\[
+	D^\alpha f\in L^p(\mathbb{R}^n).
+	\]
+	Indeed, for each $N$ we have
+	$|D^\alpha f(x)|\le C_{\alpha,N}(1+|x|)^{-N}$, and choosing
+	$N$ with $Np>n$ gives $|D^\alpha f|^p\in L^1$.
+	
+	\item For every multi-index $\gamma$ and $1\le p<\infty$,
+	\[
+	x^\gamma D^\alpha f(x)\in L^p(\mathbb{R}^n),
+	\]
+	since we may take $N$ large enough to dominate the polynomial
+	growth of $x^\gamma$.
+	
+	\item In particular $f\in L^p(\mathbb{R}^n)$ for all $1\le p\le\infty$,
+	and the same holds for all derivatives $D^\alpha f$.
+	
+	\item If $f,g\in\mathcal{S}$ then $f,g\in L^1$ and the convolution
+	$f*g$ is well-defined and belongs to $\mathcal{S}(\mathbb{R}^n)$.
+\end{itemize}
+
+% ==========================================================
+\section*{Problem 3}
+
+	Let $A+B:=\{a+b:a\in A,\ b\in B\}$ and
+	$B_r(x)=\{y\in\mathbb{R}^n:\|y-x\|<r\}$, 
+	$\overline{B_r(x)}=\{y:\|y-x\|\le r\}$.
+	\begin{enumerate}[(a)]
+		\item Prove the following identities for $r,s>0$ and $x\in\mathbb{R}^n$:
+		\begin{enumerate}[i)]
+			\item $B_r(x)+B_s(0)=B_{r+s}(x)$;
+			\item $\overline{B_r(x)}+B_s(0)=B_{r+s}(x)$;
+			\item $\overline{B_r(x)}+\overline{B_s(0)}=\overline{B_{r+s}(x)}$.
+		\end{enumerate}
+		\item Suppose that $A,B\subset\mathbb{R}^n$.
+		Show that:
+		\begin{enumerate}[b)]
+			\item If one of $A$ or $B$ is open, then so is $A+B$.
+			\item If $A$ and $B$ are both bounded, then so is $A+B$.
+			\item If $A$ is closed and $B$ is compact, then $A+B$ is closed.
+			\item If $A$ and $B$ are both compact, then so is $A+B$.
+		\end{enumerate}
+	\end{enumerate}
+
+\begin{proof}
+	(a)\,(i)\;
+	Let $z\in B_r(x)+B_s(0)$, so $z=y+u$ with $\|y-x\|<r$ and $\|u\|<s$.
+	Then
+	\[
+	\|z-x\|\le \|y-x\|+\|u\|<r+s,
+	\]
+	hence $z\in B_{r+s}(x)$.
+	
+	Conversely, let $z\in B_{r+s}(x)$, so $\|z-x\|<r+s$.
+	Set
+	\[
+	y:=x+\frac{r}{r+s}(z-x), \qquad
+	u:=z-y=\frac{s}{r+s}(z-x).
+	\]
+	Then
+	\[
+	\|y-x\|=\frac{r}{r+s}\|z-x\|<r,\qquad
+	\|u\|=\frac{s}{r+s}\|z-x\|<s,
+	\]
+	so $y\in B_r(x)$, $u\in B_s(0)$ and $z=y+u\in B_r(x)+B_s(0)$.
+	Thus $B_r(x)+B_s(0)=B_{r+s}(x)$.
+	
+	\smallskip
+	(ii)\;
+	If $z=y+u$ with $\|y-x\|\le r$ and $\|u\|<s$, then
+	\[
+	\|z-x\|\le \|y-x\|+\|u\|\le r+\|u\|<r+s,
+	\]
+	so $z\in B_{r+s}(x)$ and
+	$\overline{B_r(x)}+B_s(0)\subset B_{r+s}(x)$.
+	
+	Conversely, if $z\in B_{r+s}(x)$, part (i) gives $z=y+u$ with
+	$y\in B_r(x)\subset\overline{B_r(x)}$ and $u\in B_s(0)$, hence
+	$z\in\overline{B_r(x)}+B_s(0)$. Therefore
+	$\overline{B_r(x)}+B_s(0)=B_{r+s}(x)$.
+	
+	\smallskip
+	(iii)\;
+	If $z=y+u$ with $\|y-x\|\le r$, $\|u\|\le s$, then
+	$\|z-x\|\le r+s$, so
+	$\overline{B_r(x)}+\overline{B_s(0)}\subset\overline{B_{r+s}(x)}$.
+	
+	For the reverse inclusion, let $\|z-x\|<r+s$. Then
+	$z\in B_{r+s}(x)$ and by (i) we have $z=y+u$ with
+	$y\in B_r(x)\subset\overline{B_r(x)}$ and
+	$u\in B_s(0)\subset\overline{B_s(0)}$, so
+	$z\in\overline{B_r(x)}+\overline{B_s(0)}$.
+	
+	If $\|z-x\|=r+s$, set $z_t=x+t(z-x)$, $0<t<1$.
+	Then $\|z_t-x\|=t(r+s)<r+s$, hence $z_t\in B_{r+s}(x)$ and thus
+	$z_t\in\overline{B_r(x)}+\overline{B_s(0)}$.
+	The set $\overline{B_r(x)}+\overline{B_s(0)}$ is compact (sum of two
+	compact sets), hence closed, so $z=\lim_{t\to1}z_t$ also belongs to it.
+	Therefore $\overline{B_{r+s}(x)}\subset
+	\overline{B_r(x)}+\overline{B_s(0)}$ and
+	\[
+	\overline{B_r(x)}+\overline{B_s(0)}=\overline{B_{r+s}(x)}.
+	\]
+	
+	\medskip
+	(b)\;
+	Assume $A$ is open (the case where $B$ is open is analogous).
+	Let $z\in A+B$, so $z=a+b$ with $a\in A$, $b\in B$.
+	Since $A$ is open, there exists $r>0$ with $B_r(a)\subset A$.
+	If $\|y-z\|<r$ and we set $a':=a+(y-z)$, then
+	$\|a'-a\|=\|y-z\|<r$, so $a'\in B_r(a)\subset A$, and
+	$y=a'+b\in A+B$. Thus $B_r(z)\subset A+B$ and $A+B$ is open.
+	
+	\medskip
+	(c)\;
+	Suppose $A\subset B_M(0)$ and $B\subset B_N(0)$ for some $M,N>0$.
+	If $z=a+b\in A+B$, then
+	\[
+	\|z\|\le\|a\|+\|b\|\le M+N,
+	\]
+	so $A+B\subset B_{M+N}(0)$ and $A+B$ is bounded.
+	
+	\medskip
+	(d)\;
+	Assume $A$ is closed and $B$ is compact. Let $(z_k)$ be a sequence in
+	$A+B$ with $z_k\to z$. Write $z_k=a_k+b_k$ with
+	$a_k\in A$ and $b_k\in B$.
+	
+	By compactness of $B$, there is a subsequence $(b_{k_j})$ such that
+	$b_{k_j}\to b\in B$. Then
+	\[
+	a_{k_j}=z_{k_j}-b_{k_j}\longrightarrow z-b.
+	\]
+	Since $A$ is closed and $a_{k_j}\in A$, we have $z-b\in A$, hence
+	$z=(z-b)+b\in A+B$. Therefore $A+B$ is closed.
+	
+	\medskip
+	(e)\;
+	If $A$ and $B$ are compact, then $A\times B$ is compact and the map
+	\[
+	f:A\times B\to\mathbb{R}^n,\qquad f(a,b)=a+b
+	\]
+	is continuous. Hence $A+B=f(A\times B)$ is compact as the continuous
+	image of a compact set.
+\end{proof}
+
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[>=stealth,scale=1.1]
+		% Axis
+		\draw[->] (-0.5,0) -- (4.5,0) node[below] {$\mathbb{R}$};
+		
+		% A = (0,1)
+		\draw[very thick,blue] (0,0.4) -- (1,0.4);
+		\fill[white] (0,0.4) circle (1.2pt);
+		\fill[white] (1,0.4) circle (1.2pt);
+		\draw (0,0.4) circle (1.2pt);
+		\draw (1,0.4) circle (1.2pt);
+		\node[blue,above] at (0.5,0.45) {$A=(0,1)$};
+		
+		% B = (1,2)
+		\draw[very thick,red] (1,0.8) -- (2,0.8);
+		\fill[white] (1,0.8) circle (1.2pt);
+		\fill[white] (2,0.8) circle (1.2pt);
+		\draw (1,0.8) circle (1.2pt);
+		\draw (2,0.8) circle (1.2pt);
+		\node[red,above] at (1.5,0.85) {$B=(1,2)$};
+		
+		% A+B = (1,3)
+		\draw[very thick,green!60!black] (1,1.2) -- (3,1.2);
+		\fill[white] (1,1.2) circle (1.2pt);
+		\fill[white] (3,1.2) circle (1.2pt);
+		\draw (1,1.2) circle (1.2pt);
+		\draw (3,1.2) circle (1.2pt);
+		\node[green!60!black,above] at (2,1.25) {$A+B=(1,3)$};
+	\end{tikzpicture}
+	\caption{Minkowski sum of intervals on the real line.}
+\end{figure}
+
+
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[scale=1.1]
+		% Axes
+		\draw[->] (-1,0) -- (4,0) node[right] {$x_1$};
+		\draw[->] (0,-1.5) -- (0,1.5) node[above] {$x_2$};
+		
+		% B_s(0), radius 0.5
+		\fill[red!10] (0,0) circle (0.5);
+		\draw[red,thick] (0,0) circle (0.5);
+		\fill[red] (0,0) circle (1pt);
+		\node[red,below left] at (0,0) {$0$};
+		\node[red,below] at (0,-0.6) {$B_s(0)$};
+		
+		% B_r(x), radius 1, center at (1,0)
+		\fill[blue!10] (1,0) circle (1);
+		\draw[blue,thick] (1,0) circle (1);
+		\fill[blue] (1,0) circle (1pt);
+		\node[blue,below] at (1,0) {$x$};
+		\node[blue,above] at (1,1.1) {$B_r(x)$};
+		
+		% B_{r+s}(x), radius 1.5
+		\draw[green!60!black,thick,dashed] (1,0) circle (1.5);
+		\node[green!60!black,above right] at (2.3,1) {$B_{r+s}(x)$};
+	\end{tikzpicture}
+	\caption{Minkowski sum of balls: $B_r(x)+B_s(0)=B_{r+s}(x)$.}
+\end{figure}
+
+
+Figure~\ref{fig:triangle-plus-ball} gives a concrete picture for
+part~(e): the Minkowski sum $A+B$ of two compact sets is again compact.
+Here $A$ is a closed triangle and $B$ is a small closed ball; the sum
+is just a uniformly thickened version of $A$.
+
+
+% requires: \usepackage{tikz}
+%           \usetikzlibrary{arrows.meta}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.7]
+		
+		% axes (optional)
+		\draw[->,gray!60] (-0.6,0) -- (2.6,0) node[below] {$x_1$};
+		\draw[->,gray!60] (0,-0.6) -- (0,2.0) node[left] {$x_2$};
+		
+		% --- compact set A: a triangle ---
+		\coordinate (A1) at (0.2,0.0);
+		\coordinate (A2) at (2.0,0.0);
+		\coordinate (A3) at (1.1,1.6);
+		
+		\fill[blue!10] (A1)--(A2)--(A3)--cycle;
+		\draw[blue!70!black,thick] (A1)--(A2)--(A3)--cycle;
+		\node[blue!70!black] at (1.1,0.2) {$A$};
+		
+		% --- small ball B centred at the origin ---
+		\def\r{0.35}
+		\fill[red!10] (0,0) circle (\r);
+		\draw[red!70!black,thick] (0,0) circle (\r);
+		\node[red!70!black] at (-0.15,-0.45) {$B$};
+		
+		% --- Minkowski sum A+B (schematic outline) ---
+		% (offset triangle by radius r; this is only illustrative)
+		\draw[green!50!black,thick,dashed]
+		($(A1)+(-\r,0)$) arc (180:360:\r) -- ($(A2)+(0,\r)$)
+		arc (-90:30:\r) -- ($(A3)+(\r*0.5,\r*0.866)$)
+		arc (30:150:\r) -- ($(A1)+(-\r*0.5,\r*0.866)$)
+		arc (150:210:\r) -- cycle;
+		
+		\node[green!50!black] at (1.3,1.3) {$A+B$};
+		
+	\end{tikzpicture}
+	\caption{Minkowski sum of a compact set $A$ (triangle) with a small ball $B$.
+		Geometrically, $A+B$ is obtained by ``thickening'' $A$ by the radius of $B$.
+		Since both $A$ and $B$ are compact, their sum $A+B$ is compact as well.}
+	\label{fig:triangle-plus-ball}
+\end{figure}
+
+\paragraph{Example (openness of $A+B$).}
+Let $A = B_1(0) = \{x\in\mathbb{R}^2 : \|x\|<1\}$ and let $b\in\mathbb{R}^2$.
+Define
+\[
+B = \{0,b\}.
+\]
+Then
+\[
+A+B = \{a+p : a\in A,\ p\in B\}
+= A + \{0,b\}
+= A \cup (A+b).
+\]
+In particular, for the two specific choices
+\[
+b_1=(2,0), \qquad b_2=(0,2),
+\]
+we obtain
+\[
+A+\{0,b_1\} = B_1(0)\cup B_1\bigl((2,0)\bigr), \qquad
+A+\{0,b_2\} = B_1(0)\cup B_1\bigl((0,2)\bigr).
+\]
+In each case $A$ is open, $B$ is finite, and $A+B$ is the union of two
+open discs, hence open but not connected.
+
+% in the preamble:
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.6]
+		
+		% axes (optional)
+		\draw[->,gray!60] (-1.2,0) -- (3.2,0) node[below] {$x_1$};
+		\draw[->,gray!60] (0,-1.2) -- (0,1.4) node[left] {$x_2$};
+		
+		\def\r{0.8} % radius of discs
+		
+		% --- A = B1(0) ---
+		\fill[blue!10] (0,0) circle (\r);
+		\draw[blue!70!black,thick] (0,0) circle (\r);
+		\node[blue!70!black] at (-0.1,0.9) {$A=B_1(0)$};
+		
+		% --- B = {0,b} with b=(2,0) ---
+		\fill[red!70!black] (0,0) circle (0.035);
+		\fill[red!70!black] (2,0) circle (0.035);
+		\draw[red!70!black,->,thick] (0,0) -- (2,0)
+		node[midway,below] {$b=(2,0)$};
+		\node[red!70!black] at (2.0,0.35) {$B=\{0,b\}$};
+		
+		% --- translated disc A+b ---
+		\fill[green!10] (2,0) circle (\r);
+		\draw[green!50!black,thick] (2,0) circle (\r);
+		\node[green!50!black] at (2.0,0.9) {$A+b$};
+		
+		% label for A+B
+		\node[green!50!black] at (1.0,-0.9)
+		{$A+B = B_1(0)\,\cup\,B_1\bigl((2,0)\bigr)$};
+		
+	\end{tikzpicture}
+	\caption{Example for part~(b) with $b=(2,0)$.
+		The set $A$ is the blue open disc, $B=\{0,b\}$ consists of the two
+		red points, and $A+B$ is the union of the two open discs.}
+	\label{fig:AB-horizontal}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.6]
+		
+		% axes (optional)
+		\draw[->,gray!60] (-1.2,0) -- (1.2,0) node[below] {$x_1$};
+		\draw[->,gray!60] (0,-1.2) -- (0,3.2) node[left] {$x_2$};
+		
+		\def\r{0.8} % radius of discs
+		
+		% --- A = B1(0) ---
+		\fill[blue!10] (0,0) circle (\r);
+		\draw[blue!70!black,thick] (0,0) circle (\r);
+		\node[blue!70!black] at (0.9,0.1) {$A=B_1(0)$};
+		
+		% --- B = {0,b} with b=(0,2) ---
+		\fill[red!70!black] (0,0) circle (0.035);
+		\fill[red!70!black] (0,2) circle (0.035);
+		\draw[red!70!black,->,thick] (0,0) -- (0,2)
+		node[midway,right] {$b=(0,2)$};
+		\node[red!70!black] at (0.45,2.2) {$B=\{0,b\}$};
+		
+		% --- translated disc A+b ---
+		\fill[green!10] (0,2) circle (\r);
+		\draw[green!50!black,thick] (0,2) circle (\r);
+		\node[green!50!black] at (0.9,2.05) {$A+b$};
+		
+		% label for A+B
+		\node[green!50!black] at (1.0,-0.8)
+		{$A+B = B_1(0)\,\cup\,B_1\bigl((0,2)\bigr)$};
+		
+	\end{tikzpicture}
+	\caption{Example for part~(b) with $b=(0,2)$.
+		Again $A$ is the blue disc, $B=\{0,b\}$ is the two–point set, and
+		$A+B$ is the union of two open discs, now vertically separated.}
+	\label{fig:AB-vertical}
+\end{figure}
+
+% Requires:
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.6]
+		
+		% axes (optional)
+		\draw[->,gray!60] (-1.2,0) -- (3.2,0) node[below] {$x_1$};
+		\draw[->,gray!60] (0,-1.2) -- (0,3.2) node[left] {$x_2$};
+		
+		\def\r{0.8}
+		
+		% === A = B1(0) ===
+		\fill[blue!10] (0,0) circle (\r);
+		\draw[blue!70!black,thick] (0,0) circle (\r);
+		\node[blue!70!black] at (-0.15,0.95) {$A=B_1(0)$};
+		
+		% === B = {0, b1, b2} ===
+		\fill[red!70!black] (0,0) circle (0.035);
+		\fill[red!70!black] (2,0) circle (0.035);
+		\fill[red!70!black] (0,2) circle (0.035);
+		
+		\draw[red!70!black,->,thick] (0,0) -- (2,0)
+		node[midway,below] {$b_1=(2,0)$};
+		\draw[red!70!black,->,thick] (0,0) -- (0,2)
+		node[midway,right] {$b_2=(0,2)$};
+		
+		\node[red!70!black] at (1.8,0.4) {$B=\{0,b_1,b_2\}$};
+		
+		% === A + b1 ===
+		\fill[green!10] (2,0) circle (\r);
+		\draw[green!50!black,thick] (2,0) circle (\r);
+		\node[green!50!black] at (2.0,0.95) {$A+b_1$};
+		
+		% === A + b2 ===
+		\fill[green!10] (0,2) circle (\r);
+		\draw[green!50!black,thick] (0,2) circle (\r);
+		\node[green!50!black] at (0.95,2.1) {$A+b_2$};
+		
+		% === label A+B ===
+		\node[green!50!black] at (1.1,-0.8)
+		{$A+B = B_1(0)\,\cup\,B_1\bigl((2,0)\bigr)\,\cup\,B_1\bigl((0,2)\bigr)$};
+		
+	\end{tikzpicture}
+	
+	\caption{Example for part (b) with 
+		$A=B_1(0)$ and $B=\{0,b_1,b_2\}$.
+		The Minkowski sum $A+B$ is the union of three open discs,
+		hence open but not connected.}
+	\label{fig:three-discs}
+\end{figure}
+
+\paragraph{Example (two-point set $B$).}
+Let
+\[
+A = B_1(0) = \{x\in\mathbb{R}^2 : \|x\|<1\}
+\]
+and choose two vectors
+\[
+b_1 = (2,0), \qquad b_2 = (0,2).
+\]
+Define
+\[
+B = \{b_1, b_2\}.
+\]
+Then the Minkowski sum is
+\[
+\begin{aligned}
+	A+B
+	&= \{a+p : a\in A,\ p\in B\}
+	= A + \{b_1,b_2\} \\
+	&= (A+b_1)\ \cup\ (A+b_2) \\
+	&= B_1\bigl((2,0)\bigr)\ \cup\ B_1\bigl((0,2)\bigr).
+\end{aligned}
+\]
+Thus $A+B$ is the union of two open discs, hence open but not connected.
+Note that, in contrast with the case $B=\{0,b_1,b_2\}$, there is now no
+disc centred at the origin, because $0\notin B$.
+
+% preamble:
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.6]
+		
+		% axes (optional)
+		\draw[->,gray!60] (-1.2,0) -- (3.2,0) node[below] {$x_1$};
+		\draw[->,gray!60] (0,-1.2) -- (0,3.2) node[left] {$x_2$};
+		
+		\def\r{0.8}
+		
+		% --- A = B1(0) (shown ghosted as reference only) ---
+		\fill[blue!5] (0,0) circle (\r);
+		\draw[blue!60!black,dashed] (0,0) circle (\r);
+		\node[blue!60!black] at (-0.1,0.9) {$A=B_1(0)$};
+		
+		% --- B = {b1, b2} ---
+		\fill[red!70!black] (2,0) circle (0.035);
+		\fill[red!70!black] (0,2) circle (0.035);
+		
+		\draw[red!70!black,->,thick] (0,0) -- (2,0)
+		node[midway,below] {$b_1=(2,0)$};
+		\draw[red!70!black,->,thick] (0,0) -- (0,2)
+		node[midway,right] {$b_2=(0,2)$};
+		
+		\node[red!70!black] at (2.1,2.1) {$B=\{b_1,b_2\}$};
+		
+		% --- A + b1 ---
+		\fill[green!10] (2,0) circle (\r);
+		\draw[green!50!black,thick] (2,0) circle (\r);
+		\node[green!50!black] at (2.0,0.95) {$A+b_1$};
+		
+		% --- A + b2 ---
+		\fill[green!10] (0,2) circle (\r);
+		\draw[green!50!black,thick] (0,2) circle (\r);
+		\node[green!50!black] at (0.95,2.1) {$A+b_2$};
+		
+		% --- label A+B ---
+		\node[green!50!black] at (1.2,-0.8)
+		{$A+B = B_1\bigl((2,0)\bigr)\,\cup\,B_1\bigl((0,2)\bigr)$};
+		
+	\end{tikzpicture}
+	\caption{Example with $A=B_1(0)$ and $B=\{b_1,b_2\}$,
+		where $b_1=(2,0)$ and $b_2=(0,2)$.
+		The Minkowski sum $A+B$ is the union of the two translated discs
+		$A+b_1$ and $A+b_2$, hence open but not connected.}
+	\label{fig:two-point-B}
+\end{figure}
+
+\section*{Exercise 2.4 (Convolution preserves smoothness)}
+
+Show that if $f\in C_0^k(\mathbb{R}^n)$ and $g\in C_0^\ell(\mathbb{R}^n)$
+then $f*g\in C_0^{k+\ell}(\mathbb{R}^n)$. Conclude that
+$\mathcal{D}(\mathbb{R}^n)$ is closed under convolution.
+
+\paragraph{Solution.}
+
+Let
+\[
+(f*g)(x) := \int_{\mathbb{R}^n} f(x-y)\,g(y)\,dy.
+\]
+
+\paragraph*{Step 1: Compact support.}
+
+Let $K_f=\operatorname{supp} f$ and $K_g=\operatorname{supp} g$.
+If $(f*g)(x)\neq 0$, then there exists $y$ such that  
+$f(x-y)\neq 0$ and $g(y)\neq 0$, so $x-y\in K_f$ and $y\in K_g$.  
+Hence
+\[
+x=(x-y)+y\in K_f+K_g:=\{a+b:a\in K_f,\ b\in K_g\}.
+\]
+Thus
+\[
+\operatorname{supp}(f*g)\subset K_f+K_g.
+\]
+Since $K_f$ and $K_g$ are compact, their Minkowski sum $K_f+K_g$ is
+compact. Therefore $f*g$ has compact support.
+
+\paragraph*{Step 2: Differentiation under the integral.}
+
+Let $\alpha$ be a multiindex.  
+Since $f$ has compact support, the integrand in
+\[
+(f*g)(x)=\int_{\mathbb{R}^n}f(x-y)g(y)\,dy
+\]
+vanishes outside a fixed compact set, so we may differentiate under the
+integral:
+\[
+\partial^\alpha(f*g)(x)
+= \int_{\mathbb{R}^n} \partial^\alpha f(x-y)\,g(y)\,dy
+= (\partial^\alpha f)*g.
+\]
+Similarly,
+\[
+\partial^\alpha(f*g)
+= f*(\partial^\alpha g).
+\]
+Both expressions are continuous, since convolution of continuous compactly
+supported functions is continuous.
+
+\paragraph*{Step 3: Smoothness of order $k+\ell$.}
+
+Let $\alpha$ be a multiindex with $|\alpha|\le k+\ell$.  
+Choose multiindices $\beta,\gamma$ with  
+$\alpha=\beta+\gamma$, $|\beta|\le k$, $|\gamma|\le \ell$. Then:
+\[
+\partial^\alpha(f*g)
+= \partial^\beta\partial^\gamma(f*g)
+= \partial^\beta\bigl(f*(\partial^\gamma g)\bigr)
+= (\partial^\beta f)*(\partial^\gamma g).
+\]
+Here $\partial^\beta f$ and $\partial^\gamma g$ are continuous and compactly
+supported, so their convolution is continuous.  
+Thus $f*g\in C_0^{k+\ell}(\mathbb{R}^n)$.
+
+\paragraph*{Step 4: Closure of $\mathcal{D}(\mathbb{R}^n)$ under convolution.}
+
+Recall:
+\[
+\mathcal{D}(\mathbb{R}^n)=C_0^\infty(\mathbb{R}^n)
+=\bigcap_{m=0}^\infty C_0^m(\mathbb{R}^n).
+\]
+If $f,g\in\mathcal{D}(\mathbb{R}^n)$, then for each $m$ we have  
+$f,g\in C_0^m$. Applying the previous result with $k=\ell=m$ yields
+$f*g\in C_0^{2m}$ for every $m$, so $f*g\in C_0^r$ for all $r$.  
+Hence
+\[
+f*g\in C_0^\infty(\mathbb{R}^n)=\mathcal{D}(\mathbb{R}^n),
+\]
+and $\mathcal{D}(\mathbb{R}^n)$ is closed under convolution.
+
+\subsubsection*{Example: hat functions in $\mathbb{R}$}
+
+Take
+\[
+f(x) = \max(1 - |x|,0), \qquad
+g(x) = \max(1 - |x|,0).
+\]
+
+\begin{itemize}
+	\item Both $f$ and $g$ are continuous, piecewise linear.
+	\item They vanish outside the interval $[-1,1]$.
+	\item Hence $f,g \in C_0^0(\mathbb{R})$ (continuous with compact support, $k=0$).
+\end{itemize}
+
+Their convolution is
+\[
+(f*g)(x) = \int_{\mathbb{R}} f(x-y)\,g(y)\,dy,
+\]
+which is a continuous “rounded tent’’ supported in the interval $[-2,2]$.
+
+\begin{itemize}
+	\item If $|x|>2$, then the supports of $y\mapsto f(x-y)$ and $y\mapsto g(y)$
+	do not overlap, so $(f*g)(x)=0$.
+	\item If $|x|\le 2$, the integrand is nonzero on an interval in $y$, giving
+	$(f*g)(x)>0$.
+\end{itemize}
+
+Thus
+\[
+\operatorname{supp} f = [-1,1], \qquad
+\operatorname{supp} g = [-1,1], \qquad
+\operatorname{supp}(f*g) \subset [-1,1]+[-1,1]=[-2,2],
+\]
+and $f*g$ is “smoother’’ than $f$ and $g$ (it has no sharp corner at $0$).
+
+\bigskip
+
+For higher regularity one can replace the hat by a standard smooth bump
+\[
+\varphi(x) =
+\begin{cases}
+	e^{-1/(1-x^2)}, & |x|<1,\\[1ex]
+	0,              & |x|\ge 1,
+\end{cases}
+\]
+and take $f=\varphi$, $g=\varphi$. Then $f,g\in C_0^\infty(\mathbb{R})$,
+and the result of Exercise~2.4 says that
+\[
+f*g \in C_0^\infty(\mathbb{R})
+\quad\text{with}\quad
+\operatorname{supp}(f*g)\subset [-2,2].
+\]
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.4]
+		
+		% axes for f
+		\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+		\draw[->] (0,0) -- (0,1.6) node[above] {$f(x)$};
+		
+		% f: hat on [-1,1]
+		\draw[blue,thick] (-2,0) -- (-1,0)
+		-- (0,1.2)
+		-- (1,0)
+		-- (2,0);
+		\node[blue] at (1.7,1.2) {$f(x)$};
+		
+		% separator
+		\draw[dashed,gray] (-2.7,-0.4) -- (2.7,-0.4);
+		
+		% axes for g
+		\begin{scope}[yshift=-2.2cm]
+			\draw[->] (-2.5,0) -- (2.5,0) node[right] {$x$};
+			\draw[->] (0,0) -- (0,1.6) node[above] {$g(x)$};
+			
+			% g same shape
+			\draw[red,thick] (-2,0) -- (-1,0)
+			-- (0,1.2)
+			-- (1,0)
+			-- (2,0);
+			\node[red] at (1.7,1.2) {$g(x)$};
+		\end{scope}
+		
+		% separator
+		\draw[dashed,gray] (-2.7,-2.6) -- (2.7,-2.6);
+		
+		% axes for f*g
+		\begin{scope}[yshift=-4.4cm]
+			\draw[->] (-3.5,0) -- (3.5,0) node[right] {$x$};
+			\draw[->] (0,0) -- (0,1.6) node[above] {$f*g(x)$};
+			
+			% schematic wider, smoother bump on [-2,2]
+			\draw[green!60!black,thick]
+			(-3,0) -- (-2,0)
+			.. controls (-1.2,0.0) and (-1.0,1.0) ..
+			(0,1.3)
+			.. controls (1.0,1.0) and (1.2,0.0) ..
+			(2,0) -- (3,0);
+			
+			\node[green!60!black] at (2.2,1.2) {$f*g$};
+		\end{scope}
+		
+	\end{tikzpicture}
+	\caption{Example of convolution of compactly supported functions on $\mathbb{R}$.
+		Two hat functions $f,g$ with support in $[-1,1]$ produce a wider, smoother
+		convolution $f*g$ supported in $[-2,2]$.}
+	\label{fig:convolution-graphs}
+\end{figure}
+
+
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.3]
+		
+		% axis
+		\draw[->] (-3.2,0) -- (3.2,0) node[right] {$\mathbb{R}$};
+		
+		% support of f: [-1,1]
+		\draw[blue,thick] (-1,0.4) -- (1,0.4);
+		\fill[blue] (-1,0.4) circle (0.04);
+		\fill[blue] (1,0.4)  circle (0.04);
+		\node[blue] at (0,0.7) {$\operatorname{supp}f=[-1,1]$};
+		
+		% support of g: [-1,1]
+		\draw[red,thick] (-1,-0.4) -- (1,-0.4);
+		\fill[red] (-1,-0.4) circle (0.04);
+		\fill[red] (1,-0.4)  circle (0.04);
+		\node[red] at (0,-0.7) {$\operatorname{supp}g=[-1,1]$};
+		
+		% support of f*g: [-2,2]
+		\draw[green!60!black,thick] (-2,0) -- (2,0);
+		\fill[green!60!black] (-2,0) circle (0.04);
+		\fill[green!60!black] (2,0)  circle (0.04);
+		\node[green!60!black] at (0,0.2)
+		{$\operatorname{supp}(f*g)\subset[-1,1]+[-1,1]=[-2,2]$};
+		
+	\end{tikzpicture}
+	\caption{Support of the convolution $f*g$ is contained in the Minkowski sum
+		of the supports of $f$ and $g$.}
+	\label{fig:convolution-support}
+\end{figure}
+
+
+\subsubsection*{(i) Supports of $f$ and $g$}
+
+Consider the hat functions
+\[
+f(x)=\max(1-|x|,0), \qquad
+g(x)=\max(1-|x|,0).
+\]
+Both vanish outside the interval $[-1,1]$, hence
+\[
+\operatorname{supp}f = \operatorname{supp}g = [-1,1].
+\]
+
+\bigskip
+
+\subsubsection*{(ii) Support of the convolution $f*g$}
+
+The convolution is
+\[
+(f*g)(x) = \int_{\mathbb{R}} f(x-y)\,g(y)\,dy.
+\]
+The integrand is nonzero only when
+\[
+x-y\in[-1,1]
+\quad\text{and}\quad
+y\in[-1,1],
+\]
+which implies
+\[
+x\in [-1,1] + [-1,1] = [-2,2].
+\]
+Thus
+\[
+\operatorname{supp}(f*g)\subset [-2,2].
+\]
+
+\bigskip
+
+\subsubsection*{(iii) Shape and smoothness of $f*g$}
+
+The hat functions $f$ and $g$ are continuous but not differentiable at
+$x=0$. Their convolution $f*g$ is smoother: it is continuous, piecewise
+quadratic, and has no corner at $x=0$.  Convolution therefore has a
+regularizing effect even when the input functions are only continuous.
+
+\bigskip
+
+\subsubsection*{(iv) A $C^\infty$ example}
+
+Let
+\[
+\varphi(x)=
+\begin{cases}
+	e^{-1/(1-x^2)}, & |x|<1,\\[1ex]
+	0, & |x|\ge 1.
+\end{cases}
+\]
+Then $\varphi\in C_0^\infty(\mathbb{R})$.  Setting $f=\varphi$, $g=\varphi$
+gives
+\[
+f,g \in C_0^\infty(\mathbb{R})
+\quad\Longrightarrow\quad
+f*g\in C_0^\infty(\mathbb{R}),
+\]
+and
+\[
+\operatorname{supp}(f*g)\subset [-2,2].
+\]
+
+\bigskip
+
+\subsubsection*{(v) Interpretation via Minkowski sums}
+
+For compactly supported functions $f$ and $g$ one always has
+\[
+\operatorname{supp}(f*g)
+\subset \operatorname{supp}f + \operatorname{supp}g.
+\]
+In the present case,
+\[
+[-1,1] + [-1,1] = [-2,2],
+\]
+which geometrically explains the growth of the support under convolution.
+
+
+\subsection*{The Meaning and Applications of Convolution}
+
+Given two functions $f$ and $g$ on $\mathbb{R}^n$, their convolution is
+\[
+(f*g)(x)
+= \int_{\mathbb{R}^n} f(x-y)\,g(y)\,dy.
+\]
+Conceptually, we \emph{flip} one function, \emph{slide} it across the other,
+and measure their weighted overlap. Convolution describes how two shapes
+interact under translation. Below we present the main interpretations.
+
+\subsubsection*{1. Convolution as overlapping shapes}
+
+Convolution measures how much of the shape of $f$ overlaps with the shape
+of $g$ when $g$ is shifted by $x$. If the overlap is strong, $(f*g)(x)$ is
+large; if the functions barely overlap, $(f*g)(x)$ is small; if there is
+no overlap, the convolution is zero. Thus $(f*g)(x)$ describes the overlap
+as one function slides across the other.
+
+\subsubsection*{2. Convolution as smoothing or averaging}
+
+If $g$ is smooth, then $f*g$ is smoother than $f$. Indeed, for each $x$,
+\[
+(f*g)(x)
+= \int_{\mathbb{R}^n} f(x-y)\,g(y)\,dy
+= \text{a weighted average of $f$ near $x$}.
+\]
+Thus convolution removes noise and irregularities in $f$. This is the basis
+of smoothing kernels, mollifiers, and the regularizing effects of the heat
+equation.
+
+\subsubsection*{3. Convolution as propagation of influence (PDE)}
+
+If $g$ is a Green's function, then convolution represents the solution of
+a partial differential equation. For instance,
+\[
+u = f * G
+\]
+solves the equation $Lu = f$ for a differential operator $L$. Examples:
+heat kernels solve the heat equation; Poisson kernels give harmonic
+extensions; the fundamental solution of Laplace gives Newtonian potentials.
+In this sense convolution spreads or propagates the influence of $f$ through
+the medium described by $g$.
+
+\subsubsection*{4. Convolution in probability}
+
+If $X$ and $Y$ are independent random variables with densities $f$ and $g$,
+then the density of $X+Y$ is the convolution $f*g$. Thus convolution describes
+the distribution of sums of random variables. In particular, adding many
+independent random variables produces repeated convolutions, leading toward
+Gaussian limits (the Central Limit Theorem).
+
+\subsubsection*{5. Convolution in signal processing and Fourier analysis}
+
+Convolution corresponds to filtering. If $g$ is a ``filter'' (for instance
+a low--pass, high--pass, or band--pass filter), then $f*g$ is the input
+signal $f$ passed through that filter. In the Fourier domain,
+\[
+\mathcal{F}(f*g) = \widehat{f}\,\widehat{g},
+\]
+so convolution in physical space becomes multiplication in frequency space.
+
+\bigskip
+
+
+\subsection*{Meaningful examples of convolution}
+
+\paragraph*{Example 1: Averaging window.}
+Let
+\[
+g(t) = \frac{1}{2h}\,1_{[-h,h]}(t).
+\]
+Then
+\[
+(f*g)(x)
+= \frac{1}{2h} \int_{x-h}^{x+h} f(t)\,dt,
+\]
+which is just the \emph{average} of $f$ around $x$ over an interval of
+length $2h$.
+
+\medskip
+\noindent$\Rightarrow$ \emph{Smoothing:} local averaging of the signal.
+
+\bigskip\hrule\bigskip
+
+\paragraph*{Example 2: Gaussian smoothing.}
+Let
+\[
+g_\varepsilon(y)
+= \frac{1}{\sqrt{\pi}\,\varepsilon}\,e^{-y^2/\varepsilon^2}.
+\]
+Then $f*g_\varepsilon$ is the \emph{Gaussian--blurred} version of $f$.
+
+\medskip
+\noindent$\Rightarrow$ \emph{Effect:} removes noise, increases
+differentiability.
+
+\bigskip\hrule\bigskip
+
+\paragraph*{Example 3: Derivative filters.}
+If $g = f'$, then formally
+\[
+f * f'
+= \frac{d}{dx}\,(f*f).
+\]
+More generally, for a multiindex $\alpha$,
+\[
+\partial^\alpha(f*g)
+= (\partial^\alpha f)*g
+= f*(\partial^\alpha g).
+\]
+
+\medskip
+\noindent$\Rightarrow$ \emph{Effect:} convolution propagates derivatives
+and can act as a differentiating filter.
+
+\bigskip\hrule\bigskip
+
+\paragraph*{Example 4: Probability (sum of random variables).}
+Let $f$ be the density of a random variable $X$ and $g$ the density of an
+independent random variable $Y$. Then the density of $X+Y$ is $f*g$:
+\[
+(f*g)(x)
+= \int_{\mathbb{R}} f(x-y)\,g(y)\,dy.
+\]
+
+\medskip
+\noindent$\Rightarrow$ \emph{Effect:} convolution describes the law of
+sums of independent random variables.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/Downloads_convolution_overlap.png}
+	\caption{Convolution as overlap: the function $g$ is shifted horizontally
+		and its overlap with $f$ determines the value of $(f*g)(t)$.}
+	\label{fig:convolution-overlap}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/Downloads_convolution_smoothing.png}
+	\caption{Convolution as smoothing: a noisy signal (blue) is convolved
+		with a Gaussian kernel, producing a smoother function (orange).}
+	\label{fig:convolution-smoothing}
+\end{figure}
+
+\clearpage
+
+\section*{Exercise 2.5 (Young, Hölder and Minkowski inequalities)}
+
+Suppose that $F:\mathbb{R}^n\times\mathbb{R}^n\to\mathbb{R}$ is a positive
+simple function.
+
+\begin{enumerate}[(a)]
+	\item Show that Minkowski's integral inequality holds in the case $p=1$:
+	\[
+	\int_{\mathbb{R}^n}\Bigl|\int_{\mathbb{R}^n} F(x,y)\,dy\Bigr|\,dx
+	\le \int_{\mathbb{R}^n}\int_{\mathbb{R}^n} |F(x,y)|\,dy\,dx.
+	\]
+	
+	\item Prove Young's inequality: if $a,b\ge 0$ and $p,q>1$ satisfy
+	$p^{-1}+q^{-1}=1$, then
+	\[
+	ab \le \frac{a^p}{p} + \frac{b^q}{q}.
+	\]
+	\emph{Hint:} Set $t=p^{-1}$, consider the function
+	$\log\bigl[t a^p + (1-t)b^q\bigr]$ and use the concavity of $\log$.
+	
+	\item With $p,q>1$ such that $p^{-1}+q^{-1}=1$, show that if
+	$\|f\|_{L^p}=1$ and $\|g\|_{L^q}=1$ then
+	\[
+	\int_{\mathbb{R}^n} |f(x)g(x)|\,dx \le 1.
+	\]
+	Deduce Hölder's inequality
+	\[
+	\int_{\mathbb{R}^n} |f(x)g(x)|\,dx \le
+	\|f\|_{L^p}\,\|g\|_{L^q},
+	\qquad f\in L^p(\mathbb{R}^n),\ g\in L^q(\mathbb{R}^n).
+	\]
+	
+	\item Set
+	\[
+	G(y) := \Bigl(\int_{\mathbb{R}^n} F(x,y)\,dx\Bigr)^{p-1}.
+	\]
+	\begin{enumerate}[i)]
+		\item Show that if $q=\dfrac{p}{p-1}$, then
+		\[
+		\|G\|_{L^q(\mathbb{R}^n)}
+		= \Bigl\|\int_{\mathbb{R}^n} F(x,\cdot)\,dx\Bigr\|_{L^p(\mathbb{R}^n)}^{\,p-1}.
+		\]
+		\item Show that
+		\[
+		\Bigl\|\int_{\mathbb{R}^n} F(x,\cdot)\,dx\Bigr\|_{L^p(\mathbb{R}^n)}^p
+		= \int_{\mathbb{R}^n}
+		\Bigl(\int_{\mathbb{R}^n} G(y)F(x,y)\,dy\Bigr)\,dx.
+		\]
+		\item Applying Hölder's inequality, deduce a Minkowski-type inequality
+		for $F$.
+	\end{enumerate}
+	
+	\item Deduce Minkowski's integral inequality:
+	\[
+	\Biggl(\int_{\mathbb{R}^n}
+	\Bigl|\int_{\mathbb{R}^n} F(x,y)\,dy\Bigr|^p dx\Biggr)^{\!1/p}
+	\le
+	\int_{\mathbb{R}^n}
+	\Biggl(\int_{\mathbb{R}^n} |F(x,y)|^p dx\Biggr)^{\!1/p} dy,
+	\]
+	which holds for any measurable function
+	$F:\mathbb{R}^n\times\mathbb{R}^n\to\mathbb{C}$ and all $1\le p<\infty$.
+\end{enumerate}
+
+\subsection*{Deep Theory / Roadmap}
+
+This exercise reconstructs the chain of ideas leading from convexity to
+Young's inequality, Hölder's inequality, and finally to Minkowski's
+integral inequality.  We outline the conceptual structure.
+
+
+\subsubsection*{Part (a): Minkowski's inequality for $p=1$}
+
+Suppose $F:\mathbb{R}^n\times\mathbb{R}^n\to\mathbb{R}$ is a positive
+simple function. We want to show
+\[
+\int_{\mathbb{R}^n}
+\Bigl|\int_{\mathbb{R}^n} F(x,y)\,dy\Bigr|\,dx
+\;\le\;
+\int_{\mathbb{R}^n}\int_{\mathbb{R}^n} |F(x,y)|\,dy\,dx.
+\]
+
+\paragraph*{Solution.}
+Since $F(x,y)\ge0$ for all $(x,y)$, we have for each fixed $x$:
+\[
+\int_{\mathbb{R}^n} F(x,y)\,dy \ge 0
+\quad\Longrightarrow\quad
+\Bigl|\int_{\mathbb{R}^n}F(x,y)\,dy\Bigr|
+= \int_{\mathbb{R}^n}F(x,y)\,dy.
+\]
+Therefore
+\[
+\int_{\mathbb{R}^n}
+\Bigl|\int_{\mathbb{R}^n} F(x,y)\,dy\Bigr|\,dx
+= \int_{\mathbb{R}^n}\int_{\mathbb{R}^n} F(x,y)\,dy\,dx.
+\]
+On the other hand $F\ge0$ implies $|F|=F$, hence
+\[
+\int_{\mathbb{R}^n}\int_{\mathbb{R}^n} |F(x,y)|\,dy\,dx
+= \int_{\mathbb{R}^n}\int_{\mathbb{R}^n} F(x,y)\,dy\,dx.
+\]
+Thus the two sides are equal, and in particular the desired inequality
+holds.
+
+\medskip
+
+\paragraph*{Example.}
+Let
+\[
+F(x,y) = 1_{[0,1]^n}(x)\,1_{[0,1]^n}(y).
+\]
+Then
+\[
+\int_{\mathbb{R}^n} F(x,y)\,dy = 1_{[0,1]^n}(x),
+\]
+so
+\[
+\int_{\mathbb{R}^n}
+\Bigl|\int_{\mathbb{R}^n} F(x,y)\,dy\Bigr|\,dx
+= \int_{[0,1]^n} 1\,dx = 1.
+\]
+Moreover $|F|=F$, and
+\[
+\int_{\mathbb{R}^n}\int_{\mathbb{R}^n} |F(x,y)|\,dy\,dx
+= \int_{[0,1]^n}\int_{[0,1]^n} 1\,dy\,dx
+= 1.
+\]
+This concrete case illustrates that for $p=1$ and $F\ge0$ the inequality
+is actually an equality.
+
+
+\subsubsection*{Additional examples for part (a)}
+
+The inequality
+\[
+\int_{\mathbb{R}^n}
+\Bigl|\int_{\mathbb{R}^n}F(x,y)\,dy\Bigr|\,dx
+\;\le\;
+\int_{\mathbb{R}^n}\int_{\mathbb{R}^n}|F(x,y)|\,dy\,dx
+\]
+holds with equality whenever $F\ge0$.  Here are three regular examples.
+
+\paragraph*{Example 1: Gaussian.}
+Let $F(x,y)=e^{-x^2-y^2}$ on $\mathbb{R}$.  Then
+\[
+\int_{\mathbb{R}}F(x,y)\,dy = \sqrt{\pi}\,e^{-x^2}.
+\]
+Hence
+\[
+\int_{\mathbb{R}} \Bigl|\int_{\mathbb{R}}F(x,y)\,dy\Bigr|dx
+= \sqrt{\pi}\int_{\mathbb{R}} e^{-x^2}dx
+= \pi.
+\]
+Since $F\ge 0$,
+\[
+\int_{\mathbb{R}}\int_{\mathbb{R}}|F(x,y)|\,dy\,dx
+= \pi.
+\]
+
+\paragraph*{Example 2: Polynomial times Gaussian.}
+Let
+\[
+F(x,y) = (1+x^2)(1+y^2)e^{-x^2-y^2}.
+\]
+A direct computation gives
+\[
+\int_{\mathbb{R}}(1+t^2)e^{-t^2}dt = \frac{3\sqrt{\pi}}{2}.
+\]
+Thus
+\[
+\int_{\mathbb{R}}\Bigl|\int_{\mathbb{R}}F(x,y)\,dy\Bigr|dx
+= \left(\frac{3\sqrt{\pi}}{2}\right)^2
+= \frac{9\pi}{4},
+\]
+and the same value is obtained on the right--hand side.
+
+\paragraph*{Example 3: Trigonometric example.}
+On $[0,\pi]$ let
+\[
+F(x,y) = \sin^2 x\,\sin^2 y.
+\]
+Since $\displaystyle \int_0^\pi \sin^2 t\,dt = \frac{\pi}{2}$,
+\[
+\int_0^\pi \Bigl|\int_0^\pi F(x,y)\,dy\Bigr|dx
+= \frac{\pi^2}{4}
+= \int_0^\pi\int_0^\pi F(x,y)\,dy\,dx.
+\]
+
+These examples illustrate how regular, smooth functions behave exactly
+like simple functions when $p=1$ and $F\ge 0$: the inequality becomes an
+equality.
+
+\begin{figure}[ht]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Downloads_gaussian_F_heatmap.png}
+		\caption*{(a) Heat map of $F(x,y)=e^{-x^2-y^2}$ on $[-2,2]^2$.}
+	\end{minipage}\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Downloads_gaussian_u.png}
+		\caption*{(b) $u(x)=\displaystyle\int_{\mathbb{R}} e^{-x^2-y^2}\,dy
+			= \sqrt{\pi}e^{-x^2}$.}
+	\end{minipage}
+	\caption{Gaussian example for Minkowski's integral inequality with $p=1$:
+		the area under $u(x)$ equals the double integral of $F(x,y)$.}
+	\label{fig:gaussian-minkowski}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Downloads_trig_F_heatmap.png}
+		\caption*{(a) Heat map of $F(x,y)=\sin^2 x\,\sin^2 y$ on $[0,\pi]^2$.}
+	\end{minipage}\hfill
+	\begin{minipage}{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/Downloads_trig_u.png}
+		\caption*{(b) $u(x)=\displaystyle\int_0^\pi \sin^2 x\,\sin^2 y\,dy
+			= \tfrac{\pi}{2}\sin^2 x$.}
+	\end{minipage}
+	\caption{Trigonometric example for Minkowski's inequality with $p=1$:
+		the integral of $u(x)$ over $[0,\pi]$ equals the double integral of $F(x,y)$.}
+	\label{fig:trig-minkowski}
+\end{figure}
+
+
+\subsection*{How simple functions and regular functions are related}
+
+The Minkowski inequality (and many foundational results in integration
+theory) is first proved for \emph{simple functions}, because these have
+a completely transparent structure:
+\begin{itemize}
+	\item simple functions are finite linear combinations of indicator sets;
+	\item all integrals reduce to finite sums;
+	\item Tonelli--Fubini can be verified directly;
+	\item no pathological behaviour can occur.
+\end{itemize}
+Once the inequality is established for simple functions, one extends it
+to general measurable functions (continuous, $C^\infty$, polynomials,
+Gaussians, trigonometric functions, etc.) by:
+\begin{itemize}
+	\item approximation from below by increasing sequences of simple functions;
+	\item the Monotone or Dominated Convergence Theorem;
+	\item density of simple functions in $L^p$.
+\end{itemize}
+We now describe this relation step by step.
+
+\subsubsection*{1. Simple functions as the foundational case}
+
+A simple function has the form
+\[
+F(x,y) = \sum_{k=1}^m a_k\,1_{A_k}(x)\,1_{B_k}(y), \qquad a_k\ge 0.
+\]
+For such $F$, all integrals become finite sums:
+\[
+\int_{\mathbb{R}^n}\int_{\mathbb{R}^n} F(x,y)\,dy\,dx
+= \sum_{k=1}^m a_k\,|A_k|\,|B_k|.
+\]
+Thus Minkowski's inequality for $p=1$ is an equality for simple functions.
+
+\subsubsection*{2. Approximation of general nonnegative measurable functions}
+
+Every nonnegative measurable function $F$ on $\mathbb{R}^n\times\mathbb{R}^n$
+admits an increasing sequence of simple functions $F_n$ such that
+\[
+F_n(x,y) \uparrow F(x,y) \qquad\text{for all }(x,y).
+\]
+This construction is canonical and works for every $F\ge 0$.
+
+\subsubsection*{3. The Monotone Convergence Theorem connects the two}
+
+By the Monotone Convergence Theorem,
+\[
+\int F_n \to \int F,
+\qquad
+\int \Bigl|\int F_n(\cdot,y)\,dy\Bigr| \to 
+\int \Bigl|\int F(\cdot,y)\,dy\Bigr|.
+\]
+Since Minkowski holds exactly for each $F_n$, taking limits shows it holds
+for $F$ as well.
+
+\subsubsection*{4. Sign--changing regular functions}
+
+If $F$ is a smooth or regular function that takes both signs, use the
+triangle inequality:
+\[
+\left|\int_{\mathbb{R}^n}F(x,y)\,dy\right|
+\le \int_{\mathbb{R}^n}|F(x,y)|\,dy.
+\]
+Thus the sign--changing case reduces to the nonnegative case by replacing
+$F$ with $|F|$.
+
+\subsubsection*{5. Regular functions (Gaussians, trigonometric, polynomials)}
+
+Regular functions such as
+\[
+e^{-x^2-y^2},\qquad (1+x^2)(1+y^2)e^{-x^2-y^2},\qquad
+\sin^2 x\,\sin^2 y,
+\]
+lie in every $L^p$, and satisfy
+\[
+F_n \uparrow F \quad \text{or} \quad F_n\to F \text{ in } L^p.
+\]
+Therefore all results established for simple functions extend to these
+regular functions by approximation.
+
+\bigskip
+\noindent
+\textbf{Summary.} Simple functions form the atomic building blocks. Every
+regular function is a limit of simple ones. Minkowski's inequality is
+verified first on the atoms, and then passed to the limit using monotone
+or dominated convergence.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.85\textwidth]{figures/Downloads_simple_vs_gaussian.png}
+	\caption{Approximation of the Gaussian $e^{-x^2}$ by simple functions.
+		The step functions with $5$, $10$, and $20$ intervals converge
+		monotonically to the Gaussian, illustrating how general integrable
+		functions are obtained as limits of simple functions.}
+	\label{fig:simple-gaussian-approx}
+\end{figure}
+
+
+
+\paragraph*{(i) $L^p$--spaces and Hölder conjugates.}
+
+\begin{itemize}
+	\item For $1\le p<\infty$, the space $L^p(\mathbb{R}^n)$ consists of all
+	measurable functions $f$ such that
+	\[
+	\int_{\mathbb{R}^n} |f(x)|^p \, dx < \infty.
+	\]
+	
+	\item The Hölder conjugate exponent $q$ of $p$ is defined by
+	\[
+	\frac{1}{p} + \frac{1}{q} = 1,
+	\qquad 1 < p < \infty.
+	\]
+	
+	\item The pair $(p,q)$ is fundamental: these are exactly the exponents
+	for which Young's and Hölder's inequalities hold and for which the
+	duality $(L^p)^* \cong L^q$ is valid.
+\end{itemize}
+
+\bigskip
+
+
+
+\paragraph*{(ii) Young's inequality as convex duality.}
+
+\begin{itemize}
+	\item The function $\phi(t)=e^t$ is convex and the logarithm is concave.
+	The hint in part (b) suggests proving Young's inequality using
+	concavity of $\log$.
+	
+	\item The inequality
+	\[
+	ab \le \frac{a^p}{p} + \frac{b^q}{q}
+	\]
+	is equivalent to the statement
+	\[
+	\log(ab)
+	\;\le\;
+	\log\!\left(\frac{a^p}{p} + \frac{b^q}{q}\right).
+	\]
+	Because $\log$ is concave, this inequality follows from Jensen's
+	inequality applied to $\log$.
+	
+	\item More conceptually: the functions $x \mapsto x^p/p$ and
+	$y \mapsto y^q/q$ are Legendre transforms of each other.
+	Young's inequality expresses this duality.
+\end{itemize}
+
+
+\paragraph*{Young's inequality and concavity of $\log$.}
+
+\begin{itemize}
+	\item The inequality
+	\[
+	ab \le \frac{a^p}{p} + \frac{b^q}{q}
+	\]
+	is equivalent (since $\log$ is increasing) to the statement
+	\[
+	\log(ab) \;\le\;
+	\log\!\left(\frac{a^p}{p} + \frac{b^q}{q}\right).
+	\]
+	
+	\item Set $t = p^{-1}$ and consider the function
+	\[
+	\varphi(t) = \log\bigl[t a^p + (1-t)b^q\bigr].
+	\]
+	Because $\log$ is concave, Jensen's inequality yields
+	\[
+	\log\bigl[t a^p + (1-t)b^q\bigr]
+	\;\ge\; t\log(a^p) + (1-t)\log(b^q)
+	= p\,t\log a + q(1-t)\log b.
+	\]
+	Choosing $t=1/p$ (so $1-t=1/q$) gives
+	\[
+	\log\!\left(\frac{a^p}{p} + \frac{b^q}{q}\right)
+	\;\ge\; \log a + \log b = \log(ab),
+	\]
+	which is precisely Young's inequality.
+\end{itemize}
+
+\paragraph*{Legendre-transform viewpoint.}
+
+Let
+\[
+\Phi(x) = \frac{x^p}{p}, \qquad x\ge 0.
+\]
+Then $\Phi$ is convex and its Legendre transform (convex conjugate) is
+\[
+\Phi^*(y)
+= \sup_{x\ge0}\bigl(xy - \Phi(x)\bigr)
+= \frac{y^q}{q}, \qquad y\ge0,
+\]
+where $q$ is the Hölder conjugate of $p$, i.e.\ $\frac1p+\frac1q=1$.
+The Fenchel--Young inequality asserts that
+\[
+xy \le \Phi(x) + \Phi^*(y), \qquad x,y\ge0.
+\]
+Substituting $\Phi(x)=x^p/p$ and $\Phi^*(y)=y^q/q$ yields
+\[
+xy \le \frac{x^p}{p} + \frac{y^q}{q},
+\]
+which is Young's inequality (with $x=a$, $y=b$).  Thus Young's
+inequality expresses the Legendre duality between the functions
+$x\mapsto x^p/p$ and $y\mapsto y^q/q$.
+
+
+\bigskip
+
+\paragraph*{(iii) Hölder's inequality.}
+
+\begin{itemize}
+	\item Using Young's inequality, apply it pointwise to
+	$|f(x)|$ and $|g(x)|$:
+	\[
+	|f(x)g(x)|
+	\le
+	\frac{|f(x)|^p}{p} + \frac{|g(x)|^q}{q}.
+	\]
+	
+	\item Integrating over $\mathbb{R}^n$ gives
+	\[
+	\int_{\mathbb{R}^n} |f(x)g(x)|\,dx
+	\;\le\;
+	\frac{1}{p}\int |f|^p + \frac{1}{q}\int |g|^q.
+	\]
+	
+	\item If $\|f\|_{L^p}=\|g\|_{L^q}=1$, the right side equals $1$.
+	
+	\item Scaling $f$ and $g$ yields the general form of Hölder's inequality:
+	\[
+	\int_{\mathbb{R}^n} |f(x)g(x)|\,dx
+	\;\le\;
+	\|f\|_{L^p}\,\|g\|_{L^q}.
+	\]
+	
+	\item This identity shows that multiplication by $g\in L^q$ defines a
+	bounded linear functional on $L^p$ with operator norm $\|g\|_{L^q}$
+	--- the starting point of $L^p$ duality.
+\end{itemize}
+
+\bigskip
+
+\paragraph*{(iv) Minkowski's inequality and $L^p$--norms.}
+
+\begin{itemize}
+	
+	\item The classical Minkowski inequality
+	\[
+	\|f+g\|_{L^p}
+	\le
+	\|f\|_{L^p} + \|g\|_{L^p}
+	\]
+	is the triangle inequality for the $L^p$--norm.  Hölder's inequality
+	is the main tool in its proof.
+	
+	\item In this exercise we prove a \emph{two--variable} version:
+	\[
+	\left\|
+	\int_{\mathbb{R}^n} F(\cdot,y)\,dy
+	\right\|_{L^p(\mathbb{R}^n)}
+	\;\le\;
+	\int_{\mathbb{R}^n}
+	\|F(\cdot,y)\|_{L^p(\mathbb{R}^n)}\,dy.
+	\]
+	
+	\item The key idea is to define
+	\[
+	u(x) := \int_{\mathbb{R}^n} F(x,y)\,dy,
+	\qquad
+	G(y) := |u(y)|^{p-1}\operatorname{sgn}(u(y)),
+	\]
+	so that
+	\[
+	\|u\|_{L^p}^p = \int_{\mathbb{R}^n} u(x) G(x)\,dx.
+	\]
+	
+	\item Applying Hölder's inequality to the right-hand side gives
+	\[
+	\|u\|_{L^p}^p
+	\le
+	\|G\|_{L^q}
+	\int_{\mathbb{R}^n}
+	\left(
+	\int_{\mathbb{R}^n} |F(x,y)|^p \, dx
+	\right)^{1/p} dy,
+	\]
+	from which Minkowski's integral inequality follows.
+	
+\end{itemize}
+
+\bigskip
+
+\paragraph*{(v) Simple functions and general measurable functions.}
+
+\begin{itemize}
+	\item Parts (a)--(d) assume $F$ is a \emph{positive simple function}:
+	a finite linear combination of characteristic functions.
+	On these, one may freely permute and decompose integrals.
+	
+	\item For general nonnegative measurable $F$, approximate $F$ from below
+	by simple functions and use the Monotone Convergence Theorem.
+	
+	\item For complex-valued $F$, apply the inequality to $|F|$.
+	
+	\item This yields Minkowski's integral inequality in full generality
+	for all $1 \le p < \infty$.
+\end{itemize}
+
+
+\paragraph*{From Fenchel--Young to Hölder's inequality.}
+
+The Fenchel--Young inequality for the convex function
+$\Phi(x)=x^p/p$ and its conjugate $\Phi^*(y)=y^q/q$ reads
+\[
+xy \le \frac{x^p}{p} + \frac{y^q}{q},
+\qquad x,y\ge 0.
+\]
+Applying this pointwise with $x=|f(x)|$ and $y=|g(x)|$ gives
+\[
+|f(x)g(x)|
+\le \frac{|f(x)|^p}{p} + \frac{|g(x)|^q}{q},
+\qquad x\in\mathbb{R}^n.
+\]
+Integrating over $\mathbb{R}^n$ yields
+\[
+\int_{\mathbb{R}^n} |f(x)g(x)|\,dx
+\le \frac1p \int_{\mathbb{R}^n} |f(x)|^p\,dx
++ \frac1q \int_{\mathbb{R}^n} |g(x)|^q\,dx
+= \frac{\|f\|_{L^p}^p}{p} + \frac{\|g\|_{L^q}^q}{q}.
+\]
+If $\|f\|_{L^p},\|g\|_{L^q}>0$, apply this to
+$\tilde f = f/\|f\|_{L^p}$ and $\tilde g = g/\|g\|_{L^q}$ to obtain
+\[
+\int_{\mathbb{R}^n}
+\bigl|\tilde f(x)\tilde g(x)\bigr|\,dx
+\le \frac1p + \frac1q = 1,
+\]
+and hence
+\[
+\int_{\mathbb{R}^n} |f(x)g(x)|\,dx
+\le \|f\|_{L^p}\,\|g\|_{L^q}.
+\]
+This recovers Hölder's inequality directly from the
+Fenchel--Young inequality for $\Phi(x)=x^p/p$.
+
+
+\subsection*{Examples for Exercise 2.5}
+
+\subsubsection*{(i) Example for Young's inequality}
+
+Take $p=q=2$ and $a=3$, $b=4$.  Young's inequality states that
+\[
+ab \le \frac{a^p}{p} + \frac{b^q}{q}.
+\]
+Here
+\[
+ab = 3\cdot 4 = 12,
+\]
+while
+\[
+\frac{a^2}{2} + \frac{b^2}{2}
+= \frac{9}{2} + \frac{16}{2}
+= \frac{25}{2} = 12.5.
+\]
+Thus
+\[
+12 = ab \le 12.5 = \frac{a^2}{2} + \frac{b^2}{2},
+\]
+which illustrates the inequality for a specific choice of parameters.
+
+\bigskip
+
+\subsubsection*{(ii) Example for Hölder's inequality}
+
+Let $p=q=2$ and define functions on $\mathbb{R}$ by
+\[
+f(x) = 1_{[0,1]}(x), \qquad
+g(x) = x\,1_{[0,1]}(x).
+\]
+Then
+\[
+f(x)g(x) = x\,1_{[0,1]}(x),
+\]
+and
+\[
+\int_{\mathbb{R}} |f(x)g(x)|\,dx
+= \int_0^1 x\,dx = \frac12.
+\]
+The norms are
+\[
+\|f\|_{L^2}^2 = \int_0^1 1^2\,dx = 1
+\quad\Longrightarrow\quad
+\|f\|_{L^2} = 1,
+\]
+and
+\[
+\|g\|_{L^2}^2 = \int_0^1 x^2\,dx = \frac13
+\quad\Longrightarrow\quad
+\|g\|_{L^2} = \frac{1}{\sqrt{3}}.
+\]
+Thus
+\[
+\int_{\mathbb{R}} |f(x)g(x)|\,dx = \frac12
+\le \frac{1}{\sqrt{3}} = \|f\|_{L^2}\,\|g\|_{L^2},
+\]
+which confirms Hölder's inequality in this concrete case (with strict
+inequality).
+
+\bigskip
+
+\subsubsection*{(iii) Example for Minkowski's integral inequality}
+
+Let $F:\mathbb{R}\times\mathbb{R}\to\mathbb{R}$ be given by
+\[
+F(x,y) = 1_{[0,1]}(x)\,1_{[0,1]}(y),
+\]
+and take $p=2$.
+Define
+\[
+u(x) := \int_{\mathbb{R}} F(x,y)\,dy.
+\]
+Then
+\[
+u(x) = \int_{\mathbb{R}} 1_{[0,1]}(x)1_{[0,1]}(y)\,dy
+= 1_{[0,1]}(x)\cdot 1,
+\]
+so $u(x)=1$ for $x\in[0,1]$ and $u(x)=0$ otherwise. Hence
+\[
+\left(\int_{\mathbb{R}} |u(x)|^2\,dx\right)^{1/2}
+= \left(\int_0^1 1\,dx\right)^{1/2}
+= 1.
+\]
+
+On the other hand,
+\[
+\int_{\mathbb{R}}
+\left(\int_{\mathbb{R}} |F(x,y)|^2\,dx\right)^{1/2} dy
+\]
+is computed as follows. Since $F^2=F$,
+\[
+\int_{\mathbb{R}} |F(x,y)|^2\,dx
+= \int_{\mathbb{R}} 1_{[0,1]}(x)1_{[0,1]}(y)\,dx
+= 1_{[0,1]}(y)\cdot 1.
+\]
+Thus
+\[
+\left(\int_{\mathbb{R}} |F(x,y)|^2\,dx\right)^{1/2}
+= 1_{[0,1]}(y),
+\]
+and therefore
+\[
+\int_{\mathbb{R}}
+\left(\int_{\mathbb{R}} |F(x,y)|^2\,dx\right)^{1/2} dy
+= \int_0^1 1\,dy = 1.
+\]
+In this example both sides of Minkowski's integral inequality are equal to
+$1$, so equality holds.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=3]
+		
+		% ===== axes (shorter y-axis so it doesn't hit the formula) =====
+		\draw[->] (-0.05,0) -- (1.15,0) node[below] {$x$};
+		\draw[->] (0,-0.05) -- (0,1.05) node[left] {$y$};
+		
+		% ===== rectangle where F != 0 =====
+		\fill[blue!10] (0,0) rectangle (1,1);
+		\draw[blue!70!black,thick] (0,0) rectangle (1,1);
+		\node[blue!70!black] at (0.52,0.55) {\small $F(x,y)\neq0$};
+		
+		% ===== horizontal slice: u(x) = ∫ F(x,y) dy =====
+		\draw[red!70!black,thick,->] (0.05,0.30) -- (0.95,0.30);
+		\node[red!70!black,below] at (0.50,0.26)
+		{\small $u(x)=\displaystyle\int F(x,y)\,dy$};
+		
+		% ===== vertical slice: (∫ |F|^p dx)^{1/p} =====
+		\draw[green!60!black,thick,->] (0.40,0.05) -- (0.40,0.95);
+		\node[green!60!black,right] at (0.42,0.72)
+		{\small $\left(\displaystyle\int |F(x,y)|^p dx\right)^{1/p}$};
+		
+		% ===== whole inequality above, left-aligned, safely above y-axis =====
+		\node[anchor=south west] at (-0.02,1.10)
+		{$\displaystyle
+			\bigl\|u\bigr\|_{L^p_x}
+			\;\le\;
+			\int \Bigl(\int |F(x,y)|^p dx\Bigr)^{1/p} dy
+			$};
+		
+	\end{tikzpicture}
+	
+	\caption{Geometric view of Minkowski’s integral inequality.
+		Horizontal integration in $y$ gives $u(x)=\int F(x,y)\,dy$, whose
+		$L^p$--norm appears on the left-hand side. For each fixed $y$, the
+		vertical arrow represents the $L^p$--norm in $x$ of the slice
+		$F(\cdot,y)$; these norms are then integrated over $y$ on the
+		right-hand side.}
+	\label{fig:minkowski-geometry}
+\end{figure}
+
+
+\section*{Exercise 2.6. Distributions and their orders}
+
+\textbf{(a)} Show that $\delta_x$, as defined in Example~7, is continuous and
+linear, hence a distribution. Find its order.
+
+\textbf{(b)} Show that $T_f$, as defined in Example~7, is continuous and
+linear, hence a distribution. Find its order.
+
+\textbf{(c)} By constructing a suitable sequence of smooth functions show
+that the order of $\mathrm{P.V.}\!\left(\frac{1}{x}\right)$ is one.
+
+\bigskip
+
+
+	\paragraph{(a) The Dirac mass $\delta_x$.}
+	For fixed $x\in\mathbb{R}^n$ the functional $\delta_x$ is defined by
+	\[
+	\delta_x(\varphi) := \varphi(x), \qquad \varphi\in\mathcal{D}(\mathbb{R}^n).
+	\]
+	It is clearly linear:
+	\[
+	\delta_x(\alpha\varphi+\beta\psi)
+	= (\alpha\varphi+\beta\psi)(x)
+	= \alpha\varphi(x)+\beta\psi(x)
+	= \alpha\,\delta_x(\varphi)+\beta\,\delta_x(\psi).
+	\]
+	
+	To show continuity and determine its order, let $K\subset\mathbb{R}^n$
+	be compact and suppose $\operatorname{supp}\varphi\subset K$.
+	If $x\notin K$ then $\delta_x(\varphi)=0$.  If $x\in K$, then
+	\[
+	|\delta_x(\varphi)| = |\varphi(x)| \le \sup_{y\in K}|\varphi(y)|.
+	\]
+	Thus for each compact $K$ we can choose $C_K=1$ and obtain
+	\[
+	|\delta_x(\varphi)|
+	\le C_K \sup_{K}|\varphi|.
+	\]
+	Hence $\delta_x$ is a distribution of order $0$.
+	
+	\paragraph{(b) The regular distribution $T_f$.}
+	Let $f\in L^1_{\mathrm{loc}}(\mathbb{R}^n)$ and define
+	\[
+	T_f(\varphi) := \int_{\mathbb{R}^n} f(x)\,\varphi(x)\,dx.
+	\]
+	Linearity is immediate from linearity of the integral.  For continuity,
+	fix a compact set $K\subset\mathbb{R}^n$ and suppose
+	$\operatorname{supp}\varphi\subset K$. Then
+	\[
+	|T_f(\varphi)|
+	= \left|\int_{K} f(x)\varphi(x)\,dx\right|
+	\le \int_{K} |f(x)|\,|\varphi(x)|\,dx
+	\le \Bigl(\int_{K} |f(x)|\,dx\Bigr) \sup_{K}|\varphi(x)|.
+	\]
+	Setting $C_K := \int_{K}|f(x)|\,dx<\infty$, we obtain
+	\[
+	|T_f(\varphi)| \le C_K \sup_{K}|\varphi|,
+	\]
+	so $T_f$ is a distribution of order $0$.
+	
+	\paragraph{(c) The order of $\mathrm{P.V.}(1/x)$.}
+	The principal value distribution $\mathrm{P.V.}(1/x)$ acts on
+	$\varphi\in\mathcal{D}(\mathbb{R})$ by
+	\[
+	\bigl\langle \mathrm{P.V.}(1/x), \varphi \bigr\rangle
+	:= \lim_{\varepsilon\to0^+}
+	\int_{|x|>\varepsilon} \frac{\varphi(x)}{x}\,dx.
+	\]
+	
+	\emph{Step 1: $\mathrm{P.V.}(1/x)$ has order at most $1$.}
+	One shows (by integration by parts on the truncated integrals and
+	passing to the limit) that
+	\[
+	\bigl\langle \mathrm{P.V.}(1/x), \varphi \bigr\rangle
+	= -\int_{\mathbb{R}} \log|x|\,\varphi'(x)\,dx.
+	\]
+	Let $K\subset\mathbb{R}$ be compact and $\operatorname{supp}\varphi\subset K$.
+	Then
+	\[
+	\left|\bigl\langle \mathrm{P.V.}(1/x), \varphi \bigr\rangle\right|
+	\le \int_{K}|\log|x||\,|\varphi'(x)|\,dx
+	\le \Bigl(\int_{K}|\log|x||\,dx\Bigr)\sup_{K}|\varphi'(x)|.
+	\]
+	Thus there is a constant $C_K$ such that
+	\[
+	\left|\bigl\langle \mathrm{P.V.}(1/x), \varphi \bigr\rangle\right|
+	\le C_K \sup_{K}|\varphi'|,
+	\]
+	which means that $\mathrm{P.V.}(1/x)$ is a distribution of order
+	$\le 1$.
+	
+	\emph{Step 2: $\mathrm{P.V.}(1/x)$ is not of order $0$.}
+	Suppose, towards a contradiction, that it had order $0$.  Then for
+	$K=[-1,1]$ there would exist $C>0$ such that for all
+	$\varphi\in\mathcal{D}(\mathbb{R})$ with
+	$\operatorname{supp}\varphi\subset[-1,1]$,
+	\[
+	\left|\bigl\langle \mathrm{P.V.}(1/x), \varphi \bigr\rangle\right|
+	\le C\sup_{[-1,1]}|\varphi|.
+	\tag{$*$}
+	\]
+	
+	Choose $\eta\in C_c^\infty(\mathbb{R})$ with $0\le\eta\le1$,
+	$\eta(x)=0$ for $x\le0$ and $\eta(x)=1$ for $x\ge1$, and let
+	$\chi\in C_c^\infty((-1,1))$ satisfy $\chi\equiv1$ on $[-1/2,1/2]$.
+	Define
+	\[
+	\varphi_n(x) := \eta(nx)\,\chi(x).
+	\]
+	Then $\varphi_n\in C_c^\infty((-1,1))$, $0\le\varphi_n\le1$ and
+	$\sup|\varphi_n|=1$ for all $n$.  Moreover, for $x\in[1/n,\,1/2]$ we
+	have $\varphi_n(x)=1$.
+	
+	For these test functions the principal value reduces to an improper
+	integral:
+	\[
+	\bigl\langle \mathrm{P.V.}(1/x), \varphi_n \bigr\rangle
+	= \int_{0}^{1} \frac{\varphi_n(x)}{x}\,dx.
+	\]
+	Hence
+	\[
+	\bigl\langle \mathrm{P.V.}(1/x), \varphi_n \bigr\rangle
+	\ge \int_{1/n}^{1/2} \frac{1}{x}\,dx - \int_{0}^{1/n}\frac{|\varphi_n(x)|}{x}\,dx
+	= \log n + \log\!\left(\tfrac12\right) - R_n,
+	\]
+	where $R_n$ is a bounded remainder.  Consequently
+	\[
+	\bigl|\bigl\langle \mathrm{P.V.}(1/x), \varphi_n \bigr\rangle\bigr|
+	\to \infty \quad\text{as } n\to\infty,
+	\]
+	while $\sup_{[-1,1]}|\varphi_n|=1$.  This contradicts $(*)$, so
+	$\mathrm{P.V.}(1/x)$ cannot be of order $0$.
+	
+	Combining the two steps, we conclude that the order of
+	$\mathrm{P.V.}(1/x)$ is exactly $1$.
+
+
+
+
+\subsection*{Regular distributions, order, and singularity hierarchy}
+
+\begin{definition}[Regular distributions]
+	Let $f\in L^1_{\mathrm{loc}}(\mathbb{R}^n)$.  
+	The functional
+	\[
+	T_f(\varphi)
+	:= \int_{\mathbb{R}^n} f(x)\,\varphi(x)\,dx,
+	\qquad \varphi\in\mathcal{D}(\mathbb{R}^n),
+	\]
+	is called the \emph{regular distribution} associated with $f$.  
+	Every regular distribution has order~$0$.
+\end{definition}
+
+\begin{definition}[Order of a distribution]
+	A distribution $T\in\mathcal{D}'(\mathbb{R}^n)$ has \emph{order $\le m$}
+	if for every compact $K\subset\mathbb{R}^n$ there exists $C_K>0$ such that
+	\[
+	|\langle T, \varphi\rangle|
+	\le C_K \sum_{|\alpha|\le m} \sup_{x\in K}
+	\left| \partial^\alpha \varphi(x) \right|,
+	\qquad \operatorname{supp}\varphi\subset K.
+	\]
+	The smallest such $m$ is called the \emph{order} of $T$.
+\end{definition}
+
+\medskip
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Examples and their orders}
+
+\paragraph{1. Dirac mass $\delta_x$ (order $0$).}
+\[
+\delta_x(\varphi) := \varphi(x).
+\]
+For compact $K\ni x$,
+\[
+|\delta_x(\varphi)| = |\varphi(x)|
+\le \sup_K |\varphi|.
+\]
+Thus $\delta_x$ is linear, continuous, and of \textbf{order $0$}.
+
+\medskip
+
+\paragraph{2. Regular distribution $T_f$ (order $0$).}
+If $f\in L^1_{\mathrm{loc}}(\mathbb{R}^n)$,
+\[
+T_f(\varphi)=\int f(x)\varphi(x)\,dx.
+\]
+If $\operatorname{supp}\varphi\subset K$,
+\[
+|T_f(\varphi)|
+\le \left(\int_K |f|\right)
+\sup_K |\varphi|.
+\]
+Thus $T_f$ is of \textbf{order $0$}.
+
+\medskip
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_delta_gaussian_approx.png}
+	\caption{Approximation of the Dirac mass $\delta_0$ by Gaussians
+		$\phi_\varepsilon(x)
+		= \frac{1}{\sqrt{\pi}\varepsilon}e^{-x^2/\varepsilon^2}$ as
+		$\varepsilon\to0$. Each $\phi_\varepsilon$ is a regular function,
+		but the limit distribution has order $0$.}
+	\label{fig:delta-gaussian-approx}
+\end{figure}
+
+\paragraph{Example (b): regular distribution $T_f$.}
+Let $f\in L^1_{\mathrm{loc}}(\mathbb{R}^n)$ and define
+\[
+T_f(\varphi) = \int_{\mathbb{R}^n} f(x)\,\varphi(x)\,dx.
+\]
+If $\operatorname{supp}\varphi\subset K$, then
+\[
+|T_f(\varphi)|
+\le \int_{K} |f(x)|\,|\varphi(x)|\,dx
+\le \Bigl(\int_{K} |f(x)|\,dx\Bigr)\sup_{K}|\varphi(x)|.
+\]
+Hence $T_f$ is linear, continuous, and of order $0$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_regular_distribution_f.png}
+	\caption{Example of a locally integrable function
+		$f(x)=\frac{\sin x}{1+x^2}$. The associated regular distribution
+		$T_f$ has order $0$: it only depends on the size of $\varphi$, not on
+		its derivatives.}
+	\label{fig:regular-distribution-f}
+\end{figure}
+
+\paragraph{3. Principal value distribution $\mathrm{P.V.}(1/x)$ (order $1$).}
+\[
+\left\langle \mathrm{P.V.}\!\left(\frac{1}{x}\right), \varphi \right\rangle
+:= \lim_{\varepsilon\to0^+}
+\int_{|x|>\varepsilon} \frac{\varphi(x)}{x}\,dx.
+\]
+One shows that
+\[
+\left\langle \mathrm{P.V.}(1/x), \varphi\right\rangle
+= -\int_{\mathbb{R}}\log|x|\,\varphi'(x)\,dx.
+\]
+Thus
+\[
+|\langle \mathrm{P.V.}(1/x), \varphi\rangle|
+\le C_K \sup_K |\varphi'|.
+\]
+So $\mathrm{P.V.}(1/x)$ has \textbf{order $\le1$}.  
+It is not of order $0$, hence the order is \textbf{exactly $1$}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_pv_1_over_x.png}
+	\caption{Graph of $1/x$ with symmetric truncation around the origin,
+		illustrating the principal value definition of $\mathrm{P.V.}(1/x)$.
+		The distribution cannot be represented by a locally integrable
+		function, and it has order $1$, depending on first derivatives of
+		test functions.}
+	\label{fig:pv-1-over-x}
+\end{figure}
+
+\medskip
+
+\paragraph{4. Derivative of the Dirac mass $\delta'_0$ (order $1$).}
+By definition,
+\[
+\langle \delta_0', \varphi\rangle := -\varphi'(0).
+\]
+Therefore, for compact $K\ni0$,
+\[
+|\langle\delta_0',\varphi\rangle|
+= |\varphi'(0)| \le \sup_K |\varphi'|.
+\]
+Hence $\delta_0'$ has \textbf{order $1$}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_delta_prime_gaussian.png}
+	\caption{Approximations of the derivative of the Dirac mass $\delta_0'$
+		by derivatives of Gaussians
+		$\phi_\varepsilon'(x)=-(2x/\varepsilon^2)\phi_\varepsilon(x)$.
+		The positive and negative lobes concentrate near $0$, consistent with
+		$\langle \delta_0',\varphi\rangle = -\varphi'(0)$.}
+	\label{fig:delta-prime-gaussian}
+\end{figure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection*{Singularity hierarchy: lower order means more regular}
+
+\[
+\text{functions } \subset
+\text{measures (order $0$)} \subset
+\text{order $1$ distributions} \subset
+\text{order $2$ distributions} \subset \cdots
+\]
+
+\begin{itemize}
+	\item Order $0$: only $\sup|\varphi|$ matters (regular $T_f$, $\delta_x$).  
+	\item Order $1$: depends on first derivatives of $\varphi$ ($\delta'$, $\mathrm{P.V.}(1/x)$).  
+	\item Order $m$: depends on derivatives up to order $m$ — increasingly singular.
+\end{itemize}
+
+\clearpage
+
+\subsection*{Exercise 2.7. Local mollification in $L^1_{\mathrm{loc}}$}
+
+Suppose $f\in L^1_{\mathrm{loc}}(\Omega)$.  
+Let $\phi_\varepsilon$ be the standard mollifier from Theorem~1.13 and,
+for $x$ with $d(x,\partial\Omega)\ge\varepsilon$, define
+\[
+f_\varepsilon(x)
+:= T_f\bigl[T_x \check{\phi}_\varepsilon\bigr],
+\]
+where $\check{\phi}_\varepsilon(y):=\phi_\varepsilon(-y)$ and
+$T_x\psi(y):=\psi(y-x)$.
+
+\medskip\noindent
+Show that for any compact $K\subset\Omega$,
+\[
+\|f_\varepsilon - f\|_{L^1(K)} \longrightarrow 0
+\qquad\text{as }\varepsilon\to0.
+\]
+\emph{Hint:} Follow the proof of Theorem~2.2, but use part~(b) of
+Theorem~1.13.
+
+\subsection*{Solution}
+	First note that for $x$ with $d(x,\partial\Omega)\ge\varepsilon$,
+	\begin{align*}
+		f_\varepsilon(x)
+		&= T_f\bigl[T_x \check{\phi}_\varepsilon\bigr]
+		= \int_\Omega f(y)\,(T_x\check{\phi}_\varepsilon)(y)\,dy \\
+		&= \int_\Omega f(y)\,\check{\phi}_\varepsilon(y-x)\,dy
+		= \int_\Omega f(y)\,\phi_\varepsilon(x-y)\,dy.
+	\end{align*}
+	Thus $f_\varepsilon(x)=(f*\phi_\varepsilon)(x)$ wherever
+	$B(x,\varepsilon)\subset\Omega$.
+	
+	Let $K\subset\Omega$ be compact. There exists an open set $U$ with
+	\[
+	K\subset U,\qquad \overline{U}\subset\Omega.
+	\]
+	Choose $\chi\in C_c^\infty(\Omega)$ such that $\chi\equiv1$ on $U$.
+	Extend $\chi f$ by $0$ to a function in $L^1(\mathbb{R}^n)$.
+	
+	For $\varepsilon>0$ sufficiently small we have
+	$\varepsilon<\mathrm{dist}(K,\partial\Omega)$, so that for all
+	$x\in K$,
+	\[
+	f_\varepsilon(x)
+	= \int_\Omega f(y)\phi_\varepsilon(x-y)\,dy
+	= \int_\Omega \chi(y)f(y)\phi_\varepsilon(x-y)\,dy
+	= \bigl((\chi f)*\phi_\varepsilon\bigr)(x).
+	\]
+	Hence, for such $\varepsilon$,
+	\[
+	\|f_\varepsilon - f\|_{L^1(K)}
+	= \|(\chi f)*\phi_\varepsilon - \chi f\|_{L^1(K)}
+	\le \|(\chi f)*\phi_\varepsilon - \chi f\|_{L^1(\mathbb{R}^n)}.
+	\]
+	
+	By Theorem~1.13(b), since $\chi f\in L^1(\mathbb{R}^n)$, we have
+	\[
+	\|(\chi f)*\phi_\varepsilon - \chi f\|_{L^1(\mathbb{R}^n)} \to 0
+	\quad\text{as }\varepsilon\to0.
+	\]
+	Therefore $\|f_\varepsilon-f\|_{L^1(K)}\to0$ as $\varepsilon\to0$, which
+	shows that $f_\varepsilon\to f$ in $L^1_{\mathrm{loc}}(\Omega)$.
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_local_mollification_example.png}
+	\caption{Example of local mollification. Here
+		$f(x)=1$ on $(0,1)$ and $0$ elsewhere, and $f_\varepsilon=f*\phi_\varepsilon$
+		is plotted for several values of $\varepsilon$. On compact sets
+		away from the boundary, $f_\varepsilon$ converges to $f$ in $L^1$.}
+	\label{fig:local-mollification-example}
+\end{figure}
+
+\subsection*{Mollifiers, test functions and tempered test functions}
+
+\paragraph{Standard mollifiers as test functions.}
+A \emph{standard mollifier} is built from a function
+$\phi\in C_c^\infty(\mathbb{R}^n)$ such that
+\begin{itemize}
+	\item $\phi\ge0$,
+	\item $\operatorname{supp}\phi \subset B(0,1)$,
+	\item $\displaystyle \int_{\mathbb{R}^n}\phi(x)\,dx = 1$.
+\end{itemize}
+For $\varepsilon>0$ we set
+\[
+\phi_\varepsilon(x)
+:= \frac{1}{\varepsilon^n}\,\phi\!\left(\frac{x}{\varepsilon}\right).
+\]
+Each $\phi_\varepsilon$ is smooth and compactly supported, hence
+\[
+\phi_\varepsilon \in C_c^\infty(\mathbb{R}^n)
+= \mathcal{D}(\mathbb{R}^n).
+\]
+Thus, in the framework of $\mathcal{D}'(\mathbb{R}^n)$, \emph{standard
+	mollifiers are particular test functions} which additionally satisfy
+the approximate identity properties
+\[
+\phi_\varepsilon \ge 0,\qquad
+\int \phi_\varepsilon = 1,\qquad
+\phi_\varepsilon \to \delta_0 \ \text{in }\mathcal{D}'.
+\]
+
+\paragraph{Gaussian mollifiers.}
+One often also uses the Gaussian kernels
+\[
+\eta_\varepsilon(x)
+:= \frac{1}{(2\pi\varepsilon^2)^{n/2}}
+e^{-\frac{|x|^2}{2\varepsilon^2}},\qquad \varepsilon>0.
+\]
+These functions are smooth and rapidly decaying, but not compactly
+supported. Hence
+\[
+\eta_\varepsilon \notin \mathcal{D}(\mathbb{R}^n),
+\]
+where compact support is required, but
+\[
+\eta_\varepsilon \in \mathcal{S}(\mathbb{R}^n),
+\]
+the Schwartz space of rapidly decreasing smooth functions.  They also
+form an approximate identity, now in the sense of tempered
+distributions.
+
+\paragraph{Relation to tempered test functions and tempered distributions.}
+Recall that
+\[
+\mathcal{D}(\mathbb{R}^n) = C_c^\infty(\mathbb{R}^n)
+\]
+is the test function space for \emph{distributions}
+$\mathcal{D}'(\mathbb{R}^n)$, while
+\[
+\mathcal{S}(\mathbb{R}^n)
+\]
+is the test function space for \emph{tempered distributions}
+$\mathcal{S}'(\mathbb{R}^n)$ (distributions of at most polynomial
+growth).
+
+\begin{itemize}
+	\item Compactly supported mollifiers $\phi_\varepsilon$ live in
+	$\mathcal{D}(\mathbb{R}^n)$ and are suitable for regularizing
+	arbitrary distributions in $\mathcal{D}'(\mathbb{R}^n)$ (at least
+	away from the boundary in a domain).
+	
+	\item Gaussian-type mollifiers $\eta_\varepsilon$ live in
+	$\mathcal{S}(\mathbb{R}^n)$ and are particularly well adapted to
+	the theory of tempered distributions $\mathcal{S}'(\mathbb{R}^n)$,
+	since convolution with $\eta_\varepsilon$ preserves temperateness
+	and interacts nicely with the Fourier transform.
+\end{itemize}
+
+In summary:
+\[
+\text{``standard mollifier'' in Theorem~1.13} \ \in \mathcal{D},
+\qquad
+\text{Gaussian mollifier} \ \in \mathcal{S},
+\]
+and both act as approximate identities in their respective distribution
+spaces $\mathcal{D}'$ and $\mathcal{S}'$.
+
+\subsection*{Mollifiers acting on distributions and tempered distributions}
+
+\begin{lemma}[Mollifiers in $\mathcal{D}'(\mathbb{R}^n)$]
+	Let $(\phi_\varepsilon)_{\varepsilon>0}\subset \mathcal{D}(\mathbb{R}^n)$
+	be a standard approximate identity as in Theorem~1.13, and let
+	$T\in\mathcal{D}'(\mathbb{R}^n)$ be a distribution. Define the
+	convolution $\phi_\varepsilon * T$ by
+	\[
+	\langle \phi_\varepsilon * T, \psi\rangle
+	:= \big\langle T, \check{\phi}_\varepsilon * \psi \big\rangle,
+	\qquad \psi\in\mathcal{D}(\mathbb{R}^n),
+	\]
+	where $\check{\phi}_\varepsilon(x):=\phi_\varepsilon(-x)$. Then
+	$\phi_\varepsilon * T \in C^\infty(\mathbb{R}^n)$ for every
+	$\varepsilon>0$, and
+	\[
+	\phi_\varepsilon * T \longrightarrow T
+	\qquad\text{in }\mathcal{D}'(\mathbb{R}^n)\text{ as }\varepsilon\to0.
+	\]
+\end{lemma}
+
+\begin{proof}
+	First, for each fixed $x$, the function
+	$y\mapsto \phi_\varepsilon(x-y)$ is a test function, so
+	\[
+	(\phi_\varepsilon * T)(x)
+	:= \big\langle T, \phi_\varepsilon(x-\cdot) \big\rangle
+	\]
+	defines a smooth function of $x$.  The distributional formulation is
+	\[
+	\langle \phi_\varepsilon * T, \psi\rangle
+	= \big\langle T, \check{\phi}_\varepsilon * \psi \big\rangle,
+	\qquad \psi\in\mathcal{D}(\mathbb{R}^n).
+	\]
+	
+	By Theorem~1.13(b), $(\check{\phi}_\varepsilon)_{\varepsilon>0}$ is
+	also an approximate identity, so for each $\psi\in\mathcal{D}$ we have
+	\[
+	\check{\phi}_\varepsilon * \psi \longrightarrow \psi
+	\qquad\text{in }\mathcal{D}(\mathbb{R}^n).
+	\]
+	Since $T$ is continuous on $\mathcal{D}$, it follows that
+	\[
+	\langle \phi_\varepsilon * T, \psi\rangle
+	= \big\langle T, \check{\phi}_\varepsilon * \psi \big\rangle
+	\longrightarrow \langle T,\psi\rangle
+	\qquad (\varepsilon\to0).
+	\]
+	This is precisely the convergence $\phi_\varepsilon * T\to T$ in
+	$\mathcal{D}'(\mathbb{R}^n)$.
+\end{proof}
+
+\medskip
+
+\begin{lemma}[Mollifiers in $\mathcal{S}'(\mathbb{R}^n)$]
+	Let $(\eta_\varepsilon)_{\varepsilon>0}\subset\mathcal{S}(\mathbb{R}^n)$
+	be a Schwartz approximate identity (e.g.\ Gaussian mollifiers), and let
+	$U\in\mathcal{S}'(\mathbb{R}^n)$ be a tempered distribution. Define
+	\[
+	\langle \eta_\varepsilon * U, \psi\rangle
+	:= \big\langle U, \check{\eta}_\varepsilon * \psi \big\rangle,
+	\qquad \psi\in\mathcal{S}(\mathbb{R}^n),
+	\]
+	with $\check{\eta}_\varepsilon(x):=\eta_\varepsilon(-x)$. Then
+	$\eta_\varepsilon * U\in\mathcal{S}(\mathbb{R}^n)$ for each
+	$\varepsilon>0$, and
+	\[
+	\eta_\varepsilon * U \longrightarrow U
+	\qquad\text{in }\mathcal{S}'(\mathbb{R}^n)\text{ as }\varepsilon\to0.
+	\]
+\end{lemma}
+
+\begin{proof}
+	For each $\varepsilon>0$ and $\psi\in\mathcal{S}$, the convolution
+	$\check{\eta}_\varepsilon * \psi$ belongs to $\mathcal{S}$ and, by the
+	approximate identity property in the Schwartz topology,
+	\[
+	\check{\eta}_\varepsilon * \psi \longrightarrow \psi
+	\qquad\text{in }\mathcal{S}(\mathbb{R}^n).
+	\]
+	Since $U$ is continuous on $\mathcal{S}$, we obtain
+	\[
+	\langle \eta_\varepsilon * U, \psi\rangle
+	= \big\langle U, \check{\eta}_\varepsilon * \psi\big\rangle
+	\longrightarrow \langle U,\psi\rangle.
+	\]
+	This is exactly the convergence $\eta_\varepsilon*U\to U$ in
+	$\mathcal{S}'(\mathbb{R}^n)$.
+\end{proof}
+\subsubsection*{Fourier transform viewpoint for Gaussian mollifiers}
+
+Let $\eta_\varepsilon\in\mathcal{S}(\mathbb{R}^n)$ be the Gaussian
+mollifier
+\[
+\eta_\varepsilon(x)
+= \frac{1}{(2\pi\varepsilon^2)^{n/2}}
+e^{-\frac{|x|^2}{2\varepsilon^2}}.
+\]
+Up to normalisation conventions, its Fourier transform is again a
+Gaussian:
+\[
+\widehat{\eta_\varepsilon}(\xi)
+= e^{-\frac{\varepsilon^2|\xi|^2}{2}}.
+\]
+In particular, for any tempered distribution $U\in\mathcal{S}'(\mathbb{R}^n)$
+we have
+\[
+\mathcal{F}(\eta_\varepsilon * U)
+= \widehat{\eta_\varepsilon * U}
+= \widehat{\eta_\varepsilon}\,\widehat{U}
+= e^{-\frac{\varepsilon^2|\xi|^2}{2}}\widehat{U}(\xi).
+\]
+
+Thus convolution with the Gaussian mollifier corresponds in the
+frequency domain to multiplication by the \emph{low--pass filter}
+\[
+m_\varepsilon(\xi)
+:= e^{-\frac{\varepsilon^2|\xi|^2}{2}}.
+\]
+For each fixed $\varepsilon>0$, the factor $m_\varepsilon(\xi)$ damps
+high frequencies strongly, so that $\eta_\varepsilon*U$ is a very smooth
+(indeed Schwartz) function. As $\varepsilon\to0$,
+\[
+m_\varepsilon(\xi) \longrightarrow 1
+\qquad\text{for all }\xi\in\mathbb{R}^n,
+\]
+so $\widehat{\eta_\varepsilon * U}\to\widehat{U}$ in $\mathcal{S}'$,
+which is equivalent to the convergence
+\[
+\eta_\varepsilon * U \longrightarrow U
+\qquad\text{in }\mathcal{S}'(\mathbb{R}^n).
+\]
+
+In summary, Gaussian mollification can be viewed either as
+\emph{smoothing in physical space} (convolution with $\eta_\varepsilon$)
+or as \emph{frequency cut--off} (multiplication by
+$e^{-\varepsilon^2|\xi|^2/2}$) in the Fourier domain.
+
+
+\paragraph{Example A: regular tempered distribution $T_f$.}
+Let $f(x)=\dfrac{\sin x}{1+x^2}$. Then $f\in L^1_{\mathrm{loc}}(\mathbb{R})$
+and even $f\in\mathcal{S}(\mathbb{R})$, so the functional
+\[
+\langle T_f,\varphi\rangle := \int_{\mathbb{R}} f(x)\,\varphi(x)\,dx,
+\qquad \varphi\in\mathcal{D}(\mathbb{R}),
+\]
+defines a regular distribution of order $0$. Since $f$ is rapidly
+decreasing, $T_f$ is a tempered distribution as well
+($T_f\in\mathcal{S}'(\mathbb{R})$).
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/Downloads_example_regular_Tf.png}
+	\caption{Graph of $f(x)=\sin(x)/(1+x^2)$, inducing the regular
+		tempered distribution $T_f$.}
+	\label{fig:example-regular-Tf}
+\end{figure}
+
+\paragraph{Concrete action of a regular distribution.}
+Let
+\[
+f(x) = \frac{\sin x}{1+x^2},
+\]
+and let $\varphi\in C_c^\infty(\mathbb{R})$ be a smooth bump supported
+in $(-2,2)$ (for instance
+$\displaystyle \varphi(x) = C\exp\!\bigl(-1/(1-(x/2)^2)\bigr)$ for
+$|x|<2$ and $0$ otherwise, with $C$ chosen so that $\int\varphi=1$).
+The regular distribution $T_f$ acts by
+\[
+\langle T_f,\varphi\rangle
+= \int_{\mathbb{R}} f(x)\,\varphi(x)\,dx.
+\]
+The integrand is the pointwise product $f(x)\varphi(x)$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_example_Tf_times_phi.png}
+	\caption{The function $f(x)=\sin(x)/(1+x^2)$, a smooth compactly
+		supported test function $\varphi(x)$, and their product
+		$f(x)\varphi(x)$, which is the integrand in
+		$\langle T_f,\varphi\rangle=\int f(x)\varphi(x)\,dx$.}
+	\label{fig:example-Tf-times-phi}
+\end{figure}
+
+
+\paragraph{Example B: Heaviside function and Dirac mass.}
+Define the Heaviside function
+\[
+H(x) = \begin{cases}
+	0, & x<0,\\[0.3em]
+	1, & x\ge 0.
+\end{cases}
+\]
+It induces a regular distribution
+$T_H(\varphi)=\int_{\mathbb{R}} H(x)\varphi(x)\,dx$ of order $0$.
+Using integration by parts one checks that
+\[
+\langle H',\varphi\rangle
+:= -\langle H,\varphi'\rangle
+= \varphi(0) = \langle\delta_0,\varphi\rangle,
+\]
+so in $\mathcal{D}'(\mathbb{R})$ we have $H'=\delta_0$. Both $T_H$ and
+$\delta_0$ are tempered distributions.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/Downloads_example_heaviside.png}
+	\caption{Heaviside function $H(x)$. Its distributional derivative is
+		the Dirac mass $\delta_0$.}
+	\label{fig:example-heaviside}
+\end{figure}
+
+\paragraph{Example C: principal value $\mathrm{P.V.}(1/x)$.}
+The distribution
+\[
+\left\langle \mathrm{P.V.}(1/x),\varphi\right\rangle
+:= \lim_{\varepsilon\to 0^+}
+\int_{|x|>\varepsilon} \frac{\varphi(x)}{x}\,dx
+\]
+is not given by a locally integrable function (since $1/x$ is not
+integrable near $0$), hence it is not regular. However, the growth of
+$1/x$ at infinity is only of order $|x|^{-1}$, so the functional is
+continuous on the Schwartz space $\mathcal{S}(\mathbb{R})$, and thus
+\[
+\mathrm{P.V.}(1/x) \in \mathcal{S}'(\mathbb{R})
+\]
+is a tempered distribution.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/Downloads_example_pv_1_over_x_simple.png}
+	\caption{Graph of $1/x$ with a dashed vertical line at $0$, indicating
+		the singularity underlying the tempered distribution
+		$\mathrm{P.V.}(1/x)$.}
+	\label{fig:example-pv-1-over-x}
+\end{figure}
+
+\begin{center}
+	\begin{tabular}{l|l|l|l}
+		Object & Regular? & Tempered? & Order \\ \hline
+		$f\in L^1_{\mathrm{loc}}$, moderate growth
+		& yes ($T_f$) & yes & $0$ \\[0.2em]
+		$H$ (Heaviside) & yes & yes & $0$ \\[0.2em]
+		$\delta_0$ & no (not $L^1_{\mathrm{loc}}$)
+		& yes & $0$ \\[0.2em]
+		$\delta_0'$ & no & yes & $1$ \\[0.2em]
+		$\mathrm{P.V.}(1/x)$ & no & yes & $1$ \\[0.2em]
+		$e^{x^2}$ (as $T_f$) & yes & \emph{no} (too fast growth) & $0$
+	\end{tabular}
+\end{center}
+
+
+\paragraph{Example D: Dirac mass $\delta_0$.}
+The Dirac distribution acts by evaluation:
+\[
+\langle\delta_0,\varphi\rangle = \varphi(0).
+\]
+The following figure shows a test function $\varphi$ together with the
+highlighted value $\varphi(0)$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/Downloads_example_delta_action.png}
+	\caption{Test function $\varphi$ and the point $\varphi(0)$ corresponding
+		to the action of $\delta_0$.}
+	\label{fig:example-delta-action}
+\end{figure}
+
+\paragraph{Example E: derivative of Dirac $\delta_0'$.}
+The action of the derivative of the Dirac mass is
+\[
+\langle\delta_0',\varphi\rangle = -\varphi'(0).
+\]
+The next figure displays $\varphi$ and $\varphi'$ and highlights
+$\varphi'(0)$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/Downloads_example_delta_prime_action.png}
+	\caption{Test function $\varphi$, its derivative $\varphi'$, and the
+		highlighted value $\varphi'(0)$ corresponding to the action of
+		$\delta_0'$.}
+	\label{fig:example-delta-prime-action}
+\end{figure}
+
+\paragraph{Example F: principal value $\mathrm{P.V.}(1/x)$.}
+The distribution $\mathrm{P.V.}(1/x)$ is defined by
+\[
+\left\langle \mathrm{P.V.}(1/x), \varphi \right\rangle
+= \lim_{\varepsilon\to0^+}
+\int_{|x|>\varepsilon} \frac{\varphi(x)}{x}\,dx.
+\]
+The graph below shows $\varphi(x)$ and the truncated integrand
+$\varphi(x)/x$ for $|x|>\varepsilon$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/Downloads_example_PV_action.png}
+	\caption{Test function $\varphi(x)$ and the integrand
+		$\varphi(x)/x$ used in the principal value distribution.}
+	\label{fig:example-pv-action}
+\end{figure}
+
+\subsection*{Exercise 2.8. Algebra and differentiation of regular distributions}
+
+
+\noindent
+(a)\; Show that if $f_1,f_2\in C^0(\Omega)$ and $a\in C^\infty(\Omega)$, then
+\[
+aT_{f_1} + T_{f_2} = T_{a f_1 + f_2}.
+\]
+
+\medskip\noindent
+(b)\; Show that if $f\in C^k(\Omega)$ then
+\[
+D^\alpha T_f = T_{D^\alpha f}
+\qquad\text{for all multiindices }\alpha\text{ with }|\alpha|\le k.
+\]
+Deduce that $\iota\circ D^\alpha = D^\alpha\circ\iota$, where
+$\iota:C^k(\Omega)\to\mathcal{D}'(\Omega)$ is the natural embedding
+$f\mapsto T_f$.
+
+\medskip\noindent
+(c)\; Deduce that if $f\in C^k(\Omega)$ then
+\[
+\sum_{|\alpha|\le k} a_\alpha D^\alpha T_f = T_{Lf},
+\]
+where
+\[
+Lf := \sum_{|\alpha|\le k} a_\alpha D^\alpha f
+\]
+and $a_\alpha\in C^\infty(\Omega)$.
+
+\bigskip
+
+
+Let $f\in C^0(\Omega)$ and
+\[
+T_f(\varphi) := \int_\Omega f(x)\,\varphi(x)\,dx.
+\]
+For $a\in C^\infty(\Omega)$ and $T\in\mathcal{D}'(\Omega)$ define
+$(aT)(\varphi):=T(a\varphi)$. For a multiindex $\alpha$,
+\[
+\langle D^\alpha T,\varphi\rangle
+:= (-1)^{|\alpha|}\langle T,D^\alpha\varphi\rangle.
+\]
+
+\paragraph{(a)}
+If $f_1,f_2\in C^0(\Omega)$ and $a\in C^\infty(\Omega)$, show
+\[
+aT_{f_1} + T_{f_2} = T_{af_1+f_2}.
+\]
+
+\subsection*{solution}
+	For $\varphi\in\mathcal{D}(\Omega)$,
+	\[
+	\begin{aligned}
+		\langle aT_{f_1}+T_{f_2},\varphi\rangle
+		&= \langle T_{f_1},a\varphi\rangle + \langle T_{f_2},\varphi\rangle \\
+		&= \int_\Omega f_1(x)a(x)\varphi(x)\,dx
+		+ \int_\Omega f_2(x)\varphi(x)\,dx \\
+		&= \int_\Omega (af_1 + f_2)(x)\varphi(x)\,dx
+		= \langle T_{af_1+f_2},\varphi\rangle.
+	\end{aligned}
+	\]
+	Thus $aT_{f_1}+T_{f_2}=T_{af_1+f_2}$.
+
+
+\paragraph{(b)}
+If $f\in C^k(\Omega)$, show that for $|\alpha|\le k$,
+\[
+D^\alpha T_f = T_{D^\alpha f}.
+\]
+Deduce that $\iota\circ D^\alpha = D^\alpha\circ\iota$ for the embedding
+$\iota:C^k(\Omega)\to\mathcal{D}'(\Omega)$, $\iota(f)=T_f$.
+
+\subsection*{solution}
+	For $\varphi\in\mathcal{D}(\Omega)$,
+	\[
+	\langle D^\alpha T_f,\varphi\rangle
+	= (-1)^{|\alpha|}\langle T_f,D^\alpha\varphi\rangle
+	= (-1)^{|\alpha|}\int_\Omega f D^\alpha\varphi.
+	\]
+	Since $f\in C^k(\Omega)$ and $\varphi$ has compact support, we may
+	integrate by parts $|\alpha|$ times, with no boundary term:
+	\[
+	(-1)^{|\alpha|}\int_\Omega f D^\alpha\varphi
+	= \int_\Omega D^\alpha f\,\varphi
+	= \langle T_{D^\alpha f},\varphi\rangle.
+	\]
+	Hence $D^\alpha T_f = T_{D^\alpha f}$.
+	
+	For the embedding $\iota$, we have
+	\[
+	(\iota\circ D^\alpha)(f) = T_{D^\alpha f}
+	= D^\alpha T_f = (D^\alpha\circ\iota)(f),
+	\]
+	so $\iota\circ D^\alpha = D^\alpha\circ\iota$ on $C^k(\Omega)$.
+
+
+\paragraph{(c)}
+Let $f\in C^k(\Omega)$ and
+\[
+Lf := \sum_{|\alpha|\le k} a_\alpha D^\alpha f,
+\qquad a_\alpha\in C^\infty(\Omega).
+\]
+Show that
+\[
+\sum_{|\alpha|\le k} a_\alpha D^\alpha T_f = T_{Lf}.
+\]
+
+\subsection*{solution}
+	By part~(b), $D^\alpha T_f = T_{D^\alpha f}$. By part~(a),
+	$a_\alpha T_{D^\alpha f} = T_{a_\alpha D^\alpha f}$, hence
+	\[
+	\sum_{|\alpha|\le k} a_\alpha D^\alpha T_f
+	= \sum_{|\alpha|\le k} T_{a_\alpha D^\alpha f}
+	= T_{\sum_{|\alpha|\le k} a_\alpha D^\alpha f}
+	= T_{Lf}.
+	\]
+
+
+\subsection*{Exercise 2.9. Convolution of regular and general distributions}
+
+\noindent
+(a)\; Show that for $f,g\in C_0^\infty(\mathbb{R}^n)$,
+\[
+T_{f*g} = T_f * T_g .
+\]
+
+\medskip
+\noindent
+(b)\; Show that convolution is linear in both of its arguments, i.e.\ if
+$u_i\in\mathcal{D}'(\mathbb{R}^n)$ and $u_3,u_4$ have compact support, then
+for any $a\in\mathbb{C}$,
+\[
+(u_1 + a u_2)\,*\,u_3 = u_1*u_3 + a\,u_2*u_3,
+\]
+and
+\[
+u_1 * (u_3 + a u_4) = u_1*u_3 + a\,u_1*u_4.
+\]
+
+% ----------------------------------------------------------
+\subsection*{Solution}
+
+\paragraph{(a)}
+Let $f,g \in C_0^\infty(\mathbb{R}^n)$.  
+We show that $T_{f*g} = T_f * T_g$.
+
+For any $\varphi \in \mathcal{D}(\mathbb{R}^n)$,
+\[
+\begin{aligned}
+	\langle T_f * T_g , \varphi \rangle
+	&= \Big\langle T_f,\, x \mapsto \langle T_g , \varphi(x + \cdot)\rangle \Big\rangle \\[2mm]
+	&= \int_{\mathbb{R}^n} f(x)
+	\left( \int_{\mathbb{R}^n} g(y)\,\varphi(x+y)\,dy \right) dx \\[1mm]
+	&= \int_{\mathbb{R}^n} \int_{\mathbb{R}^n}
+	f(x)g(y)\,\varphi(x+y)\,dy\,dx \\[1mm]
+	&= \int_{\mathbb{R}^n} (f*g)(z)\,\varphi(z)\,dz \\[1mm]
+	&= \langle T_{f*g}, \varphi \rangle .
+\end{aligned}
+\]
+Thus
+\[
+T_f * T_g = T_{f*g}.
+\]
+
+% ----------------------------------------------------------
+\paragraph{(b)}
+Let $u_1,u_2,u_3,u_4 \in \mathcal{D}'(\mathbb{R}^n)$, with $u_3,u_4$ of compact support.
+For any $\varphi \in \mathcal{D}(\mathbb{R}^n)$,
+\[
+\langle u_1*u_3 , \varphi \rangle
+= \Big\langle u_1,\, x \mapsto \langle u_3, \varphi(x+\cdot)\rangle \Big\rangle.
+\]
+
+Then
+\[
+\begin{aligned}
+	\langle (u_1 + a u_2)*u_3 , \varphi \rangle
+	&= \Big\langle u_1 + a u_2,\,
+	x \mapsto \langle u_3, \varphi(x+\cdot)\rangle \Big\rangle \\[1mm]
+	&= \langle u_1*u_3 , \varphi \rangle
+	+ a\,\langle u_2*u_3 , \varphi \rangle.
+\end{aligned}
+\]
+Hence
+\[
+(u_1 + a u_2)*u_3 = u_1*u_3 + a\,u_2*u_3.
+\]
+
+The same computation shows that
+\[
+u_1*(u_3 + a u_4)
+= u_1*u_3 + a\,u_1*u_4.
+\]
+
+\hfill$\Box$
+
+\subsubsection*{Remarks on convolution of distributions and regularisation}
+
+\paragraph{(1) Why is compact support needed?}
+For functions $f,g$ the convolution
+\[
+(f*g)(x) = \int_{\mathbb{R}^n} f(x-y)g(y)\,dy
+\]
+is defined by an ordinary integral. For distributions $u,v\in\mathcal{D}'(\mathbb{R}^n)$
+one instead defines
+\[
+\langle u*v,\varphi\rangle
+:= \big\langle u_x, \big\langle v_y,\varphi(x+y)\big\rangle\big\rangle,
+\qquad \varphi\in\mathcal{D}(\mathbb{R}^n),
+\]
+whenever this makes sense. The inner pairing
+\[
+x \longmapsto \big\langle v_y,\varphi(x+y)\big\rangle
+\]
+must be a test function in $x$ (smooth with compact support), so that
+the outer pairing with $u$ is defined. This is guaranteed, for example,
+if $v$ has compact support. Without such a hypothesis there is no reason
+for $x\mapsto\langle v_y,\varphi(x+y)\rangle$ to belong to
+$\mathcal{D}(\mathbb{R}^n)$, and the convolution $u*v$ may fail to be
+well-defined. This is why, in the general theory, one usually assumes
+that at least one of the distributions has compact support (or stronger
+decay conditions) when defining $u*v$.
+
+\paragraph{(2) Convolution with test functions as regularisation.}
+If $\phi\in C_0^\infty(\mathbb{R}^n)$ and $T\in\mathcal{D}'(\mathbb{R}^n)$,
+the convolution
+\[
+(T*\phi)(x) := \big\langle T, \phi(x-\cdot)\big\rangle
+\]
+is always well-defined and belongs to $C^\infty(\mathbb{R}^n)$. In fact,
+for every multiindex $\alpha$,
+\[
+D^\alpha(T*\phi) = T*(D^\alpha\phi).
+\]
+If $(\phi_\varepsilon)_{\varepsilon>0}$ is a mollifier (approximate
+identity), one moreover has
+\[
+T*\phi_\varepsilon \longrightarrow T
+\qquad\text{in }\mathcal{D}'(\mathbb{R}^n)\text{ as }\varepsilon\to0.
+\]
+Thus convolution with test functions provides a canonical way to
+\emph{regularise} distributions:
+\[
+T \in \mathcal{D}'(\mathbb{R}^n)
+\quad \xrightarrow{\ *\phi_\varepsilon\ }
+\quad T*\phi_\varepsilon \in C^\infty(\mathbb{R}^n),
+\quad T*\phi_\varepsilon \to T.
+\]
+In the tempered setting, the same picture holds with Schwartz
+mollifiers $\eta_\varepsilon\in\mathcal{S}(\mathbb{R}^n)$ and tempered
+distributions $U\in\mathcal{S}'(\mathbb{R}^n)$.
+
+
+\paragraph{Convolution with test functions.}
+If $\phi\in C_0^\infty(\mathbb{R}^n)$ and $T\in\mathcal{D}'(\mathbb{R}^n)$,
+the convolution $T*\phi$ is defined by
+\[
+(T*\phi)(x) := \langle T,\phi(x-\cdot)\rangle,
+\qquad x\in\mathbb{R}^n.
+\]
+Here $\phi(x-\cdot)$ denotes the test function of the dummy variable
+$y$ given by $y\mapsto\phi(x-y)$. Thus we first fix $x$, then consider
+the test function $y\mapsto\phi(x-y)$, and finally let $T$ act on it.
+
+\medskip
+\noindent\emph{Examples.}
+\begin{enumerate}
+	\item If $T=\delta_0$, then
+	\[
+	(\delta_0*\phi)(x)
+	= \langle\delta_0,\phi(x-\cdot)\rangle
+	= \phi(x-0) = \phi(x).
+	\]
+	\item More generally, for the Dirac mass at $a\in\mathbb{R}^n$,
+	\[
+	(\delta_a*\phi)(x)
+	= \langle\delta_a,\phi(x-\cdot)\rangle
+	= \phi(x-a).
+	\]
+	\item If $T=T_f$ is the regular distribution induced by
+	$f\in L^1_{\mathrm{loc}}(\mathbb{R}^n)$, then
+	\[
+	(T_f*\phi)(x)
+	= \int_{\mathbb{R}^n} f(y)\,\phi(x-y)\,dy,
+	\]
+	which is the classical convolution of $f$ and $\phi$.
+\end{enumerate}
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_phi_and_phi_x_minus_y.png}
+	\caption{Geometric meaning of $\phi(x-\cdot)$.
+		The blue curve is the bump $y\mapsto\phi(y)$, centred at $0$.
+		For a fixed $x_0$, the orange curve is $y\mapsto\phi(x_0-y)$:
+		the same bump, reflected and shifted so that it is attached to
+		the point $x_0$. For each $x$, the test function
+		$y\mapsto\phi(x-y)$ is what we feed into the distribution $T$ in
+		the definition $(T*\phi)(x)=\langle T,\phi(x-\cdot)\rangle$.}
+	\label{fig:phi-x-minus-dot}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_conv_gauss_overlap.png}
+	\caption{Convolution with a bump: the function
+		$f(y)=e^{-y^2}$ (blue) and the shifted test function
+		$y\mapsto\phi(x_0-y)$ (orange) for a fixed $x_0$.
+		As $x_0$ varies, the bump slides along the $y$–axis.}
+	\label{fig:conv-gauss-overlap}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_conv_gauss_integrand.png}
+	\caption{Integrand $f(y)\phi(x_0-y)$ for $f(y)=e^{-y^2}$.
+		The area under this curve equals $(f*\phi)(x_0)$.
+		Convolution at $x_0$ is the weighted overlap of $f$
+		with the shifted bump.}
+	\label{fig:conv-gauss-integrand}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_conv_sin_overlap.png}
+	\caption{Convolution with a bump: the function
+		$f(y)=\sin y$ (blue) and the shifted test function
+		$y\mapsto\phi(x_0-y)$ (orange) for a fixed $x_0$.
+		As $x_0$ moves, the bump samples local averages of $\sin y$.}
+	\label{fig:conv-sin-overlap}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/Downloads_conv_sin_integrand.png}
+	\caption{Integrand $f(y)\phi(x_0-y)$ for $f(y)=\sin y$.
+		The signed area under this curve equals $(f*\phi)(x_0)$.
+		Convolution smooths oscillations by averaging $\sin y$
+		against the bump.}
+	\label{fig:conv-sin-integrand}
+\end{figure}
+
+\clearpage
+
+\subsection*{Exercise 2.10. Identity property of the Dirac distribution}
+
+\noindent
+(a)\; Show that if $\phi \in \mathcal{D}(\mathbb{R}^n)$ then
+\[
+\delta_0 * \phi = \phi .
+\]
+
+\medskip
+\noindent
+(b)\; Show that if $u \in \mathcal{D}'(\mathbb{R}^n)$ has compact support, then
+\[
+\delta_0 * u = u .
+\]
+
+% ----------------------------------------------------------
+\subsection*{Solution}
+
+\paragraph{(a)}  
+Let $\phi \in \mathcal{D}(\mathbb{R}^n)$.  
+By definition of convolution between a distribution and a test function,
+\[
+\langle \delta_0 * \phi , \psi \rangle
+= \langle \delta_0 , x \mapsto \langle \phi , \psi(x+\cdot)\rangle \rangle,
+\qquad \psi \in \mathcal{D}(\mathbb{R}^n).
+\]
+Since $\delta_0$ evaluates at $0$,
+\[
+\langle \delta_0 * \phi , \psi \rangle
+= \langle \phi , \psi(\cdot + 0)\rangle
+= \langle \phi , \psi \rangle .
+\]
+Thus
+\[
+\delta_0 * \phi = \phi .
+\]
+
+% ----------------------------------------------------------
+\paragraph{(b)}  
+Let $u \in \mathcal{D}'(\mathbb{R}^n)$ have compact support.  
+The convolution $\delta_0 * u$ is defined by
+\[
+\langle \delta_0 * u , \psi \rangle
+= \langle \delta_0 , x \mapsto \langle u , \psi(x+\cdot)\rangle \rangle,
+\qquad \psi \in \mathcal{D}(\mathbb{R}^n).
+\]
+Again using the defining property of $\delta_0$,
+\[
+\langle \delta_0 * u , \psi \rangle
+= \langle u , \psi(\cdot + 0)\rangle
+= \langle u , \psi \rangle.
+\]
+Therefore,
+\[
+\delta_0 * u = u .
+\]
+
+\hfill$\Box$
+
+
+\end{document}

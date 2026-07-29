@@ -29,6 +29,14 @@ chapters/
 Future modular LaTeX chapters extracted from standalone manuscripts.
 
 ```text
+chapters/imported/
+```
+
+Cleaned imported TeX sources promoted from the non-destructive `tex_test/`
+merge. This folder keeps deduplicated TeX files, referenced figures, a manifest
+back to the raw import sources, and compile helpers.
+
+```text
 figures/
 ```
 
@@ -77,6 +85,13 @@ releases/
 Generated release PDFs or other intentional public artifacts.
 
 ```text
+pdfs/
+```
+
+Local generated PDFs and compile logs. This folder is ignored by git and is used
+for review builds, not source control.
+
+```text
 imports/
 ```
 
@@ -97,4 +112,3 @@ Move slowly:
 3. extract shared styles;
 4. migrate one chapter at a time;
 5. verify compilation before removing old wrappers.
-

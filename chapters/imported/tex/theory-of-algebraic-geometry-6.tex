@@ -1,0 +1,2947 @@
+\documentclass[12pt,a4paper]{article}
+
+% ------------------------------------------------------------
+% Fonts & layout
+% ------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{array}
+\usepackage{booktabs}
+
+% ------------------------------------------------------------
+% Math
+% ------------------------------------------------------------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+
+% Standard operators
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\im}{im}
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\Hom}{Hom}
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Proj}{Proj}
+
+% Categories / notation
+\newcommand{\Ab}{\mathbf{Ab}}
+\newcommand{\PreSh}{\mathbf{PreSh}}
+\newcommand{\Sh}{\mathbf{Sh}}
+
+\newcommand{\F}{\mathcal F}
+
+
+% basic number sets
+\newcommand{\RR}{\mathbb{R}}
+
+% sheaf letters
+
+\newcommand{\G}{\mathcal G}
+
+\newcommand{\GG}{\mathbb G}
+
+
+\newcommand{\AffSch}{\mathbf{AffSch}}
+\newcommand{\ZZ}{\mathbb Z}
+
+\newcommand{\PP}{\mathbb P}
+
+\usepackage{tikz}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{positioning,arrows.meta}
+
+% sheaf of continuous real-valued functions
+\newcommand{\Czero}{\mathcal C^0}        % “C^0”
+\newcommand{\CzeroX}{\mathcal C^0_X}     % sheaf on X (optional)
+
+\newcommand{\Cinfty}{\mathcal C^\infty}
+\newcommand{\CinftyM}{\mathcal C^\infty_M} % if you use C^\infty_M
+
+% number sets / standard symbols
+\newcommand{\CC}{\mathbb{C}}
+
+% structure sheaf notation in complex geometry
+\newcommand{\OO}{\mathcal{O}}
+\newcommand{\OOX}{\mathcal{O}_X} % optional convenience
+
+
+
+\newcommand{\Sch}{\mathrm{Sch}}
+\newcommand{\Rings}{\mathrm{Rings}}
+
+\newcommand{\kappares}{\kappa}
+\newcommand{\GammaX}{\Gamma(X,\mathcal O_X)}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+
+\newcommand{\nilrad}{\sqrt{(0)}}
+
+\newcommand{\Frac}{\operatorname{Frac}}
+
+
+\providecommand{\Spec}{\operatorname{Spec}}
+\providecommand{\A}{\mathbb A}
+\providecommand{\Pj}{\mathbb P}
+\providecommand{\G}{\mathbb G}
+
+% ------------------------------------------------------------
+% Links
+% ------------------------------------------------------------
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{bookmark}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=blue!50!black,
+  urlcolor=blue!50!black,
+  citecolor=blue!50!black,
+  pdftitle={Algebraic Geometry 6
+  },
+  pdfauthor={},
+  pdfsubject={Lecture notes (reorganized)},
+  pdfcreator={TeXStudio / LaTeX}
+}
+
+% ------------------------------------------------------------
+% Diagrams
+% ------------------------------------------------------------
+\usepackage{tikz-cd}
+
+% ------------------------------------------------------------
+% Lists
+% ------------------------------------------------------------
+\usepackage{enumitem}
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+
+% ------------------------------------------------------------
+% Theorem environments
+% ------------------------------------------------------------
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{}{\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[subsection]
+
+\newtheorem{corollary}[definition]{Corollary}
+\newtheorem{remark}[definition]{Remark}
+\newtheorem{example}[definition]{Example}
+\newtheorem{warning}[definition]{Warning}
+
+
+
+
+\newcommand{\B}{\mathcal B}
+\newcommand{\C}{\mathcal C}
+\newcommand{\Ocal}{\mathcal O}
+\newcommand{\I}{\mathcal I}
+
+
+\newcommand{\Fp}{\mathcal F'}      % subsheaf
+\newcommand{\Fpp}{\mathcal F''} 
+
+\newcommand{\GammaU}[1]{\Gamma(U,#1)}
+
+\DeclareMathOperator*{\colim}{colim}
+
+% circle
+\newcommand{\SSone}{S^1}
+
+
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric,fit}
+
+% sheaves of continuous functions
+
+
+% ------------------------------------------------------------
+% Paragraph spacing
+% ------------------------------------------------------------
+\setlength{\parskip}{0.5em}
+\setlength{\parindent}{0pt}
+
+\setcounter{tocdepth}{2}
+\setcounter{secnumdepth}{2}
+
+% ------------------------------------------------------------
+% Fancy headers
+% ------------------------------------------------------------
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{Theory of Algebraic Geometry 6}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\headheight}{14.5pt}
+
+
+
+\title{\bfseries Algebraic Geometry 6\\
+
+
+\large Lecture notes with examples}
+\author{}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+
+\section{Problem 5. Locally Finite Type Can Be Checked on Every Affine Open}
+
+\textbf{Problem.}
+A morphism \(f:X\to Y\) is \emph{locally of finite type} if there exists a covering of \(Y\) by open affine subsets
+\[
+V_i=\operatorname{Spec}B_i
+\]
+such that, for each \(i\), the open subset \(f^{-1}(V_i)\) can be covered by open affine subsets
+\[
+U_{ij}=\operatorname{Spec}A_{ij},
+\]
+where each \(A_{ij}\) is a finitely generated \(B_i\)-algebra.
+
+The morphism is \emph{of finite type} if the cover of \(f^{-1}(V_i)\) above can be taken to be finite.
+
+Show that a morphism \(f:X\to Y\) is locally of finite type if and only if for every open affine subset
+\[
+V=\operatorname{Spec}B\subseteq Y,
+\]
+the inverse image \(f^{-1}(V)\) can be covered by open affine subsets
+\[
+U_j=\operatorname{Spec}A_j,
+\]
+where each \(A_j\) is a finitely generated \(B\)-algebra.
+
+\textbf{Solution.}
+
+We prove both directions.
+
+\subsection*{Step 1. The easy direction}
+
+Assume that for every open affine subset
+\[
+V=\operatorname{Spec}B\subseteq Y,
+\]
+the inverse image \(f^{-1}(V)\) can be covered by open affine subsets
+\[
+U_j=\operatorname{Spec}A_j
+\]
+such that every \(A_j\) is a finitely generated \(B\)-algebra.
+
+Then in particular this is true for the affine opens appearing in any affine open cover of \(Y\). Therefore \(f\) is locally of finite type by definition.
+
+\subsection*{Step 2. The nontrivial direction}
+
+Now assume that \(f:X\to Y\) is locally of finite type.
+
+By definition, there exists an affine open cover
+\[
+Y=\bigcup_i V_i,
+\qquad
+V_i=\operatorname{Spec}B_i,
+\]
+such that each \(f^{-1}(V_i)\) is covered by open affine subsets
+\[
+U_{ij}=\operatorname{Spec}A_{ij},
+\]
+where each \(A_{ij}\) is a finitely generated \(B_i\)-algebra.
+
+We must show that the same property holds for an arbitrary affine open subset
+\[
+V=\operatorname{Spec}B\subseteq Y.
+\]
+
+Let \(y\in V\). Since the \(V_i\) cover \(Y\), there exists some \(i\) such that
+\[
+y\in V_i.
+\]
+Thus
+\[
+y\in V\cap V_i.
+\]
+
+The intersection \(V\cap V_i\) is open both in \(V\) and in \(V_i\). Since affine schemes have bases of distinguished open subsets, there exists an open subset
+\[
+W\subseteq V\cap V_i
+\]
+containing \(y\) such that \(W\) is distinguished open in both affine schemes. Hence we may write
+\[
+W=D(b)\subseteq \operatorname{Spec}B
+\]
+and also
+\[
+W=D(c)\subseteq \operatorname{Spec}B_i.
+\]
+
+Therefore
+\[
+W\cong \operatorname{Spec}B_b
+\]
+and also
+\[
+W\cong \operatorname{Spec}(B_i)_c.
+\]
+
+Now consider
+\[
+f^{-1}(W)\subseteq f^{-1}(V_i).
+\]
+Since \(f^{-1}(V_i)\) is covered by the affine opens
+\[
+U_{ij}=\operatorname{Spec}A_{ij},
+\]
+the inverse image \(f^{-1}(W)\) is covered by the intersections
+\[
+U_{ij}\cap f^{-1}(W).
+\]
+
+Because \(W=D(c)\subseteq V_i\), the preimage of \(W\) inside
+\[
+U_{ij}=\operatorname{Spec}A_{ij}
+\]
+is a distinguished open subset. More precisely, if
+\[
+B_i\longrightarrow A_{ij}
+\]
+is the corresponding ring map and \(c\in B_i\), then
+\[
+U_{ij}\cap f^{-1}(W)
+=
+D(\varphi(c))
+\subseteq \operatorname{Spec}A_{ij}.
+\]
+Hence
+\[
+U_{ij}\cap f^{-1}(W)
+\cong
+\operatorname{Spec}\bigl((A_{ij})_{\varphi(c)}\bigr).
+\]
+
+Since \(A_{ij}\) is a finitely generated \(B_i\)-algebra, the localization
+\[
+(A_{ij})_{\varphi(c)}
+\]
+is a finitely generated \((B_i)_c\)-algebra.
+
+But
+\[
+(B_i)_c\cong B_b.
+\]
+Therefore
+\[
+(A_{ij})_{\varphi(c)}
+\]
+is a finitely generated \(B_b\)-algebra.
+
+Finally, \(B_b\) is itself a finitely generated \(B\)-algebra, because
+\[
+B_b\cong B[t]/(bt-1).
+\]
+Thus \((A_{ij})_{\varphi(c)}\) is finitely generated as a \(B\)-algebra.
+
+Since the sets \(W\) cover \(V\), the affine opens
+\[
+U_{ij}\cap f^{-1}(W)
+\]
+cover \(f^{-1}(V)\). Each of them has the form
+\[
+\operatorname{Spec}A
+\]
+where \(A\) is a finitely generated \(B\)-algebra.
+
+Therefore, for every open affine subset
+\[
+V=\operatorname{Spec}B\subseteq Y,
+\]
+the inverse image \(f^{-1}(V)\) can be covered by open affine subsets whose coordinate rings are finitely generated \(B\)-algebras.
+
+Hence \(f\) is locally of finite type in the desired stronger sense.
+
+\[
+\boxed{
+	f:X\to Y \text{ is locally of finite type}
+	\iff
+	\text{the condition holds over every affine open } V=\operatorname{Spec}B\subseteq Y.
+}
+\]
+
+
+\section{Problem 6. Examples Violating the Properties Defined Above}
+
+\textbf{Problem.}
+For each of the properties defined above of schemes or morphisms, give an example of a scheme or morphism which violates that property.
+
+Give an example of a morphism which is locally of finite type but not of finite type.
+
+\textbf{Solution.}
+
+We collect standard examples. Throughout, let \(k\) be a field.
+
+\subsection*{1. A scheme which is not reduced}
+
+Consider
+\[
+X=\operatorname{Spec} k[\varepsilon]/(\varepsilon^2).
+\]
+The ring
+\[
+k[\varepsilon]/(\varepsilon^2)
+\]
+has a nonzero nilpotent element, namely \(\varepsilon\), because
+\[
+\varepsilon\neq 0,
+\qquad
+\varepsilon^2=0.
+\]
+Therefore the ring is not reduced, and hence
+\[
+X
+\]
+is not a reduced scheme.
+
+\[
+\boxed{
+	\operatorname{Spec} k[\varepsilon]/(\varepsilon^2)
+	\text{ is not reduced.}
+}
+\]
+
+\subsection*{2. A scheme which is not irreducible}
+
+Consider
+\[
+X=\operatorname{Spec}(k\times k).
+\]
+The prime ideals of \(k\times k\) are
+\[
+k\times 0
+\qquad\text{and}\qquad
+0\times k.
+\]
+Thus
+\[
+\operatorname{Spec}(k\times k)
+\]
+has two closed points and is the disjoint union of two one-point spaces. Hence it is reducible.
+
+Equivalently,
+\[
+k\times k
+\]
+has two nontrivial idempotents,
+\[
+(1,0)
+\qquad\text{and}\qquad
+(0,1),
+\]
+so the scheme splits into two pieces.
+
+\[
+\boxed{
+	\operatorname{Spec}(k\times k)
+	\text{ is not irreducible.}
+}
+\]
+
+\subsection*{3. A scheme which is not integral}
+
+A scheme is integral if it is both reduced and irreducible.
+
+Consider
+\[
+X=\operatorname{Spec} k[x,y]/(xy).
+\]
+The ring
+\[
+k[x,y]/(xy)
+\]
+has zero divisors, because
+\[
+x\cdot y=0
+\]
+in the quotient, while neither \(x\) nor \(y\) is zero.
+
+Thus \(k[x,y]/(xy)\) is not an integral domain. Therefore
+\[
+X
+\]
+is not integral.
+
+Geometrically, this is the union of the two coordinate axes in the affine plane:
+\[
+xy=0.
+\]
+It has two irreducible components:
+\[
+x=0
+\qquad\text{and}\qquad
+y=0.
+\]
+
+\[
+\boxed{
+	\operatorname{Spec} k[x,y]/(xy)
+	\text{ is not integral.}
+}
+\]
+
+\subsection*{4. A scheme which is not affine}
+
+The projective line
+\[
+\mathbb{P}^1_k
+\]
+is not affine.
+
+Indeed, the global regular functions on \(\mathbb{P}^1_k\) are only the constant functions:
+\[
+\Gamma(\mathbb{P}^1_k,\mathcal{O}_{\mathbb{P}^1_k})=k.
+\]
+If \(\mathbb{P}^1_k\) were affine, then it would have to be isomorphic to
+\[
+\operatorname{Spec} k,
+\]
+because an affine scheme is determined by its ring of global functions. But \(\mathbb{P}^1_k\) is not a single point. Therefore \(\mathbb{P}^1_k\) is not affine.
+
+\[
+\boxed{
+	\mathbb{P}^1_k
+	\text{ is not affine.}
+}
+\]
+
+\subsection*{5. A scheme which is not Noetherian}
+
+Consider the affine scheme
+\[
+X=\operatorname{Spec} k[x_1,x_2,x_3,\dots].
+\]
+The ring
+\[
+k[x_1,x_2,x_3,\dots]
+\]
+is not Noetherian, because it has the infinite strictly increasing chain of ideals
+\[
+(x_1)
+\subsetneq
+(x_1,x_2)
+\subsetneq
+(x_1,x_2,x_3)
+\subsetneq
+\cdots.
+\]
+Therefore
+\[
+\operatorname{Spec} k[x_1,x_2,x_3,\dots]
+\]
+is not a Noetherian scheme.
+
+\[
+\boxed{
+	\operatorname{Spec} k[x_1,x_2,x_3,\dots]
+	\text{ is not Noetherian.}
+}
+\]
+
+\subsection*{6. A morphism which is not locally of finite type}
+
+Consider the natural morphism
+\[
+f:\operatorname{Spec} k[x_1,x_2,x_3,\dots]\longrightarrow \operatorname{Spec}k.
+\]
+This corresponds to the inclusion
+\[
+k\longrightarrow k[x_1,x_2,x_3,\dots].
+\]
+
+The morphism is locally of finite type if the coordinate ring is locally covered by finitely generated \(k\)-algebras. But since
+\[
+k[x_1,x_2,x_3,\dots]
+\]
+is not finitely generated as a \(k\)-algebra, the affine morphism
+\[
+\operatorname{Spec} k[x_1,x_2,x_3,\dots]\to \operatorname{Spec}k
+\]
+is not of finite type.
+
+Moreover, because the source is affine, if it were locally of finite type over \(\operatorname{Spec}k\), then it would be covered by affine opens of finite type over \(k\). Since the source is quasi-compact, finitely many of these affine opens would cover it, forcing the scheme to be of finite type over \(k\), which it is not.
+
+Thus
+\[
+f
+\]
+is not locally of finite type.
+
+\[
+\boxed{
+	\operatorname{Spec} k[x_1,x_2,x_3,\dots]\to \operatorname{Spec}k
+	\text{ is not locally of finite type.}
+}
+\]
+
+\subsection*{7. A morphism locally of finite type but not of finite type}
+
+Let
+\[
+X=\coprod_{n=1}^{\infty}\operatorname{Spec}k
+\]
+be the infinite disjoint union of countably many copies of \(\operatorname{Spec}k\).
+
+There is a natural morphism
+\[
+f:X\longrightarrow \operatorname{Spec}k.
+\]
+
+Each component
+\[
+\operatorname{Spec}k\to \operatorname{Spec}k
+\]
+is of finite type. Since \(X\) is covered by these open affine components, the morphism
+\[
+f:X\to \operatorname{Spec}k
+\]
+is locally of finite type.
+
+However, \(f\) is not of finite type.
+
+Indeed, if \(f\) were of finite type, then since the target \(\operatorname{Spec}k\) is affine, the inverse image
+\[
+f^{-1}(\operatorname{Spec}k)=X
+\]
+would be covered by finitely many affine opens of finite type over \(k\). In particular, \(X\) would be quasi-compact.
+
+But
+\[
+X=\coprod_{n=1}^{\infty}\operatorname{Spec}k
+\]
+is not quasi-compact. The open cover by its connected components,
+\[
+X=\bigcup_{n=1}^{\infty}\operatorname{Spec}k,
+\]
+has no finite subcover.
+
+Therefore \(f\) is locally of finite type but not of finite type.
+
+\[
+\boxed{
+	\coprod_{n=1}^{\infty}\operatorname{Spec}k
+	\longrightarrow
+	\operatorname{Spec}k
+	\text{ is locally of finite type but not of finite type.}
+}
+\]
+
+\subsection*{Summary table}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Property} & \textbf{Counterexample} & \textbf{Reason} \\
+	\hline
+	\text{Reduced} &
+	\operatorname{Spec}k[\varepsilon]/(\varepsilon^2) &
+	\varepsilon\neq 0,\ \varepsilon^2=0
+	\\
+	\hline
+	\text{Irreducible} &
+	\operatorname{Spec}(k\times k) &
+	\text{Two disconnected points}
+	\\
+	\hline
+	\text{Integral} &
+	\operatorname{Spec}k[x,y]/(xy) &
+	x\cdot y=0
+	\\
+	\hline
+	\text{Affine} &
+	\mathbb{P}^1_k &
+	\text{Projective line is not affine}
+	\\
+	\hline
+	\text{Noetherian} &
+	\operatorname{Spec}k[x_1,x_2,x_3,\dots] &
+	\text{Infinite ascending chain of ideals}
+	\\
+	\hline
+	\text{Locally finite type} &
+	\operatorname{Spec}k[x_1,x_2,x_3,\dots]\to\operatorname{Spec}k &
+	\text{Infinitely many algebra generators}
+	\\
+	\hline
+	\text{Finite type} &
+	\coprod_{n=1}^{\infty}\operatorname{Spec}k\to\operatorname{Spec}k &
+	\text{Not quasi-compact}
+\end{array}
+\]
+
+
+\section{Problem 7. Generic Point and Function Field of an Integral Scheme}
+
+\textbf{Problem.}
+Let \(X\) be an integral scheme.
+
+Show that there is a unique point \(\eta\) such that
+\[
+\overline{\{\eta\}}=X.
+\]
+This point is called the \emph{generic point} of \(X\).
+
+Show that the stalk of \(\mathcal{O}_X\) at \(\eta\) is a field, called the \emph{function field} of \(X\), denoted
+\[
+K(X).
+\]
+
+Show that if
+\[
+U=\operatorname{Spec}A
+\]
+is any open affine subset of \(X\), then
+\[
+K(X)
+\]
+is the field of fractions of \(A\).
+
+\textbf{Solution.}
+
+Since \(X\) is integral, it is reduced and irreducible. In particular, the underlying topological space of \(X\) is irreducible.
+
+\subsection*{Step 1. Existence of the generic point}
+
+Let
+\[
+U=\operatorname{Spec}A
+\]
+be a nonempty affine open subset of \(X\).
+
+Because \(X\) is integral, every nonempty affine open subset of \(X\) is also integral. Therefore \(A\) is an integral domain.
+
+In the affine scheme
+\[
+U=\operatorname{Spec}A,
+\]
+the zero ideal
+\[
+(0)\subseteq A
+\]
+is a prime ideal, because \(A\) is a domain.
+
+Thus \((0)\) defines a point of \(U\). Denote this point by
+\[
+\eta.
+\]
+
+Inside \(U=\operatorname{Spec}A\), the closure of \(\eta\) is all of \(U\), because
+\[
+\overline{\{(0)\}}=V((0))=\operatorname{Spec}A.
+\]
+Thus
+\[
+\overline{\{\eta\}}^{\,U}=U.
+\]
+
+Since \(X\) is irreducible, every nonempty open subset of \(X\) is dense in \(X\). Therefore
+\[
+\overline{U}^{\,X}=X.
+\]
+Since \(\overline{\{\eta\}}^{\,X}\) contains \(U\), it follows that
+\[
+\overline{\{\eta\}}^{\,X}=X.
+\]
+
+Thus \(X\) has a point \(\eta\) whose closure is all of \(X\).
+
+\[
+\boxed{
+	\overline{\{\eta\}}=X.
+}
+\]
+
+\subsection*{Step 2. Uniqueness of the generic point}
+
+Suppose \(\eta'\in X\) is another point such that
+\[
+\overline{\{\eta'\}}=X.
+\]
+Then \(\eta\) and \(\eta'\) have the same closure.
+
+Schemes are \(T_0\)-spaces, meaning that two distinct points cannot have the same closure. Hence
+\[
+\eta=\eta'.
+\]
+
+Therefore the generic point of an integral scheme is unique.
+
+\[
+\boxed{
+	\text{An integral scheme has a unique generic point.}
+}
+\]
+
+\subsection*{Step 3. The stalk at the generic point is a field}
+
+Let
+\[
+U=\operatorname{Spec}A
+\]
+be a nonempty affine open subset of \(X\). As above, \(A\) is a domain, and the generic point \(\eta\) corresponds to the prime ideal
+\[
+(0)\subseteq A.
+\]
+
+The stalk of the structure sheaf at \(\eta\) can be computed on the affine open \(U\):
+\[
+\mathcal{O}_{X,\eta}
+=
+\mathcal{O}_{U,\eta}.
+\]
+Since \(U=\operatorname{Spec}A\) and \(\eta=(0)\), we have
+\[
+\mathcal{O}_{U,\eta}
+=
+A_{(0)}.
+\]
+
+But localizing a domain \(A\) at the zero prime ideal gives its field of fractions:
+\[
+A_{(0)}=\operatorname{Frac}(A).
+\]
+Therefore
+\[
+\mathcal{O}_{X,\eta}
+=
+\operatorname{Frac}(A).
+\]
+
+In particular, \(\mathcal{O}_{X,\eta}\) is a field.
+
+This field is called the \emph{function field} of \(X\) and is denoted
+\[
+K(X).
+\]
+
+Thus
+\[
+K(X):=\mathcal{O}_{X,\eta}.
+\]
+
+\[
+\boxed{
+	K(X)=\mathcal{O}_{X,\eta}
+	\text{ is a field.}
+}
+\]
+
+\subsection*{Step 4. Computing the function field on any affine open}
+
+Let
+\[
+U=\operatorname{Spec}A
+\]
+be any nonempty affine open subset of \(X\).
+
+Since \(X\) is irreducible and \(\eta\) is the generic point, every nonempty open subset of \(X\) contains \(\eta\). Therefore
+\[
+\eta\in U.
+\]
+
+Because \(X\) is integral, \(A\) is an integral domain. The point \(\eta\) corresponds to the zero ideal
+\[
+(0)\subseteq A.
+\]
+
+Hence
+\[
+K(X)
+=
+\mathcal{O}_{X,\eta}
+=
+\mathcal{O}_{U,\eta}
+=
+A_{(0)}
+=
+\operatorname{Frac}(A).
+\]
+
+Therefore, for every nonempty affine open subset
+\[
+U=\operatorname{Spec}A\subseteq X,
+\]
+we have
+\[
+\boxed{
+	K(X)=\operatorname{Frac}(A).
+}
+\]
+
+\subsection*{Geometric meaning}
+
+The function field \(K(X)\) is the field of rational functions on \(X\).
+
+If
+\[
+X=\operatorname{Spec}A
+\]
+is affine and integral, then
+\[
+K(X)=\operatorname{Frac}(A).
+\]
+
+For example:
+\[
+K(\mathbb{A}^1_k)
+=
+K(\operatorname{Spec}k[x])
+=
+k(x),
+\]
+and
+\[
+K(\mathbb{A}^n_k)
+=
+K(\operatorname{Spec}k[x_1,\dots,x_n])
+=
+k(x_1,\dots,x_n).
+\]
+
+Thus the generic point behaves like the ``general point'' of the scheme, and the stalk at that point consists of rational functions defined near the general point.
+
+\section{Theory: Locally Finite Type, Finite Type, Generic Points, and Function Fields}
+
+This section collects the main theoretical ideas behind Problems 5--7. The central theme is that many important properties of schemes and morphisms are \emph{local}: they can be checked on affine open subsets. For schemes, affine opens reduce geometric questions to commutative algebra. For morphisms, inverse images of affine opens allow us to study the morphism by studying ring maps.
+
+\subsection{Local Nature of Schemes}
+
+A scheme is built by gluing affine schemes. An affine scheme has the form
+\[
+\operatorname{Spec}A
+\]
+for a commutative ring \(A\). Therefore, many geometric properties of schemes can be tested on affine open subsets.
+
+For example, if \(X\) is a scheme and
+\[
+U=\operatorname{Spec}A\subseteq X
+\]
+is an affine open subset, then the geometry of \(U\) is controlled by the algebra of \(A\).
+
+\subsubsection*{Reduced schemes}
+
+A ring \(A\) is \emph{reduced} if it has no nonzero nilpotent elements. That is,
+\[
+a^n=0
+\quad\Longrightarrow\quad
+a=0.
+\]
+A scheme \(X\) is reduced if every affine open subset
+\[
+U=\operatorname{Spec}A
+\]
+has \(A\) reduced.
+
+Equivalently, \(X\) is reduced if the structure sheaf \(\mathcal{O}_X\) has no nonzero nilpotent sections locally.
+
+A standard non-reduced example is
+\[
+\operatorname{Spec} k[\varepsilon]/(\varepsilon^2).
+\]
+Here
+\[
+\varepsilon\neq 0,
+\qquad
+\varepsilon^2=0.
+\]
+So \(\varepsilon\) is a nonzero nilpotent element.
+
+\subsubsection*{Irreducible schemes}
+
+A topological space \(X\) is \emph{irreducible} if it cannot be written as a union of two proper closed subsets:
+\[
+X\neq Z_1\cup Z_2
+\]
+with \(Z_1,Z_2\subsetneq X\) closed.
+
+Equivalently, \(X\) is irreducible if every two nonempty open subsets intersect:
+\[
+U\neq\varnothing,\quad V\neq\varnothing
+\quad\Longrightarrow\quad
+U\cap V\neq\varnothing.
+\]
+
+For an affine scheme
+\[
+X=\operatorname{Spec}A,
+\]
+the space \(X\) is irreducible if and only if the nilradical
+\[
+\sqrt{(0)}
+\]
+is a prime ideal.
+
+If \(A\) is reduced, then \(\sqrt{(0)}=(0)\). Hence, for a reduced affine scheme,
+\[
+\operatorname{Spec}A \text{ is irreducible}
+\quad\Longleftrightarrow\quad
+(0) \text{ is prime}
+\quad\Longleftrightarrow\quad
+A \text{ is a domain}.
+\]
+
+\subsubsection*{Integral schemes}
+
+A scheme \(X\) is \emph{integral} if it is both reduced and irreducible.
+
+On affine opens, this means the following:
+
+\[
+X \text{ integral}
+\quad\Longleftrightarrow\quad
+\text{every nonempty affine open } \operatorname{Spec}A\subseteq X
+\text{ has } A \text{ an integral domain.}
+\]
+
+Thus integral schemes are the geometric analogues of integral domains.
+
+A typical non-integral example is
+\[
+\operatorname{Spec} k[x,y]/(xy).
+\]
+In this ring,
+\[
+x\cdot y=0,
+\]
+but neither \(x\) nor \(y\) is zero. Therefore the ring has zero divisors, so the scheme is not integral.
+
+Geometrically, this is the union of the two coordinate axes:
+\[
+xy=0.
+\]
+
+\subsection{Locally of Finite Type Morphisms}
+
+Let
+\[
+f:X\to Y
+\]
+be a morphism of schemes.
+
+The morphism \(f\) is \emph{locally of finite type} if locally on the target and locally on the source, it is induced by finitely generated algebra maps.
+
+More precisely, \(f\) is locally of finite type if there exists an affine open cover
+\[
+Y=\bigcup_i V_i,
+\qquad
+V_i=\operatorname{Spec}B_i,
+\]
+such that each inverse image
+\[
+f^{-1}(V_i)
+\]
+can be covered by affine opens
+\[
+U_{ij}=\operatorname{Spec}A_{ij},
+\]
+where each \(A_{ij}\) is a finitely generated \(B_i\)-algebra.
+
+So locally, the morphism is described by ring maps
+\[
+B_i\to A_{ij}
+\]
+such that
+\[
+A_{ij}=B_i[a_1,\dots,a_n]
+\]
+for finitely many algebra generators.
+
+\subsubsection*{Geometric meaning}
+
+A morphism locally of finite type is one whose fibers and local coordinate rings are controlled by finitely many algebraic parameters.
+
+For example,
+\[
+\mathbb{A}^n_k=\operatorname{Spec}k[x_1,\dots,x_n]
+\]
+is locally of finite type over
+\[
+\operatorname{Spec}k
+\]
+because
+\[
+k[x_1,\dots,x_n]
+\]
+is finitely generated as a \(k\)-algebra.
+
+In contrast,
+\[
+\operatorname{Spec}k[x_1,x_2,x_3,\dots]\to \operatorname{Spec}k
+\]
+is not locally of finite type, because infinitely many variables are needed.
+
+\subsection{Why Locally Finite Type Can Be Checked on Every Affine Open}
+
+The definition of locally finite type only asks for \emph{some} affine open cover of \(Y\). However, the important theorem is that this automatically implies the same condition over \emph{every} affine open subset of \(Y\).
+
+\subsubsection*{Theorem}
+
+Let
+\[
+f:X\to Y
+\]
+be a morphism of schemes. Then \(f\) is locally of finite type if and only if for every affine open subset
+\[
+V=\operatorname{Spec}B\subseteq Y,
+\]
+the inverse image
+\[
+f^{-1}(V)
+\]
+can be covered by affine open subsets
+\[
+U_j=\operatorname{Spec}A_j
+\]
+such that each \(A_j\) is a finitely generated \(B\)-algebra.
+
+\subsubsection*{Idea of the proof}
+
+Assume \(f\) is locally of finite type. Then there is one good affine cover
+\[
+Y=\bigcup_i \operatorname{Spec}B_i.
+\]
+
+Now take any other affine open
+\[
+V=\operatorname{Spec}B\subseteq Y.
+\]
+
+We compare \(V\) with the chosen affine cover by looking at intersections
+\[
+V\cap V_i.
+\]
+
+Affine schemes have a basis of distinguished open subsets. Therefore, around any point of \(V\cap V_i\), we can find an open subset
+\[
+W
+\]
+which is distinguished both inside \(V\) and inside \(V_i\). Hence
+\[
+W=D(b)\subseteq \operatorname{Spec}B
+\]
+and
+\[
+W=D(c)\subseteq \operatorname{Spec}B_i.
+\]
+
+Thus
+\[
+W\cong \operatorname{Spec}B_b
+\]
+and
+\[
+W\cong \operatorname{Spec}(B_i)_c.
+\]
+
+If
+\[
+U_{ij}=\operatorname{Spec}A_{ij}
+\]
+lies over \(V_i\), then its restriction over \(W\) is
+\[
+U_{ij}\cap f^{-1}(W)
+\cong
+\operatorname{Spec}(A_{ij})_{\varphi(c)}.
+\]
+
+Since \(A_{ij}\) is finitely generated over \(B_i\), the localization
+\[
+(A_{ij})_{\varphi(c)}
+\]
+is finitely generated over
+\[
+(B_i)_c.
+\]
+
+But
+\[
+(B_i)_c\cong B_b.
+\]
+
+Also,
+\[
+B_b\cong B[t]/(bt-1),
+\]
+so \(B_b\) is finitely generated over \(B\). Therefore
+\[
+(A_{ij})_{\varphi(c)}
+\]
+is finitely generated over \(B\).
+
+Thus the property descends to every affine open \(V=\operatorname{Spec}B\subseteq Y\).
+
+\subsection{Finite Type Morphisms}
+
+A morphism
+\[
+f:X\to Y
+\]
+is \emph{of finite type} if it is locally of finite type and the affine covers of the inverse images of affine opens can be chosen to be finite.
+
+Equivalently, a morphism is of finite type if it is locally of finite type and quasi-compact.
+
+Informally:
+
+\[
+\text{locally of finite type}
+=
+\text{locally finitely many equations and variables},
+\]
+
+while
+
+\[
+\text{finite type}
+=
+\text{locally finite type plus globally finitely many affine pieces over affine opens}.
+\]
+
+\subsubsection*{Difference between locally finite type and finite type}
+
+The difference is a compactness difference.
+
+Consider
+\[
+X=\coprod_{n=1}^{\infty}\operatorname{Spec}k.
+\]
+
+There is a natural morphism
+\[
+X\to \operatorname{Spec}k.
+\]
+
+Each component
+\[
+\operatorname{Spec}k\to \operatorname{Spec}k
+\]
+is of finite type. Hence the morphism is locally of finite type.
+
+But \(X\) is an infinite disjoint union of points. It is not quasi-compact, because the cover by its connected components has no finite subcover:
+\[
+X=\bigcup_{n=1}^{\infty}\operatorname{Spec}k.
+\]
+
+Therefore
+\[
+\coprod_{n=1}^{\infty}\operatorname{Spec}k
+\to
+\operatorname{Spec}k
+\]
+is locally of finite type but not of finite type.
+
+\subsection{Noetherian Schemes}
+
+A ring \(A\) is \emph{Noetherian} if every ideal of \(A\) is finitely generated. Equivalently, every ascending chain of ideals stabilizes:
+\[
+I_1\subseteq I_2\subseteq I_3\subseteq \cdots
+\]
+eventually becomes constant.
+
+A scheme \(X\) is \emph{locally Noetherian} if it has an affine open cover
+\[
+X=\bigcup_i \operatorname{Spec}A_i
+\]
+where each \(A_i\) is Noetherian.
+
+It is \emph{Noetherian} if it is locally Noetherian and quasi-compact.
+
+A standard non-Noetherian example is
+\[
+\operatorname{Spec}k[x_1,x_2,x_3,\dots].
+\]
+
+Indeed, the ring
+\[
+k[x_1,x_2,x_3,\dots]
+\]
+has the infinite strictly increasing chain of ideals
+\[
+(x_1)
+\subsetneq
+(x_1,x_2)
+\subsetneq
+(x_1,x_2,x_3)
+\subsetneq
+\cdots.
+\]
+
+Therefore it is not Noetherian.
+
+\subsection{Generic Points}
+
+Let \(X\) be an integral scheme.
+
+Because \(X\) is irreducible, it should have one point representing the whole space. This is the \emph{generic point}.
+
+A point
+\[
+\eta\in X
+\]
+is called a generic point of \(X\) if
+\[
+\overline{\{\eta\}}=X.
+\]
+
+That is, \(\eta\) is a point whose closure is the entire space.
+
+\subsubsection*{Existence}
+
+Let
+\[
+U=\operatorname{Spec}A
+\]
+be a nonempty affine open subset of \(X\).
+
+Since \(X\) is integral, \(A\) is an integral domain. Therefore the zero ideal
+\[
+(0)\subseteq A
+\]
+is prime.
+
+Hence \((0)\) defines a point of
+\[
+\operatorname{Spec}A.
+\]
+
+The closure of this point inside \(\operatorname{Spec}A\) is
+\[
+V((0))=\operatorname{Spec}A.
+\]
+
+Thus the point corresponding to \((0)\) is dense in \(U\).
+
+Since \(X\) is irreducible, every nonempty open subset of \(X\) is dense in \(X\). Therefore this point is dense in all of \(X\).
+
+Hence there exists a point
+\[
+\eta\in X
+\]
+such that
+\[
+\overline{\{\eta\}}=X.
+\]
+
+\subsubsection*{Uniqueness}
+
+Schemes are \(T_0\)-spaces. This means distinct points have distinct closures.
+
+Therefore, if two points \(\eta\) and \(\eta'\) both satisfy
+\[
+\overline{\{\eta\}}=X
+\qquad\text{and}\qquad
+\overline{\{\eta'\}}=X,
+\]
+then their closures are equal, so
+\[
+\eta=\eta'.
+\]
+
+Hence an integral scheme has a unique generic point.
+
+\subsection{Function Fields}
+
+Let \(X\) be an integral scheme with generic point \(\eta\).
+
+The stalk of the structure sheaf at \(\eta\),
+\[
+\mathcal{O}_{X,\eta},
+\]
+is called the \emph{function field} of \(X\). It is denoted
+\[
+K(X).
+\]
+
+Thus
+\[
+K(X):=\mathcal{O}_{X,\eta}.
+\]
+
+\subsubsection*{Why the stalk at the generic point is a field}
+
+Let
+\[
+U=\operatorname{Spec}A
+\]
+be a nonempty affine open subset of \(X\).
+
+Since \(X\) is integral, \(A\) is a domain. The generic point \(\eta\) corresponds to the zero prime ideal
+\[
+(0)\subseteq A.
+\]
+
+The stalk of the structure sheaf at this point is
+\[
+\mathcal{O}_{X,\eta}
+=
+\mathcal{O}_{U,\eta}
+=
+A_{(0)}.
+\]
+
+But localizing a domain at the zero prime gives its field of fractions:
+\[
+A_{(0)}=\operatorname{Frac}(A).
+\]
+
+Therefore
+\[
+K(X)=\mathcal{O}_{X,\eta}=\operatorname{Frac}(A).
+\]
+
+In particular, \(K(X)\) is a field.
+
+\subsection{Function Field on Any Affine Open}
+
+Let
+\[
+U=\operatorname{Spec}A
+\]
+be any nonempty affine open subset of an integral scheme \(X\).
+
+The generic point \(\eta\) belongs to every nonempty open subset of \(X\). Therefore
+\[
+\eta\in U.
+\]
+
+Inside \(U=\operatorname{Spec}A\), the point \(\eta\) corresponds to the zero ideal
+\[
+(0)\subseteq A.
+\]
+
+Therefore
+\[
+K(X)
+=
+\mathcal{O}_{X,\eta}
+=
+\mathcal{O}_{U,\eta}
+=
+A_{(0)}
+=
+\operatorname{Frac}(A).
+\]
+
+Thus, for every nonempty affine open subset
+\[
+U=\operatorname{Spec}A\subseteq X,
+\]
+we have
+\[
+\boxed{
+	K(X)=\operatorname{Frac}(A).
+}
+\]
+
+\subsection{Examples of Function Fields}
+
+For the affine line
+\[
+\mathbb{A}^1_k=\operatorname{Spec}k[x],
+\]
+we get
+\[
+K(\mathbb{A}^1_k)=\operatorname{Frac}(k[x])=k(x).
+\]
+
+For affine \(n\)-space
+\[
+\mathbb{A}^n_k=\operatorname{Spec}k[x_1,\dots,x_n],
+\]
+we get
+\[
+K(\mathbb{A}^n_k)
+=
+\operatorname{Frac}(k[x_1,\dots,x_n])
+=
+k(x_1,\dots,x_n).
+\]
+
+For an irreducible affine variety
+\[
+X=\operatorname{Spec}k[x_1,\dots,x_n]/\mathfrak{p},
+\]
+where \(\mathfrak{p}\) is prime, we have
+\[
+K(X)
+=
+\operatorname{Frac}\bigl(k[x_1,\dots,x_n]/\mathfrak{p}\bigr).
+\]
+
+This is the field of rational functions on \(X\).
+
+\subsection{Summary of the Main Ideas}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Concept} & \textbf{Affine algebraic meaning} & \textbf{Geometric meaning} \\
+	\hline
+	\text{Reduced} &
+	A \text{ has no nilpotents} &
+	\text{No infinitesimal thickening}
+	\\
+	\hline
+	\text{Irreducible} &
+	\sqrt{(0)} \text{ is prime} &
+	\text{One geometric component}
+	\\
+	\hline
+	\text{Integral} &
+	A \text{ is a domain} &
+	\text{Reduced and irreducible}
+	\\
+	\hline
+	\text{Locally finite type} &
+	A \text{ locally finitely generated over } B &
+	\text{Locally finitely many parameters}
+	\\
+	\hline
+	\text{Finite type} &
+	\text{Finite affine cover by finitely generated algebras} &
+	\text{Locally finite type plus quasi-compactness}
+	\\
+	\hline
+	\text{Generic point} &
+	(0)\in \operatorname{Spec}A \text{ for a domain } A &
+	\text{Dense point of an integral scheme}
+	\\
+	\hline
+	\text{Function field} &
+	\operatorname{Frac}(A) &
+	\text{Field of rational functions}
+\end{array}
+\]
+
+\subsection{Conceptual Picture}
+
+For an integral affine scheme
+\[
+X=\operatorname{Spec}A,
+\]
+where \(A\) is a domain, the points of \(X\) are prime ideals of \(A\). The generic point is
+\[
+(0)\in \operatorname{Spec}A.
+\]
+
+Its closure is
+\[
+\overline{\{(0)\}}=V((0))=\operatorname{Spec}A.
+\]
+
+So \((0)\) lies ``above'' all other points in the specialization order. It represents the whole irreducible space.
+
+The function field is obtained by looking at functions near this generic point:
+\[
+K(X)=\mathcal{O}_{X,\eta}.
+\]
+
+On an affine open
+\[
+U=\operatorname{Spec}A,
+\]
+this becomes
+\[
+K(X)=A_{(0)}=\operatorname{Frac}(A).
+\]
+
+Thus the slogan is:
+
+\[
+\boxed{
+	\text{On an integral scheme, rational functions are regular functions near the generic point.}
+}
+\]
+
+\section{Examples: Locally Finite Type, Finite Type, Generic Points, and Function Fields}
+
+This section gives concrete examples illustrating the theory from Problems 5--7.
+
+\subsection{Examples of Locally Finite Type Morphisms}
+
+\subsubsection*{Example 1. Affine space over a field}
+
+Let
+\[
+X=\mathbb{A}^n_k=\operatorname{Spec}k[x_1,\dots,x_n]
+\]
+and let
+\[
+Y=\operatorname{Spec}k.
+\]
+
+The natural morphism
+\[
+f:\mathbb{A}^n_k\to \operatorname{Spec}k
+\]
+corresponds to the ring map
+\[
+k\to k[x_1,\dots,x_n].
+\]
+
+The algebra
+\[
+k[x_1,\dots,x_n]
+\]
+is generated over \(k\) by finitely many elements:
+\[
+x_1,\dots,x_n.
+\]
+
+Therefore
+\[
+k[x_1,\dots,x_n]
+\]
+is a finitely generated \(k\)-algebra.
+
+Hence
+\[
+\boxed{
+	\mathbb{A}^n_k\to \operatorname{Spec}k
+	\text{ is of finite type, and therefore locally of finite type.}
+}
+\]
+
+\subsubsection*{Example 2. A hypersurface over a field}
+
+Let
+\[
+X=\operatorname{Spec}k[x,y]/(y^2-x^3)
+\]
+and let
+\[
+Y=\operatorname{Spec}k.
+\]
+
+The morphism
+\[
+X\to Y
+\]
+corresponds to the ring map
+\[
+k\to k[x,y]/(y^2-x^3).
+\]
+
+The algebra
+\[
+k[x,y]/(y^2-x^3)
+\]
+is generated over \(k\) by the images of \(x\) and \(y\). Therefore it is a finitely generated \(k\)-algebra.
+
+Hence
+\[
+\boxed{
+	\operatorname{Spec}k[x,y]/(y^2-x^3)
+	\to
+	\operatorname{Spec}k
+	\text{ is of finite type.}
+}
+\]
+
+Geometrically, this is the affine cusp curve
+\[
+y^2=x^3.
+\]
+
+\subsubsection*{Example 3. A distinguished open is locally of finite type}
+
+Let
+\[
+X=\operatorname{Spec}A
+\]
+and let
+\[
+D(f)\subseteq X
+\]
+be a distinguished open subset.
+
+Then
+\[
+D(f)\cong \operatorname{Spec}A_f.
+\]
+
+The inclusion
+\[
+D(f)\hookrightarrow X
+\]
+corresponds to the localization map
+\[
+A\to A_f.
+\]
+
+But
+\[
+A_f\cong A[t]/(ft-1).
+\]
+
+Therefore \(A_f\) is a finitely generated \(A\)-algebra, generated by \(t\). Hence
+\[
+D(f)\to \operatorname{Spec}A
+\]
+is of finite type.
+
+Thus
+\[
+\boxed{
+	\text{Distinguished open immersions are of finite type.}
+}
+\]
+
+More generally, open immersions are locally of finite type.
+
+\subsection{Examples Showing the Difference Between Locally Finite Type and Finite Type}
+
+\subsubsection*{Example 4. Locally finite type but not finite type}
+
+Let
+\[
+X=\coprod_{n=1}^{\infty}\operatorname{Spec}k
+\]
+be the countably infinite disjoint union of copies of \(\operatorname{Spec}k\).
+
+Consider the natural morphism
+\[
+f:X\to \operatorname{Spec}k.
+\]
+
+Each component
+\[
+\operatorname{Spec}k\to \operatorname{Spec}k
+\]
+is of finite type. Therefore \(X\) is covered by affine opens over which the morphism is of finite type.
+
+Hence
+\[
+f:X\to \operatorname{Spec}k
+\]
+is locally of finite type.
+
+However, \(X\) is not quasi-compact. Indeed, the open cover
+\[
+X=\bigcup_{n=1}^{\infty}\operatorname{Spec}k
+\]
+has no finite subcover.
+
+Since a finite type morphism is locally finite type and quasi-compact, \(f\) cannot be of finite type.
+
+Therefore
+\[
+\boxed{
+	\coprod_{n=1}^{\infty}\operatorname{Spec}k
+	\to
+	\operatorname{Spec}k
+	\text{ is locally of finite type but not of finite type.}
+}
+\]
+
+\subsubsection*{Example 5. Not locally of finite type}
+
+Let
+\[
+X=\operatorname{Spec}k[x_1,x_2,x_3,\dots]
+\]
+and let
+\[
+Y=\operatorname{Spec}k.
+\]
+
+The morphism
+\[
+X\to Y
+\]
+corresponds to the ring map
+\[
+k\to k[x_1,x_2,x_3,\dots].
+\]
+
+The algebra
+\[
+k[x_1,x_2,x_3,\dots]
+\]
+is not finitely generated over \(k\), because it requires infinitely many variables.
+
+Moreover, it is not locally of finite type. The generic point corresponds to the zero ideal
+\[
+(0)\subset k[x_1,x_2,x_3,\dots].
+\]
+
+Every distinguished open neighbourhood of this generic point has the form
+\[
+D(g)=\operatorname{Spec}k[x_1,x_2,x_3,\dots]_g.
+\]
+
+The element \(g\) involves only finitely many variables. After localizing at \(g\), infinitely many variables still remain. Hence
+\[
+k[x_1,x_2,x_3,\dots]_g
+\]
+is still not finitely generated as a \(k\)-algebra.
+
+Therefore
+\[
+\boxed{
+	\operatorname{Spec}k[x_1,x_2,x_3,\dots]
+	\to
+	\operatorname{Spec}k
+	\text{ is not locally of finite type.}
+}
+\]
+
+\subsection{Examples of Reduced, Irreducible, and Integral Schemes}
+
+\subsubsection*{Example 6. Reduced but not irreducible}
+
+Let
+\[
+X=\operatorname{Spec}k[x,y]/(xy).
+\]
+
+The ring
+\[
+k[x,y]/(xy)
+\]
+has no nilpotent elements if \(k\) is a field, so it is reduced.
+
+However, it is not an integral domain, because
+\[
+x\cdot y=0
+\]
+while neither \(x\) nor \(y\) is zero.
+
+Geometrically,
+\[
+xy=0
+\]
+is the union of the two coordinate axes.
+
+Thus \(X\) is reduced but reducible.
+
+Therefore
+\[
+\boxed{
+	\operatorname{Spec}k[x,y]/(xy)
+	\text{ is reduced but not irreducible, hence not integral.}
+}
+\]
+
+\subsubsection*{Example 7. Irreducible but not reduced}
+
+Let
+\[
+X=\operatorname{Spec}k[\varepsilon]/(\varepsilon^2).
+\]
+
+The topological space of \(X\) has only one point, because the only prime ideal is
+\[
+(\varepsilon).
+\]
+
+Therefore \(X\) is irreducible as a topological space.
+
+However,
+\[
+\varepsilon\neq 0,
+\qquad
+\varepsilon^2=0.
+\]
+
+So \(X\) is not reduced.
+
+Therefore
+\[
+\boxed{
+	\operatorname{Spec}k[\varepsilon]/(\varepsilon^2)
+	\text{ is irreducible but not reduced, hence not integral.}
+}
+\]
+
+\subsubsection*{Example 8. Integral affine line}
+
+Let
+\[
+X=\mathbb{A}^1_k=\operatorname{Spec}k[x].
+\]
+
+The ring
+\[
+k[x]
+\]
+is an integral domain. Therefore
+\[
+\mathbb{A}^1_k
+\]
+is integral.
+
+The generic point is the point corresponding to the zero ideal:
+\[
+\eta=(0)\in \operatorname{Spec}k[x].
+\]
+
+Its closure is
+\[
+\overline{\{(0)\}}
+=
+V((0))
+=
+\operatorname{Spec}k[x].
+\]
+
+Hence
+\[
+\boxed{
+	(0)\in \operatorname{Spec}k[x]
+	\text{ is the generic point of } \mathbb{A}^1_k.
+}
+\]
+
+\subsection{Examples of Generic Points}
+
+\subsubsection*{Example 9. Generic point of affine space}
+
+Let
+\[
+X=\mathbb{A}^n_k=\operatorname{Spec}k[x_1,\dots,x_n].
+\]
+
+Since
+\[
+k[x_1,\dots,x_n]
+\]
+is an integral domain, \(X\) is integral.
+
+The generic point is
+\[
+\eta=(0).
+\]
+
+Indeed,
+\[
+\overline{\{\eta\}}
+=
+V((0))
+=
+\operatorname{Spec}k[x_1,\dots,x_n]
+=
+X.
+\]
+
+Thus
+\[
+\boxed{
+	\eta=(0)
+	\text{ is the generic point of } \mathbb{A}^n_k.
+}
+\]
+
+\subsubsection*{Example 10. Generic point of an irreducible affine variety}
+
+Let
+\[
+X=\operatorname{Spec}k[x_1,\dots,x_n]/\mathfrak{p},
+\]
+where \(\mathfrak{p}\) is a prime ideal.
+
+Set
+\[
+A=k[x_1,\dots,x_n]/\mathfrak{p}.
+\]
+
+Since \(\mathfrak{p}\) is prime, \(A\) is an integral domain. Hence \(X\) is integral.
+
+The generic point of \(X\) is the zero ideal in \(A\):
+\[
+(0)\subseteq A.
+\]
+
+Equivalently, as a prime ideal of \(k[x_1,\dots,x_n]\), this point corresponds to
+\[
+\mathfrak{p}.
+\]
+
+Thus
+\[
+\boxed{
+	\text{The generic point of } \operatorname{Spec}k[x_1,\dots,x_n]/\mathfrak{p}
+	\text{ corresponds to } \mathfrak{p}.
+}
+\]
+
+\subsubsection*{Example 11. Generic points of a reducible scheme}
+
+Let
+\[
+X=\operatorname{Spec}k[x,y]/(xy).
+\]
+
+This scheme is reducible. It has two irreducible components:
+\[
+V(x)
+\qquad\text{and}\qquad
+V(y).
+\]
+
+The prime ideals
+\[
+(x)
+\qquad\text{and}\qquad
+(y)
+\]
+correspond to the generic points of these two components.
+
+Thus \(X\) does not have one generic point whose closure is all of \(X\). Instead, it has one generic point for each irreducible component.
+
+Therefore
+\[
+\boxed{
+	\operatorname{Spec}k[x,y]/(xy)
+	\text{ has two component-generic points: } (x) \text{ and } (y).
+}
+\]
+
+\subsection{Examples of Function Fields}
+
+\subsubsection*{Example 12. Function field of the affine line}
+
+Let
+\[
+X=\mathbb{A}^1_k=\operatorname{Spec}k[x].
+\]
+
+The generic point is
+\[
+\eta=(0).
+\]
+
+The function field is
+\[
+K(X)=\mathcal{O}_{X,\eta}.
+\]
+
+Since
+\[
+\mathcal{O}_{X,\eta}=k[x]_{(0)},
+\]
+and localizing \(k[x]\) at \((0)\) gives its field of fractions, we obtain
+\[
+K(\mathbb{A}^1_k)=\operatorname{Frac}(k[x])=k(x).
+\]
+
+Thus
+\[
+\boxed{
+	K(\mathbb{A}^1_k)=k(x).
+}
+\]
+
+\subsubsection*{Example 13. Function field of affine \(n\)-space}
+
+Let
+\[
+X=\mathbb{A}^n_k=\operatorname{Spec}k[x_1,\dots,x_n].
+\]
+
+Since
+\[
+k[x_1,\dots,x_n]
+\]
+is a domain, \(X\) is integral.
+
+Therefore
+\[
+K(X)
+=
+\operatorname{Frac}(k[x_1,\dots,x_n]).
+\]
+
+Hence
+\[
+\boxed{
+	K(\mathbb{A}^n_k)=k(x_1,\dots,x_n).
+}
+\]
+
+\subsubsection*{Example 14. Function field of an affine curve}
+
+Let
+\[
+X=\operatorname{Spec}k[x,y]/(y^2-x^3).
+\]
+
+Assume that \(y^2-x^3\) is irreducible over \(k\). Then
+\[
+A=k[x,y]/(y^2-x^3)
+\]
+is an integral domain.
+
+Therefore
+\[
+X
+\]
+is integral, and its function field is
+\[
+K(X)=\operatorname{Frac}(A).
+\]
+
+So
+\[
+K(X)
+=
+\operatorname{Frac}\bigl(k[x,y]/(y^2-x^3)\bigr).
+\]
+
+Equivalently, this is the field generated by \(x\) and \(y\) subject to the relation
+\[
+y^2=x^3.
+\]
+
+Thus
+\[
+\boxed{
+	K(X)=\operatorname{Frac}\bigl(k[x,y]/(y^2-x^3)\bigr).
+}
+\]
+
+\subsubsection*{Example 15. Function field of projective line}
+
+Let
+\[
+X=\mathbb{P}^1_k.
+\]
+
+Although \(\mathbb{P}^1_k\) is not affine, it is integral.
+
+Take the standard affine open
+\[
+U_0=\{X_0\neq 0\}\cong \operatorname{Spec}k[t].
+\]
+
+Since \(U_0\) is a nonempty affine open subset of \(\mathbb{P}^1_k\), the function field of \(\mathbb{P}^1_k\) is
+\[
+K(\mathbb{P}^1_k)=\operatorname{Frac}(k[t]).
+\]
+
+Therefore
+\[
+\boxed{
+	K(\mathbb{P}^1_k)=k(t).
+}
+\]
+
+This shows that the function field of a non-affine integral scheme can still be computed on any nonempty affine open.
+
+\subsection{Same Function Field on Different Affine Opens}
+
+Let
+\[
+X=\mathbb{A}^1_k=\operatorname{Spec}k[x].
+\]
+
+The function field is
+\[
+K(X)=k(x).
+\]
+
+Now consider the distinguished open subset
+\[
+D(x)\subseteq X.
+\]
+
+We have
+\[
+D(x)=\operatorname{Spec}k[x]_x.
+\]
+
+Its coordinate ring is
+\[
+k[x]_x.
+\]
+
+The field of fractions of \(k[x]_x\) is still
+\[
+k(x).
+\]
+
+Therefore
+\[
+\operatorname{Frac}(k[x])
+=
+\operatorname{Frac}(k[x]_x)
+=
+k(x).
+\]
+
+Thus
+\[
+\boxed{
+	K(X)
+	\text{ can be computed using } \operatorname{Spec}k[x]
+	\text{ or using } D(x).
+}
+\]
+
+This illustrates the theorem that for an integral scheme,
+\[
+K(X)=\operatorname{Frac}(A)
+\]
+for every nonempty affine open subset
+\[
+U=\operatorname{Spec}A\subseteq X.
+\]
+
+\subsection{Example Where the Function Field Is Not Defined in This Sense}
+
+Let
+\[
+X=\operatorname{Spec}k[x,y]/(xy).
+\]
+
+This scheme is not integral, because
+\[
+x\cdot y=0
+\]
+but neither \(x\) nor \(y\) is zero.
+
+Since \(X\) is reducible, it does not have a unique generic point. It has two irreducible components:
+\[
+V(x)
+\qquad\text{and}\qquad
+V(y).
+\]
+
+Each component has its own function field:
+\[
+K(V(x))\cong k(y),
+\]
+and
+\[
+K(V(y))\cong k(x).
+\]
+
+But \(X\) itself is not integral, so there is no single function field \(K(X)\) in the sense defined for integral schemes.
+
+Therefore
+\[
+\boxed{
+	\operatorname{Spec}k[x,y]/(xy)
+	\text{ has component function fields, but no single function field as an integral scheme.}
+}
+\]
+
+\subsection{Summary of Examples}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Example} & \textbf{Object} & \textbf{Conclusion} \\
+	\hline
+	\mathbb{A}^n_k &
+	\operatorname{Spec}k[x_1,\dots,x_n]\to\operatorname{Spec}k &
+	\text{Finite type}
+	\\
+	\hline
+	\text{Infinite disjoint union} &
+	\coprod_{n=1}^{\infty}\operatorname{Spec}k\to\operatorname{Spec}k &
+	\text{Locally finite type, not finite type}
+	\\
+	\hline
+	\text{Infinite variables} &
+	\operatorname{Spec}k[x_1,x_2,\dots]\to\operatorname{Spec}k &
+	\text{Not locally finite type}
+	\\
+	\hline
+	\text{Dual numbers} &
+	\operatorname{Spec}k[\varepsilon]/(\varepsilon^2) &
+	\text{Irreducible but not reduced}
+	\\
+	\hline
+	\text{Two axes} &
+	\operatorname{Spec}k[x,y]/(xy) &
+	\text{Reduced but reducible}
+	\\
+	\hline
+	\text{Affine line} &
+	\operatorname{Spec}k[x] &
+	K(X)=k(x)
+	\\
+	\hline
+	\text{Affine }n\text{-space} &
+	\operatorname{Spec}k[x_1,\dots,x_n] &
+	K(X)=k(x_1,\dots,x_n)
+	\\
+	\hline
+	\text{Projective line} &
+	\mathbb{P}^1_k &
+	K(X)=k(t)
+\end{array}
+\]
+
+\section{Charts, Diagrams, and Tables: Locally Finite Type, Generic Points, and Function Fields}
+
+This section summarizes the material visually. The diagrams are designed to show the logical structure of the proofs and the relations between the main concepts.
+
+\subsection{Chart: Local Properties of Schemes}
+
+\[
+\begin{array}{c|c|c|c}
+	\textbf{Property} 
+	& \textbf{Affine condition on } A
+	& \textbf{Geometric meaning}
+	& \textbf{Typical failure}
+	\\
+	\hline
+	\text{Reduced}
+	&
+	A \text{ has no nonzero nilpotents}
+	&
+	\text{No infinitesimal thickening}
+	&
+	k[\varepsilon]/(\varepsilon^2)
+	\\
+	\hline
+	\text{Irreducible}
+	&
+	\sqrt{(0)} \text{ is prime}
+	&
+	\text{One topological component}
+	&
+	k\times k
+	\\
+	\hline
+	\text{Integral}
+	&
+	A \text{ is a domain}
+	&
+	\text{Reduced and irreducible}
+	&
+	k[x,y]/(xy)
+	\\
+	\hline
+	\text{Noetherian}
+	&
+	A \text{ is Noetherian}
+	&
+	\text{Finiteness of ideals locally}
+	&
+	k[x_1,x_2,x_3,\dots]
+	\\
+	\hline
+	\text{Affine}
+	&
+	X\cong \operatorname{Spec}A
+	&
+	\text{Globally described by one ring}
+	&
+	\mathbb{P}^1_k
+\end{array}
+\]
+
+\subsection{Diagram: How Locally Finite Type Is Checked}
+
+The definition starts with one affine cover of \(Y\), but the theorem says the condition automatically holds over every affine open subset of \(Y\).
+
+\[
+\begin{array}{c}
+	\boxed{
+		Y=\bigcup_i V_i,\qquad V_i=\operatorname{Spec}B_i
+	}
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{
+		f^{-1}(V_i)
+		\text{ covered by }
+		U_{ij}=\operatorname{Spec}A_{ij}
+	}
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{
+		A_{ij}
+		\text{ finitely generated as a }
+		B_i\text{-algebra}
+	}
+	\\[2em]
+	\text{Now take any affine open } V=\operatorname{Spec}B\subseteq Y.
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{
+		V\cap V_i
+		\text{ is covered by common distinguished opens }
+		W
+	}
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{
+		W=D(b)\subseteq \operatorname{Spec}B,
+		\qquad
+		W=D(c)\subseteq \operatorname{Spec}B_i
+	}
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{
+		B_b\cong (B_i)_c
+	}
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{
+		U_{ij}\cap f^{-1}(W)
+		\cong
+		\operatorname{Spec}(A_{ij})_{\varphi(c)}
+	}
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{
+		(A_{ij})_{\varphi(c)}
+		\text{ finitely generated over }
+		B_b
+		\text{ and hence over } B
+	}
+\end{array}
+\]
+
+\subsection{Table: Locally Finite Type versus Finite Type}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Property}
+	& \textbf{Meaning}
+	& \textbf{Example}
+	\\
+	\hline
+	\text{Locally of finite type}
+	&
+	\begin{array}{c}
+		\text{Locally on source and target,} \\
+		\text{coordinate rings are finitely generated}
+	\end{array}
+	&
+	\coprod_{n=1}^{\infty}\operatorname{Spec}k
+	\to
+	\operatorname{Spec}k
+	\\
+	\hline
+	\text{Finite type}
+	&
+	\begin{array}{c}
+		\text{Locally of finite type} \\
+		+ \\
+		\text{quasi-compactness}
+	\end{array}
+	&
+	\mathbb{A}^n_k\to \operatorname{Spec}k
+	\\
+	\hline
+	\text{Not locally of finite type}
+	&
+	\begin{array}{c}
+		\text{Even locally, infinitely many} \\
+		\text{algebra generators are needed}
+	\end{array}
+	&
+	\operatorname{Spec}k[x_1,x_2,x_3,\dots]
+	\to
+	\operatorname{Spec}k
+\end{array}
+\]
+
+\subsection{Conceptual Formula: Finite Type}
+
+\[
+\boxed{
+	\text{finite type}
+	=
+	\text{locally finite type}
+	+
+	\text{quasi-compactness}
+}
+\]
+
+More explicitly,
+
+\[
+\boxed{
+	f:X\to Y \text{ finite type}
+	\iff
+	f \text{ locally of finite type and quasi-compact}.
+}
+\]
+
+\subsection{Diagram: The Difference Between Locally Finite Type and Finite Type}
+
+\[
+\begin{array}{c|c}
+	\textbf{Locally finite type} & \textbf{Finite type}
+	\\
+	\hline
+	\begin{array}{c}
+		\text{Each small affine piece is} \\
+		\text{controlled by finitely many generators}
+	\end{array}
+	&
+	\begin{array}{c}
+		\text{Only finitely many such affine pieces} \\
+		\text{are needed over affine opens}
+	\end{array}
+	\\[2em]
+	\coprod_{n=1}^{\infty}\operatorname{Spec}k
+	\to
+	\operatorname{Spec}k
+	&
+	\mathbb{A}^n_k
+	\to
+	\operatorname{Spec}k
+	\\[2em]
+	\text{Locally finite type}
+	&
+	\text{Finite type}
+	\\
+	\text{Not quasi-compact}
+	&
+	\text{Quasi-compact}
+\end{array}
+\]
+
+\subsection{Table: Standard Counterexamples}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Failed property}
+	& \textbf{Counterexample}
+	& \textbf{Reason}
+	\\
+	\hline
+	\text{Reduced}
+	&
+	\operatorname{Spec}k[\varepsilon]/(\varepsilon^2)
+	&
+	\varepsilon\neq 0,\ \varepsilon^2=0
+	\\
+	\hline
+	\text{Irreducible}
+	&
+	\operatorname{Spec}(k\times k)
+	&
+	\text{Two disconnected points}
+	\\
+	\hline
+	\text{Integral}
+	&
+	\operatorname{Spec}k[x,y]/(xy)
+	&
+	x\cdot y=0
+	\\
+	\hline
+	\text{Affine}
+	&
+	\mathbb{P}^1_k
+	&
+	\Gamma(\mathbb{P}^1_k,\mathcal{O})=k
+	\text{ but } \mathbb{P}^1_k\neq \operatorname{Spec}k
+	\\
+	\hline
+	\text{Noetherian}
+	&
+	\operatorname{Spec}k[x_1,x_2,x_3,\dots]
+	&
+	(x_1)\subsetneq (x_1,x_2)\subsetneq (x_1,x_2,x_3)\subsetneq\cdots
+	\\
+	\hline
+	\text{Locally finite type}
+	&
+	\operatorname{Spec}k[x_1,x_2,x_3,\dots]\to\operatorname{Spec}k
+	&
+	\text{Infinitely many generators remain locally}
+	\\
+	\hline
+	\text{Finite type}
+	&
+	\coprod_{n=1}^{\infty}\operatorname{Spec}k\to\operatorname{Spec}k
+	&
+	\text{Not quasi-compact}
+\end{array}
+\]
+
+\subsection{Diagram: Generic Point of an Integral Affine Scheme}
+
+Let
+
+\[
+X=\operatorname{Spec}A
+\]
+
+where \(A\) is an integral domain. Then the generic point is
+
+\[
+\eta=(0).
+\]
+
+The closure of \((0)\) is all of \(X\):
+
+\[
+\overline{\{(0)\}}
+=
+V((0))
+=
+\operatorname{Spec}A.
+\]
+
+So the picture is:
+
+\[
+\begin{array}{c}
+	\boxed{
+		(0)
+	}
+	\\[0.5em]
+	\text{generic point}
+	\\[1em]
+	\Downarrow\ \text{specializes to}
+	\\[1em]
+	\boxed{
+		\mathfrak{p}\in \operatorname{Spec}A
+	}
+	\\[0.5em]
+	\text{arbitrary prime ideal}
+	\\[1em]
+	\Downarrow\ \text{specializes further to}
+	\\[1em]
+	\boxed{
+		\mathfrak{m}\in \operatorname{Spec}A
+	}
+	\\[0.5em]
+	\text{closed point, if } \mathfrak{m} \text{ is maximal}
+\end{array}
+\]
+
+Thus the generic point is the most general point of the scheme.
+
+\subsection{Example Diagram: Generic Point of \(\mathbb{A}^1_k\)}
+
+For
+
+\[
+\mathbb{A}^1_k=\operatorname{Spec}k[x],
+\]
+
+the points are prime ideals of \(k[x]\).
+
+The generic point is
+
+\[
+(0).
+\]
+
+Closed points correspond to maximal ideals such as
+
+\[
+(x-a)
+\]
+
+for \(a\in k\), assuming \(k\) is algebraically closed.
+
+\[
+\begin{array}{c}
+	\boxed{(0)}
+	\\[0.5em]
+	\text{generic point}
+	\\[1em]
+	\Downarrow
+	\\[1em]
+	\boxed{(x-a)}
+	\\[0.5em]
+	\text{closed point}
+\end{array}
+\]
+
+The closure relation is
+
+\[
+\overline{\{(0)\}}
+=
+\operatorname{Spec}k[x],
+\]
+
+while
+
+\[
+\overline{\{(x-a)\}}
+=
+\{(x-a)\}.
+\]
+
+\subsection{Diagram: Reducible Scheme with Two Generic Points}
+
+Consider
+
+\[
+X=\operatorname{Spec}k[x,y]/(xy).
+\]
+
+This is the union of two coordinate axes:
+
+\[
+xy=0.
+\]
+
+The two irreducible components are
+
+\[
+V(x)
+\qquad\text{and}\qquad
+V(y).
+\]
+
+Their generic points are
+
+\[
+(x)
+\qquad\text{and}\qquad
+(y).
+\]
+
+\[
+\begin{array}{ccc}
+	& \operatorname{Spec}k[x,y]/(xy) & 
+	\\[0.5em]
+	\swarrow & & \searrow
+	\\[0.5em]
+	V(x) & & V(y)
+	\\[0.5em]
+	\text{generic point } (x) & & \text{generic point } (y)
+\end{array}
+\]
+
+So a reducible scheme does not have one generic point for the whole space. Instead, each irreducible component has its own generic point.
+
+\subsection{Chart: Function Field of an Integral Scheme}
+
+Let \(X\) be integral with generic point \(\eta\). Then
+
+\[
+K(X)=\mathcal{O}_{X,\eta}.
+\]
+
+If
+
+\[
+U=\operatorname{Spec}A\subseteq X
+\]
+
+is any nonempty affine open subset, then
+
+\[
+K(X)=\operatorname{Frac}(A).
+\]
+
+The computation is:
+
+\[
+\begin{array}{c}
+	U=\operatorname{Spec}A
+	\\[0.5em]
+	\Downarrow
+	\\[0.5em]
+	\eta \leftrightarrow (0)\subseteq A
+	\\[0.5em]
+	\Downarrow
+	\\[0.5em]
+	\mathcal{O}_{X,\eta}
+	=
+	\mathcal{O}_{U,\eta}
+	\\[0.5em]
+	\Downarrow
+	\\[0.5em]
+	\mathcal{O}_{U,\eta}
+	=
+	A_{(0)}
+	\\[0.5em]
+	\Downarrow
+	\\[0.5em]
+	A_{(0)}
+	=
+	\operatorname{Frac}(A)
+	\\[0.5em]
+	\Downarrow
+	\\[0.5em]
+	\boxed{
+		K(X)=\operatorname{Frac}(A)
+	}
+\end{array}
+\]
+
+\subsection{Table: Function Fields of Standard Schemes}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Scheme}
+	& \textbf{Affine coordinate ring}
+	& \textbf{Function field}
+	\\
+	\hline
+	\mathbb{A}^1_k
+	&
+	k[x]
+	&
+	k(x)
+	\\
+	\hline
+	\mathbb{A}^n_k
+	&
+	k[x_1,\dots,x_n]
+	&
+	k(x_1,\dots,x_n)
+	\\
+	\hline
+	\operatorname{Spec}k[x,y]/(y^2-x^3)
+	&
+	k[x,y]/(y^2-x^3)
+	&
+	\operatorname{Frac}\bigl(k[x,y]/(y^2-x^3)\bigr)
+	\\
+	\hline
+	\mathbb{P}^1_k
+	&
+	\text{computed on } U_0\cong\operatorname{Spec}k[t]
+	&
+	k(t)
+	\\
+	\hline
+	\operatorname{Spec}k[x_1,\dots,x_n]/\mathfrak{p}
+	&
+	k[x_1,\dots,x_n]/\mathfrak{p}
+	&
+	\operatorname{Frac}\bigl(k[x_1,\dots,x_n]/\mathfrak{p}\bigr)
+\end{array}
+\]
+
+\subsection{Diagram: Computing \(K(X)\) on Different Affine Opens}
+
+Let
+
+\[
+X=\mathbb{A}^1_k=\operatorname{Spec}k[x].
+\]
+
+Take the distinguished open
+
+\[
+D(x)=\operatorname{Spec}k[x]_x.
+\]
+
+Then
+
+\[
+\operatorname{Frac}(k[x])
+=
+\operatorname{Frac}(k[x]_x)
+=
+k(x).
+\]
+
+Thus both affine opens compute the same function field:
+
+\[
+\begin{array}{ccc}
+	\operatorname{Spec}k[x]
+	& \supseteq &
+	D(x)=\operatorname{Spec}k[x]_x
+	\\[0.5em]
+	\Downarrow & & \Downarrow
+	\\[0.5em]
+	\operatorname{Frac}(k[x])
+	& = &
+	\operatorname{Frac}(k[x]_x)
+	\\[0.5em]
+	\Downarrow & & \Downarrow
+	\\[0.5em]
+	k(x)
+	& = &
+	k(x)
+\end{array}
+\]
+
+\subsection{Table: Integral versus Reducible Case}
+
+\[
+\begin{array}{c|c|c}
+	\textbf{Scheme}
+	& \textbf{Generic points}
+	& \textbf{Function field}
+	\\
+	\hline
+	\operatorname{Spec}k[x]
+	&
+	\text{One generic point } (0)
+	&
+	k(x)
+	\\
+	\hline
+	\operatorname{Spec}k[x_1,\dots,x_n]
+	&
+	\text{One generic point } (0)
+	&
+	k(x_1,\dots,x_n)
+	\\
+	\hline
+	\operatorname{Spec}k[x,y]/(xy)
+	&
+	\text{Two component-generic points } (x),(y)
+	&
+	\begin{array}{c}
+		\text{No single } K(X) \text{ as an integral scheme} \\
+		\text{Component fields: } k(x),\ k(y)
+	\end{array}
+	\\
+	\hline
+	\operatorname{Spec}k[\varepsilon]/(\varepsilon^2)
+	&
+	\text{One topological point}
+	&
+	\text{Not integral, so no } K(X) \text{ in this sense}
+\end{array}
+\]
+
+\subsection{Final Summary Diagram}
+
+\[
+\begin{array}{ccccc}
+	\text{Integral scheme } X
+	& \Longrightarrow &
+	\text{unique generic point } \eta
+	& \Longrightarrow &
+	K(X)=\mathcal{O}_{X,\eta}
+	\\[1em]
+	\Downarrow
+	& &
+	\Downarrow
+	& &
+	\Downarrow
+	\\[1em]
+	\text{Affine open } U=\operatorname{Spec}A
+	& \Longrightarrow &
+	\eta=(0)\in \operatorname{Spec}A
+	& \Longrightarrow &
+	K(X)=A_{(0)}=\operatorname{Frac}(A)
+\end{array}
+\]
+
+So the key slogan is:
+
+\[
+\boxed{
+	\text{On an integral scheme, rational functions are regular functions near the generic point.}
+}
+\]
+
+\end{document}
+
+
+

@@ -1,0 +1,3131 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{caption}      % optional but recommended
+\usepackage{subcaption} 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+
+\usetikzlibrary{calc,arrows.meta,patterns,decorations.pathreplacing}
+\usepackage{tikz-3dplot}
+\usepackage{xcolor}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newcommand{\II}{\mathrm{I\!I}}
+
+\newcommand{\C}{\mathbb{C}}
+
+% (optional) if you also want the first fundamental form:
+\newcommand{\I}{\mathrm{I}}
+
+\newcommand{\hyp}{\mathbb{H}}
+
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\newcommand{\n}{6}
+
+% --- codim operator (put in the preamble) ---
+\DeclareMathOperator{\codim}{codim}
+
+
+\newcommand{\Solution}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\Theory}{\par\medskip\noindent\textbf{Theory.}\ }
+\newcommand{\Proof}{\par\medskip\noindent\textbf{Proof.}\ }
+
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+	\fancyhead[L]{\textit{Geometry 2}}
+\fancyhead[R]{\textit{Exercises}}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+
+% --- HEADER ---
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}{Definition}
+
+% Option A: as an operator (recommended)
+\DeclareMathOperator{\Span}{span}
+
+% or, shorter version
+
+
+
+\newcommand{\sph}{\mathrm{sph}}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+
+\theoremstyle{definition}      % bold heading, upright body
+\newtheorem{example}[theorem]{Example}
+
+
+\newtheorem*{Example}{Example}
+
+% =========================================================
+% E2 + E3  (same style as E1)
+% =========================================================
+% TikZ helpers (Poincaré disk geodesic from boundary angles)
+% Requires: \usetikzlibrary{arrows.meta}
+% =========================================================
+
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Usage: \DiskGeodesic[<draw options>]{<a deg>}{<b deg>}
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+% Handles the diameter case (antipodal endpoints) where det=0.
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+
+\newtheorem{remark}[theorem]{Remark} 
+\tikzset{
+	>={Latex[length=2.6mm]},
+	axis/.style={black, thin, ->},
+	unitcircle/.style={black, very thin},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	removable/.style={black, thick},
+	essstar/.style={yellow!65!orange, star, star points=7, minimum size=6pt, draw=orange!80!black, fill=yellow!70!orange},
+	lattice/.style={blue!70!black, fill=blue!70!black},
+	note/.style={black!70, font=\scriptsize}
+}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+
+% --- colors and styles for the charts ---
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+% styles
+\definecolor{PoleRed}{RGB}{214,49,56}
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1  % <- force visible text
+	},
+}
+
+
+
+\title{Geometry G(2)}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+\subsection*{Problem}
+\begin{enumerate}[label=\textbf{\arabic*.}]
+	\item
+	\begin{enumerate}[label=\textbf{(\roman*)}]
+		\item Let $\alpha:I\to\mathbb{R}^3$ be a curve parametrized by arc length with curvature $k(s)\neq 0$ for all $s\in I$.
+		Show that the torsion $\tau$ of $\alpha$ is given by
+		\[
+		\tau(s)=-\,\frac{\big\langle \alpha'(s)\wedge \alpha''(s),\,\alpha^{(3)}(s)\big\rangle}{|k(s)|^2},
+		\]
+		where $\alpha^{(3)}$ denotes the third derivative with respect to $s$.
+		
+		\item Give an example of two curves $\alpha:[0,1]\to\mathbb{R}^3$, $\tilde\alpha:[0,1]\to\mathbb{R}^3$ parametrized by arc length, such that
+		\[
+		k(s)=\tilde k(s),\qquad \tau(s)=\tilde\tau(s)\ \text{whenever }k(s)\neq 0,
+		\]
+		but $\alpha$ and $\tilde\alpha$ are not related by a Euclidean motion.
+	\end{enumerate}
+\end{enumerate}
+
+\subsection*{Theory}
+\noindent\textbf{Unit-speed curves and Frenet frame.}
+If $\alpha$ is parametrized by arc length, then $T=\alpha'$ satisfies $|T|=1$ and $\alpha''\perp \alpha'$.
+The curvature is
+\[
+k(s)=|\alpha''(s)|,
+\]
+and when $k(s)\neq 0$ one defines the principal normal and binormal by
+\[
+N(s)=\frac{\alpha''(s)}{k(s)},\qquad B(s)=T(s)\times N(s).
+\]
+The Frenet--Serret formulas are
+\[
+T'=kN,\qquad N'=-kT+\tau B,\qquad B'=-\tau N,
+\]
+where $\tau$ is the torsion. The scalar triple product identity (in $\mathbb R^3$) is
+\[
+\langle u\times v,\,w\rangle=\det(u,v,w),
+\]
+and it changes sign under swapping two arguments.
+
+\subsection*{Solution}
+\noindent\textbf{(i)}
+Let $\alpha:I\to\mathbb{R}^3$ be parametrized by arc length. Set
+\[
+T(s)=\alpha'(s),\qquad |T(s)|=1.
+\]
+Then $\alpha''(s)\perp \alpha'(s)$ and the curvature is $k(s)=|\alpha''(s)|\neq 0$.
+Define
+\[
+N(s)=\frac{\alpha''(s)}{k(s)},\qquad 
+B(s)=T(s)\times N(s).
+\]
+Since $|T|=1$ and $T\perp \alpha''$, we have $|T\times \alpha''|=|T|\,|\alpha''|=k$, hence
+\[
+B=\frac{\alpha'\times \alpha''}{k}.
+\]
+Differentiate:
+\[
+B'=\left(\frac{\alpha'\times \alpha''}{k}\right)'
+=\frac{(\alpha'\times \alpha'')'}{k}-\frac{k'}{k^2}(\alpha'\times \alpha'').
+\]
+Now
+\[
+(\alpha'\times \alpha'')'=\alpha''\times \alpha''+\alpha'\times \alpha'''
+=\alpha'\times \alpha''',
+\]
+so
+\[
+B'=\frac{\alpha'\times \alpha'''}{k}-\frac{k'}{k^2}(\alpha'\times \alpha'').
+\]
+By the Frenet--Serret formula $B'=-\tau N$, we have
+\[
+\tau=-\langle B',N\rangle.
+\]
+Using $N=\alpha''/k$,
+\[
+\langle B',N\rangle
+=
+\left\langle
+\frac{\alpha'\times \alpha'''}{k}-\frac{k'}{k^2}(\alpha'\times \alpha''),
+\frac{\alpha''}{k}
+\right\rangle.
+\]
+The second term vanishes because $\alpha'\times\alpha''\perp\alpha''$, hence
+\[
+\langle B',N\rangle=\frac{1}{k^2}\,\langle \alpha'\times \alpha''',\alpha''\rangle.
+\]
+Using the scalar triple product identities,
+\[
+\langle \alpha'\times \alpha''',\alpha''\rangle
+=\det(\alpha',\alpha''',\alpha'')
+=-\det(\alpha',\alpha'',\alpha''')
+=-\langle \alpha'\times\alpha'',\alpha'''\rangle,
+\]
+we obtain
+\[
+\tau
+=-\langle B',N\rangle
+=-\frac{1}{k^2}\big(-\langle \alpha'\times\alpha'',\alpha'''\rangle\big)
+=
+\frac{\langle \alpha'\times\alpha'',\alpha'''\rangle}{k^2}.
+\]
+Identifying $\alpha'\wedge\alpha''$ with $\alpha'\times\alpha''$ up to the chosen convention,
+this is equivalently written as
+\[
+\tau(s)=-\,\frac{\big\langle \alpha'(s)\wedge \alpha''(s),\,\alpha^{(3)}(s)\big\rangle}{|k(s)|^2},
+\]
+which matches the stated formula (the overall sign depends only on the orientation convention for $B$
+and for the identification $\wedge\leftrightarrow\times$).
+
+\medskip
+\noindent\textbf{(ii)}
+The fundamental theorem of space curves gives uniqueness up to Euclidean motion only when $k(s)>0$ everywhere.
+If $k$ vanishes on an interval, one can ``twist'' a later part of the curve around the straight segment
+without changing $k,\tau$ on the curved parts.
+
+Let $\beta:[0,1]\to\mathbb{R}^3$ be a smooth curve which is exactly a straight segment on a middle interval, e.g.
+\[
+\beta(s)=(s,0,0)\qquad \text{for } s\in[1/3,2/3],
+\]
+but is not a straight line for $s<1/3$ and for $s>2/3$ (so $k\neq 0$ on those parts).
+Let $R_\theta$ be a rotation about the $x$--axis by a fixed angle $\theta\neq 0$, and define
+\[
+\widetilde\beta(s)=
+\begin{cases}
+	\beta(s), & 0\le s\le 2/3,\\
+	R_\theta(\beta(s)), & 2/3\le s\le 1.
+\end{cases}
+\]
+(Choose $\beta$ to be straight on an open neighborhood of $[1/3,2/3]$ so that all derivatives match at $2/3$;
+then $\widetilde\beta$ is smooth.)
+
+On $(2/3,1]$ the map $R_\theta$ is a Euclidean motion, hence it preserves curvature and torsion:
+\[
+k_{\widetilde\beta}(s)=k_\beta(s),\qquad \tau_{\widetilde\beta}(s)=\tau_\beta(s)
+\quad \text{whenever }k_\beta(s)\neq 0.
+\]
+On $[1/3,2/3]$ we have $k_\beta=0$, so the requirement ``$\tau=\widetilde\tau$ whenever $k\neq 0$''
+imposes no condition there.
+
+Moreover, $\beta(s)=\widetilde\beta(s)$ for all $s\in[0,2/3]$.
+If a single Euclidean motion $M$ satisfied $M(\beta(s))=\widetilde\beta(s)$ for all $s\in[0,1]$,
+then $M$ would fix the non-straight arc $\beta([0,1/3])$ pointwise, forcing $M=\mathrm{Id}$.
+But then $\beta=\widetilde\beta$ on $(2/3,1]$, contradicting $\theta\neq 0$.
+Hence $\beta$ and $\widetilde\beta$ are not related by a Euclidean motion.
+
+Finally, if one wants unit-speed curves, note that $|\beta'(s)|=|\widetilde\beta'(s)|$ for all $s$
+(rotation preserves derivative norms on the rotated part).
+Thus the same arc-length reparametrization applied to both produces curves
+$\alpha,\widetilde\alpha:[0,1]\to\mathbb{R}^3$ parametrized by arc length with the same properties.
+
+
+\subsection*{Theory: Frenet frame and orthogonality of velocity and acceleration}
+
+\noindent\textbf{Frenet frame.}
+Let $\alpha:I\to\mathbb{R}^3$ be a $C^3$ curve parametrized by arc length $s$.
+Define the \emph{unit tangent} (velocity direction)
+\[
+T(s)=\alpha'(s).
+\]
+Since $s$ is arc length, the speed is constant:
+\[
+|T(s)|=|\alpha'(s)|=1.
+\]
+Assuming the curvature $k(s)\neq 0$, define the \emph{curvature} and the \emph{principal normal} by
+\[
+k(s)=|\alpha''(s)|,\qquad N(s)=\frac{\alpha''(s)}{|\alpha''(s)|}=\frac{\alpha''(s)}{k(s)}.
+\]
+Finally, define the \emph{binormal} by
+\[
+B(s)=T(s)\times N(s).
+\]
+Then $(T(s),N(s),B(s))$ is an orthonormal basis of $\mathbb{R}^3$ (a moving frame along the curve),
+called the \emph{Frenet frame}.
+
+\medskip
+\noindent\textbf{Velocity perpendicular to acceleration (unit speed).}
+For a general parametrization, velocity is $\alpha'(t)$ and acceleration is $\alpha''(t)$.
+If $\alpha$ is parametrized by arc length, then $|\alpha'(s)|=1$, hence
+\[
+\langle \alpha'(s),\alpha'(s)\rangle = 1.
+\]
+Differentiating with respect to $s$ gives
+\[
+\frac{d}{ds}\langle \alpha'(s),\alpha'(s)\rangle
+=2\langle \alpha''(s),\alpha'(s)\rangle=0,
+\]
+so
+\[
+\boxed{\ \langle \alpha'(s),\alpha''(s)\rangle=0\ }.
+\]
+Thus, for a unit-speed curve, \emph{velocity is perpendicular to acceleration}.
+Geometrically: constant speed means acceleration has no tangential component (it does not speed up or slow down),
+so it only changes the \emph{direction} of motion. In fact,
+\[
+\alpha''(s)=k(s)\,N(s).
+\]
+
+\medskip
+\noindent\textbf{Frenet--Serret formulas.}
+With the above definitions (and $k(s)\neq 0$), the derivatives of the frame satisfy
+\[
+T'(s)=k(s)N(s),\qquad
+N'(s)=-k(s)T(s)+\tau(s)B(s),\qquad
+B'(s)=-\tau(s)N(s),
+\]
+where $\tau(s)$ is the \emph{torsion}, measuring the rotation of the osculating plane.
+
+\subsection*{Examples}
+
+\noindent\textbf{Example A (straight line).}
+Let $\alpha(s)=(s,0,0)$. Then
+\[
+T=\alpha'=(1,0,0),\qquad \alpha''=0,
+\]
+so
+\[
+k(s)=|\alpha''(s)|=0.
+\]
+In this case the Frenet frame is \emph{not uniquely defined} because the normal direction is not determined
+(there is no bending). Torsion is also not defined in the Frenet sense since it requires $k\neq 0$.
+
+\medskip
+\noindent\textbf{Example B (circle: torsion $=0$).}
+Let
+\[
+\alpha(s)=\big(R\cos(s/R),\,R\sin(s/R),\,0\big),
+\]
+which is parametrized by arc length ($|\alpha'(s)|=1$). Then
+\[
+\alpha'(s)=\big(-\sin(s/R),\,\cos(s/R),\,0\big),\qquad
+\alpha''(s)=\big(-(1/R)\cos(s/R),\, -(1/R)\sin(s/R),\,0\big),
+\]
+hence
+\[
+k(s)=|\alpha''(s)|=\frac{1}{R}.
+\]
+Moreover, the curve lies in the plane $z=0$, so the binormal is constant ($B=(0,0,1)$ up to sign),
+therefore
+\[
+\tau(s)=0.
+\]
+This illustrates: \emph{planar curves have torsion $0$}.
+
+\medskip
+\noindent\textbf{Example C (helix: constant curvature and constant torsion).}
+Fix $a>0$ and $b\in\mathbb{R}$. Define the unit-speed helix
+\[
+\alpha(s)=\left(a\cos\Big(\frac{s}{\sqrt{a^2+b^2}}\Big),\;
+a\sin\Big(\frac{s}{\sqrt{a^2+b^2}}\Big),\;
+\frac{b}{\sqrt{a^2+b^2}}\,s\right).
+\]
+Then $|\alpha'(s)|=1$ and one finds (standard computation) that
+\[
+k(s)=\frac{a}{a^2+b^2},\qquad
+\tau(s)=\frac{b}{a^2+b^2},
+\]
+both constants. This is the simplest example with $\tau\neq 0$:
+the curve is not planar, and the osculating plane rotates along the curve.
+
+\medskip
+\noindent\textbf{Example D (why velocity $\perp$ acceleration in unit speed).}
+For the circle in Example B we have $|\,\alpha'(s)\,|=1$ and explicitly
+\[
+\big\langle \alpha'(s),\alpha''(s)\big\rangle
+=
+\big\langle (-\sin(s/R),\cos(s/R),0),\; (-(1/R)\cos(s/R),-(1/R)\sin(s/R),0)\big\rangle
+=0.
+\]
+So $\alpha''$ points purely in the normal direction; it bends the trajectory without changing the speed.
+
+\medskip
+\noindent\textbf{Example E (counterexample for part (ii) of the Problem).}
+Let $\beta:[0,1]\to\mathbb{R}^3$ be a smooth curve such that $\beta(s)=(s,0,0)$ on an interval
+$[1/3,2/3]$ (hence $k=0$ there), and $k(s)\neq 0$ for $s\in[0,1/3)\cup(2/3,1]$.
+Let $R_\theta$ be a rotation about the $x$--axis with $\theta\neq 0$ and define
+\[
+\widetilde\beta(s)=
+\begin{cases}
+	\beta(s), & 0\le s\le 2/3,\\
+	R_\theta(\beta(s)), & 2/3\le s\le 1.
+\end{cases}
+\]
+Then on the curved parts ($k\neq 0$) the curves agree up to a Euclidean motion, so
+\[
+k_{\widetilde\beta}(s)=k_\beta(s),\qquad \tau_{\widetilde\beta}(s)=\tau_\beta(s)\quad
+\text{whenever }k_\beta(s)\neq 0,
+\]
+but there is \emph{no single} Euclidean motion taking $\beta$ to $\widetilde\beta$
+(because they coincide on $[0,2/3]$ but differ by a nontrivial rotation on $(2/3,1]$).
+After applying the same arc-length reparametrization to both, one obtains $\alpha,\widetilde\alpha$
+parametrized by arc length with the same property.
+
+\subsection*{Why we assume unit speed (arc-length parametrization)}
+
+A geometric curve in $\mathbb{R}^3$ is the image of a map $\alpha:I\to\mathbb{R}^3$.
+The \emph{same} geometric curve can be described with many different parameters:
+if $\phi:J\to I$ is a smooth, strictly monotone map, then
+\[
+\widetilde\alpha(u)=\alpha(\phi(u))
+\]
+traces out the same set of points, but its derivatives (velocity, acceleration) change because the
+``speed of traversal'' changes.
+
+\medskip
+\noindent\textbf{Arc length.}
+For a regular curve (i.e.\ $|\alpha'(t)|\neq 0$), define the arc-length function
+\[
+s(t)=\int_{t_0}^{t}|\alpha'(u)|\,du.
+\]
+This $s$ is strictly increasing, so it can be used as a new parameter.
+When we reparametrize the curve by $s$, we obtain a \emph{unit-speed} curve (also called arc-length parametrized),
+satisfying
+\[
+|\alpha'(s)|=1.
+\]
+
+\medskip
+\noindent\textbf{Why it is convenient.}
+If $|\alpha'(s)|=1$, then the tangent vector is automatically a unit vector:
+\[
+T(s)=\alpha'(s),\qquad |T(s)|=1,
+\]
+and differentiating $|T(s)|^2=\langle T(s),T(s)\rangle=1$ gives
+\[
+0=\frac{d}{ds}\langle T,T\rangle=2\langle T',T\rangle
+\quad\Longrightarrow\quad
+\langle \alpha''(s),\alpha'(s)\rangle=0.
+\]
+Thus, for a unit-speed curve, \emph{velocity is perpendicular to acceleration}.
+Geometrically, constant speed means the acceleration has no tangential component (it does not speed up or slow down);
+it only changes the direction of motion.
+
+\medskip
+\noindent\textbf{Clean Frenet formulas.}
+In unit speed, curvature and torsion enter the Frenet--Serret system in its simplest form:
+\[
+T'=kN,\qquad N'=-kT+\tau B,\qquad B'=-\tau N.
+\]
+For other parametrizations the same geometric invariants exist, but the formulas contain extra factors involving the
+speed $v(t)=|\alpha'(t)|$, so the arc-length choice is the standard normalization in theory and proofs.
+
+\section*{Torsion of Space Curves}
+
+\subsection*{Theory}
+
+\noindent\textbf{Arc length and unit speed.}
+A regular curve $\alpha:I\to\mathbb{R}^3$ (so $|\alpha'(t)|\neq 0$) can be reparametrized by arc length
+\[
+s(t)=\int_{t_0}^{t}|\alpha'(u)|\,du,
+\]
+so that in the new parameter $s$ we have \emph{unit speed}:
+\[
+|\alpha'(s)|=1.
+\]
+This normalization removes the dependence on the traversal speed and makes the geometry clean.
+
+\medskip
+\noindent\textbf{Frenet frame.}
+Assume $\alpha$ is $C^3$ and parametrized by arc length, and that $k(s)\neq 0$.
+Define the \emph{unit tangent}
+\[
+T(s)=\alpha'(s),
+\]
+the \emph{curvature}
+\[
+k(s)=|\alpha''(s)|,
+\]
+the \emph{principal normal}
+\[
+N(s)=\frac{\alpha''(s)}{k(s)},
+\]
+and the \emph{binormal}
+\[
+B(s)=T(s)\times N(s).
+\]
+Then $(T,N,B)$ is an orthonormal basis moving along the curve (the Frenet frame).
+
+\medskip
+\noindent\textbf{Velocity is perpendicular to acceleration (unit speed).}
+Since $|\alpha'(s)|=1$,
+\[
+\langle \alpha'(s),\alpha'(s)\rangle=1
+\quad\Longrightarrow\quad
+\frac{d}{ds}\langle \alpha',\alpha'\rangle
+=2\langle \alpha'',\alpha'\rangle=0,
+\]
+hence
+\[
+\langle \alpha'(s),\alpha''(s)\rangle=0.
+\]
+So for unit-speed curves the acceleration is purely normal:
+\[
+\alpha''(s)=k(s)\,N(s).
+\]
+
+\medskip
+\noindent\textbf{Frenet--Serret formulas and torsion.}
+The derivatives of the frame satisfy
+\[
+T'(s)=k(s)N(s),\qquad
+N'(s)=-k(s)T(s)+\tau(s)B(s),\qquad
+B'(s)=-\tau(s)N(s),
+\]
+where $\tau(s)$ is the \emph{torsion}. Geometrically, $\tau$ measures how the osculating plane
+$\mathrm{span}(T,N)$ rotates; equivalently, it measures how the binormal $B$ changes.
+
+\medskip
+\noindent\textbf{Planar curves.}
+If $\alpha$ lies in a fixed plane and $k(s)\neq 0$, then $B$ is a constant normal vector to that plane,
+so $B'(s)=0$ and therefore $\tau(s)=0$.
+
+\medskip
+\noindent\textbf{Formulas for general parametrizations.}
+If $\alpha$ is given in a parameter $t$ (not necessarily arc length), then one may compute
+\[
+k(t)=\frac{\|\alpha'(t)\times \alpha''(t)\|}{\|\alpha'(t)\|^3},
+\qquad
+\tau(t)=\frac{\det(\alpha'(t),\alpha''(t),\alpha'''(t))}{\|\alpha'(t)\times \alpha''(t)\|^2}.
+\]
+
+\subsection*{Examples}
+
+\noindent\textbf{Example 1 (circle, planar: $\tau=0$).}
+A circle lies in a plane, hence torsion vanishes.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_fig_torsion_circle3d.png}
+	\caption{Circle in a plane. The binormal is constant, hence $\tau=0$.}
+\end{figure}
+
+\noindent\textbf{Example 2 (helix: constant $\tau\neq 0$).}
+A helix twists in space; it has constant curvature and constant torsion.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_fig_torsion_helix3d.png}
+	\caption{Helix: a canonical non-planar curve with $\tau\neq 0$.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{figures/MATH-ALLS-2_fig_torsion_helix_k_tau.png}
+	\caption{For a helix, both $k$ and $\tau$ are constant.}
+\end{figure}
+
+\noindent\textbf{Example 3 (wavy space curve: varying torsion).}
+For a non-planar curve with changing osculating plane, torsion varies along the curve.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{figures/MATH-ALLS-2_fig_torsion_wavy_k_tau.png}
+	\caption{A space curve with varying curvature and torsion.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.85\linewidth]{figures/MATH-ALLS-2_fig_torsion_wavy_binormal_components.png}
+	\caption{Binormal components $B(t)$ for the same curve; changes in $B$ reflect rotation of the osculating plane.}
+\end{figure}
+
+	\subsection*{Torsion via the exterior product}
+	
+	\noindent\textbf{Wedge product.}
+	For vectors $u,v\in\mathbb{R}^3$, the exterior product $u\wedge v$ is a bivector encoding an oriented area element.
+	Its norm equals the parallelogram area:
+	\[
+	\|u\wedge v\|=\|u\|\,\|v\|\sin\theta.
+	\]
+	In $\mathbb{R}^3$ there is a canonical identification (via the Hodge star) between bivectors and vectors:
+	\[
+	*(u\wedge v)=u\times v,
+	\]
+	so one may think of $u\wedge v$ as the ``cross-product object'' (up to orientation convention).
+	
+	\medskip
+	\noindent\textbf{Scalar triple product.}
+	The pairing $\langle u\wedge v,\;w\rangle$ is the scalar triple product:
+	\[
+	\langle u\wedge v,\;w\rangle := \det(u,v,w)=\langle u\times v,\;w\rangle.
+	\]
+	Geometrically it is the oriented volume of the parallelepiped spanned by $u,v,w$, and it vanishes iff $u,v,w$
+	are coplanar.
+	
+	\medskip
+	\noindent\textbf{Torsion formula.}
+	If $\alpha$ is parametrized by arc length and $k(s)\neq 0$, then
+	\[
+	\tau(s)= -\,\frac{\big\langle \alpha'(s)\wedge \alpha''(s),\,\alpha^{(3)}(s)\big\rangle}{|k(s)|^2}.
+	\]
+	Using $\langle u\wedge v,w\rangle=\det(u,v,w)$ and $*(u\wedge v)=u\times v$, this is equivalently
+	\[
+	\tau(s)=\frac{\det(\alpha'(s),\alpha''(s),\alpha^{(3)}(s))}{\|\alpha'(s)\times\alpha''(s)\|^2}
+	=\frac{\langle \alpha'(s)\times\alpha''(s),\,\alpha^{(3)}(s)\rangle}{\|\alpha'(s)\times\alpha''(s)\|^2},
+	\]
+	up to the chosen orientation/sign convention.
+	
+	\subsection*{Examples}
+	
+	\noindent\textbf{(1) Planar curves.}
+	If $\alpha$ lies in a fixed plane, then $\alpha',\alpha'',\alpha^{(3)}$ are coplanar, hence
+	\[
+	\det(\alpha',\alpha'',\alpha^{(3)})=0
+	\quad\Rightarrow\quad
+	\tau(s)=0.
+	\]
+	In particular, circles and all planar curves with $k\neq 0$ have zero torsion.
+	
+	\medskip
+	\noindent\textbf{(2) Helix (nonzero torsion).}
+	A helix is the canonical example of a non-planar curve: its osculating plane rotates at a constant rate, so
+	$\tau$ is a nonzero constant (and $k$ is also constant).
+	
+	\medskip
+	\noindent\textbf{(3) Why $k\neq 0$ is needed.}
+	If $k(s)=0$, then $\alpha''(s)=0$ and the osculating plane is not defined (the curve is locally a straight line).
+	Accordingly, the torsion formula has denominator $|k(s)|^2=0$ and torsion is not defined in the Frenet sense there.
+	
+	\subsubsection*{Area vs. determinant.}
+	For $u,v\in\mathbb{R}^3$, the parallelogram area is
+	\[
+	\mathrm{Area}(u,v)=\|u\times v\|=\|u\wedge v\|.
+	\]
+	For $u,v,w\in\mathbb{R}^3$, the scalar triple product
+	\[
+	\det(u,v,w)=\langle u\times v,\;w\rangle
+	\]
+	is the (oriented) volume of the parallelepiped. Moreover,
+	\[
+	|\det(u,v,w)|=\|u\times v\|\cdot |w_\perp|,
+	\]
+	i.e.\ volume = base area $\times$ perpendicular height.
+	
+	\subsection*{Worked examples: circle and helix}
+	
+	\subsubsection*{Example 1: Circle (planar, torsion $=0$)}
+	Let $R>0$ and consider the circle parametrized by arc length
+	\[
+	\alpha(s)=\big(R\cos(s/R),\;R\sin(s/R),\;0\big).
+	\]
+	Then
+	\[
+	\alpha'(s)=\left(-\sin(s/R),\;\cos(s/R),\;0\right),
+	\qquad
+	|\alpha'(s)|^2=\sin^2(s/R)+\cos^2(s/R)=1,
+	\]
+	so $\alpha$ is unit speed. Next,
+	\[
+	\alpha''(s)=\left(-\frac{1}{R}\cos(s/R),\;-\frac{1}{R}\sin(s/R),\;0\right),
+	\qquad
+	\alpha^{(3)}(s)=\left(\frac{1}{R^2}\sin(s/R),\;-\frac{1}{R^2}\cos(s/R),\;0\right).
+	\]
+	
+	\medskip
+	\noindent\textbf{Velocity $\perp$ acceleration.}
+	\[
+	\langle \alpha'(s),\alpha''(s)\rangle
+	=
+	\left\langle (-\sin,\cos,0),\left(-\frac{1}{R}\cos,-\frac{1}{R}\sin,0\right)\right\rangle
+	=
+	\frac{1}{R}\sin\cos-\frac{1}{R}\cos\sin=0.
+	\]
+	
+	\medskip
+	\noindent\textbf{Curvature.}
+	Since $\alpha$ is unit speed, $k(s)=|\alpha''(s)|$:
+	\[
+	k(s)=\sqrt{\frac{1}{R^2}\cos^2(s/R)+\frac{1}{R^2}\sin^2(s/R)}=\frac{1}{R}.
+	\]
+	
+	\medskip
+	\noindent\textbf{Torsion.}
+	Using the triple-product formula
+	\[
+	\tau(s)=\frac{\det(\alpha'(s),\alpha''(s),\alpha^{(3)}(s))}{\|\alpha'(s)\times\alpha''(s)\|^2},
+	\]
+	note that $\alpha'(s),\alpha''(s),\alpha^{(3)}(s)$ all lie in the plane $z=0$, hence they are coplanar and
+	\[
+	\det(\alpha'(s),\alpha''(s),\alpha^{(3)}(s))=0,
+	\]
+	so
+	\[
+	\tau(s)=0.
+	\]
+	
+	\subsubsection*{Example 2: Helix (constant curvature and torsion)}
+	Let $a>0$ and $b\in\mathbb{R}$ and define
+	\[
+	\alpha(t)=\big(a\cos t,\;a\sin t,\;bt\big).
+	\]
+	Compute derivatives:
+	\[
+	\alpha'(t)=(-a\sin t,\;a\cos t,\;b),\qquad
+	\alpha''(t)=(-a\cos t,\;-a\sin t,\;0),\qquad
+	\alpha^{(3)}(t)=(a\sin t,\;-a\cos t,\;0).
+	\]
+	The speed is constant:
+	\[
+	\|\alpha'(t)\|^2=a^2\sin^2 t+a^2\cos^2 t+b^2=a^2+b^2,
+	\qquad
+	\|\alpha'(t)\|=\sqrt{a^2+b^2}.
+	\]
+	
+	\medskip
+	\noindent\textbf{Cross product.}
+	\[
+	\alpha'(t)\times\alpha''(t)=
+	\begin{vmatrix}
+		\mathbf i & \mathbf j & \mathbf k\\
+		-a\sin t & a\cos t & b\\
+		-a\cos t & -a\sin t & 0
+	\end{vmatrix}
+	=(ab\sin t,\;-ab\cos t,\;a^2).
+	\]
+	Hence
+	\[
+	\|\alpha'(t)\times\alpha''(t)\|^2
+	=a^2b^2(\sin^2 t+\cos^2 t)+a^4=a^2b^2+a^4=a^2(a^2+b^2),
+	\]
+	so
+	\[
+	\|\alpha'(t)\times\alpha''(t)\|=a\sqrt{a^2+b^2}.
+	\]
+	
+	\medskip
+	\noindent\textbf{Curvature.}
+	For a general parameter $t$,
+	\[
+	k(t)=\frac{\|\alpha'(t)\times\alpha''(t)\|}{\|\alpha'(t)\|^3}
+	=\frac{a\sqrt{a^2+b^2}}{(\sqrt{a^2+b^2})^3}
+	=\frac{a}{a^2+b^2}.
+	\]
+	
+	\medskip
+	\noindent\textbf{Torsion.}
+	Using
+	\[
+	\tau(t)=\frac{\det(\alpha'(t),\alpha''(t),\alpha^{(3)}(t))}{\|\alpha'(t)\times\alpha''(t)\|^2}
+	=\frac{\langle \alpha'(t)\times\alpha''(t),\alpha^{(3)}(t)\rangle}{\|\alpha'(t)\times\alpha''(t)\|^2},
+	\]
+	we compute
+	\[
+	\langle \alpha'(t)\times\alpha''(t),\alpha^{(3)}(t)\rangle
+	=
+	\langle (ab\sin t,-ab\cos t,a^2),(a\sin t,-a\cos t,0)\rangle
+	\]
+	\[
+	=(ab\sin t)(a\sin t)+(-ab\cos t)(-a\cos t)+a^2\cdot 0
+	=a^2b(\sin^2 t+\cos^2 t)=a^2b.
+	\]
+	Therefore
+	\[
+	\tau(t)=\frac{a^2b}{a^2(a^2+b^2)}=\frac{b}{a^2+b^2}.
+	\]
+	Thus a helix has constant curvature $k=\frac{a}{a^2+b^2}$ and constant torsion $\tau=\frac{b}{a^2+b^2}$.
+	
+	\medskip
+	\noindent\textbf{Unit-speed reparametrization (optional).}
+	Since $\|\alpha'(t)\|=\sqrt{a^2+b^2}$, arc length satisfies $s=\sqrt{a^2+b^2}\,t$, i.e.
+	$t=s/\sqrt{a^2+b^2}$. Substituting yields a unit-speed helix $\alpha(s)$ with the same constants
+	$k=\frac{a}{a^2+b^2}$ and $\tau=\frac{b}{a^2+b^2}$.
+	
+	\medskip
+	\noindent\textbf{Wedge/triple-product interpretation (used in the torsion step).}
+	In $\mathbb{R}^3$ the exterior product $u\wedge v$ encodes the oriented parallelogram spanned by $u,v$ and satisfies
+	\[
+	\|u\wedge v\|=\|u\times v\|.
+	\]
+	Moreover, the pairing with a vector gives the scalar triple product (oriented volume):
+	\[
+	\langle u\wedge v,\;w\rangle := \det(u,v,w)=\langle u\times v,\;w\rangle.
+	\]
+	Thus in the torsion formula one may write equivalently
+	\[
+	\det(\alpha',\alpha'',\alpha^{(3)})=\big\langle \alpha'\wedge \alpha'',\;\alpha^{(3)}\big\rangle,
+	\qquad
+	\|\alpha'\times\alpha''\|^2=\|\alpha'\wedge\alpha''\|^2.
+	\]
+	So (up to the chosen sign/orientation convention) the usual determinant formula and the wedge-product formula
+	for torsion are the same.
+	
+	
+	\subsection*{Problem 2}
+	Let $\alpha:I\to\mathbb{R}^3$ be a curve parametrized by arc length with $\tau(s)\neq 0$ and $\dot{k}(s)\neq 0$
+	for all $s\in I$. Show that a necessary and sufficient condition for $\alpha(I)$ to lie on a sphere is that
+	\[
+	R^2 + (R')^2 T^2
+	\quad\text{is constant,}
+	\]
+	where $R=1/k$ and $T=1/\tau$.
+	
+	\subsection*{Theory (for Problems 2--3)}
+	Assume $\alpha$ is unit speed, so $T=\alpha'$ and $|T|=1$. If $k(s)\neq 0$, define
+	\[
+	k(s)=|\alpha''(s)|,\qquad N(s)=\frac{\alpha''(s)}{k(s)},\qquad B(s)=T(s)\times N(s).
+	\]
+	The Frenet--Serret formulas are
+	\[
+	T'=kN,\qquad N'=-kT+\tau B,\qquad B'=-\tau N.
+	\]
+	In particular, if $R=1/k$, then $k=1/R$.
+	
+	\subsection*{Solution to Problem 2}
+	
+	\noindent\textbf{Necessity.}
+	Assume $\alpha(I)$ lies on a sphere. After translating the curve, we may assume the sphere is centered at the origin,
+	so $|\alpha(s)|=\rho$ is constant. Differentiating $|\alpha|^2=\rho^2$ gives
+	\[
+	0=(|\alpha|^2)'=2\langle \alpha,\alpha'\rangle
+	\quad\Longrightarrow\quad
+	\langle \alpha,T\rangle=0.
+	\]
+	Differentiate $\langle \alpha,T\rangle=0$:
+	\[
+	0=\langle T,T\rangle+\langle \alpha,T'\rangle
+	=1+\langle \alpha,kN\rangle
+	\quad\Longrightarrow\quad
+	\langle \alpha,N\rangle=-\frac{1}{k}=-R.
+	\]
+	Differentiate $\langle \alpha,N\rangle=-R$:
+	\[
+	-R'=\langle T,N\rangle+\langle \alpha,N'\rangle
+	=\langle \alpha,-kT+\tau B\rangle
+	=\tau\langle \alpha,B\rangle,
+	\]
+	using $\langle \alpha,T\rangle=0$. Hence
+	\[
+	\langle \alpha,B\rangle=-\frac{R'}{\tau}.
+	\]
+	Now decompose $\alpha$ in the orthonormal basis $(T,N,B)$:
+	\[
+	|\alpha|^2=\langle \alpha,T\rangle^2+\langle \alpha,N\rangle^2+\langle \alpha,B\rangle^2
+	=0+R^2+\left(\frac{R'}{\tau}\right)^2
+	=R^2+(R')^2T^2.
+	\]
+	Since $|\alpha|^2=\rho^2$ is constant, the expression $R^2+(R')^2T^2$ is constant.
+	
+	\medskip
+	\noindent\textbf{Sufficiency.}
+	Assume
+	\[
+	Q:=R^2+\left(\frac{R'}{\tau}\right)^2
+	\quad\text{is constant.}
+	\]
+	Define
+	\[
+	c(s):=\alpha(s)+R(s)N(s)+\frac{R'(s)}{\tau(s)}\,B(s).
+	\]
+	Differentiate using Frenet--Serret:
+	\[
+	c' = T + R'N + R N' + \left(\frac{R'}{\tau}\right)'B + \frac{R'}{\tau}B'.
+	\]
+	Since $N'=-kT+\tau B=-(1/R)T+\tau B$ and $B'=-\tau N$, we obtain
+	\[
+	c' = T + R'N + R\left(-\frac1R T + \tau B\right) + \left(\frac{R'}{\tau}\right)'B + \frac{R'}{\tau}(-\tau N).
+	\]
+	The $T$-terms cancel and the $N$-terms cancel, leaving
+	\[
+	c'=\left(R\tau+\left(\frac{R'}{\tau}\right)'\right)B.
+	\]
+	Because $Q$ is constant,
+	\[
+	0=Q' = 2RR' + 2\frac{R'}{\tau}\left(\frac{R'}{\tau}\right)'.
+	\]
+	Since $\dot{k}\neq 0$, we have $R'=-k'/k^2\neq 0$, hence $R'/\tau\neq 0$, and we can divide to get
+	\[
+	\left(\frac{R'}{\tau}\right)'=-R\tau.
+	\]
+	Therefore $c'=0$, so $c(s)\equiv c_0$ is constant. Finally,
+	\[
+	|\alpha(s)-c_0|^2
+	=\left|R N + \frac{R'}{\tau}B\right|^2
+	=R^2+\left(\frac{R'}{\tau}\right)^2
+	=Q,
+	\]
+	which is constant. Hence $\alpha(I)$ lies on the sphere centered at $c_0$ of radius $\sqrt{Q}$.
+	
+	\subsection*{Problem 3}
+	Consider a closed plane curve inside a disk of radius $r$.
+	Prove that there exists a point on the curve at which the curvature has absolute value $\ge 1/r$.
+	
+	\subsection*{Solution to Problem 3}
+	
+	After translation we may assume the disk is centered at the origin.
+	Reparametrize the closed $C^2$ plane curve $\gamma$ by arc length $s$, so $|\gamma'(s)|=1$.
+	Let $f(s)=|\gamma(s)|^2$. Since $\gamma$ is closed and continuous, $f$ attains a maximum at some $s_0$.
+	Then
+	\[
+	0=f'(s_0)=2\langle \gamma(s_0),\gamma'(s_0)\rangle
+	\quad\Longrightarrow\quad
+	\gamma(s_0)\perp T(s_0).
+	\]
+	Hence $\gamma(s_0)$ is parallel to the unit normal $N(s_0)$, and $|\langle \gamma(s_0),N(s_0)\rangle|=|\gamma(s_0)|$.
+	Moreover, $f''(s_0)\le 0$, and since $|\gamma'|=1$ and $\gamma''=\kappa N$,
+	\[
+	f''(s)=2\big(\langle \gamma',\gamma'\rangle + \langle \gamma,\gamma''\rangle\big)
+	=2\big(1+\langle \gamma,\kappa N\rangle\big).
+	\]
+	Thus at $s_0$ we have
+	\[
+	0\ge f''(s_0)=2\left(1+\kappa(s_0)\langle \gamma(s_0),N(s_0)\rangle\right),
+	\]
+	so
+	\[
+	|\kappa(s_0)|\,|\langle \gamma(s_0),N(s_0)\rangle|\ge 1.
+	\]
+	Since $|\langle \gamma(s_0),N(s_0)\rangle|=|\gamma(s_0)|\le r$, it follows that
+	\[
+	|\kappa(s_0)|\ge \frac{1}{|\gamma(s_0)|}\ge \frac{1}{r}.
+	\]
+	Therefore there exists a point on the curve where $|\kappa|\ge 1/r$.
+	
+	\subsection*{Arc-length reparametrization: from $\alpha(t)$ to $\alpha(s)$}
+	
+	\noindent\textbf{Given curve.}
+	Let $\alpha:[a,b]\to\mathbb{R}^3$ be a $C^1$ \emph{regular} curve, meaning
+	\[
+	\|\alpha'(t)\|\neq 0 \quad \text{for all } t\in[a,b].
+	\]
+	Here $t$ is an arbitrary parameter (it may run ``fast'' or ``slow'' along the curve).
+	
+	\medskip
+	\noindent\textbf{Step 1: define arc length as a function of $t$.}
+	Fix a basepoint $t_0\in[a,b]$ and define
+	\[
+	s=s(t):=\int_{t_0}^{t}\|\alpha'(u)\|\,du.
+	\]
+	Then $s(t)\ge 0$ is the length of the curve segment traced from $t_0$ to $t$.
+	In particular,
+	\[
+	s(t_0)=0,
+	\qquad
+	\frac{ds}{dt}=\|\alpha'(t)\|>0.
+	\]
+	Hence $s(t)$ is strictly increasing, so it has an inverse function.
+	
+	\medskip
+	\noindent\textbf{Step 2: invert to get $t=t(s)$.}
+	Since $\dfrac{ds}{dt}>0$, the map $t\mapsto s(t)$ is one-to-one, and we can write
+	\[
+	t=t(s)
+	\]
+	for the inverse reparametrization on the interval $s\in[0,L]$, where
+	\[
+	L=s(b)=\int_{t_0}^{b}\|\alpha'(u)\|\,du
+	\]
+	is the total length from $t_0$ to $b$.
+	
+	\medskip
+	\noindent\textbf{Step 3: define the arc-length parametrization.}
+	Define a new curve (same geometric image) by composition:
+	\[
+	\boxed{\ \widetilde\alpha(s):=\alpha(t(s))\ },\qquad s\in[0,L].
+	\]
+	Often one simply renames $\widetilde\alpha$ as $\alpha$ and writes $\alpha(s)$.
+	
+	\medskip
+	\noindent\textbf{Unit-speed property.}
+	Differentiate using the chain rule:
+	\[
+	\widetilde\alpha'(s)=\alpha'(t(s))\,t'(s).
+	\]
+	From $\dfrac{ds}{dt}=\|\alpha'(t)\|$ we get
+	\[
+	\frac{dt}{ds}=\frac{1}{\|\alpha'(t)\|},
+	\quad\text{so}\quad
+	t'(s)=\frac{1}{\|\alpha'(t(s))\|}.
+	\]
+	Therefore
+	\[
+	\widetilde\alpha'(s)
+	=\frac{\alpha'(t(s))}{\|\alpha'(t(s))\|},
+	\qquad\Rightarrow\qquad
+	\boxed{\ \|\widetilde\alpha'(s)\|=1\ }.
+	\]
+	Thus $\widetilde\alpha$ is parametrized by arc length (also called \emph{unit speed}).
+	
+	\medskip
+	\noindent\textbf{Geometric meaning.}
+	The parameter $s$ is \emph{distance along the curve from the basepoint} $t_0$:
+	increasing $s$ by $\Delta s$ moves $\Delta s$ units of curve-length forward (to first order).
+	It is \emph{not} the distance to the origin in $\mathbb{R}^3$.
+	
+	\medskip
+	\noindent\textbf{Remark: interval $[0,L]$ vs.\ $[0,1]$.}
+	Arc-length parametrization naturally uses $s\in[0,L]$, where $L$ is the curve length.
+	If one rescales to $u=s/L\in[0,1]$, then the curve becomes $\alpha(u)=\widetilde\alpha(Lu)$, but it is no longer unit speed:
+	\[
+	\left\|\frac{d}{du}\alpha(u)\right\|=L.
+	\]
+	
+	\subsection*{Reparametrization in the opposite direction: from $\alpha(s)$ to $\alpha(t)$}
+	
+	\noindent\textbf{Given a unit-speed curve.}
+	Let $\alpha:[0,L]\to\mathbb{R}^3$ be a $C^1$ curve parametrized by arc length, i.e.
+	\[
+	\|\alpha'(s)\|=1\quad\text{for all }s\in[0,L].
+	\]
+	
+	\medskip
+	\noindent\textbf{Choose any new parameter.}
+	Let $\phi:J\to[0,L]$ be a $C^1$ strictly monotone function (typically increasing), so $\phi'(t)>0$.
+	Define a new parametrization by
+	\[
+	\boxed{\ \widetilde\alpha(t):=\alpha(\phi(t))\ }.
+	\]
+	Then $\widetilde\alpha$ traces the same geometric curve (same image in $\mathbb{R}^3$), but with a different speed.
+	
+	\medskip
+	\noindent\textbf{Speed in the new parameter.}
+	By the chain rule,
+	\[
+	\widetilde\alpha'(t)=\alpha'(\phi(t))\,\phi'(t),
+	\]
+	hence, using $\|\alpha'(\phi(t))\|=1$,
+	\[
+	\boxed{\ \|\widetilde\alpha'(t)\|=|\phi'(t)|\ }.
+	\]
+	So the function $\phi'(t)$ controls how fast we move along the curve.
+	
+	\medskip
+	\noindent\textbf{Recovering arc length from $\widetilde\alpha(t)$.}
+	If $\phi$ is increasing, then $\|\widetilde\alpha'(t)\|=\phi'(t)$ and the arc-length function of $\widetilde\alpha$ is
+	\[
+	s(t)=\int_{t_0}^{t}\|\widetilde\alpha'(u)\|\,du=\int_{t_0}^{t}\phi'(u)\,du=\phi(t)-\phi(t_0).
+	\]
+	Choosing $t_0$ such that $\phi(t_0)=0$ gives $s(t)=\phi(t)$, so the reparametrization is consistent.
+	
+	\subsection*{Examples: both directions}
+	
+	\subsubsection*{Example 1: from $\alpha(t)$ to $\alpha(s)$ (arc-length reparametrization)}
+	Let
+	\[
+	\alpha(t)=(2t,0,0),\qquad t\in[0,1].
+	\]
+	Then $\alpha'(t)=(2,0,0)$ and $\|\alpha'(t)\|=2$. Define arc length from $t_0=0$:
+	\[
+	s(t)=\int_0^t 2\,du=2t.
+	\]
+	Invert: $t(s)=s/2$. The arc-length parametrization is
+	\[
+	\alpha(s)=\alpha(t(s))=\alpha(s/2)=(s,0,0),
+	\]
+	and indeed $\|\alpha'(s)\|=1$.
+	
+	\subsubsection*{Example 2: from $\alpha(s)$ to $\alpha(t)$ (changing speed)}
+	Start with the unit-speed line
+	\[
+	\alpha(s)=(s,0,0),\qquad s\in[0,L].
+	\]
+	Choose a new parameter $t\in[0,1]$ and the reparametrization $\phi(t)=Lt$. Define
+	\[
+	\widetilde\alpha(t)=\alpha(\phi(t))=\alpha(Lt)=(Lt,0,0).
+	\]
+	Then
+	\[
+	\widetilde\alpha'(t)=(L,0,0),\qquad \|\widetilde\alpha'(t)\|=L,
+	\]
+	so the same line is traversed with constant speed $L$.
+	
+	\subsubsection*{Example 3: non-constant speed reparametrization}
+	Again let $\alpha(s)=(s,0,0)$ on $[0,1]$, and define $\phi(t)=t^2$ on $t\in[0,1]$.
+	Then
+	\[
+	\widetilde\alpha(t)=\alpha(t^2)=(t^2,0,0),
+	\qquad
+	\widetilde\alpha'(t)=(2t,0,0),
+	\qquad
+	\|\widetilde\alpha'(t)\|=2t,
+	\]
+	so the same curve is traversed slowly near $t=0$ and faster as $t$ increases.
+	The arc-length function of $\widetilde\alpha$ (from $0$) is
+	\[
+	s(t)=\int_0^t 2u\,du=t^2=\phi(t),
+	\]
+	so inverting gives $t=\sqrt{s}$ and returns the unit-speed parametrization.
+	
+	
+	\subsection*{Exercise 4}
+	
+	\noindent\textbf{Problem.}
+	Let $AB$ be a segment of a straight line in the plane with endpoints $A$ and $B$ and let $\ell$ be a fixed number
+	strictly bigger than the length of $\overline{AB}$. We consider curves joining $A$ and $B$ with length $\ell$ which lie on
+	one side of the line through $A$ and $B$; show that the curve which together with $\overline{AB}$ bounds the largest possible
+	area is an arc of a circle passing through $A$ and $B$. (You may suppose that the isoperimetric inequality holds for
+	piecewise smooth boundaries.)
+	
+	\medskip
+	\noindent\textbf{Solution.}
+	Place coordinates so that the line through $A,B$ is the $x$--axis, with $A=(a,0)$ and $B=(b,0)$, $a<b$.
+	Since the curve lies on one side of the line, we may assume it lies in $y\ge 0$ and write it as a graph
+	$y=y(x)\ge 0$ on $[a,b]$ with boundary conditions $y(a)=y(b)=0$.
+	The enclosed area is
+	\[
+	\mathcal A[y]=\int_a^b y(x)\,dx,
+	\]
+	and the length constraint is
+	\[
+	\mathcal L[y]=\int_a^b \sqrt{1+y'(x)^2}\,dx=\ell.
+	\]
+	To maximize $\mathcal A$ subject to $\mathcal L=\ell$, introduce a Lagrange multiplier $\lambda$ and extremize
+	\[
+	J[y]=\int_a^b\Big(y(x)-\lambda\sqrt{1+y'(x)^2}\Big)\,dx.
+	\]
+	Euler--Lagrange gives
+	\[
+	\frac{d}{dx}\left(\lambda\frac{y'}{\sqrt{1+y'^2}}\right)=1,
+	\]
+	hence (differentiating)
+	\[
+	\lambda\,\frac{y''}{(1+y'^2)^{3/2}}=1.
+	\]
+	But the curvature of the planar curve $x\mapsto (x,y(x))$ is
+	\[
+	\kappa(x)=\frac{y''}{(1+y'^2)^{3/2}},
+	\]
+	so the equation says $\kappa$ is constant. A planar curve with constant curvature is a circular arc
+	(a line would have $\kappa=0$, which cannot occur because $\ell>|AB|$). Therefore any maximizer must be an arc of a circle.
+	Since the endpoints are fixed, the maximizing curve is a circular arc passing through $A$ and $B$ on the prescribed side,
+	with arc length $\ell$.
+	
+	\bigskip
+	
+	% Required in preamble (if not already):
+	% \usepackage{tikz}
+	% \usetikzlibrary{arrows.meta,calc,patterns,decorations.pathreplacing}
+	
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=1.1, line cap=round, line join=round, >=Latex]
+		
+		% Points A and B
+		\coordinate (A) at (0,0);
+		\coordinate (B) at (6,0);
+		
+		% Circle center above midpoint
+		\coordinate (M) at ($(A)!0.5!(B)$);
+		\coordinate (O) at ($(M)+(0,3.2)$); % center
+		
+		% Draw segment AB (the chord)
+		\draw[thick] (A) -- (B);
+		\fill (A) circle (1.3pt) node[below left] {$A$};
+		\fill (B) circle (1.3pt) node[below right] {$B$};
+		
+		% Compute angles + radius ONCE and store GLOBALLY
+		\path let
+		\p1 = (O), \p2 = (A), \p3 = (B),
+		\n1 = {atan2(\y2-\y1,\x2-\x1)}, % angle OA
+		\n2 = {atan2(\y3-\y1,\x3-\x1)}, % angle OB
+		\n3 = {veclen(\x2-\x1,\y2-\y1)} % radius |OA|
+		in
+		\pgfextra{
+			\xdef\angA{\n1}
+			\xdef\angB{\n2}
+			\xdef\rad{\n3}
+		};
+		% (semicolon above ends \path)
+		
+		% Shaded region between arc and chord (one closed path!)
+		\fill[pattern=north east lines, pattern color=gray!60]
+		(A) -- (B) arc[start angle=\angB, end angle=\angA, radius=\rad] -- cycle;
+		
+		% Main arc (above AB)
+		\draw[very thick]
+		(A) arc[start angle=\angA, end angle=\angB, radius=\rad];
+		
+		% Reflected arc (mirrored across AB): y -> -y
+		\draw[very thick, dashed]
+		(A) arc[start angle=-\angA, end angle=-\angB, radius=\rad];
+		
+		% Center and radii  (NOTE: use (O), not (0)!)
+		\fill (O) circle (1.3pt) node[above] {$O$};
+		\draw[dashed] (O) -- (A);
+		\draw[dashed] (O) -- (B);
+		
+		% Label radius
+		\path (O) -- (A) node[midway, left] {$R$};
+		
+		% Arc length label
+		\node at ($(M)+(0,1.25)$) {$\text{arc length}=\ell$};
+		
+		% Annotation: "line of reflection" with brace
+		\draw[decorate, decoration={brace, amplitude=6pt}]
+		($(A)+(0,-0.25)$) -- ($(B)+(0,-0.25)$)
+		node[midway, below=8pt] {line of reflection};
+		
+	\end{tikzpicture}
+	\caption{Exercise 4: the maximizer is a circular arc. Reflecting the arc across $AB$ produces a closed curve of perimeter $2\ell$; by isoperimetric inequality, the maximizer is a circle.}
+\end{figure}
+
+	% =========================================================
+	% THEORY + DIAGRAMS for Exercises 4 and 5
+	% =========================================================
+	
+	% Preamble requirements (add if missing):
+	% \usepackage{tikz}
+	% \usepackage{tikz-3dplot}
+	% \usetikzlibrary{arrows.meta,calc,patterns,decorations.pathreplacing}
+	
+	% ---------------------------------------------------------
+	\subsubsection*{Exercise 4 --- Theory and diagram (maximal area under fixed length)}
+	
+	\noindent\textbf{Geometric setting.}
+	Fix two points $A,B\in\mathbb R^2$ and let $L=|AB|$. Choose a number $\ell>L$.
+	We consider all piecewise smooth curves $\gamma$ joining $A$ to $B$ with length $\ell$ which lie entirely in one
+	closed half-plane determined by the line through $A$ and $B$.
+	Together with the chord $\overline{AB}$, such a curve bounds a compact planar region whose area we denote by $A(\gamma)$.
+	
+	\medskip
+	\noindent\textbf{Isoperimetric inequality (tool).}
+	For every simple closed piecewise smooth curve $\Gamma$ in the plane with length $P(\Gamma)$ and enclosed area $A(\Gamma)$,
+	\[
+	4\pi\,A(\Gamma)\le P(\Gamma)^2,
+	\]
+	and equality holds if and only if $\Gamma$ is a circle.
+	
+	\medskip
+	\noindent\textbf{Key reduction: ``doubling by reflection''.}
+	Let $\gamma$ be an admissible curve lying in one half-plane determined by the line $\overleftrightarrow{AB}$.
+	Reflect $\gamma$ across the line $\overleftrightarrow{AB}$ to obtain a curve $\gamma^\ast$.
+	Then the closed curve
+	\[
+	\Gamma:=\gamma\cup\gamma^\ast
+	\]
+	is piecewise smooth, has perimeter $P(\Gamma)=2\ell$, and encloses exactly twice the original area:
+	\[
+	A(\Gamma)=2\,A(\gamma).
+	\]
+	Hence maximizing $A(\gamma)$ among admissible $\gamma$ is equivalent to maximizing $A(\Gamma)$ among closed curves with perimeter $2\ell$
+	that are symmetric with respect to $\overleftrightarrow{AB}$.
+	
+	\medskip
+	\noindent\textbf{Why the maximizer must be a circle arc.}
+	By the isoperimetric inequality, among all closed curves of perimeter $2\ell$ the maximum area is attained uniquely by a circle.
+	Since the maximizer in the symmetric class must also maximize among all curves with the same perimeter, it must be a circle.
+	Therefore $\Gamma$ is a circle, and $\gamma$ is one of the two circular arcs connecting $A$ and $B$.
+	The condition $\ell>|AB|$ forces a genuine (non-straight) arc.
+	
+	\medskip
+	\noindent\textbf{Extra viewpoint (variational meaning).}
+	If one writes $\gamma$ as a graph $y=y(x)\ge 0$ above the chord and maximizes $\int y\,dx$ under the length constraint
+	$\int\sqrt{1+y'^2}\,dx=\ell$, the Euler--Lagrange equation implies constant curvature; planar constant-curvature curves are circular arcs.
+	This matches the isoperimetric argument.
+	
+	\medskip
+	\noindent\textbf{Diagram.}
+	
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=1.15, line cap=round, line join=round, >=Latex]
+		
+		\definecolor{arccol}{RGB}{0,92,190}
+		\definecolor{axiscol}{RGB}{50,50,50}
+		
+		\coordinate (A) at (0,0);
+		\coordinate (B) at (6,0);
+		\coordinate (M) at (3,0);
+		\coordinate (O) at (3,3.2); % circle center (schematic)
+		
+		% chord AB
+		\draw[very thick, axiscol] (A) -- (B);
+		\fill (A) circle (1.4pt) node[below left] {$A$};
+		\fill (B) circle (1.4pt) node[below right] {$B$};
+		
+		% radii + center (IMPORTANT: use (O), not (0))
+		\fill (O) circle (1.4pt) node[above] {$O$};
+		\draw[dashed, axiscol] (O) -- (A);
+		\draw[dashed, axiscol] (O) -- (B);
+		
+		% Arc parameters for A(0,0), B(6,0), O(3,3.2):
+		% vectors OA = (-3,-3.2), OB = (3,-3.2)
+		% start angle = -133.7°, end angle = -46.3°, radius = sqrt(3^2+3.2^2)=4.386...
+		\begin{scope}[shift={(O)}]
+			% shaded region (upper)
+			\fill[pattern=north east lines, pattern color=gray!60]
+			(-3,-3.2) -- (3,-3.2)
+			arc[start angle=-46.3, end angle=-133.7, radius=4.386]
+			-- cycle;
+			
+			% upper arc (maximizer)
+			\draw[very thick, arccol]
+			(-3,-3.2) arc[start angle=-133.7, end angle=-46.3, radius=4.386];
+			
+			% reflected arc (dashed)
+			\draw[very thick, dashed, arccol]
+			(-3,3.2) arc[start angle=133.7, end angle=46.3, radius=4.386];
+		\end{scope}
+		
+		% length label
+		\node at ($(M)+(0,1.35)$) {$\text{arc length}=\ell$};
+		
+		% reflection brace
+		\draw[decorate, decoration={brace, amplitude=6pt}]
+		($(A)+(0,-0.25)$) -- ($(B)+(0,-0.25)$)
+		node[midway, below=8pt] {reflect across $\overleftrightarrow{AB}$};
+		
+	\end{tikzpicture}
+	\caption{Doubling argument: reflect the candidate curve across $\overleftrightarrow{AB}$ to obtain a closed curve of perimeter $2\ell$; by the isoperimetric inequality the maximizer is a circle, hence the original curve is a circular arc.}
+\end{figure}
+
+	\noindent\textbf{Example (segment area).}
+	If the maximizing curve is a circular arc with radius $R$ and central angle $\theta$, then
+	$\ell=R\theta$ and the chord length is $L=2R\sin(\theta/2)$.
+	The enclosed circular segment area is
+	\[
+	A=\frac{R^2}{2}\big(\theta-\sin\theta\big).
+	\]
+	Thus, for fixed $L$ and $\ell$, the geometry of the maximizer is determined by solving
+	$L=2R\sin(\theta/2)$ and $\ell=R\theta$.
+	
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.15, line cap=round, line join=round, >=Latex]
+			
+			\definecolor{arccol}{RGB}{0,92,190}
+			\definecolor{auxcol}{RGB}{80,80,80}
+			
+			% chord endpoints and circle center
+			\coordinate (A) at (-3,0);
+			\coordinate (B) at ( 3,0);
+			\coordinate (O) at (0,3.2);
+			
+			% radius
+			\pgfmathsetmacro{\R}{4.386} % approx sqrt(3^2+3.2^2)
+			
+			% draw chord
+			\draw[very thick] (A) -- (B);
+			\fill (A) circle (1.3pt) node[below left] {$A$};
+			\fill (B) circle (1.3pt) node[below right] {$B$};
+			
+			% draw radii
+			\draw[dashed, auxcol] (O) -- (A);
+			\draw[dashed, auxcol] (O) -- (B);
+			\fill (O) circle (1.3pt) node[above] {$O$};
+			\node[left] at ($(O)!0.5!(A)$) {$R$};
+			
+			% draw arc + shade segment
+			\begin{scope}[shift={(O)}]
+				% vectors OA and OB in the shifted coordinates:
+				% A' = (-3,-3.2), B'=(3,-3.2)
+				\fill[arccol!15]
+				(-3,-3.2) -- (3,-3.2)
+				arc[start angle=-46.3, end angle=-133.7, radius=\R]
+				-- cycle;
+				
+				\draw[very thick, arccol]
+				(-3,-3.2) arc[start angle=-133.7, end angle=-46.3, radius=\R];
+			\end{scope}
+			
+			% central angle theta (schematic)
+			\draw[auxcol] ($(O)+(0,-0.25)$) ++(-45:0.75) arc[start angle=-45, end angle=-135, radius=0.75];
+			\node[auxcol] at ($(O)+(0,-0.65)$) {$\theta$};
+			
+			% labels
+			\node at (0,1.05) {$\ell = R\theta$};
+			\node[below] at (0,0) {$L=|AB|$};
+			
+			% sagitta/height h (optional)
+			\coordinate (M) at (0,0);
+			\draw[dotted, auxcol] (O) -- (M);
+			\node[right, auxcol] at ($(O)!0.55!(M)$) {$R-h$};
+			
+		\end{tikzpicture}
+		\caption{Circular segment geometry: chord $L=2R\sin(\theta/2)$, arc length $\ell=R\theta$, and segment area $A=\tfrac{R^2}{2}(\theta-\sin\theta)$.}
+	\end{figure}
+	
+	
+	\subsection*{Exercise 5}
+	
+	\noindent\textbf{Problem.}
+	Let $\alpha:[0,\ell]\to\mathbb R^3$ be a curve parametrized by arc length with non-zero curvature everywhere.
+	Suppose $\alpha$ has no self intersections, $\alpha(0)=\alpha(\ell)$ and it induces a smooth map from $S^1$ to $\mathbb R^3$
+	(i.e.\ $\alpha$ is a smooth simple closed curve). Let $r$ be a positive number and consider the map
+	$\phi:[0,\ell]\times[0,2\pi)\to\mathbb R^3$ given by:
+	\[
+	\phi(s,v)=\alpha(s)+r\big(n(s)\cos v+b(s)\sin v\big),
+	\]
+	where $n=n(s)$ and $b=b(s)$ are the normal and binormal vectors of $\alpha$.
+	The image $T$ of $\phi$ is called the tube of radius $r$ around $\alpha$.
+	It can be shown that for $r$ sufficiently small $T$ is an embedded surface. Prove that the area of $T$ is $2\pi r\ell$.
+	
+	\medskip
+	\noindent\textbf{Solution.}
+	Let $t,n,b$ be the Frenet frame of $\alpha$ and let $\kappa,\tau$ be curvature and torsion.
+	Recall the Frenet--Serret formulas:
+	\[
+	t'=\kappa n,\qquad n'=-\kappa t+\tau b,\qquad b'=-\tau n,
+	\]
+	where $'$ denotes derivative with respect to arc length $s$.
+	
+	Define
+	\[
+	\phi(s,v)=\alpha(s)+r\big(n(s)\cos v+b(s)\sin v\big).
+	\]
+	Compute partial derivatives. First,
+	\[
+	\phi_v = r\big(-n\sin v + b\cos v\big).
+	\]
+	Set $e(v):=-n\sin v + b\cos v$. Then $\|e(v)\|=1$ and $e(v)\perp t$.
+	Next,
+	\[
+	\phi_s
+	= t + r\big(n'\cos v + b'\sin v\big)
+	= t + r\Big((-\kappa t+\tau b)\cos v + (-\tau n)\sin v\Big)
+	= (1-r\kappa\cos v)t + r\tau\,e(v).
+	\]
+	Hence the first fundamental form coefficients are
+	\[
+	E=\langle \phi_s,\phi_s\rangle = (1-r\kappa\cos v)^2 + r^2\tau^2,\qquad
+	F=\langle \phi_s,\phi_v\rangle = r^2\tau,\qquad
+	G=\langle \phi_v,\phi_v\rangle = r^2.
+	\]
+	Therefore
+	\[
+	EG-F^2
+	= r^2\big((1-r\kappa\cos v)^2 + r^2\tau^2\big)-r^4\tau^2
+	= r^2(1-r\kappa\cos v)^2,
+	\]
+	so the area element is
+	\[
+	\sqrt{EG-F^2}\,ds\,dv = r\,|1-r\kappa\cos v|\,ds\,dv.
+	\]
+	For $r$ sufficiently small (e.g.\ $r<1/\max\kappa$), we have $1-r\kappa\cos v>0$ for all $v$, hence
+	\[
+	dA = r(1-r\kappa\cos v)\,dv\,ds.
+	\]
+	Integrating,
+	\[
+	\operatorname{Area}(T)
+	=\int_0^\ell\int_0^{2\pi} r(1-r\kappa\cos v)\,dv\,ds
+	=\int_0^\ell \left(2\pi r - r^2\kappa\int_0^{2\pi}\cos v\,dv\right)ds
+	=\int_0^\ell 2\pi r\,ds
+	=2\pi r\ell.
+	\]
+	
+	
+	% Required in preamble (if not already):
+	% \usepackage{tikz}
+	% \usepackage{tikz-3dplot}
+	% \usetikzlibrary{arrows.meta,calc}
+	
+
+	% ---------------------------------------------------------
+	\subsection*{Exercise 5 --- Theory and diagram (area of a tube is $2\pi r\ell$)}
+	
+	\noindent\textbf{Frenet frame and normal plane.}
+	Let $\alpha:[0,\ell]\to\mathbb R^3$ be a smooth regular curve parametrized by arc length, so $|\alpha'(s)|=1$.
+	Assume curvature $\kappa(s)\neq 0$ for all $s$.
+	Define the Frenet frame $(t,n,b)$ by
+	\[
+	t(s)=\alpha'(s),\qquad n(s)=\frac{t'(s)}{\|t'(s)\|},\qquad b(s)=t(s)\times n(s),
+	\]
+	with curvature $\kappa=\|t'\|$ and torsion $\tau$ given by the Frenet--Serret equations:
+	\[
+	t'=\kappa n,\qquad n'=-\kappa t+\tau b,\qquad b'=-\tau n.
+	\]
+	For each $s$, the plane spanned by $n(s)$ and $b(s)$ is the \emph{normal plane} to the curve at $\alpha(s)$.
+	
+	\medskip
+	\noindent\textbf{Tube parametrization.}
+	Fix $r>0$ and define
+	\[
+	\phi(s,v)=\alpha(s)+r\big(n(s)\cos v+b(s)\sin v\big),
+	\qquad (s,v)\in[0,\ell]\times[0,2\pi).
+	\]
+	Geometrically, for each $s$ we take the circle of radius $r$ in the normal plane and sweep it along the curve.
+	For sufficiently small $r$ (e.g.\ $r<1/\max\kappa$ and small enough to avoid global self-intersections),
+	the image $T=\phi([0,\ell]\times[0,2\pi))$ is an embedded smooth surface.
+	
+	\medskip
+	\noindent\textbf{Area element principle.}
+	If a surface is parametrized by $\phi(u,v)$ then its area element is
+	\[
+	dA = \|\phi_u\times \phi_v\|\,du\,dv=\sqrt{EG-F^2}\,du\,dv,
+	\]
+	where $E=\langle \phi_u,\phi_u\rangle$, $F=\langle \phi_u,\phi_v\rangle$, $G=\langle \phi_v,\phi_v\rangle$.
+	
+	\medskip
+	\noindent\textbf{Why the area equals circumference $\times$ length.}
+	For the tube parametrization one finds (using Frenet--Serret) that
+	\[
+	\|\phi_s\times\phi_v\|=r\,|1-r\kappa(s)\cos v|.
+	\]
+	When $r$ is small, $1-r\kappa(s)\cos v>0$ and hence
+	\[
+	\operatorname{Area}(T)
+	=\int_0^\ell\int_0^{2\pi} r(1-r\kappa(s)\cos v)\,dv\,ds
+	=\int_0^\ell 2\pi r\,ds
+	=2\pi r\,\ell.
+	\]
+	The torsion $\tau$ only twists the cross-section and does not contribute to the total area.
+	
+	\medskip
+	\noindent\textbf{Diagram (more visible, with colors).}
+	
+	\begin{figure}[H]
+		\centering
+		
+		\tdplotsetmaincoords{70}{120}
+		
+		\begin{tikzpicture}[tdplot_main_coords, scale=1.35, line cap=round, line join=round, >=Latex]
+			
+			% --- Colors ---
+			\definecolor{axiscol}{RGB}{40,40,40}
+			\definecolor{curvecol}{RGB}{0,92,190}
+			\definecolor{tcol}{RGB}{210,50,35}
+			\definecolor{ncol}{RGB}{0,140,70}
+			\definecolor{bcol}{RGB}{135,60,200}
+			\definecolor{circleedge}{RGB}{50,50,50}
+			\definecolor{circlefill}{RGB}{210,235,255}
+			\definecolor{tubecol}{RGB}{130,130,130}
+			
+			\tikzset{every node/.style={font=\small}}
+			
+			% --- Axes ---
+			\draw[->, line width=0.9pt, axiscol] (0,0,0) -- (5.2,0,0) node[below right] {$x$};
+			\draw[->, line width=0.9pt, axiscol] (0,0,0) -- (0,4.4,0) node[left] {$y$};
+			\draw[->, line width=0.9pt, axiscol] (0,0,0) -- (0,0,4.4) node[above] {$z$};
+			
+			% --- Curve alpha(s) ---
+			\draw[line width=1.2pt, curvecol]
+			plot[smooth, tension=0.9] coordinates {
+				(0.5,0.5,0.4)
+				(1.2,1.2,0.8)
+				(2.0,1.8,1.6)
+				(3.0,2.0,2.6)
+				(4.0,1.5,3.2)
+			}
+			node[pos=0.98, right] {$\alpha(s)$};
+			
+			% --- Point P ---
+			\coordinate (P) at (2.0,1.8,1.6);
+			\fill[curvecol] (P) circle (1.6pt) node[below right] {$\alpha(s)$};
+			
+			% --- Frenet vectors (schematic) ---
+			\coordinate (tvec) at ($(P)+(1.35,0.25,0.70)$);
+			\coordinate (nvec) at ($(P)+(-0.55,1.20,0.25)$);
+			\coordinate (bvec) at ($(P)+(0.25,-0.55,1.25)$);
+			
+			\draw[->, line width=1.15pt, tcol] (P) -- (tvec) node[above right] {$t(s)$};
+			\draw[->, line width=1.15pt, ncol] (P) -- (nvec) node[above left] {$n(s)$};
+			\draw[->, line width=1.15pt, bcol] (P) -- (bvec) node[above] {$b(s)$};
+			
+			% --- Normal circle (cross-section) ---
+			\pgfmathsetmacro{\r}{1.00}
+			
+			\fill[circlefill, opacity=0.55]
+			plot[domain=0:360, samples=140, variable=\ang]
+			(
+			{2.0 + \r*(cos(\ang)*(-0.4) + sin(\ang)*(0.2))},
+			{1.8 + \r*(cos(\ang)*(1.0)  + sin(\ang)*(-0.4))},
+			{1.6 + \r*(cos(\ang)*(0.2)  + sin(\ang)*(1.1))}
+			);
+			
+			\draw[line width=1.0pt, circleedge]
+			plot[domain=0:360, samples=140, variable=\ang]
+			(
+			{2.0 + \r*(cos(\ang)*(-0.4) + sin(\ang)*(0.2))},
+			{1.8 + \r*(cos(\ang)*(1.0)  + sin(\ang)*(-0.4))},
+			{1.6 + \r*(cos(\ang)*(0.2)  + sin(\ang)*(1.1))}
+			);
+			
+			\coordinate (Cpt) at
+			(
+			{2.0 + \r*(cos(35)*(-0.4) + sin(35)*(0.2))},
+			{1.8 + \r*(cos(35)*(1.0)  + sin(35)*(-0.4))},
+			{1.6 + \r*(cos(35)*(0.2)  + sin(35)*(1.1))}
+			);
+			
+			\draw[dashed, line width=0.9pt, axiscol] (P) -- (Cpt) node[midway, right] {$r$};
+			\fill[circleedge] (Cpt) circle (1.2pt);
+			\node[axiscol] at ($(P)+(1.05,0.60,0.55)$) {$v$};
+			
+			% --- Neighbor circles to suggest the tube ---
+			\draw[dashed, line width=0.9pt, tubecol, opacity=0.85]
+			plot[domain=0:360, samples=110, variable=\ang]
+			(
+			{2.65 + \r*(cos(\ang)*(-0.35) + sin(\ang)*(0.18))},
+			{2.00 + \r*(cos(\ang)*(0.95) + sin(\ang)*(-0.35))},
+			{2.10 + \r*(cos(\ang)*(0.18) + sin(\ang)*(1.0))}
+			);
+			
+			\draw[dashed, line width=0.9pt, tubecol, opacity=0.85]
+			plot[domain=0:360, samples=110, variable=\ang]
+			(
+			{1.35 + \r*(cos(\ang)*(-0.45) + sin(\ang)*(0.22))},
+			{1.50 + \r*(cos(\ang)*(1.05) + sin(\ang)*(-0.45))},
+			{1.10 + \r*(cos(\ang)*(0.22) + sin(\ang)*(1.2))}
+			);
+			
+			\node[anchor=west] at (0.2,3.9,3.9) {$T=\phi([0,\ell]\times[0,2\pi))$};
+			
+		\end{tikzpicture}
+		\caption{Tube parametrization $\phi(s,v)=\alpha(s)+r(n\cos v+b\sin v)$. At each $s$ the circle of radius $r$ lies in the normal plane spanned by $(n,b)$.}
+	\end{figure}
+	
+	
+	\noindent\textbf{Example (why torsion drops out).}
+	Although $\phi_s$ contains the torsion term $r\tau e(v)$, the Gram determinant satisfies
+	$EG-F^2=r^2(1-r\kappa\cos v)^2$, so the torsion cancels.
+	After integrating over $v\in[0,2\pi]$, the $\cos v$ term averages to $0$ and the area becomes $2\pi r\ell$.
+	
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.1, line cap=round, line join=round, >=Latex]
+			
+			\definecolor{tcol}{RGB}{210,50,35}
+			\definecolor{ecol}{RGB}{0,140,70}
+			\definecolor{vcol}{RGB}{0,92,190}
+			\definecolor{auxcol}{RGB}{90,90,90}
+			
+			% origin = point on surface
+			\coordinate (P) at (0,0);
+			
+			% basis vectors: t (horizontal) and e(v) (vertical)
+			\coordinate (t) at (5,0);
+			\coordinate (e) at (0,3.8);
+			
+			\draw[->, very thick, tcol] (P) -- (t) node[below right] {$t(s)$};
+			\draw[->, very thick, ecol] (P) -- (e) node[above left] {$e(v)$};
+			
+			% parameters (schematic values for picture only)
+			% phi_v = r e
+			\coordinate (phiv) at (0,2.6);
+			\draw[->, very thick, vcol] (P) -- (phiv) node[midway, right] {$\phi_v=r\,e(v)$};
+			
+			% phi_s = (1-rk cos v) t + r tau e  (choose a drawn vector)
+			\coordinate (phis) at (3.8,1.4);
+			\draw[->, very thick, auxcol] (P) -- (phis) node[midway, above right] {$\phi_s$};
+			
+			% show decomposition of phi_s
+			\coordinate (projT) at (3.8,0);
+			\coordinate (projE) at (0,1.4);
+			
+			\draw[dashed, auxcol] (phis) -- (projT);
+			\draw[dashed, auxcol] (phis) -- (projE);
+			
+			\draw[->, thick, tcol!80] (P) -- (projT) node[midway, below] {$(1-r\kappa\cos v)$};
+			\draw[->, thick, ecol!80] (P) -- (projE) node[midway, left] {$r\tau$};
+			
+			% parallelogram spanned by phi_s and phi_v
+			\coordinate (Q) at ($(phis)+(phiv)$);
+			\draw[thick, vcol!60] (phis) -- (Q);
+			\draw[thick, auxcol!70] (phiv) -- (Q);
+			
+			% area element label
+			\node at (2.2,3.2) {$\|\phi_s\times\phi_v\| = r(1-r\kappa\cos v)$};
+			
+			% small note about orthonormal basis
+			\node[auxcol] at (2.4,-0.8) {work in the orthonormal plane spanned by $\{t(s),e(v)\}$};
+			
+		\end{tikzpicture}
+		\caption{Exercise 5 (calculation view): in the orthonormal basis $\{t(s),e(v)\}$, we have $\phi_v=r\,e(v)$ and $\phi_s=(1-r\kappa\cos v)\,t+r\tau\,e(v)$, so the area element is $r(1-r\kappa\cos v)\,ds\,dv$.}
+	\end{figure}
+
+
+
+% Put the PNG files e.g. into: .figs/
+%   .figs/sphere_two_curves.png
+%   .figs/sphere_torsion_comparison.png
+
+\subsection*{Example: two curves on the sphere with different torsions}
+
+Consider the unit sphere $S^2=\{(x,y,z)\in\mathbb{R}^3:\ x^2+y^2+z^2=1\}$.
+
+\medskip
+\noindent\textbf{Curve 1 (planar; torsion $0$).}
+\[
+\gamma_1(t)=(\cos t,\ \sin t,\ 0),\qquad t\in[0,2\pi].
+\]
+This is a great circle (equator), hence it lies in the plane $z=0$ and therefore
+\[
+\tau_{\gamma_1}(t)\equiv 0.
+\]
+
+\medskip
+\noindent\textbf{Curve 2 (non-planar; torsion nonzero).}
+Fix $k=0.65$ and define
+\[
+\gamma_2(t)=\bigl(\cos t\cos(kt),\ \sin t\cos(kt),\ \sin(kt)\bigr),\qquad t\in[0,2\pi].
+\]
+One checks immediately that $\|\gamma_2(t)\|^2=\cos^2(kt)+\sin^2(kt)=1$, so $\gamma_2(t)\in S^2$ for all $t$.
+This curve is not planar, and its torsion $\tau_{\gamma_2}(t)$ is not identically zero.
+
+
+% ------------------------------------------------------------
+% Full torsion computations for the two spherical curves
+% (to place right after the figures you already inserted)
+% ------------------------------------------------------------
+
+\subsection*{Torsion computations for the two spherical curves}
+
+\noindent\textbf{Solution.}
+For a regular curve $\gamma(t)\subset\mathbb{R}^3$ (not necessarily unit speed), the torsion is
+\[
+\tau(t)=\frac{\det\bigl(\gamma'(t),\gamma''(t),\gamma'''(t)\bigr)}{\|\gamma'(t)\times\gamma''(t)\|^2}
+=
+\frac{\bigl(\gamma'(t)\times\gamma''(t)\bigr)\cdot \gamma'''(t)}{\|\gamma'(t)\times\gamma''(t)\|^2},
+\qquad \text{whenever } \gamma'(t)\times\gamma''(t)\neq 0.
+\]
+
+\bigskip
+
+\noindent\textbf{1) Great circle (equator): $\ \gamma_1(t)=(\cos t,\sin t,0)$.}
+
+\[
+\gamma_1'(t)=(-\sin t,\cos t,0),\qquad
+\gamma_1''(t)=(-\cos t,-\sin t,0),\qquad
+\gamma_1'''(t)=(\sin t,-\cos t,0).
+\]
+All three vectors $\gamma_1'(t),\gamma_1''(t),\gamma_1'''(t)$ lie in the plane $z=0$, hence they are linearly dependent
+in $\mathbb{R}^3$ and therefore
+\[
+\det\bigl(\gamma_1'(t),\gamma_1''(t),\gamma_1'''(t)\bigr)=0
+\quad\Longrightarrow\quad
+\tau_{\gamma_1}(t)\equiv 0.
+\]
+(Geometrically: $\gamma_1$ is planar, so its torsion is identically zero.)
+
+\bigskip
+
+\noindent\textbf{2) Non-planar curve on $S^2$: $\ \gamma_2(t)=\bigl(\cos t\cos(kt),\ \sin t\cos(kt),\ \sin(kt)\bigr)$.}
+
+First, $\|\gamma_2(t)\|^2=\cos^2(kt)(\cos^2 t+\sin^2 t)+\sin^2(kt)=1$, so $\gamma_2(t)\in S^2$ for all $t$.
+
+Introduce the shorthand
+\[
+c=\cos t,\quad s=\sin t,\quad C=\cos(kt),\quad S=\sin(kt).
+\]
+Then $\gamma_2(t)=(cC,\ sC,\ S)$, and differentiating gives:
+
+\medskip
+\noindent\emph{First derivative.}
+\[
+\gamma_2'(t)=
+\bigl(-sC-kcS,\ \ cC-ksS,\ \ kC\bigr).
+\]
+
+\medskip
+\noindent\emph{Second derivative.}
+\[
+\gamma_2''(t)=
+\bigl(-(1+k^2)cC+2k\,sS,\ \ -(1+k^2)sC-2k\,cS,\ \ -k^2 S\bigr).
+\]
+
+\medskip
+\noindent\emph{Third derivative.}
+\[
+\gamma_2'''(t)=
+\bigl((k^3+3k)cS+(3k^2+1)sC,\ \ (k^3+3k)sS-(3k^2+1)cC,\ \ -k^3 C\bigr).
+\]
+
+Now compute the numerator and denominator in the torsion formula.
+
+\medskip
+\noindent\emph{Triple product (numerator).}
+A direct (but routine) simplification yields
+\[
+\bigl(\gamma_2'(t)\times\gamma_2''(t)\bigr)\cdot\gamma_2'''(t)
+=
+k\,C\Bigl(2k^4+4k^2+(1-k^2)C^2\Bigr).
+\]
+
+\medskip
+\noindent\emph{Squared cross product (denominator).}
+Likewise,
+\[
+\|\gamma_2'(t)\times\gamma_2''(t)\|^2
+=
+k^6+4k^4+(4k^2-k^4)C^2+(1-k^2)C^4.
+\]
+
+Therefore the torsion of $\gamma_2$ is
+\[
+\boxed{
+	\ \tau_{\gamma_2}(t)
+	=
+	\frac{
+		k\,\cos(kt)\Bigl(2k^4+4k^2+(1-k^2)\cos^2(kt)\Bigr)
+	}{
+		k^6+4k^4+(4k^2-k^4)\cos^2(kt)+(1-k^2)\cos^4(kt)
+	}
+	\ }.
+\]
+
+\medskip
+\noindent\emph{In particular, $\tau_{\gamma_2}$ is not identically zero.}
+For example, at $t=0$ we have $\cos(kt)=1$, hence
+\[
+\tau_{\gamma_2}(0)
+=
+\frac{k\,(2k^4+3k^2+1)}{(k^2+1)^3}\neq 0
+\quad (k\neq 0),
+\]
+while at $t=\frac{\pi}{2k}$ we have $\cos(kt)=0$, so $\tau_{\gamma_2}\!\left(\frac{\pi}{2k}\right)=0$.
+Thus $\gamma_2$ is non-planar and has torsion varying with $t$, whereas $\gamma_1$ has torsion $\equiv 0$.
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.82\linewidth]{figures/MATH-ALLS-2_.figs_sphere_two_curves.png}
+	\caption{Two curves on $S^2$: a great circle (torsion $0$) and a non-planar spherical curve (torsion $\neq 0$).}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.82\linewidth]{figures/MATH-ALLS-2_.figs_sphere_torsion_comparison.png}
+	\caption{Torsion comparison $\tau(t)$ for the two curves. The great circle has $\tau\equiv 0$, while the second curve has nonzero torsion.}
+\end{figure}
+
+% ------------------------------------------------------------
+% Full torsion computations for the two spherical curves
+% (to place right after the figures you already inserted)
+% ------------------------------------------------------------
+
+\subsection*{Torsion computations for the two spherical curves}
+
+\noindent\textbf{Solution.}
+For a regular curve $\gamma(t)\subset\mathbb{R}^3$ (not necessarily unit speed), the torsion is
+\[
+\tau(t)=\frac{\det\bigl(\gamma'(t),\gamma''(t),\gamma'''(t)\bigr)}{\|\gamma'(t)\times\gamma''(t)\|^2}
+=
+\frac{\bigl(\gamma'(t)\times\gamma''(t)\bigr)\cdot \gamma'''(t)}{\|\gamma'(t)\times\gamma''(t)\|^2},
+\qquad \text{whenever } \gamma'(t)\times\gamma''(t)\neq 0.
+\]
+
+\bigskip
+
+\noindent\textbf{1) Great circle (equator): $\ \gamma_1(t)=(\cos t,\sin t,0)$.}
+
+\[
+\gamma_1'(t)=(-\sin t,\cos t,0),\qquad
+\gamma_1''(t)=(-\cos t,-\sin t,0),\qquad
+\gamma_1'''(t)=(\sin t,-\cos t,0).
+\]
+All three vectors $\gamma_1'(t),\gamma_1''(t),\gamma_1'''(t)$ lie in the plane $z=0$, hence they are linearly dependent
+in $\mathbb{R}^3$ and therefore
+\[
+\det\bigl(\gamma_1'(t),\gamma_1''(t),\gamma_1'''(t)\bigr)=0
+\quad\Longrightarrow\quad
+\tau_{\gamma_1}(t)\equiv 0.
+\]
+(Geometrically: $\gamma_1$ is planar, so its torsion is identically zero.)
+
+\bigskip
+
+\noindent\textbf{2) Non-planar curve on $S^2$: $\ \gamma_2(t)=\bigl(\cos t\cos(kt),\ \sin t\cos(kt),\ \sin(kt)\bigr)$.}
+
+First, $\|\gamma_2(t)\|^2=\cos^2(kt)(\cos^2 t+\sin^2 t)+\sin^2(kt)=1$, so $\gamma_2(t)\in S^2$ for all $t$.
+
+Introduce the shorthand
+\[
+c=\cos t,\quad s=\sin t,\quad C=\cos(kt),\quad S=\sin(kt).
+\]
+Then $\gamma_2(t)=(cC,\ sC,\ S)$, and differentiating gives:
+
+\medskip
+\noindent\emph{First derivative.}
+\[
+\gamma_2'(t)=
+\bigl(-sC-kcS,\ \ cC-ksS,\ \ kC\bigr).
+\]
+
+\medskip
+\noindent\emph{Second derivative.}
+\[
+\gamma_2''(t)=
+\bigl(-(1+k^2)cC+2k\,sS,\ \ -(1+k^2)sC-2k\,cS,\ \ -k^2 S\bigr).
+\]
+
+\medskip
+\noindent\emph{Third derivative.}
+\[
+\gamma_2'''(t)=
+\bigl((k^3+3k)cS+(3k^2+1)sC,\ \ (k^3+3k)sS-(3k^2+1)cC,\ \ -k^3 C\bigr).
+\]
+
+Now compute the numerator and denominator in the torsion formula.
+
+\medskip
+\noindent\emph{Triple product (numerator).}
+A direct (but routine) simplification yields
+\[
+\bigl(\gamma_2'(t)\times\gamma_2''(t)\bigr)\cdot\gamma_2'''(t)
+=
+k\,C\Bigl(2k^4+4k^2+(1-k^2)C^2\Bigr).
+\]
+
+\medskip
+\noindent\emph{Squared cross product (denominator).}
+Likewise,
+\[
+\|\gamma_2'(t)\times\gamma_2''(t)\|^2
+=
+k^6+4k^4+(4k^2-k^4)C^2+(1-k^2)C^4.
+\]
+
+Therefore the torsion of $\gamma_2$ is
+\[
+\boxed{
+	\ \tau_{\gamma_2}(t)
+	=
+	\frac{
+		k\,\cos(kt)\Bigl(2k^4+4k^2+(1-k^2)\cos^2(kt)\Bigr)
+	}{
+		k^6+4k^4+(4k^2-k^4)\cos^2(kt)+(1-k^2)\cos^4(kt)
+	}
+	\ }.
+\]
+
+\medskip
+\noindent\emph{In particular, $\tau_{\gamma_2}$ is not identically zero.}
+For example, at $t=0$ we have $\cos(kt)=1$, hence
+\[
+\tau_{\gamma_2}(0)
+=
+\frac{k\,(2k^4+3k^2+1)}{(k^2+1)^3}\neq 0
+\quad (k\neq 0),
+\]
+while at $t=\frac{\pi}{2k}$ we have $\cos(kt)=0$, so $\tau_{\gamma_2}\!\left(\frac{\pi}{2k}\right)=0$.
+Thus $\gamma_2$ is non-planar and has torsion varying with $t$, whereas $\gamma_1$ has torsion $\equiv 0$.
+
+
+
+	
+	\section*{Frenet and Darboux frames (curves on surfaces)}
+	
+	\subsection*{Frenet--Serret frame in $\mathbb{R}^3$}
+	Let $\alpha(t)$ be a $C^3$ regular curve in $\mathbb{R}^3$, $\alpha'(t)\neq 0$.
+	Define arc length
+	\[
+	s(t)=\int_{t_0}^t \|\alpha'(u)\|\,du,
+	\qquad
+	\frac{d}{ds}=\frac{1}{\|\alpha'(t)\|}\frac{d}{dt}.
+	\]
+	The unit tangent is $T=\dfrac{d\alpha}{ds}$. The curvature is
+	\[
+	\kappa=\left\|\frac{dT}{ds}\right\|.
+	\]
+	When $\kappa>0$ define $N=\dfrac{1}{\kappa}\dfrac{dT}{ds}$ and $B=T\times N$.
+	The Frenet--Serret equations are
+	\[
+	\begin{aligned}
+		\frac{dT}{ds}&=\kappa N,\\
+		\frac{dN}{ds}&=-\kappa T+\tau B,\\
+		\frac{dB}{ds}&=-\tau N,
+	\end{aligned}
+	\]
+	where $\tau$ is the torsion.
+	For a general parameter $t$ one may compute
+	\[
+	\kappa(t)=\frac{\|\alpha'(t)\times \alpha''(t)\|}{\|\alpha'(t)\|^3},
+	\qquad
+	\tau(t)=\frac{\det(\alpha'(t),\alpha''(t),\alpha'''(t))}
+	{\|\alpha'(t)\times \alpha''(t)\|^2}.
+	\]
+	
+	\subsection*{Curves on a surface: Darboux frame}
+	Let $\alpha$ lie on a smooth surface $S$ with unit normal $n$ along the curve.
+	Define the Darboux frame
+	\[
+	\{T,e_g,n\},
+	\qquad
+	e_g=n\times T.
+	\]
+	Then
+	\[
+	\begin{aligned}
+		\frac{dT}{ds}&=\kappa_g\,e_g+\kappa_n\,n,\\
+		\frac{de_g}{ds}&=-\kappa_g\,T+\tau_g\,n,\\
+		\frac{dn}{ds}&=-\kappa_n\,T-\tau_g\,e_g.
+	\end{aligned}
+	\]
+	Hence $\kappa^2=\kappa_g^2+\kappa_n^2$ and $\kappa_g\equiv 0$ iff $\alpha$ is a geodesic.
+	
+	A useful identity (any parameter $t$) is
+	\[
+	\kappa_n=\left\langle \frac{d^2\alpha}{ds^2},n\right\rangle
+	=\frac{\langle \alpha''(t),n\rangle}{\|\alpha'(t)\|^2},
+	\]
+	and then $\kappa_g=\sqrt{\kappa^2-\kappa_n^2}$.
+	
+	\subsection*{Examples on four surfaces}
+	
+	\subsubsection*{Sphere $x^2+y^2+z^2=R^2$: parallel circle}
+	Let
+	\[
+	\alpha(t)=\big(R\cos\theta_0\cos t,\;R\cos\theta_0\sin t,\;R\sin\theta_0\big).
+	\]
+	Then $\|\alpha'(t)\|=R\cos\theta_0$, $\kappa=\dfrac{1}{R\cos\theta_0}$ and $\tau=0$.
+	The surface unit normal is $n=\alpha/R$, so
+	\[
+	\kappa_n=\frac{\langle \alpha''(t),n\rangle}{\|\alpha'(t)\|^2}=-\frac{1}{R},
+	\qquad
+	\kappa_g=\sqrt{\kappa^2-\kappa_n^2}=\frac{|\tan\theta_0|}{R}.
+	\]
+	In particular, for $\theta_0=0$ (great circle) we have $\kappa_g=0$.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_.figs_sphere_parallel_frenet.png}
+		\caption{Sphere: a parallel circle with Frenet frame $(T,N,B)$ and surface normal $n$.}
+	\end{figure}
+	
+	\subsubsection*{Hyperbolic paraboloid $z=x^2-y^2$: curve $y=mx$}
+	On $S:\ z=x^2-y^2$, take $y=mx$ and parameter $u=x$:
+	\[
+	\alpha(u)=\big(u,\;mu,\;(1-m^2)u^2\big).
+	\]
+	Then
+	\[
+	\alpha'(u)=(1,m,2(1-m^2)u),\quad
+	\alpha''(u)=(0,0,2(1-m^2)),\quad
+	\alpha'''(u)=0,
+	\]
+	so $\tau\equiv 0$, and
+	\[
+	\kappa(u)=\frac{2\sqrt{1+m^2}\,|1-m^2|}
+	{\big(1+m^2+4(1-m^2)^2u^2\big)^{3/2}}.
+	\]
+	A (non-unit) surface normal is $n\propto (-2x,2y,1)$, hence along the curve
+	$n(u)\propto (-2u,2mu,1)$ with $\|n(u)\|=\sqrt{1+4(1+m^2)u^2}$.
+	Therefore
+	\[
+	\kappa_n(u)=\frac{\langle \alpha''(u),\hat n(u)\rangle}{\|\alpha'(u)\|^2}
+	=\frac{2(1-m^2)}
+	{\big(1+m^2+4(1-m^2)^2u^2\big)\sqrt{1+4(1+m^2)u^2}},
+	\qquad
+	\kappa_g(u)=\sqrt{\kappa(u)^2-\kappa_n(u)^2}.
+	\]
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_.figs_hyperbolic_paraboloid_curve_frenet.png}
+		\caption{Hyperbolic paraboloid: curve $y=mx$ with Frenet frame and surface normal.}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_.figs_hyperbolic_paraboloid_kappa_tau.png}
+		\caption{Hyperbolic paraboloid example: curvature $\kappa(u)$ and torsion $\tau(u)$ (here $\tau\equiv 0$).}
+	\end{figure}
+	
+	\subsubsection*{Cylinder $x^2+y^2=R^2$: helix}
+	Let
+	\[
+	\alpha(t)=(R\cos t,\;R\sin t,\;at).
+	\]
+	Then $\|\alpha'(t)\|=\sqrt{R^2+a^2}$ and
+	\[
+	\kappa=\frac{R}{R^2+a^2},
+	\qquad
+	\tau=\frac{a}{R^2+a^2}.
+	\]
+	The cylinder unit normal is $n(t)=(\cos t,\sin t,0)$ and the curvature vector points
+	purely in the $\pm n$ direction, so $\kappa_g\equiv 0$, i.e.\ the helix is a geodesic
+	on the cylinder.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_.figs_cylinder_helix_frenet.png}
+		\caption{Cylinder: helix with Frenet frame and surface normal.}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_.figs_cylinder_helix_kappa_tau.png}
+		\caption{Cylinder helix: $\kappa$ and $\tau$ are constant.}
+	\end{figure}
+	
+	\subsubsection*{Torus: parallel circle and geodesic condition}
+	Let the torus be
+	\[
+	X(u,v)=\big((R+r\cos v)\cos u,\ (R+r\cos v)\sin u,\ r\sin v\big).
+	\]
+	Fix $v=v_0$ and set $u=t$:
+	\[
+	\alpha(t)=\big(\rho\cos t,\ \rho\sin t,\ r\sin v_0\big),
+	\qquad
+	\rho=R+r\cos v_0.
+	\]
+	Then $\kappa=1/\rho$ and $\tau=0$.
+	The torus unit normal is $n(u,v)=(\cos v\cos u,\cos v\sin u,\sin v)$, so
+	\[
+	\kappa_n=-\frac{\cos v_0}{R+r\cos v_0},
+	\qquad
+	\kappa_g=\frac{|\sin v_0|}{R+r\cos v_0}.
+	\]
+	Thus $v_0\in\{0,\pi\}$ gives $\kappa_g=0$ (outer/inner equators are geodesics).
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_.figs_torus_parallel_frenet.png}
+		\caption{Torus: a parallel circle with Frenet frame and surface normal.}
+	\end{figure}
+	
+	
+	\subsection*{A nontrivial surface curve with variable torsion: a $(p,q)$ torus knot}
+	
+	\paragraph{Torus surface.}
+	Let the torus be parametrized by
+	\[
+	X(u,v)=\big((R+r\cos v)\cos u,\ (R+r\cos v)\sin u,\ r\sin v\big),
+	\]
+	with outward unit normal
+	\[
+	n(u,v)=\big(\cos v\cos u,\ \cos v\sin u,\ \sin v\big).
+	\]
+	
+	\paragraph{Curve on the torus (torus knot).}
+	Fix integers $p,q\ge1$ and define
+	\[
+	u(t)=pt,\qquad v(t)=qt,\qquad t\in[0,2\pi],
+	\]
+	so the curve is
+	\[
+	\alpha(t)=X(pt,qt).
+	\]
+	Write $A(t)=R+r\cos(qt)$, then
+	\[
+	\alpha(t)=\big(A(t)\cos(pt),\ A(t)\sin(pt),\ r\sin(qt)\big).
+	\]
+	
+	\paragraph{Velocity and speed.}
+	Since $A'(t)=-rq\sin(qt)$, we have
+	\[
+	\begin{aligned}
+		x'(t)&=A'(t)\cos(pt)-pA(t)\sin(pt),\\
+		y'(t)&=A'(t)\sin(pt)+pA(t)\cos(pt),\\
+		z'(t)&=rq\cos(qt).
+	\end{aligned}
+	\]
+	A useful simplification is
+	\[
+	x'(t)^2+y'(t)^2=A'(t)^2+p^2A(t)^2,
+	\]
+	hence
+	\[
+	\boxed{\ \|\alpha'(t)\|^2=p^2A(t)^2+r^2q^2\ }.
+	\]
+	Therefore
+	\[
+	\frac{ds}{dt}=\|\alpha'(t)\|=\sqrt{p^2(R+r\cos(qt))^2+r^2q^2}.
+	\]
+	
+	\paragraph{Frenet invariants (general parameter formulas).}
+	For a general parameter $t$,
+	\[
+	\boxed{\ \kappa(t)=\frac{\|\alpha'(t)\times\alpha''(t)\|}{\|\alpha'(t)\|^3}\ ,\qquad
+		\tau(t)=\frac{\det(\alpha'(t),\alpha''(t),\alpha'''(t))}{\|\alpha'(t)\times\alpha''(t)\|^2}\ }.
+	\]
+	In this example both $\kappa(t)$ and $\tau(t)$ vary with $t$ (see Fig.~\ref{fig:torus-knot-kappa-tau}).
+	
+	\paragraph{Darboux frame and invariants.}
+	Along the curve, the surface normal is $n(t)=n(pt,qt)$ and the Darboux frame is
+	\[
+	\{T,e_g,n\},\qquad e_g=n\times T.
+	\]
+	The Darboux equations give
+	\[
+	\frac{dT}{ds}=\kappa_g e_g+\kappa_n n,
+	\qquad
+	\frac{dn}{ds}=-\kappa_n T-\tau_g e_g,
+	\]
+	and in particular
+	\[
+	\boxed{\ \kappa(t)^2=\kappa_g(t)^2+\kappa_n(t)^2\ }.
+	\]
+	
+	\paragraph{Closed forms for $\kappa_n(t)$ and $\tau_g(t)$ on a torus.}
+	For the torus, the principal curvatures (outward normal) are
+	\[
+	k_u=\frac{\cos v}{R+r\cos v},
+	\qquad
+	k_v=\frac{1}{r}.
+	\]
+	For the curve $u=pt$, $v=qt$ with $A(t)=R+r\cos(qt)$ and $\|\alpha'(t)\|^2=p^2A(t)^2+r^2q^2$ one obtains
+	\[
+	\boxed{\ \kappa_n(t)=\frac{p^2A(t)\cos(qt)+rq^2}{p^2A(t)^2+r^2q^2}\ },
+	\qquad
+	\boxed{\ \tau_g(t)=\frac{pqR}{p^2A(t)^2+r^2q^2}\ }.
+	\]
+	Finally,
+	\[
+	\boxed{\ \kappa_g(t)=\sqrt{\kappa(t)^2-\kappa_n(t)^2}\ }.
+	\]
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.82\linewidth]{figures/MATH-ALLS-2_.figs_torus_knot_frame.png}
+		\caption{A $(p,q)$ torus knot on the torus surface with vectors from the Frenet frame $(T,N,B)$ and also the surface normal $n$ and $e_g=n\times T$.}
+		\label{fig:torus-knot-frame}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.82\linewidth]{figures/MATH-ALLS-2_.figs_torus_knot_kappa_tau.png}
+		\caption{Curvature $\kappa(t)$ and torsion $\tau(t)$ of the torus-knot curve (both vary with $t$).}
+		\label{fig:torus-knot-kappa-tau}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.82\linewidth]{figures/MATH-ALLS-2_.figs_torus_knot_darboux.png}
+		\caption{Darboux invariants for the same curve: normal curvature $\kappa_n(t)$, geodesic curvature $\kappa_g(t)$, and geodesic torsion $\tau_g(t)$.}
+		\label{fig:torus-knot-darboux}
+	\end{figure}
+	
+	\subsection*{Frenet frame vs.\ Darboux frame (curve on a surface)}
+	
+	\subsubsection*{Frenet--Serret frame (space curve)}
+	Let $\alpha:I\to\mathbb{R}^3$ be a $C^3$ regular curve. Reparametrize by arc length $s$
+	so that $\|\alpha'(s)\|=1$. Define the \emph{Frenet frame}
+	\[
+	\boxed{\{T,N,B\}},
+	\qquad
+	T=\alpha'(s),\quad
+	\kappa=\|T'(s)\|,
+	\quad
+	N=\frac{T'(s)}{\|T'(s)\|},
+	\quad
+	B=T\times N.
+	\]
+	It satisfies the \emph{Frenet--Serret equations}
+	\[
+	\boxed{
+		\begin{aligned}
+			T'&=\kappa N,\\
+			N'&=-\kappa T+\tau B,\\
+			B'&=-\tau N,
+	\end{aligned}}
+	\]
+	where $\tau$ is the torsion.
+	
+	\subsubsection*{Darboux frame (curve constrained to a surface)}
+	Assume $\alpha(s)$ lies on a smooth oriented surface $S\subset\mathbb{R}^3$ and let
+	$n(s)$ be the \emph{unit surface normal} along the curve. Define
+	\[
+	e_g = n\times T,
+	\]
+	so that $\{T,e_g,n\}$ is an orthonormal frame with $T,e_g\in T_{\alpha(s)}S$.
+	This is the \emph{Darboux frame}
+	\[
+	\boxed{\{T,e_g,n\}}.
+	\]
+	Its evolution is described by the \emph{Darboux equations}
+	\[
+	\boxed{
+		\begin{aligned}
+			T'&=\kappa_g\,e_g+\kappa_n\,n,\\
+			e_g'&=-\kappa_g\,T+\tau_g\,n,\\
+			n'&=-\kappa_n\,T-\tau_g\,e_g,
+	\end{aligned}}
+	\]
+	where
+	\[
+	\kappa_n \ \text{is the \emph{normal curvature}},\qquad
+	\kappa_g \ \text{is the \emph{geodesic curvature}},\qquad
+	\tau_g \ \text{is the \emph{geodesic torsion}}.
+	\]
+	In particular, the curvature vector splits into tangential and normal parts:
+	\[
+	T'=\kappa N=\kappa_g e_g+\kappa_n n,
+	\qquad\Rightarrow\qquad
+	\boxed{\kappa^2=\kappa_g^2+\kappa_n^2.}
+	\]
+	
+	\subsubsection*{Exact conversion between the frames (angle formula)}
+	Since $\{e_g,n\}$ is an orthonormal basis of the plane orthogonal to $T$,
+	the Frenet normal $N$ is obtained from $(e_g,n)$ by a rotation. Thus there exists
+	an angle $\phi=\phi(s)$ such that
+	\[
+	\boxed{
+		N=\cos\phi\,e_g+\sin\phi\,n,
+		\qquad
+		B=-\sin\phi\,e_g+\cos\phi\,n.}
+	\]
+	Substituting into $T'=\kappa N$ gives the precise relations
+	\[
+	\boxed{
+		\kappa_g=\kappa\cos\phi,
+		\qquad
+		\kappa_n=\kappa\sin\phi.}
+	\]
+	Equivalently,
+	\[
+	\cos\phi=\frac{\kappa_g}{\kappa},
+	\qquad
+	\sin\phi=\frac{\kappa_n}{\kappa},
+	\qquad
+	\tan\phi=\frac{\kappa_n}{\kappa_g}\quad(\kappa_g\neq 0).
+	\]
+	
+	\paragraph{Geodesic criterion.}
+	A curve on $S$ is a geodesic iff $\kappa_g\equiv 0$. By the above,
+	\[
+	\kappa_g\equiv 0
+	\iff
+	\cos\phi\equiv 0
+	\iff
+	N\parallel n,
+	\]
+	i.e.\ the curve bends purely in the surface-normal direction.
+	
+	% ------------------------------------------------------------
+	% Exercise 6
+	% ------------------------------------------------------------
+% ------------------------------------------------------------
+% Problem 6 (Orientability + Möbius strip)
+% ------------------------------------------------------------
+
+\section*{Problem 6 - Orientability obstruction and the M\"obius strip}
+
+
+\begin{enumerate}
+	\item
+	Let $S$ be a surface that can be covered by connected coordinate neighbourhoods $V_1$ and $V_2$.
+	Assume that $V_1\cap V_2$ has two connected components $W_1$ and $W_2$, and that the Jacobian of the change
+	of coordinates is positive on $W_1$ and negative on $W_2$. Prove that $S$ is not orientable.
+	
+	\item
+	Let $\phi\colon [0,2\pi)\times(-1,1)\to\mathbb{R}^3$ be given by
+	\[
+	\phi(u,v)=\Bigl(\bigl(2-v\sin(u/2)\bigr)\sin u,\ \bigl(2-v\sin(u/2)\bigr)\cos u,\ v\cos(u/2)\Bigr).
+	\]
+	The image of $\phi$ is the M\"obius strip. By considering the parametrizations given by $\phi$ restricted to
+	$(0,2\pi)\times(-1,1)$ and
+	\[
+	\psi(\bar u,\bar v)=\Bigl(\bigl(2-\bar v\sin(\tfrac\pi4+\bar u/2)\bigr)\cos\bar u,\ 
+	-\bigl(2-\bar v\sin(\tfrac\pi4+\bar u/2)\bigr)\sin\bar u,\ 
+	\bar v\cos(\tfrac\pi4+\bar u/2)\Bigr),
+	\]
+	$(\bar u,\bar v)\in(0,2\pi)\times(-1,1)$, show that the M\"obius strip is not orientable.
+\end{enumerate}
+
+\bigskip
+
+\noindent\textbf{Solution.}
+
+\begin{enumerate}
+	\item
+	Let $(V_1,x)$ and $(V_2,y)$ be connected coordinate neighbourhoods on $S$.
+	On the overlap $V_1\cap V_2$ consider the transition map
+	\[
+	y\circ x^{-1}\colon x(V_1\cap V_2)\longrightarrow y(V_1\cap V_2).
+	\]
+	By assumption, $V_1\cap V_2$ has two connected components $W_1$ and $W_2$, and
+	\[
+	\det D(y\circ x^{-1})>0 \ \text{on } W_1,
+	\qquad
+	\det D(y\circ x^{-1})<0 \ \text{on } W_2.
+	\]
+	
+	The only way to modify the sign of a transition Jacobian is to reverse the orientation of an entire chart.
+	For instance, define $\tilde y=(y^1,-y^2)$ on $V_2$. Then on $V_1\cap V_2$ we have
+	\[
+	\tilde y\circ x^{-1} = (\rho\circ y)\circ x^{-1},
+	\qquad
+	\rho(a,b)=(a,-b),
+	\]
+	so by the chain rule,
+	\[
+	\det D(\tilde y\circ x^{-1})
+	=
+	\det D\rho\cdot \det D(y\circ x^{-1})
+	=
+	(-1)\,\det D(y\circ x^{-1}).
+	\]
+	Hence the sign of the Jacobian flips \emph{everywhere} on $V_1\cap V_2$, i.e.\ simultaneously on both $W_1$ and $W_2$.
+	Thus the pattern $(+\ \text{on } W_1,\ -\ \text{on } W_2)$ changes to $(-\ \text{on } W_1,\ +\ \text{on } W_2)$,
+	and in either choice there remains a connected component of $V_1\cap V_2$ on which the Jacobian is negative.
+	
+	Therefore there is no choice of orientations of the charts on the cover $\{V_1,V_2\}$ making all transition Jacobians
+	positive on all overlaps. Consequently $S$ is not orientable.
+	
+	\item
+	Set
+	\[
+	V_1=\phi\bigl((0,2\pi)\times(-1,1)\bigr),
+	\qquad
+	V_2=\psi\bigl((0,2\pi)\times(-1,1)\bigr).
+	\]
+	These are connected coordinate neighbourhoods on the M\"obius strip and they cover it.
+	
+	\medskip
+	\noindent
+	\emph{Step 1: relation between $\phi$ and $\psi$.}
+	For $u=\bar u+\frac{\pi}{2}$ we have
+	\[
+	\sin u=\sin(\bar u+\tfrac{\pi}{2})=\cos\bar u,
+	\qquad
+	\cos u=\cos(\bar u+\tfrac{\pi}{2})=-\sin\bar u,
+	\]
+	and also
+	\[
+	\sin(u/2)=\sin(\tfrac{\pi}{4}+\bar u/2),
+	\qquad
+	\cos(u/2)=\cos(\tfrac{\pi}{4}+\bar u/2).
+	\]
+	Substituting into $\phi$ yields
+	\[
+	\psi(\bar u,\bar v)=\phi(\bar u+\tfrac{\pi}{2},\bar v).
+	\tag{1}
+	\]
+	
+	\medskip
+	\noindent
+	\emph{Step 2: the twist identity.}
+	A direct computation gives
+	\[
+	\phi(u+2\pi,v)=\phi(u,-v).
+	\tag{2}
+	\]
+	Indeed, $\sin(u+2\pi)=\sin u$, $\cos(u+2\pi)=\cos u$, while
+	\[
+	\sin\Bigl(\frac{u+2\pi}{2}\Bigr)=\sin\Bigl(\frac{u}{2}+\pi\Bigr)=-\sin(u/2),
+	\qquad
+	\cos\Bigl(\frac{u+2\pi}{2}\Bigr)=\cos\Bigl(\frac{u}{2}+\pi\Bigr)=-\cos(u/2),
+	\]
+	and substituting these identities into the definition of $\phi$ gives (2).
+	
+	\medskip
+	\noindent
+	\emph{Step 3: two branches on the overlap and opposite Jacobian signs.}
+	On $V_1\cap V_2$ we compare the coordinate maps induced by $\phi$ and $\psi$.
+	Using (1), a point in $V_1\cap V_2$ coming from $(\bar u,\bar v)$ has a representative in $\phi$-coordinates
+	with $u=\bar u+\frac{\pi}{2}$ and $v=\bar v$. If $u\in(0,2\pi)$ this already lies in the chosen domain of $\phi$;
+	otherwise we use (2) to shift $u$ back by $2\pi$ at the expense of changing the sign of $v$.
+	This yields two cases:
+	
+	\smallskip
+	\noindent
+	\underline{Case A: $\bar u\in(0,3\pi/2)$.}
+	Then $u=\bar u+\frac{\pi}{2}\in(\frac{\pi}{2},2\pi)$, so
+	\[
+	(u,v)=\bigl(\bar u+\tfrac{\pi}{2},\ \bar v\bigr),
+	\qquad
+	\det\frac{\partial(u,v)}{\partial(\bar u,\bar v)}=+1.
+	\]
+	
+	\smallskip
+	\noindent
+	\underline{Case B: $\bar u\in(3\pi/2,2\pi)$.}
+	Then $u=\bar u+\frac{\pi}{2}\in(2\pi,5\pi/2)$, so we apply (2):
+	\[
+	\phi(u,v)=\phi(u-2\pi,-v),
+	\]
+	hence the corresponding $\phi$-coordinates are
+	\[
+	(u,v)=\bigl(\bar u+\tfrac{\pi}{2}-2\pi,\ -\bar v\bigr),
+	\qquad
+	\det\frac{\partial(u,v)}{\partial(\bar u,\bar v)}=-1.
+	\]
+	
+	Thus $V_1\cap V_2$ has two connected components on which the transition Jacobian has opposite signs.
+	By part (i), the M\"obius strip is not orientable.
+\end{enumerate}
+
+% ------------------------------------------------------------
+% Continuation (Polish exposition) + full link to (ii)
+% ------------------------------------------------------------
+
+\subsection*{Steps}
+
+\noindent\textbf{(i) Dlaczego to kończy orientowalność? (ciąg dalszy)}  
+
+Masz dwa spójne wykresy $(V_1,x)$, $(V_2,y)$. Na przecięciu $V_1\cap V_2$ są dwie spójne składowe
+\[
+V_1\cap V_2 = W_1 \,\dot\cup\, W_2,
+\]
+a przejście współrzędnych $y\circ x^{-1}$ spełnia
+\[
+\det D(y\circ x^{-1})>0 \ \text{na } W_1,
+\qquad
+\det D(y\circ x^{-1})<0 \ \text{na } W_2.
+\]
+
+Jeśli próbujesz „naprawić” znak, możesz jedynie odwrócić orientację \emph{całego} wykresu (np.\ na $V_2$).
+Weźmy
+\[
+\tilde y=(y^1,-y^2).
+\]
+Wtedy $\tilde y=\rho\circ y$, gdzie $\rho(a,b)=(a,-b)$ i $\det D\rho=-1$, więc na $V_1\cap V_2$ (łańcuchowo)
+\[
+\det D(\tilde y\circ x^{-1})
+=
+\det D(\rho\circ y\circ x^{-1})
+=
+\det D\rho\cdot \det D(y\circ x^{-1})
+=
+(-1)\,\det D(y\circ x^{-1}).
+\]
+Zatem znak Jacobiego odwraca się \emph{wszędzie na całym} $V_1\cap V_2$ (czyli jednocześnie na $W_1$ i $W_2$).
+
+Czyli:
+\begin{itemize}
+	\item było $+$ na $W_1$ i $-$ na $W_2$,
+	\item po odwróceniu wykresu będzie $-$ na $W_1$ i $+$ na $W_2$.
+\end{itemize}
+
+W każdym wyborze pozostaje jakaś składowa przecięcia z minusem, a więc \emph{nie da się zrobić atlasu},
+w którym wszystkie przejścia współrzędnych mają dodatni wyznacznik Jacobiego.
+Stąd
+\[
+\boxed{\ S\ \text{nie jest orientowalna.}\ }
+\]
+
+\bigskip
+
+\noindent\textbf{(ii) Wstęga M\"obiusa: zastosowanie (i)}  
+
+Niech
+\[
+\phi(u,v)=\Bigl(\bigl(2-v\sin(u/2)\bigr)\sin u,\ \bigl(2-v\sin(u/2)\bigr)\cos u,\ v\cos(u/2)\Bigr),
+\qquad (u,v)\in[0,2\pi)\times(-1,1),
+\]
+a ponadto
+\[
+\psi(\bar u,\bar v)=\Bigl(\bigl(2-\bar v\sin(\tfrac\pi4+\bar u/2)\bigr)\cos\bar u,\ 
+-\bigl(2-\bar v\sin(\tfrac\pi4+\bar u/2)\bigr)\sin\bar u,\ 
+\bar v\cos(\tfrac\pi4+\bar u/2)\Bigr),
+\qquad (\bar u,\bar v)\in(0,2\pi)\times(-1,1).
+\]
+
+Ustawiamy
+\[
+V_1=\phi\bigl((0,2\pi)\times(-1,1)\bigr),
+\qquad
+V_2=\psi\bigl((0,2\pi)\times(-1,1)\bigr).
+\]
+Są to spójne sąsiedztwa współrzędnościowe na wstędze M\"obiusa i pokrywają całą powierzchnię.
+
+\medskip
+\noindent\emph{Krok 1 (związek $\phi$ i $\psi$).}
+Dla $u=\bar u+\frac{\pi}{2}$ mamy
+\[
+\sin(\bar u+\tfrac{\pi}{2})=\cos\bar u,
+\qquad
+\cos(\bar u+\tfrac{\pi}{2})=-\sin\bar u,
+\]
+oraz
+\[
+\sin\Bigl(\frac{\bar u+\pi/2}{2}\Bigr)=\sin\Bigl(\tfrac{\pi}{4}+\frac{\bar u}{2}\Bigr),
+\qquad
+\cos\Bigl(\frac{\bar u+\pi/2}{2}\Bigr)=\cos\Bigl(\tfrac{\pi}{4}+\frac{\bar u}{2}\Bigr).
+\]
+Po podstawieniu do wzoru na $\phi$ otrzymujemy
+\[
+\boxed{\ \psi(\bar u,\bar v)=\phi(\bar u+\tfrac{\pi}{2},\bar v).\ }
+\tag{1}
+\]
+
+\medskip
+\noindent\emph{Krok 2 (tożsamość skręcenia).}
+Z okresowości $\sin$ i $\cos$ oraz równań
+\[
+\sin\Bigl(\frac{u}{2}+\pi\Bigr)=-\sin\Bigl(\frac{u}{2}\Bigr),
+\qquad
+\cos\Bigl(\frac{u}{2}+\pi\Bigr)=-\cos\Bigl(\frac{u}{2}\Bigr)
+\]
+wynika bezpośrednio, że
+\[
+\boxed{\ \phi(u+2\pi,v)=\phi(u,-v).\ }
+\tag{2}
+\]
+
+\medskip
+\noindent\emph{Krok 3 (dwie gałęzie przejścia i dwa znaki Jacobiego).}
+Na $V_1\cap V_2$ przechodzimy ze współrzędnych $(\bar u,\bar v)$ do współrzędnych $(u,v)$ w parametrze $\phi$.
+
+\smallskip
+\noindent\underline{Gałąź A (bez zawinięcia).}
+Jeżeli $\bar u\in(0,3\pi/2)$, to $u=\bar u+\frac{\pi}{2}\in(\frac{\pi}{2},2\pi)$, więc
+\[
+(u,v)=\bigl(\bar u+\tfrac{\pi}{2},\ \bar v\bigr),
+\qquad
+\det\frac{\partial(u,v)}{\partial(\bar u,\bar v)}=+1.
+\]
+
+\smallskip
+\noindent\underline{Gałąź B (z zawinięciem i skrętem).}
+Jeżeli $\bar u\in(3\pi/2,2\pi)$, to $u=\bar u+\frac{\pi}{2}\in(2\pi,5\pi/2)$ wypada poza zakres $(0,2\pi)$,
+więc używamy (2):
+\[
+\phi(u,v)=\phi(u-2\pi,-v).
+\]
+Zatem odpowiadające współrzędne w parametrze $\phi$ wynoszą
+\[
+(u,v)=\bigl(\bar u+\tfrac{\pi}{2}-2\pi,\ -\bar v\bigr),
+\qquad
+\det\frac{\partial(u,v)}{\partial(\bar u,\bar v)}=-1.
+\]
+
+Widzimy więc, że $V_1\cap V_2$ rozkłada się na dwie spójne składowe (odpowiadające przedziałom
+$\bar u\in(0,3\pi/2)$ oraz $\bar u\in(3\pi/2,2\pi)$), a na jednej z nich wyznacznik Jacobiego przejścia jest dodatni,
+a na drugiej ujemny. Z punktu (i) wynika natychmiast, że
+\[
+\boxed{\ \text{wstęga M\"obiusa nie jest orientowalna.}\ }
+\]
+
+\subsection*{Problem 7. Mean curvature as an average of normal curvatures}
+
+Show that the mean curvature $H$ at $p\in S$ is given by
+\[
+H=\frac1\pi\int_0^\pi k_n(\theta)\,d\theta,
+\]
+where $k_n(\theta)$ is the normal curvature at $p$ along a direction making an angle $\theta$ with a fixed direction.
+
+\medskip
+\noindent\textbf{Solution.}
+Let $k_1,k_2$ be the principal curvatures at $p$, with orthonormal principal directions
+$e_1,e_2\in T_pS$.
+Any unit tangent direction making angle $\theta$ with $e_1$ is
+\[
+t(\theta)=\cos\theta\,e_1+\sin\theta\,e_2.
+\]
+By Euler's formula for normal curvature,
+\[
+k_n(\theta)=k_1\cos^2\theta+k_2\sin^2\theta.
+\]
+Hence
+\[
+\frac1\pi\int_0^\pi k_n(\theta)\,d\theta
+=\frac1\pi\int_0^\pi\bigl(k_1\cos^2\theta+k_2\sin^2\theta\bigr)\,d\theta
+=\frac1\pi\left(k_1\cdot\frac\pi2+k_2\cdot\frac\pi2\right)
+=\frac{k_1+k_2}{2}.
+\]
+But $H=\dfrac{k_1+k_2}{2}$, so
+\[
+H=\frac1\pi\int_0^\pi k_n(\theta)\,d\theta.
+\]
+(Using $[0,\pi]$ is natural since $k_n(\theta)$ has period $\pi$.)
+
+\bigskip
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.72\linewidth]{figures/MATH-ALLS-2_problem7_kn_vs_theta.png}
+	\caption{Problem 7: Normal curvature $k_n(\theta)$ versus direction angle $\theta$, with the mean curvature line $H$.}
+\end{figure}
+
+
+
+
+
+\subsection*{Theory: normal curvature, principal curvatures, and mean curvature}
+
+Let $S\subset\mathbb R^3$ be a smooth surface and $p\in S$. Fix a unit normal $N$ near $p$.
+For a unit tangent direction $t\in T_pS$ ($\|t\|=1$), the \emph{normal curvature} $k_n(t)$
+is the (signed) curvature at $p$ of the normal section curve obtained by intersecting $S$
+with the plane spanned by $t$ and $N(p)$.
+
+Equivalently, using the shape operator (Weingarten map)
+\[
+S_p:T_pS\to T_pS,\qquad S_p(v)=-dN_p(v),
+\]
+the second fundamental form is
+\[
+\mathrm{II}(u,v)=\langle S_p(u),v\rangle,
+\]
+and for unit $t$ one has
+\[
+k_n(t)=\mathrm{II}(t,t)=\langle S_p(t),t\rangle.
+\]
+
+Since $S_p$ is self-adjoint on the $2$-dimensional inner-product space $T_pS$, there is an
+orthonormal basis of eigenvectors $e_1,e_2$ such that
+\[
+S_p(e_1)=k_1 e_1,\qquad S_p(e_2)=k_2 e_2,
+\]
+where $k_1,k_2$ are the \emph{principal curvatures} and $e_1,e_2$ are the corresponding
+\emph{principal directions}. Writing any unit direction as
+\[
+t(\theta)=\cos\theta\,e_1+\sin\theta\,e_2,
+\]
+Euler's formula for normal curvature gives
+\[
+k_n(\theta)=k_1\cos^2\theta+k_2\sin^2\theta.
+\]
+The \emph{mean curvature} is defined by
+\[
+H=\frac{k_1+k_2}{2}.
+\]
+Using $\int_0^\pi \cos^2\theta\,d\theta=\int_0^\pi \sin^2\theta\,d\theta=\frac{\pi}{2}$,
+one obtains
+\[
+\frac1\pi\int_0^\pi k_n(\theta)\,d\theta
+=\frac1\pi\int_0^\pi\bigl(k_1\cos^2\theta+k_2\sin^2\theta\bigr)\,d\theta
+=\frac{k_1+k_2}{2}=H.
+\]
+(Integrating over $[0,\pi]$ is natural since $k_n(\theta)$ has period $\pi$.)
+
+% =========================
+% Theory diagram (TikZ) — larger + colored
+% =========================
+% =========================
+% Theory diagram (TikZ) — labels not occluded
+% =========================
+% in preamble (once):
+% \usetikzlibrary{calc}
+% (optional) \usetikzlibrary{backgrounds}
+
+% =========================
+% Theory diagram (TikZ) — labels ALWAYS on top + opaque boxes
+% =========================
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=1.45, line cap=round, line join=round, >=Latex]
+		
+		% --- Layers (geometry below, labels above) ---
+		\pgfdeclarelayer{bg}
+		\pgfdeclarelayer{fg}
+		\pgfsetlayers{bg,main,fg}
+		
+		% --- Colors ---
+		\definecolor{SurfBlue}{RGB}{40,110,180}
+		\definecolor{PlaneGray}{RGB}{120,120,120}
+		\definecolor{NormalRed}{RGB}{200,60,60}
+		\definecolor{TangGreen}{RGB}{40,150,90}
+		\definecolor{SectionPurple}{RGB}{140,80,200}
+		\definecolor{CurveOrange}{RGB}{220,130,30}
+		
+		% --- OPAQUE label style (this is the key) ---
+		\tikzset{
+			lbl/.style={
+				fill=white,              % fully opaque white
+				fill opacity=1,          % DO NOT make this < 1
+				text opacity=1,
+				inner sep=2.2pt,
+				rounded corners=1.4pt,
+				draw=none
+			},
+			lead/.style={->, very thin, black!60} % leader line
+		}
+		
+		% --- Point p ---
+		\coordinate (P) at (0,0);
+		
+		% --- Tangent plane at p (parallelogram) ---
+		\coordinate (A) at (-2.2,-0.5);
+		\coordinate (B) at ( 2.2,-0.5);
+		\coordinate (C) at ( 2.6, 0.5);
+		\coordinate (D) at (-1.8, 0.5);
+		
+		% --- Normal section plane (tilted strip) ---
+		\coordinate (E) at (0.5,-1.2);
+		\coordinate (F) at (2.7,-0.2);
+		\coordinate (G) at (2.2, 2.25);
+		\coordinate (H) at (0.0, 1.25);
+		
+		% =========================
+		% Background fills
+		% =========================
+		\begin{pgfonlayer}{bg}
+			\fill[PlaneGray!12] (A) -- (B) -- (C) -- (D) -- cycle;
+			\fill[SectionPurple!10] (E) -- (F) -- (G) -- (H) -- cycle;
+		\end{pgfonlayer}
+		
+		% =========================
+		% Geometry (main layer)
+		% =========================
+		
+		% surface patch
+		\draw[very thick, SurfBlue] (-3,-0.8) .. controls (-1,-0.2) and (1,-0.2) .. (3,-0.8);
+		\draw[very thick, SurfBlue] (-3, 0.8) .. controls (-1, 0.2) and (1, 0.2) .. (3, 0.8);
+		\draw[very thick, SurfBlue] (-3,-0.8) .. controls (-2,0) and (-1,0) .. (-3,0.8);
+		\draw[very thick, SurfBlue] ( 3,-0.8) .. controls ( 2,0) and ( 1,0) .. ( 3,0.8);
+		
+		% tangent plane border
+		\draw[very thick, PlaneGray] (A) -- (B) -- (C) -- (D) -- cycle;
+		
+		% normal-section plane border
+		\draw[very thick, dashed, SectionPurple] (E) -- (F) -- (G) -- (H) -- cycle;
+		
+		% point p
+		\fill (P) circle (1.7pt);
+		
+		% normal vector N
+		\draw[->, ultra thick, NormalRed] (P) -- (0,2.45);
+		
+		% tangent direction t(theta)
+		\draw[->, ultra thick, TangGreen] (P) -- (2.25,0.75);
+		
+		% normal section curve
+		\draw[ultra thick, CurveOrange]
+		(0.15,-0.15) .. controls (1.0,0.32) and (1.65,0.98) .. (2.18,1.85);
+		
+		% =========================
+		% Labels (foreground layer)
+		% =========================
+		\begin{pgfonlayer}{fg}
+			
+			% p
+			\node[lbl, anchor=north east] at ($(P)+(-0.12,-0.12)$) {$p$};
+			
+			% TpS label (moved away)
+\node[lbl, text=PlaneGray] (tps) at (3.85,1.05) {$T_pS$};
+\draw[lead] (tps.west) -- ($(C)!0.65!(D)$);
+			
+			% N(p)
+			\node[lbl] (Np) at (0,2.75) {$N(p)$};
+			\draw[lead] (Np.south) -- (0,2.45);
+			
+			% t(theta)
+			\node[lbl] (tt) at (2.95,1.15) {$t(\theta)$};
+			\draw[lead] (tt.west) -- (2.25,0.75);
+			
+			% normal-section plane label OUTSIDE + leader (no overlap)
+			\node[lbl, text=SectionPurple!90!black] (nsp) at (3.35,2.05) {\small normal-section plane};
+			\draw[lead] (nsp.west) -- ($(G)!0.55!(H)$);
+			
+			% normal section label OUTSIDE + leader
+			\node[lbl, text=CurveOrange!90!black] (ns) at (3.10,0.25) {\small normal section};
+			\draw[lead] (ns.west) -- (1.55,0.70);
+			
+		\end{pgfonlayer}
+		
+	\end{tikzpicture}
+	\caption{Normal curvature: the plane spanned by $t(\theta)\in T_pS$ and $N(p)$ cuts the surface in a normal section curve whose curvature at $p$ equals $k_n(\theta)$.}
+\end{figure}
+
+
+% =========================
+% Embed the two charts (Problem 7 + Problem 8)
+% =========================
+\begin{figure}[H]
+	\centering
+	
+	\begin{minipage}[t]{0.485\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/MATH-ALLS-2_problem7_kn_vs_theta.png}
+		\caption*{\small Problem 7: $k_n(\theta)$ vs. $\theta$ and the average line $H$.}
+	\end{minipage}
+	\hfill
+	\begin{minipage}[t]{0.485\linewidth}
+		\centering
+		\includegraphics[width=\linewidth]{figures/MATH-ALLS-2_problem8_torus_wireframe.png}
+		\caption*{\small Problem 8: example surface of revolution (torus wireframe).}
+	\end{minipage}
+	
+	\caption{Charts accompanying Problems 7--8.}
+\end{figure}
+
+\subsection*{Examples and interpretation (Problem 7)}
+
+\subsubsection*{Example 1: principal directions minimize/maximize $k_n$}
+Let $k_1\le k_2$ be the principal curvatures at $p$, with principal directions $e_1,e_2$.
+Euler's formula gives
+\[
+k_n(\theta)=k_1\cos^2\theta+k_2\sin^2\theta.
+\]
+Hence
+\[
+k_n(0)=k_1,\qquad k_n\Bigl(\frac{\pi}{2}\Bigr)=k_2,
+\]
+so the normal curvature is smallest along $e_1$ and largest along $e_2$.
+Moreover,
+\[
+k_1\le k_n(\theta)\le k_2 \quad\text{for all }\theta,
+\]
+since $k_n(\theta)$ is a convex combination of $k_1$ and $k_2$.
+
+\subsubsection*{Example 2: the average over directions equals the mean curvature}
+Using Euler's formula and the identities
+\[
+\int_0^\pi \cos^2\theta\,d\theta=\int_0^\pi \sin^2\theta\,d\theta=\frac{\pi}{2},
+\]
+we obtain
+\[
+\frac{1}{\pi}\int_0^\pi k_n(\theta)\,d\theta
+=\frac{1}{\pi}\int_0^\pi\bigl(k_1\cos^2\theta+k_2\sin^2\theta\bigr)\,d\theta
+=\frac{k_1+k_2}{2}=H.
+\]
+Thus $H$ is literally the \emph{directional average} of the normal curvature at $p$.
+
+\subsubsection*{Example 3: elliptic / hyperbolic / parabolic points via $k_1,k_2$}
+The signs of $k_1$ and $k_2$ determine the local shape:
+\begin{itemize}
+	\item \textbf{Elliptic point:} $k_1k_2>0$ (both same sign). Then $k_n(\theta)$ keeps the same sign for all directions.
+	\item \textbf{Hyperbolic point:} $k_1k_2<0$ (opposite signs). Then $k_n(\theta)$ changes sign as $\theta$ varies, so there are directions with $k_n(\theta)=0$ (asymptotic directions).
+	\item \textbf{Parabolic point:} $k_1k_2=0$ (one principal curvature $0$). Then $k_n(\theta)$ vanishes in at least one principal direction.
+\end{itemize}
+In all cases, the mean curvature $H=(k_1+k_2)/2$ measures the ``average bending''.
+
+\subsubsection*{Example 4: quick check on a sphere and a cylinder}
+\begin{itemize}
+	\item \textbf{Sphere of radius $R$:} $k_1=k_2=\frac{1}{R}$, so
+	\[
+	k_n(\theta)=\frac{1}{R}\quad\text{(independent of $\theta$)},\qquad
+	H=\frac{1}{R}.
+	\]
+	The integral formula gives $\frac{1}{\pi}\int_0^\pi \frac{1}{R}\,d\theta=\frac{1}{R}$ as expected.
+	
+	\item \textbf{Cylinder of radius $R$:} principal curvatures are $k_1=0$ (along the axis direction) and $k_2=\frac{1}{R}$ (around the circular direction). Then
+	\[
+	k_n(\theta)=0\cdot\cos^2\theta+\frac{1}{R}\sin^2\theta=\frac{1}{R}\sin^2\theta,
+	\qquad
+	H=\frac{1}{2R}.
+	\]
+	Indeed,
+	\[
+	\frac{1}{\pi}\int_0^\pi \frac{1}{R}\sin^2\theta\,d\theta
+	=\frac{1}{R}\cdot\frac{1}{\pi}\cdot\frac{\pi}{2}
+	=\frac{1}{2R}=H.
+	\]
+\end{itemize}
+
+
+\subsubsection*{Principal directions (definition)}
+Let $S\subset\mathbb R^3$ be a smooth surface and $p\in S$. Fix a unit normal field $N$ near $p$
+and consider the shape operator (Weingarten map)
+\[
+S_p:T_pS\to T_pS,\qquad S_p(v)=-dN_p(v).
+\]
+A nonzero tangent vector $v\in T_pS$ is called a \emph{principal direction} at $p$ if it is an
+eigenvector of $S_p$, i.e.\ if there exists $\kappa\in\mathbb R$ such that
+\[
+S_p(v)=\kappa\,v.
+\]
+The corresponding eigenvalue $\kappa$ is the \emph{principal curvature} in that direction.
+
+Equivalently, if $t$ is a unit tangent vector, then $t$ is a principal direction iff it is a
+critical direction of the normal curvature function $t\mapsto k_n(t)$ on the unit circle in $T_pS$
+(and the critical values are precisely the principal curvatures).
+In a principal orthonormal basis $\{e_1,e_2\}$ one has
+\[
+S_p(e_1)=k_1e_1,\qquad S_p(e_2)=k_2e_2,
+\]
+and $\{e_1,e_2\}$ are the principal directions at $p$ (unique up to sign, and up to rotation if
+$k_1=k_2$).
+
+
+\subsection*{Problem 8. Gaussian and mean curvature of a surface of revolution}
+
+Consider the surface of revolution parametrized by
+\[
+\phi(u,v)=\bigl(f(v)\cos u,\ f(v)\sin u,\ g(v)\bigr),\qquad (u,v)\in(0,2\pi)\times(a,b),
+\]
+where $f$ never vanishes and the generating curve $(f(v),g(v))$ is parametrized by arclength,
+i.e.\ $(f')^2+(g')^2=1$. Compute the Gaussian curvature and the mean curvature.
+
+\medskip
+\noindent\textbf{Solution.}
+We compute
+\[
+\phi_u=(-f\sin u,\ f\cos u,\ 0),\qquad
+\phi_v=(f'\cos u,\ f'\sin u,\ g').
+\]
+Thus the first fundamental form coefficients are
+\[
+E=\langle\phi_u,\phi_u\rangle=f^2,\qquad
+F=\langle\phi_u,\phi_v\rangle=0,\qquad
+G=\langle\phi_v,\phi_v\rangle=(f')^2+(g')^2=1.
+\]
+A unit normal (for $f>0$) is obtained from
+$\phi_u\times\phi_v=(f g'\cos u,\ f g'\sin u,\ -f f')$, whose norm equals $f$, hence
+\[
+N=(g'\cos u,\ g'\sin u,\ -f').
+\]
+Second derivatives:
+\[
+\phi_{uu}=(-f\cos u,\ -f\sin u,\ 0),\quad
+\phi_{uv}=(-f'\sin u,\ f'\cos u,\ 0),\quad
+\phi_{vv}=(f''\cos u,\ f''\sin u,\ g'').
+\]
+Second fundamental form coefficients:
+\[
+e=\langle\phi_{uu},N\rangle=-f g',\qquad
+f_2=\langle\phi_{uv},N\rangle=0,\qquad
+g_2=\langle\phi_{vv},N\rangle=f''g'-f'g''.
+\]
+Since $F=f_2=0$, the principal curvatures are
+\[
+k_1=\frac{e}{E}=-\frac{g'}{f},\qquad
+k_2=\frac{g_2}{G}=f''g'-f'g''.
+\]
+Therefore
+\[
+K=k_1k_2=\left(-\frac{g'}{f}\right)\left(f''g'-f'g''\right),
+\qquad
+H=\frac{k_1+k_2}{2}
+=\frac12\left(-\frac{g'}{f}+f''g'-f'g''\right).
+\]
+(The sign of $H$ depends on the chosen orientation of $N$, while $K$ does not.)
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.72\linewidth]{figures/MATH-ALLS-2_problem7_kn_vs_theta.png}
+	\caption{Problem 7: Normal curvature $k_n(\theta)$ versus direction angle $\theta$, with the mean curvature line $H$.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.62\linewidth]{figures/MATH-ALLS-2_problem8_generating_curve_torus.png}
+	\caption{Problem 8: Example profile curve $(f(v),g(v))$ (torus). The parameter $v$ is arclength along the profile.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.72\linewidth]{figures/MATH-ALLS-2_problem8_K_vs_v_torus.png}
+	\caption{Problem 8 (torus example): Gaussian curvature $K(v)$ along the profile parameter $v$.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.72\linewidth]{figures/MATH-ALLS-2_problem8_H_vs_v_torus.png}
+	\caption{Problem 8 (torus example): Mean curvature $H(v)$ along the profile parameter $v$.}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.78\linewidth]{figures/MATH-ALLS-2_problem8_torus_wireframe.png}
+	\caption{Problem 8: Wireframe of the surface of revolution (torus example).}
+\end{figure}
+
+	
+	\subsubsection*{Arc-length parametrization of the generating curve}
+	The surface of revolution is obtained by rotating the planar \emph{generating (profile) curve}
+	\[
+	\alpha(v)=(f(v),\,g(v))\subset \mathbb{R}^2
+	\]
+	around the $z$-axis, producing the parametrization
+	\[
+	\phi(u,v)=\bigl(f(v)\cos u,\ f(v)\sin u,\ g(v)\bigr).
+	\]
+	Saying that the generating curve is \emph{parametrized by arc length} means that the parameter $v$
+	measures distance along $\alpha$, i.e.\ the speed of $\alpha$ equals $1$:
+	\[
+	\|\alpha'(v)\|=1.
+	\]
+	Since $\alpha'(v)=(f'(v),\,g'(v))$, this is equivalent to
+	\[
+	\sqrt{(f'(v))^2+(g'(v))^2}=1
+	\quad\Longleftrightarrow\quad
+	(f'(v))^2+(g'(v))^2=1.
+	\]
+	Equivalently, the arc length from $v=a$ to $v=b$ is
+	\[
+	L=\int_a^b \|\alpha'(v)\|\,dv=\int_a^b 1\,dv=b-a.
+	\]
+	In particular, for the surface parametrization one gets
+	\[
+	G=\langle \phi_v,\phi_v\rangle=(f')^2+(g')^2=1,
+	\]
+	which simplifies the curvature computations.
+	
+	
+	\end{document}
+

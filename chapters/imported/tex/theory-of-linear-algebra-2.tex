@@ -1,0 +1,4373 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{caption}      % optional but recommended
+\usepackage{subcaption} 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{tikz-cd}
+\usepackage{float}
+
+\usepackage{adjustbox}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usetikzlibrary{positioning}
+
+\usetikzlibrary{decorations.markings}
+
+\usetikzlibrary{backgrounds}
+
+\usepackage{booktabs}
+
+\usetikzlibrary{calc,arrows.meta,patterns,decorations.pathreplacing, intersections}
+\usepackage{tikz-3dplot}
+\usepackage{xcolor}
+
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\Log}{Log}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newcommand{\II}{\mathrm{I\!I}}
+
+\newcommand{\C}{\mathbb{C}}
+
+% (optional) if you also want the first fundamental form:
+\newcommand{\I}{\mathrm{I}}
+
+\newcommand{\hyp}{\mathbb{H}}
+
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\T}{\mathsf{T}} % transpose symbol
+
+
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\newcommand{\n}{6}
+
+% --- codim operator (put in the preamble) ---
+\DeclareMathOperator{\codim}{codim}
+
+
+\newcommand{\Solution}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\Theory}{\par\medskip\noindent\textbf{Theory.}\ }
+\newcommand{\Proof}{\par\medskip\noindent\textbf{Proof.}\ }
+
+
+\DeclareMathOperator{\tr}{tr}
+
+% --- HEADER ---
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}{Definition}
+
+% Option A: as an operator (recommended)
+\DeclareMathOperator{\Span}{span}
+
+% or, shorter version
+
+% ---------- Styles ----------
+\tikzset{
+	axis/.style={->, line width=0.9pt},
+	thinaxis/.style={line width=0.8pt},
+	vec/.style={-{Stealth[length=3.2mm]}, line width=1.1pt},
+	dashedhelp/.style={dashed, line width=0.95pt},
+	point/.style={circle, fill=black, inner sep=1.2pt},
+	label/.style={font=\small},
+}
+
+\newcommand{\sph}{\mathrm{sph}}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+
+\theoremstyle{definition}      % bold heading, upright body
+\newtheorem{example}[theorem]{Exercise}
+
+
+\newtheorem*{Exercise}{Exercise}
+
+
+\tikzset{
+	pointAmber/.style={circle, fill=Amber500, inner sep=1.35pt}
+}
+
+\definecolor{Teal700}{HTML}{0F766E}
+\definecolor{Amber500}{HTML}{F59E0B}
+\definecolor{Blue600}{HTML}{2563EB}
+\definecolor{Violet600}{HTML}{7C3AED}
+\definecolor{Slate600}{HTML}{475569}
+\definecolor{Red600}{HTML}{DC2626}
+
+\captionsetup[figure]{font=small, labelfont=bf, skip=6pt}
+\setlength{\intextsep}{10pt}
+\setlength{\textfloatsep}{10pt}
+\setlength{\floatsep}{8pt}
+
+\tikzset{
+	axis/.style={->, line width=0.9pt, draw=Slate600},
+	thinaxis/.style={line width=0.85pt, draw=Slate600},
+	tri/.style={line width=1.1pt, draw=Slate600},
+	disk/.style={line width=1.15pt, draw=Teal700},
+	unitcircle/.style={line width=1.15pt, draw=Teal700},
+	dashedhelp/.style={dashed, line width=0.95pt, draw=Amber500},
+	altitude/.style={dashed, line width=1.0pt, draw=Violet600},
+	vec/.style={-{Stealth[length=3.2mm]}, line width=1.15pt, draw=Blue600},
+	vecTeal/.style={vec, draw=Teal700},
+	vecAmber/.style={vec, draw=Amber500},
+	vecViolet/.style={vec, draw=Violet600},
+	point/.style={circle, fill=Slate600, inner sep=1.25pt},
+	pointTeal/.style={circle, fill=Teal700, inner sep=1.35pt},
+	pointRed/.style={circle, fill=Red600, inner sep=1.35pt},
+	pointAmber/.style={circle, fill=Amber500, inner sep=1.35pt},
+	label/.style={font=\small, text=Slate600},
+	title/.style={font=\small, text=Slate600},
+}
+
+% Put the title above the actual drawing (consistent for all figures)
+\newcommand{\DiagTitle}[1]{%
+	\path (current bounding box.north)
+	node[title, anchor=south, yshift=2mm]{#1};%
+}
+
+% =========================================================
+% E2 + E3  (same style as E1)
+% =========================================================
+% TikZ helpers (Poincaré disk geodesic from boundary angles)
+% Requires: \usetikzlibrary{arrows.meta}
+% =========================================================
+
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Usage: \DiskGeodesic[<draw options>]{<a deg>}{<b deg>}
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+% Handles the diameter case (antipodal endpoints) where det=0.
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+% --- palette ---
+\definecolor{BBlue}{RGB}{0,92,184}
+\definecolor{GOrange}{RGB}{230,120,20}
+\definecolor{PGreen}{RGB}{0,140,90}
+\definecolor{RRed}{RGB}{200,40,60}
+\definecolor{LFill}{RGB}{240,245,255}
+
+% --- tikz styles ---
+\tikzset{
+	base/.style={thick, draw=black!65},
+	gamma/.style={very thick, draw=GOrange, -{Latex[length=2.2mm]}},
+	fiber/.style={thick, draw=BBlue},
+	section/.style={thick, draw=PGreen},
+	transport/.style={very thick, draw=RRed, -{Latex[length=2.2mm]}},
+	pt/.style={circle, fill=black, inner sep=1.3pt},
+	spt/.style={circle, fill=PGreen, inner sep=1.3pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1, inner sep=2pt, rounded corners=2pt}
+}
+
+
+\newtheorem{remark}[theorem]{Remark} 
+\tikzset{
+	>={Latex[length=2.6mm]},
+	axis/.style={black, thin, ->},
+	unitcircle/.style={black, very thin},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	removable/.style={black, thick},
+	essstar/.style={yellow!65!orange, star, star points=7, minimum size=6pt, draw=orange!80!black, fill=yellow!70!orange},
+	lattice/.style={blue!70!black, fill=blue!70!black},
+	note/.style={black!70, font=\scriptsize}
+}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+
+% --- colors and styles for the charts ---
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+% styles
+\definecolor{PoleRed}{RGB}{214,49,56}
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1  % <- force visible text
+	},
+}
+
+
+\tikzset{
+	->-/.style={
+		postaction={decorate},
+		decoration={
+			markings,
+			mark=at position 0.18 with {\arrow{Stealth[length=2.2mm]}}
+		}
+	},
+	% p10loop must NOT use "expanded"
+	p10loop/.style={thick}
+}
+
+% --- Colors (clean "learning notes" vibe) ---
+\usepackage{xcolor}
+\definecolor{Teal}{HTML}{0F766E}
+\definecolor{TealSoft}{HTML}{CCFBF1}
+\definecolor{Amber}{HTML}{F59E0B}
+\definecolor{Slate}{HTML}{0F172A}
+\definecolor{SlateSoft}{HTML}{94A3B8}
+\definecolor{Border}{HTML}{E2E8F0}
+
+% --- TikZ / PGFPlots ---
+
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,fit,backgrounds}
+
+\pgfplotsset{compat=1.18}
+
+% --- colors (define what you use) ---
+\definecolor{DiagBlue}{RGB}{0,92,184}
+\definecolor{DiagOrange}{RGB}{230,120,20}
+\definecolor{DiagGreen}{RGB}{0,140,90}
+\definecolor{DiagRed}{RGB}{200,40,60}
+\definecolor{DiagGray}{RGB}{80,80,80}
+\definecolor{DiagLight}{RGB}{240,245,255} % <-- this fixes \fill[DiagLight]...
+
+% --- tikz styles (define what you use in [ax], [base], [fib], [pt2], [lab], etc.) ---
+\tikzset{
+	ax/.style={-{Latex[length=2.2mm]}, thick, draw=DiagGray},
+	base/.style={thick, draw=DiagBlue},
+	fib/.style={thick, draw=DiagGray},
+	loop/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagOrange},
+	transport/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagRed},
+	pt/.style={circle, fill=DiagRed, inner sep=1.2pt},
+	pt2/.style={circle, fill=DiagGreen, inner sep=1.2pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1,
+		inner sep=2.2pt, rounded corners=2pt}
+}
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+\fancyhead[L]{\textit{Linear Algebra 2}}
+\fancyhead[R]{\textit{Exercises}}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+
+\title{Linear Algebra 2}
+\author{}
+\date{}
+
+
+
+
+\begin{document}
+	\maketitle
+
+\section*{Problem 1 — Eigenvalues of an upper triangular matrix}
+
+\textbf{Exact statement.}
+A square matrix $A$ is \emph{upper triangular} if $A_{ij}=0$ for $i>j$.
+Show that the eigenvalues of such a matrix are its diagonal entries:
+\[
+\lambda_i=A_{ii}\qquad(\text{no sum over }i).
+\]
+
+\textbf{Solution.}
+The characteristic polynomial is
+\[
+p_A(t)=\det(A-tI).
+\]
+If $A$ is upper triangular, then $A-tI$ is also upper triangular with diagonal entries
+$A_{11}-t,\dots,A_{nn}-t$. The determinant of a triangular matrix equals the product
+of its diagonal entries, hence
+\[
+p_A(t)=\prod_{i=1}^n (A_{ii}-t).
+\]
+Therefore the roots are $t=A_{ii}$, so the eigenvalues are exactly the diagonal entries.
+
+\section*{Problem 2 — One eigenvalue, not diagonalizable}
+
+\textbf{Exact statement.}
+Show that
+\[
+M=\begin{pmatrix}
+	0&1&0\\
+	-4&4&0\\
+	-2&1&2
+\end{pmatrix}
+\]
+has characteristic equation $(t-2)^3=0$. Explain, as simply as possible, why $M$ is not diagonalizable.
+
+\textbf{Solution.}
+Compute
+\[
+tI-M=\begin{pmatrix}
+	t&-1&0\\
+	4&t-4&0\\
+	2&-1&t-2
+\end{pmatrix}.
+\]
+Expanding along the third column gives
+\[
+\det(tI-M)=(t-2)\det\begin{pmatrix}t&-1\\4&t-4\end{pmatrix}
+=(t-2)\bigl(t(t-4)+4\bigr)
+=(t-2)(t^2-4t+4)=(t-2)^3.
+\]
+Thus $2$ is the only eigenvalue, with algebraic multiplicity $3$.
+
+To test diagonalizability, compute the eigenspace:
+\[
+M-2I=\begin{pmatrix}
+	-2&1&0\\
+	-4&2&0\\
+	-2&1&0
+\end{pmatrix}.
+\]
+All rows are multiples of $(-2,1,0)$, so $\operatorname{rank}(M-2I)=1$, hence
+\[
+\dim\ker(M-2I)=3-1=2.
+\]
+The geometric multiplicity is $2<3$, so $M$ does not have $3$ linearly independent eigenvectors
+and is not diagonalizable.
+
+\section*{Problem 3 — Completing an orthogonal matrix}
+
+\textbf{Exact statement.}
+Find $a,b,c$ such that
+\[
+Q=\begin{pmatrix}
+	\frac13&0&a\\[2pt]
+	\frac23&\frac1{\sqrt2}&b\\[2pt]
+	\frac23&-\frac1{\sqrt2}&c
+\end{pmatrix}
+\]
+is an orthogonal matrix. Does this condition determine $a,b,c$ uniquely?
+
+\textbf{Solution.}
+Let the columns be
+\[
+v_1=\begin{pmatrix}\frac13\\\frac23\\\frac23\end{pmatrix},\qquad
+v_2=\begin{pmatrix}0\\\frac1{\sqrt2}\\-\frac1{\sqrt2}\end{pmatrix},\qquad
+v_3=\begin{pmatrix}a\\b\\c\end{pmatrix}.
+\]
+One checks
+\[
+\|v_1\|^2=\frac19+\frac49+\frac49=1,\qquad
+\|v_2\|^2=\frac12+\frac12=1,\qquad
+v_1\cdot v_2=0,
+\]
+so $v_1,v_2$ are already orthonormal.
+Thus $v_3$ must be a unit vector orthogonal to both $v_1$ and $v_2$, hence
+\[
+v_3=\pm(v_1\times v_2).
+\]
+Compute
+\[
+v_1\times v_2=\frac{\sqrt2}{6}\begin{pmatrix}-4\\1\\1\end{pmatrix}.
+\]
+Therefore
+\[
+(a,b,c)=\left(-\frac{2\sqrt2}{3},\,\frac{\sqrt2}{6},\,\frac{\sqrt2}{6}\right)
+\quad\text{or}\quad
+(a,b,c)=\left(\frac{2\sqrt2}{3},\,-\frac{\sqrt2}{6},\,-\frac{\sqrt2}{6}\right).
+\]
+So the condition does not determine $a,b,c$ uniquely: there are exactly two choices (sign $\pm$).
+
+\section*{Problem 4 — Spectral decomposition and $A^{-1}$}
+
+\textbf{Exact statement.}
+Determine the eigenvalues and eigenvectors of the symmetric matrix
+\[
+A=\begin{pmatrix}
+	3&1&1\\
+	1&2&0\\
+	1&0&2
+\end{pmatrix}.
+\]
+Use an identity of the form $P^TAP=D$, where $D$ is diagonal, to find $A^{-1}$.
+
+\textbf{Solution.}
+A set of eigenpairs is:
+\[
+\lambda_1=1,\ v_1=\begin{pmatrix}-1\\1\\1\end{pmatrix},\qquad
+\lambda_2=2,\ v_2=\begin{pmatrix}0\\-1\\1\end{pmatrix},\qquad
+\lambda_3=4,\ v_3=\begin{pmatrix}2\\1\\1\end{pmatrix}.
+\]
+These eigenvectors are mutually orthogonal. Normalize:
+\[
+u_1=\frac1{\sqrt3}\begin{pmatrix}-1\\1\\1\end{pmatrix},\quad
+u_2=\frac1{\sqrt2}\begin{pmatrix}0\\-1\\1\end{pmatrix},\quad
+u_3=\frac1{\sqrt6}\begin{pmatrix}2\\1\\1\end{pmatrix}.
+\]
+Let $P=[u_1\ u_2\ u_3]$ (orthogonal) and $D=\operatorname{diag}(1,2,4)$. Then
+\[
+P^TAP=D.
+\]
+Invert:
+\[
+A^{-1}=P D^{-1} P^T,\qquad D^{-1}=\operatorname{diag}\!\left(1,\frac12,\frac14\right).
+\]
+A direct computation yields
+\[
+A^{-1}=
+\begin{pmatrix}
+	\frac12&-\frac14&-\frac14\\[2pt]
+	-\frac14&\frac58&\frac18\\[2pt]
+	-\frac14&\frac18&\frac58
+\end{pmatrix}.
+\]
+
+\section*{Problem 5 — Diagonalising a rotated quadratic form}
+
+\textbf{Exact statement.}
+Diagonalise the quadratic form in $\mathbb R^2$ defined by
+\[
+F(x,y)=\bigl(a\cos^2\theta+b\sin^2\theta\bigr)x^2
++2(a-b)(\sin\theta\cos\theta)\,xy
++\bigl(a\sin^2\theta+b\cos^2\theta\bigr)y^2,
+\]
+i.e.\ find its eigenvalues and principal axes ($a,b,\theta$ are constants).
+
+\textbf{Solution.}
+Write $F(x,y)=\begin{pmatrix}x&y\end{pmatrix}Q\begin{pmatrix}x\\y\end{pmatrix}$ with
+\[
+Q=
+\begin{pmatrix}
+	a\cos^2\theta+b\sin^2\theta & (a-b)\sin\theta\cos\theta\\
+	(a-b)\sin\theta\cos\theta & a\sin^2\theta+b\cos^2\theta
+\end{pmatrix}.
+\]
+Let
+\[
+R=
+\begin{pmatrix}
+	\cos\theta&-\sin\theta\\
+	\sin\theta&\cos\theta
+\end{pmatrix}.
+\]
+Then one checks
+\[
+Q=R\begin{pmatrix}a&0\\0&b\end{pmatrix}R^T.
+\]
+Hence the eigenvalues are $a$ and $b$. The principal axes are the rotated directions
+\[
+(\cos\theta,\sin\theta)\quad\text{and}\quad(-\sin\theta,\cos\theta).
+\]
+Equivalently, in rotated coordinates
+\[
+\begin{pmatrix}u\\v\end{pmatrix}=R^T\begin{pmatrix}x\\y\end{pmatrix}
+=
+\begin{pmatrix}
+	x\cos\theta+y\sin\theta\\
+	-x\sin\theta+y\cos\theta
+\end{pmatrix},
+\]
+the quadratic form becomes
+\[
+F(x,y)=a\,u^2+b\,v^2.
+\]
+
+
+\section*{Problem 6 — Anti-hermitian and unitary matrices: eigenvalues and orthogonality}
+
+\textbf{Exact statement.}
+(i) A matrix $A$ is anti-hermitian, $A^\dagger=-A$; show that the eigenvalues of $A$ are pure-imaginary.
+(ii) A matrix $U$ is unitary, $U^\dagger U=I$; show that the eigenvalues of $U$ have unit modulus.
+(iii) In each of the cases (i) and (ii), show that eigenvectors with distinct eigenvalues are orthogonal.
+
+\textbf{Solution.}
+\textbf{(i)} Let $Av=\lambda v$ with $v\neq 0$. Then
+\[
+v^\dagger Av=\lambda\, v^\dagger v.
+\]
+Taking complex conjugates,
+\[
+(v^\dagger Av)^* = v^\dagger A^\dagger v = v^\dagger(-A)v = -\,v^\dagger Av.
+\]
+Thus $z:=v^\dagger Av$ satisfies $z^*=-z$, hence $z$ is purely imaginary. Since $v^\dagger v>0$ is real,
+\[
+\lambda=\frac{v^\dagger Av}{v^\dagger v}
+\]
+is purely imaginary.
+
+\textbf{(ii)} If $Uv=\lambda v$, then
+\[
+v^\dagger v = v^\dagger U^\dagger U v = (Uv)^\dagger(Uv)
+=(\lambda v)^\dagger(\lambda v)=|\lambda|^2\, v^\dagger v.
+\]
+Since $v\neq 0$, we get $|\lambda|=1$.
+
+\textbf{(iii)} For the anti-hermitian case, let $Av=\lambda v$ and $Aw=\mu w$. Then
+\[
+v^\dagger Aw=\mu\, v^\dagger w,
+\]
+but also
+\[
+v^\dagger Aw=(A^\dagger v)^\dagger w = (-Av)^\dagger w = -(\lambda v)^\dagger w
+= -\overline{\lambda}\, v^\dagger w.
+\]
+Hence $(\mu+\overline{\lambda})v^\dagger w=0$. By (i), $\lambda=i\alpha$ and $\mu=i\beta$ with
+$\alpha,\beta\in\mathbb R$, so $\mu+\overline{\lambda}=i(\beta-\alpha)$. If $\lambda\neq \mu$ then
+$\beta\neq \alpha$, hence $v^\dagger w=0$.
+
+For the unitary case, if $Uv=\lambda v$ then applying $U^\dagger$ gives
+$v=\lambda U^\dagger v$, hence $U^\dagger v=\lambda^{-1}v=\overline{\lambda}\,v$ (since $|\lambda|=1$).
+Now with $Uw=\mu w$,
+\[
+v^\dagger Uw=\mu\, v^\dagger w,
+\qquad
+v^\dagger Uw=(U^\dagger v)^\dagger w=(\overline{\lambda}v)^\dagger w=\lambda\, v^\dagger w.
+\]
+Thus $(\mu-\lambda)v^\dagger w=0$, and if $\mu\neq\lambda$ then $v^\dagger w=0$.
+
+\section*{Problem 7 — Cayley--Hamilton for $2\times 2$, powers of a specific matrix}
+
+\textbf{Exact statement.}
+Check, by direct calculation, that the Cayley--Hamilton Theorem holds for a general $2\times 2$ matrix.
+Find the characteristic polynomial for
+\[
+A=\begin{pmatrix}3&4\\-1&-1\end{pmatrix}
+\]
+and deduce that $A^2=2A-I$. Is $A$ diagonalisable?
+Show by induction that
+\[
+A^n=\alpha_n A+\beta_n I,\qquad n\ge 0,
+\]
+for real numbers $\alpha_n$ and $\beta_n$.
+Solve the recurrences satisfied by $\alpha_n$ and $\beta_n$ and hence find $A^n$ explicitly.
+
+\textbf{Solution.}
+\textbf{(a) General $2\times 2$ case.}
+Let
+\[
+A=\begin{pmatrix}a&b\\c&d\end{pmatrix},\qquad \tr(A)=a+d,\qquad \det(A)=ad-bc.
+\]
+Then
+\[
+p_A(t)=\det(tI-A)=t^2-(a+d)t+(ad-bc).
+\]
+Cayley--Hamilton claims
+\[
+p_A(A)=A^2-(\tr A)A+(\det A)I=0.
+\]
+Compute
+\[
+A^2=\begin{pmatrix}a^2+bc&ab+bd\\ac+dc&bc+d^2\end{pmatrix}.
+\]
+Then entrywise one checks:
+\[
+a^2+bc-(a+d)a+(ad-bc)=0,\quad ab+bd-(a+d)b=0,
+\]
+\[
+ac+dc-(a+d)c=0,\quad bc+d^2-(a+d)d+(ad-bc)=0,
+\]
+so indeed $p_A(A)=0$.
+
+\textbf{(b) The given matrix.}
+For
+\[
+A=\begin{pmatrix}3&4\\-1&-1\end{pmatrix}
+\]
+we have $\tr(A)=2$ and $\det(A)=1$, hence
+\[
+p_A(t)=t^2-2t+1=(t-1)^2.
+\]
+By Cayley--Hamilton,
+\[
+A^2-2A+I=0 \quad\Longrightarrow\quad A^2=2A-I.
+\]
+The only eigenvalue is $1$ (algebraic multiplicity $2$). Since
+\[
+A-I=\begin{pmatrix}2&4\\-1&-2\end{pmatrix}
+\]
+has rank $1$, the eigenspace has dimension $1$, so $A$ is not diagonalizable.
+
+\textbf{(c) Powers.}
+Set $A^n=\alpha_n A+\beta_n I$. From $A^0=I$ and $A^1=A$ we have
+\[
+(\alpha_0,\beta_0)=(0,1),\qquad (\alpha_1,\beta_1)=(1,0).
+\]
+Assuming $A^n=\alpha_n A+\beta_n I$, multiply by $A$:
+\[
+A^{n+1}=\alpha_n A^2+\beta_n A=\alpha_n(2A-I)+\beta_n A=(2\alpha_n+\beta_n)A-\alpha_n I.
+\]
+Thus
+\[
+\alpha_{n+1}=2\alpha_n+\beta_n,\qquad \beta_{n+1}=-\alpha_n.
+\]
+Eliminating $\beta_n$ via $\beta_n=-\alpha_{n-1}$ gives
+\[
+\alpha_{n+1}=2\alpha_n-\alpha_{n-1},\qquad \alpha_0=0,\ \alpha_1=1.
+\]
+This yields $\alpha_n=n$, and then $\beta_n=-\alpha_{n-1}=1-n$. Therefore
+\[
+\boxed{\,A^n=nA+(1-n)I\,,\qquad n\ge 0.}
+\]
+
+\section*{Problem 8 — Matrices of a linear map in nonstandard bases (and change of basis)}
+
+\textbf{Exact statement.}
+Define the $m\times n$ matrix $A$ that represents a linear map $T:\mathbb R^n\to\mathbb R^m$ with respect to general bases
+$\{e_1,\dots,e_n\}$ and $\{f_1,\dots,f_m\}$.
+
+\textbf{(a)} Taking $n=2,m=3$, let $T$ be defined by
+\[
+T\binom10=\begin{pmatrix}2\\1\\5\end{pmatrix},\qquad
+T\binom01=\begin{pmatrix}7\\0\\3\end{pmatrix}.
+\]
+Find the matrix $A$ with respect to the bases
+\[
+e_1=\binom{1}{-1},\quad e_2=\binom{-3}{2};\qquad
+f_1=\begin{pmatrix}1\\0\\0\end{pmatrix},\ 
+f_2=\begin{pmatrix}0\\1\\0\end{pmatrix},\ 
+f_3=\begin{pmatrix}0\\0\\1\end{pmatrix}.
+\]
+
+\textbf{(b)} Taking $n=m=3$, let $T$ be reflection in the plane $x_1\sin\theta=x_2\cos\theta$.
+Find the matrix $A$ with respect to a convenient choice of bases (to be specified) such that $e_i=f_i$ $(i=1,2,3)$.
+
+\textbf{(c)} Taking $n=m=2$, let $T$ be the shear with parameter $\lambda$ defined by
+\[
+T\binom10=\binom10,\qquad T\binom01=\binom{\lambda}{1}.
+\]
+Find the matrix $A$ when $e_1=f_1$ and $e_2=f_2$ are the standard basis vectors for $\mathbb R^2$; find also the matrix $A'$
+with respect to the new basis $e_1'=f_1'=-e_2$ and $e_2'=f_2'=e_1$.
+Show that $A'=R^{-1}AR$ for a rotation matrix $R$ and comment on this result.
+
+\textbf{Solution.}
+\textbf{General definition.} The representing matrix $A=(a_{ij})$ is defined by
+\[
+T(e_j)=\sum_{i=1}^m a_{ij} f_i\qquad (j=1,\dots,n).
+\]
+Equivalently, for all $v\in\mathbb R^n$,
+\[
+[T(v)]_F = A\,[v]_E.
+\]
+
+\textbf{(a)} In the standard basis of $\mathbb R^2$, the matrix of $T$ is
+\[
+M=\begin{pmatrix}2&7\\1&0\\5&3\end{pmatrix}.
+\]
+Since $(f_1,f_2,f_3)$ is the standard basis of $\mathbb R^3$, coordinates in $F$ are just components. Compute
+\[
+T(e_1)=T\binom{1}{-1}
+=\begin{pmatrix}2\\1\\5\end{pmatrix}-\begin{pmatrix}7\\0\\3\end{pmatrix}
+=\begin{pmatrix}-5\\1\\2\end{pmatrix},
+\]
+\[
+T(e_2)=T\binom{-3}{2}
+=-3\begin{pmatrix}2\\1\\5\end{pmatrix}+2\begin{pmatrix}7\\0\\3\end{pmatrix}
+=\begin{pmatrix}8\\-3\\-9\end{pmatrix}.
+\]
+Hence the representing matrix (columns are $[T(e_1)]_F$ and $[T(e_2)]_F$) is
+\[
+\boxed{
+	A=\begin{pmatrix}
+		-5&8\\
+		1&-3\\
+		2&-9
+	\end{pmatrix}.}
+\]
+
+\textbf{(b)} The reflecting plane is $x_1\sin\theta-x_2\cos\theta=0$, so a unit normal is
+\[
+e_1=n=(\sin\theta,-\cos\theta,0).
+\]
+Choose a basis adapted to the plane:
+\[
+e_2=(\cos\theta,\sin\theta,0)\in \text{plane},\qquad e_3=(0,0,1)\in \text{plane}.
+\]
+Reflection fixes vectors in the plane and flips the normal, hence
+\[
+T(e_1)=-e_1,\qquad T(e_2)=e_2,\qquad T(e_3)=e_3.
+\]
+With respect to the basis $(e_1,e_2,e_3)$ (and taking $f_i=e_i$), the matrix is
+\[
+\boxed{A=\operatorname{diag}(-1,1,1).}
+\]
+(Optionally, in the standard basis one may write $T(x)=x-2(x\cdot n)n$ to obtain
+$\begin{psmallmatrix}
+	\cos 2\theta & \sin 2\theta & 0\\
+	\sin 2\theta & -\cos 2\theta & 0\\
+	0&0&1
+\end{psmallmatrix}$.)
+
+
+\textbf{(c)} In the standard basis, the columns are $T(e_1)$ and $T(e_2)$, so
+\[
+\boxed{
+	A=\begin{pmatrix}
+		1&\lambda\\
+		0&1
+	\end{pmatrix}.}
+\]
+For the new basis $e_1'=-e_2$ and $e_2'=e_1$, the change-of-basis matrix is
+\[
+R=[e_1'\ e_2']=\begin{pmatrix}0&1\\-1&0\end{pmatrix},
+\qquad R^{-1}=R^T.
+\]
+Therefore the representing matrix in the primed basis is
+\[
+A'=R^{-1}AR,
+\]
+and a direct multiplication gives
+\[
+\boxed{
+	A'=\begin{pmatrix}
+		1&0\\
+		-\lambda&1
+	\end{pmatrix}.}
+\]
+This illustrates the general rule: matrices of the same linear map in different bases are similar, so they have the same invariants
+(eigenvalues, trace, determinant).
+
+\section*{Problem 9 — Change of basis to a Jordan block; compute $A^n$}
+
+\textbf{Exact statement.}
+The linear map $S:\mathbb R^2\to\mathbb R^2$ is defined in terms of its matrix $A$ with respect to the standard basis by
+\[
+S\binom{x}{y}=A\binom{x}{y}=\binom{-5x+9y}{-4x+7y}.
+\]
+Find the matrix $B$ for $S$ with respect to the basis
+\[
+\left\{\binom{3}{2},\binom{1}{1}\right\}.
+\]
+Show that $B^n-I = n(B-I)$ for all positive integers $n$, and hence determine $A^n$.
+Verify that $\det(A^n)=(\det A)^n$.
+
+\textbf{Solution.}
+From the definition,
+\[
+A=\begin{pmatrix}-5&9\\-4&7\end{pmatrix}.
+\]
+Let $v_1=\binom{3}{2}$ and $v_2=\binom{1}{1}$ and set
+\[
+P=[v_1\ v_2]=\begin{pmatrix}3&1\\2&1\end{pmatrix}.
+\]
+Compute
+\[
+Av_1=\binom{-15+18}{-12+14}=\binom{3}{2}=v_1,
+\qquad
+Av_2=\binom{-5+9}{-4+7}=\binom{4}{3}.
+\]
+Write $Av_2=a v_1+b v_2$:
+\[
+\binom{4}{3}=a\binom{3}{2}+b\binom{1}{1}
+\ \Longrightarrow\
+\begin{cases}
+	3a+b=4\\
+	2a+b=3
+\end{cases}
+\ \Longrightarrow\ a=1,\ b=1.
+\]
+Hence the columns of $B$ are $(1,0)^T$ and $(1,1)^T$, so
+\[
+\boxed{
+	B=\begin{pmatrix}1&1\\0&1\end{pmatrix}.}
+\]
+Now $B=I+N$ with $N=\begin{psmallmatrix}0&1\\0&0\end{psmallmatrix}$ and $N^2=0$, so
+\[
+B^n=(I+N)^n=I+nN=\begin{pmatrix}1&n\\0&1\end{pmatrix}.
+\]
+Therefore
+\[
+\boxed{B^n-I=n(B-I).}
+\]
+Since $A=PBP^{-1}$, we have $A^n=PB^nP^{-1}$. Equivalently (by similarity),
+\[
+A^n=I+n(A-I)=nA+(1-n)I.
+\]
+Thus
+\[
+\boxed{
+	A^n
+	=
+	n\begin{pmatrix}-5&9\\-4&7\end{pmatrix}+(1-n)\begin{pmatrix}1&0\\0&1\end{pmatrix}
+	=
+	\begin{pmatrix}
+		1-6n & 9n\\
+		-4n & 1+6n
+	\end{pmatrix}.}
+\]
+Finally,
+\[
+\det A = (-5)(7)-9(-4)=1
+\quad\Rightarrow\quad
+\det(A^n)=1=(\det A)^n.
+\]
+
+\section*{Problem 10 — Orthonormal eigenbases and quadric surfaces}
+
+\textbf{Exact statement.}
+Find all eigenvalues, and an orthonormal set of eigenvectors, of
+\[
+A=\begin{pmatrix}5&0&\sqrt3\\[2pt]0&3&0\\[2pt]\sqrt3&0&3\end{pmatrix},
+\qquad
+B=\begin{pmatrix}2&-1&-1\\[2pt]-1&2&-1\\[2pt]-1&-1&2\end{pmatrix}.
+\]
+Hence sketch the surfaces
+\[
+5x^2+3y^2+3z^2+2\sqrt3\,xz=1,
+\qquad
+x^2+y^2+z^2-xy-yz-zx=1.
+\]
+
+\textbf{Solution.}
+\textbf{(A)} The eigenvalues are
+\[
+\lambda=2,\ 3,\ 6.
+\]
+An orthonormal eigenbasis is
+\[
+u_{2}=\begin{pmatrix}-\tfrac12\\[2pt]0\\[2pt]\tfrac{\sqrt3}{2}\end{pmatrix},\quad
+u_{3}=\begin{pmatrix}0\\[2pt]1\\[2pt]0\end{pmatrix},\quad
+u_{6}=\begin{pmatrix}\tfrac{\sqrt3}{2}\\[2pt]0\\[2pt]\tfrac12\end{pmatrix},
+\]
+corresponding to $\lambda=2,3,6$ respectively.
+Let
+\[
+U=u_2\cdot(x,y,z)=\frac{-x+\sqrt3 z}{2},\quad
+V=u_3\cdot(x,y,z)=y,\quad
+W=u_6\cdot(x,y,z)=\frac{\sqrt3 x+z}{2}.
+\]
+Then
+\[
+(x,y,z)A(x,y,z)^T=2U^2+3V^2+6W^2,
+\]
+so the surface $5x^2+3y^2+3z^2+2\sqrt3\,xz=1$ is the ellipsoid
+\[
+2U^2+3V^2+6W^2=1,
+\]
+with semi-axis lengths $1/\sqrt2$, $1/\sqrt3$, $1/\sqrt6$ (a rotation about the $y$-axis).
+
+\textbf{(B)} The eigenvalues of $B$ are
+\[
+0\ (\text{mult.\ }1),\qquad 3\ (\text{mult.\ }2).
+\]
+An orthonormal eigenbasis is
+\[
+v_0=\frac1{\sqrt3}\begin{pmatrix}1\\1\\1\end{pmatrix},\quad
+v_{3,1}=\frac1{\sqrt2}\begin{pmatrix}1\\-1\\0\end{pmatrix},\quad
+v_{3,2}=\frac1{\sqrt6}\begin{pmatrix}1\\1\\-2\end{pmatrix}.
+\]
+If $(\alpha,\beta,\gamma)$ are coordinates in this basis then
+\[
+(x,y,z)B(x,y,z)^T=3\beta^2+3\gamma^2.
+\]
+Moreover,
+\[
+x^2+y^2+z^2-xy-yz-zx=\tfrac12(x,y,z)B(x,y,z)^T,
+\]
+so the surface $x^2+y^2+z^2-xy-yz-zx=1$ becomes
+\[
+\frac12(3\beta^2+3\gamma^2)=1
+\quad\Longleftrightarrow\quad
+\beta^2+\gamma^2=\frac23,
+\]
+with $\alpha$ free. Hence it is a circular cylinder of radius $\sqrt{2/3}$ whose axis is the line spanned by $(1,1,1)$.
+
+\section*{Problem 11 — Diagonalise a quadric; minimum distance to the origin}
+
+\textbf{Exact statement.}
+Let $\Sigma\subset\mathbb R^3$ be given by
+\[
+2x^2+2xy+4yz+z^2=1.
+\]
+By considering a suitable real symmetric matrix, show that there is a new orthonormal basis with associated coordinates $u,v,w$ such that
+\[
+\Sigma:\ \lambda u^2+\mu v^2+\nu w^2=1,
+\]
+for constants $\lambda,\mu,\nu$ to be determined. Find the minimum distance from a point on $\Sigma$ to the origin.
+
+\textbf{Solution.}
+Write the quadratic form as $(x,y,z)M(x,y,z)^T$ with
+\[
+M=\begin{pmatrix}
+	2&1&0\\
+	1&0&2\\
+	0&2&1
+\end{pmatrix},
+\]
+which is real symmetric. By the spectral theorem there is an orthogonal matrix $P$ such that
+\[
+P^T M P=\operatorname{diag}(\lambda,\mu,\nu).
+\]
+The eigenvalues are
+\[
+\lambda=3,\qquad \mu=\sqrt3,\qquad \nu=-\sqrt3,
+\]
+so in orthonormal coordinates $(u,v,w)$ one has
+\[
+3u^2+\sqrt3\,v^2-\sqrt3\,w^2=1.
+\]
+
+To minimize the distance to the origin, minimize $u^2+v^2+w^2$ subject to
+$3u^2+\sqrt3 v^2-\sqrt3 w^2=1$. Using Lagrange multipliers,
+the minimum occurs for $v=w=0$ and $3u^2=1$, hence $u^2=1/3$ and
+\[
+d_{\min}=\sqrt{u^2}=\frac1{\sqrt3}.
+\]
+(Indeed, the closest points lie on the eigendirection of eigenvalue $3$.)
+
+\section*{Problem 12 — Cayley transform of an anti-Hermitian matrix}
+
+\textbf{Exact statement.}
+If $S$ is a real symmetric matrix and $A$ is a real antisymmetric matrix, show that $A+iS$ is anti-hermitian and deduce that
+\[
+\det(A+iS-I)\neq 0.
+\]
+Show that
+\[
+U=(I+A+iS)(I-A-iS)^{-1}
+\]
+is unitary. Find $U$ when
+\[
+S=\begin{pmatrix}1&1\\1&1\end{pmatrix},\qquad
+A=\begin{pmatrix}0&1\\-1&0\end{pmatrix},
+\]
+and show that it has eigenvalues $\pm(1-i)/\sqrt2$.
+
+\textbf{Solution.}
+Let $K=A+iS$. Since $A^T=-A$ and $S^T=S$,
+\[
+K^\dagger=(A+iS)^\dagger=A^T-iS^T=-A-iS=-K,
+\]
+so $K$ is anti-hermitian. Hence all eigenvalues of $K$ are purely imaginary. Therefore eigenvalues of $K-I$ are of the form
+$\mu-1$ with $\mu\in i\mathbb R$, which can never be $0$; thus $K-I$ is invertible and $\det(K-I)\neq 0$.
+
+Define
+\[
+U=(I+K)(I-K)^{-1}.
+\]
+Using $K^\dagger=-K$,
+\[
+U^\dagger=\bigl((I-K)^{-1}\bigr)^\dagger (I+K)^\dagger
+=(I-K^\dagger)^{-1}(I+K^\dagger)
+=(I+K)^{-1}(I-K),
+\]
+and hence
+\[
+U^\dagger U=(I+K)^{-1}(I-K)(I+K)(I-K)^{-1}=I,
+\]
+so $U$ is unitary.
+
+For
+\[
+S=\begin{pmatrix}1&1\\1&1\end{pmatrix},\qquad
+A=\begin{pmatrix}0&1\\-1&0\end{pmatrix},
+\]
+a direct computation gives
+\[
+U=\begin{pmatrix}0&i\\-1&0\end{pmatrix}.
+\]
+Its characteristic polynomial is
+\[
+\det(U-\lambda I)=\det\begin{pmatrix}-\lambda&i\\-1&-\lambda\end{pmatrix}
+=\lambda^2+i,
+\]
+so $\lambda^2=-i$, and therefore
+\[
+\lambda=\pm \sqrt{-i}=\pm e^{-i\pi/4}=\pm\frac{1-i}{\sqrt2}.
+\]
+
+\section*{Theory (Problems 1--12): the toolbox}
+
+\subsection*{Core objects}
+\begin{itemize}
+	\item \textbf{Eigenvalues/eigenvectors:} $\lambda$ is an eigenvalue of $A$ iff $\det(A-\lambda I)=0$.
+	\item \textbf{Characteristic polynomial:} $p_A(t)=\det(tI-A)$.
+	\item \textbf{Diagonalisation:} $A=PDP^{-1}$, or $P^TAP=D$ when $A$ is real symmetric (orthogonal $P$).
+	\item \textbf{Algebraic vs geometric multiplicity:}
+	$m_{\text{alg}}(\lambda)$ is multiplicity as root of $p_A$; $m_{\text{geo}}(\lambda)=\dim\ker(A-\lambda I)$.
+	$A$ is diagonalizable iff $m_{\text{geo}}(\lambda)=m_{\text{alg}}(\lambda)$ for all $\lambda$
+	(equivalently: minimal polynomial has no repeated root).
+\end{itemize}
+
+\subsection*{Problem 1: triangular matrices}
+If $A$ is upper (or lower) triangular, then $A-tI$ is triangular and
+\[
+\det(A-tI)=\prod_{i=1}^n (A_{ii}-t),
+\]
+so the eigenvalues are the diagonal entries.
+
+\subsection*{Problem 2: repeated eigenvalue and Jordan obstruction}
+Even if $p_A(t)=(t-\lambda)^n$, diagonalizability requires $\dim\ker(A-\lambda I)=n$.
+If $\dim\ker(A-\lambda I)<n$ then a nontrivial Jordan block occurs and $A$ is not diagonalizable.
+
+\subsection*{Problem 3: orthogonal matrices}
+$Q$ is orthogonal iff $Q^TQ=I$ iff its columns form an orthonormal basis.
+In $\mathbb R^3$, if $v_1,v_2$ are orthonormal, then $v_3=\pm(v_1\times v_2)$ completes an orthonormal basis.
+
+\subsection*{Problem 4: spectral theorem (symmetric matrices)}
+If $A=A^T$ then eigenvalues are real, eigenvectors for distinct eigenvalues are orthogonal, and
+\[
+P^TAP=D \quad (P\ \text{orthogonal},\ D\ \text{diagonal}).
+\]
+If $D$ is invertible then $A^{-1}=PD^{-1}P^T$.
+
+\subsection*{Problem 5: quadratic forms and principal axes}
+Any quadratic form is $q(x)=x^TAx$ with $A$ symmetric. Under an orthogonal change $x=Py$,
+\[
+x^TAx = y^T(P^TAP)y,
+\]
+so diagonalising $A$ removes cross-terms and yields principal axes. Rotations are the $2\times2$ case.
+
+\subsection*{Problem 6: anti-Hermitian and unitary}
+If $A^\dagger=-A$, then eigenvalues lie in $i\mathbb R$ and eigenvectors for distinct eigenvalues are orthogonal.
+If $U^\dagger U=I$, then $|\lambda|=1$ for every eigenvalue $\lambda$, and distinct-eigenvalue eigenvectors are orthogonal.
+
+\subsection*{Problem 7: Cayley--Hamilton and recurrences}
+Cayley--Hamilton: $p_A(A)=0$. For $2\times2$,
+\[
+A^2-(\tr A)A+(\det A)I=0,
+\]
+so every $A^n$ reduces to a linear combination of $A$ and $I$ (recurrence for powers).
+Repeated roots correspond to Jordan/nilpotent parts (e.g.\ $A=\lambda I+N$ with $N^2=0$).
+
+\subsection*{Problem 8: matrices in general bases}
+With domain basis $E$ and codomain basis $F$,
+\[
+[T(v)]_F = A\,[v]_E.
+\]
+Under basis changes $E\to E'$ and $F\to F'$,
+\[
+A_{F',E'} = C_F^{-1}\,A_{F,E}\,C_E.
+\]
+If $n=m$ and the same change is used on both sides: $A'=R^{-1}AR$ (similarity).
+
+\subsection*{Problem 9: similarity to a Jordan block}
+If $A=PBP^{-1}$ then $A^n=PB^nP^{-1}$. If $B=I+N$ with $N^2=0$, then
+\[
+B^n=(I+N)^n = I+nN \quad\Rightarrow\quad B^n-I=n(B-I).
+\]
+Also $\det(A^n)=(\det A)^n$ for every square matrix.
+
+\subsection*{Problem 10: quadric classification via eigenvalues}
+For symmetric $A$, the surface $x^TAx=1$ becomes $\sum \lambda_i u_i^2=1$ in an orthonormal eigenbasis.
+Signs of $\lambda_i$ classify the quadric (ellipsoid/cylinder/hyperboloid). Positive axis length is $1/\sqrt{\lambda_i}$.
+
+\subsection*{Problem 11: minimum distance to the origin}
+Diagonalize to $\sum \lambda_i u_i^2=1$ and minimize $u_1^2+u_2^2+u_3^2$.
+If $A$ is positive definite, the minimum radius is
+\[
+r_{\min}=\frac{1}{\sqrt{\lambda_{\max}}}
+\]
+(attained along the eigenvector of $\lambda_{\max}$). Indefinite cases are handled similarly by setting
+negative-direction coordinates to zero when feasible.
+
+\subsection*{Problem 12: Cayley transform}
+If $K^\dagger=-K$ then $I-K$ is invertible, and
+\[
+U=(I+K)(I-K)^{-1}
+\]
+is unitary. Eigenvalues map by $it\mapsto \frac{1+it}{1-it}$, sending the imaginary axis to the unit circle.
+
+\section*{Quick theory table (Problems 1--12)}
+
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{|c|p{4.2cm}|p{6.6cm}|p{4.2cm}|}
+	\hline
+	\textbf{No.} & \textbf{Core idea / theorem} & \textbf{Key formula(s)} & \textbf{What to check fast} \\
+	\hline
+	1 &
+	Triangular determinant \& spectrum &
+	If $A$ triangular, $p_A(t)=\det(A-tI)=\prod_{i=1}^n (A_{ii}-t)$ &
+	Eigenvalues are diagonal entries (with multiplicity). \\
+	\hline
+	2 &
+	Diagonalizable $\Leftrightarrow$ enough eigenvectors (Jordan obstruction) &
+	$m_{\mathrm{geo}}(\lambda)=\dim\ker(A-\lambda I)\le m_{\mathrm{alg}}(\lambda)$; diag iff equality for all $\lambda$ &
+	If one eigenvalue $\lambda$ of mult.\ $n$, compute $\dim\ker(A-\lambda I)$; if $<n$, not diagonalizable. \\
+	\hline
+	3 &
+	Orthogonal matrices and completing an ONB &
+	$Q^TQ=I\iff$ columns orthonormal; in $\mathbb R^3$: $v_3=\pm(v_1\times v_2)$ &
+	Two completions only ($\det=\pm1$). \\
+	\hline
+	4 &
+	Spectral theorem (real symmetric) &
+	$A=A^T\Rightarrow P^TAP=D$, $P$ orthogonal; $A^{-1}=PD^{-1}P^T$ if $\lambda_i\neq 0$ &
+	Eigenvalues real; eigenvectors for distinct eigenvalues orthogonal. \\
+	\hline
+	5 &
+	Quadratic forms: principal axes via diagonalization &
+	$q(x)=x^TAx$ (take $A$ symmetric); $x=Py\Rightarrow q=y^T(P^TAP)y$ &
+	Remove cross terms by orthogonal change; semi-axes $1/\sqrt{\lambda_i}$ (positive $\lambda_i$). \\
+	\hline
+	6 &
+	Anti-Hermitian / unitary spectra and orthogonality &
+	$A^\dagger=-A\Rightarrow \lambda\in i\mathbb R$;
+	$U^\dagger U=I\Rightarrow |\lambda|=1$ &
+	Distinct eigenvalues $\Rightarrow$ eigenvectors orthogonal (Hermitian inner product). \\
+	\hline
+	7 &
+	Cayley--Hamilton (esp.\ $2\times2$) and power recurrences &
+	$A^2-(\tr A)A+(\det A)I=0$;
+	then $A^n=\alpha_n A+\beta_n I$ with recurrences &
+	Use CH to reduce all powers to span$\{I,A\}$; repeated root $\Rightarrow$ Jordan/unipotent behavior. \\
+	\hline
+	8 &
+	Matrix of a linear map in general bases; change-of-basis rule &
+	$[T(v)]_F=A[v]_E$;
+	under $E\to E'$, $F\to F'$:
+	$A_{F',E'}=C_F^{-1}A_{F,E}C_E$ &
+	Columns are coordinates of $T(e_j)$ in codomain basis. \\
+	\hline
+	9 &
+	Similarity to a Jordan block; fast powers &
+	If $A=PBP^{-1}$ then $A^n=PB^nP^{-1}$;
+	if $B=I+N$, $N^2=0$, then $B^n=I+nN$ &
+	If $(B-I)^2=0$, then $B^n-I=n(B-I)$; transfer by similarity. \\
+	\hline
+	10 &
+	Quadrics from eigenvalues (classification) &
+	For symmetric $A$: $x^TAx=1 \iff \sum \lambda_i u_i^2=1$ in ON eigenbasis &
+	All $\lambda_i>0$: ellipsoid; one $\lambda_i=0$: cylinder; mixed signs: hyperboloid (signature test). \\
+	\hline
+	11 &
+	Min distance to origin on a quadric &
+	Diagonalize and minimize $u_1^2+u_2^2+u_3^2$ subject to $\sum \lambda_i u_i^2=1$ &
+	If $A\succ0$: $r_{\min}=1/\sqrt{\lambda_{\max}}$ (achieved on eigenvector of $\lambda_{\max}$). \\
+	\hline
+	12 &
+	Cayley transform: skew-Hermitian $\to$ unitary &
+	If $K^\dagger=-K$, then $U=(I+K)(I-K)^{-1}$ is unitary; eigenvalue map:
+	$it\mapsto\frac{1+it}{1-it}$ &
+	$I-K$ invertible; unit circle image; invariants preserved by similarity/change of basis. \\
+	\hline
+\end{tabular}
+
+
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[>=Latex, font=\small]
+		% ---- left panel: matrix ----
+		\def\xL{0}
+		\def\yB{0}
+		\def\xR{4.1}
+		\def\yT{3.2}
+		
+		\draw[rounded corners=3pt, line width=0.7pt, draw=Border, fill=TealSoft]
+		(\xL,\yB) rectangle (\xR,\yT);
+		
+		% grid inside matrix panel
+		\foreach \x in {0.6,1.6,2.6,3.6} \draw[draw=Border] (\x,0.4) -- (\x,2.8);
+		\foreach \y in {0.4,1.2,2.0,2.8} \draw[draw=Border] (0.6,\y) -- (3.6,\y);
+		
+		% entries (example 3x3)
+		\node at (1.1,2.4) {$a_{11}$};
+		\node at (2.1,2.4) {$a_{12}$};
+		\node at (3.1,2.4) {$a_{13}$};
+		
+		\node at (1.1,1.6) {$0$};
+		\node at (2.1,1.6) {$a_{22}$};
+		\node at (3.1,1.6) {$a_{23}$};
+		
+		\node at (1.1,0.8) {$0$};
+		\node at (2.1,0.8) {$0$};
+		\node at (3.1,0.8) {$a_{33}$};
+		
+		% highlight diagonal
+		\draw[line width=1.2pt, draw=Teal] (0.6,2.8) -- (3.6,0.4);
+		\foreach \x/\y in {1.1/2.4,2.1/1.6,3.1/0.8}{
+			\draw[fill=Teal, draw=Teal] (\x,\y) circle (2.2pt);
+		}
+		\node[text=SlateSoft] at (2.1,3.0) {upper triangular};
+		
+		% ---- right panel: explanation (separate, so no overlap) ----
+		\node[rounded corners=3pt, draw=Border, line width=0.7pt, fill=TealSoft,
+		inner sep=7pt, align=left, text=Slate] (note)
+		at (6.9,2.0)
+		{\textbf{Key fact:}\\[2pt]
+			$\det(A-tI)=\prod_i(a_{ii}-t)$\\[2pt]
+			$\Rightarrow$ eigenvalues are diagonal};
+		
+	\end{tikzpicture}
+	\caption{Upper triangular matrices: characteristic polynomial factors along the diagonal.}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{adjustbox}{max width=\linewidth,center}
+		\begin{tikzpicture}[
+			>=Latex,
+			node distance=18mm and 36mm,
+			font=\small
+			]
+			\tikzset{
+				box/.style={
+					rounded corners=4pt,
+					draw=Border, line width=0.8pt,
+					fill=TealSoft,
+					inner sep=6pt,
+					align=center
+				},
+				arrow/.style={->, line width=0.9pt, draw=Teal},
+				elabel/.style={
+					font=\scriptsize,
+					text=Slate,
+					fill=white,
+					fill opacity=0.85,
+					text opacity=1,
+					inner sep=1.2pt,
+					rounded corners=2pt
+				}
+			}
+			
+			\node[box] (A) {$A=A^T$ (real symmetric)};
+			\node[box, right=of A] (P) {orthogonal $P=[u_1,u_2,\dots]$\\ ON eigenvectors};
+			\node[box, right=of P] (D) {$D=\mathrm{diag}(\lambda_1,\dots,\lambda_n)$};
+			
+			\draw[arrow] (A) -- node[elabel, above=6pt, pos=0.55] {spectral theorem} (P);
+			\draw[arrow] (P) -- node[elabel, above=6pt, pos=0.45] {$P^TAP=D$} (D);
+			
+			\node[box, below=of P] (coords) {change of variables: $x=Py$\\ (rotation/reflection)};
+			
+			\draw[arrow]
+			(coords.north east)
+			to[bend left=12]
+			node[elabel, sloped, above, pos=0.55] {$x^TAx=y^TDy$}
+			(D.south west);
+			
+			\node[box, below=of D] (inv) {$A^{-1}=PD^{-1}P^T$\\ (if all $\lambda_i\neq0$)};
+			\draw[arrow] (D) -- (inv);
+			
+		\end{tikzpicture}
+	\end{adjustbox}
+	\caption{Spectral theorem as an algorithm.}
+\end{figure}
+
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[>=Latex, font=\small]
+		\tikzset{
+			card/.style={rounded corners=4pt, draw=Border, line width=0.8pt, fill=TealSoft, inner sep=7pt, align=left},
+			tag/.style={rounded corners=3pt, fill=Amber!25, draw=Amber, line width=0.8pt, inner sep=4pt}
+		}
+		\node[card] (start) {\textbf{Start:} symmetric quadric\\ $x^TAx=1$ and eigenvalues $\lambda_1,\lambda_2,\lambda_3$};
+		
+		\node[card, below=10mm of start, xshift=-45mm] (ell) {\textbf{All }$\lambda_i>0$\\ Ellipsoid\\ axes $1/\sqrt{\lambda_i}$};
+		\node[card, below=10mm of start] (cyl) {\textbf{One }$\lambda_i=0$, others $>0$\\ Cylinder\\ axis along eigenvector of $0$};
+		\node[card, below=10mm of start, xshift=45mm] (hyp) {\textbf{Mixed signs}\\ Hyperboloid\\ (one- or two-sheet depends on sign pattern)};
+		
+		\draw[->, line width=0.9pt, draw=Teal] (start.south) -- ++(0,-5mm) -| (ell.north);
+		\draw[->, line width=0.9pt, draw=Teal] (start.south) -- (cyl.north);
+		\draw[->, line width=0.9pt, draw=Teal] (start.south) -- ++(0,-5mm) -| (hyp.north);
+		
+		\node[tag, below=9mm of cyl] (tip) {\textbf{Fast check:} signature = \#positive, \#zero, \#negative};
+	\end{tikzpicture}
+	\caption{Classification of $x^TAx=1$ by eigenvalue signs (signature).}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			axis equal,
+			width=9.2cm,
+			height=7.0cm,
+			axis lines=middle,
+			xlabel={$\,\Re z$},
+			ylabel={$\,\Im z$},
+			xmin=-2.2,xmax=2.2,
+			ymin=-2.2,ymax=2.2,
+			ticks=none,
+			clip=false
+			]
+			% Unit circle
+			\addplot[domain=0:360, samples=361, very thick, color=Teal] ({cos(x)},{sin(x)});
+			\node[anchor=west, text=Teal] at (axis cs:1.05,1.65) {unit circle};
+			
+			% Imaginary axis (input line it)
+			\addplot[very thick, color=Amber] coordinates {(0,-2.1) (0,2.1)};
+			\node[anchor=west, text=Amber] at (axis cs:0.05,2.0) {$i\mathbb R$};
+			
+			% Mark images under w=(1+it)/(1-it)
+			% t=0 -> 1
+			\addplot[only marks, mark=*, mark size=2.2pt, color=Teal] coordinates {(1,0)};
+			\node[anchor=south west] at (axis cs:1,0) {$t=0\mapsto 1$};
+			
+			% t=1 -> i
+			\addplot[only marks, mark=*, mark size=2.2pt, color=Teal] coordinates {(0,1)};
+			\node[anchor=south east] at (axis cs:0,1) {$t=1\mapsto i$};
+			
+			% t->infty -> -1
+			\addplot[only marks, mark=*, mark size=2.2pt, color=Teal] coordinates {(-1,0)};
+			\node[anchor=north east] at (axis cs:-1,0) {$t\to\infty\mapsto -1$};
+			
+			% Title
+			\node[text=Slate, align=center] at (axis cs:0,-2.35)
+			{$w=\dfrac{1+it}{1-it}$ sends $i\mathbb R$ to $|w|=1$};
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Cayley transform: eigenvalues of skew-Hermitian matrices (imaginary axis) map to unit-modulus eigenvalues (unit circle).}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\begin{tikzpicture}[>=Latex, node distance=24mm, font=\small]
+		\tikzset{
+			nodebox/.style={rounded corners=4pt, draw=Border, line width=0.8pt, fill=TealSoft, inner sep=7pt, align=center},
+			arr/.style={->, line width=0.9pt, draw=Teal},
+			arr2/.style={->, line width=0.9pt, draw=Amber}
+		}
+		\node[nodebox] (E) {$[v]_E$\\ coordinates in basis $E$};
+		\node[nodebox, right=of E] (F) {$[T(v)]_F$\\ coordinates in basis $F$};
+		
+		\node[nodebox, below=of E] (E2) {$[v]_{E'}$\\ coordinates in basis $E'$};
+		\node[nodebox, below=of F] (F2) {$[T(v)]_{F'}$\\ coordinates in basis $F'$};
+		
+		\draw[arr] (E) -- node[above, text=Slate] {$A$} (F);
+		\draw[arr2] (E2) -- node[below, text=Slate] {$A'$} (F2);
+		
+		\draw[arr] (E2) -- node[left, text=Slate] {$C_E$} (E);
+		\draw[arr] (F2) -- node[right, text=Slate] {$C_F$} (F);
+		
+		\node[align=center, text=Slate, below=14mm of E2] (formula)
+		{$\displaystyle A' = C_F^{-1}\,A\,C_E$\\[2pt]
+			(if same basis change both sides: $\displaystyle A' = R^{-1}AR$)};
+	\end{tikzpicture}
+	\caption{Change-of-basis rule: new matrix is obtained by conjugation with coordinate-change matrices.}
+\end{figure}
+
+\clearpage
+
+\section*{Eigenvalues, eigenvectors, orthogonality: methods and worked examples}
+
+\subsection*{1. Definitions and the basic workflow}
+
+Let $A\in \mathbb R^{n\times n}$ (or $\mathbb C^{n\times n}$).
+
+\textbf{Eigenvalue/eigenvector.}
+A scalar $\lambda$ is an eigenvalue of $A$ if there exists $v\neq 0$ with
+\[
+Av=\lambda v.
+\]
+Such a vector $v$ is an eigenvector for $\lambda$.
+
+\textbf{Characteristic polynomial.}
+\[
+p_A(t)=\det(tI-A).
+\]
+Then $\lambda$ is an eigenvalue iff $p_A(\lambda)=0$.
+
+\textbf{Eigenspace and multiplicities.}
+The eigenspace of $\lambda$ is
+\[
+E_\lambda=\ker(A-\lambda I).
+\]
+Algebraic multiplicity $m_{\rm alg}(\lambda)$ is the multiplicity of $\lambda$ as a root of $p_A(t)$.
+Geometric multiplicity $m_{\rm geo}(\lambda)=\dim E_\lambda$.
+
+\textbf{Diagonalizability.}
+$A$ is diagonalizable iff it has $n$ linearly independent eigenvectors, equivalently
+\[
+\sum_{\lambda} \dim E_\lambda = n,
+\]
+equivalently $m_{\rm geo}(\lambda)=m_{\rm alg}(\lambda)$ for every eigenvalue $\lambda$.
+
+\textbf{Standard workflow (practical).}
+\begin{enumerate}
+	\item Compute $p_A(t)=\det(tI-A)$ and factor it.
+	\item For each eigenvalue $\lambda$, solve $(A-\lambda I)v=0$ to get eigenvectors (a basis of $E_\lambda$).
+	\item Check diagonalizability by counting eigenvectors: total dimension $\sum_\lambda \dim E_\lambda$.
+	\item If $A$ is symmetric (real): orthogonality is automatic for distinct eigenvalues; then build an orthonormal eigenbasis and use $P^TAP=D$.
+	\item If needed: normalize eigenvectors, and form $P=[u_1\ \cdots\ u_n]$.
+\end{enumerate}
+
+\subsection*{2. Orthogonality principles (why eigenvectors become perpendicular)}
+
+\textbf{Real symmetric matrices.}
+If $A=A^T$ and $Av=\lambda v$, $Aw=\mu w$ with $\lambda\neq\mu$, then
+\[
+v^T w=0.
+\]
+\emph{Proof sketch:} $v^TAw=\mu v^Tw$, but also $v^TAw=(A^Tv)^Tw=(Av)^Tw=\lambda v^Tw$; hence $(\mu-\lambda)v^Tw=0$.
+
+\textbf{Anti-Hermitian matrices.}
+If $A^\dagger=-A$, then eigenvalues lie in $i\mathbb R$ and eigenvectors for distinct eigenvalues are orthogonal.
+
+\textbf{Unitary matrices.}
+If $U^\dagger U=I$, then $|\lambda|=1$ for eigenvalues and distinct-eigenvalue eigenvectors are orthogonal.
+
+\subsection*{3. Example A: triangular matrix (fast eigenvalues)}
+
+Let
+\[
+T=\begin{pmatrix}
+	2&5&-1\\
+	0&3&4\\
+	0&0&-2
+\end{pmatrix}.
+\]
+
+\textbf{Step 1: eigenvalues.}
+$T-tI$ is triangular, so
+\[
+p_T(t)=\det(T-tI)=(2-t)(3-t)(-2-t).
+\]
+Hence eigenvalues are $\lambda=2,3,-2$.
+
+\textbf{Step 2: eigenvectors.}
+Solve $(T-\lambda I)v=0$.
+
+\emph{For $\lambda=2$:}
+\[
+T-2I=\begin{pmatrix}0&5&-1\\0&1&4\\0&0&-4\end{pmatrix}.
+\]
+From bottom: $-4v_3=0\Rightarrow v_3=0$.
+Then $v_2+4v_3=v_2=0$.
+So $v_1$ free. Take $v=(1,0,0)^T$.
+
+\emph{For $\lambda=3$:}
+\[
+T-3I=\begin{pmatrix}-1&5&-1\\0&0&4\\0&0&-5\end{pmatrix}.
+\]
+From $4v_3=0\Rightarrow v_3=0$.
+Then $-v_1+5v_2=0\Rightarrow v_1=5v_2$.
+Take $v=(5,1,0)^T$.
+
+\emph{For $\lambda=-2$:}
+\[
+T+2I=\begin{pmatrix}4&5&-1\\0&5&4\\0&0&0\end{pmatrix}.
+\]
+Let $v_3=s$ free. From second row: $5v_2+4s=0\Rightarrow v_2=-\frac45 s$.
+From first: $4v_1+5v_2-s=0\Rightarrow 4v_1+5(-\frac45 s)-s=0\Rightarrow 4v_1-5s=0\Rightarrow v_1=\frac54 s$.
+Take $s=4$ to clear denominators: $v=(5,-16,4)^T$.
+
+\textbf{Conclusion.} For distinct diagonal entries, triangular matrices are diagonalizable.
+
+\subsection*{4. Example B: symmetric matrix (orthonormal eigenbasis)}
+
+Let
+\[
+A=\begin{pmatrix}
+	3&1&1\\
+	1&2&0\\
+	1&0&2
+\end{pmatrix}.
+\]
+
+\textbf{Step 1: eigenvalues.}
+Compute $p_A(t)=\det(tI-A)$ and factor (or use a CAS; here it factors as)
+\[
+p_A(t)=(t-1)(t-2)(t-4).
+\]
+So $\lambda=1,2,4$.
+
+\textbf{Step 2: eigenvectors (solve each system).}
+\begin{itemize}
+	\item For $\lambda=1$, a solution is $v_1=(-1,1,1)^T$.
+	\item For $\lambda=2$, a solution is $v_2=(0,-1,1)^T$.
+	\item For $\lambda=4$, a solution is $v_3=(2,1,1)^T$.
+\end{itemize}
+
+\textbf{Step 3: orthogonality and normalization.}
+Because $A$ is symmetric, these eigenvectors are automatically orthogonal (check quickly):
+\[
+v_1\cdot v_2=0,\quad v_1\cdot v_3=0,\quad v_2\cdot v_3=0.
+\]
+Normalize:
+\[
+u_1=\frac{1}{\sqrt3}(-1,1,1),\quad
+u_2=\frac{1}{\sqrt2}(0,-1,1),\quad
+u_3=\frac{1}{\sqrt6}(2,1,1).
+\]
+
+\textbf{Step 4: diagonalization and inverse.}
+Let $P=[u_1\ u_2\ u_3]$, $D=\mathrm{diag}(1,2,4)$. Then
+\[
+P^TAP=D,\qquad A^{-1}=P D^{-1} P^T.
+\]
+
+\subsection*{5. Example C: repeated eigenvalue but not diagonalizable (Jordan obstruction)}
+
+Let
+\[
+J=\begin{pmatrix}1&1\\0&1\end{pmatrix}.
+\]
+
+\textbf{Step 1: eigenvalues.}
+\[
+p_J(t)=\det(tI-J)=\det\begin{pmatrix}t-1&-1\\0&t-1\end{pmatrix}=(t-1)^2.
+\]
+Only eigenvalue is $\lambda=1$ with $m_{\rm alg}=2$.
+
+\textbf{Step 2: eigenspace.}
+\[
+J-I=\begin{pmatrix}0&1\\0&0\end{pmatrix}
+\Rightarrow (J-I)v=0 \Rightarrow v_2=0.
+\]
+So $E_1=\{(v_1,0)\}$ has dimension $1$.
+
+\textbf{Conclusion.}
+$m_{\rm geo}(1)=1<2=m_{\rm alg}(1)$, so $J$ is \textbf{not} diagonalizable.
+
+\textbf{Bonus: fast powers.}
+Write $J=I+N$ with $N=\begin{psmallmatrix}0&1\\0&0\end{psmallmatrix}$ and $N^2=0$. Then
+\[
+J^n=(I+N)^n=I+nN=\begin{pmatrix}1&n\\0&1\end{pmatrix}.
+\]
+
+\subsection*{6. Example D: unitary / anti-Hermitian quick spectral facts}
+
+\textbf{Anti-Hermitian example.}
+Let
+\[
+K=\begin{pmatrix}0&i\\ i&0\end{pmatrix}.
+\]
+Then $K^\dagger=-K$, so eigenvalues are purely imaginary. Indeed,
+\[
+p_K(t)=\det(tI-K)=\det\begin{pmatrix}t&-i\\-i&t\end{pmatrix}=t^2+1,
+\]
+so $\lambda=\pm i$. Distinct eigenvalues $\Rightarrow$ eigenvectors orthogonal.
+
+\textbf{Unitary example.}
+Let
+\[
+U=\begin{pmatrix}0&i\\-1&0\end{pmatrix}.
+\]
+One checks $U^\dagger U=I$. Its eigenvalues satisfy $|\lambda|=1$; indeed,
+\[
+\det(U-\lambda I)=\lambda^2+i=0 \Rightarrow \lambda=\pm\frac{1-i}{\sqrt2},
+\]
+which lie on the unit circle.
+
+\subsection*{7. Example E: quadratic forms and principal axes (3D geometry)}
+
+Given a symmetric quadratic form $q(x)=x^TAx$, the surface $q(x)=1$ becomes
+\[
+\lambda_1 u_1^2+\lambda_2 u_2^2+\lambda_3 u_3^2=1
+\]
+in an orthonormal eigenbasis. The signs of $\lambda_i$ classify the quadric:
+\begin{itemize}
+	\item all $\lambda_i>0$: ellipsoid,
+	\item one $\lambda_i=0$ and others $>0$: cylinder,
+	\item mixed signs: hyperboloid.
+\end{itemize}
+If $\lambda_i>0$, the semi-axis length along eigenvector $u_i$ is $1/\sqrt{\lambda_i}$.
+
+\textbf{Distance minimization trick.}
+For $x^TAx=1$ with $A\succ0$ (positive definite),
+the nearest point to the origin lies on the eigenvector for $\lambda_{\max}$, and
+\[
+r_{\min}=\frac{1}{\sqrt{\lambda_{\max}}}.
+\]
+This comes from minimizing $\|x\|^2$ under the constraint $\sum \lambda_i u_i^2=1$.
+
+
+\section*{Problem 1 — Basic identities for Hermitian matrices and unitary similarity}
+
+\textbf{Exact statement.}
+Let \(A\) and \(B\) be \(n\times n\) Hermitian matrices and \(U\) be an \(n\times n\) unitary matrix. Show that
+(i) \(\operatorname{tr}A\) and \(\det A\) are real;
+(ii) \(AB+BA\) is Hermitian;
+(iii) \(i(AB-BA)\) is Hermitian and has zero trace;
+(iv) \(\operatorname{tr}(AB)\) and \(\det(AB)\) are real;
+(v) \(\operatorname{tr}(UAU^\ast)=\operatorname{tr}(A)\) and \(\det(UAU^\ast)=\det(A)\).
+
+\textbf{Solution.}
+Recall: Hermitian means \(A^\ast=A\), and unitary means \(U^\ast U=I\). Also
+\(\overline{\operatorname{tr}(X)}=\operatorname{tr}(X^\ast)\),
+\(\overline{\det(X)}=\det(X^\ast)\),
+and \(\operatorname{tr}(XY)=\operatorname{tr}(YX)\).
+
+\begin{enumerate}
+	\item[(i)]
+	Since \(A^\ast=A\),
+	\[
+	\overline{\operatorname{tr}(A)}=\operatorname{tr}(A^\ast)=\operatorname{tr}(A),
+	\]
+	so \(\operatorname{tr}(A)\in\mathbb R\). Also
+	\[
+	\overline{\det(A)}=\det(A^\ast)=\det(A),
+	\]
+	so \(\det(A)\in\mathbb R\).
+	
+	\item[(ii)]
+	\[
+	(AB+BA)^\ast=B^\ast A^\ast + A^\ast B^\ast=BA+AB=AB+BA.
+	\]
+	
+	\item[(iii)]
+	\[
+	(AB-BA)^\ast=B^\ast A^\ast-A^\ast B^\ast=BA-AB=-(AB-BA),
+	\]
+	so \(AB-BA\) is skew-Hermitian, hence
+	\[
+	(i(AB-BA))^\ast=-i(AB-BA)^\ast=i(AB-BA),
+	\]
+	so \(i(AB-BA)\) is Hermitian. Moreover,
+	\[
+	\operatorname{tr}(AB-BA)=\operatorname{tr}(AB)-\operatorname{tr}(BA)=0.
+	\]
+	
+	\item[(iv)]
+	\[
+	\overline{\operatorname{tr}(AB)}=\operatorname{tr}((AB)^\ast)=\operatorname{tr}(B^\ast A^\ast)=\operatorname{tr}(BA)=\operatorname{tr}(AB),
+	\]
+	so \(\operatorname{tr}(AB)\in\mathbb R\). Also \(\det(AB)=\det(A)\det(B)\), and by (i) both determinants are real, hence \(\det(AB)\in\mathbb R\).
+	
+	\item[(v)]
+	Using cyclicity,
+	\[
+	\operatorname{tr}(UAU^\ast)=\operatorname{tr}(AU^\ast U)=\operatorname{tr}(A).
+	\]
+	Also
+	\[
+	\det(UAU^\ast)=\det(U)\det(A)\det(U^\ast)=\det(U)\det(A)\overline{\det(U)}.
+	\]
+	For unitary \(U\), \(|\det(U)|=1\), so \(\det(U)\overline{\det(U)}=1\), hence \(\det(UAU^\ast)=\det(A)\).
+\end{enumerate}
+
+
+\section*{Problem 2 — Determinant factorization by row operations}
+
+\textbf{Exact statement.}
+For the real matrix
+\[
+M=\begin{pmatrix}
+	a & a^2 & bc\\
+	b & b^2 & ca\\
+	c & c^2 & ab
+\end{pmatrix},
+\]
+show (using row operations) that
+\[
+\det M=(a-b)(b-c)(c-a)(ab+bc+ca).
+\]
+
+\textbf{Solution.}
+Let the rows be \(R_1,R_2,R_3\). Perform
+\[
+R_2\leftarrow R_2-R_1,\qquad R_3\leftarrow R_3-R_1.
+\]
+Then
+\[
+R_2-R_1=(b-a,\ b^2-a^2,\ ca-bc)=(b-a)(1,\ a+b,\ -c),
+\]
+\[
+R_3-R_1=(c-a,\ c^2-a^2,\ ab-bc)=(c-a)(1,\ a+c,\ -b).
+\]
+Hence
+\[
+\det M=(b-a)(c-a)\det\begin{pmatrix}
+	a & a^2 & bc\\
+	1 & a+b & -c\\
+	1 & a+c & -b
+\end{pmatrix}.
+\]
+Now do \(R_3\leftarrow R_3-R_2\):
+\[
+(1,a+c,-b)-(1,a+b,-c)=(0,c-b,c-b)=(c-b)(0,1,1),
+\]
+so
+\[
+\det M=(b-a)(c-a)(c-b)\det\begin{pmatrix}
+	a & a^2 & bc\\
+	1 & a+b & -c\\
+	0 & 1 & 1
+\end{pmatrix}.
+\]
+Compute the remaining determinant by expansion along the first row:
+\[
+\det\begin{pmatrix}
+	a & a^2 & bc\\
+	1 & a+b & -c\\
+	0 & 1 & 1
+\end{pmatrix}
+=
+a\bigl((a+b)\cdot 1-(-c)\cdot 1\bigr)-a^2\cdot 1+bc\cdot 1
+\]
+\[
+=a(a+b+c)-a^2+bc=a(b+c)+bc=ab+ac+bc.
+\]
+Therefore
+\[
+\det M=(b-a)(c-a)(c-b)(ab+bc+ca)=(a-b)(b-c)(c-a)(ab+bc+ca).
+\]
+
+
+\section*{Problem 3 — A circulant determinant and its factorization}
+
+\textbf{Exact statement.}
+Show by direct evaluation that
+\[
+\Delta(x,y,z)\equiv 
+\begin{vmatrix}
+	x&y&z\\
+	z&x&y\\
+	y&z&x
+\end{vmatrix}
+= x^3+y^3+z^3-3xyz.
+\]
+Now show that \(x+y+z\), \(x+\omega y+\omega^2 z\), \(x+\omega^2 y+\omega z\)
+are factors of \(\Delta\), where \(\omega^3=1\), \(\omega\neq 1\).
+
+\textbf{Solution.}
+\textbf{Direct evaluation.} Expanding along the first row,
+\[
+\Delta=
+x\begin{vmatrix}x&y\\ z&x\end{vmatrix}
+- y\begin{vmatrix}z&y\\ y&x\end{vmatrix}
++ z\begin{vmatrix}z&x\\ y&z\end{vmatrix}
+=
+x(x^2-yz)-y(zx-y^2)+z(z^2-xy),
+\]
+so
+\[
+\Delta=x^3+y^3+z^3-3xyz.
+\]
+
+\textbf{Factors via eigenvectors.}
+Let
+\[
+C=\begin{pmatrix}
+	x&y&z\\
+	z&x&y\\
+	y&z&x
+\end{pmatrix}.
+\]
+Using \(\omega^3=1\) and \(1+\omega+\omega^2=0\), check:
+\[
+C\begin{pmatrix}1\\1\\1\end{pmatrix}=(x+y+z)\begin{pmatrix}1\\1\\1\end{pmatrix},\quad
+C\begin{pmatrix}1\\\omega\\\omega^2\end{pmatrix}=(x+\omega y+\omega^2 z)\begin{pmatrix}1\\\omega\\\omega^2\end{pmatrix},
+\]
+\[
+C\begin{pmatrix}1\\\omega^2\\\omega\end{pmatrix}=(x+\omega^2 y+\omega z)\begin{pmatrix}1\\\omega^2\\\omega\end{pmatrix}.
+\]
+Hence \(\det(C)=0\) whenever any of the three linear factors vanishes, so each factor divides \(\Delta\).
+Since \(\Delta\) is homogeneous of degree \(3\), we must have
+\[
+\Delta=c\,(x+y+z)(x+\omega y+\omega^2 z)(x+\omega^2 y+\omega z)
+\]
+for a constant \(c\). Setting \(y=z=0\) gives \(\Delta(x,0,0)=x^3\) and the product equals \(x^3\), so \(c=1\).
+
+
+\section*{Problem 4 — Determinant of an odd-dimensional antisymmetric matrix}
+
+\textbf{Exact statement.}
+If \(A\) is a \((2n+1)\times(2n+1)\) antisymmetric matrix, find \(\det A\).
+
+\textbf{Solution.}
+Antisymmetric means \(A^T=-A\). Then
+\[
+\det(A)=\det(A^T)=\det(-A)=(-1)^{2n+1}\det(A)=-\det(A),
+\]
+so \(\det(A)=0\).
+
+
+\section*{Problem 5 — Determinant of a “\(p\) on diagonal, \(1\) elsewhere” matrix}
+
+\textbf{Exact statement.}
+Let \(D\) be the \(n\times n\) matrix (\(n>1\)) which has entries \(p\) on the main diagonal and entries \(1\) elsewhere.
+Show that
+\[
+\det D=(p+n-1)(p-1)^{n-1}.
+\]
+
+\textbf{Solution.}
+Write
+\[
+D=(p-1)I+J,
+\]
+where \(J\) is the all-ones matrix.
+The eigenvalues of \(J\) are \(n\) (with eigenvector \(\mathbf{1}=(1,\dots,1)^T\)) and \(0\) with multiplicity \(n-1\).
+Hence the eigenvalues of \(D\) are \(p+n-1\) (once) and \(p-1\) (multiplicity \(n-1\)).
+Therefore,
+\[
+\det D=(p+n-1)(p-1)^{n-1}.
+\]
+
+
+\section*{Problem 6 — Cofactors, inverse, and solving a linear system}
+
+\textbf{Exact statement.}
+Calculate the cofactors \(\Delta_{ij}\) for
+\[
+A=\begin{pmatrix}
+	1&1&1\\
+	1&2&3\\
+	3&-2&2
+\end{pmatrix}.
+\]
+Convert \(A_{ij}\Delta_{ik}=\delta_{jk}\det A\) into matrix notation and check it.
+Find \(A^{-1}\).
+Use it to solve
+\[
+\begin{cases}
+	x+y+z=1\\
+	x+2y+3z=-5\\
+	3x-2y+2z=4.
+\end{cases}
+\]
+
+\textbf{Solution.}
+The cofactor matrix \(C=(\Delta_{ij})\) is
+\[
+C=\begin{pmatrix}
+	10&7&-8\\
+	-4&-1&5\\
+	1&-2&1
+\end{pmatrix},
+\qquad \det(A)=9.
+\]
+The suffix identity \(A_{ij}\Delta_{ik}=\delta_{jk}\det(A)\) (sum over \(i\)) is exactly the matrix identity
+\[
+A^T\,C=\det(A)\,I.
+\]
+Equivalently, with \(\operatorname{adj}(A)=C^T\),
+\[
+A\,\operatorname{adj}(A)=\det(A)\,I.
+\]
+Thus
+\[
+A^{-1}=\frac{1}{\det(A)}\operatorname{adj}(A)=\frac{1}{9}C^T
+=\frac{1}{9}\begin{pmatrix}
+	10&-4&1\\
+	7&-1&-2\\
+	-8&5&1
+\end{pmatrix}.
+\]
+To solve \(A(x,y,z)^T=(1,-5,4)^T\),
+\[
+\begin{pmatrix}x\\y\\z\end{pmatrix}
+=A^{-1}\begin{pmatrix}1\\-5\\4\end{pmatrix}
+=\begin{pmatrix}\frac{34}{9}\\[2pt]\frac{4}{9}\\[2pt]-\frac{29}{9}\end{pmatrix}.
+\]
+A direct substitution verifies the system.
+
+
+\section*{Problem 7 — A linear system depending on a parameter \(t\)}
+
+\textbf{Exact statement.}
+For each real value of \(t\), determine whether or not there exist solutions to the simultaneous equations
+\[
+\begin{cases}
+	x+y+z=t,\\
+	tx+2z=3,\\
+	3x+ty+5z=7,
+\end{cases}
+\]
+exhibiting the most general form of such solutions when they exist.
+
+\textbf{Solution.}
+Let
+\[
+A(t)=\begin{pmatrix}
+	1&1&1\\
+	t&0&2\\
+	3&t&5
+\end{pmatrix},\qquad
+b(t)=\begin{pmatrix}t\\3\\7\end{pmatrix}.
+\]
+Then
+\[
+\det A(t)=
+\begin{vmatrix}
+	1&1&1\\
+	t&0&2\\
+	3&t&5
+\end{vmatrix}
+=t^2-7t+6=(t-1)(t-6).
+\]
+
+\textbf{Case 1: \(t\neq 1,6\).}
+Then \(\det A(t)\neq 0\), so there is a unique solution. Solving (e.g.\ by elimination) gives
+\[
+x=\frac{1-2t}{t-6},\qquad
+y=\frac{8-5t}{t-6},\qquad
+z=\frac{t^2+t-9}{t-6}.
+\]
+
+\textbf{Case 2: \(t=1\).}
+The system becomes
+\[
+\begin{cases}
+	x+y+z=1,\\
+	x+2z=3,\\
+	3x+y+5z=7.
+\end{cases}
+\]
+From \(x+2z=3\) we get \(x=3-2z\). Substituting into \(3x+y+5z=7\) yields
+\[
+3(3-2z)+y+5z=7 \ \Rightarrow\ y-z=-2 \ \Rightarrow\ y=z-2.
+\]
+Thus, writing \(z=s\),
+\[
+(x,y,z)=(3-2s,\ s-2,\ s),\qquad s\in\mathbb R,
+\]
+equivalently \((x,y,z)=(3,-2,0)+s(-2,1,1)\).
+
+\textbf{Case 3: \(t=6\).}
+The system becomes
+\[
+\begin{cases}
+	x+y+z=6,\\
+	6x+2z=3,\\
+	3x+6y+5z=7.
+\end{cases}
+\]
+From \(6x+2z=3\) we get \(3x+z=\tfrac{3}{2}\).
+Also,
+\[
+(3x+6y+5z)-3(x+y+z)=7-18 \ \Rightarrow\ 3y+2z=-11.
+\]
+Using \(y=6-x-z\) gives
+\[
+3(6-x-z)+2z=-11 \ \Rightarrow\ 18-3x-z=-11 \ \Rightarrow\ 3x+z=29,
+\]
+contradicting \(3x+z=\tfrac{3}{2}\). Hence there are no solutions when \(t=6\).
+
+
+\section*{Problem 8 — Image, kernel, and solvability of \(Mx=d\) (Vandermonde-type matrix)}
+
+\textbf{Exact statement.}
+Let \(M\) be a real \(3\times 3\) matrix, and let \(d\) be a 3 component column vector. Explain briefly how the
+general solution of the matrix equation \(Mx=d\), where \(x\) is a 3 component column vector, depends on
+the image and kernel of the linear map \(x\mapsto Mx\).
+
+Consider the case
+\[
+M=\begin{pmatrix}
+	1&1&1\\
+	1&a&b\\
+	1&a^2&b^2
+\end{pmatrix},\qquad
+x=\begin{pmatrix}x\\y\\z\end{pmatrix},\qquad
+d=\begin{pmatrix}1\\-1\\1\end{pmatrix}.
+\]
+Find the image and kernel of the corresponding map, noting the different possibilities according to different values of \(a\) and \(b\).
+For which values of \(a\) and \(b\) do the equations \(Mx=d\) have (i) a unique solution, (ii) more than one solution, (iii) no solution?
+For each pair \((a,b)\) satisfying (ii), give the solutions as the sum of a fixed solution and the general solution of the corresponding homogeneous equations.
+
+\textbf{Solution.}
+Let \(T:\mathbb R^3\to\mathbb R^3\) be \(T(x)=Mx\). Then:
+\[
+Mx=d \text{ is solvable } \Longleftrightarrow d\in \operatorname{Im}(M),
+\]
+and if \(x_0\) is one solution, then all solutions are
+\[
+x=x_0+v,\qquad v\in\ker(M).
+\]
+The solution is unique iff \(\ker(M)=\{0\}\), equivalently \(\det(M)\neq 0\).
+
+Write the columns of \(M\) as
+\[
+c_1=\begin{pmatrix}1\\1\\1\end{pmatrix},\quad
+c_2=\begin{pmatrix}1\\a\\a^2\end{pmatrix},\quad
+c_3=\begin{pmatrix}1\\b\\b^2\end{pmatrix}.
+\]
+Then \(\operatorname{Im}(M)=\operatorname{span}\{c_1,c_2,c_3\}\) and a direct computation gives
+\[
+\det M=(a-1)(b-1)(b-a).
+\]
+
+\textbf{Image and kernel (by cases).}
+
+\emph{(A) If \((a-1)(b-1)(a-b)\neq 0\).}
+Then \(M\) is invertible, so
+\[
+\ker(M)=\{0\},\qquad \operatorname{Im}(M)=\mathbb R^3.
+\]
+
+\emph{(B) Rank \(2\) cases (exactly two of \(1,a,b\) coincide).}
+\begin{itemize}
+	\item If \(a=1\) and \(b\neq 1\), then \(c_2=c_1\), hence
+	\[
+	\ker(M)=\operatorname{span}\{(1,-1,0)\},\quad
+	\operatorname{Im}(M)=\operatorname{span}\left\{\begin{pmatrix}1\\1\\1\end{pmatrix},\begin{pmatrix}1\\b\\b^2\end{pmatrix}\right\}.
+	\]
+	\item If \(b=1\) and \(a\neq 1\), then \(c_3=c_1\), hence
+	\[
+	\ker(M)=\operatorname{span}\{(1,0,-1)\},\quad
+	\operatorname{Im}(M)=\operatorname{span}\left\{\begin{pmatrix}1\\1\\1\end{pmatrix},\begin{pmatrix}1\\a\\a^2\end{pmatrix}\right\}.
+	\]
+	\item If \(a=b\neq 1\), then \(c_2=c_3\), hence
+	\[
+	\ker(M)=\operatorname{span}\{(0,1,-1)\},\quad
+	\operatorname{Im}(M)=\operatorname{span}\left\{\begin{pmatrix}1\\1\\1\end{pmatrix},\begin{pmatrix}1\\a\\a^2\end{pmatrix}\right\}.
+	\]
+\end{itemize}
+
+\emph{(C) Rank \(1\) case.}
+If \(a=b=1\), then \(c_1=c_2=c_3\), hence
+\[
+\operatorname{Im}(M)=\operatorname{span}\left\{\begin{pmatrix}1\\1\\1\end{pmatrix}\right\},\qquad
+\ker(M)=\{(u,v,w)\in\mathbb R^3:\ u+v+w=0\}.
+\]
+
+\textbf{Solving \(Mx=d\) for \(d=(1,-1,1)^T\).}
+
+\emph{(i) Unique solution.}
+This occurs exactly when \(\det M\neq 0\), i.e.\ when \((a-1)(b-1)(a-b)\neq 0\).
+Then
+\[
+x=\frac{(a+1)(b+1)}{(a-1)(b-1)},\quad
+y=\frac{2(b+1)}{(a-1)(a-b)},\quad
+z=-\frac{2(a+1)}{(b-1)(a-b)}.
+\]
+
+\emph{(ii) More than one solution.}
+This requires \(\det M=0\) and \(d\in\operatorname{Im}(M)\). This happens only for
+\[
+(a,b)=(1,-1),\quad (a,b)=(-1,1),\quad (a,b)=(-1,-1).
+\]
+For these pairs:
+\begin{itemize}
+	\item If \((a,b)=(1,-1)\), one fixed solution is \((0,0,1)\), and \(\ker(M)=\operatorname{span}\{(1,-1,0)\}\), so
+	\[
+	(x,y,z)=(0,0,1)+s(1,-1,0),\qquad s\in\mathbb R.
+	\]
+	\item If \((a,b)=(-1,1)\), one fixed solution is \((0,1,0)\), and \(\ker(M)=\operatorname{span}\{(1,0,-1)\}\), so
+	\[
+	(x,y,z)=(0,1,0)+s(1,0,-1),\qquad s\in\mathbb R.
+	\]
+	\item If \((a,b)=(-1,-1)\), one fixed solution is \((0,1,0)\), and \(\ker(M)=\operatorname{span}\{(0,1,-1)\}\), so
+	\[
+	(x,y,z)=(0,1,0)+s(0,1,-1),\qquad s\in\mathbb R.
+	\]
+\end{itemize}
+
+\emph{(iii) No solution.}
+For all other \((a,b)\) with \(\det M=0\), one has \(d\notin \operatorname{Im}(M)\), hence no solutions exist.
+
+
+\section*{Problem 10 — Eigenvalues/eigenvectors; reality + orthogonality \(\Leftrightarrow\) Hermitian}
+
+\textbf{Exact statement.}
+Find the eigenvalues and eigenvectors of the matrix
+\[
+A=\begin{pmatrix}
+	1&\alpha&0\\
+	\beta&1&0\\
+	0&0&1
+\end{pmatrix},
+\]
+where \(\alpha,\beta\) are non-zero complex numbers. Find the conditions for which
+(i) the eigenvalues are real and
+(ii) eigenvectors for different eigenvalues are orthogonal.
+Show that both these conditions hold if and only if \(A\) is hermitian.
+
+\emph{Recall:} the complex inner product on \(\mathbb C^3\) is
+\[
+z^\dagger w=\overline z_1 w_1+\overline z_2 w_2+\overline z_3 w_3,
+\]
+and \(z,w\) are orthogonal if \(z^\dagger w=0\).
+
+\textbf{Solution.}
+Write \(A=\mathrm{diag}(B,1)\) with
+\[
+B=\begin{pmatrix}1&\alpha\\ \beta&1\end{pmatrix}.
+\]
+Then
+\[
+\chi_B(\lambda)=\det(B-\lambda I)=(1-\lambda)^2-\alpha\beta,
+\]
+so with \(s=\sqrt{\alpha\beta}\) we have eigenvalues
+\[
+\lambda_1=1+s,\qquad \lambda_2=1-s,\qquad \lambda_3=1.
+\]
+For \(\lambda=1+s\), solving \((B-(1+s)I)v=0\) gives \(-su+\alpha v=0\), so we may take
+\[
+v_+=\begin{pmatrix}\alpha\\ s\\ 0\end{pmatrix}.
+\]
+For \(\lambda=1-s\), we may take
+\[
+v_-=\begin{pmatrix}\alpha\\ -s\\ 0\end{pmatrix}.
+\]
+For \(\lambda=1\), an eigenvector is \(v_0=e_3=(0,0,1)^T\).
+
+\textbf{(i) Real eigenvalues.}
+The eigenvalues are real iff \(s\in\mathbb R\), i.e.\ iff \(\alpha\beta\in(0,\infty)\subset\mathbb R\).
+
+\textbf{(ii) Orthogonality for distinct eigenvalues.}
+Clearly \(v_0\perp v_\pm\). Thus we require \(v_+^\dagger v_-=0\):
+\[
+v_+^\dagger v_-=\overline\alpha\,\alpha+\overline s(-s)=|\alpha|^2-|s|^2.
+\]
+If (i) holds then \(s\in\mathbb R\) so \(|s|^2=s^2=\alpha\beta\), hence
+\[
+v_+^\dagger v_-=0 \iff |\alpha|^2=\alpha\beta \iff \beta=\overline\alpha \quad(\alpha\neq 0).
+\]
+But \(\beta=\overline\alpha\) is exactly the condition that \(A\) is hermitian. Conversely, if \(A\) is hermitian then
+\(\alpha\beta=\alpha\overline\alpha=|\alpha|^2>0\) so (i) holds, and eigenvectors for distinct eigenvalues are orthogonal.
+
+
+\section*{Problem 11 — Odd-dimensional orthogonal matrices with \(\det=1\) have eigenvalue \(1\)}
+
+\textbf{Exact statement.}
+Let \(Q\) be a \((2n+1)\times(2n+1)\) orthogonal matrix with \(\det Q=1\).
+Show that \(1\) is an eigenvalue of \(Q\) and give a geometric interpretation of this result when \(Q\) is a \(3\times3\) matrix.
+What can be said if \(\det Q=-1\)?
+
+\textbf{Solution.}
+If \(Q\) is real orthogonal then \(Q^TQ=I\), hence every eigenvalue \(\lambda\) satisfies \(|\lambda|=1\).
+Non-real eigenvalues occur in complex conjugate pairs \(\lambda,\overline\lambda\), and each pair contributes product
+\(\lambda\overline\lambda=|\lambda|^2=1\) to \(\det Q\).
+Since the dimension is odd, at least one eigenvalue is real; real eigenvalues of an orthogonal matrix are \(\pm 1\).
+Thus the sign of \(\det Q\) is determined by the number of eigenvalues \(-1\).
+If \(\det Q=1\), the number of \(-1\) eigenvalues is even, so among the (odd number of) real eigenvalues there must be at least one \(+1\).
+Hence \(1\) is an eigenvalue.
+
+For \(3\times3\), \(\det Q=1\) means \(Q\) is a rotation: the eigenvector with eigenvalue \(1\) is the rotation axis (a fixed direction).
+If \(\det Q=-1\), then \(-1\) is an eigenvalue; geometrically this corresponds to an improper orthogonal map (reflection or roto-reflection).
+
+
+\section*{Problem 12 — Eigenvalues, eigenspace dimensions, diagonalizability}
+
+\textbf{Exact statement.}
+For each of the matrices
+\[
+A=\begin{pmatrix}
+	5&-3&2\\
+	6&-4&4\\
+	4&-4&5
+\end{pmatrix},\qquad
+B=\begin{pmatrix}
+	1&-3&4\\
+	4&-7&8\\
+	6&-7&7
+\end{pmatrix},\qquad
+C=\begin{pmatrix}
+	7&-12&6\\
+	10&-19&10\\
+	12&-24&13
+\end{pmatrix},
+\]
+(i) compute their eigenvalues;
+(ii) for each eigenvalue \(\lambda\) compute \(\dim\{x\in\mathbb R^3: Mx=\lambda x\}\);
+(iii) hence determine whether or not the matrix is diagonalizable.
+
+\textbf{Solution.}
+
+\textbf{Matrix \(A\).}
+\[
+\chi_A(\lambda)=\det(\lambda I-A)=\lambda^3-6\lambda^2+11\lambda-6=(\lambda-1)(\lambda-2)(\lambda-3).
+\]
+Hence the eigenvalues are \(1,2,3\), each with algebraic multiplicity \(1\), so each eigenspace has dimension \(1\).
+For example,
+\[
+\lambda=1:\ (1,2,1),\qquad
+\lambda=2:\ (1,1,0),\qquad
+\lambda=3:\ (1,2,2)
+\]
+are eigenvectors. Therefore \(A\) is diagonalizable.
+
+\textbf{Matrix \(B\).}
+\[
+\chi_B(\lambda)=\lambda^3-\lambda^2-5\lambda-3=(\lambda-3)(\lambda+1)^2.
+\]
+So the eigenvalues are \(3\) and \(-1\) (with algebraic multiplicity \(2\)).
+One finds
+\[
+E_3=\ker(B-3I)=\operatorname{span}\{(1,2,2)\},\qquad \dim E_3=1,
+\]
+\[
+E_{-1}=\ker(B+I)=\operatorname{span}\{(1,2,1)\},\qquad \dim E_{-1}=1.
+\]
+Since \(\dim E_{-1}=1<2\), the matrix \(B\) is not diagonalizable.
+
+\textbf{Matrix \(C\).}
+\[
+\chi_C(\lambda)=\lambda^3-\lambda^2-\lambda+1=(\lambda-1)^2(\lambda+1).
+\]
+So the eigenvalues are \(1\) (algebraic multiplicity \(2\)) and \(-1\).
+One finds
+\[
+E_1=\ker(C-I)=\operatorname{span}\{(2,1,0),\,(-1,0,1)\},\qquad \dim E_1=2,
+\]
+\[
+E_{-1}=\ker(C+I)=\operatorname{span}\{(3,5,6)\},\qquad \dim E_{-1}=1.
+\]
+Thus \(\dim E_1+\dim E_{-1}=2+1=3\), so \(C\) is diagonalizable.
+
+
+\section*{Problem 13 — Characteristic polynomial of \(A^{-1}\)}
+
+\textbf{Exact statement.}
+Suppose that \(A\) is an \(n\times n\) matrix and that \(A^{-1}\) exists. Show that if \(A\) has characteristic polynomial
+\[
+\chi_A(t)=a_0+a_1 t+\cdots+a_n t^n,
+\]
+then \(A^{-1}\) has characteristic polynomial
+\[
+\chi_{A^{-1}}(t)=(-1)^n\det(A^{-1})\bigl(a_n+a_{n-1}t+\cdots+a_0 t^n\bigr).
+\]
+
+\textbf{Solution.}
+Start with
+\[
+\chi_{A^{-1}}(t)=\det(A^{-1}-tI).
+\]
+Factor out \(A^{-1}\):
+\[
+\det(A^{-1}-tI)=\det(A^{-1})\det(I-tA).
+\]
+Now
+\[
+I-tA=-t\Bigl(A-\frac{1}{t}I\Bigr),
+\]
+hence
+\[
+\det(I-tA)=(-t)^n\det\Bigl(A-\frac{1}{t}I\Bigr)=(-1)^n t^n \chi_A\!\Bigl(\frac{1}{t}\Bigr).
+\]
+Therefore
+\[
+\chi_{A^{-1}}(t)=(-1)^n\det(A^{-1})\,t^n\,\chi_A\!\Bigl(\frac{1}{t}\Bigr).
+\]
+If \(\chi_A(t)=a_0+a_1 t+\cdots+a_n t^n\), then
+\[
+t^n\chi_A(1/t)=a_n+a_{n-1}t+\cdots+a_0 t^n,
+\]
+so
+\[
+\chi_{A^{-1}}(t)=(-1)^n\det(A^{-1})\bigl(a_n+a_{n-1}t+\cdots+a_0 t^n\bigr),
+\]
+as required.
+
+\section*{Problem 1 -- Index notation with $\delta_{ij}$ and $\varepsilon_{ijk}$}
+
+\textbf{Exact statement.}
+In the following, the indices $i,j,k,\ell$ take the values $1,2,3$ and the summation convention applies.
+\begin{enumerate}[label=(\alph*)]
+	\item Simplify the following expressions:
+	\[
+	\delta_{ij}v_j,\quad \delta_{ij}\delta_{jk},\quad \delta_{ij}\delta_{ji},\quad \delta_{ij}v_iv_j,\quad
+	\varepsilon_{ijk}\delta_{ik},\quad \varepsilon_{ijk}v_jv_k,\quad
+	\varepsilon_{ijk}\varepsilon_{i\ell e},\quad \varepsilon_{ijk}\varepsilon_{ikj}.
+	\]
+	\item Given that $A_{ij}=\varepsilon_{ijk}a_k$ (for all $i,j$), show that $2a_k=\varepsilon_{kij}A_{ij}$ (for all $k$).
+	\item Show that $\varepsilon_{ijk}S_{ij}=0$ (for all $k$) if and only if $S_{ij}=S_{ji}$ (for all $i,j$).
+\end{enumerate}
+
+\textbf{Solution.}
+\begin{enumerate}[label=(\alph*)]
+	\item Using $\delta_{ij}$ to replace indices and antisymmetry of $\varepsilon_{ijk}$:
+	\[
+	\delta_{ij}v_j=v_i,\qquad
+	\delta_{ij}\delta_{jk}=\delta_{ik},\qquad
+	\delta_{ij}\delta_{ji}=\delta_{ii}=3,
+	\]
+	\[
+	\delta_{ij}v_iv_j=v_iv_i=\|v\|^2,\qquad
+	\varepsilon_{ijk}\delta_{ik}=\varepsilon_{iji}=0,\qquad
+	\varepsilon_{ijk}v_jv_k=0,
+	\]
+	\[
+	\varepsilon_{ijk}\varepsilon_{i\ell e}=\delta_{j\ell}\delta_{ke}-\delta_{je}\delta_{k\ell},\qquad
+	\varepsilon_{ijk}\varepsilon_{ikj}=-\varepsilon_{ijk}\varepsilon_{ijk}=-6.
+	\]
+	\item Contract with $\varepsilon_{kij}$:
+	\[
+	\varepsilon_{kij}A_{ij}
+	=\varepsilon_{kij}\varepsilon_{ij\ell}a_\ell
+	=2\delta_{k\ell}a_\ell
+	=2a_k.
+	\]
+	\item If $S_{ij}=S_{ji}$ then $\varepsilon_{ijk}S_{ij}=0$. Conversely, if $\varepsilon_{ijk}S_{ij}=0$ for all $k$, multiply by $\varepsilon_{kpq}$:
+	\[
+	0=\varepsilon_{kpq}\varepsilon_{ijk}S_{ij}
+	=(\delta_{pi}\delta_{qj}-\delta_{pj}\delta_{qi})S_{ij}
+	=S_{pq}-S_{qp},
+	\]
+	so $S_{pq}=S_{qp}$.
+\end{enumerate}
+
+\section*{Problem 2 -- Triple products in $\mathbb{R}^3$}
+
+\textbf{Exact statement.}
+For vectors $\mathbf a,\mathbf b\in\mathbb R^3$, simplify $\varepsilon_{ijk}(\mathbf a\times\mathbf b)_k$ and deduce a standard formula for $\mathbf c\times(\mathbf a\times\mathbf b)$.
+\begin{enumerate}[label=(\alph*)]
+	\item Let $\mathbf m,\mathbf u,\mathbf a$ be fixed vectors in $\mathbb R^3$ such that $\mathbf m\cdot\mathbf u=0$ and $\mathbf a\cdot\mathbf u\neq 0$.
+	Show that the line $\mathbf r\times\mathbf u=\mathbf m$ meets the plane $\mathbf r\cdot\mathbf a=\kappa$ in the point
+	\[
+	\mathbf r=\frac{\mathbf a\times\mathbf m+\kappa\,\mathbf u}{\mathbf a\cdot\mathbf u}.
+	\]
+	Explain clearly the geometrical meaning of the condition $\mathbf a\cdot\mathbf u\neq 0$.
+	\item Let $\mathbf a,\mathbf b\in\mathbb R^3$ with $\mathbf a\times\mathbf b\neq 0$.
+	Show that the planes $\mathbf r\cdot\mathbf a=\kappa$ and $\mathbf r\cdot\mathbf b=\rho$ (where $\kappa,\rho$ are constants) intersect in the line
+	\[
+	\mathbf r\times(\mathbf a\times\mathbf b)=\rho\,\mathbf a-\kappa\,\mathbf b.
+	\]
+	What happens if $\mathbf a\times\mathbf b=0$?
+\end{enumerate}
+
+\textbf{Solution.}
+First,
+\[
+(\mathbf a\times\mathbf b)_k=\varepsilon_{k\ell m}a_\ell b_m
+\quad\Rightarrow\quad
+\varepsilon_{ijk}(\mathbf a\times\mathbf b)_k
+=\varepsilon_{ijk}\varepsilon_{k\ell m}a_\ell b_m
+=a_ib_j-a_jb_i.
+\]
+Hence
+\[
+(\mathbf c\times(\mathbf a\times\mathbf b))_i
+=\varepsilon_{ijk}c_j(\mathbf a\times\mathbf b)_k
+=a_i(\mathbf c\cdot\mathbf b)-b_i(\mathbf c\cdot\mathbf a),
+\]
+so
+\[
+\mathbf c\times(\mathbf a\times\mathbf b)=\mathbf a(\mathbf c\cdot\mathbf b)-\mathbf b(\mathbf c\cdot\mathbf a).
+\]
+
+\begin{enumerate}[label=(\alph*)]
+	\item Let $\mathbf r=(\mathbf a\times\mathbf m+\kappa\mathbf u)/(\mathbf a\cdot\mathbf u)$. Then
+	\[
+	\mathbf r\times\mathbf u
+	=\frac{(\mathbf a\times\mathbf m)\times\mathbf u}{\mathbf a\cdot\mathbf u}
+	=\frac{\mathbf m(\mathbf a\cdot\mathbf u)-\mathbf a(\mathbf m\cdot\mathbf u)}{\mathbf a\cdot\mathbf u}
+	=\mathbf m
+	\]
+	because $\mathbf m\cdot\mathbf u=0$, and
+	\[
+	\mathbf r\cdot\mathbf a
+	=\frac{(\mathbf a\times\mathbf m)\cdot\mathbf a+\kappa(\mathbf u\cdot\mathbf a)}{\mathbf a\cdot\mathbf u}
+	=\kappa.
+	\]
+	Geometrically, $\mathbf r\times\mathbf u=\mathbf m$ is an affine line parallel to $\mathbf u$; if $\mathbf a\cdot\mathbf u=0$ the line is parallel to the plane $\mathbf r\cdot\mathbf a=\kappa$, giving no intersection or infinitely many.
+	\item Use
+	\[
+	\mathbf r\times(\mathbf a\times\mathbf b)=\mathbf a(\mathbf r\cdot\mathbf b)-\mathbf b(\mathbf r\cdot\mathbf a).
+	\]
+	If $\mathbf r\cdot\mathbf a=\kappa$ and $\mathbf r\cdot\mathbf b=\rho$, then
+	$\mathbf r\times(\mathbf a\times\mathbf b)=\rho\mathbf a-\kappa\mathbf b$.
+	Conversely, if $\mathbf a\times\mathbf b\neq 0$ then $\mathbf a,\mathbf b$ are independent, so the identity forces
+	$\mathbf r\cdot\mathbf b=\rho$ and $\mathbf r\cdot\mathbf a=\kappa$.
+	If $\mathbf a\times\mathbf b=0$, the planes are either identical (compatible constants) or parallel disjoint (incompatible constants).
+\end{enumerate}
+
+\section*{Problem 3 -- Matrices from $\varepsilon_{ijk}$ and a unit vector}
+
+\textbf{Exact statement.}
+Show that
+\[
+M_{ij}=\delta_{ij}+\varepsilon_{ijk}n_k,\qquad
+N_{ij}=\delta_{ij}-\varepsilon_{ijk}n_k+n_in_j
+\]
+obey $N_{ij}M_{jk}=2\delta_{ik}$ if $n_in_i=1$.
+Verify that
+\[
+\mathbf y=\mathbf x+\mathbf x\times\mathbf n \iff y_i=M_{ij}x_j,
+\]
+and use these results to find $\mathbf x$ in terms of $\mathbf y$, given that $\mathbf n$ is a unit vector.
+
+\textbf{Solution.}
+Expand
+\[
+(NM)_{ik}=N_{ij}M_{jk}
+=(\delta_{ij}-\varepsilon_{ij\ell}n_\ell+n_in_j)(\delta_{jk}+\varepsilon_{jkm}n_m).
+\]
+The mixed $\varepsilon$ terms cancel, and $n_in_j\varepsilon_{jkm}n_m=0$.
+Using
+\[
+\varepsilon_{ij\ell}\varepsilon_{jkm}=-\delta_{ik}\delta_{\ell m}+\delta_{im}\delta_{\ell k},
+\]
+we get
+\[
+\varepsilon_{ij\ell}\varepsilon_{jkm}n_\ell n_m=-\delta_{ik}(n_\ell n_\ell)+n_in_k=-\delta_{ik}+n_in_k
+\]
+since $n_\ell n_\ell=1$. Hence
+\[
+(NM)_{ik}=\delta_{ik}-(-\delta_{ik}+n_in_k)+n_in_k=2\delta_{ik}.
+\]
+Also
+\[
+y_i=x_i+\varepsilon_{ijk}x_jn_k=(\delta_{ij}+\varepsilon_{ijk}n_k)x_j=M_{ij}x_j.
+\]
+Multiplying by $N$ gives $N_{ij}y_j=2x_i$, so
+\[
+x_i=\frac12\,N_{ij}y_j
+=\frac12\big(y_i-\varepsilon_{ijk}y_jn_k+n_i(n_jy_j)\big),
+\]
+i.e.
+\[
+\mathbf x=\tfrac12\big(\mathbf y-\mathbf y\times\mathbf n+\mathbf n(\mathbf n\cdot\mathbf y)\big).
+\]
+
+\section*{Problem 4 -- Maximal independent subsets in $\mathbb{R}^4$}
+
+\textbf{Exact statement.}
+The set $X$ consists of six vectors in $\mathbb{R}^4$:
+\[
+(1,1,0,0),\ (1,0,1,0),\ (1,0,0,1),\ (0,1,1,0),\ (0,1,0,1),\ (0,0,1,1).
+\]
+Find two different subsets $Y\subset X$ whose members are linearly independent, each of which yields a linearly dependent subset of $X$ whenever any element $v\in X$ with $v\notin Y$ is adjoined to $Y$.
+
+\textbf{Solution.}
+Write the vectors as $v_{ij}=e_i+e_j$ in the standard basis of $\mathbb R^4$:
+\[
+v_{12},v_{13},v_{14},v_{23},v_{24},v_{34}.
+\]
+The span of $X$ is all of $\mathbb R^4$ (e.g. $2e_1=v_{13}+v_{14}-v_{34}$), so any $4$ independent vectors from $X$ form a basis of $\mathbb R^4$; adjoining any other vector from $X$ then forces dependence.
+
+Two valid choices are:
+\[
+Y_1=\{v_{12},v_{13},v_{14},v_{23}\},\qquad
+Y_2=\{v_{12},v_{13},v_{14},v_{34}\}.
+\]
+For $Y_1$ the remaining vectors are
+\[
+v_{24}=v_{14}+v_{23}-v_{13},\qquad
+v_{34}=v_{13}+v_{24}-v_{12},
+\]
+so adding $v_{24}$ or $v_{34}$ makes dependence.
+For $Y_2$ the remaining vectors are
+\[
+v_{23}=v_{12}-v_{14}+v_{34},\qquad
+v_{24}=v_{12}-v_{13}+v_{34},
+\]
+so adding $v_{23}$ or $v_{24}$ makes dependence.
+
+\section*{Problem 5 -- A linear recurrence subspace in $\mathbb{R}^n$}
+
+\textbf{Exact statement.}
+Let $V$ be the set of all vectors $\mathbf{x}=(x_1,\dots,x_n)\in\mathbb{R}^n$ ($n\ge 4$) such that
+\[
+x_i+x_{i+1}+x_{i+2}+x_{i+3}=0
+\quad\text{for}\quad i=1,2,\dots,n-3.
+\]
+Show that $V$ is a subspace of $\mathbb{R}^n$, and find a basis for $V$.
+
+\textbf{Solution.}
+The defining conditions are homogeneous linear equations in $(x_1,\dots,x_n)$, hence $V$ is closed under addition and scalar multiplication; therefore $V$ is a subspace.
+
+From
+\[
+x_i+x_{i+1}+x_{i+2}+x_{i+3}=0
+\]
+we obtain the recurrence
+\[
+x_{i+3}=-(x_i+x_{i+1}+x_{i+2})
+\qquad (i=1,\dots,n-3).
+\]
+Thus once $(x_1,x_2,x_3)$ are chosen, all later coordinates are determined uniquely, so $\dim V=3$.
+
+Define three vectors $v^{(1)},v^{(2)},v^{(3)}\in\mathbb{R}^n$ by
+\[
+v^{(1)}=(1,-1,1,-1,1,-1,\dots),
+\]
+\[
+v^{(2)}=(1,0,-1,0,1,0,-1,0,\dots),
+\]
+\[
+v^{(3)}=(0,1,0,-1,0,1,0,-1,\dots),
+\]
+truncated to length $n$. In each case the sum of any four consecutive components is $0$, hence $v^{(1)},v^{(2)},v^{(3)}\in V$.
+
+Their first three entries are
+\[
+(1,-1,1),\quad (1,0,-1),\quad (0,1,0),
+\]
+which are linearly independent in $\mathbb{R}^3$, so $v^{(1)},v^{(2)},v^{(3)}$ are linearly independent in $\mathbb{R}^n$.
+
+Finally, for any $\mathbf{x}\in V$ choose $\alpha,\beta,\gamma$ so that the first three coordinates match:
+\[
+x_1=\alpha+\beta,\qquad x_2=-\alpha+\gamma,\qquad x_3=\alpha-\beta,
+\]
+hence
+\[
+\alpha=\frac{x_1+x_3}{2},\qquad
+\beta=\frac{x_1-x_3}{2},\qquad
+\gamma=x_2+\frac{x_1+x_3}{2}.
+\]
+Then $\mathbf{x}$ and $\alpha v^{(1)}+\beta v^{(2)}+\gamma v^{(3)}$ satisfy the same recurrence and agree in the first three entries, so they are equal. Therefore
+\[
+V=\mathrm{span}\{v^{(1)},v^{(2)},v^{(3)}\},
+\]
+and $\{v^{(1)},v^{(2)},v^{(3)}\}$ is a basis of $V$.
+
+\section*{Problem 6 -- Cauchy--Schwarz and two applications}
+
+\textbf{Exact statement.}
+State the Cauchy--Schwarz inequality for vectors $\mathbf u$ and $\mathbf v$ in $\mathbb{R}^n$ and give a necessary and sufficient condition for equality to hold.
+\begin{enumerate}[label=(\alph*)]
+	\item By considering suitable vectors in $\mathbb{R}^3$, or otherwise, show that
+	\[
+	x^2+y^2+z^2 \ge yz+zx+xy
+	\]
+	for any real numbers $x,y,z$.
+	\item By considering suitable vectors in $\mathbb{R}^4$, or otherwise, show that
+	\[
+	3(x^2+y^2+z^2+4)-2(yz+zx+xy)-4(x+y+z)=0
+	\]
+	holds for unique real values of $x,y,z$, to be determined.
+\end{enumerate}
+
+\textbf{Solution.}
+Cauchy--Schwarz: for $\mathbf u,\mathbf v\in\mathbb{R}^n$,
+\[
+|\mathbf u\cdot \mathbf v|\le \|\mathbf u\|\,\|\mathbf v\|.
+\]
+Equality holds if and only if $\mathbf u$ and $\mathbf v$ are linearly dependent (including the case that one is zero).
+
+\begin{enumerate}[label=(\alph*)]
+	\item Let $\mathbf u=(x,y,z)$ and $\mathbf v=(y,z,x)$ in $\mathbb{R}^3$. Then
+	\[
+	\mathbf u\cdot\mathbf v=xy+yz+zx,\qquad
+	\|\mathbf u\|^2=\|\mathbf v\|^2=x^2+y^2+z^2.
+	\]
+	By Cauchy--Schwarz,
+	\[
+	|xy+yz+zx|\le \|\mathbf u\|\,\|\mathbf v\|=x^2+y^2+z^2,
+	\]
+	hence $xy+yz+zx\le x^2+y^2+z^2$.
+	Equality forces $(x,y,z)=\lambda(y,z,x)$, which over $\mathbb{R}$ implies $x=y=z$ (or all zero).
+	\item Write $s=x+y+z$ and $Q=x^2+y^2+z^2$. Since
+	\[
+	xy+yz+zx=\frac{s^2-Q}{2},
+	\]
+	the equation becomes
+	\[
+	3(Q+4)-2\cdot\frac{s^2-Q}{2}-4s=0
+	\quad\Longleftrightarrow\quad
+	4Q-s^2-4s+12=0.
+	\]
+	Let $m=s/3$ and set $p=x-m$, $q=y-m$, $r=z-m$ so that $p+q+r=0$ and
+	\[
+	Q=3m^2+(p^2+q^2+r^2).
+	\]
+	Substitution gives
+	\[
+	4Q-s^2-4s+12
+	=3(m-2)^2+4(p^2+q^2+r^2).
+	\]
+	Hence the equation holds iff
+	\[
+	3(m-2)^2+4(p^2+q^2+r^2)=0,
+	\]
+	so $m=2$ and $p=q=r=0$, i.e.
+	\[
+	x=y=z=2.
+	\]
+	Therefore the unique real solution is $(x,y,z)=(2,2,2)$.
+\end{enumerate}
+
+section*{Problem 5 -- A linear recurrence subspace in $\mathbb{R}^n$}
+
+\textbf{Exact statement.}
+Let $V$ be the set of all vectors $\mathbf{x}=(x_1,\dots,x_n)\in\mathbb{R}^n$ ($n\ge 4$) such that
+\[
+x_i+x_{i+1}+x_{i+2}+x_{i+3}=0
+\quad\text{for}\quad i=1,2,\dots,n-3.
+\]
+Show that $V$ is a subspace of $\mathbb{R}^n$, and find a basis for $V$.
+
+\textbf{Solution.}
+The defining conditions are homogeneous linear equations in $(x_1,\dots,x_n)$, hence $V$ is closed under addition and scalar multiplication; therefore $V$ is a subspace.
+
+From
+\[
+x_i+x_{i+1}+x_{i+2}+x_{i+3}=0
+\]
+we obtain the recurrence
+\[
+x_{i+3}=-(x_i+x_{i+1}+x_{i+2})
+\qquad (i=1,\dots,n-3).
+\]
+Thus once $(x_1,x_2,x_3)$ are chosen, all later coordinates are determined uniquely, so $\dim V=3$.
+
+Define three vectors $v^{(1)},v^{(2)},v^{(3)}\in\mathbb{R}^n$ by
+\[
+v^{(1)}=(1,-1,1,-1,1,-1,\dots),
+\]
+\[
+v^{(2)}=(1,0,-1,0,1,0,-1,0,\dots),
+\]
+\[
+v^{(3)}=(0,1,0,-1,0,1,0,-1,\dots),
+\]
+truncated to length $n$. In each case the sum of any four consecutive components is $0$, hence $v^{(1)},v^{(2)},v^{(3)}\in V$.
+
+Their first three entries are
+\[
+(1,-1,1),\quad (1,0,-1),\quad (0,1,0),
+\]
+which are linearly independent in $\mathbb{R}^3$, so $v^{(1)},v^{(2)},v^{(3)}$ are linearly independent in $\mathbb{R}^n$.
+
+Finally, for any $\mathbf{x}\in V$ choose $\alpha,\beta,\gamma$ so that the first three coordinates match:
+\[
+x_1=\alpha+\beta,\qquad x_2=-\alpha+\gamma,\qquad x_3=\alpha-\beta,
+\]
+hence
+\[
+\alpha=\frac{x_1+x_3}{2},\qquad
+\beta=\frac{x_1-x_3}{2},\qquad
+\gamma=x_2+\frac{x_1+x_3}{2}.
+\]
+Then $\mathbf{x}$ and $\alpha v^{(1)}+\beta v^{(2)}+\gamma v^{(3)}$ satisfy the same recurrence and agree in the first three entries, so they are equal. Therefore
+\[
+V=\mathrm{span}\{v^{(1)},v^{(2)},v^{(3)}\},
+\]
+and $\{v^{(1)},v^{(2)},v^{(3)}\}$ is a basis of $V$.
+
+section*{Problem 6 -- Cauchy--Schwarz and two applications}
+
+\textbf{Exact statement.}
+State the Cauchy--Schwarz inequality for vectors $\mathbf u$ and $\mathbf v$ in $\mathbb{R}^n$ and give a necessary and sufficient condition for equality to hold.
+\begin{enumerate}[label=(\alph*)]
+	\item By considering suitable vectors in $\mathbb{R}^3$, or otherwise, show that
+	\[
+	x^2+y^2+z^2 \ge yz+zx+xy
+	\]
+	for any real numbers $x,y,z$.
+	\item By considering suitable vectors in $\mathbb{R}^4$, or otherwise, show that
+	\[
+	3(x^2+y^2+z^2+4)-2(yz+zx+xy)-4(x+y+z)=0
+	\]
+	holds for unique real values of $x,y,z$, to be determined.
+\end{enumerate}
+
+\textbf{Solution.}
+Cauchy--Schwarz: for $\mathbf u,\mathbf v\in\mathbb{R}^n$,
+\[
+|\mathbf u\cdot \mathbf v|\le \|\mathbf u\|\,\|\mathbf v\|.
+\]
+Equality holds if and only if $\mathbf u$ and $\mathbf v$ are linearly dependent (including the case that one is zero).
+
+\begin{enumerate}[label=(\alph*)]
+	\item Let $\mathbf u=(x,y,z)$ and $\mathbf v=(y,z,x)$ in $\mathbb{R}^3$. Then
+	\[
+	\mathbf u\cdot\mathbf v=xy+yz+zx,\qquad
+	\|\mathbf u\|^2=\|\mathbf v\|^2=x^2+y^2+z^2.
+	\]
+	By Cauchy--Schwarz,
+	\[
+	|xy+yz+zx|\le \|\mathbf u\|\,\|\mathbf v\|=x^2+y^2+z^2,
+	\]
+	hence $xy+yz+zx\le x^2+y^2+z^2$.
+	Equality forces $(x,y,z)=\lambda(y,z,x)$, which over $\mathbb{R}$ implies $x=y=z$ (or all zero).
+	\item Write $s=x+y+z$ and $Q=x^2+y^2+z^2$. Since
+	\[
+	xy+yz+zx=\frac{s^2-Q}{2},
+	\]
+	the equation becomes
+	\[
+	3(Q+4)-2\cdot\frac{s^2-Q}{2}-4s=0
+	\quad\Longleftrightarrow\quad
+	4Q-s^2-4s+12=0.
+	\]
+	Let $m=s/3$ and set $p=x-m$, $q=y-m$, $r=z-m$ so that $p+q+r=0$ and
+	\[
+	Q=3m^2+(p^2+q^2+r^2).
+	\]
+	Substitution gives
+	\[
+	4Q-s^2-4s+12
+	=3(m-2)^2+4(p^2+q^2+r^2).
+	\]
+	Hence the equation holds iff
+	\[
+	3(m-2)^2+4(p^2+q^2+r^2)=0,
+	\]
+	so $m=2$ and $p=q=r=0$, i.e.
+	\[
+	x=y=z=2.
+	\]
+	Therefore the unique real solution is $(x,y,z)=(2,2,2)$.
+\end{enumerate}
+
+\textbf{Alternative basis (constructed from initial conditions).}
+From
+\[
+x_i+x_{i+1}+x_{i+2}+x_{i+3}=0
+\]
+we obtain the recurrence
+\[
+x_{i+3}=-(x_i+x_{i+1}+x_{i+2}),
+\]
+so every $\mathbf x\in V$ is uniquely determined by $(x_1,x_2,x_3)$.
+
+Define $\mathbf b^{(1)},\mathbf b^{(2)},\mathbf b^{(3)}\in\mathbb R^n$ as the unique vectors satisfying the recurrence with initial triples
+\[
+\mathbf b^{(1)}_{1..3}=(1,0,0),\qquad
+\mathbf b^{(2)}_{1..3}=(0,1,0),\qquad
+\mathbf b^{(3)}_{1..3}=(0,0,1).
+\]
+Then (by iterating the recurrence) these are periodic of period $4$:
+\[
+\mathbf b^{(1)}=(1,0,0,-1,\,1,0,0,-1,\,\dots),
+\]
+\[
+\mathbf b^{(2)}=(0,1,0,-1,\,0,1,0,-1,\,\dots),
+\]
+\[
+\mathbf b^{(3)}=(0,0,1,-1,\,0,0,1,-1,\,\dots),
+\]
+truncated to length $n$.
+
+They are linearly independent because their first three entries are the standard basis of $\mathbb R^3$.
+Moreover, for any $\mathbf x\in V$, the vector
+\[
+x_1\mathbf b^{(1)}+x_2\mathbf b^{(2)}+x_3\mathbf b^{(3)}
+\]
+satisfies the same recurrence and has the same first three components as $\mathbf x$, hence equals $\mathbf x$.
+Therefore $\{\mathbf b^{(1)},\mathbf b^{(2)},\mathbf b^{(3)}\}$ is a basis of $V$ and $\dim V=3$.
+
+\section*{Problem 7 -- Projection and cross-product maps (unit vector $\mathbf n\in\mathbb R^3$)}
+
+\textbf{Exact statement.}
+Let $\mathbf n$ be a unit vector in $\mathbb R^3$. Identify the image and kernel (null space) of each of the following linear maps $\mathbb R^3\to\mathbb R^3$:
+\[
+\text{(a)}\quad T:\ \mathbf x\mapsto \mathbf x'=\mathbf x-(\mathbf x\cdot\mathbf n)\mathbf n,
+\qquad
+\text{(b)}\quad Q:\ \mathbf x\mapsto \mathbf x'=\mathbf n\times \mathbf x.
+\]
+Show that $T^2=T$ and interpret the map $T$ geometrically. Interpret the maps $Q^2$ and $Q^3+Q$, and show that $Q^4=T$.
+
+\textbf{Solution.}
+For $T$, write $\mathbf x=\mathbf x_\perp+(\mathbf x\cdot\mathbf n)\mathbf n$ with $\mathbf x_\perp\cdot\mathbf n=0$. Then
+\[
+T(\mathbf x)=\mathbf x-(\mathbf x\cdot\mathbf n)\mathbf n=\mathbf x_\perp.
+\]
+Hence
+\[
+\ker T=\mathrm{span}\{\mathbf n\},\qquad \mathrm{Im}\,T=\mathbf n^\perp=\{\mathbf y:\mathbf y\cdot\mathbf n=0\}.
+\]
+Also $T(\mathbf x)\cdot\mathbf n=0$, so
+\[
+T^2(\mathbf x)=T(T(\mathbf x))=T(\mathbf x),
+\]
+i.e. $T^2=T$. Geometrically, $T$ is the orthogonal projection onto the plane $\mathbf n^\perp$.
+
+For $Q(\mathbf x)=\mathbf n\times\mathbf x$, we have $\mathbf n\times\mathbf x=\mathbf 0$ iff $\mathbf x$ is parallel to $\mathbf n$, so
+\[
+\ker Q=\mathrm{span}\{\mathbf n\}.
+\]
+Also $\mathbf n\cdot(\mathbf n\times\mathbf x)=0$, so $\mathrm{Im}\,Q\subseteq \mathbf n^\perp$. Conversely, if $\mathbf y\in\mathbf n^\perp$, take $\mathbf x=-\mathbf n\times\mathbf y$ and use
+\[
+\mathbf n\times(\mathbf n\times\mathbf y)=\mathbf n(\mathbf n\cdot\mathbf y)-\mathbf y(\mathbf n\cdot\mathbf n)=-\mathbf y
+\]
+to get $Q(\mathbf x)=\mathbf y$. Thus $\mathrm{Im}\,Q=\mathbf n^\perp$.
+
+Moreover,
+\[
+Q^2(\mathbf x)=\mathbf n\times(\mathbf n\times\mathbf x)=\mathbf n(\mathbf n\cdot\mathbf x)-\mathbf x
+=-(\mathbf x-(\mathbf x\cdot\mathbf n)\mathbf n)=-T(\mathbf x),
+\]
+so $Q^2=-T$. Then
+\[
+Q^3=Q(Q^2)=Q(-T)=-QT.
+\]
+But $Q(\mathbf x)=Q(T\mathbf x)$ since $Q$ kills the component parallel to $\mathbf n$, hence $QT=Q$ and $Q^3=-Q$, i.e. $Q^3+Q=0$.
+Finally,
+\[
+Q^4=(Q^2)^2=(-T)^2=T^2=T.
+\]
+
+\section*{Problem 8 -- Images and kernels of two maps on $\mathbb R^3$}
+
+\textbf{Exact statement.}
+Give a geometrical description of the images and kernels of each of the following linear maps on $\mathbb R^3$:
+\[
+\text{(a)}\quad T:(x,y,z)\mapsto (x+2y+z,\ x+2y+z,\ 2x+4y+2z),
+\]
+\[
+\text{(b)}\quad S:(x,y,z)\mapsto (x+2y+3z,\ x-y+z,\ x+5y+5z).
+\]
+
+\textbf{Solution.}
+(a) Put $s=x+2y+z$. Then
+\[
+T(x,y,z)=(s,s,2s)=s(1,1,2).
+\]
+Hence $\mathrm{Im}\,T=\mathrm{span}\{(1,1,2)\}$ (a line through the origin) and
+\[
+\ker T=\{(x,y,z):x+2y+z=0\}
+\]
+(a plane through the origin).
+
+(b) The matrix of $S$ is
+\[
+A=\begin{pmatrix}1&2&3\\ 1&-1&1\\ 1&5&5\end{pmatrix},
+\]
+which has rank $2$, so $\dim\ker S=1$ and $\dim\mathrm{Im}\,S=2$.
+Solving $A(x,y,z)^T=0$ gives a kernel direction $(-5,-2,3)$, hence
+\[
+\ker S=\mathrm{span}\{(-5,-2,3)\}.
+\]
+A basis for the image is given by independent columns, e.g.
+\[
+(1,1,1),\quad (2,-1,5),
+\]
+so $\mathrm{Im}\,S=\mathrm{span}\{(1,1,1),(2,-1,5)\}$, a plane through the origin.
+A normal vector is $(1,1,1)\times(2,-1,5)=(2,-1,-1)$, so equivalently
+\[
+\mathrm{Im}\,S=\{(X,Y,Z):2X-Y-Z=0\}.
+\]
+
+\section*{Problem 9 -- Image and kernel in $\mathbb R^4$ depending on parameters $a,b$}
+
+\textbf{Exact statement.}
+A linear map $\mathbb R^4\to\mathbb R^4$ is defined by $\mathbf x\mapsto M\mathbf x$, where
+\[
+M=\begin{pmatrix}
+	a&a&b&a\\
+	a&a&b&0\\
+	a&b&a&b\\
+	a&b&a&0
+\end{pmatrix}.
+\]
+Find the image and kernel of this map for all real values of $a$ and $b$.
+
+\textbf{Solution.}
+\emph{Case 1: $a=b=0$.} Then $M=0$, so $\mathrm{Im}\,M=\{0\}$ and $\ker M=\mathbb R^4$.
+
+\emph{Case 2: $a=b\neq 0$.} Then $\mathrm{rank}(M)=2$ and the equations $M\mathbf x=0$ reduce to
+\[
+x_4=0,\qquad x_1+x_2+x_3=0.
+\]
+Hence
+\[
+\ker M=\{(x_1,x_2,x_3,0):x_1+x_2+x_3=0\}
+=\mathrm{span}\{(-1,1,0,0),(-1,0,1,0)\}.
+\]
+Also the columns satisfy $c_1=c_2=c_3=a(1,1,1,1)^T$ and $c_4=a(1,0,1,0)^T$, so
+\[
+\mathrm{Im}\,M=\mathrm{span}\{(1,1,1,1),(1,0,1,0)\}
+=\{(u,v,u,v):u,v\in\mathbb R\}.
+\]
+
+\emph{Case 3: $a\neq b$.} Then $\mathrm{rank}(M)=3$ and $\dim\ker M=1$. One generator of the kernel is
+\[
+\mathbf k=(-(a+b),\,a,\,a,\,0),
+\qquad\text{so}\qquad
+\ker M=\mathrm{span}\{\mathbf k\}.
+\]
+Since $\dim(\mathrm{Im}\,M)=3$, the image is a hyperplane in $\mathbb R^4$. A vector orthogonal to all columns is
+\[
+\mathbf w=(b,-b,-a,a),
+\]
+so
+\[
+\mathrm{Im}\,M=\{\mathbf y\in\mathbb R^4:\mathbf w\cdot\mathbf y=0\}
+=\{(y_1,y_2,y_3,y_4):\ b(y_1-y_2)+a(y_4-y_3)=0\}.
+\]
+
+\section*{Problem 10 -- Rodrigues' rotation formula and extracting $\theta,\mathbf n$ from $R$}
+
+\textbf{Exact statement.}
+The linear map $\mathbb R^3\to\mathbb R^3$ defined by
+\[
+\mathbf x\mapsto \mathbf x'=\cos\theta\,\mathbf x+(\mathbf x\cdot\mathbf n)(1-\cos\theta)\,\mathbf n-\sin\theta\,(\mathbf x\times\mathbf n)
+\]
+is a rotation by angle $\theta$ in a positive sense about the unit vector $\mathbf n$.
+Check this in the case $\mathbf n=(0,0,1)$.
+
+Show that the expression above can be written as $\mathbf x'=R\mathbf x$, where $R$ is a matrix with entries $R_{ij}$ found explicitly (in terms of $\theta,n_i,\delta_{ij},\varepsilon_{ijk}$). Hence show that
+\[
+R_{ii}=2\cos\theta+1,\qquad \varepsilon_{ijk}R_{jk}=-2n_i\sin\theta.
+\]
+Determine $\theta$ and $\mathbf n$ for
+\[
+R=\frac13\begin{pmatrix}
+	2&-1&2\\
+	2&2&-1\\
+	-1&2&2
+\end{pmatrix}.
+\]
+
+\textbf{Solution.}
+For $\mathbf n=(0,0,1)$ and $\mathbf x=(x,y,z)$, we have $\mathbf x\cdot\mathbf n=z$ and
+\[
+\mathbf x\times\mathbf n=(y,-x,0),
+\]
+so
+\[
+\mathbf x'=(x\cos\theta-y\sin\theta,\ x\sin\theta+y\cos\theta,\ z),
+\]
+the standard rotation about the $z$-axis.
+
+In components,
+\[
+x'_i=\cos\theta\,x_i+(1-\cos\theta)(n_jx_j)n_i-\sin\theta\,\varepsilon_{ijk}x_jn_k,
+\]
+so $x'_i=R_{ij}x_j$ with
+\[
+R_{ij}=\cos\theta\,\delta_{ij}+(1-\cos\theta)n_in_j-\sin\theta\,\varepsilon_{ijk}n_k.
+\]
+Taking the trace gives
+\[
+R_{ii}=\cos\theta\,\delta_{ii}+(1-\cos\theta)n_in_i-\sin\theta\,\varepsilon_{iik}n_k
+=3\cos\theta+(1-\cos\theta)\cdot 1
+=1+2\cos\theta.
+\]
+Also,
+\[
+\varepsilon_{ijk}R_{jk}
+=-\sin\theta\,\varepsilon_{ijk}\varepsilon_{jkm}n_m
+=-\sin\theta\,(2\delta_{im})n_m
+=-2n_i\sin\theta.
+\]
+
+For the given matrix, $\mathrm{tr}(R)=\frac13(2+2+2)=2$, hence
+\[
+1+2\cos\theta=2\quad\Rightarrow\quad \cos\theta=\frac12\quad\Rightarrow\quad \theta=\frac{\pi}{3}.
+\]
+Next,
+\[
+(\varepsilon_{ijk}R_{jk})_{i}=(R_{32}-R_{23},\,R_{13}-R_{31},\,R_{21}-R_{12})=(1,1,1).
+\]
+Since $\varepsilon_{ijk}R_{jk}=-2\mathbf n\sin\theta$ and $\sin(\pi/3)=\sqrt3/2$, we get
+\[
+(1,1,1)=-(\sqrt3)\,\mathbf n
+\quad\Rightarrow\quad
+\mathbf n=-\frac{1}{\sqrt3}(1,1,1).
+\]
+
+\section*{Problem 11 -- $2\times2$ matrices for plane transformations and complex multiplication}
+
+\textbf{Exact statement.}
+\begin{enumerate}[label=(\alph*)]
+	\item Give examples of $2\times 2$ real matrices representing the following types of transformations in $\mathbb R^2$:
+	(i) reflection; (ii) dilation (or scaling); (iii) shear; and (iv) rotation.
+	Which of these types of transformation are always represented by a $2\times 2$ matrix with determinant $+1$?
+	For which types (i)--(iv) do transformations $A$ and $B$ of the same type obey $AB=BA$ in general?
+	\item A linear map $\mathbb R^2\to\mathbb R^2$ with $\mathbf x\mapsto \mathbf x'=M\mathbf x$ is defined by
+	$z' = cz$ where $z=x_1+i x_2$, $z'=x_1'+i x_2'$ and $c=a+ib$ is a fixed complex number.
+	Find the real $2\times 2$ matrix $M$ in terms of $a$ and $b$.
+	Which types of transformations (i)--(iv) can be obtained for particular choices of $c=a+ib$?
+\end{enumerate}
+
+\textbf{Solution.}
+\begin{enumerate}[label=(\alph*)]
+	\item Examples:
+	\[
+	\text{reflection across $x$-axis: }\;
+	\begin{pmatrix}1&0\\0&-1\end{pmatrix}\quad(\det=-1),
+	\]
+	\[
+	\text{dilation by }s:\;
+	\begin{pmatrix}s&0\\0&s\end{pmatrix}\quad(\det=s^2),
+	\]
+	\[
+	\text{shear (horizontal) by }k:\;
+	\begin{pmatrix}1&k\\0&1\end{pmatrix}\quad(\det=1),
+	\]
+	\[
+	\text{rotation by }\theta:\;
+	\begin{pmatrix}\cos\theta&-\sin\theta\\ \sin\theta&\cos\theta\end{pmatrix}\quad(\det=1).
+	\]
+	Thus rotations and (standard) shears always have determinant $+1$; reflections always have determinant $-1$; dilations have determinant $s^2$ (not always $1$).
+	
+	Commutation: dilations commute (scalar matrices), and rotations in $\mathbb R^2$ commute:
+	$Rot_\alpha Rot_\beta=Rot_{\alpha+\beta}=Rot_\beta Rot_\alpha$.
+	Reflections do not commute in general, and shears do not commute in general (only shears along the same direction commute).
+	\item Compute
+	\[
+	z'=(a+ib)(x_1+i x_2)=(ax_1-bx_2)+i(bx_1+ax_2).
+	\]
+	Hence
+	\[
+	\begin{pmatrix}x_1'\\x_2'\end{pmatrix}
+	=
+	\begin{pmatrix}a&-b\\ b&a\end{pmatrix}
+	\begin{pmatrix}x_1\\x_2\end{pmatrix},
+	\qquad
+	M=\begin{pmatrix}a&-b\\ b&a\end{pmatrix},
+	\qquad
+	\det M=a^2+b^2.
+	\]
+	Writing $c=re^{i\varphi}$ gives
+	$M=r\begin{pmatrix}\cos\varphi&-\sin\varphi\\ \sin\varphi&\cos\varphi\end{pmatrix}$,
+	i.e.\ a rotation by $\varphi$ and a uniform scaling by $r$.
+	Thus one obtains dilations (take $b=0$, $a>0$) and rotations (take $a^2+b^2=1$), but not reflections (which require $\det=-1$) nor shears.
+\end{enumerate}
+
+\section*{Problem 12 -- Reflections $H(\mathbf n)$ and rotations $R(\mathbf n,\theta)$ in $\mathbb R^3$}
+
+\textbf{Exact statement.}
+Let $R(\mathbf n,\theta)$ be the matrix corresponding to a rotation with angle $\theta$ and axis $\mathbf n$, as given in $(*)$ of Question~10.
+Let $H(\mathbf n)$ be the matrix corresponding to reflection in a plane through the origin with unit normal $\mathbf n$, as defined by
+\[
+\mathbf x\mapsto \mathbf x'=H(\mathbf n)\mathbf x=\mathbf x-2(\mathbf x\cdot\mathbf n)\mathbf n.
+\]
+In the following, $\mathbf i,\mathbf j,\mathbf k$ are the standard orthonormal basis vectors in $\mathbb R^3$.
+\begin{enumerate}[label=(\alph*)]
+	\item Find explicitly the matrices $R(\mathbf i,\pi/2)$ and $R(\mathbf j,\pi/2)$ and check that
+	$R(\mathbf i,\pi/2)R(\mathbf j,\pi/2)\neq R(\mathbf j,\pi/2)R(\mathbf i,\pi/2)$.
+	\item Show by both algebraic and geometrical means that the map $\mathbf x\mapsto \mathbf x'=-H(\mathbf n)\mathbf x$ is a rotation through angle $\pi$ about $\mathbf n$.
+	\item Given that $\mathbf n_\pm=\cos(\tfrac{\theta}{2})\mathbf i \pm \sin(\tfrac{\theta}{2})\mathbf j$, prove that
+	\[
+	H(\mathbf i)H(\mathbf n_-)=H(\mathbf n_+)H(\mathbf i)=R(\mathbf k,\theta),
+	\]
+	and draw diagrams to explain the geometrical meaning of this result.
+\end{enumerate}
+
+\textbf{Solution.}
+\begin{enumerate}[label=(\alph*)]
+	\item The $90^\circ$ rotation about the $x$-axis is
+	\[
+	R(\mathbf i,\tfrac{\pi}{2})=
+	\begin{pmatrix}
+		1&0&0\\
+		0&0&-1\\
+		0&1&0
+	\end{pmatrix},
+	\]
+	and the $90^\circ$ rotation about the $y$-axis is
+	\[
+	R(\mathbf j,\tfrac{\pi}{2})=
+	\begin{pmatrix}
+		0&0&1\\
+		0&1&0\\
+		-1&0&0
+	\end{pmatrix}.
+	\]
+	Then
+	\[
+	R(\mathbf i,\tfrac{\pi}{2})R(\mathbf j,\tfrac{\pi}{2})
+	=
+	\begin{pmatrix}
+		0&0&1\\
+		1&0&0\\
+		0&1&0
+	\end{pmatrix}
+	\neq
+	\begin{pmatrix}
+		0&1&0\\
+		0&0&-1\\
+		-1&0&0
+	\end{pmatrix}
+	=
+	R(\mathbf j,\tfrac{\pi}{2})R(\mathbf i,\tfrac{\pi}{2}),
+	\]
+	so they do not commute.
+	\item Decompose $\mathbf x=\mathbf x_\parallel+\mathbf x_\perp$ where
+	$\mathbf x_\parallel=(\mathbf x\cdot\mathbf n)\mathbf n$ and $\mathbf x_\perp\cdot\mathbf n=0$.
+	Then
+	\[
+	H(\mathbf n)\mathbf x=\mathbf x-2\mathbf x_\parallel=\mathbf x_\perp-\mathbf x_\parallel,
+	\]
+	so
+	\[
+	(-H(\mathbf n))\mathbf x=-\mathbf x_\perp+\mathbf x_\parallel.
+	\]
+	Thus $-H(\mathbf n)$ fixes the axis direction $\mathbf n$ and reverses every vector orthogonal to $\mathbf n$, i.e.\ it is a rotation by angle $\pi$ about axis $\mathbf n$.
+	\item Let $\alpha=\theta/2$, so
+	\[
+	\mathbf n_-=(\cos\alpha,-\sin\alpha,0),\qquad \mathbf n_+=(\cos\alpha,\sin\alpha,0).
+	\]
+	Using $H(\mathbf u)=I-2\mathbf u\mathbf u^{\mathsf T}$,
+	\[
+	H(\mathbf i)=\mathrm{diag}(-1,1,1),
+	\]
+	and
+	\[
+	H(\mathbf n_-)=
+	\begin{pmatrix}
+		1-2\cos^2\alpha & 2\cos\alpha\sin\alpha & 0\\
+		2\cos\alpha\sin\alpha & 1-2\sin^2\alpha & 0\\
+		0&0&1
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		-\cos(2\alpha) & \sin(2\alpha) & 0\\
+		\sin(2\alpha) & \cos(2\alpha) & 0\\
+		0&0&1
+	\end{pmatrix}.
+	\]
+	Therefore
+	\[
+	H(\mathbf i)H(\mathbf n_-)=
+	\begin{pmatrix}
+		\cos(2\alpha) & -\sin(2\alpha) & 0\\
+		\sin(2\alpha) & \cos(2\alpha) & 0\\
+		0&0&1
+	\end{pmatrix}
+	=
+	\begin{pmatrix}
+		\cos\theta & -\sin\theta & 0\\
+		\sin\theta & \cos\theta & 0\\
+		0&0&1
+	\end{pmatrix}
+	=R(\mathbf k,\theta).
+	\]
+	Similarly one checks $H(\mathbf n_+)H(\mathbf i)=R(\mathbf k,\theta)$.
+	Geometrically, $H(\mathbf i)$ and $H(\mathbf n_-)$ are reflections in two planes through the origin intersecting in the $\mathbf k$-axis; the angle between the planes is $\alpha=\theta/2$, hence their composition is a rotation about $\mathbf k$ by angle $2\alpha=\theta$.
+\end{enumerate}
+
+\section*{Theory for Problems 4--12 (Linear algebra + geometry toolbox)}
+
+\textbf{Subspaces, kernel/image, rank--nullity.}
+A subset $V\subseteq\mathbb R^n$ is a subspace iff it contains $0$ and is closed under addition and scalar multiplication.
+Equivalently, $V=\ker(A)$ for some matrix $A$, or $V=\mathrm{span}\{v_1,\dots,v_k\}$.
+
+For a linear map $L:\mathbb R^n\to\mathbb R^m$ with matrix $A$:
+\[
+\ker L=\{x:Ax=0\},\qquad \mathrm{Im}\,L=\{Ax:x\in\mathbb R^n\}=\text{column space of }A.
+\]
+Rank--nullity:
+\[
+\dim(\ker L)+\dim(\mathrm{Im}\,L)=n.
+\]
+In $\mathbb R^3$ this often forces $\ker$ and $\mathrm{Im}$ to be lines/planes unless $L$ is $0$ or invertible.
+
+\subsection*{Problem 4: combinatorial picture for the six vectors in $\mathbb R^4$}
+The six vectors are $e_i+e_j$ for $1\le i<j\le 4$, which can be viewed as the edges of the complete graph $K_4$ on vertices $\{1,2,3,4\}$.
+A useful rule of thumb:
+\begin{itemize}
+	\item A set of such vectors is linearly independent exactly when the corresponding edges contain no cycle (a forest).
+	\item A maximal independent set of size $3$ corresponds to a spanning tree on $4$ vertices.
+\end{itemize}
+Typical dependencies come from cycles, e.g.
+\[
+(e_1+e_2)+(e_3+e_4)=(e_1+e_3)+(e_2+e_4).
+\]
+
+\subsection*{Problem 5: subspace defined by a recurrence}
+The constraints
+\[
+x_i+x_{i+1}+x_{i+2}+x_{i+3}=0
+\]
+form a homogeneous linear system, hence the solution set is a subspace.
+They yield the recurrence
+\[
+x_{i+3}=-(x_i+x_{i+1}+x_{i+2}),
+\]
+so the whole vector is determined by $(x_1,x_2,x_3)$ and therefore $\dim V=3$.
+The characteristic polynomial is
+\[
+r^3+r^2+r+1=(r+1)(r^2+1),
+\]
+which explains the frequent appearance of $4$-periodic patterns.
+
+\subsection*{Problem 6: Cauchy--Schwarz as a positivity principle}
+Cauchy--Schwarz:
+\[
+|\langle u,v\rangle|\le \|u\|\,\|v\|,
+\]
+with equality iff $u$ and $v$ are linearly dependent.
+A standard proof uses
+\[
+\|u-tv\|^2\ge 0\ \ \forall t\in\mathbb R
+\]
+and discriminant $\le 0$.
+Many inequalities reduce to ``sum of squares'', e.g.
+\[
+x^2+y^2+z^2-(xy+yz+zx)=\tfrac12\big((x-y)^2+(y-z)^2+(z-x)^2\big)\ge 0.
+\]
+
+\subsection*{Problems 7--8: projections, cross-product operator, and geometry of rank}
+For unit $n$,
+\[
+T(x)=x-(x\cdot n)n
+\]
+is orthogonal projection onto $n^\perp$:
+\[
+\ker T=\mathrm{span}\{n\},\qquad \mathrm{Im}\,T=n^\perp,\qquad T^2=T.
+\]
+The cross-product map
+\[
+Q(x)=n\times x
+\]
+is represented by the skew-symmetric matrix
+\[
+[n]_\times=\begin{pmatrix}
+	0&-n_3&n_2\\
+	n_3&0&-n_1\\
+	-n_2&n_1&0
+\end{pmatrix},
+\qquad Q(x)=[n]_\times x.
+\]
+Using $n\times(n\times x)=n(n\cdot x)-x$, one gets
+\[
+Q^2=-T,\qquad Q^3=-Q,\qquad Q^4=T.
+\]
+For any $A:\mathbb R^3\to\mathbb R^3$, $\mathrm{Im}\,A$ is the column space and $\ker A$ solves $Ax=0$; the rank determines whether the image is a line (rank $1$), plane (rank $2$), or all $\mathbb R^3$ (rank $3$).
+
+\subsection*{Problem 9: parameter-dependent rank}
+For $M(a,b):\mathbb R^4\to\mathbb R^4$,
+\[
+\dim(\mathrm{Im}\,M)=\mathrm{rank}(M),\qquad \dim(\ker M)=4-\mathrm{rank}(M).
+\]
+To analyze all $(a,b)$ one typically uses rank-preserving row/column operations and studies when key minors vanish; rank drops only on special parameter loci (e.g. lines such as $a=b$, or the origin).
+
+\subsection*{Problem 10: rotations and axis--angle extraction}
+A rotation matrix satisfies $R^TR=I$ and $\det R=1$.
+It has an axis $n$ with $Rn=n$ and can be written (Rodrigues)
+\[
+R=\cos\theta\,I+(1-\cos\theta)nn^T-\sin\theta\,[n]_\times.
+\]
+Then
+\[
+\mathrm{tr}(R)=1+2\cos\theta,
+\]
+and the antisymmetric part determines $n$ via
+\[
+R-R^T=-2\sin\theta\,[n]_\times,
+\quad\text{equivalently}\quad
+(R_{32}-R_{23},\,R_{13}-R_{31},\,R_{21}-R_{12})=-2\sin\theta\,n.
+\]
+
+\subsection*{Problem 11: plane transformations and complex multiplication}
+Orthogonal maps satisfy $A^TA=I$:
+\[
+\det A=+1 \Rightarrow \text{rotation},\qquad \det A=-1 \Rightarrow \text{reflection (or reflection+rotation)}.
+\]
+Uniform scaling is $sI$; shears are typically unipotent (determinant $1$) but not angle-preserving.
+Complex multiplication $z\mapsto cz$ with $c=a+ib$ corresponds to
+\[
+\begin{pmatrix}a&-b\\ b&a\end{pmatrix}
+=r\begin{pmatrix}\cos\varphi&-\sin\varphi\\ \sin\varphi&\cos\varphi\end{pmatrix},
+\]
+so it yields rotation + uniform scaling only (no shear, no reflection).
+In $\mathbb R^2$ rotations commute; scalings commute with everything; reflections and general shears do not commute in general.
+
+\subsection*{Problem 12: Householder reflections and ``two reflections = rotation''}
+Reflection in the plane through the origin with unit normal $n$ is
+\[
+H(n)=I-2nn^T,\qquad H(n)^2=I,\qquad \det H(n)=-1.
+\]
+The composition of reflections in two planes through the origin is a rotation about their line of intersection; the rotation angle equals twice the angle between the planes (equivalently twice the angle between their normals).
+Moreover, $-H(n)$ fixes $n$ and flips every vector orthogonal to $n$, hence it is a rotation by $\pi$ about axis $n$.
+
+\section*{Problem 1 — Distance bounds from a disk (triangle inequalities)}
+
+\textbf{Exact statement.}
+Let \(D\) be the interior of the circle \(|z-1-i|=1\). Show, by using suitable inequalities for \(|z_1\pm z_2|\), that
+if \(z\in D\) then
+\[
+\sqrt5-1<|z-3|<\sqrt5+1.
+\]
+Obtain the same result geometrically \([\,\)start by considering the line through the centre of the circle and the point \(3\,]\).
+
+\textbf{Solution.}
+Let \(c=1+i\). Then \(|z-c|<1\) for \(z\in D\). Write
+\[
+z-3=(z-c)+(c-3).
+\]
+By the triangle inequality and reverse triangle inequality,
+\[
+|z-3|\le |z-c|+|c-3|,\qquad |z-3|\ge \bigl||c-3|-|z-c|\bigr|.
+\]
+Now
+\[
+|c-3|=|(1+i)-3|=|-2+i|=\sqrt{4+1}=\sqrt5.
+\]
+Hence, since \(|z-c|<1\),
+\[
+|z-3|<1+\sqrt5,\qquad |z-3|>\sqrt5-1,
+\]
+which gives \(\sqrt5-1<|z-3|<\sqrt5+1\).
+
+Geometrically: \(D\) is the open disk of radius \(1\) centered at \(c\). The distance from the fixed point \(3\) to points in that disk ranges strictly between \(|3-c|-1=\sqrt5-1\) and \(|3-c|+1=\sqrt5+1\).
+
+
+\section*{Problem 2 — Modulus–argument forms on the unit circle; a Cayley transform locus}
+
+\textbf{Exact statement.}
+Given \(|z|=1\) and \(\arg z=\theta\), find both algebraically and geometrically the modulus-argument forms of
+(i) \(1+z\), (ii) \(1-\bar z\).
+
+Show that the locus of \(w\) as \(z\) varies with \(|z|=1\), where \(w\) is given by
+\[
+w^2=\frac{1-z}{1+z},
+\]
+is a pair of straight lines.
+
+\textbf{Solution.}
+Since \(|z|=1\) and \(\arg z=\theta\), write \(z=e^{i\theta}\) and \(\bar z=e^{-i\theta}\).
+
+\medskip
+\noindent\textbf{(i) Modulus–argument of \(1+z\).}
+\[
+1+z=1+e^{i\theta}=e^{i\theta/2}\bigl(e^{-i\theta/2}+e^{i\theta/2}\bigr)
+=2\cos\!\left(\frac\theta2\right)e^{i\theta/2}.
+\]
+So \(|1+z|=2\bigl|\cos(\theta/2)\bigr|\), and an argument is \(\theta/2\) (adjust by \(\pi\) if \(\cos(\theta/2)<0\)).
+
+Geometrically: \(1+z\) is the diagonal of the parallelogram with sides \(1\) and \(z\); its direction bisects the angle between them, hence angle \(\theta/2\).
+
+\medskip
+\noindent\textbf{(ii) Modulus–argument of \(1-\bar z\).}
+\[
+1-\bar z = 1-e^{-i\theta}
+= e^{-i\theta/2}\bigl(e^{i\theta/2}-e^{-i\theta/2}\bigr)
+=2i\sin\!\left(\frac\theta2\right)e^{-i\theta/2}.
+\]
+Equivalently,
+\[
+1-\bar z = 2\sin\!\left(\frac\theta2\right)\,e^{\,i(\pi/2-\theta/2)}.
+\]
+So \(|1-\bar z|=2\bigl|\sin(\theta/2)\bigr|\), and an argument is \(\pi/2-\theta/2\) (adjust by \(\pi\) if \(\sin(\theta/2)<0\)).
+
+Geometrically: \(|1-\bar z|=|1-e^{-i\theta}|\) is the chord length between \(1\) and \(e^{-i\theta}\) on the unit circle.
+
+\medskip
+\noindent\textbf{Locus of \(w\).}
+For \(z=e^{i\theta}\) (excluding \(z=-1\)),
+\[
+\frac{1-z}{1+z}
+=\frac{1-e^{i\theta}}{1+e^{i\theta}}
+=\frac{e^{-i\theta/2}-e^{i\theta/2}}{e^{-i\theta/2}+e^{i\theta/2}}
+=\frac{-2i\sin(\theta/2)}{2\cos(\theta/2)}
+=-i\tan\!\left(\frac\theta2\right).
+\]
+Thus \(w^2\in i\mathbb{R}\) (purely imaginary). Write \(w=u+iv\). Then
+\[
+w^2=(u^2-v^2)+2uvi
+\]
+is purely imaginary iff \(u^2-v^2=0\), i.e. \(v=\pm u\). Therefore \(w\) lies on the two straight lines
+\[
+v=u \quad\text{or}\quad v=-u.
+\]
+
+
+\section*{Problem 3 — Medians of a complex triangle are concurrent}
+
+\textbf{Exact statement.}
+Consider a triangle in the complex plane with vertices at \(0\), \(z_1\) and \(z_2\). Write down an expression for the
+general point on the median through \(z_1\), and a similar expression for the general point on the median through \(z_2\).
+Show that the three medians of the triangle are concurrent.
+
+\textbf{Solution.}
+The midpoint of the side from \(0\) to \(z_2\) is \(z_2/2\). Hence the median through \(z_1\) is the line segment joining
+\(z_1\) to \(z_2/2\), so a general point on it is
+\[
+m_1(t)=(1-t)z_1+t\frac{z_2}{2},\qquad t\in\mathbb{R}.
+\]
+Similarly, the midpoint of the side from \(0\) to \(z_1\) is \(z_1/2\), so the median through \(z_2\) is
+\[
+m_2(s)=(1-s)z_2+s\frac{z_1}{2},\qquad s\in\mathbb{R}.
+\]
+Let
+\[
+g=\frac{z_1+z_2}{3}.
+\]
+Then
+\[
+g=\frac13 z_1+\frac13 z_2=(1-\tfrac23)z_1+\tfrac23\cdot\frac{z_2}{2}=m_1\!\left(\frac23\right),
+\]
+so \(g\) lies on the median through \(z_1\). Similarly,
+\[
+g=(1-\tfrac23)z_2+\tfrac23\cdot\frac{z_1}{2}=m_2\!\left(\frac23\right),
+\]
+so \(g\) lies on the median through \(z_2\). The median through \(0\) goes to the midpoint \((z_1+z_2)/2\), and
+\[
+g=\frac{2}{3}\cdot \frac{z_1+z_2}{2},
+\]
+so \(g\) lies on that median too. Hence all three medians meet at \(g\), so they are concurrent.
+
+
+\section*{Problem 4 — Fifth roots of unity factorization and a trig identity}
+
+\textbf{Exact statement.}
+Express
+\[
+I=\frac{z^5-1}{z-1}
+\]
+as a polynomial in \(z\). By considering the complex fifth root of unity \(\omega\), obtain the four factors of \(I\) linear in \(z\).
+Hence write \(I\) as the product of two real quadratic factors. By considering the term in \(z^2\) in the identity so obtained for \(I\),
+show that
+\[
+4\cos\frac{\pi}{5}\,\sin\frac{\pi}{10}=1.
+\]
+
+\textbf{Solution.}
+For \(z\neq1\),
+\[
+\frac{z^5-1}{z-1}=z^4+z^3+z^2+z+1,
+\]
+so as a polynomial,
+\[
+I=z^4+z^3+z^2+z+1.
+\]
+Let \(\omega=e^{2\pi i/5}\). Then
+\[
+z^5-1=(z-1)(z-\omega)(z-\omega^2)(z-\omega^3)(z-\omega^4),
+\]
+hence
+\[
+I=(z-\omega)(z-\omega^2)(z-\omega^3)(z-\omega^4).
+\]
+Pair conjugates \(\omega^4=\overline{\omega}\) and \(\omega^3=\overline{\omega^2}\):
+\[
+(z-\omega)(z-\omega^4)=z^2-(\omega+\omega^4)z+1
+= z^2-2\cos\!\left(\frac{2\pi}{5}\right)z+1,
+\]
+\[
+(z-\omega^2)(z-\omega^3)=z^2-(\omega^2+\omega^3)z+1
+= z^2-2\cos\!\left(\frac{4\pi}{5}\right)z+1.
+\]
+Therefore
+\[
+I=\Bigl(z^2-2\cos\!\left(\frac{2\pi}{5}\right)z+1\Bigr)
+\Bigl(z^2-2\cos\!\left(\frac{4\pi}{5}\right)z+1\Bigr).
+\]
+Expanding \((z^2-az+1)(z^2-bz+1)\) gives the \(z^2\)-coefficient \(ab+2\). Comparing with
+\(I=z^4+z^3+z^2+z+1\) yields
+\[
+ab+2=1\quad\Longrightarrow\quad ab=-1,
+\]
+with \(a=2\cos(2\pi/5)\), \(b=2\cos(4\pi/5)\). Hence
+\[
+4\cos\!\left(\frac{2\pi}{5}\right)\cos\!\left(\frac{4\pi}{5}\right)=-1.
+\]
+Using \(\cos(4\pi/5)=-\cos(\pi/5)\) and \(\cos(2\pi/5)=\sin(\pi/10)\), we get
+\[
+4\cos\!\left(\frac{\pi}{5}\right)\sin\!\left(\frac{\pi}{10}\right)=1.
+\]
+
+
+\section*{Problem 5 — Solve \(\sin z=2\) in \(\mathbb{C}\)}
+
+\textbf{Exact statement.}
+Find all complex numbers \(z\) that satisfy \(\sin z=2\).
+
+\textbf{Solution.}
+Write \(z=x+iy\). Then
+\[
+\sin(x+iy)=\sin x\,\cosh y + i\cos x\,\sinh y.
+\]
+We need \(\sin z=2\) real, so \(\cos x\,\sinh y=0\). Since \(\sin z\neq 0\), we must have \(\cos x=0\), hence
+\[
+x=\frac{\pi}{2}+k\pi.
+\]
+Then \(\sin x = (-1)^k\), so
+\[
+\sin z = (-1)^k \cosh y.
+\]
+To equal \(2>0\), we need \(k\) even, i.e. \(x=\frac{\pi}{2}+2\pi n\). Then \(\cosh y=2\), so
+\[
+y=\pm \operatorname{arcosh}(2)=\pm \ln(2+\sqrt3).
+\]
+Therefore all solutions are
+\[
+z=\frac{\pi}{2}+2\pi n \ \pm\ i\ln(2+\sqrt3),\qquad n\in\mathbb{Z}.
+\]
+\section*{Problem 6 — Apollonius circle; a coaxal family and orthogonal intersections}
+
+\textbf{Exact statement.}
+(a) Let \(z,a,b\in\mathbb C\) (\(a\neq b\)) correspond to points \(P,A,B\) in the Argand diagram.
+Let \(C_\lambda\) be the locus of \(P\) defined by
+\[
+\frac{|PA|}{|PB|}=\lambda,
+\]
+where \(\lambda\) is a fixed positive real constant. Show that \(C_\lambda\) is a circle if \(\lambda\neq 1\),
+and find its centre and radius. What happens if \(\lambda=1\)?
+
+(b) For the case \(a=-b=p\) with \(p\in\mathbb R\), and for each fixed \(\mu\in\mathbb R\), show that
+\[
+S_\mu=\left\{z\in\mathbb C:\ |z-i\mu|=\sqrt{p^2+\mu^2}\right\}
+\]
+is a circle passing through \(A\) and \(B\) with its centre on the perpendicular bisector of \(AB\).
+Show that the circles \(C_\lambda\) and \(S_\mu\) intersect orthogonally for all \(\lambda,\mu\).
+
+\textbf{Solution.}
+\textbf{(a)} The condition \(|PA|/|PB|=\lambda\) is
+\[
+|z-a|=\lambda |z-b|
+\quad\Longleftrightarrow\quad
+|z-a|^2=\lambda^2|z-b|^2.
+\]
+Expand:
+\[
+|z|^2- z\bar a-\bar z a+|a|^2=\lambda^2\bigl(|z|^2-z\bar b-\bar z b+|b|^2\bigr).
+\]
+So
+\[
+(1-\lambda^2)|z|^2- z(\bar a-\lambda^2\bar b)-\bar z(a-\lambda^2 b)+(|a|^2-\lambda^2|b|^2)=0.
+\]
+If \(\lambda\neq 1\), divide by \(1-\lambda^2\) and complete the square:
+\[
+\left|\,z-\frac{a-\lambda^2 b}{\,1-\lambda^2\,}\right|^2
+=\frac{\lambda^2|a-b|^2}{(1-\lambda^2)^2}.
+\]
+Hence \(C_\lambda\) is a circle with centre
+\[
+c_\lambda=\frac{a-\lambda^2 b}{1-\lambda^2}
+\]
+and radius
+\[
+r_\lambda=\frac{\lambda|a-b|}{|1-\lambda^2|}.
+\]
+If \(\lambda=1\), the condition is \(|z-a|=|z-b|\): the locus is the perpendicular bisector of \(AB\).
+
+\medskip
+\noindent\textbf{(b)} Here \(a=p\), \(b=-p\) with \(p\in\mathbb R\). The set
+\[
+S_\mu:\ |z-i\mu|=\sqrt{p^2+\mu^2}
+\]
+is a circle with centre \(i\mu\), which lies on the imaginary axis (the perpendicular bisector of \(AB\)).
+It passes through \(A=p\) and \(B=-p\) since
+\[
+|p-i\mu|=\sqrt{p^2+\mu^2},\qquad |-p-i\mu|=\sqrt{p^2+\mu^2}.
+\]
+From (a),
+\[
+c_\lambda=\frac{p-\lambda^2(-p)}{1-\lambda^2}=p\frac{1+\lambda^2}{1-\lambda^2}\in\mathbb R,\qquad
+r_\lambda=\frac{\lambda|2p|}{|1-\lambda^2|}.
+\]
+Two circles meet orthogonally iff the squared distance between centres equals the sum of squared radii:
+\[
+|c_\lambda-i\mu|^2=r_\lambda^2+(p^2+\mu^2).
+\]
+But
+\[
+|c_\lambda-i\mu|^2=c_\lambda^2+\mu^2,
+\]
+so it suffices to show \(c_\lambda^2=r_\lambda^2+p^2\). Indeed,
+\[
+c_\lambda^2=p^2\frac{(1+\lambda^2)^2}{(1-\lambda^2)^2},\qquad
+r_\lambda^2=\frac{4\lambda^2p^2}{(1-\lambda^2)^2},
+\]
+hence
+\[
+c_\lambda^2-r_\lambda^2
+=\frac{p^2\bigl((1+\lambda^2)^2-4\lambda^2\bigr)}{(1-\lambda^2)^2}
+=\frac{p^2(1-\lambda^2)^2}{(1-\lambda^2)^2}
+=p^2.
+\]
+Therefore \(C_\lambda\) and \(S_\mu\) intersect orthogonally for all \(\lambda\neq 1\).
+If \(\lambda=1\), then \(C_1\) is the imaginary axis, which passes through the centre \(i\mu\) of \(S_\mu\),
+so it meets \(S_\mu\) orthogonally as well.
+
+
+\section*{Problem 7 — Concurrency of the altitudes (orthocenter) via vectors}
+
+\textbf{Exact statement.}
+Show by vector methods that the altitudes of a triangle are concurrent.
+\([\,\)Hint: let the altitudes \(AD,BE\) of \(\triangle ABC\) meet at \(H\), and show that \(CH\) is perpendicular to \(AB\,]\).
+
+\textbf{Solution.}
+Let the position vectors of \(A,B,C,H\) be \(\mathbf a,\mathbf b,\mathbf c,\mathbf h\).
+Since \(H\) lies on the altitude from \(A\), we have \(AH\perp BC\), i.e.
+\[
+(\mathbf h-\mathbf a)\cdot(\mathbf c-\mathbf b)=0
+\quad\Longrightarrow\quad
+\mathbf h\cdot(\mathbf c-\mathbf b)=\mathbf a\cdot(\mathbf c-\mathbf b).
+\]
+Since \(H\) lies on the altitude from \(B\), we have \(BH\perp AC\), i.e.
+\[
+(\mathbf h-\mathbf b)\cdot(\mathbf c-\mathbf a)=0
+\quad\Longrightarrow\quad
+\mathbf h\cdot(\mathbf c-\mathbf a)=\mathbf b\cdot(\mathbf c-\mathbf a).
+\]
+Now write \(\mathbf b-\mathbf a=(\mathbf b-\mathbf c)+(\mathbf c-\mathbf a)\). Then
+\[
+\mathbf h\cdot(\mathbf b-\mathbf a)
+=\mathbf h\cdot(\mathbf b-\mathbf c)+\mathbf h\cdot(\mathbf c-\mathbf a)
+=-\mathbf h\cdot(\mathbf c-\mathbf b)+\mathbf h\cdot(\mathbf c-\mathbf a).
+\]
+Substitute the relations above:
+\[
+\mathbf h\cdot(\mathbf b-\mathbf a)
+=-\mathbf a\cdot(\mathbf c-\mathbf b)+\mathbf b\cdot(\mathbf c-\mathbf a)
+=\mathbf c\cdot(\mathbf b-\mathbf a).
+\]
+Therefore
+\[
+(\mathbf h-\mathbf c)\cdot(\mathbf b-\mathbf a)=0,
+\]
+so \(CH\perp AB\). Hence \(H\) also lies on the altitude from \(C\), and all three altitudes are concurrent.
+
+\section*{Problem 8 — A vector equation with dot–product constraints and equality cases}
+
+\textbf{Exact statement.}
+In three dimensions, the vectors \(\mathbf x,\mathbf y,\mathbf a\) satisfy
+\[
+\mathbf x+\mathbf y(\mathbf x\cdot \mathbf y)=\mathbf a.
+\]
+Show that
+\[
+(\mathbf x\cdot \mathbf y)^2=\frac{|\mathbf a|^2-|\mathbf x|^2}{2+|\mathbf y|^2}.
+\]
+Use an inequality involving \(\mathbf x\cdot \mathbf y\) and the lengths of \(\mathbf x\) and \(\mathbf y\) to deduce that
+\[
+|\mathbf x|\,(1+|\mathbf y|^2)\ge |\mathbf a|\ge |\mathbf x|.
+\]
+Explain the circumstances in which either of the inequalities above become equalities, and describe the relation between
+\(\mathbf x,\mathbf y,\mathbf a\) in these circumstances.
+
+\textbf{Solution.}
+Let \(t=\mathbf x\cdot \mathbf y\). Then \(\mathbf a=\mathbf x+t\mathbf y\). Taking norms,
+\[
+|\mathbf a|^2=|\mathbf x+t\mathbf y|^2
+=|\mathbf x|^2+2t(\mathbf x\cdot \mathbf y)+t^2|\mathbf y|^2
+=|\mathbf x|^2+t^2(2+|\mathbf y|^2).
+\]
+Hence
+\[
+t^2=\frac{|\mathbf a|^2-|\mathbf x|^2}{2+|\mathbf y|^2}.
+\]
+From this, \(|\mathbf a|^2\ge |\mathbf x|^2\), so \(|\mathbf a|\ge |\mathbf x|\).
+Also by Cauchy--Schwarz, \(|t|=|\mathbf x\cdot \mathbf y|\le |\mathbf x||\mathbf y|\), so
+\[
+\frac{|\mathbf a|^2-|\mathbf x|^2}{2+|\mathbf y|^2}=t^2\le |\mathbf x|^2|\mathbf y|^2.
+\]
+Therefore
+\[
+|\mathbf a|^2\le |\mathbf x|^2\bigl(1+(2+|\mathbf y|^2)|\mathbf y|^2\bigr)
+=|\mathbf x|^2(1+|\mathbf y|^2)^2,
+\]
+hence \(|\mathbf a|\le |\mathbf x|(1+|\mathbf y|^2)\).
+
+Equality \(|\mathbf a|=|\mathbf x|\) holds iff \(t=0\), i.e. \(\mathbf x\cdot \mathbf y=0\), in which case \(\mathbf a=\mathbf x\).
+Equality \(|\mathbf a|=|\mathbf x|(1+|\mathbf y|^2)\) holds iff \(|\mathbf x\cdot\mathbf y|=|\mathbf x||\mathbf y|\), i.e. \(\mathbf x\parallel \mathbf y\),
+and then \(\mathbf a=\mathbf x+t\mathbf y\) is also parallel to them.
+
+
+\section*{Problem 9 — Cross products in a triangle; sine rule; a converse}
+
+\textbf{Exact statement.}
+(a) In \(\triangle ABC\), let \(\overrightarrow{AB}=\mathbf u\), \(\overrightarrow{BC}=\mathbf v\) and \(\overrightarrow{CA}=\mathbf w\).
+Show that
+\[
+\mathbf u\times \mathbf v=\mathbf v\times \mathbf w=\mathbf w\times \mathbf u,
+\]
+and hence obtain the sine rule for \(\triangle ABC\).
+
+(b) Given any three vectors \(\mathbf p,\mathbf q,\mathbf r\) such that
+\[
+\mathbf p\times \mathbf q=\mathbf q\times \mathbf r=\mathbf r\times \mathbf p,
+\]
+and \(|\mathbf p\times \mathbf q|\ne 0\), show that
+\[
+\mathbf p+\mathbf q+\mathbf r=\mathbf 0.
+\]
+
+\textbf{Solution.}
+\textbf{(a)} In a triangle,
+\[
+\mathbf u+\mathbf v+\mathbf w=\mathbf 0
+\quad\Longrightarrow\quad
+\mathbf w=-(\mathbf u+\mathbf v).
+\]
+Then
+\[
+\mathbf v\times \mathbf w=\mathbf v\times\bigl(-(\mathbf u+\mathbf v)\bigr)=-(\mathbf v\times\mathbf u)=\mathbf u\times\mathbf v,
+\]
+and similarly \(\mathbf w\times\mathbf u=\mathbf u\times\mathbf v\). Hence
+\(\mathbf u\times\mathbf v=\mathbf v\times\mathbf w=\mathbf w\times\mathbf u\).
+
+Taking magnitudes and using \(|\mathbf a\times\mathbf b|=|\mathbf a||\mathbf b|\sin(\angle(\mathbf a,\mathbf b))\),
+we obtain
+\[
+|\mathbf u||\mathbf v|\sin B=|\mathbf v||\mathbf w|\sin C=|\mathbf w||\mathbf u|\sin A,
+\]
+which gives the sine rule
+\[
+\frac{|BC|}{\sin A}=\frac{|CA|}{\sin B}=\frac{|AB|}{\sin C}.
+\]
+
+\medskip
+\noindent\textbf{(b)} From \(\mathbf p\times\mathbf q=\mathbf q\times\mathbf r\),
+\[
+\mathbf p\times\mathbf q-\mathbf q\times\mathbf r=\mathbf 0
+\ \Longrightarrow\ 
+\mathbf p\times\mathbf q+\mathbf r\times\mathbf q=\mathbf 0
+\ \Longrightarrow\ 
+(\mathbf p+\mathbf r)\times\mathbf q=\mathbf 0,
+\]
+so \(\mathbf p+\mathbf r\parallel \mathbf q\).
+Also \(\mathbf r\times\mathbf p=\mathbf p\times\mathbf q\) gives \((\mathbf q+\mathbf r)\times\mathbf p=\mathbf 0\),
+so \(\mathbf q+\mathbf r\parallel \mathbf p\).
+Since \(|\mathbf p\times\mathbf q|\ne 0\), \(\mathbf p\) and \(\mathbf q\) are linearly independent, forcing
+\(\mathbf r=-\mathbf p-\mathbf q\). Hence \(\mathbf p+\mathbf q+\mathbf r=\mathbf 0\).
+
+
+\section*{Problem 10 — Geometric meaning of affine combinations (line and plane)}
+
+\textbf{Exact statement.}
+Interpret geometrically the equations
+\[
+\mathbf r=(1-\lambda)\mathbf a+\lambda \mathbf b,
+\qquad
+\mathbf r=(1-\lambda-\mu)\mathbf a+\lambda \mathbf b+\mu \mathbf c,
+\]
+where \(\mathbf a,\mathbf b,\mathbf c\) are the position vectors of points in three dimensions and \(\lambda,\mu\) are scalar parameters
+that take any real values. For each equation, obtain an equivalent form that does not involve parameters \(\lambda\) or \(\mu\).
+How do your equations behave when the points \(\mathbf a,\mathbf b,\mathbf c\) are interchanged?
+
+\textbf{Solution.}
+\[
+\mathbf r=(1-\lambda)\mathbf a+\lambda \mathbf b=\mathbf a+\lambda(\mathbf b-\mathbf a)
+\]
+describes the line through the points with position vectors \(\mathbf a\) and \(\mathbf b\).
+A parameter-free form is
+\[
+(\mathbf r-\mathbf a)\times(\mathbf b-\mathbf a)=\mathbf 0.
+\]
+Similarly,
+\[
+\mathbf r=(1-\lambda-\mu)\mathbf a+\lambda \mathbf b+\mu \mathbf c
+=\mathbf a+\lambda(\mathbf b-\mathbf a)+\mu(\mathbf c-\mathbf a)
+\]
+describes the plane through the points \(\mathbf a,\mathbf b,\mathbf c\).
+A parameter-free form is
+\[
+(\mathbf r-\mathbf a)\cdot\bigl((\mathbf b-\mathbf a)\times(\mathbf c-\mathbf a)\bigr)=0.
+\]
+Interchanging \(\mathbf a,\mathbf b\) (or permuting \(\mathbf a,\mathbf b,\mathbf c\)) changes \(\lambda,\mu\) but not the underlying
+line/plane; the parameter-free equations remain the same (up to an overall sign in the normal vector, which does not affect ``\(=0\)'').
+
+
+\section*{Problem 11 — Lagrange’s identity, Jacobi identity, and scalar triple products}
+
+\textbf{Exact statement.}
+(a) Using the identity \(\mathbf a\times(\mathbf b\times\mathbf c)=(\mathbf a\cdot\mathbf c)\mathbf b-(\mathbf a\cdot\mathbf b)\mathbf c\), show that
+\[
+\text{(i)}\quad
+(\mathbf a\times\mathbf b)\cdot(\mathbf c\times\mathbf d)
+=(\mathbf a\cdot\mathbf c)(\mathbf b\cdot\mathbf d)-(\mathbf a\cdot\mathbf d)(\mathbf b\cdot\mathbf c),
+\]
+\[
+\text{(ii)}\quad
+\mathbf a\times(\mathbf b\times\mathbf c)+\mathbf b\times(\mathbf c\times\mathbf a)+\mathbf c\times(\mathbf a\times\mathbf b)=\mathbf 0.
+\]
+Relate the case \(\mathbf c=\mathbf a\) and \(\mathbf d=\mathbf b\) in (i) to a well-known trigonometric identity.
+Evaluate \((\mathbf a\times\mathbf b)\times(\mathbf c\times\mathbf d)\) in two ways and compare to find an explicit linear combination of
+\(\mathbf a,\mathbf b,\mathbf c,\mathbf d\) that is zero.
+
+(b) Given that \([\mathbf a,\mathbf b,\mathbf c]=\mathbf a\cdot(\mathbf b\times\mathbf c)\), show that
+\[
+[\mathbf a\times\mathbf b,\ \mathbf b\times\mathbf c,\ \mathbf c\times\mathbf a]=[\mathbf a,\mathbf b,\mathbf c]^2.
+\]
+
+\textbf{Solution.}
+\textbf{(a)(i)} Using \((\mathbf a\times\mathbf b)\cdot(\mathbf c\times\mathbf d)=\mathbf c\cdot(\mathbf d\times(\mathbf a\times\mathbf b))\) and
+\(\mathbf d\times(\mathbf a\times\mathbf b)=(\mathbf d\cdot\mathbf b)\mathbf a-(\mathbf d\cdot\mathbf a)\mathbf b\), we obtain
+\[
+(\mathbf a\times\mathbf b)\cdot(\mathbf c\times\mathbf d)
+=(\mathbf a\cdot\mathbf c)(\mathbf b\cdot\mathbf d)-(\mathbf a\cdot\mathbf d)(\mathbf b\cdot\mathbf c).
+\]
+Putting \(\mathbf c=\mathbf a\), \(\mathbf d=\mathbf b\) gives
+\[
+|\mathbf a\times\mathbf b|^2=|\mathbf a|^2|\mathbf b|^2-(\mathbf a\cdot\mathbf b)^2,
+\]
+equivalent to \(\sin^2\theta+\cos^2\theta=1\).
+
+\textbf{(a)(ii)} Expand each term:
+\[
+\mathbf a\times(\mathbf b\times\mathbf c)=(\mathbf a\cdot\mathbf c)\mathbf b-(\mathbf a\cdot\mathbf b)\mathbf c,
+\]
+\[
+\mathbf b\times(\mathbf c\times\mathbf a)=(\mathbf b\cdot\mathbf a)\mathbf c-(\mathbf b\cdot\mathbf c)\mathbf a,
+\]
+\[
+\mathbf c\times(\mathbf a\times\mathbf b)=(\mathbf c\cdot\mathbf b)\mathbf a-(\mathbf c\cdot\mathbf a)\mathbf b,
+\]
+and they cancel to give \(\mathbf 0\).
+
+\medskip
+\noindent\textbf{Linear combination.}
+Compute
+\[
+(\mathbf a\times\mathbf b)\times(\mathbf c\times\mathbf d)
+=\mathbf c\,[(\mathbf a\times\mathbf b)\cdot\mathbf d]-\mathbf d\,[(\mathbf a\times\mathbf b)\cdot\mathbf c]
+=\mathbf c\,[\mathbf a,\mathbf b,\mathbf d]-\mathbf d\,[\mathbf a,\mathbf b,\mathbf c].
+\]
+Also
+\[
+(\mathbf a\times\mathbf b)\times(\mathbf c\times\mathbf d)
+=-(\mathbf c\times\mathbf d)\times(\mathbf a\times\mathbf b)
+=\mathbf b\,[\mathbf c,\mathbf d,\mathbf a]-\mathbf a\,[\mathbf c,\mathbf d,\mathbf b].
+\]
+Using cyclic symmetry of \([\cdot,\cdot,\cdot]\) and equating gives
+\[
+[\mathbf b,\mathbf c,\mathbf d]\mathbf a-[\mathbf a,\mathbf c,\mathbf d]\mathbf b+[\mathbf a,\mathbf b,\mathbf d]\mathbf c-[\mathbf a,\mathbf b,\mathbf c]\mathbf d=\mathbf 0.
+\]
+
+\medskip
+\noindent\textbf{(b)}
+\[
+[\mathbf a\times\mathbf b,\ \mathbf b\times\mathbf c,\ \mathbf c\times\mathbf a]
+=(\mathbf a\times\mathbf b)\cdot\bigl((\mathbf b\times\mathbf c)\times(\mathbf c\times\mathbf a)\bigr).
+\]
+But
+\[
+(\mathbf b\times\mathbf c)\times(\mathbf c\times\mathbf a)
+=\mathbf c\,[(\mathbf b\times\mathbf c)\cdot\mathbf a]-\mathbf a\,[(\mathbf b\times\mathbf c)\cdot\mathbf c]
+=\mathbf c\,[\mathbf a,\mathbf b,\mathbf c],
+\]
+so
+\[
+[\mathbf a\times\mathbf b,\ \mathbf b\times\mathbf c,\ \mathbf c\times\mathbf a]
+=[\mathbf a,\mathbf b,\mathbf c]\;(\mathbf a\times\mathbf b)\cdot\mathbf c
+=[\mathbf a,\mathbf b,\mathbf c]^2.
+\]
+
+
+\section*{Problem 12 — Solving linear vector equations with \(\times\) and \(\cdot\)}
+
+\textbf{Exact statement.}
+Let \(\mathbf a,\mathbf b,\mathbf c,\mathbf d\) be fixed vectors in three dimensions. For each of the following equations,
+find all solutions for \(\mathbf r\):
+\[
+\text{(i)}\ \mathbf r+\mathbf r\times\mathbf d=\mathbf c;\qquad
+\text{(ii)}\ \mathbf r+(\mathbf r\cdot\mathbf a)\mathbf b=\mathbf c.
+\]
+\([\,\)In (ii), consider separately the cases \(\mathbf a\cdot\mathbf b\ne -1\) and \(\mathbf a\cdot\mathbf b=-1\,]\).
+
+\textbf{Solution.}
+\textbf{(i)} A closed-form solution is
+\[
+\mathbf r=\frac{\mathbf c-\mathbf c\times\mathbf d+(\mathbf c\cdot\mathbf d)\mathbf d}{1+|\mathbf d|^2}.
+\]
+Indeed, using \((\mathbf c\times\mathbf d)\times\mathbf d=\mathbf d(\mathbf c\cdot\mathbf d)-\mathbf c|\mathbf d|^2\),
+one checks that \(\mathbf r+\mathbf r\times\mathbf d=\mathbf c\).
+
+\medskip
+\noindent\textbf{(ii)} Let \(s=\mathbf r\cdot\mathbf a\). Then \(\mathbf r=\mathbf c-s\mathbf b\), and dotting with \(\mathbf a\) gives
+\[
+s=\mathbf c\cdot\mathbf a-s(\mathbf b\cdot\mathbf a)
+\quad\Longrightarrow\quad
+s(1+\mathbf a\cdot\mathbf b)=\mathbf c\cdot\mathbf a.
+\]
+If \(\mathbf a\cdot\mathbf b\ne -1\), then
+\[
+s=\frac{\mathbf c\cdot\mathbf a}{1+\mathbf a\cdot\mathbf b},
+\qquad
+\mathbf r=\mathbf c-\frac{\mathbf c\cdot\mathbf a}{1+\mathbf a\cdot\mathbf b}\,\mathbf b.
+\]
+If \(\mathbf a\cdot\mathbf b=-1\), then solutions exist iff \(\mathbf c\cdot\mathbf a=0\). In that case \(s\) is arbitrary and
+\[
+\mathbf r=\mathbf c-t\,\mathbf b,\qquad t\in\mathbb R.
+\]
+If \(\mathbf c\cdot\mathbf a\ne 0\), there are no solutions.
+
+\section*{Problem 13 — Spherical unit vectors form an orthonormal right-handed frame}
+
+\textbf{Exact statement.}
+The vectors \(\mathbf e_r,\mathbf e_\theta,\mathbf e_\phi\) are defined in terms of the standard basis vectors
+\(\mathbf i,\mathbf j,\mathbf k\) by
+\[
+\mathbf e_r=\cos\phi\,\sin\theta\,\mathbf i+\sin\phi\,\sin\theta\,\mathbf j+\cos\theta\,\mathbf k,
+\]
+\[
+\mathbf e_\theta=\cos\phi\,\cos\theta\,\mathbf i+\sin\phi\,\cos\theta\,\mathbf j-\sin\theta\,\mathbf k,
+\]
+\[
+\mathbf e_\phi=-\sin\phi\,\mathbf i+\cos\phi\,\mathbf j,
+\]
+where \(\theta\) and \(\phi\) are real numbers. Show, as efficiently as possible, that
+\(\mathbf e_r,\mathbf e_\theta,\mathbf e_\phi\) are an orthonormal right-handed set.
+
+\textbf{Solution.}
+In components,
+\[
+\mathbf e_r=(\cos\phi\sin\theta,\ \sin\phi\sin\theta,\ \cos\theta),\quad
+\mathbf e_\theta=(\cos\phi\cos\theta,\ \sin\phi\cos\theta,\ -\sin\theta),\quad
+\mathbf e_\phi=(-\sin\phi,\ \cos\phi,\ 0).
+\]
+
+\medskip
+\noindent\textbf{Unit lengths.}
+\[
+|\mathbf e_r|^2=\sin^2\theta(\cos^2\phi+\sin^2\phi)+\cos^2\theta=1,\qquad
+|\mathbf e_\theta|^2=\cos^2\theta(\cos^2\phi+\sin^2\phi)+\sin^2\theta=1,
+\]
+\[
+|\mathbf e_\phi|^2=\sin^2\phi+\cos^2\phi=1.
+\]
+
+\medskip
+\noindent\textbf{Orthogonality.}
+\[
+\mathbf e_r\cdot\mathbf e_\theta
+=\sin\theta\cos\theta(\cos^2\phi+\sin^2\phi)-\sin\theta\cos\theta=0,
+\]
+\[
+\mathbf e_r\cdot\mathbf e_\phi
+=\cos\phi\sin\theta(-\sin\phi)+\sin\phi\sin\theta(\cos\phi)=0,
+\]
+\[
+\mathbf e_\theta\cdot\mathbf e_\phi
+=\cos\phi\cos\theta(-\sin\phi)+\sin\phi\cos\theta(\cos\phi)=0.
+\]
+Hence the set is orthonormal.
+
+\medskip
+\noindent\textbf{Right-handedness.}
+\[
+\mathbf e_\theta\times \mathbf e_\phi
+=
+\begin{vmatrix}
+	\mathbf i&\mathbf j&\mathbf k\\
+	\cos\phi\cos\theta&\sin\phi\cos\theta&-\sin\theta\\
+	-\sin\phi&\cos\phi&0
+\end{vmatrix}
+=(\sin\theta\cos\phi,\ \sin\theta\sin\phi,\ \cos\theta)=\mathbf e_r.
+\]
+Therefore \(\mathbf e_\theta\times\mathbf e_\phi=\mathbf e_r\), so
+\((\mathbf e_r,\mathbf e_\theta,\mathbf e_\phi)\) is a right-handed orthonormal set.
+
+% ============================================================
+% DROP-IN REPLACEMENT (fixes spacing + no overlapping titles)
+% - Titles are placed relative to the picture bounding box,
+%   not at hard-coded coordinates.
+% - Captions have consistent spacing.
+% ============================================================
+
+
+% ---------- BODY ----------
+\section*{Vector diagrams for Problems 1--13}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=0.95]
+		\draw[axis] (-1.1,0) -- (5.2,0) node[below right,label]{Re};
+		\draw[axis] (0,-2.2) -- (0,4.2) node[above left,label]{Im};
+		
+		\coordinate (C) at (1,1);
+		\coordinate (P3) at (3,0);
+		
+		\draw[disk] (C) circle (1);
+		\node[pointTeal] at (C) {};
+		\node[label] at ($(C)+(0.65,0.35)$) {center $1+i$};
+		
+		\pgfmathsetmacro{\R}{sqrt(5)}
+		\draw[dashedhelp] (P3) circle ({\R-1});
+		\draw[dashedhelp] (P3) circle ({\R+1});
+		
+		\node[pointRed] at (P3) {};
+		\node[label] at ($(P3)+(0.25,0.28)$) {$3$};
+		
+		\draw[thinaxis] (C) -- (P3);
+		\node[label] at ($(C)!0.55!(P3)+(0,0.35)$) {$|3-(1+i)|=\sqrt{5}$};
+		
+		\node[label] at ($(P3)+(\R+1,0.25)$) {$\sqrt{5}+1$};
+		\node[label] at ($(P3)+(\R-1,-0.35)$) {$\sqrt{5}-1$};
+		
+		\DiagTitle{Problem 1: if $|z-(1+i)|<1$ then $\sqrt{5}-1<|z-3|<\sqrt{5}+1$.}
+	\end{tikzpicture}
+	\caption{Problem 1: disk and distance bounds shown as an annulus around $3$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.15]
+		\draw[axis] (-1.6,0) -- (2.55,0) node[below right,label]{Re};
+		\draw[axis] (0,-1.8) -- (0,1.85) node[above left,label]{Im};
+		
+		\draw[unitcircle] (0,0) circle (1);
+		
+		\pgfmathsetmacro{\th}{60}
+		\coordinate (O) at (0,0);
+		\coordinate (Z) at ({cos(\th)},{sin(\th)});
+		\coordinate (Zb) at ({cos(\th)},{-sin(\th)});
+		\coordinate (ONE) at (1,0);
+		\coordinate (PZ) at ($(ONE)+(Z)$);
+		\coordinate (MZB) at ($(ONE)-(Zb)$);
+		
+		\node[point] at (Z) {};
+		\node[label] at ($(Z)+(0.15,0.10)$) {$z$};
+		
+		\node[point] at (Zb) {};
+		\node[label] at ($(Zb)+(0.15,-0.15)$) {$\bar z$};
+		
+		\node[point] at (ONE) {};
+		\node[label] at ($(ONE)+(0.12,0.12)$) {$1$};
+		
+		\node[pointTeal] at (PZ) {};
+		\node[label] at ($(PZ)+(0.12,0.12)$) {$1+z$};
+		
+		\node[pointRed] at (MZB) {};
+		\node[label] at ($(MZB)+(0.12,-0.18)$) {$1-\bar z$};
+		
+		\draw[vec] (O) -- (Z);
+		\draw[vecTeal] (O) -- (PZ);
+		\draw[vecAmber] (O) -- (MZB);
+		
+		\draw pic["$\theta$", draw=Slate600, angle radius=10mm, angle eccentricity=1.25]
+		{angle = ONE--O--Z};
+		
+		\DiagTitle{Problem 2(a): modulus-argument pictures for $1+z$ and $1-\bar z$.}
+	\end{tikzpicture}
+	\caption{Problem 2(a): unit-circle geometry for $z$, $1+z$, and $1-\bar z$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.0]
+		\draw[axis] (-2.4,0) -- (2.45,0) node[below right,label]{$u=\Re(w)$};
+		\draw[axis] (0,-2.4) -- (0,2.45) node[above left,label]{$v=\Im(w)$};
+		
+		\draw[line width=1.25pt, draw=Teal700] (-2.2,-2.2) -- (2.2,2.2);
+		\draw[line width=1.25pt, draw=Amber500] (-2.2,2.2) -- (2.2,-2.2);
+		
+		\node[label] at (1.55,1.15) {$v=u$};
+		\node[label] at (1.55,-1.15) {$v=-u$};
+		
+		\DiagTitle{Problem 2(b): $w^2\in i\mathbb R\Rightarrow w$ lies on two lines.}
+	\end{tikzpicture}
+	\caption{Problem 2(b): locus of $w$ is the pair of lines $v=\pm u$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.1]
+		\draw[axis] (-0.9,0) -- (3.2,0) node[below right,label]{Re};
+		\draw[axis] (0,-0.7) -- (0,3.8) node[above left,label]{Im};
+		
+		\coordinate (O) at (0,0);
+		\coordinate (Z1) at (2,1);
+		\coordinate (Z2) at (1.2,3);
+		
+		\draw[tri] (O) -- (Z1) -- (Z2) -- cycle;
+		
+		\node[point] at (O) {};  \node[label] at ($(O)+(0.12,0.12)$) {$0$};
+		\node[point] at (Z1) {}; \node[label] at ($(Z1)+(0.15,0.10)$) {$z_1$};
+		\node[point] at (Z2) {}; \node[label] at ($(Z2)+(0.15,0.10)$) {$z_2$};
+		
+		\coordinate (M1) at ($(O)!0.5!(Z2)$);
+		\coordinate (M2) at ($(O)!0.5!(Z1)$);
+		\coordinate (M0) at ($(Z1)!0.5!(Z2)$);
+		\coordinate (G)  at ({(0+2+1.2)/3},{(0+1+3)/3});
+		
+		\draw[dashedhelp] (Z1) -- (M1);
+		\draw[dashedhelp] (Z2) -- (M2);
+		\draw[dashedhelp] (O)  -- (M0);
+		
+		\node[pointTeal] at (G) {};
+		\node[label] at ($(G)+(0.15,0.15)$) {$G$};
+		
+		\DiagTitle{Problem 3: medians concur at the centroid $G=(z_1+z_2)/3$.}
+	\end{tikzpicture}
+	\caption{Problem 3: medians and centroid for the triangle with vertices $0,z_1,z_2$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.6]
+		\draw[axis] (-1.35,0) -- (1.45,0) node[below right,label]{Re};
+		\draw[axis] (0,-1.35) -- (0,1.45) node[above left,label]{Im};
+		\draw[unitcircle] (0,0) circle (1);
+		
+		\foreach \k/\deg in {0/0,1/72,2/144,3/216,4/288}{
+			\coordinate (W\k) at ({cos(\deg)},{sin(\deg)});
+			\node[point] at (W\k) {};
+			\node[label] at ($(0,0)!1.12!(W\k)$) {\ifnum\k=0 $1$\else $\omega^{\k}$\fi};
+		}
+		
+		\draw[dashedhelp] (W1) -- (W4);
+		\draw[dashedhelp] (W2) -- (W3);
+		
+		\DiagTitle{Problem 4: conjugate pairs $(\omega,\omega^4)$ and $(\omega^2,\omega^3)$.}
+	\end{tikzpicture}
+	\caption{Problem 4: the 5th roots of unity on the unit circle, with conjugate pairings.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=0.9]
+		\draw[axis] (-1.2,0) -- (8.5,0) node[below right,label]{Re$(z)$};
+		\draw[axis] (0,-2.5) -- (0,2.5) node[above left,label]{Im$(z)$};
+		
+		\pgfmathsetmacro{\y}{ln(2+sqrt(3))}
+		\draw[dashedhelp] (-1,\y) -- (8.2,\y);
+		\draw[dashedhelp] (-1,-\y) -- (8.2,-\y);
+		\node[label] at (8.25,\y) {$+\ln(2+\sqrt{3})$};
+		\node[label] at (8.25,-\y) {$-\ln(2+\sqrt{3})$};
+		
+		\pgfmathsetmacro{\xA}{pi/2}
+		\pgfmathsetmacro{\xB}{pi/2 + 2*pi}
+		\node[pointTeal] at (\xA,\y) {}; \node[pointTeal] at (\xA,-\y) {};
+		\node[pointTeal] at (\xB,\y) {}; \node[pointTeal] at (\xB,-\y) {};
+		
+		\DiagTitle{Problem 5: $z=\frac{\pi}{2}+2\pi n \pm i\ln(2+\sqrt{3})$.}
+	\end{tikzpicture}
+	\caption{Problem 5: solutions of $\sin z=2$ lie on two horizontal lines in the complex plane.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=0.9]
+		\draw[axis] (-4.3,0) -- (2.8,0) node[below right,label]{Re};
+		\draw[axis] (0,-2.8) -- (0,2.8) node[above left,label]{Im};
+		
+		\pgfmathsetmacro{\p}{1}
+		\pgfmathsetmacro{\lam}{2}
+		\pgfmathsetmacro{\mu}{0.6}
+		\pgfmathsetmacro{\cl}{\p*(1+\lam*\lam)/(1-\lam*\lam)}
+		\pgfmathsetmacro{\rl}{2*\lam*abs(\p)/abs(1-\lam*\lam)}
+		\pgfmathsetmacro{\rs}{sqrt(\p*\p+\mu*\mu)}
+		
+		\coordinate (A) at (\p,0);
+		\coordinate (B) at (-\p,0);
+		\coordinate (C1) at (\cl,0);
+		\coordinate (C2) at (0,\mu);
+		
+		\draw[disk] (C1) circle (\rl);
+		\draw[dashedhelp] (C2) circle (\rs);
+		
+		\node[point] at (A) {}; \node[label] at ($(A)+(0.15,0.15)$) {$A=p$};
+		\node[point] at (B) {}; \node[label] at ($(B)+(-0.55,0.15)$) {$B=-p$};
+		\node[pointTeal] at (C1) {}; \node[label] at ($(C1)+(0.15,0.15)$) {$c_\lambda$};
+		\node[pointAmber] at (C2) {};
+		\node[label] at ($(C2)+(0.15,0.15)$) {$i\mu$};
+		
+		\DiagTitle{Problem 6: example $p=1$, $\lambda=2$, $\mu=0.6$ (circles meet orthogonally).}
+	\end{tikzpicture}
+	\caption{Problem 6: example of $C_\lambda$ and $S_\mu$ (orthogonal intersection).}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=0.95]
+		\draw[axis] (-1.8,0) -- (3.5,0) node[below right,label]{x};
+		\draw[axis] (0,-0.8) -- (0,3.7) node[above left,label]{y};
+		
+		\coordinate (A) at (0.5,2.8);
+		\coordinate (B) at (-0.8,0.2);
+		\coordinate (C) at (2.4,0.4);
+		
+		\draw[tri] (A) -- (B) -- (C) -- cycle;
+		\node[point] at (A) {}; \node[label] at ($(A)+(0.12,0.12)$) {A};
+		\node[point] at (B) {}; \node[label] at ($(B)+(-0.22,-0.18)$) {B};
+		\node[point] at (C) {}; \node[label] at ($(C)+(0.12,-0.18)$) {C};
+		
+		\coordinate (dA) at (-0.2,3.2);
+		\coordinate (dB) at (2.4,-1.9);
+		\coordinate (dC) at (2.6,-1.3);
+		
+		\path[name path=altA] ($(A)-3*(dA)$) -- ($(A)+3*(dA)$);
+		\path[name path=altB] ($(B)-3*(dB)$) -- ($(B)+3*(dB)$);
+		\path[name intersections={of=altA and altB, by=H}];
+		
+		\draw[altitude] ($(A)-3*(dA)$) -- ($(A)+3*(dA)$);
+		\draw[altitude] ($(B)-3*(dB)$) -- ($(B)+3*(dB)$);
+		\draw[altitude] ($(C)-3*(dC)$) -- ($(C)+3*(dC)$);
+		
+		\node[pointRed] at (H) {};
+		\node[label] at ($(H)+(0.12,0.12)$) {$H$};
+		
+		\DiagTitle{Problem 7: altitudes concur at the orthocenter $H$.}
+	\end{tikzpicture}
+	\caption{Problem 7: triangle altitudes meeting at the orthocenter.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.0]
+		\draw[axis] (-0.6,0) -- (4.6,0) node[below right,label]{x};
+		\draw[axis] (0,-0.6) -- (0,3.6) node[above left,label]{y};
+		
+		\coordinate (O) at (0,0);
+		\coordinate (X) at (2.6,0.8);
+		\coordinate (Y) at (0.9,2.0);
+		
+		\pgfmathsetmacro{\t}{0.65}
+		\coordinate (TY) at ({\t*0.9},{\t*2.0});
+		\coordinate (A) at ($(X)+(TY)$);
+		
+		\draw[vec] (O) -- (X);        \node[label] at ($(X)+(0.12,0.05)$) {$x$};
+		\draw[vecViolet] (O) -- (Y);  \node[label] at ($(Y)+(0.12,0.05)$) {$y$};
+		\draw[vecAmber] (X) -- (A);   \node[label] at ($(A)+(0.12,0.05)$) {$(x\cdot y)\,y$};
+		\draw[vecTeal] (O) -- (A);    \node[label] at ($(A)+(0.12,0.05)$) {$a$};
+		
+		\DiagTitle{Problem 8: $a=x+(x\cdot y)\,y$ (schematic).}
+	\end{tikzpicture}
+	\caption{Problem 8: schematic vector addition for $a=x+(x\cdot y)\,y$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.0]
+		\draw[axis] (-0.9,0) -- (4.2,0) node[below right,label]{x};
+		\draw[axis] (0,-0.9) -- (0,3.6) node[above left,label]{y};
+		
+		\coordinate (A) at (0,0);
+		\coordinate (B) at (3.2,0.5);
+		\coordinate (C) at (1.1,2.7);
+		
+		\draw[tri] (A) -- (B) -- (C) -- cycle;
+		\node[point] at (A) {}; \node[label] at ($(A)+(-0.15,-0.18)$) {A};
+		\node[point] at (B) {}; \node[label] at ($(B)+(0.12,-0.18)$) {B};
+		\node[point] at (C) {}; \node[label] at ($(C)+(-0.15,0.12)$) {C};
+		
+		\draw[vecTeal] (A) -- (B);   \node[label] at ($(A)!0.5!(B)+(0,0.25)$) {$u$};
+		\draw[vecAmber] (B) -- (C);  \node[label] at ($(B)!0.5!(C)+(0,0.25)$) {$v$};
+		\draw[vecViolet] (C) -- (A); \node[label] at ($(C)!0.5!(A)+(-0.25,0)$) {$w$};
+		
+		\DiagTitle{Problem 9: $u\times v=v\times w=w\times u$ (same directed area).}
+	\end{tikzpicture}
+	\caption{Problem 9: triangle side vectors and the equal cross-product (area-vector) idea.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.0]
+		\draw[axis] (-0.8,0) -- (5.0,0) node[below right,label]{x};
+		\draw[axis] (0,-0.8) -- (0,4.2) node[above left,label]{y};
+		
+		\coordinate (A) at (0.6,0.6);
+		\coordinate (B) at (4.0,1.1);
+		\coordinate (C) at (1.6,3.4);
+		
+		\draw[tri] (A) -- (B);
+		\node[point] at (A) {}; \node[label] at ($(A)+(-0.15,-0.18)$) {A};
+		\node[point] at (B) {}; \node[label] at ($(B)+(0.12,-0.18)$) {B};
+		\node[point] at (C) {}; \node[label] at ($(C)+(-0.15,0.12)$) {C};
+		
+		\coordinate (R1) at ($(A)!0.35!(B)$);
+		\node[pointTeal] at (R1) {};
+		\node[label] at ($(R1)+(0.12,0.12)$) {$r$ on $AB$};
+		
+		\draw[dashedhelp] (A) -- (C);
+		\draw[dashedhelp] (B) -- ($(B)+(C)-(A)$);
+		\draw[dashedhelp] (C) -- ($(C)+(B)-(A)$);
+		\draw[dashedhelp] ($(B)+(C)-(A)$) -- ($(C)+(B)-(A)$);
+		
+		\coordinate (R2) at ($(A)+0.35*(B)-0.35*(A)+0.25*(C)-0.25*(A)$);
+		\node[pointRed] at (R2) {};
+		\node[label] at ($(R2)+(0.12,-0.22)$) {$r$ in plane $ABC$};
+		
+		\DiagTitle{Problem 10: affine combinations describe the line $AB$ and plane $ABC$.}
+	\end{tikzpicture}
+	\caption{Problem 10: geometric meaning of affine combinations (line through $A,B$ and plane through $A,B,C$).}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.0]
+		\draw[axis] (-0.8,0) -- (4.8,0) node[below right,label]{x};
+		\draw[axis] (0,-0.8) -- (0,4.0) node[above left,label]{y};
+		
+		\coordinate (O) at (0,0);
+		\coordinate (a) at (3.0,0.7);
+		\coordinate (b) at (1.2,2.4);
+		\coordinate (c) at (2.2,1.8);
+		
+		\draw[vecTeal] (O) -- (a);     \node[label] at ($(a)+(0.12,0.05)$) {$a$};
+		\draw[vecViolet] (O) -- (b);   \node[label] at ($(b)+(0.12,0.05)$) {$b$};
+		
+		\draw[dashedhelp] (a) -- ($(a)+(b)$);
+		\draw[dashedhelp] (b) -- ($(a)+(b)$);
+		\node[label] at (0.2,3.6) {$|a\times b|=$ area};
+		
+		\coordinate (P) at ($(O)+0.6*(a)+0.6*(b)$);
+		\draw[vecAmber] (P) -- ($(P)+0.5*(c)$);
+		\node[label] at ($(P)+0.5*(c)+(0.12,0.05)$) {$c$};
+		
+		\node[label] at (0.2,3.2) {$|a\cdot(b\times c)|=$ volume};
+		
+		\DiagTitle{Problem 11: cross-product area and triple-product volume (schematic).}
+	\end{tikzpicture}
+	\caption{Problem 11: schematic for cross-product area and scalar triple-product volume.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.0]
+		\draw[axis] (-0.8,0) -- (5.0,0) node[below right,label]{x};
+		\draw[axis] (0,-0.8) -- (0,4.0) node[above left,label]{y};
+		
+		\coordinate (O) at (0,0);
+		\coordinate (r) at (2.0,1.0);
+		\coordinate (rx) at (0.5, -1.0);
+		\coordinate (c) at ($(r)+(rx)$);
+		
+		\draw[vec] (O) -- (r);         \node[label] at ($(r)+(0.12,0.05)$) {$r$};
+		\draw[vecViolet] (O) -- (rx);  \node[label] at ($(rx)+(0.12,0.05)$) {$r\times d$};
+		\draw[vecTeal] (O) -- (c);     \node[label] at ($(c)+(0.12,0.05)$) {$c$};
+		
+		\node[label] at (0.2,3.7) {Left: $r+r\times d=c$ (schematic)};
+		
+		\coordinate (O2) at (2.8,0.2);
+		\coordinate (a) at ($(O2)+(1.6,0.25)$);
+		\coordinate (b) at ($(O2)+(0.35,2.2)$);
+		
+		\draw[vec] (O2) -- (a);        \node[label] at ($(a)+(0.12,0.05)$) {$a$};
+		\draw[vecAmber] (O2) -- (b);   \node[label] at ($(b)+(0.12,0.05)$) {$b$};
+		
+		\DiagTitle{Problem 12: two linear vector equations (schematic).}
+	\end{tikzpicture}
+	\caption{Problem 12: schematics for the two vector equations.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+	\begin{tikzpicture}[scale=1.25]
+		\draw[axis] (-1.7,0) -- (2.05,0) node[below right,label]{x};
+		\draw[axis] (0,-1.55) -- (0,1.75) node[above left,label]{y};
+		
+		\draw[unitcircle] (0,0) circle (1);
+		
+		\pgfmathsetmacro{\theta}{50}
+		\pgfmathsetmacro{\phi}{30}
+		
+		\coordinate (P) at ({cos(\phi)*sin(\theta)},{sin(\phi)*sin(\theta)});
+		\node[point] at (P) {};
+		\node[label] at ($(P)+(0.12,0.12)$) {P};
+		
+		\coordinate (er) at ({cos(\phi)*sin(\theta)},{sin(\phi)*sin(\theta)});
+		\coordinate (ephi) at ({-sin(\phi)},{cos(\phi)});
+		\coordinate (etheta) at ({cos(\phi)*cos(\theta)},{sin(\phi)*cos(\theta)});
+		
+		\draw[vecTeal]   (P) -- ($(P)+0.9*(er)$);     \node[label] at ($(P)+0.95*(er)+(0.08,0.05)$) {$e_r$};
+		\draw[vecViolet] (P) -- ($(P)+0.9*(etheta)$); \node[label] at ($(P)+0.95*(etheta)+(0.08,0.05)$) {$e_\theta$};
+		\draw[vecAmber]  (P) -- ($(P)+0.9*(ephi)$);   \node[label] at ($(P)+0.95*(ephi)+(0.08,0.05)$) {$e_\phi$};
+		
+		\DiagTitle{Problem 13: orthonormal, right-handed frame ($e_\theta\times e_\phi=e_r$).}
+	\end{tikzpicture}
+	\caption{Problem 13: spherical basis vectors (2D projection for illustration).}
+\end{figure}	
+	\end{document}
+

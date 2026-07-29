@@ -40,9 +40,11 @@ No publication stack has been chosen yet. Candidate stacks include Jupyter Book,
 .
 |-- theory-of-algebraic-geometry-*.tex     # current curated standalone notes
 |-- exact_sequences_sheaves_reorganized_full/
+|-- chapters/imported/                     # cleaned imported TeX sources
 |-- figures/                               # existing curated figures
 |-- imports/                               # legacy/imported snapshots; not yet curated
-|-- releases/                              # generated PDFs/releases
+|-- pdfs/                                  # local generated PDFs; ignored by git
+|-- releases/                              # intentional published release artifacts
 |-- courses/                               # future course modules
 |-- chapters/                              # future modular LaTeX chapter sources
 |-- notebooks/                             # future Jupyter/Quarto notebooks
@@ -64,9 +66,9 @@ See:
 
 For now, add new curated algebraic-geometry chapters at the repository root only if they continue the existing `theory-of-algebraic-geometry-N.tex` sequence.
 
-All other material should go into the appropriate scaffold folder or stay inside `imports/` until reviewed.
+Cleaned imported TeX material lives in `chapters/imported/`. Raw snapshots stay
+inside `imports/` until reviewed.
 
 ## License
 
 The license has not yet been finalized. See `LICENSE.md`.
-

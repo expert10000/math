@@ -1,0 +1,5914 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- packages ---
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage[shortlabels]{enumitem} % <— only enumitem, shortlabels enables [(a)] if you want it
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{{figures/}}
+% raphicspath{{./figs/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{centernot}
+\newcommand{\qed}{\hfill$\square$}
+\usepackage{booktabs,tabularx}
+
+\usepackage{mathrsfs} 
+
+ \usetikzlibrary{arrows.meta}
+\usetikzlibrary{arrows.meta,calc}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage[most]{tcolorbox}
+
+\usepackage{tikz-cd} 
+
+\usepackage{fontspec}
+
+\usepackage{amsmath,amssymb,amsthm}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newenvironment{statement}{\par\noindent\textbf{Statement.}\ }{\par}
+
+% --- theorem setups ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark} % unnumbered
+
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\arcsec}{arcsec}
+\DeclareMathOperator{\arccot}{arcCot}
+\DeclareMathOperator{\arccsc}{arcCsc}
+\DeclareMathOperator{\arccosh}{arcCosh}
+\DeclareMathOperator{\arcsinh}{arcsinh}
+\DeclareMathOperator{\arctanh}{arctanh}
+\DeclareMathOperator{\arcsech}{arcsech}
+\DeclareMathOperator{\arccsch}{arcCsch}
+\DeclareMathOperator{\arccoth}{arcCoth} 
+
+
+\theoremstyle{remark}
+\newtheorem*{counterexample}{Counterexample}
+
+\DeclareMathOperator{\sgn}{sgn}
+
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Log}{Log}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\gap}{\vspace{6pt}}
+
+\newcommand{\axes}[3]{%
+	\draw[->,thin] (#1) -- ++(2.0,0) node[right] {#2};
+	\draw[->,thin] (#1) -- ++(0,2.0) node[above] {#3};
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlist{itemsep=6pt, topsep=6pt, parsep=2pt, partopsep=2pt}
+
+% SCOPED header: bold ends immediately after the line
+\newcommand{\probheader}[1]{%
+	\par\vspace{8pt}%
+	{\Large\bfseries #1\par}% <- braces scope the bold
+	\vspace{6pt}%
+}
+
+% Thin separator (optional)
+\newcommand{\sep}{\vspace{6pt}\hrule\vspace{8pt}}
+
+
+\geometry{margin=1in}
+\setlength{\parskip}{0.9em}
+\setlength{\parindent}{0pt}
+\linespread{1.12}
+\setlist[itemize]{topsep=0.3em,itemsep=0.2em}
+\setlist[enumerate]{topsep=0.3em,itemsep=0.2em}
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+% --- HEADER ---
+\fancyhead[L]{\textit{Analysis Fourier and Distributions II}}
+\fancyhead[R]{\textit{Exercises}}
+
+\title{\Large Analysis Fourier and Distributions II}
+\author{}
+\date{}
+
+
+\begin{document}
+	
+	\maketitle
+
+
+\section*{Function spaces and distributions}
+
+\subsection*{Multiindex notation}
+Let $\alpha=(\alpha_1,\dots,\alpha_n)\in\mathbb{N}_0^n$ be a multiindex.
+We write
+\[
+|\alpha| := \alpha_1+\dots+\alpha_n,
+\qquad
+\partial^\alpha
+:= \frac{\partial^{|\alpha|}}{\partial x_1^{\alpha_1}\cdots \partial x_n^{\alpha_n}}.
+\]
+
+\subsection*{The basic test--function spaces}
+
+Let $\Omega\subset\mathbb{R}^n$ be open.
+
+\paragraph{$\mathcal{D}(\Omega)$: compactly supported smooth functions.}
+We set
+\[
+\mathcal{D}(\Omega) := C_c^\infty(\Omega),
+\]
+the space of all $C^\infty$ functions with compact support in $\Omega$.
+A sequence $(\varphi_j)$ converges to $\varphi$ in $\mathcal{D}(\Omega)$ if and
+only if there exists a compact set $K\subset\Omega$ such that
+$\operatorname{supp}\varphi_j\subset K$ for all $j$ and
+\[
+\sup_{x\in K}|\partial^\alpha\varphi_j(x)-\partial^\alpha\varphi(x)|
+\longrightarrow 0
+\qquad\text{for every multiindex }\alpha.
+\]
+This defines the standard locally convex topology on $\mathcal{D}(\Omega)$.
+
+\paragraph{$\mathcal{E}(\Omega)$: all smooth functions.}
+We set
+\[
+\mathcal{E}(\Omega) := C^\infty(\Omega).
+\]
+A sequence $(f_j)$ converges to $f$ in $\mathcal{E}(\Omega)$ if and only if
+for every compact set $K\subset\Omega$ and every multiindex $\alpha$ we have
+\[
+\sup_{x\in K}|\partial^\alpha f_j(x)-\partial^\alpha f(x)|
+\longrightarrow 0.
+\]
+Thus all derivatives converge uniformly on every compact subset of $\Omega$.
+
+\paragraph{$\mathcal{S}(\mathbb{R}^n)$: Schwartz space.}
+The Schwartz space $\mathcal{S}(\mathbb{R}^n)$ consists of all
+$\phi\in C^\infty(\mathbb{R}^n)$ such that for every pair of multiindices
+$\alpha,\beta$ the seminorm
+\[
+p_{\alpha,\beta}(\phi)
+:= \sup_{x\in\mathbb{R}^n}
+(1+|x|)^{|\alpha|}\,|\partial^\beta\phi(x)|
+\]
+is finite. The family $\{p_{\alpha,\beta}\}$ defines the natural Fréchet
+topology on $\mathcal{S}(\mathbb{R}^n)$. Functions in $\mathcal{S}$ are
+smooth and decrease, together with all derivatives, faster than any
+power of $|x|$.
+
+\subsection*{Distributions and their dual spaces}
+
+\paragraph{Distributions.}
+The space of (Schwartz) distributions on $\Omega$ is the topological dual
+\[
+\mathcal{D}'(\Omega)
+:= \{T:\mathcal{D}(\Omega)\to\mathbb{C}
+\;\text{linear and continuous}\}.
+\]
+Elements of $\mathcal{D}'(\Omega)$ are called distributions. A basic
+class of examples is provided by locally integrable functions:
+if $f\in L^1_{\mathrm{loc}}(\Omega)$ we define the \emph{regular
+	distribution} $T_f\in\mathcal{D}'(\Omega)$ by
+\[
+\langle T_f,\varphi\rangle
+:= \int_\Omega f(x)\,\varphi(x)\,dx,
+\qquad \varphi\in\mathcal{D}(\Omega).
+\]
+
+\paragraph{Compactly supported distributions.}
+The dual of $\mathcal{E}(\mathbb{R}^n)=C^\infty(\mathbb{R}^n)$ is denoted
+by
+\[
+\mathcal{E}'(\mathbb{R}^n)
+:= \{\Lambda:\mathcal{E}(\mathbb{R}^n)\to\mathbb{C}
+\;\text{linear and continuous}\}.
+\]
+A fundamental theorem identifies $\mathcal{E}'(\mathbb{R}^n)$ with the
+space of distributions (in $\mathcal{D}'(\mathbb{R}^n)$) which have
+compact support. Thus $\mathcal{E}'(\mathbb{R}^n)$ is often referred to
+as the space of \emph{compactly supported distributions}.
+
+\paragraph{Tempered distributions.}
+The dual of the Schwartz space $\mathcal{S}(\mathbb{R}^n)$ is the space
+of \emph{tempered distributions}
+\[
+\mathcal{S}'(\mathbb{R}^n)
+:= \{T:\mathcal{S}(\mathbb{R}^n)\to\mathbb{C}
+\;\text{linear and continuous}\}.
+\]
+Tempered distributions are precisely those distributions that grow at
+most polynomially at infinity and are stable under the Fourier transform.
+
+\paragraph{Inclusions.}
+On the test--function level we have the inclusions
+\[
+\mathcal{D}(\mathbb{R}^n)
+\subset \mathcal{S}(\mathbb{R}^n)
+\subset \mathcal{E}(\mathbb{R}^n),
+\]
+and hence, by duality, the reversed inclusions on the distribution side:
+\[
+\mathcal{E}'(\mathbb{R}^n)
+\subset \mathcal{S}'(\mathbb{R}^n)
+\subset \mathcal{D}'(\mathbb{R}^n).
+\]
+
+\subsection*{Order and regularity of distributions}
+
+\paragraph{Order of a distribution.}
+A distribution $T\in\mathcal{D}'(\Omega)$ is said to be of order
+$\le m$ if for every compact $K\subset\Omega$ there exists a constant
+$C_K>0$ such that
+\[
+|\langle T,\varphi\rangle|
+\le C_K
+\max_{|\alpha|\le m}
+\sup_{x\in K}
+|\partial^\alpha\varphi(x)|
+\qquad\text{for all }
+\varphi\in\mathcal{D}(\Omega)
+\text{ with }\operatorname{supp}\varphi\subset K.
+\]
+The smallest such $m$ (if it exists) is called the \emph{order} of $T$.
+For example, the Dirac delta $\delta_x$ has order $0$, while
+$\partial^\alpha\delta_x$ has order $|\alpha|$ and the principal value
+distribution $\mathrm{p.v.}(1/x)$ has order $1$ on $\mathbb{R}$.
+
+\paragraph{Regular and tempered distributions.}
+If $f\in L^1_{\mathrm{loc}}(\Omega)$, the distribution $T_f$ defined by
+\[
+\langle T_f,\varphi\rangle
+= \int_\Omega f(x)\varphi(x)\,dx
+\]
+is called a \emph{regular distribution}. When $f$ has at most polynomial
+growth on $\mathbb{R}^n$, the same formula defines a tempered
+distribution in $\mathcal{S}'(\mathbb{R}^n)$. In this way many classical
+functions (polynomials, exponentials of purely imaginary arguments,
+etc.) are naturally embedded into the spaces of distributions and
+tempered distributions.
+
+\paragraph{Distributions as dual pairings.}
+A distribution on $\Omega$ is a continuous linear functional
+\[
+T:\mathcal{D}(\Omega)\to\mathbb{C},\qquad
+\varphi\mapsto\langle T,\varphi\rangle.
+\]
+If $f\in L^1_{\mathrm{loc}}(\Omega)$, the associated
+\emph{regular distribution} $T_f$ is defined by
+\[
+\langle T_f,\varphi\rangle
+:= \int_\Omega f(x)\,\varphi(x)\,dx,
+\qquad \varphi\in\mathcal{D}(\Omega).
+\]
+The brackets $\langle T,\varphi\rangle$ denote the action of the
+distribution $T$ on the test function $\varphi$; they play the role of
+evaluation for distributions, in analogy with $\lambda(v)$ or
+$\langle \lambda,v\rangle$ in linear algebra.
+
+% ===========================================================
+% Full Section: Distributions, Regular, Singular, Tempered
+% ===========================================================
+
+\subsection*{Distributions: Regular, Singular, Tempered, and Their Examples}
+
+A distribution on $\mathbb{R}$ is a continuous linear functional on the
+space $\mathcal{D}(\mathbb{R})=C_0^\infty(\mathbb{R})$ of compactly
+supported smooth test functions. For $T\in\mathcal{D}'(\mathbb{R})$ and
+$\varphi\in\mathcal{D}(\mathbb{R})$ we write $\langle T,\varphi\rangle$
+for the action of $T$ on~$\varphi$.
+
+% -----------------------------------------------------------
+\subsubsection*{1. Regular distributions}
+
+If $f\in L^1_{\mathrm{loc}}(\mathbb{R})$, the \emph{regular distribution}
+associated with $f$ is
+\[
+\boxed{
+	\langle T_f,\varphi\rangle = \int_{\mathbb{R}} f(x)\,\varphi(x)\,dx
+}.
+\]
+
+\paragraph{Examples:}
+\[
+T_{x^2}(\varphi)=\int x^2\varphi(x)\,dx,\qquad
+T_{|x|}(\varphi)=\int |x|\varphi(x)\,dx,
+\]
+\[
+T_{\mathbf{1}_{[-1,1]}}(\varphi)=\int_{-1}^1\varphi(x)\,dx,\qquad
+T_{1/\sqrt{|x|}}(\varphi)=
+\int_{\mathbb{R}} \frac{\varphi(x)}{\sqrt{|x|}}\,dx.
+\]
+
+These are all valid distributions even if the corresponding functions
+are not smooth or even nowhere classically differentiable.
+
+% -----------------------------------------------------------
+\subsubsection*{2. Distributional derivatives}
+
+For any $T\in\mathcal{D}'(\mathbb{R})$, its derivative $\partial T$ is
+defined by
+\[
+\boxed{
+	\langle \partial T,\varphi\rangle := -\langle T,\varphi'\rangle.
+}
+\]
+If $T=T_f$ is regular, then
+\[
+\langle \partial T_f,\varphi\rangle
+= -\int f(x)\varphi'(x)\,dx.
+\]
+
+\paragraph{Examples:}
+\[
+(|x|)' = \operatorname{sgn}(x)
+\quad\text{(distributionally)}
+\]
+even though $|x|$ is not differentiable at $0$.
+
+\[
+H'(x) = \delta_0
+\]
+where $H$ is the Heaviside step function. This produces the Dirac delta
+as the derivative of a jump.
+
+If $f$ has a jump discontinuity at $x=a$, then
+\[
+\partial T_f = T_{f'} + (\text{jump at }a)\,\delta_a.
+\]
+
+% -----------------------------------------------------------
+\subsubsection*{3. Purely singular distributions}
+
+These do not come from locally integrable functions.
+
+\paragraph{Dirac delta and its derivatives.}
+\[
+\langle \delta_a,\varphi\rangle = \varphi(a),
+\qquad
+\langle \delta_a^{(k)},\varphi\rangle
+= (-1)^k\,\varphi^{(k)}(a).
+\]
+
+\paragraph{Principal value distribution.}
+\[
+\boxed{
+	\left\langle PV\!\left(\frac1x\right),\varphi\right\rangle
+	= \lim_{\varepsilon\to0}
+	\int_{|x|>\varepsilon}\frac{\varphi(x)}{x}\,dx.
+}
+\]
+This is a classical example of a singular distribution of order one.
+
+% -----------------------------------------------------------
+\subsubsection*{4. Tempered distributions}
+
+The space of tempered distributions $\mathcal{S}'(\mathbb{R})$ is the dual
+of the Schwartz space $\mathcal{S}(\mathbb{R})$. These are distributions
+that grow at most polynomially.
+
+\paragraph{Examples:}
+\[
+T_{x^k},\qquad T_{\sqrt{1+x^2}},\qquad
+\delta_0,\;\delta_0^{(k)},\qquad
+PV\!\left(\frac1x\right),
+\]
+\[
+\widehat{f}\in\mathcal{S}'\quad\text{for any }f\in L^1(\mathbb{R}).
+\]
+
+All Dirac deltas and principal value kernels are tempered.
+
+% -----------------------------------------------------------
+\subsubsection*{5. Why we write $T_f$ instead of just $f$}
+
+The notation $T_f$ emphasizes that we view $f$ as a linear functional on
+test functions:
+\[
+\langle T_f,\varphi\rangle = \int f\varphi.
+\]
+
+\begin{itemize}
+	\item $f$ is an ordinary function; $T_f$ is an element of $\mathcal{D}'$.
+	\item Differential operators apply naturally to $T_f$, even when $f$ is not
+	classically differentiable.
+	\item If $f=g$ almost everywhere, then $T_f=T_g$ as distributions; this is
+	not visible from pointwise notation.
+\end{itemize}
+
+Thus the distributional viewpoint is strictly more flexible than the
+classical one.
+
+% -----------------------------------------------------------
+\subsubsection*{6. Convolution of distributions with test functions}
+
+If $\phi\in C_0^\infty(\mathbb{R}^n)$ and $T\in\mathcal{D}'(\mathbb{R}^n)$, the
+convolution
+\[
+\boxed{
+	(T*\phi)(x) := \langle T,\,\phi(x-\cdot)\rangle
+}
+\]
+is always a smooth function.
+
+\paragraph{Example A: Convolution with a regular distribution.}
+Let $T=T_f$ where $f\in L^1_{\mathrm{loc}}$. Then
+\[
+(T_f*\phi)(x)
+= \int_{\mathbb{R}} f(y)\,\phi(x-y)\,dy,
+\]
+which is the classical convolution.
+
+\paragraph{Example B: Convolution with Dirac delta.}
+\[
+\delta_a * \phi = \phi(\cdot - a).
+\]
+
+\paragraph{Example C: Convolution smooths distributions.}
+Convolving the principal value or $\delta'$ with a mollifier produces
+smooth approximations.
+
+% -----------------------------------------------------------
+\subsubsection*{7. Summary table}
+
+\[
+\begin{array}{c|c|c|c|c}
+	\text{Distribution} & \text{Defined by} &
+	\text{Example} & \text{Singular?} & \text{Tempered?}
+	\\ \hline
+	\text{Regular} & \int f\varphi &
+	T_{x^2},\,T_{|x|} & \text{No} & \text{Yes}
+	\\
+	\text{Derivative of regular} &
+	-\int f\varphi' &
+	(|x|)'=\operatorname{sgn}(x) & \text{Sometimes} & \text{Often}
+	\\
+	\text{Dirac} & \varphi(a) &
+	\delta_0 & \text{Yes} & \text{Yes}
+	\\
+	\text{Dirac derivatives} &
+	(-1)^k\varphi^{(k)}(a) &
+	\delta',\delta'' & \text{Very} & \text{Yes}
+	\\
+	\text{Principal value} & \text{symmetric limit} &
+	PV(1/x) & \text{Yes} & \text{Yes}
+	\\
+\end{array}
+\]
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/MATH-ALLS-2_delta_gaussian_approxs.png}
+	\caption{Gaussian approximations of the Dirac delta at $0$:
+		$\phi_\varepsilon(x) = \frac{1}{\sqrt{2\pi}\varepsilon}
+		e^{-\frac{x^2}{2\varepsilon^2}}$ for several values of $\varepsilon$.
+		As $\varepsilon\to0$, the peak becomes narrower and higher, while the
+		area stays equal to $1$, illustrating convergence to $\delta_0$ in
+		the sense of distributions.}
+	\label{fig:delta-gaussian-approxs}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/MATH-ALLS-2_heaviside_smooth.png}
+	\caption{The Heaviside step function $H(x)$ and a smooth
+		approximation $H_\varepsilon(x) = \tfrac12(1+\tanh(x/\varepsilon))$.
+		The jump at $0$ is smoothed out over a small interval of width
+		$\sim\varepsilon$. Distributionally, $H' = \delta_0$, while
+		$H_\varepsilon'$ is a smooth ``bump'' converging to $\delta_0$.}
+	\label{fig:heaviside-smooth}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/MATH-ALLS-2_abs_and_sign_smooth.png}
+	\caption{Top: the function $f(x)=|x|$. Bottom: the sign function
+		$\operatorname{sgn}(x)$ (distributional derivative of $|x|$) and a
+		smooth approximation $\tanh(x/\varepsilon)$. This illustrates how
+		distributional derivatives can be visualised via smoothing: the
+		derivative of the mollified $|x|$ converges to $\operatorname{sgn}(x)$
+		in the sense of distributions.}
+	\label{fig:abs-sign-smooth}
+\end{figure}
+
+\clearpage
+
+\subsection*{Principal value distribution as a tempered distribution}
+
+The function $f(x)=1/x$ does not define a distribution, because the
+integral
+\[
+\int_{-\infty}^{\infty} \frac{\varphi(x)}{x}\,dx
+\]
+diverges for general test functions $\varphi$. The singularity at $x=0$
+is not locally integrable, so $1/x\notin L^1_{\mathrm{loc}}$ and hence
+does not define a regular distribution.
+
+Nevertheless, the \emph{principal value} distribution
+\[
+\left\langle PV\!\left(\frac1x\right),\varphi\right\rangle
+:=
+\lim_{\varepsilon\to 0}
+\int_{|x|>\varepsilon} \frac{\varphi(x)}{x}\,dx
+\]
+exists for every $\varphi\in\mathcal{D}(\mathbb{R})$. Since $\varphi$ is
+smooth, the quantity $\varphi(x)-\varphi(0)=O(x)$, and the symmetric
+cancellation near $0$ guarantees convergence. The mapping
+$\varphi\mapsto \langle PV(1/x),\varphi\rangle$ is linear and continuous
+on $\mathcal{S}(\mathbb{R})$, and hence
+\[
+PV\!\left(\frac1x\right)\in\mathcal{S}'(\mathbb{R})
+\]
+is a tempered distribution.
+
+A smooth regularisation is given by
+\[
+f_\varepsilon(x)=\frac{x}{x^2+\varepsilon^2},
+\]
+which satisfies $f_\varepsilon\to PV(1/x)$ in $\mathcal{S}'$.
+
+\subsubsection*{A. Smooth regularisations of $1/x$}
+
+A standard smooth odd regularisation of $1/x$ is given by
+\[
+f_\varepsilon(x) = \frac{x}{x^2+\varepsilon^2},
+\qquad \varepsilon>0.
+\]
+Each $f_\varepsilon$ is smooth on $\mathbb{R}$, odd, and satisfies
+\[
+f_\varepsilon(x) \sim \frac{1}{x} \quad\text{for } |x|\gg\varepsilon,
+\qquad
+f_\varepsilon(0)=0.
+\]
+Thus $f_\varepsilon$ looks like $1/x$ away from the origin, but the
+singularity at $x=0$ has been ``rounded off''.
+
+In the sense of distributions we have
+\[
+f_\varepsilon \longrightarrow PV\!\left(\frac1x\right)
+\quad\text{in }\mathcal{S}'(\mathbb{R}),
+\]
+i.e.
+\[
+\lim_{\varepsilon\to 0}
+\int_{\mathbb{R}} f_\varepsilon(x)\,\varphi(x)\,dx
+=
+\left\langle PV\!\left(\frac1x\right),\varphi\right\rangle
+= \lim_{\varepsilon\to0}
+\int_{|x|>\varepsilon}\frac{\varphi(x)}{x}\,dx
+\]
+for all $\varphi\in\mathcal{S}(\mathbb{R})$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/MATH-ALLS-2_pv_regularisations_full.png}
+	\caption{Regularisations $f_\varepsilon(x)=x/(x^2+\varepsilon^2)$
+		of $1/x$ for several values of $\varepsilon$.}
+	\label{fig:pv-regularisations-full}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/MATH-ALLS-2_pv_regularisations_zoom.png}
+	\caption{Zoom near $0$ of the regularisations $f_\varepsilon(x)$.
+		As $\varepsilon\to0$, the functions become steeper near $0$ and
+		approximate the singular behaviour of $1/x$ in the principal value
+		sense.}
+	\label{fig:pv-regularisations-zoom}
+\end{figure}
+
+\subsubsection*{B. Comparison with $1/x$}
+
+The function $1/x$ is not locally integrable at $0$, so it does not
+define a regular distribution. Nevertheless, away from the origin the
+regularisation $f_\varepsilon(x)=x/(x^2+\varepsilon^2)$ agrees with
+$1/x$ up to an error of order $O(\varepsilon^2/x^3)$:
+\[
+\frac{x}{x^2+\varepsilon^2}
+= \frac{1}{x}\,\frac{1}{1+\varepsilon^2/x^2}
+= \frac1x - \frac{\varepsilon^2}{x^3} + O\!\left(\frac{\varepsilon^4}{x^5}\right)
+\quad (|x| \gg \varepsilon).
+\]
+Thus the regularisation captures the correct singular behaviour at
+infinity, while remaining smooth at $0$. The principal value distribution
+$PV(1/x)$ can be viewed as the ``limit'' of these regularisations.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/MATH-ALLS-2_pv_compare_1_over_x.png}
+	\caption{Comparison of $1/x$ (away from a small neighbourhood of $0$)
+		with a fixed regularisation $f_\varepsilon(x)=x/(x^2+\varepsilon^2)$.
+		The curves almost coincide for $|x|\gg\varepsilon$, while the
+		regularisation remains bounded at $0$.}
+	\label{fig:pv-compare}
+\end{figure}
+\subsubsection*{C. Fourier transform and the sign function}
+
+A key fact from harmonic analysis is the distributional Fourier transform
+identity
+\[
+\mathcal{F}\!\left(PV\frac1x\right)(\xi)
+= -\,i\pi\,\operatorname{sgn}(\xi),
+\]
+where $\operatorname{sgn}(\xi)$ is the sign function,
+\[
+\operatorname{sgn}(\xi) =
+\begin{cases}
+	-1, & \xi<0,\\[0.2em]
+	0,  & \xi=0,\\[0.2em]
+	1,  & \xi>0.
+\end{cases}
+\]
+This shows that $PV(1/x)$ is (up to constants) the kernel of the
+Hilbert transform and connects singular integral operators with
+tempered distributions.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{figures/MATH-ALLS-2_sign_function.png}
+	\caption{The sign function $\operatorname{sgn}(x)$, which appears as
+		the Fourier transform (up to the factor $-i\pi$) of the principal
+		value distribution $PV(1/x)$.}
+	\label{fig:sign-function}
+\end{figure}
+
+
+\clearpage
+
+\subsection*{Exercise 3.1. Approximation in $\mathcal{E}(\Omega)$ and $\mathcal{D}(\Omega)$}
+
+\noindent
+(a)\; Suppose that $\{\phi_j\}_{j=1}^\infty\subset\mathcal{E}(\Omega)$ is a
+sequence such that $\phi_j\to\phi$ in $\mathcal{E}(\Omega)$, and
+$\chi\in\mathcal{D}(\Omega)$. Show that
+\[
+\chi\phi_j \longrightarrow \chi\phi \quad\text{in }\mathcal{D}(\Omega).
+\]
+
+\medskip\noindent
+(b)\; Show that if $\psi\in\mathcal{E}(\Omega)$, then there exists a sequence
+$\{\phi_j\}_{j=1}^\infty\subset\mathcal{D}(\Omega)$ such that
+$\phi_j\to\psi$ in $\mathcal{E}(\Omega)$.
+
+\subsection*{Solution}
+
+\paragraph{(a)}
+Let $\chi\in\mathcal{D}(\Omega)$ and let
+$K:=\operatorname{supp}\chi\subset\Omega$, which is compact.
+Convergence $\phi_j\to\phi$ in $\mathcal{E}(\Omega)$ means that for every
+multiindex $\beta$,
+\[
+\sup_{x\in K}|\partial^\beta\phi_j(x)-\partial^\beta\phi(x)|
+\longrightarrow 0.
+\]
+For any multiindex $\alpha$, by Leibniz' rule,
+\[
+\partial^\alpha(\chi\phi_j)
+= \sum_{\beta\le\alpha} \binom{\alpha}{\beta}
+(\partial^{\alpha-\beta}\chi)\,(\partial^\beta\phi_j).
+\]
+Each $\partial^{\alpha-\beta}\chi$ is continuous on $K$ and fixed, while
+$\partial^\beta\phi_j\to\partial^\beta\phi$ uniformly on $K$. Hence
+$\partial^\alpha(\chi\phi_j)\to\partial^\alpha(\chi\phi)$ uniformly on $K$.
+Moreover, $\operatorname{supp}(\chi\phi_j)\subset K$ for all $j$.
+Therefore $\chi\phi_j\to\chi\phi$ in $\mathcal{D}(\Omega)$.
+
+\paragraph{(b)}
+Let $\psi\in\mathcal{E}(\Omega)$. Choose an exhaustion of $\Omega$ by
+compact sets $K_1\subset K_2\subset\cdots$ with
+$\bigcup_{j}K_j=\Omega$. For each $j$ one can construct
+$\chi_j\in\mathcal{D}(\Omega)$ such that
+\[
+0\le\chi_j\le 1,\qquad
+\chi_j\equiv 1 \text{ on }K_j.
+\]
+(For instance by smoothing suitable cut--off functions, cf.\ Lemma~1.14.)
+Define
+\[
+\phi_j := \chi_j\psi \in \mathcal{D}(\Omega).
+\]
+Let $K\subset\Omega$ be any compact set. Then $K\subset K_J$ for some
+$J$, and for all $j\ge J$ we have $\chi_j\equiv 1$ on $K$, hence
+$\phi_j=\psi$ on $K$. It follows that for every multiindex $\alpha$
+and every compact $K\subset\Omega$,
+\[
+\sup_{x\in K}|\partial^\alpha\phi_j(x)-\partial^\alpha\psi(x)|
+= 0
+\]
+for all sufficiently large $j$. Thus $\phi_j\to\psi$ in $\mathcal{E}(\Omega)$.
+
+\hfill$\Box$
+
+
+\subsection*{Exercise 3.2. Tempered and general distributions}
+
+\noindent
+(a)\; Prove Lemma 2.11. \emph{(See the textbook; the proof is analogous
+	to that of Lemma 2.9.)}
+
+\medskip\noindent
+(b)\; Show that we have the inclusions
+\[
+\mathcal{E}'(\mathbb{R}^n)\subset\mathcal{S}'(\mathbb{R}^n)
+\subset\mathcal{D}'(\mathbb{R}^n).
+\]
+
+\subsection*{Solution (b)}
+We know that
+\[
+\mathcal{D}(\mathbb{R}^n)\subset\mathcal{S}(\mathbb{R}^n)
+\subset\mathcal{E}(\mathbb{R}^n).
+\]
+If $T\in\mathcal{E}'(\mathbb{R}^n)$ is continuous on
+$\mathcal{E}(\mathbb{R}^n)$, then its restriction to the subspace
+$\mathcal{S}(\mathbb{R}^n)$ is also continuous, so
+$T\in\mathcal{S}'(\mathbb{R}^n)$. Hence
+$\mathcal{E}'(\mathbb{R}^n)\subset\mathcal{S}'(\mathbb{R}^n)$.
+
+Similarly, if $T\in\mathcal{S}'(\mathbb{R}^n)$ is continuous on
+$\mathcal{S}(\mathbb{R}^n)$, then the restriction of $T$ to
+$\mathcal{D}(\mathbb{R}^n)\subset\mathcal{S}(\mathbb{R}^n)$ is a
+continuous linear functional on $\mathcal{D}(\mathbb{R}^n)$, i.e.\
+$T\in\mathcal{D}'(\mathbb{R}^n)$. Thus
+$\mathcal{S}'(\mathbb{R}^n)\subset\mathcal{D}'(\mathbb{R}^n)$.
+Combining both inclusions we obtain
+\[
+\mathcal{E}'(\mathbb{R}^n)\subset\mathcal{S}'(\mathbb{R}^n)
+\subset\mathcal{D}'(\mathbb{R}^n).
+\]
+
+\hfill$\Box$
+
+\subsection*{Exercise 3.3. Sequences as distributions}
+
+Let $\{a_j\}_{j=1}^\infty\subset\mathbb{R}$ be a sequence of real
+numbers. For $\phi\in C^\infty(\mathbb{R})$ define
+\[
+u[\phi] := \sum_{j=1}^\infty a_j\,\phi(j),
+\]
+provided that the sum converges. Give necessary and sufficient
+conditions on $(a_j)$ such that:
+
+\begin{enumerate}
+	\item[(a)] $u\in\mathcal{E}'(\mathbb{R})$,
+	\item[(b)] $u\in\mathcal{S}'(\mathbb{R})$,
+	\item[(c)] $u\in\mathcal{D}'(\mathbb{R})$.
+\end{enumerate}
+
+\subsection*{Solution}
+
+We may write formally
+\[
+u = \sum_{j=1}^\infty a_j\,\delta_j,
+\qquad \delta_j[\phi]=\phi(j).
+\]
+
+\paragraph{(a) Membership in $\mathcal{E}'(\mathbb{R})$.}
+The distribution $u$ is compactly supported iff the closure of the set
+$\{j\in\mathbb{N}: a_j\neq 0\}$ is compact in $\mathbb{R}$, which
+happens exactly when this set is finite. Hence
+\[
+u\in\mathcal{E}'(\mathbb{R})
+\quad\Longleftrightarrow\quad
+a_j=0 \text{ for all but finitely many } j.
+\]
+In this case $u$ is a finite linear combination of Dirac deltas.
+
+\paragraph{(b) Membership in $\mathcal{S}'(\mathbb{R})$.}
+Recall that $\mathcal{S}(\mathbb{R})$ has seminorms
+\[
+p_{m,k}(\phi) = \sup_{x\in\mathbb{R}} (1+|x|)^m |\phi^{(k)}(x)|.
+\]
+For each $m$ and $\phi\in\mathcal{S}(\mathbb{R})$ we have
+\[
+|\phi(j)| \le \frac{p_{m,0}(\phi)}{(1+|j|)^m},\qquad j\in\mathbb{Z}.
+\]
+
+If there exist constants $C>0$ and $N\in\mathbb{N}$ such that
+\[
+|a_j| \le C(1+|j|)^N \qquad\text{for all } j,
+\]
+then choosing $m>N+2$ we obtain
+\[
+\sum_{j=1}^\infty |a_j\phi(j)|
+\le C\,p_{m,0}(\phi)
+\sum_{j=1}^\infty (1+|j|)^{N-m}
+< \infty,
+\]
+since $\sum_j (1+|j|)^{N-m}$ converges for $m>N+1$. Thus $u$ is a
+well-defined continuous linear functional on $\mathcal{S}(\mathbb{R})$,
+so $u\in\mathcal{S}'(\mathbb{R})$.
+
+Conversely, if $u\in\mathcal{S}'(\mathbb{R})$ then the map
+$\phi\mapsto \sum_j a_j\phi(j)$ is continuous with respect to the
+Schwartz seminorms. Testing this continuity on functions that are
+concentrated near each integer $j$ shows that the sequence $(a_j)$
+cannot grow faster than some polynomial; hence there exist $C,N$ such
+that $|a_j|\le C(1+|j|)^N$ for all $j$.
+
+Therefore
+\[
+u\in\mathcal{S}'(\mathbb{R})
+\quad\Longleftrightarrow\quad
+|a_j|\le C(1+|j|)^N \text{ for some }C,N.
+\]
+
+\paragraph{(c) Membership in $\mathcal{D}'(\mathbb{R})$.}
+For $\phi\in\mathcal{D}(\mathbb{R})$ the support of $\phi$ is compact,
+hence there are only finitely many integers $j$ with $\phi(j)\neq0$.
+Thus the sum
+\[
+u[\phi] = \sum_{j=1}^\infty a_j\phi(j)
+\]
+is always finite and therefore convergent, without any restriction on
+$(a_j)$. Each $\delta_j$ is a distribution, and for test functions the
+sum defining $u$ is locally finite, so $u$ is a continuous linear
+functional on $\mathcal{D}(\mathbb{R})$.
+
+Consequently, \emph{every} sequence $(a_j)$ defines an element of
+$\mathcal{D}'(\mathbb{R})$; no additional conditions are needed.
+
+\hfill$\Box$
+
+\subsection*{Exercise 3.4. Plane waves as tempered distributions}
+
+For $\xi\in\mathbb{R}^n$ define $e_\xi(x)=e^{i\xi\cdot x}$ and let
+$T_{e_\xi}\in\mathcal{S}'(\mathbb{R}^n)$ be the regular distribution
+associated with $e_\xi$:
+\[
+\langle T_{e_\xi},\varphi\rangle
+= \int_{\mathbb{R}^n} e^{i\xi\cdot x}\varphi(x)\,dx,
+\qquad \varphi\in\mathcal{S}(\mathbb{R}^n).
+\]
+Show that $T_{e_\xi}\in\mathcal{S}'(\mathbb{R}^n)$ and that
+$T_{e_\xi}\to 0$ as $|\xi|\to\infty$ in the topology of $\mathcal{S}'$.
+
+\subsubsection*{Solution}
+
+Since $e_\xi$ is smooth and bounded, it is of polynomial growth. Thus
+for each fixed $\xi$ the map
+\[
+\varphi\mapsto \int_{\mathbb{R}^n} e^{i\xi\cdot x}\varphi(x)\,dx
+\]
+defines a continuous linear functional on $\mathcal{S}(\mathbb{R}^n)$,
+so $T_{e_\xi}\in\mathcal{S}'(\mathbb{R}^n)$.
+
+Using the Fourier transform
+\[
+\widehat{\varphi}(\xi)
+= \int_{\mathbb{R}^n} e^{-i x\cdot\xi}\varphi(x)\,dx,
+\]
+we note that
+\[
+\langle T_{e_\xi},\varphi\rangle
+= \int_{\mathbb{R}^n} e^{i\xi\cdot x}\varphi(x)\,dx
+= \widehat{\varphi}(-\xi).
+\]
+Since $\varphi\in\mathcal{S}(\mathbb{R}^n)$, its Fourier transform
+$\widehat{\varphi}$ is also in $\mathcal{S}(\mathbb{R}^n)$, in
+particular $\widehat{\varphi}(\eta)\to0$ as $|\eta|\to\infty$. Hence
+\[
+\langle T_{e_\xi},\varphi\rangle = \widehat{\varphi}(-\xi)\to0
+\quad\text{as }|\xi|\to\infty,
+\]
+for every $\varphi\in\mathcal{S}(\mathbb{R}^n)$. This is precisely the
+statement that $T_{e_\xi}\to0$ in $\mathcal{S}'$.
+
+% ---------------------------------------------------------------
+
+\subsection*{Exercise 3.5. Fourier transforms of some $L^1$ functions}
+
+We use the convention
+\[
+\widehat{f}(\xi) = \int_{\mathbb{R}} e^{-i x\xi} f(x)\,dx.
+\]
+
+\paragraph{(a)}
+Let $f(x)=\dfrac{\sin x}{1+x^2}$. Compute $\widehat{f}$.
+
+\subsubsection*{Solution (a)}
+
+Let $g(x)=\dfrac{1}{1+x^2}$, so that
+\[
+f(x) = \frac{\sin x}{1+x^2}
+= \frac{1}{2i}\big(e^{ix}g(x) - e^{-ix}g(x)\big).
+\]
+Using the frequency--shift property
+$\mathcal{F}(e^{\pm ix}g)(\xi) = \widehat{g}(\xi\mp 1)$ and the known
+pair
+\[
+g(x)=\frac{1}{1+x^2}
+\quad\Longrightarrow\quad
+\widehat{g}(\xi) = \pi e^{-|\xi|},
+\]
+we obtain
+\[
+\widehat{f}(\xi)
+= \frac{1}{2i}\big(\widehat{g}(\xi-1)-\widehat{g}(\xi+1)\big)
+= \frac{\pi}{2i}\big(e^{-|\xi-1|}-e^{-|\xi+1|}\big).
+\]
+
+\paragraph{(b)}
+Let $f(x)=\dfrac{1}{\varepsilon^2 + x^2}$ with $\varepsilon>0$. Compute
+$\widehat{f}$.
+
+\subsubsection*{Solution (b)}
+
+We write
+\[
+f(x) = \frac{1}{\varepsilon^2 + x^2}
+= \frac{1}{\varepsilon^2} g\!\left(\frac{x}{\varepsilon}\right),
+\qquad
+g(x)=\frac{1}{1+x^2}.
+\]
+The scaling property yields, for $h_a(x)=g(x/a)$,
+\[
+\widehat{h_a}(\xi) = a\,\widehat{g}(a\xi).
+\]
+With $a=\varepsilon$ we have
+\[
+\widehat{g(x/\varepsilon)}(\xi)
+= \varepsilon\,\widehat{g}(\varepsilon\xi)
+= \varepsilon\pi e^{-\varepsilon|\xi|}.
+\]
+Thus
+\[
+\widehat{f}(\xi)
+= \frac{1}{\varepsilon^2}
+\widehat{g(x/\varepsilon)}(\xi)
+= \frac{\pi}{\varepsilon} e^{-\varepsilon|\xi|}.
+\]
+
+\paragraph{(c)}
+Let
+\[
+f(x)=\sqrt{\frac{\sigma}{t}}\,
+e^{-\sigma\frac{(x-y)^2}{t}},\qquad \sigma>0,\ t>0,\ y\in\mathbb{R}.
+\]
+Compute $\widehat{f}$.
+
+\subsubsection*{Solution (c)}
+
+Set $a=\sigma/t>0$, so
+\[
+f(x) = \sqrt{a}\,e^{-a(x-y)^2}.
+\]
+We use the Gaussian transform
+\[
+\int_{\mathbb{R}} e^{-a(x-y)^2} e^{-i x\xi}\,dx
+= \sqrt{\frac{\pi}{a}}\,e^{-\frac{\xi^2}{4a}}e^{-i y\xi}.
+\]
+Therefore
+\[
+\widehat{f}(\xi)
+= \sqrt{a}\,\sqrt{\frac{\pi}{a}}\,e^{-\frac{\xi^2}{4a}}e^{-i y\xi}
+= \sqrt{\pi}\,e^{-\frac{\xi^2}{4a}}e^{-i y\xi}.
+\]
+Substituting $a=\sigma/t$ gives
+\[
+\widehat{f}(\xi)
+= \sqrt{\pi}\,\exp\!\Big(-\frac{t\,\xi^2}{4\sigma}\Big)\,e^{-i y\xi}.
+\]
+
+\paragraph{(d*)}
+Let $f(x)=1/\cosh x$. Show that
+\[
+\widehat{f}(\xi) = \int_{\mathbb{R}} \frac{e^{-i x\xi}}{\cosh x}\,dx
+= \frac{\pi}{\cosh\!\big(\frac{\pi\xi}{2}\big)}.
+\]
+
+\subsubsection*{Solution (sketch, d*)}
+
+The function $f(x)=\sech x$ is meromorphic with simple poles at
+$x=i\pi(n+\tfrac12)$, $n\in\mathbb{Z}$. By integrating
+$e^{-i x\xi}/\cosh x$ over a suitable rectangular contour and summing
+the residues, one obtains
+\[
+\int_{\mathbb{R}}\frac{e^{-i x\xi}}{\cosh x}\,dx
+= \frac{\pi}{\cosh(\pi\xi/2)}.
+\]
+Thus
+\[
+\widehat{f}(\xi) = \frac{\pi}{\cosh(\pi\xi/2)}.
+\]
+
+
+
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/MATH-ALLS-2_gaussian_x_space.png}
+	\caption{Gaussian $g(x)=e^{-x^2/2}$ in physical space.}
+	\label{fig:gaussian-x}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.6\textwidth]{figures/MATH-ALLS-2_gaussian_freq_space.png}
+	\caption{Fourier transform $\widehat{g}(\xi)\propto e^{-\xi^2/2}$ in
+		frequency space. The shape is again Gaussian, illustrating the
+		self-reproducing property of Gaussians under the Fourier transform.}
+	\label{fig:gaussian-freq}
+\end{figure}
+
+
+\paragraph{Plane waves as inverse Fourier transforms of point masses.}
+In the sense of tempered distributions we have
+\[
+\mathcal{F}\big(e^{i\xi_0\cdot x}\big)
+= (2\pi)^n \delta_{\xi_0},\qquad
+e^{i\xi_0\cdot x}
+= \mathcal{F}^{-1}\big((2\pi)^n\delta_{\xi_0}\big).
+\]
+Thus the regular distribution $T_{e_{\xi_0}}$ associated with the
+plane wave $e^{i\xi_0\cdot x}$ is the inverse Fourier transform of the
+point mass at $\xi_0$. For $\varphi\in\mathcal{S}(\mathbb{R}^n)$ this
+gives
+\[
+\langle T_{e_\xi},\varphi\rangle
+= \int_{\mathbb{R}^n} e^{i\xi\cdot x}\varphi(x)\,dx
+= \widehat{\varphi}(-\xi),
+\]
+so that $T_{e_\xi}\to 0$ as $|\xi|\to\infty$ because
+$\widehat{\varphi}\in\mathcal{S}(\mathbb{R}^n)$ and hence
+$\widehat{\varphi}(-\xi)\to 0$ as $|\xi|\to\infty$.
+
+The Gaussian example illustrates this behaviour: for a Gaussian
+$g(x)=e^{-x^2/2}$, the Fourier transform $\widehat{g}$ is again
+Gaussian. As the Gaussian in frequency concentrates and tends to a
+Dirac distribution $\delta_{\xi_0}$, the inverse Fourier transform tends
+to a plane wave $e^{i\xi_0\cdot x}$, which is completely delocalised in
+physical space.
+
+\subsection*{Exercise 3.6 (Approximation by compactly supported $C^1$ functions)}
+
+Suppose $f\in C^1(\mathbb{R}^n)$ and that $f,D_j f\in L^1(\mathbb{R}^n)$.  
+Fix $\varepsilon>0$. Show that there exists $f_\varepsilon\in C_0^1(\mathbb{R}^n)$ such that
+\[
+\|f-f_\varepsilon\|_{L^1(\mathbb{R}^n)}
++\|D_j f-D_j f_\varepsilon\|_{L^1(\mathbb{R}^n)}<\frac{\varepsilon}{2}.
+\]
+
+\paragraph{Solution.}
+
+\emph{Step 1: Cut off the tails.}
+Because $f,D_j f\in L^1(\mathbb{R}^n)$, we can choose $R>0$ so large that
+\begin{equation}\label{eq:tail-choice}
+	\int_{|x|\ge R}\big(|f(x)|+|D_j f(x)|\big)\,dx < \frac{\varepsilon}{8}.
+\end{equation}
+Let $\chi_R\in C_0^\infty(\mathbb{R}^n)$ be a smooth cut-off with
+\[
+\chi_R(x)=1 \ \text{for } |x|<R, \qquad
+\chi_R(x)=0 \ \text{for } |x|\ge 2R, \qquad
+|D\chi_R(x)|\le C
+\]
+for some constant $C>0$ independent of $R$. Set
+\[
+g_R(x):=\chi_R(x)f(x).
+\]
+Then $g_R\in C_0^1(\mathbb{R}^n)$ and $\mathrm{supp}\,g_R\subset B_{2R}(0)$.
+
+On the set $\{|x|<R\}$ we have $g_R=f$, whereas on $\{|x|\ge R\}$,
+\(
+|f(x)-g_R(x)| = |1-\chi_R(x)|\,|f(x)|
+\le |f(x)|.
+\)
+Hence
+\begin{equation}\label{eq:f-gR}
+	\|f-g_R\|_{L^1}
+	\le \int_{|x|\ge R}|f(x)|\,dx
+	< \frac{\varepsilon}{8}.
+\end{equation}
+
+For the derivative we use $D_j(\chi_R f)=\chi_R D_j f +(D_j\chi_R)f$ and compute
+\[
+D_j f - D_j g_R = (1-\chi_R)D_j f - (D_j\chi_R)\,f.
+\]
+Thus
+\begin{equation}\label{eq:Df-DgR}
+	\begin{aligned}
+		\|D_j f-D_j g_R\|_{L^1}
+		&\le \int_{|x|\ge R}|D_j f(x)|\,dx
+		+ \int_{R\le |x|\le 2R}|D_j\chi_R(x)|\,|f(x)|\,dx \\
+		&\le \int_{|x|\ge R}|D_j f(x)|\,dx
+		+ C\int_{|x|\ge R}|f(x)|\,dx.
+	\end{aligned}
+\end{equation}
+By enlarging $R$ if necessary we may assume that
+\[
+\int_{|x|\ge R}|D_j f(x)|\,dx < \frac{\varepsilon}{8},
+\qquad
+C\int_{|x|\ge R}|f(x)|\,dx < \frac{\varepsilon}{8}.
+\]
+Together with \eqref{eq:f-gR} and \eqref{eq:Df-DgR} this gives
+\[
+\|f-g_R\|_{L^1} + \|D_j f-D_j g_R\|_{L^1} < \frac{\varepsilon}{4}.
+\]
+
+\emph{Step 2: Smoothing by convolution.}
+Let $\rho\in C_0^\infty(\mathbb{R}^n)$ be a standard mollifier with $\rho\ge0$,
+$\int\rho=1$ and set $\rho_\delta(x)=\delta^{-n}\rho(x/\delta)$. Define
+\[
+f_\varepsilon := g_R * \rho_\delta.
+\]
+Since $g_R$ has compact support and $\rho_\delta$ has compact support,
+$f_\varepsilon\in C_0^\infty(\mathbb{R}^n)\subset C_0^1(\mathbb{R}^n)$.
+
+Standard properties of mollifiers yield
+\[
+\|g_R-g_R * \rho_\delta\|_{L^1}\to 0,
+\qquad
+\|D_j g_R-(D_j g_R)*\rho_\delta\|_{L^1}\to 0
+\]
+as $\delta\to 0$. Hence we can choose $\delta>0$ so small that
+\[
+\|g_R-f_\varepsilon\|_{L^1}
++\|D_j g_R-D_j f_\varepsilon\|_{L^1}<\frac{\varepsilon}{4}.
+\]
+
+\emph{Step 3: Conclusion.}
+By the triangle inequality,
+\[
+\begin{aligned}
+	\|f-f_\varepsilon\|_{L^1}
+	&\le \|f-g_R\|_{L^1}+\|g_R-f_\varepsilon\|_{L^1}, \\
+	\|D_j f-D_j f_\varepsilon\|_{L^1}
+	&\le \|D_j f-D_j g_R\|_{L^1}
+	+\|D_j g_R-D_j f_\varepsilon\|_{L^1}.
+\end{aligned}
+\]
+Each term on the right can be made $<\varepsilon/4$, so
+\[
+\|f-f_\varepsilon\|_{L^1}
++\|D_j f-D_j f_\varepsilon\|_{L^1}<\frac{\varepsilon}{2},
+\]
+as required.
+\qedhere
+
+
+\subsection*{Exercise 3.7 (Fourier transform of a compactly supported $L^1$ function)}
+
+
+
+Suppose $f \in L^{1}(\mathbb{R}^{n})$ with $\operatorname{supp} f \subset B_{R}(0)$ for some $R>0$.
+
+\begin{enumerate}[(a)]
+	\item Show that $\widehat{f} \in C^{\infty}(\mathbb{R}^{n})$ and that for any multi–index $\alpha$,
+	\[
+	\sup_{\xi \in \mathbb{R}^{n}} \left| D^{\alpha} \widehat{f}(\xi) \right|
+	\le R^{|\alpha|} \, \|f\|_{L^{1}(\mathbb{R}^{n})}.
+	\]
+	
+	\item Show that $\widehat{f}$ is real analytic, with an infinite radius of convergence, i.e.
+	\[
+	\widehat{f}(\xi)
+	= \sum_{\alpha} \frac{D^{\alpha} \widehat{f}(0)}{\alpha!} \, \xi^{\alpha}
+	\qquad \text{for all } \xi \in \mathbb{R}^{n}.
+	\]
+	
+	\item Show that if $\widehat{f}(\xi)$ vanishes on an open set, then it must vanish everywhere.
+	\hfill\textit{(Hint: use part (i) of Lemma 3.2.)}
+\end{enumerate}
+
+You may assume the following version of Taylor's theorem: if $g \in C^{k+1}(B_{r}(0))$, then for $x \in B_{r}(0)$,
+\[
+g(x)
+= \sum_{|\alpha|\le k} D^{\alpha} g(0)\,\frac{x^{\alpha}}{\alpha!}
++ \sum_{|\beta| = k+1} R_{\beta}(x)\,x^{\beta},
+\]
+where the remainder satisfies
+\[
+|R_{\beta}(x)|
+\le \frac{1}{\beta!}
+\max_{|\alpha|=|\beta|}
+\max_{y\in B_{r}(0)} |D^{\alpha} g(y)|.
+\]
+
+
+Suppose $f\in L^1(\mathbb{R}^n)$, with $\mathrm{supp}\,f\subset B_R(0)$ for some $R>0$,
+and define
+\[
+\widehat f(\xi):=\int_{\mathbb{R}^n} e^{-2\pi i x\cdot \xi} f(x)\,dx.
+\]
+
+\paragraph{(a) Smoothness and derivative bounds.}
+
+We first show that $\widehat f\in C^\infty(\mathbb{R}^n)$ and that, for any
+multi-index $\alpha$,
+\[
+\sup_{\xi\in\mathbb{R}^n}\big|D^\alpha \widehat f(\xi)\big|
+\le R^{|\alpha|}\,\|f\|_{L^1(\mathbb{R}^n)}.
+\]
+
+\emph{Proof.}
+Because $f$ has compact support, for each multi-index $\alpha$ we may differentiate
+under the integral sign:
+\[
+D^\alpha_\xi \widehat f(\xi)
+= \int_{\mathbb{R}^n} D^\alpha_\xi\!\big(e^{-2\pi i x\cdot \xi}\big) f(x)\,dx
+= \int_{\mathbb{R}^n} (-2\pi i x)^\alpha e^{-2\pi i x\cdot \xi} f(x)\,dx.
+\]
+Hence
+\[
+|D^\alpha \widehat f(\xi)|
+\le \int_{\mathbb{R}^n} |x^\alpha|\,|f(x)|\,dx.
+\]
+On the support of $f$ we have $|x_k|\le R$ for each coordinate, so
+$|x^\alpha|\le R^{|\alpha|}$. Therefore
+\[
+|D^\alpha \widehat f(\xi)|
+\le R^{|\alpha|} \int_{\mathbb{R}^n}|f(x)|\,dx
+= R^{|\alpha|}\,\|f\|_{L^1(\mathbb{R}^n)},
+\]
+and this upper bound is independent of $\xi$. Thus
+\[
+\sup_{\xi\in\mathbb{R}^n}|D^\alpha\widehat f(\xi)|
+\le R^{|\alpha|}\,\|f\|_{L^1}.
+\]
+Since each derivative is obtained as an $L^1$–limit under the integral,
+$D^\alpha\widehat f$ is continuous, and hence $\widehat f\in C^\infty(\mathbb{R}^n)$.
+\qed
+
+\paragraph{(b) Real analyticity and infinite radius of convergence.}
+
+We show that $\widehat f$ is real analytic with infinite radius of convergence, i.e.
+\[
+\widehat f(\xi) = \sum_{\alpha} \frac{D^\alpha \widehat f(0)}{\alpha!}\,\xi^\alpha
+\qquad\text{for all }\xi\in\mathbb{R}^n.
+\]
+
+\emph{Proof.}
+Apply the multivariable Taylor theorem to
+\[
+g(\xi):=\widehat f(\xi)
+\]
+at the point $0\in\mathbb{R}^n$. For $x\in B_r(0)$ we have
+\[
+\widehat f(x)
+= \sum_{|\alpha|\le k} D^\alpha \widehat f(0)\,\frac{x^\alpha}{\alpha!}
++ \sum_{|\beta|=k+1} R_\beta(x)\,x^\beta,
+\]
+where each remainder term satisfies
+\[
+|R_\beta(x)|
+\le \frac{1}{\beta!}
+\max_{|\gamma|=|\beta|}
+\max_{y\in B_r(0)} |D^\gamma \widehat f(y)|.
+\]
+Using the estimate from part (a) we obtain
+\[
+|R_\beta(x)|
+\le \frac{1}{\beta!}\,R^{|\beta|}\,\|f\|_{L^1}.
+\]
+Hence, for $|x|<r$,
+\[
+\begin{aligned}
+	\left|\sum_{|\beta|=k+1} R_\beta(x)\,x^\beta\right|
+	&\le \sum_{|\beta|=k+1}
+	\frac{R^{|\beta|}\|f\|_{L^1}}{\beta!}\,|x|^{|\beta|} \\
+	&\le \|f\|_{L^1}
+	\sum_{m=k+1}^\infty \frac{(C R|x|)^m}{m!},
+\end{aligned}
+\]
+where $C>0$ depends only on the dimension (via the number of multi-indices of
+length $m$). The last sum is the tail of an exponential series and therefore
+tends to $0$ as $k\to\infty$, for every $x\in\mathbb{R}^n$ (no restriction on $|x|$).
+
+Letting $k\to\infty$ we conclude that
+\[
+\widehat f(\xi)
+= \sum_{\alpha} \frac{D^\alpha \widehat f(0)}{\alpha!}\,\xi^\alpha
+\qquad\text{for all }\xi\in\mathbb{R}^n,
+\]
+so $\widehat f$ is real analytic with infinite radius of convergence.
+\qed
+
+\paragraph{(c) Vanishing on an open set implies $\widehat f\equiv 0$.}
+
+Suppose that $\widehat f(\xi)=0$ for all $\xi$ in some nonempty open set
+$\Omega\subset\mathbb{R}^n$. Choose $\xi_0\in\Omega$ and let $B_r(\xi_0)\subset\Omega$ be
+a ball contained in $\Omega$. On $B_r(\xi_0)$ we have $\widehat f\equiv 0$, and hence,
+for every multi-index $\alpha$,
+\[
+D^\alpha \widehat f(\xi_0)=0.
+\]
+
+By part (b), the Taylor expansion of $\widehat f$ at $\xi_0$ has infinite radius of
+convergence:
+\[
+\widehat f(\xi)
+= \sum_{\alpha} \frac{D^\alpha \widehat f(\xi_0)}{\alpha!}\,
+(\xi-\xi_0)^\alpha
+\qquad\text{for all }\xi\in\mathbb{R}^n.
+\]
+Since all derivatives at $\xi_0$ vanish, every coefficient in this series is zero,
+and consequently $\widehat f(\xi)=0$ for all $\xi\in\mathbb{R}^n$.
+
+Thus, if $\widehat f$ vanishes on any nonempty open set, it must vanish identically.
+\qed
+
+
+\subsubsection*{Examples illustrating Exercise 3.7}
+
+\paragraph{Example 1 (Indicator of an interval).}
+In one dimension, let
+\[
+f(x) = \mathbf{1}_{[-1,1]}(x).
+\]
+Then $f\in L^{1}(\mathbb{R})$ and $\mathrm{supp}\,f\subset[-1,1]=B_{1}(0)$, so $R=1$
+and $\|f\|_{L^{1}}=2$. With the Fourier transform
+\[
+\widehat{f}(\xi)
+= \int_{\mathbb{R}} e^{-2\pi i x\xi} f(x)\,dx,
+\]
+we compute
+\[
+\widehat{f}(\xi)
+= \int_{-1}^{1} e^{-2\pi i x\xi}\,dx
+= \frac{\sin(2\pi\xi)}{\pi\xi},
+\]
+where $\widehat{f}(0)$ is defined by continuity, giving $\widehat{f}(0)=2$.
+
+For any $k\in\mathbb{N}$ we have
+\[
+\widehat{f}^{(k)}(\xi)
+= \int_{-1}^{1} (-2\pi i x)^{k} e^{-2\pi i x\xi}\,dx,
+\]
+so that
+\[
+\big|\widehat{f}^{(k)}(\xi)\big|
+\le \int_{-1}^{1} |2\pi x|^{k}\,dx
+\le (2\pi)^{k} \int_{-1}^{1} |x|^{k}\,dx
+\le (2\pi)^{k} \cdot 2.
+\]
+This is of the form
+\[
+\sup_{\xi\in\mathbb{R}} \big|\widehat{f}^{(k)}(\xi)\big|
+\le C^{k} \|f\|_{L^{1}},
+\]
+and illustrates the bound from part (a) of Exercise~3.7 with $R=1$.
+
+Around $\xi=0$ we expand
+\[
+e^{-2\pi i x\xi} = \sum_{m=0}^{\infty}
+\frac{(-2\pi i x\xi)^{m}}{m!},
+\]
+and since $|x|\le 1$ on the support of $f$, we may integrate term-by-term:
+\[
+\widehat{f}(\xi)
+= \sum_{m=0}^{\infty} \frac{(-2\pi i \xi)^{m}}{m!}
+\int_{-1}^{1} x^{m}\,dx.
+\]
+The inner integral is
+\[
+\int_{-1}^{1} x^{m}\,dx
+=
+\begin{cases}
+	0, & m \text{ odd},\\[0.3em]
+	\dfrac{2}{m+1}, & m \text{ even},
+\end{cases}
+\]
+so
+\[
+\widehat{f}(\xi)
+= \sum_{k=0}^{\infty}
+\frac{(-2\pi i \xi)^{2k}}{(2k)!}\,\frac{2}{2k+1}.
+\]
+This is a power series in $\xi$ which converges for all $\xi\in\mathbb{R}$, and
+precisely recovers $\widehat{f}(\xi)=\sin(2\pi\xi)/(\pi\xi)$. It is a concrete
+instance of the statement in part (b) that $\widehat{f}$ is real analytic with
+infinite radius of convergence.
+
+Note also that $\widehat{f}(\xi)$ has only isolated zeros (at $\xi=k/2$,
+$k\in\mathbb{Z}\setminus\{0\}$), so it does \emph{not} vanish on any nonempty
+open interval. This is consistent with part (c): if $\widehat{f}$ vanished on an
+open set, analyticity would force all derivatives at a point of that set to be
+zero and hence $\widehat{f}\equiv 0$.
+
+
+
+\paragraph{Example 2 (Smooth bump function).}
+Let
+\[
+f(x)=
+\begin{cases}
+	e^{-\frac{1}{1-x^{2}}}, & |x|<1,\\[0.3em]
+	0, & |x|\ge 1 ,
+\end{cases}
+\qquad f\in C^\infty_c(\mathbb{R}),\ \mathrm{supp}(f)\subset[-1,1].
+\]
+Its Fourier transform is
+\[
+\widehat{f}(\xi)
+= \int_{-1}^{1} e^{-2\pi i x\xi}\, e^{-\frac{1}{1-x^{2}}}\,dx,
+\]
+which does not admit a simple closed form, but it satisfies all conclusions of Exercise~3.7:
+
+\begin{itemize}
+	
+	\item[(a)] \textbf{Differentiating under the integral.}
+	For every integer $k\ge0$,
+	\[
+	\widehat{f}^{(k)}(\xi)
+	= \int_{-1}^{1} (-2\pi i x)^{k} e^{-2\pi i x\xi}\, e^{-\frac{1}{1-x^{2}}}\,dx.
+	\]
+	Since $|x|\le 1$,
+	\[
+	\big|\widehat{f}^{(k)}(\xi)\big|
+	\le \int_{-1}^{1} |2\pi x|^{k} e^{-\frac{1}{1-x^{2}}}\,dx
+	\le C^{k}\,\|f\|_{L^{1}},
+	\qquad
+	\sup_{\xi\in\mathbb{R}}\big|\widehat{f}^{(k)}(\xi)\big| <\infty.
+	\]
+	This matches exactly the estimate
+	\[
+	\sup_{\xi\in\mathbb{R}^{n}} |D^\alpha \widehat{f}(\xi)|
+	\le R^{|\alpha|}\,\|f\|_{L^{1}},
+	\qquad R=1.
+	\]
+	
+	\item[(b)] \textbf{Real analyticity.}
+	Expanding the exponential,
+	\[
+	e^{-2\pi i x\xi}
+	= \sum_{m=0}^{\infty} \frac{(-2\pi i x\xi)^{m}}{m!},
+	\]
+	and since $|x|\le 1$ on $\operatorname{supp}(f)$, the series converges absolutely for all $\xi$.
+	Thus the integral may be computed term-by-term:
+	\[
+	\widehat{f}(\xi)
+	= \sum_{m=0}^{\infty}
+	\frac{(-2\pi i\xi)^{m}}{m!}
+	\int_{-1}^{1} x^{m}\, e^{-\frac{1}{1-x^{2}}}\,dx.
+	\]
+	This is a power series in $\xi$ with infinite radius of convergence, exactly as stated in Exercise~3.7(b).
+	
+	\item[(c)] \textbf{Vanishing on an open set implies $\widehat{f}\equiv 0$.}
+	If $\widehat{f}$ vanished on an open interval, real analyticity would force all derivatives
+	at a point of that interval to vanish, making all coefficients in the Taylor series zero.
+	Hence $\widehat{f}\equiv 0$.  
+	But
+	\[
+	\widehat{f}(0)=\int_{-1}^{1} f(x)\,dx >0,
+	\]
+	so this cannot happen for the bump function.  
+	This fully matches Exercise~3.7(c).
+	
+\end{itemize}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.48\textwidth]{figures/MATH-ALLS-2_bump_function.png}
+	\hfill
+	\includegraphics[width=0.48\textwidth]{figures/MATH-ALLS-2_bump_fourier_magnitude.png}
+	\caption{Left: compactly supported bump function
+		$f(x)=e^{-1/(1-x^{2})}$ for $|x|<1$ and $0$ otherwise.
+		Right: numerically computed magnitude of its Fourier transform
+		$|\widehat f(\xi)|$, illustrating smooth, rapidly decaying behaviour.}
+	\label{fig:bump-and-ft}
+\end{figure}
+
+
+\subsection*{Exercise 4.1}
+
+Consider the ODE
+\begin{equation}
+	-\phi''(x) + \phi(x) = f(x), \qquad f:\mathbb{R}\to\mathbb{C}.
+\end{equation}
+
+\paragraph{(a)}
+Assume $f\in\mathcal{S}(\mathbb{R})$.  
+Taking the Fourier transform of both sides gives
+\[
+\widehat{-\phi'' + \phi}(\xi)
+= -\,\widehat{\phi''}(\xi) + \widehat{\phi}(\xi).
+\]
+
+Using the standard identities
+\[
+\widehat{g'}(\xi) = (2\pi i\xi)\,\widehat{g}(\xi),
+\qquad
+\widehat{g''}(\xi) = -(2\pi\xi)^{2}\widehat{g}(\xi)
+= -4\pi^{2}\xi^{2}\widehat{g}(\xi),
+\]
+we obtain
+\[
+-\widehat{\phi''}(\xi) + \widehat{\phi}(\xi)
+= 4\pi^{2}\xi^{2}\widehat{\phi}(\xi) + \widehat{\phi}(\xi)
+= (4\pi^{2}\xi^{2} + 1)\widehat{\phi}(\xi).
+\]
+
+Thus the transformed equation is
+\[
+(4\pi^{2}\xi^{2} + 1)\,\widehat{\phi}(\xi) = \widehat{f}(\xi),
+\]
+and hence
+\[
+\boxed{
+	\widehat{\phi}(\xi)
+	= \frac{\widehat{f}(\xi)}{1 + 4\pi^{2}\xi^{2}}.
+}
+\]
+
+Since the multiplier $(1+4\pi^{2}\xi^{2})^{-1}$ is smooth and rapidly decaying,
+multiplication by it preserves the Schwartz class.  
+Thus $\phi\in\mathcal{S}(\mathbb{R})$.
+
+The homogeneous equation $-\psi''+\psi=0$ has solutions
+$\psi(x)=Ce^{x}+De^{-x}$, none of which lie in $\mathcal{S}$ unless $C=D=0$.
+Hence the solution in $\mathcal{S}$ is unique.
+
+\paragraph{(b)}
+Define the Green's function
+\[
+G(x) =
+\begin{cases}
+	\frac12 e^{x}, & x<0,\\[0.3em]
+	\frac12 e^{-x}, & x\ge 0.
+\end{cases}
+\]
+A direct calculation yields
+\[
+\widehat{G}(\xi)
+= \frac{1}{1+4\pi^{2}\xi^{2}}.
+\]
+Thus from part (a),
+\[
+\widehat{\phi}(\xi)
+= \widehat{f}(\xi)\,\widehat{G}(\xi)
+= \widehat{\,f*G\,}(\xi).
+\]
+By injectivity of the Fourier transform,
+\[
+\boxed{
+	\phi(x) = (f*G)(x)
+	= \int_{\mathbb{R}} f(y)\,G(x-y)\,dy.
+}
+\]
+
+\subsection*{Exercise 4.1}
+
+Consider the ODE
+\begin{equation}
+	-\phi''(x) + \phi(x) = f(x), \qquad f:\mathbb{R}\to\mathbb{C}.
+\end{equation}
+
+\paragraph{(a)}
+Consider the ODE
+\begin{equation}
+	-\phi''(x) + \phi(x) = f(x), \qquad f:\mathbb{R}\to\mathbb{C}.
+\end{equation}
+
+\paragraph{(a)}
+Assume $f\in\mathcal{S}(\mathbb{R})$.  
+Taking the Fourier transform of both sides gives
+\[
+\widehat{-\phi'' + \phi}(\xi)
+= -\,\widehat{\phi''}(\xi) + \widehat{\phi}(\xi).
+\]
+
+Using the standard identities
+\[
+\widehat{g'}(\xi) = (2\pi i\xi)\,\widehat{g}(\xi),
+\qquad
+\widehat{g''}(\xi) = -(2\pi\xi)^{2}\widehat{g}(\xi)
+= -4\pi^{2}\xi^{2}\widehat{g}(\xi),
+\]
+we obtain
+\[
+-\widehat{\phi''}(\xi) + \widehat{\phi}(\xi)
+= 4\pi^{2}\xi^{2}\widehat{\phi}(\xi) + \widehat{\phi}(\xi)
+= (4\pi^{2}\xi^{2} + 1)\widehat{\phi}(\xi).
+\]
+
+Thus the transformed equation is
+\[
+(4\pi^{2}\xi^{2} + 1)\,\widehat{\phi}(\xi) = \widehat{f}(\xi),
+\]
+and hence
+\[
+\boxed{
+	\widehat{\phi}(\xi)
+	= \frac{\widehat{f}(\xi)}{1 + 4\pi^{2}\xi^{2}}.
+}
+\]
+
+Since the multiplier $(1+4\pi^{2}\xi^{2})^{-1}$ is smooth and rapidly decaying,
+multiplication by it preserves the Schwartz class.  
+Thus $\phi\in\mathcal{S}(\mathbb{R})$.
+
+The homogeneous equation $-\psi''+\psi=0$ has solutions
+$\psi(x)=Ce^{x}+De^{-x}$, none of which lie in $\mathcal{S}$ unless $C=D=0$.
+Hence the solution in $\mathcal{S}$ is unique.
+
+\medskip
+\noindent
+It comes from the Fourier transform of derivatives.  
+Start with
+\[
+-\phi''(x)+\phi(x)=f(x).
+\]
+Taking the Fourier transform in $x$ and using linearity,
+\[
+\widehat{-\phi''+\phi}(\xi)
+= -\,\widehat{\phi''}(\xi) + \widehat{\phi}(\xi).
+\]
+
+We use the standard identity (with the convention
+$\widehat{g}(\xi)=\int_{\mathbb{R}} e^{-2\pi i x\xi} g(x)\,dx$):
+\[
+\widehat{g'}(\xi) = (2\pi i\xi)\,\widehat{g}(\xi).
+\]
+Applying it twice gives
+\[
+\widehat{g''}(\xi)
+= (2\pi i\xi)^2 \widehat{g}(\xi)
+= -4\pi^{2}\xi^{2}\widehat{g}(\xi).
+\]
+
+Taking $g=\phi$, we obtain
+\[
+\widehat{\phi''}(\xi) = -4\pi^{2}\xi^{2}\widehat{\phi}(\xi).
+\]
+
+Substituting this into the transformed equation,
+\[
+\widehat{-\phi''+\phi}(\xi)
+= -\,\widehat{\phi''}(\xi) + \widehat{\phi}(\xi)
+= -\big(-4\pi^{2}\xi^{2}\widehat{\phi}(\xi)\big) + \widehat{\phi}(\xi)
+= (4\pi^{2}\xi^{2}+1)\widehat{\phi}(\xi).
+\]
+
+\paragraph{(b)}
+Define the Green's function
+\[
+G(x)=
+\begin{cases}
+	\frac12 e^{x}, & x<0,\\[0.3em]
+	\frac12 e^{-x}, & x\ge 0.
+\end{cases}
+\]
+A direct calculation yields
+\[
+\widehat{G}(\xi) = \frac{1}{1+4\pi^{2}\xi^{2}}.
+\]
+Thus
+\[
+\widehat{\phi}(\xi)
+= \widehat{f}(\xi)\,\widehat{G}(\xi)
+= \widehat{f*G}(\xi),
+\]
+and by injectivity of the Fourier transform,
+\[
+\boxed{
+	\phi(x) = (f*G)(x)
+	= \int_{\mathbb{R}} f(y)\,G(x-y)\,dy.
+}
+\]
+
+\bigskip
+
+\subsubsection*{Illustrations}
+
+\paragraph{1. Compactly supported bump function and its Fourier transform.}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.47\textwidth]{figures/MATH-ALLS-2_bump_function.png}
+	\hfill
+	\includegraphics[width=0.47\textwidth]{figures/MATH-ALLS-2_bump_fourier_magnitude.png}
+	\caption{Left: $f(x)=e^{-1/(1-x^{2})}$ on $|x|<1$. 
+		Right: numerical magnitude of $\widehat{f}(\xi)$.}
+\end{figure}
+
+\paragraph{2. Green's function for $-\phi''+\phi=f$.}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.65\textwidth]{figures/MATH-ALLS-2_greens_function.png}
+	\caption{Green's function $G(x)=\frac12 e^{-|x|}$.}
+\end{figure}
+
+\paragraph{3. Example convolution $f*G$.}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figures/MATH-ALLS-2_convolution_example.png}
+	\caption{Convolution of $G$ with $f(x)=e^{-x^{2}}$.}
+\end{figure}
+
+\clearpage
+
+\subsection*{Exercise 4.2 (Radial Fourier Transform in $\mathbb{R}^{3}$)}
+
+Suppose $f \in L^{1}(\mathbb{R}^{3})$ is a radial function, i.e.\ $f(Rx) = f(x)$
+whenever $R \in SO(3)$ is a rotation.
+
+\begin{enumerate}[(a)]
+	\item Show that $\widehat{f}$ is radial.
+	
+	\item Suppose that $\xi = (0,0,\zeta)$. By writing the Fourier integral in
+	spherical coordinates, show that
+	\[
+	\widehat{f}(\xi)
+	= \int_{r=0}^{\infty}\int_{\theta=0}^{\pi}\int_{\phi=0}^{2\pi}
+	f(r)\,e^{-i\zeta r \cos\theta}\,r^{2}\sin\theta\,d\phi\,d\theta\,dr.
+	\]
+	
+	\item Making the substitution $s=\cos\theta$, and using the fact that
+	$\widehat{f}$ is radial, deduce that
+	\[
+	\widehat{f}(\xi)
+	= 4\pi \int_{0}^{\infty}
+	f(r)\,\frac{\sin(r|\xi|)}{r|\xi|}\,r^{2}\,dr
+	\]
+	for any $\xi \in \mathbb{R}^{3}$.
+\end{enumerate}
+
+
+Suppose $f\in L^{1}(\mathbb{R}^{3})$ is a radial function, i.e.\ $f(Rx)=f(x)$ for all rotations
+$R\in SO(3)$.
+
+\paragraph{(a)}
+To show that $\widehat{f}$ is radial, take any $R\in SO(3)$:
+\[
+\widehat{f}(R\xi)
+= \int_{\mathbb{R}^{3}} f(x)e^{-2\pi i x\cdot (R\xi)}\,dx.
+\]
+With the substitution $x=Ry$ (Jacobian $=1$),
+\[
+\widehat{f}(R\xi)
+= \int_{\mathbb{R}^{3}} f(Ry)e^{-2\pi i (Ry)\cdot (R\xi)}\,dy.
+\]
+Since $f$ is radial, $f(Ry)=f(y)$, and rotations preserve dot products:
+$(Ry)\cdot (R\xi)=y\cdot\xi$. Hence
+\[
+\widehat{f}(R\xi)=\int_{\mathbb{R}^{3}} f(y)e^{-2\pi i y\cdot\xi}\,dy=\widehat{f}(\xi),
+\]
+showing that $\widehat{f}$ is radial.
+
+\paragraph{(b)}
+Since $\widehat{f}$ is radial, we may assume $\xi=(0,0,\zeta)$ with
+$\zeta=|\xi|$. In spherical coordinates
+$x=(r,\theta,\phi)$, one has
+\[
+x\cdot\xi=r\zeta\cos\theta,
+\qquad
+dx=r^{2}\sin\theta\,dr\,d\theta\,d\phi,
+\qquad
+f(x)=f(r).
+\]
+Thus
+\[
+\widehat{f}(\xi)
+=\int_{0}^{\infty}\int_{0}^{\pi}\int_{0}^{2\pi}
+f(r)e^{-i\zeta r\cos\theta}\,
+r^{2}\sin\theta\;d\phi\,d\theta\,dr.
+\]
+
+\paragraph{(c)}
+Substituting $s=\cos\theta$ gives
+\[
+\int_{0}^{\pi} e^{-i\zeta r\cos\theta}\sin\theta\,d\theta
+=\int_{-1}^{1} e^{-i\zeta r s}\,ds
+=2\frac{\sin(\zeta r)}{\zeta r}.
+\]
+Since $\int_{0}^{2\pi} d\phi = 2\pi$, we obtain
+\[
+\widehat{f}(\xi)
+=4\pi \int_{0}^{\infty}
+f(r)\,\frac{\sin(r|\xi|)}{r|\xi|}\,r^{2}\,dr.
+\]
+Thus $\widehat{f}$ is radial and given by
+\[
+\boxed{
+	\widehat{f}(\xi)
+	=4\pi\int_{0}^{\infty} f(r)\,\frac{\sin(r|\xi|)}{r|\xi|}\,r^{2}\,dr.
+}
+\]
+
+
+\subsubsection*{Theory: Radial Fourier transform in $\mathbb{R}^3$}
+
+A function $f:\mathbb{R}^{3}\to\mathbb{C}$ is called \emph{radial} if
+there is $F:[0,\infty)\to\mathbb{C}$ such that
+\[
+f(x) = F(|x|)\qquad\text{for all }x\in\mathbb{R}^{3}.
+\]
+Equivalently, $f$ is invariant under all rotations:
+\[
+f(Rx) = f(x)\qquad\text{for all }R\in SO(3).
+\]
+
+\paragraph{Fourier transform and rotations.}
+The Fourier transform in $\mathbb{R}^{3}$ is
+\[
+\widehat{f}(\xi)
+= \int_{\mathbb{R}^{3}} f(x)\,e^{-2\pi i x\cdot\xi}\,dx.
+\]
+For any rotation $R\in SO(3)$, one has
+\[
+\widehat{f\circ R}(\xi)
+= \widehat{f}(R^{-1}\xi).
+\]
+Indeed,
+\[
+\widehat{f\circ R}(\xi)
+= \int_{\mathbb{R}^{3}} f(Rx)e^{-2\pi i x\cdot\xi}\,dx
+= \int_{\mathbb{R}^{3}} f(y)e^{-2\pi i (Ry)\cdot\xi}\,dy
+= \int_{\mathbb{R}^{3}} f(y)e^{-2\pi i y\cdot (R^{-1}\xi)}\,dy
+= \widehat{f}(R^{-1}\xi),
+\]
+where we used the change of variables $x=Ry$ and the fact that rotations
+preserve dot products. If $f$ is radial, then $f\circ R=f$ for all $R$, hence
+\[
+\widehat{f}(R\xi) = \widehat{f}(\xi)\qquad\forall R\in SO(3),
+\]
+and thus $\widehat{f}$ is radial as well.
+
+\paragraph{Spherical coordinates.}
+Since $\widehat{f}$ is radial, its value at $\xi$ depends only on $|\xi|$.
+Given $\xi\in\mathbb{R}^{3}$ with $|\xi|>0$, we choose a rotation $R$ such that
+\[
+R\xi = (0,0,|\xi|).
+\]
+Using radiality of $\widehat{f}$ we may compute $\widehat{f}(R\xi)$ instead of
+$\widehat{f}(\xi)$; in spherical coordinates $x=(r,\theta,\phi)$ we have
+\[
+x\cdot R\xi = r|\xi|\cos\theta,
+\qquad
+dx = r^{2}\sin\theta\,dr\,d\theta\,d\phi,
+\qquad
+f(x)=f(r).
+\]
+Therefore,
+\begin{equation}\label{eq:radial-FT-spherical}
+	\widehat{f}(\xi)
+	= \int_{0}^{\infty}\int_{0}^{\pi}\int_{0}^{2\pi}
+	f(r)\,e^{-i r|\xi|\cos\theta}\,r^{2}\sin\theta\,
+	d\phi\,d\theta\,dr.
+\end{equation}
+
+\paragraph{Angular integration and the 3D radial kernel.}
+The $\phi$--integral is trivial:
+\[
+\int_{0}^{2\pi} d\phi = 2\pi.
+\]
+For the $\theta$--integral we use the substitution $s=\cos\theta$,
+$ds=-\sin\theta\,d\theta$, which gives
+\[
+\int_{0}^{\pi} e^{-i r|\xi|\cos\theta}\sin\theta\,d\theta
+= \int_{-1}^{1} e^{-i r|\xi| s}\,ds
+= 2\,\frac{\sin(r|\xi|)}{r|\xi|}.
+\]
+Inserting these into \eqref{eq:radial-FT-spherical} yields
+\[
+\widehat{f}(\xi)
+= 4\pi \int_{0}^{\infty}
+f(r)\,\frac{\sin(r|\xi|)}{r|\xi|}\,r^{2}\,dr,
+\]
+which is the standard formula for the Fourier transform of a radial
+$L^{1}$-function in $\mathbb{R}^{3}$.
+
+\paragraph{Remark (connection with Bessel functions).}
+In general dimension $n$, the Fourier transform of a radial function involves
+Bessel functions and can be written as
+\[
+\widehat{f}(\xi)
+= (2\pi)^{n/2}|\xi|^{-(n/2-1)}
+\int_{0}^{\infty} f(r)\,
+J_{n/2-1}(2\pi r|\xi|)\,r^{n/2}\,dr.
+\]
+For $n=3$ this reduces to the above formula, since the corresponding Bessel
+function combination is
+\[
+\frac{\sin(r|\xi|)}{r|\xi|},
+\]
+the spherical Bessel function of order $0$.
+
+\subsubsection*{Examples of radial Fourier transforms in $\mathbb{R}^3$}
+
+\paragraph{Example 1 (Indicator of a ball).}
+Let
+\[
+f(x) = \mathbf{1}_{\{|x|\le a\}}(x), \qquad a>0.
+\]
+Then $f$ is radial with $f(r)=1$ for $0\le r\le a$ and $0$ otherwise, and the
+radial Fourier transform formula gives
+\[
+\widehat{f}(\xi)
+=4\pi\int_0^a \frac{\sin(r|\xi|)}{r|\xi|}\,r^2\,dr
+=\frac{4\pi}{|\xi|}\int_0^a r\sin(r|\xi|)\,dr.
+\]
+Using
+\[
+\int r\sin(\rho r)\,dr
+= -\frac{r\cos(\rho r)}{\rho}
++\frac{\sin(\rho r)}{\rho^2} + C,
+\]
+we obtain, with $\rho=|\xi|$,
+\[
+\int_0^a r\sin(\rho r)\,dr
+= -\frac{a\cos(\rho a)}{\rho}
++\frac{\sin(\rho a)}{\rho^2}.
+\]
+Hence
+\[
+\widehat{f}(\xi)
+=4\pi\left(
+\frac{\sin(a|\xi|)}{|\xi|^3}
+-\frac{a\cos(a|\xi|)}{|\xi|^2}
+\right),
+\qquad \xi\neq 0.
+\]
+The value at $\xi=0$ is given by continuity and equals the volume of the ball,
+$\widehat{f}(0)=\frac{4\pi a^3}{3}$.
+
+\paragraph{Example 2 (Gaussian).}
+Consider the radial Gaussian
+\[
+f(x)=e^{-|x|^2}, \qquad x\in\mathbb{R}^3.
+\]
+Using the one-dimensional identity
+\[
+\int_{\mathbb{R}} e^{-x^2} e^{-i x\xi}\,dx
+= \sqrt{\pi}\,e^{-\xi^2/4},
+\]
+and the factorisation $e^{-|x|^2}=e^{-x_1^2}e^{-x_2^2}e^{-x_3^2}$, we obtain
+\[
+\widehat{f}(\xi)
+= \bigl(\sqrt{\pi} e^{-\xi_1^2/4}\bigr)
+\bigl(\sqrt{\pi} e^{-\xi_2^2/4}\bigr)
+\bigl(\sqrt{\pi} e^{-\xi_3^2/4}\bigr)
+= \pi^{3/2} e^{-|\xi|^2/4}.
+\]
+Thus
+\[
+\boxed{
+	\widehat{e^{-|x|^2}}(\xi)
+	= \pi^{3/2} e^{-|\xi|^2/4},
+}
+\]
+which is manifestly radial. This is consistent with the radial integral
+\[
+\widehat{f}(\xi)
+= 4\pi\int_0^\infty e^{-r^2}
+\frac{\sin(r|\xi|)}{r|\xi|}\,r^2\,dr.
+\]
+
+\paragraph{Example 3 (Yukawa kernel).}
+Let
+\[
+f(x) = \frac{e^{-|x|}}{|x|}, \qquad x\in\mathbb{R}^3,
+\]
+so that $f(r)=e^{-r}/r$ is radial and integrable. Then
+\[
+\widehat{f}(\xi)
+= 4\pi\int_0^\infty \frac{e^{-r}}{r}\,
+\frac{\sin(r|\xi|)}{r|\xi|}\,r^2\,dr
+= 4\pi\frac{1}{|\xi|}
+\int_0^\infty e^{-r}\sin(r|\xi|)\,dr.
+\]
+Using the Laplace transform identity
+\[
+\int_0^\infty e^{-r}\sin(\rho r)\,dr
+= \frac{\rho}{1+\rho^2},
+\]
+with $\rho=|\xi|$, we find
+\[
+\widehat{f}(\xi)
+= \frac{4\pi}{1+|\xi|^2}.
+\]
+This radial function is (up to constants) the Fourier symbol of the resolvent
+$(-\Delta+1)^{-1}$.
+
+\subsubsection*{Figures: Yukawa Kernel and its Fourier Transform}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.60\textwidth]{figures/MATH-ALLS-2_yukawa_function.png}
+	\caption{Radial Yukawa kernel in $\mathbb{R}^3$:
+		$f(r)=e^{-r}/r$. The function decays exponentially and
+		has a singularity of order $1/r$ at $r=0$.}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.60\textwidth]{figures/MATH-ALLS-2_yukawa_fourier.png}
+	\caption{Fourier transform of the Yukawa kernel:
+		$\widehat f(\xi)=\dfrac{4\pi}{1+|\xi|^{2}}$.
+		This is the symbol of the resolvent $(-\Delta+1)^{-1}$.}
+\end{figure}
+
+\subsubsection*{Comparison: Coulomb Kernel vs. Yukawa Kernel}
+
+The Coulomb kernel in $\mathbb{R}^3$ is
+\[
+K_{\mathrm{C}}(x) = \frac{1}{|x|},
+\]
+and the Yukawa kernel is
+\[
+K_{\mathrm{Y}}(x) = \frac{e^{-|x|}}{|x|}.
+\]
+Both are radial functions of $r=|x|$. The Yukawa kernel introduces exponential
+screening of the long-range $1/r$ interaction.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figures/MATH-ALLS-2_coulomb_vs_yukawa_linear.png}
+	\caption{Linear-scale comparison of the Coulomb kernel $1/r$ and the Yukawa
+		kernel $e^{-r}/r$. The Yukawa potential coincides with Coulomb near $r=0$ but
+		decays exponentially for large $r$.}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.70\textwidth]{figures/MATH-ALLS-2_coulomb_vs_yukawa_loglog.png}
+	\caption{Log--log comparison. The Coulomb kernel exhibits pure algebraic decay
+		$r^{-1}$, while the Yukawa kernel decays as $e^{-r}/r$, much faster at large
+		distances.}
+\end{figure}
+
+\subsection*{Exercise 4.3 (Fourier--Plancherel Transform)}
+
+Suppose $f,g\in L^{2}(\mathbb{R}^{n})$, and denote the Fourier--Plancherel
+transform by $\mathcal{F}$.  You may assume any results already established
+for the classical Fourier transform.
+
+\begin{enumerate}[(a)]
+	
+	\item Show that
+	\[
+	(f,g)
+	= \frac{1}{(2\pi)^{n}}
+	\bigl(\,\mathcal{F}[g],\mathcal{F}[g]\,\bigr).
+	\]
+	
+	\item Recall that $\check{f}(y)=f(-y)$.  Show that
+	\[
+	\mathcal{F}[\mathcal{F}[f]] = (2\pi)^{n}\,\check{f}.
+	\]
+	Hence, or otherwise, deduce that
+	$\mathcal{F}:L^{2}(\mathbb{R}^{n})\to L^{2}(\mathbb{R}^{n})$ is a bijection,
+	and that
+	$\mathcal{F}^{-1}:L^{2}(\mathbb{R}^{n})\to L^{2}(\mathbb{R}^{n})$ is a
+	bounded linear map.
+	
+	\item Show that
+	\[
+	\mathcal{F}[f](\xi)
+	= \lim_{R\to\infty} \int_{B_{R}(0)} f(x)e^{-ix\cdot\xi}\,dx,
+	\]
+	with convergence in $L^{2}(\mathbb{R}^{n})$.
+	
+	\item Suppose that $f\in C^{1}(\mathbb{R}^{n})$ and
+	$f, D_{j}f\in L^{2}(\mathbb{R}^{n})$.  Show that
+	$\xi_{j}\,\mathcal{F}[f](\xi)\in L^{2}(\mathbb{R}^{n})$ and
+	\[
+	\mathcal{F}[D_{j}f](\xi)
+	= i\xi_{j}\mathcal{F}[f](\xi).
+	\]
+	
+	\item For $x\in\mathbb{R}$ let $f(x)=\dfrac{\sin x}{x}$.
+	\begin{enumerate}[i.]
+		\item Show that $f\in L^{2}(\mathbb{R})$.
+		\item Show that
+		\[
+		\mathcal{F}[f](\xi)
+		=
+		\begin{cases}
+			\pi, & -1<\xi<1,\\[0.3em]
+			0,   & |\xi|\ge 1.
+		\end{cases}
+		\]
+	\end{enumerate}
+	
+	\item
+	\begin{enumerate}[i.]
+		\item Show that for all $x\in\mathbb{R}^{n}$,
+		\[
+		|f*g(x)| \le \|f\|_{L^{2}}\|g\|_{L^{2}}.
+		\]
+		
+		\item Show that $f*g\in C^{0}(\mathbb{R}^{n})$ and that
+		\[
+		f*g = \mathcal{F}^{-1}\bigl[\widehat{f}\,\widehat{g}\bigr],
+		\]
+		where
+		\[
+		\mathcal{F}^{-1}[h](x)
+		= \frac{1}{(2\pi)^{n}} \int_{\mathbb{R}^{n}} h(\xi)\,e^{ix\cdot\xi}\,d\xi.
+		\]
+	\end{enumerate}
+	
+\end{enumerate}
+
+\medskip
+\noindent\emph{Hint for parts (a), (b), (d), (f):} approximate by Schwartz functions.
+
+\subsection*{Exercise 4.3 (Fourier--Plancherel Transform)}
+
+Suppose $f,g\in L^{2}(\mathbb{R}^{n})$, and denote the Fourier--Plancherel
+transform by $\mathcal{F}$.  You may assume any results already established
+for the classical Fourier transform.
+
+\begin{enumerate}[(a)]
+	
+	\item Show that
+	\[
+	(f,g)
+	= \frac{1}{(2\pi)^{n}}
+	\bigl(\,\mathcal{F}[g],\mathcal{F}[g]\,\bigr).
+	\]
+	
+	\item Recall that $\check{f}(y)=f(-y)$.  Show that
+	\[
+	\mathcal{F}[\mathcal{F}[f]] = (2\pi)^{n}\,\check{f}.
+	\]
+	Hence, or otherwise, deduce that
+	$\mathcal{F}:L^{2}(\mathbb{R}^{n})\to L^{2}(\mathbb{R}^{n})$ is a bijection,
+	and that
+	$\mathcal{F}^{-1}:L^{2}(\mathbb{R}^{n})\to L^{2}(\mathbb{R}^{n})$ is a
+	bounded linear map.
+	
+	\item Show that
+	\[
+	\mathcal{F}[f](\xi)
+	= \lim_{R\to\infty} \int_{B_{R}(0)} f(x)e^{-ix\cdot\xi}\,dx,
+	\]
+	with convergence in $L^{2}(\mathbb{R}^{n})$.
+	
+	\item Suppose that $f\in C^{1}(\mathbb{R}^{n})$ and
+	$f, D_{j}f\in L^{2}(\mathbb{R}^{n})$.  Show that
+	$\xi_{j}\,\mathcal{F}[f](\xi)\in L^{2}(\mathbb{R}^{n})$ and
+	\[
+	\mathcal{F}[D_{j}f](\xi)
+	= i\xi_{j}\mathcal{F}[f](\xi).
+	\]
+	
+	\item For $x\in\mathbb{R}$ let $f(x)=\dfrac{\sin x}{x}$.
+	\begin{enumerate}[i.]
+		\item Show that $f\in L^{2}(\mathbb{R})$.
+		\item Show that
+		\[
+		\mathcal{F}[f](\xi)
+		=
+		\begin{cases}
+			\pi, & -1<\xi<1,\\[0.3em]
+			0,   & |\xi|\ge 1.
+		\end{cases}
+		\]
+	\end{enumerate}
+	
+	\item
+	\begin{enumerate}[i.]
+		\item Show that for all $x\in\mathbb{R}^{n}$,
+		\[
+		|f*g(x)| \le \|f\|_{L^{2}}\|g\|_{L^{2}}.
+		\]
+		
+		\item Show that $f*g\in C^{0}(\mathbb{R}^{n})$ and that
+		\[
+		f*g = \mathcal{F}^{-1}\bigl[\widehat{f}\,\widehat{g}\bigr],
+		\]
+		where
+		\[
+		\mathcal{F}^{-1}[h](x)
+		= \frac{1}{(2\pi)^{n}} \int_{\mathbb{R}^{n}} h(\xi)\,e^{ix\cdot\xi}\,d\xi.
+		\]
+	\end{enumerate}
+	
+\end{enumerate}
+
+\medskip
+\noindent\emph{Hint for parts (a), (b), (d), (f):} approximate by Schwartz functions.
+
+\subsection*{Theory: Relation between $\mathcal{S}(\mathbb{R}^n)$ and $L^{2}(\mathbb{R}^n)$}
+
+We recall that the Schwartz space $\mathcal{S}(\mathbb{R}^n)$ consists of all
+smooth functions $f\in C^\infty(\mathbb{R}^n)$ such that for every pair of
+multi-indices $\alpha,\beta$,
+\[
+\sup_{x\in\mathbb{R}^n} |x^\alpha D^\beta f(x)| < \infty.
+\]
+Thus $f$ and all its derivatives decay faster than any polynomial.  This leads
+to four fundamental relations between $\mathcal{S}$, $L^2$, and the
+Fourier--Plancherel transform.
+
+\subsubsection*{1. Inclusion $\mathcal{S}\subset L^2$}
+From the defining estimate, for each $N\in\mathbb{N}$ there exists $C_N>0$ such
+that
+\[
+|f(x)| \le C_N (1+|x|)^{-N}.
+\]
+Choosing $N>\frac{n}{2}$ yields
+\[
+\int_{\mathbb{R}^n} |f(x)|^2\,dx
+\le C_N^2 \int_{\mathbb{R}^n} (1+|x|)^{-2N} dx < \infty.
+\]
+Hence
+\[
+\mathcal{S}(\mathbb{R}^n) \subset L^2(\mathbb{R}^n),
+\]
+and the inclusion map is continuous with respect to the natural topologies.
+
+\subsubsection*{2. Density of $\mathcal{S}$ in $L^2$}
+A key property is that $\mathcal{S}(\mathbb{R}^n)$ is dense in
+$L^2(\mathbb{R}^n)$:
+for every $f\in L^2$ there exists $(f_k)\subset\mathcal{S}$ such that
+$\|f_k-f\|_{L^2}\to 0$.
+
+One standard construction proceeds as follows:
+\begin{enumerate}
+	\item Truncate $f$ to a large ball:
+	$f^{(R)}(x) := f(x)\mathbf{1}_{\{|x|\le R\}}$.
+	Then $f^{(R)} \to f$ in $L^2$ as $R\to\infty$.
+	\item Mollify: choose a smooth compactly supported mollifier $\eta_\varepsilon$,
+	and set $f^{(R,\varepsilon)} = f^{(R)} * \eta_\varepsilon$.
+	Then $f^{(R,\varepsilon)}\in C_c^\infty(\mathbb{R}^n)$ and
+	$f^{(R,\varepsilon)}\to f^{(R)}$ in $L^2$ as $\varepsilon\to 0$.
+\end{enumerate}
+Since $C_c^\infty(\mathbb{R}^n)\subset\mathcal{S}(\mathbb{R}^n)$, this proves
+that
+\[
+\overline{\mathcal{S}(\mathbb{R}^n)}^{\,L^2} = L^2(\mathbb{R}^n).
+\]
+
+\subsubsection*{3. Extension of the Fourier transform to $L^2$ (Fourier--Plancherel theorem)}
+
+On the Schwartz space the Fourier transform is given by
+\[
+\widehat{f}(\xi)
+= \int_{\mathbb{R}^n} f(x) e^{-ix\cdot\xi} \, dx,
+\]
+and satisfies:
+\begin{itemize}
+	\item $\mathcal{F}:\mathcal{S} \to \mathcal{S}$ is a bijection.
+	\item \emph{Parseval identity:}
+	\[
+	\int_{\mathbb{R}^n} f(x)\overline{g(x)}\,dx
+	= \frac{1}{(2\pi)^n}
+	\int_{\mathbb{R}^n} \widehat{f}(\xi)\,
+	\overline{\widehat{g}(\xi)}\,d\xi.
+	\]
+	\item Therefore,
+	\[
+	\|\widehat{f}\|_{L^2}
+	= (2\pi)^{n/2} \|f\|_{L^2}.
+	\]
+\end{itemize}
+
+This shows that $\mathcal{F}:\mathcal{S}\to L^2$ is an isometry up to
+$(2\pi)^{n/2}$.  
+Since $\mathcal{S}$ is dense in $L^2$, there exists a unique extension  
+\[
+\mathcal{F}: L^2(\mathbb{R}^n) \to L^2(\mathbb{R}^n)
+\]
+that is bounded and satisfies the same norm identity.  
+The extension is called the \emph{Fourier--Plancherel transform}.
+
+On $\mathcal{S}$ we have the identity
+\[
+\mathcal{F}[\mathcal{F}[f]](\xi) = (2\pi)^n f(-\xi),
+\]
+and by continuity this holds for all $f\in L^2$.  
+In particular $\mathcal{F}$ is invertible and its inverse is the inverse Fourier
+transform.
+
+\subsubsection*{4. Why approximation by Schwartz functions works}
+
+For many identities one proves the formula first for
+$f\in\mathcal{S}(\mathbb{R}^n)$, where the Fourier transform is defined by an
+absolutely convergent integral and all operations are legal.  
+Then, using:
+\begin{itemize}
+	\item the density $\mathcal{S}\subset L^2$,
+	\item the fact that $\mathcal{F}:L^2\to L^2$ is bounded,
+\end{itemize}
+one may pass to the limit and obtain the corresponding identity for general
+$f\in L^2$.
+
+More precisely, if $f_k\in\mathcal{S}$ and $f_k\to f$ in $L^2$, and if an
+identity
+\[
+\mathcal{G}(f_k) = \mathcal{H}(f_k)
+\]
+holds for all $k$, and the operators $\mathcal{G}$ and $\mathcal{H}$ are
+continuous on $L^2$, then the same identity holds for $f$.  
+This mechanism underlies the proofs of Parseval's identity, the differentiation
+rule $\mathcal{F}[D_j f]= i\xi_j \widehat{f}$, the convolution theorem, and
+other statements used in Fourier--Plancherel theory.
+
+\subsection*{Theory: Tempered Distributions and the Fourier Transform on $\mathcal{S}'(\mathbb{R}^n)$}
+
+The Schwartz space $\mathcal{S}(\mathbb{R}^n)$ consists of rapidly decaying
+smooth functions.  Its topological dual,
+\[
+\mathcal{S}'(\mathbb{R}^n)
+:= \{\text{continuous linear functionals }
+T:\mathcal{S}(\mathbb{R}^n)\to\mathbb{C}\},
+\]
+is called the space of \emph{tempered distributions}.
+Tempered distributions include all $L^p$ functions ($1\le p\le\infty$),
+all locally integrable functions with at most polynomial growth, the Dirac
+delta and its derivatives, principal value kernels, and many oscillatory
+objects.
+
+\subsubsection*{1. Basic Examples}
+\begin{itemize}
+	\item \textbf{Dirac delta:}
+	$\langle\delta,\varphi\rangle = \varphi(0)$.
+	\item \textbf{Derivative of delta:}
+	$\langle\delta',\varphi\rangle = -\varphi'(0)$.
+	\item \textbf{Polynomial growth functions:}
+	if $|f(x)|\le C(1+|x|)^N$ and $f$ is locally integrable, then
+	\[
+	\langle f,\varphi\rangle := \int_{\mathbb{R}^n} f(x)\varphi(x)\,dx
+	\]
+	defines a tempered distribution.
+	\item \textbf{Principal value kernels:}
+	$\mathrm{p.v.}(1/x)$, the Hilbert transform kernel, etc., belong to
+	$\mathcal{S}'$.
+\end{itemize}
+
+\subsubsection*{2. Fourier Transform on $\mathcal{S}'$}
+Since $\mathcal{F}:\mathcal{S}\to\mathcal{S}$ is a bijection, we define the
+Fourier transform of $T\in\mathcal{S}'$ by duality:
+\[
+\boxed{
+	\langle \mathcal{F}T, \varphi \rangle
+	:= \langle T, \mathcal{F}\varphi \rangle,
+	\qquad \varphi\in\mathcal{S}.
+}
+\]
+This makes $\mathcal{F}:\mathcal{S}'\to\mathcal{S}'$ a continuous bijection.
+The inversion formula continues to hold:
+\[
+\mathcal{F}^{-1}T = \check{\mathcal{F}T}\,/(2\pi)^n,
+\]
+where $\check{T}(\varphi):=T(\check{\varphi})$ and $\check{\varphi}(x)=\varphi(-x)$.
+
+\subsubsection*{3. Fourier Transform Identities in $\mathcal{S}'$}
+The usual differentiation and multiplication rules extend to tempered
+distributions:
+\[
+\mathcal{F}[D^\alpha T](\xi)
+= (i\xi)^\alpha \widehat{T}(\xi),
+\qquad
+\mathcal{F}[x^\alpha T](\xi)
+= i^{|\alpha|} D^\alpha_{\xi}\widehat{T}(\xi).
+\]
+Convolution with a Schwartz function is always well-defined and produces
+another tempered distribution.
+
+\subsubsection*{4. Examples of Fourier Transforms in $\mathcal{S}'$}
+\begin{align*}
+	\widehat{\delta} &= 1, \\
+	\widehat{\delta'} &= i\xi, \\
+	\widehat{1} &= (2\pi)^n \delta, \\
+	\widehat{\mathrm{p.v.}\tfrac1x} &= -i\pi\,\mathrm{sgn}(\xi), \\
+	\widehat{\tfrac1{|x|}}(\xi) &= \frac{4\pi}{|\xi|^2} 
+	\qquad (\text{in }\mathbb{R}^3).
+\end{align*}
+Such identities cannot be understood within $L^1$ or $L^2$ alone, but follow
+naturally in the framework of tempered distributions.
+
+Tempered distributions thus provide the natural and maximal domain on which
+the Fourier transform is an automorphism, preserving the full symmetry between
+differentiation, multiplication, convolution, and decay.
+
+
+\subsection*{Exercise 4.3 (Fourier--Plancherel Transform) -- Solutions}
+
+We use the convention
+\[
+\mathcal{F}[f](\xi) = \widehat{f}(\xi)
+:= \int_{\mathbb{R}^n} f(x)e^{-ix\cdot\xi}\,dx,
+\qquad
+\mathcal{F}^{-1}[g](x)
+= \frac{1}{(2\pi)^n}\int_{\mathbb{R}^n} g(\xi)e^{ix\cdot\xi}\,d\xi.
+\]
+
+\paragraph{(a) Plancherel identity.}
+For $f,g\in\mathcal{S}(\mathbb{R}^n)$, using inversion we write
+\[
+f(x) = \frac{1}{(2\pi)^n}
+\int_{\mathbb{R}^n} \widehat{f}(\xi)e^{ix\cdot\xi}\,d\xi,
+\]
+so
+\[
+(f,g)
+= \int_{\mathbb{R}^n} f(x)\,\overline{g(x)}\,dx
+= \frac{1}{(2\pi)^n}
+\int_{\mathbb{R}^n}
+\widehat{f}(\xi)\left(\int_{\mathbb{R}^n} e^{ix\cdot\xi}
+\overline{g(x)}\,dx\right)d\xi.
+\]
+The inner integral equals $\overline{\widehat{g}(\xi)}$, hence
+\[
+(f,g) = \frac{1}{(2\pi)^n}
+\int_{\mathbb{R}^n} \widehat{f}(\xi)\,
+\overline{\widehat{g}(\xi)}\,d\xi
+= \frac{1}{(2\pi)^n}(\widehat{f},\widehat{g}).
+\]
+By density of $\mathcal{S}$ in $L^2$ and continuity of $\mathcal{F}$ on
+$L^2$, the formula extends to arbitrary $f,g\in L^2(\mathbb{R}^n)$.
+
+\paragraph{(b) Double transform and bijectivity.}
+For $f\in\mathcal{S}$,
+\[
+\widehat{f}(\xi) = \int_{\mathbb{R}^n} f(x)e^{-ix\cdot\xi}\,dx,
+\]
+and
+\[
+\mathcal{F}[\widehat{f}](y)
+= \int_{\mathbb{R}^n} \widehat{f}(\xi)e^{-iy\cdot\xi}\,d\xi
+= \int_{\mathbb{R}^n}\!\!\int_{\mathbb{R}^n}
+f(x)e^{-ix\cdot\xi}e^{-iy\cdot\xi}\,dx\,d\xi.
+\]
+Swapping the integrals and using that
+$\int_{\mathbb{R}^n}e^{-i(x+y)\cdot\xi}\,d\xi = (2\pi)^n\delta(x+y)$ gives
+\[
+\mathcal{F}[\widehat{f}](y)
+= (2\pi)^n f(-y)
+= (2\pi)^n \check{f}(y).
+\]
+By continuity this identity holds for all $f\in L^2$.  In particular,
+$\mathcal{F}$ is injective and its range is all of $L^2$; thus
+$\mathcal{F}:L^2\to L^2$ is a bijection.  The inverse is bounded by the
+Plancherel identity.
+
+\paragraph{(c) Truncated integrals in $L^2$.}
+For $R>0$ set
+\[
+\widehat{f}_R(\xi)
+:= \int_{B_R(0)} f(x)e^{-ix\cdot\xi}\,dx
+= \mathcal{F}[\chi_{B_R}f](\xi).
+\]
+Then
+\[
+\widehat{f}_R - \widehat{f}
+= \mathcal{F}[(\chi_{B_R}-1)f],
+\]
+and by Plancherel,
+\[
+\|\widehat{f}_R - \widehat{f}\|_{L^2}
+= (2\pi)^{n/2}\,\|(\chi_{B_R}-1)f\|_{L^2}.
+\]
+Since $\chi_{B_R}\to 1$ pointwise and $|\chi_{B_R}|\le 1$, dominated
+convergence gives $\|(\chi_{B_R}-1)f\|_{L^2}\to 0$ as $R\to\infty$, hence
+$\widehat{f}_R\to\widehat{f}$ in $L^2(\mathbb{R}^n)$.
+
+\paragraph{(d) Differentiation.}
+First assume $f\in\mathcal{S}(\mathbb{R}^n)$.  Then
+\[
+\mathcal{F}[D_j f](\xi)
+= \int_{\mathbb{R}^n} (\partial_{x_j}f(x))e^{-ix\cdot\xi}\,dx
+= -\int_{\mathbb{R}^n} f(x)\,\partial_{x_j}(e^{-ix\cdot\xi})\,dx
+= i\xi_j\widehat{f}(\xi),
+\]
+since boundary terms vanish due to rapid decay.  For
+$f\in C^1(\mathbb{R}^n)$ with $f,D_j f\in L^2$, choose a sequence
+$f_k\in\mathcal{S}$ such that $f_k\to f$ and $D_j f_k\to D_j f$ in $L^2$.
+The identity for $f_k$, together with the boundedness of $\mathcal{F}$ on
+$L^2$, allows passage to the limit and yields
+\[
+\mathcal{F}[D_j f](\xi) = i\xi_j\widehat{f}(\xi)
+\]
+and hence $\xi_j\widehat{f}\in L^2$.
+
+\paragraph{(e) The function $f(x)=\sin x/x$.}
+\subparagraph*{(i) $f\in L^2(\mathbb{R})$.}
+Near $x=0$ one has $\sin x\sim x$, so $\sin x/x$ is bounded and continuous.
+For large $|x|$,
+\[
+\left|\frac{\sin x}{x}\right|
+\le \frac{1}{|x|},
+\]
+hence
+\[
+\left|\frac{\sin x}{x}\right|^2 \le \frac{1}{x^2},
+\]
+and $\int_{|x|>1} x^{-2}\,dx<\infty$.  Therefore $f\in L^2(\mathbb{R})$.
+
+\subparagraph*{(ii) Fourier transform.}
+Let $g(\xi)=\mathbf{1}_{(-1,1)}(\xi)$.  Then
+\[
+\mathcal{F}^{-1}[g](x)
+= \frac{1}{2\pi}\int_{-1}^{1} e^{ix\xi}\,d\xi
+= \frac{1}{2\pi}\left(\frac{e^{ix}-e^{-ix}}{ix}\right)
+= \frac{1}{\pi}\frac{\sin x}{x}.
+\]
+Thus
+\[
+\frac{\sin x}{x}
+= \pi\,\mathcal{F}^{-1}[\mathbf{1}_{(-1,1)}](x).
+\]
+Applying $\mathcal{F}$ and using $\mathcal{F}\circ\mathcal{F}^{-1}=\mathrm{Id}$
+on $L^2$, we obtain
+\[
+\mathcal{F}\left[\frac{\sin x}{x}\right](\xi)
+= \pi\,\mathbf{1}_{(-1,1)}(\xi)
+=
+\begin{cases}
+	\pi, & -1<\xi<1,\\[0.3em]
+	0,   & |\xi|\ge 1.
+\end{cases}
+\]
+
+\paragraph{(f) Convolution.}
+\subparagraph*{(i) Pointwise bound.}
+For $x\in\mathbb{R}^n$,
+\[
+(f*g)(x) = \int_{\mathbb{R}^n} f(x-y)g(y)\,dy.
+\]
+By Cauchy--Schwarz,
+\[
+|f*g(x)|
+\le \left(\int_{\mathbb{R}^n} |f(x-y)|^2 dy\right)^{1/2}
+\left(\int_{\mathbb{R}^n} |g(y)|^2 dy\right)^{1/2}
+= \|f\|_{L^2}\|g\|_{L^2}.
+\]
+
+\subparagraph*{(ii) Continuity and Fourier representation.}
+For $h\in\mathbb{R}^n$,
+\[
+(f*g)(x+h)-(f*g)(x)
+= \int_{\mathbb{R}^n} [f(x+h-y)-f(x-y)]g(y)\,dy.
+\]
+Again by Cauchy--Schwarz,
+\[
+|(f*g)(x+h)-(f*g)(x)|
+\le \|f(\cdot+h)-f\|_{L^2}\,\|g\|_{L^2},
+\]
+and since translations are continuous in $L^2$, the right-hand side tends to
+$0$ as $h\to 0$, so $f*g$ is continuous.
+
+If $f,g\in\mathcal{S}$, the convolution theorem gives
+\[
+\mathcal{F}[f*g](\xi) = \widehat{f}(\xi)\,\widehat{g}(\xi),
+\]
+and thus
+\[
+f*g = \mathcal{F}^{-1}[\widehat{f}\,\widehat{g}].
+\]
+For $f,g\in L^2$, one approximates by Schwartz functions and uses the
+boundedness of $\mathcal{F}$ and density of $\mathcal{S}$ in $L^2$ to extend
+this identity.
+
+\subsection*{Exercise 4.4 (Yukawa Green's function in $\mathbb{R}^3$)}
+
+Work in $\mathbb{R}^3$. For $k>0$, define
+\[
+G(x) = \frac{e^{-k|x|}}{4\pi |x|}, \qquad x\in\mathbb{R}^3\setminus\{0\}.
+\]
+
+\begin{enumerate}[(a)]
+	\item Show that $G \in L^{1}(\mathbb{R}^3)$.
+	
+	\item Show that
+	\[
+	\widehat{G}(\xi) = \frac{1}{|\xi|^2 + k^2},
+	\qquad \xi\in\mathbb{R}^3.
+	\]
+\end{enumerate}
+
+\noindent\emph{Hint:} Use Exercise~4.2, part (c).
+
+\subsection*{Solution to Exercise 4.4}
+
+We work in $\mathbb{R}^3$ and define, for $k>0$,
+\[
+G(x) = \frac{e^{-k|x|}}{4\pi |x|}, \qquad x\in\mathbb{R}^3\setminus\{0\}.
+\]
+
+\paragraph{(a) $G\in L^1(\mathbb{R}^3)$.}
+Since $G$ is radial, write $r=|x|$ and
+\[
+|G(x)| = \frac{e^{-kr}}{4\pi r}.
+\]
+In spherical coordinates,
+\[
+\int_{\mathbb{R}^3} |G(x)|\,dx
+= \int_0^\infty\int_0^\pi\int_0^{2\pi}
+\frac{e^{-kr}}{4\pi r}\,r^2\sin\theta\,d\phi\,d\theta\,dr.
+\]
+The angular integrals give
+\[
+\int_0^\pi\int_0^{2\pi}\sin\theta\,d\phi\,d\theta
+= 4\pi,
+\]
+hence
+\[
+\int_{\mathbb{R}^3} |G(x)|\,dx
+= \int_0^\infty \frac{e^{-kr}}{4\pi r}\,r^2\cdot 4\pi\,dr
+= \int_0^\infty e^{-kr}r\,dr.
+\]
+The last integral converges (in fact $\int_0^\infty e^{-kr}r\,dr = 1/k^2$),
+so $G\in L^1(\mathbb{R}^3)$.
+
+\paragraph{(b) Fourier transform of $G$.}
+By Exercise~4.2(c), if $f\in L^1(\mathbb{R}^3)$ is radial, $f(x)=f(r)$,
+then for $\xi\in\mathbb{R}^3$,
+\[
+\widehat{f}(\xi)
+= 4\pi\int_0^\infty f(r)\,\frac{\sin(r|\xi|)}{r|\xi|}\,r^2\,dr.
+\]
+Here $f(r)=G(r)=\dfrac{e^{-kr}}{4\pi r}$, so with $\rho=|\xi|$ we get
+\[
+\widehat{G}(\xi)
+= 4\pi\int_0^\infty \frac{e^{-kr}}{4\pi r}
+\frac{\sin(\rho r)}{\rho r}\,r^2\,dr
+= \int_0^\infty e^{-kr}\,\frac{\sin(\rho r)}{\rho r}\,r\,dr
+= \frac{1}{\rho}\int_0^\infty e^{-kr}\sin(\rho r)\,dr.
+\]
+Using the standard integral (obtained, for example, via the imaginary part of
+a Laplace transform),
+\[
+\int_0^\infty e^{-kr}\sin(\rho r)\,dr
+= \frac{\rho}{k^2+\rho^2}, \qquad k>0,\ \rho\ge 0,
+\]
+we obtain
+\[
+\widehat{G}(\xi)
+= \frac{1}{\rho}\cdot\frac{\rho}{k^2+\rho^2}
+= \frac{1}{k^2+\rho^2}
+= \frac{1}{|\xi|^2 + k^2}.
+\]
+Thus
+\[
+\boxed{\widehat{G}(\xi) = \frac{1}{|\xi|^2 + k^2},\quad \xi\in\mathbb{R}^3.}
+\]
+
+\subsubsection*{Theory: $G$ as the Green's function of $(-\Delta + k^2)$}
+
+The function
+\[
+G(x) = \frac{e^{-k|x|}}{4\pi |x|}, \qquad k>0,
+\]
+is called the Yukawa potential in $\mathbb{R}^3$.  We show that $G$ is the
+fundamental solution (Green's function) for the operator
+\[
+L := -\Delta + k^2,
+\]
+in the sense that
+\[
+(-\Delta + k^2)G = \delta_0
+\]
+in $\mathcal{S}'(\mathbb{R}^3)$.
+
+From Exercise~4.4(b) we already know that
+\[
+\widehat{G}(\xi) = \frac{1}{|\xi|^2 + k^2}, \qquad \xi\in\mathbb{R}^3.
+\]
+On the other hand, for $u\in\mathcal{S}'(\mathbb{R}^3)$ we have
+\[
+\widehat{-\Delta u}(\xi) = |\xi|^2 \widehat{u}(\xi),
+\qquad
+\widehat{k^2 u}(\xi) = k^2 \widehat{u}(\xi).
+\]
+Therefore
+\[
+\widehat{(-\Delta + k^2)G}(\xi)
+= (|\xi|^2 + k^2)\,\widehat{G}(\xi)
+= (|\xi|^2 + k^2)\,\frac{1}{|\xi|^2 + k^2}
+= 1.
+\]
+Since the Fourier transform of the Dirac delta is $\widehat{\delta_0}(\xi)=1$,
+we conclude that
+\[
+\widehat{(-\Delta + k^2)G}
+= \widehat{\delta_0}
+\quad\Longrightarrow\quad
+(-\Delta + k^2)G = \delta_0
+\]
+in the sense of tempered distributions.
+
+For comparison, the Coulomb (or Newton) potential
+\[
+\Phi(x) = \frac{1}{4\pi |x|}
+\]
+satisfies
+\[
+-\Delta \Phi = \delta_0,
+\qquad
+\widehat{\Phi}(\xi) = \frac{1}{|\xi|^2}.
+\]
+Thus $G$ is the ``screened'' version of the Coulomb kernel, with symbol
+\[
+\widehat{G}(\xi) = \frac{1}{|\xi|^2 + k^2}
+\]
+instead of $1/|\xi|^2$, and exponential decay $e^{-k|x|}$ at infinity.  For
+$f$ sufficiently nice, the solution of
+\[
+(-\Delta + k^2)u = f
+\]
+is given by the convolution
+\[
+u = G * f,
+\]
+equivalently $\widehat{u}(\xi) = \widehat{f}(\xi) / (|\xi|^2 + k^2)$.
+
+\subsection*{Exercise 4.5 (Inhomogeneous Helmholtz Equation in $\mathbb{R}^3$)}
+
+Consider the inhomogeneous Helmholtz equation
+\[
+-\Delta \phi + k^{2}\phi = f,
+\]
+where $f\in\mathcal{S}(\mathbb{R}^3)$.
+Show that there exists a unique $\phi\in\mathcal{S}(\mathbb{R}^3)$ solving this
+equation, and that it is given by
+\[
+\phi(x) = \int_{\mathbb{R}^3} f(y)\,G(x-y)\,dy,
+\]
+where
+\[
+G(x) = \frac{e^{-k|x|}}{4\pi |x|}.
+\]
+\emph{Hint:} first derive an equation satisfied by $\widehat{\phi}$.
+
+\subsection*{Solution to Exercise 4.5}
+
+We consider the inhomogeneous Helmholtz equation
+\[
+-\Delta\phi + k^{2}\phi = f, \qquad f\in\mathcal{S}(\mathbb{R}^3).
+\]
+
+Taking Fourier transforms and using
+$\widehat{-\Delta\phi}(\xi)=|\xi|^2\widehat{\phi}(\xi)$, we obtain
+\[
+(|\xi|^2 + k^{2})\widehat{\phi}(\xi) = \widehat{f}(\xi).
+\]
+Hence
+\[
+\widehat{\phi}(\xi) = \frac{\widehat{f}(\xi)}{|\xi|^2 + k^{2}}.
+\]
+Since $f\in\mathcal{S}$, we have $\widehat{f}\in\mathcal{S}$.  The multiplier
+$(|\xi|^2 + k^{2})^{-1}$ is smooth with at most polynomial growth, so
+$\mathcal{S}$ is stable under multiplication by it.  Thus
+$\widehat{\phi}\in\mathcal{S}$ and $\phi\in\mathcal{S}$.  Uniqueness follows:
+if $f=0$ then $(|\xi|^2+k^{2})\widehat{\phi}=0$, so $\widehat{\phi}=0$ and
+$\phi=0$.
+
+From Exercise~4.4 we know that
+\[
+\widehat{G}(\xi) = \frac{1}{|\xi|^2 + k^{2}},
+\]
+where $G(x)=e^{-k|x|}/(4\pi|x|)$.  Therefore
+\[
+\widehat{\phi}(\xi)
+= \widehat{f}(\xi)\,\widehat{G}(\xi)
+= \widehat{f*G}(\xi).
+\]
+By injectivity of the Fourier transform on $\mathcal{S}$, we obtain
+$\phi = f*G$, that is
+\[
+\phi(x) = \int_{\mathbb{R}^3} f(y)G(x-y)\,dy.
+\]
+
+\bigskip
+
+\subsection*{Exercise 4.6 (Translations and Regular Distributions)}
+
+Let $f\in L^{1}_{\mathrm{loc}}(\mathbb{R}^n)$ be such that its associated
+regular distribution $Tf\in\mathcal{S}'(\mathbb{R}^n)$.  Show that
+\[
+\tau_x Tf = T_{\tau_x f},
+\qquad
+\widehat{Tf} = T_{\widehat{f}}.
+\]
+
+\subsection*{Solution to Exercise 4.6}
+
+Let $f\in L^{1}_{\mathrm{loc}}(\mathbb{R}^n)$ and $Tf\in\mathcal{S}'$ be the
+associated regular distribution,
+\[
+Tf(\varphi) = \int_{\mathbb{R}^n} f(x)\varphi(x)\,dx.
+\]
+
+\paragraph{Translations.}
+For a distribution $T$, its translate is defined by
+\[
+(\tau_x T)(\varphi) := T(\tau_{-x}\varphi),
+\qquad (\tau_x\varphi)(y)=\varphi(y-x).
+\]
+Then
+\[
+(\tau_x Tf)(\varphi)
+= Tf(\tau_{-x}\varphi)
+= \int_{\mathbb{R}^n} f(y)\,\varphi(y+x)\,dy.
+\]
+With the change of variables $z=y+x$,
+\[
+(\tau_x Tf)(\varphi)
+= \int_{\mathbb{R}^n} f(z-x)\,\varphi(z)\,dz
+= \int_{\mathbb{R}^n} (\tau_x f)(z)\,\varphi(z)\,dz
+= T_{\tau_x f}(\varphi).
+\]
+Thus $\tau_x Tf = T_{\tau_x f}$.
+
+\paragraph{Fourier transform.}
+The Fourier transform of a distribution $T$ is given by
+\[
+\langle\widehat{T},\varphi\rangle
+:= \langle T,\widehat{\varphi}\rangle,
+\qquad \varphi\in\mathcal{S}.
+\]
+Therefore
+\[
+\langle\widehat{Tf},\varphi\rangle
+= \langle Tf,\widehat{\varphi}\rangle
+= \int_{\mathbb{R}^n} f(x)\widehat{\varphi}(x)\,dx.
+\]
+Using the representation
+\[
+\widehat{\varphi}(x)
+= \int_{\mathbb{R}^n}\varphi(\xi)e^{-ix\cdot\xi}\,d\xi
+\]
+and Fubini's theorem, we obtain
+\[
+\int f(x)\widehat{\varphi}(x)\,dx
+= \int \varphi(\xi)\left(\int f(x)e^{-ix\cdot\xi}\,dx\right)d\xi
+= \int \widehat{f}(\xi)\,\varphi(\xi)\,d\xi
+= T_{\widehat{f}}(\varphi).
+\]
+Hence $\widehat{Tf} = T_{\widehat{f}}$.
+
+\bigskip
+
+
+\subsection*{Figures for Exercise 4.6}
+
+\paragraph*{Chart 1: A function and its translate.}
+Figure~\ref{fig:translation-f-and-shift} shows a concrete example of a function
+$f(x)$ (a Gaussian) together with its translate $(\tau_a f)(x)=f(x-a)$ for a
+fixed shift $a>0$.
+The graph of the translated function has the same shape and height as $f$ but is
+simply shifted to the right by $a$ units.
+At the distribution level this corresponds to the identity
+$\tau_a Tf = T_{\tau_a f}$, i.e.\ translating the regular distribution is the
+same as taking the distribution associated with the translated function.
+
+\begin{figure}[ht]
+	\centering
+	% produced as /mnt/data/translation_f_and_shift.png
+	\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_translation_f_and_shift.png}
+	\caption{A Gaussian $f(x)$ and its translate $\tau_a f(x)=f(x-a)$ for
+		some fixed $a>0$.  The shape is preserved and only the position
+		changes, illustrating the equality $\tau_a Tf=T_{\tau_a f}$ for
+		the associated regular distributions.}
+	\label{fig:translation-f-and-shift}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Chart 2: Effect of translation on the Fourier magnitude.}
+Figure~\ref{fig:translation-F-magnitude} plots the magnitudes
+$|\widehat{f}(\xi)|$ and $|\widehat{\tau_a f}(\xi)|$ for the same Gaussian
+example.
+One sees that the curves coincide: translating in physical space does not
+change the modulus of the Fourier transform.
+This visualises the fact that ${\mathcal F}[\tau_a f](\xi)
+= e^{-ia\xi}\widehat{f}(\xi)$, so only a phase factor is introduced, while the
+spectrum’s magnitude remains invariant.
+
+\begin{figure}[ht]
+	\centering
+	% produced as /mnt/data/translation_F_magnitude.png
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_translation_F_magnitude.png}
+	\caption{Magnitudes of the Fourier transforms $|\widehat{f}(\xi)|$ and
+		$|\widehat{\tau_a f}(\xi)|$.
+		They coincide, which reflects the identity
+		$\widehat{\tau_a f}(\xi)=e^{-ia\xi}\widehat{f}(\xi)$: translation
+		in $x$ only affects the phase, not the magnitude, of the Fourier
+		transform.}
+	\label{fig:translation-F-magnitude}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Chart 3: Phase factor from translation.}
+Figure~\ref{fig:translation-F-phase} displays the phase of
+$\widehat{\tau_a f}(\xi)$ for the same example.
+The phase is essentially a straight line in $\xi$, corresponding to the
+multiplicative factor $e^{-ia\xi}$ in Fourier space.
+This linear phase encodes the translation amount $a$ and is the precise
+reason why the operation of translating a function corresponds, on the level
+of distributions, to the transformation described in Exercise~4.6.
+
+\begin{figure}[ht]
+	\centering
+	% produced as /mnt/data/translation_F_phase.png
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_translation_F_phase.png}
+	\caption{Phase of $\widehat{\tau_a f}(\xi)$ for a translated Gaussian.
+		The approximately linear dependence on $\xi$ represents the
+		factor $e^{-ia\xi}$ gained under translation, while the modulus
+		of the Fourier transform stays unchanged.}
+	\label{fig:translation-F-phase}
+\end{figure}
+
+
+\subsection*{Exercise 4.7 (Fourier Transform of the Truncated Sign Function)}
+
+Let $f:\mathbb{R}\to\mathbb{R}$ be the sign function
+\[
+f(x) = 
+\begin{cases}
+	-1, & x<0,\\[0.2em]
+	1, & x\ge 0,
+\end{cases}
+\]
+and define the truncated function
+\[
+f_R(x) = f(x)\,\mathbf{1}_{[-R,R]}(x).
+\]
+
+\begin{enumerate}[(a)]
+	\item Sketch $f_R(x)$.
+	
+	\item Show that $T_{f_R} \to T_f$ in $\mathcal{S}'$ as $R\to\infty$.
+	
+	\item Show that
+	\[
+	\widehat{f_R}(\xi) = 
+	2i\,\frac{\cos(R\xi)-1}{\xi}.
+	\]
+	
+	\item For $\phi\in\mathcal{S}$, show that
+	\[
+	T_{f_R}[\widehat{\phi}]
+	= -2i\int_0^\infty \frac{\phi(x)-\phi(-x)}{x}\,dx
+	+ 2i\int_0^\infty \frac{\phi(x)-\phi(-x)}{x}\cos(Rx)\,dx.
+	\]
+	
+	\item Use the Riemann--Lebesgue lemma to show that for all $\psi\in\mathcal{S}$:
+	\[
+	\int_0^\infty \psi(x)\cos(Rx)\,dx \to 0
+	\quad \text{as } R\to\infty.
+	\]
+	
+	\item Deduce that
+	\[
+	\widehat{T_f} = -2i\,\mathrm{P.V.}\!\left(\frac{1}{x}\right).
+	\]
+	
+	\item Compute $\widehat{T_H}$, where the Heaviside function is
+	\[
+	H(x)=
+	\begin{cases}
+		0, & x<0,\\[0.2em]
+		1, & x\ge 0.
+	\end{cases}
+	\]
+\end{enumerate}
+
+\subsection*{Solution to Exercise 4.7}
+
+Let
+\[
+f(x) =
+\begin{cases}
+	-1, & x<0,\\[0.2em]
+	1,  & x\ge 0,
+\end{cases}
+\qquad
+f_R(x) = f(x)\mathbf{1}_{[-R,R]}(x).
+\]
+
+\paragraph{(a) Sketch.}
+The function $f_R$ equals $-1$ on $[-R,0)$, $1$ on $[0,R]$, and $0$ outside
+$[-R,R]$.
+
+\paragraph{(b) Convergence in $\mathcal{S}'$.}
+For $\varphi\in\mathcal{S}(\mathbb{R})$,
+\[
+T_{f_R}(\varphi)
+= \int_{-R}^{R} f(x)\varphi(x)\,dx.
+\]
+Because $f$ is bounded and $\varphi$ decays rapidly, we have
+\[
+\int_{\mathbb{R}\setminus[-R,R]} |f(x)\varphi(x)|\,dx
+\le \|f\|_{\infty}\int_{|x|>R} |\varphi(x)|\,dx \to 0
+\]
+as $R\to\infty$.  Hence
+$T_{f_R}(\varphi)\to \int_{\mathbb{R}} f(x)\varphi(x)\,dx = T_f(\varphi)$,
+so $T_{f_R}\to T_f$ in $\mathcal{S}'$.
+
+\paragraph{(c) Fourier transform of $f_R$.}
+We compute
+\[
+\widehat{f_R}(\xi)
+= \int_{-R}^{0} (-1)e^{-ix\xi}\,dx + \int_{0}^{R} e^{-ix\xi}\,dx.
+\]
+A direct calculation yields
+\[
+\widehat{f_R}(\xi)
+= 2i\,\frac{\cos(R\xi)-1}{\xi},
+\]
+which is the desired formula.
+
+\paragraph{(d) Expression for $T_{f_R}[\widehat{\phi}]$.}
+For $\phi\in\mathcal{S}$,
+\[
+T_{f_R}[\widehat{\phi}]
+= T_{\widehat{f_R}}[\phi]
+= \int_{\mathbb{R}} \widehat{f_R}(\xi)\phi(\xi)\,d\xi
+= 2i\int_{\mathbb{R}} \frac{\cos(R\xi)-1}{\xi}\phi(\xi)\,d\xi.
+\]
+Splitting at $0$ and changing variables $\xi=-x$ in the negative half-line,
+we obtain
+\[
+T_{f_R}[\widehat{\phi}]
+= 2i\int_0^{\infty} \frac{\cos(Rx)-1}{x}\,[\phi(x)-\phi(-x)]\,dx.
+\]
+Separating the terms with $\cos(Rx)$ and with $-1$ gives
+\[
+T_{f_R}[\widehat{\phi}]
+= -2i\int_0^{\infty} \frac{\phi(x)-\phi(-x)}{x}\,dx
++ 2i\int_0^{\infty} \frac{\phi(x)-\phi(-x)}{x}\cos(Rx)\,dx,
+\]
+as required.
+
+\paragraph{(e) Riemann--Lebesgue lemma.}
+For any $\psi\in\mathcal{S}(\mathbb{R})$, in particular for
+$\psi\in L^{1}(\mathbb{R})$, the Riemann--Lebesgue lemma implies
+\[
+\int_0^{\infty} \psi(x)\cos(Rx)\,dx \to 0
+\quad\text{as } R\to\infty.
+\]
+Taking $\psi(x)=(\phi(x)-\phi(-x))/x$, which belongs to $\mathcal{S}$, we
+obtain
+\[
+\int_0^{\infty} \frac{\phi(x)-\phi(-x)}{x}\cos(Rx)\,dx \to 0.
+\]
+
+\paragraph{(f) Fourier transform of $T_f$.}
+From (b),
+$T_{f_R}\to T_f$ in $\mathcal{S}'$.  Thus
+\[
+\langle \widehat{T_f},\phi\rangle
+= \langle T_f,\widehat{\phi}\rangle
+= \lim_{R\to\infty} \langle T_{f_R},\widehat{\phi}\rangle
+= \lim_{R\to\infty} T_{f_R}[\widehat{\phi}].
+\]
+Using the formula from (d) and the limit in (e), we obtain
+\[
+\langle \widehat{T_f},\phi\rangle
+= -2i\int_0^{\infty} \frac{\phi(x)-\phi(-x)}{x}\,dx.
+\]
+By the definition of the principal value distribution,
+\[
+\left\langle \mathrm{P.V.}\left(\frac{1}{x}\right),\phi\right\rangle
+= \int_0^{\infty} \frac{\phi(x)-\phi(-x)}{x}\,dx,
+\]
+so
+\[
+\widehat{T_f}
+= -2i\,\mathrm{P.V.}\left(\frac{1}{x}\right).
+\]
+
+\paragraph{(g) Fourier transform of $T_H$.}
+The Heaviside function satisfies
+\[
+H(x) = \frac{1}{2}\bigl(1 + f(x)\bigr),
+\]
+so $T_H = \tfrac{1}{2}T_1 + \tfrac{1}{2}T_f$.  With the convention used here,
+\[
+\widehat{T_1} = 2\pi\delta,
+\qquad
+\widehat{T_f} = -2i\,\mathrm{P.V.}\left(\frac{1}{x}\right),
+\]
+and therefore
+\[
+\widehat{T_H}
+= \frac{1}{2}\widehat{T_1} + \frac{1}{2}\widehat{T_f}
+= \pi\delta - i\,\mathrm{P.V.}\left(\frac{1}{x}\right).
+\]
+
+
+
+
+%---------------------------------------------
+% Exercise 4.7 – illustrative charts
+%---------------------------------------------
+
+\subsection*{Figures for Exercise 4.7}
+
+\paragraph*{Chart 1: Truncated sign functions $f_R$.}
+Figure~\ref{fig:truncated-sign-fR} shows the truncated sign function
+$f_R(x)=f(x)\mathbf{1}_{[-R,R]}(x)$ for several values of $R$.
+Each curve is piecewise constant: it equals $-1$ on $[-R,0)$,
+$+1$ on $(0,R]$, and $0$ outside the interval $[-R,R]$.
+As $R$ increases, the nonzero region widens, and the regular distributions
+$T_{f_R}$ converge to the full sign distribution $T_f$ in $\mathcal{S}'$.
+
+\begin{figure}[ht]
+	\centering
+	% file produced previously as /mnt/data/truncated_sign_fR.png
+	\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_truncated_sign_fR.png}
+	\caption{Truncated sign functions $f_R(x)$ for several values of $R$.
+		The support grows with $R$, while the values remain $\pm1$,
+		illustrating $T_{f_R}\to T_f$ in $\mathcal{S}'$.}
+	\label{fig:truncated-sign-fR}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Chart 2: Fourier profile $2\sin(R\xi)/\xi$.}
+Figure~\ref{fig:fourier-fR} plots the real profile $2\sin(R\xi)/\xi$,
+which (up to a factor of $i$ and conventions) is the Fourier transform
+$\widehat{f_R}(\xi)$ derived in part (c) of Exercise~4.7.
+The function oscillates with frequency proportional to $R$, while its
+overall envelope decays like $1/|\xi|$ for large $|\xi|$.
+As $R$ grows, these oscillations become more rapid and the mass
+concentrates near $\xi=0$, reflecting the fact that $f_R$ spreads out
+in physical space.
+
+\begin{figure}[ht]
+	\centering
+	% file produced previously as /mnt/data/fR_fourier_sin_profile.png
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_fR_fourier_sin_profile.png}
+	\caption{Profile of $2\sin(R\xi)/\xi$ for a fixed $R$ (here $R=5$),
+		representing the Fourier transform of $f_R$ (up to a factor
+		$i$). The oscillatory behavior and $1/|\xi|$ decay encode the
+		truncation and jump of the sign function in physical space.}
+	\label{fig:fourier-fR}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Chart 3: Approximation of $\mathrm{P.V.}(1/x)$.}
+Figure~\ref{fig:pv-1-over-x} shows an approximation to the principal
+value distribution $\mathrm{P.V.}(1/x)$, obtained by plotting $1/x$
+only for $|x|\ge\varepsilon$ and leaving a small symmetric gap around
+the origin.
+The vertical dashed line at $x=0$ indicates the singularity that is
+removed and treated in the principal value sense.
+This picture illustrates how the distribution is defined via limits
+of integrals over $\mathbb{R}\setminus(-\varepsilon,\varepsilon)$,
+which is exactly the object that appears as $\widehat{T_f}$ in
+Exercise~4.7(f).
+
+\begin{figure}[ht]
+	\centering
+	% file produced previously as /mnt/data/pv_approx_1_over_x.png
+	\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_pv_approx_1_over_x.png}
+	\caption{Approximation of the principal value distribution
+		$\mathrm{P.V.}(1/x)$ by omitting a symmetric interval
+		$(-\varepsilon,\varepsilon)$ around the singularity.
+		This visualises how the principal value is understood
+		as a limit of symmetric truncations.}
+	\label{fig:pv-1-over-x}
+\end{figure}
+
+\clearpage
+
+
+\subsection*{Exercise 5.1 (Periodisation of a compactly supported distribution)}
+
+Suppose $v \in \mathcal{E}'(\mathbb{R}^n)$ and define
+\[
+u = \sum_{g\in\mathbb{Z}^n} \tau_g v,
+\]
+where $\tau_g$ denotes translation by $g$.
+
+Show that if $\phi \in \mathcal{D}(\mathbb{R}^n)$ with
+$\mathrm{supp}\,\phi \subset K$ for some compact set
+$K \subset \mathbb{R}^n$, then
+\[
+u[\phi] = \sum_{g\in A} \tau_g v[\phi],
+\]
+for some finite set $A \subset \mathbb{Z}^n$ which depends only on $K$.
+Deduce that $u$ defines a distribution.
+
+\subsection*{Theory for Exercise 5.1}
+
+Recall that $\mathcal{D}(\mathbb{R}^n)$ denotes the space of smooth,
+compactly supported test functions, and that
+$\mathcal{E}'(\mathbb{R}^n)$ is the space of compactly supported
+distributions.  A distribution $v\in\mathcal{E}'(\mathbb{R}^n)$ has
+compact support in the sense that there exists a compact set
+$K_0\subset\mathbb{R}^n$ such that $v[\phi]=0$ whenever
+$\operatorname{supp}\phi\cap K_0=\varnothing$.
+
+For $g\in\mathbb{R}^n$, the translation operator on test functions is
+defined by
+\[
+(\tau_g\phi)(x) := \phi(x-g),
+\]
+and the translation of a distribution $v$ is given by
+\[
+(\tau_g v)[\phi] := v[\tau_{-g}\phi],\qquad \phi\in\mathcal{D}(\mathbb{R}^n).
+\]
+If $v=T_f$ is a regular distribution arising from a function $f$, then
+$\tau_g v = T_{\tau_g f}$ with $(\tau_g f)(x)=f(x-g)$.  Moreover,
+if $\operatorname{supp}v\subset K_0$, then
+$\operatorname{supp}(\tau_g v) = K_0 + g$.
+
+The formal sum
+\[
+u = \sum_{g\in\mathbb{Z}^n} \tau_g v
+\]
+is meant to define a $\mathbb{Z}^n$--periodic distribution obtained by
+copying $v$ to each lattice point.  The key observation is that for a
+given test function $\phi\in\mathcal{D}(\mathbb{R}^n)$ with
+$\operatorname{supp}\phi\subset K$, only finitely many translates
+$\tau_g v$ interact nontrivially with $\phi$: if
+$(K_0+g)\cap K=\varnothing$, then $(\tau_g v)[\phi]=0$.  Since $K$ is
+compact, there are only finitely many $g\in\mathbb{Z}^n$ for which
+$(K_0+g)\cap K\neq\varnothing$, and thus the sum
+\[
+u[\phi] := \sum_{g\in\mathbb{Z}^n} (\tau_g v)[\phi]
+\]
+reduces to a finite sum $\sum_{g\in A} (\tau_g v)[\phi]$, where
+$A\subset\mathbb{Z}^n$ is finite and depends only on $K$.  This shows that
+$u$ is well-defined as a continuous linear functional on $\mathcal{D}$,
+hence $u$ is a distribution (in fact, it is $\mathbb{Z}^n$--periodic).
+
+\bigskip
+
+\subsection*{Solution to Exercise 5.1}
+
+Let $v\in\mathcal{E}'(\mathbb{R}^n)$ and define
+\[
+u = \sum_{g\in\mathbb{Z}^n} \tau_g v,
+\qquad
+(\tau_g v)[\phi] := v[\tau_{-g}\phi].
+\]
+
+Since $v$ is compactly supported, there exists a compact set
+$K_0\subset\mathbb{R}^n$ such that
+$\operatorname{supp}v\subset K_0$.  For $g\in\mathbb{Z}^n$ we then have
+$\operatorname{supp}(\tau_g v) = K_0+g := \{x+g : x\in K_0\}$.
+
+Let $\phi\in\mathcal{D}(\mathbb{R}^n)$ and assume
+$\operatorname{supp}\phi\subset K$ for some compact set
+$K\subset\mathbb{R}^n$.  If $(K_0+g)\cap K=\varnothing$, then
+$\tau_{-g}\phi$ vanishes on $\operatorname{supp}v$ and thus
+$(\tau_g v)[\phi]=0$.  Hence, only those $g\in\mathbb{Z}^n$ with
+$(K_0+g)\cap K\neq\varnothing$ can contribute to the sum.
+
+Define
+\[
+A := \{g\in\mathbb{Z}^n : (K_0+g)\cap K\neq\varnothing\}.
+\]
+If $g\in A$, then there exist $x\in K_0$ and $y\in K$ such that
+$y=x+g$, i.e.\ $g=y-x\in K-K_0$.  Since the difference of two compact
+sets is compact and $\mathbb{Z}^n$ is a discrete subset of
+$\mathbb{R}^n$, the set $A = (K-K_0)\cap\mathbb{Z}^n$ is finite.  It
+follows that
+\[
+u[\phi] := \sum_{g\in\mathbb{Z}^n} (\tau_g v)[\phi]
+= \sum_{g\in A} (\tau_g v)[\phi],
+\]
+so the sum defining $u[\phi]$ is finite for every
+$\phi\in\mathcal{D}(\mathbb{R}^n)$.
+
+Each $\tau_g v$ is a distribution, hence a continuous linear functional
+on $\mathcal{D}(\mathbb{R}^n)$.  For test functions with support in a
+fixed compact set $K$, the index set $A$ is finite and depends only on
+$K$.  Therefore $u$ is a finite sum of continuous linear functionals on
+$\mathcal{D}_K$, and hence $u$ is a continuous linear functional on
+$\mathcal{D}(\mathbb{R}^n)$.  Thus $u\in\mathcal{D}'(\mathbb{R}^n)$,
+i.e.\ $u$ defines a distribution (in fact a $\mathbb{Z}^n$--periodic
+one).
+
+\bigskip
+
+\subsection*{Exercise 5.2 (Counting lattice points and summability)}
+
+Recall that for $x \in \mathbb{R}^n$,
+\[
+\|x\|_1 := \sum_{i=1}^n |x_i|.
+\]
+For $k \in \mathbb{N}$ set
+\[
+Q_k := \bigl\{ g \in \mathbb{Z}^n : k - \tfrac12 \le \|g\|_1 < k + \tfrac12 \bigr\}.
+\]
+
+\begin{enumerate}[(a)]
+	\item Show that
+	\[
+	\#Q_k = (2k+1)^n - (2k-1)^n,
+	\]
+	so that $\#Q_k \le c(1+k)^{n-1}$ for some constant $c>0$.
+	
+	\item By applying the Cauchy--Schwarz identity to estimate $a\cdot b$
+	for $a=(1,\dots,1)$ and $b=(|g_1|,\dots,|g_n|)$, deduce that
+	\[
+	\|g\|_1 \le \sqrt{n}\,|g|,
+	\]
+	where $|g|$ denotes the Euclidean norm of $g$.
+	
+	\item Show that there exists a constant $C>0$, depending only on $n$, such that
+	\[
+	\sum_{\substack{g\in\mathbb{Z}^n \\ \|g\|_1\le K}}
+	\frac{1}{(1+|g|)^{n+1}}
+	\;\le\;
+	1 + C \sum_{k=1}^K \frac{1}{k^2}
+	\]
+	holds for all $K\in\mathbb{N}$. Deduce that
+	\[
+	\sum_{g\in\mathbb{Z}^n} \frac{1}{(1+|g|)^{n+1}} < \infty.
+	\]
+\end{enumerate}
+
+\subsubsection*{Theory for Exercise 5.2}
+
+For $x\in\mathbb{R}^n$ we consider the $\ell^1$--norm
+\[
+\|x\|_1 := \sum_{i=1}^n |x_i|.
+\]
+For $k\in\mathbb{N}$ the set
+\[
+Q_k := \bigl\{ g\in\mathbb{Z}^n :
+k-\tfrac12 \le \|g\|_1 < k+\tfrac12 \bigr\}
+\]
+consists exactly of those lattice points with $\|g\|_1=k$.  Geometrically,
+$Q_k$ is a discrete ``shell'' of radius $k$ around the origin in the
+$\ell^1$--metric.  The first part of the exercise shows that
+\[
+\#Q_k = (2k+1)^n - (2k-1)^n,
+\]
+which implies the bound $\#Q_k \le c(1+k)^{n-1}$ for some constant $c>0$;
+in particular, the number of lattice points with $\ell^1$--radius $k$
+grows like $k^{n-1}$, analogous to the surface area of a sphere.
+
+The second part uses the Cauchy--Schwarz inequality to relate the
+$\ell^1$--norm to the Euclidean norm.  For $g\in\mathbb{R}^n$ we set
+$a=(1,\dots,1)$ and $b=(|g_1|,\dots,|g_n|)$, and obtain
+\[
+\|g\|_1 = a\cdot b \le \|a\|_2\|b\|_2
+= \sqrt{n}\,\biggl(\sum_{i=1}^n g_i^2\biggr)^{1/2}
+= \sqrt{n}\,|g|.
+\]
+Thus, for $g\in Q_k$ with $k\ge1$, we have $|g|\ge c k$ for some constant
+$c>0$ depending only on $n$.
+
+The final part groups the sum
+\[
+\sum_{g\in\mathbb{Z}^n} \frac{1}{(1+|g|)^{n+1}}
+\]
+according to the shells $Q_k$:
+\[
+\sum_{\|g\|_1\le K} \frac{1}{(1+|g|)^{n+1}}
+= \sum_{k=0}^K \sum_{g\in Q_k} \frac{1}{(1+|g|)^{n+1}}.
+\]
+Using $\#Q_k\le c(1+k)^{n-1}$ and $|g|\ge c k$ for $g\in Q_k\setminus\{0\}$,
+one obtains an estimate of the form
+\[
+\sum_{\|g\|_1\le K} \frac{1}{(1+|g|)^{n+1}}
+\le 1 + C \sum_{k=1}^K \frac{1}{k^2},
+\]
+for some constant $C>0$ depending only on $n$.  Since
+$\sum_{k=1}^\infty 1/k^2<\infty$, this shows that
+\[
+\sum_{g\in\mathbb{Z}^n} \frac{1}{(1+|g|)^{n+1}} < \infty.
+\]
+Such arguments are fundamental when analysing the summability of discrete
+kernels on $\mathbb{Z}^n$ and appear frequently in harmonic analysis and
+PDE.
+
+\subsection*{Solution to Exercise 5.2}
+
+\paragraph{(a)}
+For $g\in\mathbb{Z}^n$, the quantity $\|g\|_1=\sum_{i=1}^n|g_i|$ is an
+integer.  The condition
+$k-\tfrac12 \le \|g\|_1 < k+\tfrac12$ therefore simply means
+$\|g\|_1=k$, so $Q_k$ is the ``shell'' of lattice points with
+$\ell^1$--norm equal to $k$.
+
+Let
+\[
+B_r := \{g\in\mathbb{Z}^n : \|g\|_1 \le r\}.
+\]
+If $r=m+\tfrac12$ with $m\in\mathbb{N}$, then
+$\|g\|_1\le m+\tfrac12$ holds if and only if $|g_i|\le m$ for all $i$,
+so $B_{m+\frac12}=\mathbb{Z}^n\cap[-m,m]^n$ has $(2m+1)^n$ elements.
+Since $Q_k = B_{k+\frac12}\setminus B_{k-\frac12}$, we obtain
+\[
+\#Q_k = \#B_{k+\frac12} - \#B_{k-\frac12}
+= (2k+1)^n - (2k-1)^n.
+\]
+
+To estimate this difference, consider $f(t)=t^n$ on $\mathbb{R}$.  By the
+mean value theorem there exists $\xi\in(2k-1,2k+1)$ such that
+\[
+(2k+1)^n - (2k-1)^n
+= f(2k+1)-f(2k-1)
+= f'(\xi)\,(2)
+= 2n\,\xi^{\,n-1}
+\le 2n(2k+1)^{n-1}.
+\]
+Thus $\#Q_k\le c(1+k)^{n-1}$ for some constant $c>0$ depending only on
+$n$.
+
+\paragraph{(b)}
+Let $g=(g_1,\dots,g_n)\in\mathbb{R}^n$ and set
+$a=(1,\dots,1)$, $b=(|g_1|,\dots,|g_n|)$.  Then
+\[
+\|g\|_1 = \sum_{i=1}^n |g_i| = a\cdot b.
+\]
+By the Cauchy--Schwarz inequality,
+\[
+a\cdot b \le \|a\|_2 \|b\|_2
+= \sqrt{n}\,\Bigl(\sum_{i=1}^n g_i^2\Bigr)^{1/2}
+= \sqrt{n}\,|g|.
+\]
+Hence $\|g\|_1 \le \sqrt{n}\,|g|$.
+
+\paragraph{(c)}
+We wish to show that there exists $C>0$ (depending only on $n$) such
+that
+\[
+\sum_{\substack{g\in\mathbb{Z}^n\\ \|g\|_1\le K}}
+\frac{1}{(1+|g|)^{n+1}}
+\le 1 + C\sum_{k=1}^K \frac{1}{k^2}
+\]
+for all $K\in\mathbb{N}$.  We separate off the term $g=0$:
+\[
+\sum_{\substack{g\in\mathbb{Z}^n\\ \|g\|_1\le K}}
+\frac{1}{(1+|g|)^{n+1}}
+= \frac{1}{(1+0)^{n+1}}
++ \sum_{\substack{g\in\mathbb{Z}^n\setminus\{0\}\\ \|g\|_1\le K}}
+\frac{1}{(1+|g|)^{n+1}}
+= 1 + S_K.
+\]
+
+For $g\neq 0$, part (b) gives $\|g\|_1 \le \sqrt{n}\,|g|$, so
+$|g| \ge c\,\|g\|_1$ and $1+|g| \ge c(1+\|g\|_1)$ for some $c>0$
+depending only on $n$.  Hence
+\[
+\frac{1}{(1+|g|)^{n+1}}
+\le \frac{C_1}{(1+\|g\|_1)^{n+1}}
+\]
+for some constant $C_1>0$ depending only on $n$.
+
+We group the remaining sum according to the shells $Q_k$:
+\[
+S_K
+= \sum_{\substack{1\le\|g\|_1\le K}}
+\frac{1}{(1+|g|)^{n+1}}
+\le C_1 \sum_{k=1}^K \sum_{g\in Q_k}
+\frac{1}{(1+k)^{n+1}}
+= C_1 \sum_{k=1}^K \frac{\#Q_k}{(1+k)^{n+1}}.
+\]
+Using the bound from part (a), $\#Q_k\le c(1+k)^{n-1}$, we obtain
+\[
+S_K
+\le C_1 c \sum_{k=1}^K \frac{(1+k)^{n-1}}{(1+k)^{n+1}}
+= C \sum_{k=1}^K \frac{1}{(1+k)^2}
+\le C \sum_{k=1}^K \frac{1}{k^2}
+\]
+for a suitable constant $C>0$ depending only on $n$.
+
+Combining this with the earlier identity gives
+\[
+\sum_{\substack{g\in\mathbb{Z}^n\\ \|g\|_1\le K}}
+\frac{1}{(1+|g|)^{n+1}}
+\le 1 + C\sum_{k=1}^K \frac{1}{k^2}.
+\]
+Letting $K\to\infty$ yields
+\[
+\sum_{g\in\mathbb{Z}^n} \frac{1}{(1+|g|)^{n+1}} < \infty,
+\]
+since the series $\sum_{k=1}^\infty 1/k^2$ converges.
+
+\subsection*{Figures for Exercises 5.1 and 5.2}
+
+\paragraph*{Figure 1: Periodisation of a compactly supported distribution.}
+Figure~\ref{fig:ex5-1-periodisation-1d} shows a compactly supported
+bump $v$ on $\mathbb{R}$ (solid line), and a partial periodisation
+$u=\sum_{|g|\le 2}\tau_g v$ (dashed line), where $\tau_g$ is translation
+by $g\in\mathbb{Z}$.
+The sum $u$ clearly has a repeating pattern with period~$1$, illustrating
+the idea of copying $v$ to each lattice point.
+In Exercise~5.1 one proves that for any test function $\phi$ with compact
+support, only finitely many translates contribute to $u[\phi]$, so the
+formal sum defines a genuine distribution.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_1_periodisation_1d.png}
+	\caption{A compactly supported bump $v$ (solid) and a finite partial
+		sum of its periodisation $u=\sum_{g\in\mathbb{Z}}\tau_g v$
+		(dashed).  This illustrates the construction of a periodic
+		distribution from a compactly supported one.}
+	\label{fig:ex5-1-periodisation-1d}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Figure 2: Supports of $v$, its translates, and a compact $K$.}
+Figure~\ref{fig:ex5-1-supports-translates} gives a schematic
+two-dimensional picture: the black square represents the compact support
+$K_0$ of $v$, while the light grey squares are its translates
+$K_0+g$ for $g\in\mathbb{Z}^2$.
+The larger coloured rectangle marks a compact set $K$ containing the
+support of a test function $\phi$.
+Only those translates $K_0+g$ that intersect $K$ can contribute to
+$u[\phi]$, and there are only finitely many such $g$, which is the key
+point in Exercise~5.1.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_ex5_1_supports_translates.png}
+	\caption{Support $K_0$ of $v$ (black square), its translates $K_0+g$
+		(light grey), and a compact set $K$ containing the support of
+		a test function.  Only finitely many translates intersect $K$,
+		so the sum defining $u[\phi]$ is finite.}
+	\label{fig:ex5-1-supports-translates}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Figure 3: Lattice shells $Q_k$ in $\mathbb{Z}^2$.}
+Figure~\ref{fig:ex5-2-Qk-Z2-shells} shows the shells
+$Q_k=\{g\in\mathbb{Z}^2 : k-\tfrac12\le \|g\|_1 < k+\tfrac12\}$ for
+$1\le k\le 4$, coloured by their radius $k$.
+Each $Q_k$ is a diamond-shaped layer in the $\ell^1$–metric, consisting
+exactly of the integer points with $\|g\|_1=k$.
+This visualises the decomposition of $\mathbb{Z}^n$ into disjoint shells
+used in Exercise~5.2 to estimate lattice sums.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_ex5_2_Qk_Z2_shells.png}
+	\caption{Lattice shells $Q_k$ in $\mathbb{Z}^2$ for $1\le k\le 4$
+		(coloured by $k=\|g\|_1$).  Each shell is a discrete
+		``diamond'' in the $\ell^1$–norm.}
+	\label{fig:ex5-2-Qk-Z2-shells}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Figure 4: Size of $Q_k$ and its asymptotic behaviour.}
+Figure~\ref{fig:ex5-2-Qk-counts} plots $\#Q_k$ for $1\le k\le 10$ in the
+case $n=2$, together with a comparison curve $c(1+k)^{n-1}$.
+The stem plot shows the exact counts
+$\#Q_k=(2k+1)^2-(2k-1)^2$, while the broken line demonstrates that the
+growth is indeed of order $(1+k)^{n-1}$.
+This is precisely the estimate used in Exercise~5.2 to show that
+\[
+\sum_{g\in\mathbb{Z}^n} \frac{1}{(1+|g|)^{n+1}} < \infty.
+\]
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_ex5_2_Qk_counts.png}
+	\caption{Cardinality $\#Q_k$ for $1\le k\le 10$ in the case $n=2$,
+		together with an approximate growth law $c(1+k)^{n-1}$.
+		The asymptotics $\#Q_k\lesssim (1+k)^{n-1}$ is the key input
+		in the summability argument of Exercise~5.2.}
+	\label{fig:ex5-2-Qk-counts}
+\end{figure}
+
+
+\clearpage
+
+\subsection*{Exercise 5.3}
+Show that if the coefficients $c_g$ satisfy
+\[
+|c_g| \le K(1+|g|)^N
+\]
+for some $K>0$ and some $N\in\mathbb{N}$, then the series of distributions
+\[
+\sum_{g\in\mathbb{Z}^n} c_g\,\delta_{2\pi g}
+\]
+converges in $\mathcal{S}'$.
+
+\subsubsection*{Theory for Exercise 5.3}
+
+Let $\mathcal{S}(\mathbb{R}^n)$ denote the Schwartz space of rapidly
+decreasing smooth functions and $\mathcal{S}'(\mathbb{R}^n)$ its
+topological dual, the space of tempered distributions.  A series
+$\sum_{k} T_k$ with $T_k\in\mathcal{S}'$ converges in $\mathcal{S}'$ if
+and only if the partial sums converge pointwise on $\mathcal{S}$, i.e.
+for every $\varphi\in\mathcal{S}$ the scalar series
+$\sum_k T_k[\varphi]$ converges.
+
+For $x\in\mathbb{R}^n$, the Dirac delta $\delta_x$ is the tempered
+distribution defined by $\delta_x[\varphi]=\varphi(x)$.  In Exercise~5.3
+one considers
+\[
+T = \sum_{g\in\mathbb{Z}^n} c_g\,\delta_{2\pi g},
+\]
+which formally acts on $\varphi\in\mathcal{S}$ by
+\[
+T[\varphi] = \sum_{g\in\mathbb{Z}^n} c_g\,\varphi(2\pi g).
+\]
+The growth condition $|c_g|\le K(1+|g|)^N$ means that the coefficients
+grow at most polynomially.  On the other hand, for each
+$\varphi\in\mathcal{S}$ and every $M\ge 0$ there exists $C_M>0$ such
+that
+\[
+|\varphi(x)| \le \frac{C_M}{(1+|x|)^M}\qquad\text{for all }x\in\mathbb{R}^n.
+\]
+Evaluated at $x=2\pi g$ this yields
+$|\varphi(2\pi g)|\le C_M(1+|g|)^{-M}$, so that
+\[
+\sum_{g\in\mathbb{Z}^n} |c_g\varphi(2\pi g)|
+\le K C_M \sum_{g\in\mathbb{Z}^n} \frac{1}{(1+|g|)^{M-N}}.
+\]
+If $M-N$ is chosen large enough (e.g.\ $M-N>n+1$), Exercise~5.2 shows
+that this lattice sum converges.  Thus $T[\varphi]$ is well-defined and
+absolutely convergent for every $\varphi\in\mathcal{S}$.
+
+Moreover, the estimate above shows that $|T[\varphi]|$ is bounded by a
+constant multiple of the Schwartz seminorm
+$\sup_x(1+|x|)^M|\varphi(x)|$, which is exactly the form of continuity
+required for a tempered distribution.  Hence the weighted $\delta$--comb
+$\sum c_g\delta_{2\pi g}$ converges in $\mathcal{S}'$.
+
+\bigskip
+
+\subsection*{Exercise 5.3 — Convergence of $\displaystyle \sum_{g} c_g \delta_{2\pi g}$ in $\mathcal{S}'$}
+
+We assume
+\[
+|c_g| \le K(1+|g|)^N \qquad (g\in\mathbb{Z}^n)
+\]
+for some constants $K>0$, $N\in\mathbb{N}$, and want to show that
+\[
+T := \sum_{g\in\mathbb{Z}^n} c_g\,\delta_{2\pi g}
+\]
+converges in $\mathcal{S}'(\mathbb{R}^n)$.
+
+\bigskip
+\noindent\textbf{Step 1: Define $T$ on a test function}
+
+Take arbitrary $\varphi\in\mathcal{S}(\mathbb{R}^n)$. Formally,
+\[
+T[\varphi]
+= \sum_{g} c_g\,\delta_{2\pi g}[\varphi]
+= \sum_{g} c_g\,\varphi(2\pi g).
+\]
+We must show this series converges absolutely and defines a continuous linear functional.
+
+\bigskip
+\noindent\textbf{Step 2: Use rapid decay of $\varphi$}
+
+Since $\varphi$ is Schwartz, for every integer $M\ge 0$,
+\[
+\sup_{x\in\mathbb{R}^n} (1+|x|)^M |\varphi(x)| =: C_M < \infty.
+\]
+Hence for all $g\in\mathbb{Z}^n$,
+\[
+|\varphi(2\pi g)|
+\le \frac{C_M}{(1+|2\pi g|)^M}
+\le \frac{C_M'}{(1+|g|)^M},
+\]
+for some constant $C_M'$ depending on $M$ but not on $g$.
+
+\bigskip
+\noindent\textbf{Step 3: Absolute convergence}
+
+Then
+\[
+\sum_{g} |c_g \varphi(2\pi g)|
+\le K C_M' \sum_{g} \frac{1}{(1+|g|)^{M-N}}.
+\]
+Choose $M$ such that $M-N > n+1$.  
+By Exercise~5.2, the lattice sum converges.  
+Hence the series defining $T[\varphi]$ is absolutely convergent.
+
+\bigskip
+\noindent\textbf{Step 4: Continuity}
+
+From the same estimate,
+\[
+|T[\varphi]|
+\le C \sup_{x\in\mathbb{R}^n}(1+|x|)^M|\varphi(x)|
+\]
+for some constant $C>0$ independent of $\varphi$.  
+Thus $T$ is continuous on $\mathcal{S}$, so $T\in\mathcal{S}'$.
+
+\bigskip
+\noindent\textbf{Conclusion:}  
+The series $\displaystyle \sum_{g} c_g\,\delta_{2\pi g}$ converges in $\mathcal{S}'$.
+
+
+\bigskip
+
+\subsection*{Exercise 5.4}
+Suppose $f \in L^p_{\mathrm{loc}}(\mathbb{R}^n)$ is a periodic function.
+Fix $\varepsilon>0$, and define
+\[
+Q = \{x\in\mathbb{R}^n : |x_j| < 1,\ j=1,\dots,n\},
+\qquad
+q = \{x\in\mathbb{R}^n : |x_j| < \tfrac12,\ j=1,\dots,n\}.
+\]
+
+\paragraph{(a)}
+Show that there exists $h_\varepsilon \in C^\infty(\mathbb{R}^n)$ with
+$\operatorname{supp} h_\varepsilon \subset Q$ such that
+\[
+\|f\,\mathbf{1}_q - h_\varepsilon\|_{L^p(\mathbb{R}^n)} < \varepsilon.
+\]
+Define
+\[
+f_\varepsilon = \sum_{g\in\mathbb{Z}^n} \tau_g h_\varepsilon.
+\]
+
+\paragraph{(b)}
+Show that $f_\varepsilon$ is smooth and periodic.
+
+\paragraph{(c)}
+Show that there exists a constant $c_n$, depending only on $n$, such that
+\[
+\|f - f_\varepsilon\|_{L^p(q)} < c_n\,\varepsilon.
+\]
+
+\subsubsection*{Theory for Exercise 5.4}
+
+Let $f\in L^p_{\mathrm{loc}}(\mathbb{R}^n)$ be a periodic function with
+period lattice $\mathbb{Z}^n$.  It is natural to think of $f$ as a
+function on the torus $\mathbb{T}^n=\mathbb{R}^n/\mathbb{Z}^n$.  The
+goal of Exercise~5.4 is to approximate $f$ in $L^p$ on a fundamental
+domain by smooth periodic functions.
+
+We work with the cubes
+\[
+Q = \{x\in\mathbb{R}^n : |x_j|<1,\ j=1,\dots,n\},
+\qquad
+q = \{x\in\mathbb{R}^n : |x_j|<\tfrac12,\ j=1,\dots,n\}.
+\]
+A standard fact in $L^p$--theory is that $C_c^\infty(\mathbb{R}^n)$ is
+dense in $L^p(\mathbb{R}^n)$ for $1\le p<\infty$.  In particular, any
+$L^p$-function supported in a bounded set can be approximated in $L^p$
+by smooth compactly supported functions with support in a slightly
+larger set.  Applying this to $f\mathbf{1}_q$ gives, for each
+$\varepsilon>0$, the existence of $h_\varepsilon\in C^\infty(\mathbb{R}^n)$
+with $\operatorname{supp}h_\varepsilon\subset Q$ and
+$\|f\mathbf{1}_q-h_\varepsilon\|_{L^p(\mathbb{R}^n)}<\varepsilon$.
+
+The function
+\[
+f_\varepsilon(x) := \sum_{g\in\mathbb{Z}^n} h_\varepsilon(x-g)
+\]
+is then well-defined, because at each $x$ only finitely many translates
+$x-g$ lie in $Q$ and contribute to the sum.  Being locally a finite sum
+of smooth functions, $f_\varepsilon$ is smooth.  Moreover,
+$f_\varepsilon$ is $\mathbb{Z}^n$--periodic, since for any $k\in\mathbb{Z}^n$
+\[
+f_\varepsilon(x+k)
+= \sum_{g\in\mathbb{Z}^n} h_\varepsilon(x+k-g)
+= \sum_{h\in\mathbb{Z}^n} h_\varepsilon(x-h)
+= f_\varepsilon(x),
+\]
+after the change of variables $h=g-k$.
+
+To control $\|f-f_\varepsilon\|_{L^p(q)}$ one uses the periodicity of $f$
+and the fact that $h_\varepsilon$ approximates $f\mathbf{1}_q$ on each
+translate $q+g$ in the same way.  Since at most a bounded number of
+translates of $Q$ overlap a given point (a constant depending only on
+$n$), the total error on $q$ is controlled by a finite multiple of the
+error $\|f\mathbf{1}_q-h_\varepsilon\|_{L^p}$.  This yields a bound
+$\|f - f_\varepsilon\|_{L^p(q)} \le c_n\varepsilon$, where $c_n>0$
+depends only on the dimension.
+
+% ---------------------------------------------------------
+% Exercise 5.4 — Solution
+% ---------------------------------------------------------
+
+\subsection*{Exercise 5.4 — Smooth Approximation of a Periodic $L^p$ Function}
+
+Let $f\in L^p_{\mathrm{loc}}(\mathbb{R}^n)$ be periodic.  
+Define the cubes
+\[
+Q = \{x : |x_j|<1\}, \qquad q = \{x : |x_j|<\tfrac12\}.
+\]
+
+\bigskip
+\noindent\textbf{(a) Construction of $h_\varepsilon$}
+
+Choose $\chi\in C_c^\infty(\mathbb{R}^n)$ with  
+$\chi\equiv 1$ on $q$ and $\operatorname{supp}\chi \subset Q$.  
+Set $g := f\chi$. Then $\operatorname{supp}g \subset Q$ and $g=f$ on $q$.
+
+Since $C_c^\infty$ is dense in $L^p$, choose $h_\varepsilon\in C^\infty$ with  
+$\operatorname{supp}h_\varepsilon\subset Q$ and
+\[
+\|g - h_\varepsilon\|_{L^p(\mathbb{R}^n)} < \varepsilon.
+\]
+But $f1_q = g$, so
+\[
+\|f1_q - h_\varepsilon\|_{L^p(\mathbb{R}^n)} < \varepsilon.
+\]
+
+\bigskip
+Define
+\[
+f_\varepsilon(x) := \sum_{g\in\mathbb{Z}^n} h_\varepsilon(x-g)
+= \sum_{g\in\mathbb{Z}^n} \tau_g h_\varepsilon(x).
+\]
+
+\bigskip
+\noindent\textbf{(b) $f_\varepsilon$ is smooth and periodic}
+
+Since $\operatorname{supp}h_\varepsilon\subset Q$, at each $x$ only finitely many terms are nonzero.  
+Thus $f_\varepsilon\in C^\infty(\mathbb{R}^n)$.
+
+For periodicity:
+\[
+f_\varepsilon(x+k)
+= \sum_{g} h_\varepsilon(x+k-g)
+= \sum_{h} h_\varepsilon(x-h)
+= f_\varepsilon(x),
+\]
+after substituting $h=g-k$.  
+Thus $f_\varepsilon$ is $\mathbb{Z}^n$-periodic.
+
+\bigskip
+\noindent\textbf{(c) Estimate on $q$}
+
+If $x\in q$ and $h_\varepsilon(x-g)\neq 0$, then $x-g\in Q$, so $g$ lies in the finite set
+\[
+G = \{g\in\mathbb{Z}^n : (Q+g)\cap q \neq \emptyset\}.
+\]
+Thus
+\[
+f_\varepsilon(x) = \sum_{g\in G} h_\varepsilon(x-g).
+\]
+
+Since $f$ is periodic,
+\[
+f(x-g)=f(x),
+\]
+and by translation invariance,
+\[
+\|f1_q - h_\varepsilon(\cdot - g)\|_{L^p(\mathbb{R}^n)} < \varepsilon,
+\quad g\in G.
+\]
+
+On $q$,
+\[
+f(x)-f_\varepsilon(x)
+= \sum_{g\in G} \bigl(f(x) - h_\varepsilon(x-g)\bigr),
+\]
+so
+\[
+\|f - f_\varepsilon\|_{L^p(q)}
+\le \sum_{g\in G} \|f - h_\varepsilon(\cdot-g)\|_{L^p(q)}
+\le (\#G)\varepsilon.
+\]
+
+Let $c_n := \#G$. Then
+\[
+\|f - f_\varepsilon\|_{L^p(q)} < c_n \varepsilon.
+\]
+
+
+\subsection*{Exercise 5.5}
+Suppose that $f:\mathbb{R}\to\mathbb{R}$ is defined by
+\[
+f(x) = x \quad\text{for } |x| < \tfrac12,
+\qquad
+f(x+1) = f(x).
+\]
+Show that
+\[
+f(x)
+= \sum_{\substack{n\in\mathbb{Z}\\ n\neq 0}}
+\frac{i(-1)^n}{2\pi n} e^{2\pi i n x}
+= \sum_{n=1}^\infty \frac{(-1)^{n+1}}{n\pi}\sin(2\pi n x),
+\]
+with convergence in $L^2_{\mathrm{loc}}(\mathbb{R})$.
+
+
+\subsubsection*{Theory for Exercise 5.5}
+
+In Exercise~5.5 the function $f:\mathbb{R}\to\mathbb{R}$ is defined by
+\[
+f(x) = x \quad\text{for } |x|<\tfrac12,
+\qquad f(x+1)=f(x),
+\]
+so that on each period $(-\tfrac12,\tfrac12)$ the graph of $f$ is a
+straight line from $-1/2$ to $1/2$, followed by a jump back to $-1/2$.
+The function $f$ is odd and belongs to $L^2([-1/2,1/2])$, hence defines
+an element of $L^2(\mathbb{T})$.
+
+For a $1$-periodic $L^2$ function, the complex Fourier coefficients are
+given by
+\[
+\widehat{f}(n) = \int_{-1/2}^{1/2} f(x)\,e^{-2\pi i n x}\,dx,
+\qquad n\in\mathbb{Z}.
+\]
+In this case $\widehat{f}(0)=\int_{-1/2}^{1/2}x\,dx=0$, and for
+$n\neq 0$ an integration by parts shows that
+\[
+\widehat{f}(n)
+= \int_{-1/2}^{1/2} x\,e^{-2\pi i n x}\,dx
+= \frac{i(-1)^n}{2\pi n}.
+\]
+Thus the complex Fourier series of $f$ is
+\[
+f(x) = \sum_{\substack{n\in\mathbb{Z}\\ n\neq 0}}
+\frac{i(-1)^n}{2\pi n}\,e^{2\pi i n x}
+\]
+with convergence in $L^2([-1/2,1/2])$, and hence in
+$L^2_{\mathrm{loc}}(\mathbb{R})$.
+
+Since $f$ is an odd function, only sine terms appear in the real Fourier
+series
+\[
+f(x) = \sum_{n=1}^\infty b_n \sin(2\pi n x).
+\]
+A direct computation (or passage from the complex coefficients) gives
+\[
+b_n = 2\int_0^{1/2} x\sin(2\pi n x)\,dx
+= \frac{2(-1)^{n+1}}{\pi n},
+\]
+so that
+\[
+f(x) = \sum_{n=1}^\infty \frac{(-1)^{n+1}}{n\pi}\,\sin(2\pi n x).
+\]
+Fourier theory on $L^2(\mathbb{T})$ ensures that this series converges
+to $f$ in $L^2([-1/2,1/2])$, which is equivalent to convergence in
+$L^2_{\mathrm{loc}}(\mathbb{R})$.  Pointwise, the series converges to
+$f(x)$ at all continuity points of $f$, and to the midpoint of the jump
+at the discontinuities, but the exercise only requires $L^2_{\mathrm{loc}}$
+convergence.
+
+
+% ---------------------------------------------------------
+% Exercise 5.5 — Solution
+% ---------------------------------------------------------
+
+\subsection*{Exercise 5.5 — Fourier Series of the Sawtooth Function}
+
+Let
+\[
+f(x) = x \quad (|x|<\tfrac12),
+\qquad f(x+1)=f(x).
+\]
+
+\bigskip
+\noindent\textbf{Step 1: Complex Fourier coefficients}
+
+For $1$-periodic $f$,
+\[
+\widehat f(n)
+= \int_{-1/2}^{1/2} f(x)e^{-2\pi i n x}\,dx.
+\]
+
+For $n=0$:
+\[
+\widehat f(0)=0.
+\]
+
+For $n\neq 0$:
+\[
+\widehat f(n)
+= \int_{-1/2}^{1/2} x e^{-2\pi i n x}\,dx
+= \frac{i(-1)^n}{2\pi n}.
+\]
+
+Thus
+\[
+f(x)=\sum_{\substack{n\in\mathbb{Z}\\ n\ne 0}}
+\frac{i(-1)^n}{2\pi n} e^{2\pi i n x}
+\qquad\text{in } L^2_{\mathrm{loc}}.
+\]
+
+\bigskip
+\noindent\textbf{Step 2: Real sine series}
+
+Since $f$ is odd, only sine terms appear:
+\[
+f(x) = \sum_{n=1}^{\infty} b_n \sin(2\pi n x).
+\]
+Using $\widehat f(n)= -\frac{i}{2}b_n$ for $n>0$ gives
+\[
+b_n = \frac{2(-1)^{n+1}}{\pi n}.
+\]
+
+Therefore:
+\[
+f(x)
+= \sum_{n=1}^{\infty}
+\frac{(-1)^{n+1}}{n\pi}\,\sin(2\pi n x),
+\qquad
+\text{convergent in } L^2_{\mathrm{loc}}(\mathbb{R}).
+\]
+
+\clearpage
+
+\subsection*{Figures for Exercises 5.3–5.5}
+
+\paragraph*{Figure 1: Weighted $\delta$--comb for Exercise 5.3.}
+Figure~\ref{fig:ex5-3-weighted-comb} illustrates a discrete
+``$\delta$--comb'' at the points $x=2\pi g$, $g\in\mathbb{Z}$, with
+example coefficients $c_g=(1+|g|)^2$.  The vertical stems represent the
+weights of the Dirac deltas.  The exercise shows that even with
+polynomially growing coefficients such a series still defines a tempered
+distribution in $\mathcal{S}'$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_3_weighted_comb.png}
+	\caption{A weighted $\delta$--comb at $x=2\pi g$ with coefficients
+		$c_g=(1+|g|)^2$, visualised as a stem plot.}
+	\label{fig:ex5-3-weighted-comb}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Figure 2: Decay of the contributions $|c_g\varphi(2\pi g)|$.}
+Figure~\ref{fig:ex5-3-contributions} shows
+$|c_g\varphi(2\pi g)|$ as a function of $g$ for the same polynomial
+coefficients $c_g$ and a Schwartz function $\varphi(x)=e^{-x^2}$.
+Although $|c_g|$ grows like $(1+|g|)^2$, the values $\varphi(2\pi g)$
+decay faster than any power, so the product is summable.  This picture
+reflects the key estimate used to prove convergence in $\mathcal{S}'$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_3_contributions.png}
+	\caption{The terms $|c_g\varphi(2\pi g)|$ for
+		$c_g=(1+|g|)^2$ and $\varphi(x)=e^{-x^2}$, illustrating
+		absolute convergence of the defining series.}
+	\label{fig:ex5-3-contributions}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Figure 3: Periodic $L^p$ function and smooth approximation (Exercise 5.4).}
+In Figure~\ref{fig:ex5-4-periodic-approx} the original periodic function
+$f$ is taken to be a square wave, while $f_\varepsilon$ is obtained by
+periodic convolution with a narrow Gaussian kernel.  The resulting
+$f_\varepsilon$ is smooth and periodic, and closely follows $f$ on each
+period, visualising the construction in Exercise~5.4.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_4_periodic_approx.png}
+	\caption{A periodic square wave $f$ and a smooth periodic
+		approximation $f_\varepsilon$ obtained by mollification.
+		This illustrates the approximation scheme of Exercise~5.4.}
+	\label{fig:ex5-4-periodic-approx}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Figure 4: Fourier partial sums of the sawtooth (Exercise 5.5).}
+Figure~\ref{fig:ex5-5-fourier-global} shows the sawtooth function $f$
+from Exercise~5.5 together with its Fourier partial sums $S_3$, $S_{10}$
+and $S_{50}$.  As $N$ increases, $S_N$ converges to $f$ in $L^2$ and
+visually away from the jump points, while oscillations appear near the
+discontinuities.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_5_fourier_global.png}
+	\caption{Global comparison of the sawtooth function $f$ and partial
+		sums $S_N$ of its sine series for $N=3,10,50$.}
+	\label{fig:ex5-5-fourier-global}
+\end{figure}
+
+\bigskip
+
+\paragraph*{Figure 5: Gibbs phenomenon near a jump.}
+Figure~\ref{fig:ex5-5-fourier-gibbs} zooms in near one jump of $f$ and
+compares the partial sums $S_{10}$ and $S_{50}$.  The overshoot of the
+Fourier partial sums does not vanish as $N\to\infty$, illustrating the
+classical Gibbs phenomenon, even though convergence holds in
+$L^2_{\mathrm{loc}}$.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_5_fourier_gibbs_zoom.png}
+	\caption{Zoom near a jump of the sawtooth function, showing the Gibbs
+		oscillations of the partial sums $S_{10}$ and $S_{50}$.}
+	\label{fig:ex5-5-fourier-gibbs}
+\end{figure}
+
+\clearpage
+
+\subsection*{Exercise 5.6 — Gibbs Phenomenon for a Square Wave}
+
+Suppose $f:\mathbb{R}\to\mathbb{R}$ is given by
+\[
+f(x) =
+\begin{cases}
+	-1, & -\tfrac12 \le x \le 0,\\[0.3em]
+	1, & 0 < x \le \tfrac12,
+\end{cases}
+\qquad\text{and}\qquad
+f(x+1) = f(x)\ \text{for all }x\in\mathbb{R}.
+\]
+
+\paragraph{(a)}
+Show that
+\[
+f(x)
+= \frac{1}{\pi i}\sum_{n=-\infty}^{\infty}
+\frac{2}{2n+1} e^{2\pi i (2n+1)x}
+= \frac{4}{\pi}\sum_{n=0}^{\infty}
+\frac{1}{2n+1}\,\sin\bigl(2\pi(2n+1)x\bigr),
+\]
+with convergence in $L^2_{\mathrm{loc}}(\mathbb{R})$.
+
+Define the partial sums
+\[
+S_N(x)
+:= 8 \sum_{n=0}^{N-1} \frac{1}{2\pi(2n+1)}
+\sin\bigl(2\pi(2n+1)x\bigr).
+\]
+
+\paragraph{(b)}
+Show that
+\[
+S_N(x)
+= 8 \int_0^x \sum_{n=0}^{N-1}
+\cos\bigl(2\pi(2n+1)t\bigr)\,dt.
+\]
+
+\paragraph{(c)}
+Show that
+\[
+\cos\bigl(2\pi(2n+1)t\bigr)\,\sin(2\pi t)
+= \frac12\Bigl(\sin\bigl(2\pi(2n+2)t\bigr)
+- \sin(4\pi n t)\Bigr),
+\]
+and deduce that
+\[
+S_N(x)
+= 8 \int_0^x
+\frac{\sin(4\pi N t)}{2\sin(2\pi t)}\,dt.
+\]
+
+\paragraph{(d)}
+Show that the first local maximum of $S_N$ occurs at
+$x = \tfrac{1}{4N}$, and that
+\[
+S_N\!\left(\frac{1}{4N}\right)
+\;\ge\;
+8\int_0^{1/N} \frac{\sin(4\pi N t)}{4\pi t}\,dt
+= \frac{2}{\pi}\int_0^{\pi} \frac{\sin s}{s}\,ds
+\simeq 1.179\ldots
+\]
+
+\paragraph{(e)}
+Conclude that the Fourier series in part (a) does not converge
+uniformly.  This lack of uniform convergence of a Fourier series at a
+point of discontinuity is known as the \emph{Gibbs phenomenon}.
+
+
+\subsection*{Exercise 5.6 — Gibbs Phenomenon for a Square Wave}
+
+Suppose $f:\mathbb{R}\to\mathbb{R}$ is given by
+\[
+f(x) =
+\begin{cases}
+	-1, & -\tfrac12 \le x \le 0,\\[0.3em]
+	1, & 0 < x \le \tfrac12,
+\end{cases}
+\qquad\text{and}\qquad
+f(x+1) = f(x)\ \text{for all }x\in\mathbb{R}.
+\]
+
+\bigskip
+\noindent\textbf{Theoretical background.}
+The function $f$ is $1$-periodic, odd, and has jump discontinuities at
+all half-integers.  For a $1$-periodic integrable function $f$, the
+complex Fourier coefficients are
+\[
+\widehat f(k) = \int_{-1/2}^{1/2} f(x)e^{-2\pi i k x}\,dx,
+\qquad k\in\mathbb{Z},
+\]
+and one formally has
+\[
+f(x) \sim \sum_{k\in\mathbb{Z}} \widehat f(k)e^{2\pi i k x}.
+\]
+Because $f$ is odd, only sine terms (and hence only odd harmonics)
+appear in the real Fourier series.  Dirichlet's theorem implies that
+the Fourier series converges to $f(x)$ at points of continuity, and to
+the midpoint of the jump at discontinuities.  However, the convergence
+is not uniform near a jump: the partial sums exhibit a persistent
+overshoot known as the \emph{Gibbs phenomenon}.  This exercise
+quantifies that overshoot for the square wave $f$.
+
+\bigskip
+\paragraph{(a) Fourier series of the square wave.}
+
+We compute the complex Fourier coefficients
+\[
+\widehat f(k) = \int_{-1/2}^{1/2} f(x)e^{-2\pi i k x}\,dx.
+\]
+Since $f$ is odd, $\widehat f(k)=0$ for all even $k$.  For $k=2n+1$ we
+have
+\[
+\widehat f(2n+1)
+= \int_{-1/2}^{1/2} f(x)e^{-2\pi i (2n+1)x}\,dx
+= \frac{2}{\pi i(2n+1)}.
+\]
+Therefore
+\[
+f(x)
+= \sum_{n\in\mathbb{Z}} \widehat f(2n+1)e^{2\pi i(2n+1)x}
+= \frac{1}{\pi i}\sum_{n=-\infty}^{\infty}
+\frac{2}{2n+1}e^{2\pi i(2n+1)x}.
+\]
+Grouping conjugate terms and passing to the real sine series, we obtain
+\[
+f(x)
+= \frac{4}{\pi}\sum_{n=0}^{\infty}
+\frac{1}{2n+1}\,\sin\bigl(2\pi(2n+1)x\bigr),
+\]
+with convergence in $L^2([-1/2,1/2])$ and hence in
+$L^2_{\mathrm{loc}}(\mathbb{R})$.
+
+Define the partial sums
+\[
+S_N(x)
+:= \frac{4}{\pi}\sum_{n=0}^{N-1}\frac{1}{2n+1}
+\sin\bigl(2\pi(2n+1)x\bigr)
+= 8\sum_{n=0}^{N-1} \frac{1}{2\pi(2n+1)}
+\sin\bigl(2\pi(2n+1)x\bigr).
+\]
+
+\bigskip
+\paragraph{(b) Integral representation of $S_N$.}
+
+Using
+\[
+\frac{d}{dt}\sin\bigl(2\pi(2n+1)t\bigr)
+= 2\pi(2n+1)\cos\bigl(2\pi(2n+1)t\bigr),
+\]
+we write
+\[
+\sin\bigl(2\pi(2n+1)x\bigr)
+= \int_0^x 2\pi(2n+1)
+\cos\bigl(2\pi(2n+1)t\bigr)\,dt,
+\]
+and hence
+\[
+\frac{1}{2\pi(2n+1)}\sin\bigl(2\pi(2n+1)x\bigr)
+= \int_0^x \cos\bigl(2\pi(2n+1)t\bigr)\,dt.
+\]
+Summing over $n$ gives
+\[
+S_N(x)
+= 8\sum_{n=0}^{N-1}\int_0^x
+\cos\bigl(2\pi(2n+1)t\bigr)\,dt
+= 8\int_0^x \sum_{n=0}^{N-1}
+\cos\bigl(2\pi(2n+1)t\bigr)\,dt.
+\]
+
+\bigskip
+\paragraph{(c) Trigonometric identity and telescoping.}
+
+Recall the identity
+\[
+2\cos A\sin B = \sin(A+B)-\sin(A-B).
+\]
+Setting $A=2\pi(2n+1)t$, $B=2\pi t$, we find
+\[
+\cos\bigl(2\pi(2n+1)t\bigr)\sin(2\pi t)
+= \frac12\Bigl(\sin\bigl(2\pi(2n+2)t\bigr)
+-\sin(4\pi n t)\Bigr).
+\]
+Thus
+\[
+\sum_{n=0}^{N-1}\cos\bigl(2\pi(2n+1)t\bigr)
+= \frac{1}{2\sin(2\pi t)}
+\sum_{n=0}^{N-1}
+\Bigl(\sin\bigl(2\pi(2n+2)t\bigr)
+-\sin(4\pi n t)\Bigr).
+\]
+The sum on the right is telescoping and simplifies to $\sin(4\pi N t)$,
+whence
+\[
+\sum_{n=0}^{N-1}\cos\bigl(2\pi(2n+1)t\bigr)
+= \frac{\sin(4\pi N t)}{2\sin(2\pi t)}.
+\]
+Substituting this back into the formula in part~(b) yields
+\[
+S_N(x)
+= 8\int_0^x \frac{\sin(4\pi N t)}{2\sin(2\pi t)}\,dt.
+\]
+
+\bigskip
+\paragraph{(d) First local maximum and lower bound.}
+
+Differentiating $S_N$ gives
+\[
+S_N'(x)
+= 8\sum_{n=0}^{N-1}\cos\bigl(2\pi(2n+1)x\bigr)
+= 4\,\frac{\sin(4\pi N x)}{\sin(2\pi x)}.
+\]
+Critical points occur when $\sin(4\pi N x)=0$ and $x\notin\mathbb{Z}$.
+Near $x=0$ the first such zero is at $x=\tfrac{1}{4N}$; inspection of
+the sign of $S_N'$ shows this is the first local maximum.
+
+For small $t$ we have $\sin(2\pi t)\le 2\pi t$, hence
+$2\sin(2\pi t)\le 4\pi t$ and so
+\[
+\frac{1}{2\sin(2\pi t)} \ge \frac{1}{4\pi t}.
+\]
+Thus
+\[
+S_N(x)
+= 8\int_0^x \frac{\sin(4\pi N t)}{2\sin(2\pi t)}\,dt
+\;\ge\;
+8\int_0^x \frac{\sin(4\pi N t)}{4\pi t}\,dt.
+\]
+Taking $x=\tfrac{1}{4N}$ and substituting $s=4\pi N t$, so
+$dt = \tfrac{ds}{4\pi N}$ and $s$ runs from $0$ to $\pi$, we obtain
+\[
+S_N\Bigl(\frac{1}{4N}\Bigr)
+\ge 8\int_0^{1/(4N)} \frac{\sin(4\pi N t)}{4\pi t}\,dt
+= \frac{2}{\pi}\int_0^{\pi} \frac{\sin s}{s}\,ds
+\simeq 1.179\ldots
+\]
+for all $N$.
+
+\bigskip
+\paragraph{(e) Non-uniform convergence and Gibbs phenomenon.}
+
+At the discontinuity $x=0$, Dirichlet's theorem implies that
+\[
+\lim_{N\to\infty} S_N(0)
+= \frac{f(0^-)+f(0^+)}{2}
+= 0.
+\]
+However, for $x_N = \tfrac{1}{4N}$ we have
+\[
+S_N(x_N) \gtrsim 1.179,
+\]
+while $f(x_N)\to 1$ as $N\to\infty$.  Hence
+\[
+\limsup_{N\to\infty}\sup_{x\in[-1/2,1/2]}
+|S_N(x)-f(x)|
+\ge \limsup_{N\to\infty}|S_N(x_N)-1|
+\ge 1.179 - 1 > 0,
+\]
+so the Fourier series in part~(a) does \emph{not} converge uniformly on
+any interval containing $0$.  This persistent overshoot near the jump is
+the \emph{Gibbs phenomenon}.
+
+\bigskip
+\paragraph*{Figures.}
+
+Figure~\ref{fig:ex5-6-square-global} illustrates the partial sums of the
+Fourier series, while Figure~\ref{fig:ex5-6-square-gibbs} zooms in near
+$x=0$ to show the Gibbs overshoot.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_6_square_global.png}
+	\caption{Global comparison of the square wave $f$ and the partial
+		sums $S_3$, $S_{10}$ and $S_{50}$ of its Fourier series.}
+	\label{fig:ex5-6-square-global}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.8\textwidth]{figures/MATH-ALLS-2_ex5_6_square_gibbs_zoom.png}
+	\caption{Zoom near $x=0$ showing the Gibbs overshoot of the partial
+		sums $S_{10}$ and $S_{50}$ for the square wave.}
+	\label{fig:ex5-6-square-gibbs}
+	
+	\end{figure}
+	
+	\clearpage
+	
+	
+	% ---------------------------------------------------------
+	% Exercise 5.7 — Λ–periodic distributions and the dual lattice
+	% ---------------------------------------------------------
+	
+	\subsection*{Exercise 5.7 — $\Lambda$–periodic distributions and the dual lattice}
+	
+	Suppose that $\lambda = \{\lambda_1,\dots,\lambda_n\}$ is a basis for
+	$\mathbb{R}^n$.  We define the lattice generated by $\lambda$ to be
+	\[
+	\Lambda
+	:= \left\{\sum_{j=1}^n z_j \lambda_j : z_j\in\mathbb{Z}\right\}.
+	\]
+	Define the fundamental cell
+	\[
+	q_\Lambda
+	:= \left\{\sum_{j=1}^n x_j \lambda_j : |x_j|<\tfrac12\right\}.
+	\]
+	For a distribution $u\in\mathcal{D}'(\mathbb{R}^n)$, we say that $u$ is
+	\emph{$\Lambda$–periodic} if
+	\[
+	\tau_g u = u
+	\qquad \text{for all } g\in\Lambda,
+	\]
+	where $\tau_g$ denotes translation by $g$.
+	
+	\paragraph{(a)}
+	Show that there exists $\psi\in C_0^\infty(2q_\Lambda)$ such that
+	$\psi\ge 0$ and
+	\[
+	\sum_{g\in\Lambda} \tau_g\psi = 1.
+	\]
+	
+	\paragraph{(b)}
+	Show that if $u\in\mathcal{D}'(\mathbb{R}^n)$ is $\Lambda$–periodic and
+	$\psi,\psi'$ are both as in part~(a), then
+	\[
+	\frac{1}{|q_\Lambda|}\,u[\psi]
+	= \frac{1}{|q_\Lambda|}\,u[\psi']
+	=: M(u),
+	\]
+	so that the ``mean value'' $M(u)$ is well defined and independent of the
+	choice of $\psi$.
+	
+	\paragraph{(c) Dual lattice.}
+	Define the \emph{dual lattice} by
+	\[
+	\Lambda^*
+	:= \{x\in\mathbb{R}^n : g\cdot x\in 2\pi\mathbb{Z},\ \forall g\in\Lambda\}.
+	\]
+	Show that there exists a basis $\lambda^*=\{\lambda_1^*,\dots,\lambda_n^*\}$
+	such that
+	\[
+	\lambda_j^*\cdot\lambda_k = \delta_{jk},
+	\]
+	and that $\Lambda^*$ is precisely the lattice induced by $\lambda^*$,
+	i.e. $\Lambda^* = \{\sum_{j=1}^n m_j \lambda_j^* : m_j\in\mathbb{Z}\}$.
+	
+	\paragraph{(d) Periodicity of exponential characters.}
+	For $g\in\mathbb{R}^n$ define the exponential
+	\[
+	e_g(x) := e^{i\,g\cdot x}.
+	\]
+	Show that if $g\in\Lambda^*$, then $e_g$ is $\Lambda$–periodic:
+	\[
+	e_g(x+g_0) = e_g(x)
+	\qquad\text{for all } x\in\mathbb{R}^n,\ g_0\in\Lambda.
+	\]
+	
+	\paragraph{(e) Fourier transform of a $\Lambda$–periodic distribution.}
+	Show that if $u\in\mathcal{D}'(\mathbb{R}^n)$ is $\Lambda$–periodic,
+	then its Fourier transform has the purely discrete form
+	\[
+	\widehat{u}
+	= \sum_{g\in\Lambda^*} c_g\,\delta_g,
+	\]
+	for some coefficients $c_g\in\mathbb{C}$ satisfying a polynomial growth
+	estimate
+	\[
+	|c_g| \le K(1+|g|)^N
+	\]
+	for some constants $K>0$ and $N\in\mathbb{Z}$ (independent of $g$).
+	
+	\paragraph{(f) Fourier series representation.}
+	Show conversely that if $u\in\mathcal{D}'(\mathbb{R}^n)$ is
+	$\Lambda$–periodic, then
+	\[
+	u = \sum_{g\in\Lambda^*} d_g\,e_g,
+	\]
+	where
+	\[
+	|d_g| \le K(1+|g|)^N
+	\quad\text{for some $K>0$, $N\in\mathbb{Z}$, and all }g\in\Lambda^*,
+	\]
+	and the coefficients are given by
+	\[
+	d_g = M\bigl(e_{-g}u\bigr).
+	\]
+	
+	\bigskip
+	\noindent\textbf{Theoretical background.}
+	A lattice $\Lambda\subset\mathbb{R}^n$ is a discrete subgroup generated
+	by a basis of $\mathbb{R}^n$, and the fundamental cell $q_\Lambda$ is a
+	parallelepiped that tiles the space under translations by $\Lambda$.
+	Functions or distributions that are invariant under translations by
+	$\Lambda$ may be regarded as living on the torus
+	$\mathbb{R}^n/\Lambda$; their ``mean value'' $M(u)$ plays the role of an
+	average over one period.
+	
+	The dual lattice $\Lambda^*$ consists of all frequency vectors $g$ such
+	that the exponentials $e_g(x)=e^{i\,g\cdot x}$ are $\Lambda$–periodic.
+	These exponentials form an orthogonal basis of $L^2$ on the torus, and
+	their indices run over $\Lambda^*$.  Parts~(e) and~(f) describe how a
+	$\Lambda$–periodic distribution decomposes into a Fourier series with
+	frequencies in $\Lambda^*$: the Fourier transform is a discrete sum of
+	Dirac masses at $\Lambda^*$, and $u$ can be reconstructed from the
+	series $\sum_{g\in\Lambda^*} d_g e_g$ with polynomially growing
+	coefficients.  This is the natural generalization of Fourier series on
+	$\mathbb{T}^n$ and is closely related to the Poisson summation formula.
+	
+	
+	% ---------------------------------------------------------
+	% Solutions to Exercise 5.7
+	% ---------------------------------------------------------
+	
+	\subsection*{Solution to Exercise 5.7}
+	
+	Throughout, $\lambda=\{\lambda_1,\dots,\lambda_n\}$ is a basis of
+	$\mathbb{R}^n$, $\Lambda$ is the lattice it generates, and
+	$q_\Lambda$ is the fundamental cell
+	\[
+	q_\Lambda = \left\{\sum_{j=1}^n x_j\lambda_j : |x_j|<\tfrac12\right\}.
+	\]
+	
+	% ---------------------------------------------------------
+	% (a)
+	% ---------------------------------------------------------
+	
+	\paragraph{(a) Construction of $\psi$.}
+	
+	Choose $\chi\in C_0^\infty(2q_\Lambda)$ with $0\le\chi\le 1$ and
+	$\chi>0$ on $q_\Lambda$ (for instance, a smooth bump which is strictly
+	positive on a slightly smaller cell containing $\overline{q_\Lambda}$
+	and vanishes near the boundary of $2q_\Lambda$).  Define
+	\[
+	S(x) := \sum_{g\in\Lambda} \chi(x-g).
+	\]
+	Because the translates of $q_\Lambda$ by $\Lambda$ tile $\mathbb{R}^n$
+	and $\chi>0$ on $q_\Lambda$, each $x\in\mathbb{R}^n$ lies in some
+	translate $q_\Lambda+g$ where $\chi(x-g)>0$.  Hence $S(x)>0$ and $S$ is
+	smooth and $\Lambda$–periodic.
+	
+	Now set
+	\[
+	\psi(x) := \frac{\chi(x)}{S(x)}.
+	\]
+	Then $\psi\in C_0^\infty(2q_\Lambda)$, $\psi\ge 0$, and
+	\[
+	\sum_{g\in\Lambda} \tau_g\psi(x)
+	= \sum_{g\in\Lambda} \frac{\chi(x-g)}{S(x-g)}
+	= \frac{1}{S(x)}\sum_{g\in\Lambda}\chi(x-g)
+	= \frac{S(x)}{S(x)} = 1.
+	\]
+	This proves (a).
+	
+	\bigskip
+	
+	% ---------------------------------------------------------
+	% (b)
+	% ---------------------------------------------------------
+	
+	\paragraph{(b) Mean value is independent of $\psi$.}
+	
+	Let $u\in\mathcal{D}'(\mathbb{R}^n)$ be $\Lambda$–periodic and let
+	$\psi,\psi'$ both be as in (a).  We must show $u[\psi]=u[\psi']$.
+	
+	Note that
+	\[
+	\sum_{g\in\Lambda} \tau_g\psi
+	= \sum_{g\in\Lambda} \tau_g\psi' = 1,
+	\]
+	hence
+	\[
+	\sum_{g\in\Lambda} \tau_g(\psi-\psi') = 0.
+	\]
+	
+	Let $\varphi\in C_0^\infty(\mathbb{R}^n)$ be any test function with
+	$\varphi\equiv 1$ on $2q_\Lambda$; then $\varphi(\psi-\psi')=\psi-\psi'$
+	and we may write
+	\[
+	\psi - \psi'
+	= \biggl(\sum_{g\in\Lambda} \tau_g(\psi-\psi')\biggr)\varphi = 0,
+	\]
+	because at each point only finitely many translates intersect the
+	support of $\varphi$.  Applying the distribution $u$ gives
+	\[
+	u[\psi-\psi']
+	= u[0] = 0,
+	\]
+	hence $u[\psi]=u[\psi']$.  Therefore
+	\[
+	M(u) := \frac{1}{|q_\Lambda|}u[\psi]
+	\]
+	is well defined and independent of $\psi$.
+	
+	(One may regard $M(u)$ as the average of $u$ over the torus
+	$\mathbb{R}^n/\Lambda$.)
+	
+	\bigskip
+	
+	% ---------------------------------------------------------
+	% (c)
+	% ---------------------------------------------------------
+	
+	\paragraph{(c) The dual lattice and dual basis.}
+	
+	By definition, the dual lattice is
+	\[
+	\Lambda^*
+	:= \{x\in\mathbb{R}^n : g\cdot x\in 2\pi\mathbb{Z},
+	\ \forall g\in\Lambda\}.
+	\]
+	
+	Since $\lambda_1,\dots,\lambda_n$ form a basis of $\mathbb{R}^n$, there
+	exists a unique dual basis $(\lambda_1^*,\dots,\lambda_n^*)$ in the
+	dual space $(\mathbb{R}^n)^*$ such that
+	$\lambda_j^*(\lambda_k) = \delta_{jk}$.  Using the inner product
+	$v\mapsto (x\mapsto x\cdot v)$ to identify $\mathbb{R}^n$ with its dual,
+	we may regard each $\lambda_j^*$ as a vector in $\mathbb{R}^n$ and the
+	duality becomes
+	\[
+	\lambda_j^*\cdot\lambda_k = \delta_{jk}.
+	\]
+	
+	Now let $g\in\Lambda^*$.  Write $g=\sum_{j=1}^n a_j\lambda_j^*$.
+	Then for each $k$,
+	\[
+	\lambda_k\cdot g
+	= \lambda_k\cdot\sum_{j=1}^n a_j\lambda_j^*
+	= \sum_{j=1}^n a_j(\lambda_k\cdot\lambda_j^*)
+	= a_k.
+	\]
+	Since $\lambda_k\in\Lambda$, the condition $g\cdot\lambda_k\in 2\pi\mathbb{Z}$
+	forces $a_k\in 2\pi\mathbb{Z}$, say $a_k=2\pi m_k$ with $m_k\in\mathbb{Z}$.
+	Hence
+	\[
+	g = \sum_{j=1}^n (2\pi m_j)\lambda_j^* \in
+	\left\{\sum_{j=1}^n m_j (2\pi\lambda_j^*):m_j\in\mathbb{Z}\right\}.
+	\]
+	
+	Conversely, any $g=\sum_j (2\pi m_j)\lambda_j^*$ satisfies
+	\[
+	g\cdot\lambda_k
+	= \sum_j (2\pi m_j)\lambda_j^*\cdot\lambda_k
+	= 2\pi m_k\in 2\pi\mathbb{Z},
+	\]
+	so $g\in\Lambda^*$.  Thus $\Lambda^*$ is the lattice generated by the
+	basis $\{2\pi\lambda_1^*,\dots,2\pi\lambda_n^*\}$, which we still
+	denote by $\lambda^*$ in the exercise (the factor $2\pi$ is absorbed
+	into the choice of dual basis).
+	
+	\bigskip
+	
+	% ---------------------------------------------------------
+	% (d)
+	% ---------------------------------------------------------
+	
+	\paragraph{(d) Periodicity of $e_g$.}
+	
+	For $g\in\mathbb{R}^n$, $e_g(x):=e^{i\,g\cdot x}$.  If $g\in\Lambda^*$,
+	then for every $g_0\in\Lambda$ we have $g\cdot g_0 \in 2\pi\mathbb{Z}$,
+	and hence
+	\[
+	e_g(x+g_0)
+	= e^{i\,g\cdot(x+g_0)}
+	= e^{i\,g\cdot x} e^{i\,g\cdot g_0}
+	= e^{i\,g\cdot x} e^{i\,2\pi k}
+	= e^{i\,g\cdot x} = e_g(x).
+	\]
+	Thus $e_g$ is $\Lambda$–periodic whenever $g\in\Lambda^*$.
+	
+	\bigskip
+	
+	% ---------------------------------------------------------
+	% (e)
+	% ---------------------------------------------------------
+	
+	\paragraph{(e) Fourier transform of a $\Lambda$–periodic distribution.}
+	
+	Let $u\in\mathcal{D}'(\mathbb{R}^n)$ be $\Lambda$–periodic,
+	$\tau_g u = u$ for all $g\in\Lambda$.  Recall that translation in the
+	physical side corresponds to modulation in the Fourier side:
+	\[
+	\widehat{\tau_g u}(\xi)
+	= e^{i\,g\cdot\xi}\widehat u(\xi).
+	\]
+	Since $\tau_g u = u$, we have
+	\[
+	\widehat u(\xi)
+	= e^{i\,g\cdot\xi}\widehat u(\xi)
+	\qquad \text{for all } g\in\Lambda,
+	\]
+	so
+	\[
+	\bigl(e^{i\,g\cdot\xi}-1\bigr)\,\widehat u(\xi) = 0
+	\qquad\text{for all } g\in\Lambda.
+	\]
+	This implies that $\widehat u$ is supported on the set of $\xi$ such
+	that $e^{i\,g\cdot\xi}=1$ for all $g\in\Lambda$, that is,
+	$\xi\cdot g\in 2\pi\mathbb{Z}$ for all $g\in\Lambda$.  By definition,
+	this is precisely $\Lambda^*$, so
+	\[
+	\operatorname{supp}\widehat u \subset \Lambda^*.
+	\]
+	
+	A tempered distribution whose support is a discrete set must be a
+	(locally finite) sum of derivatives of Dirac masses at those points.
+	Thus we can write
+	\[
+	\widehat u
+	= \sum_{g\in\Lambda^*} T_g,
+	\]
+	where each $T_g$ is a finite linear combination of derivatives of
+	$\delta_g$.  However, the condition
+	$e^{i\,h\cdot\xi}\widehat u(\xi)=\widehat u(\xi)$ for all $h\in\Lambda$
+	forces each $T_g$ to be invariant under multiplication by the smooth
+	function $e^{i\,h\cdot\xi}$ near $g$.  This is only possible if $T_g$ is
+	a \emph{scalar multiple} of $\delta_g$ (no derivatives).  Hence
+	\[
+	\widehat u
+	= \sum_{g\in\Lambda^*} c_g\,\delta_g
+	\]
+	for some coefficients $c_g\in\mathbb{C}$.  Since $\widehat u$ is
+	tempered, the general characterization of such discrete measures in
+	$\mathcal{S}'$ (cf.\ Exercise~5.3) implies a polynomial growth bound:
+	there exist $K>0$, $N\in\mathbb{N}$ such that
+	\[
+	|c_g| \le K(1+|g|)^N
+	\qquad \text{for all } g\in\Lambda^*.
+	\]
+	
+	\bigskip
+	
+	% ---------------------------------------------------------
+	% (f)
+	% ---------------------------------------------------------
+	
+	\paragraph{(f) Fourier series representation and coefficients.}
+	
+	From part~(e) we have
+	\[
+	\widehat u = \sum_{g\in\Lambda^*} c_g\,\delta_g,
+	\qquad |c_g|\le K(1+|g|)^N.
+	\]
+	Taking inverse Fourier transforms,
+	\[
+	u = \mathcal{F}^{-1}\widehat u
+	= \sum_{g\in\Lambda^*} c_g\,\mathcal{F}^{-1}\delta_g.
+	\]
+	With the convention for the Fourier transform used in these notes,
+	$\mathcal{F}^{-1}\delta_g(x) = e^{i\,g\cdot x}$ (up to the standard
+	normalization constants, which are absorbed into $c_g$).  Thus
+	\[
+	u(x) = \sum_{g\in\Lambda^*} d_g\,e^{i\,g\cdot x}
+	= \sum_{g\in\Lambda^*} d_g\,e_g(x),
+	\]
+	where $d_g$ are complex coefficients satisfying the same kind of
+	polynomial growth bound
+	\[
+	|d_g| \le K(1+|g|)^N.
+	\]
+	This is the Fourier series of the $\Lambda$–periodic distribution $u$,
+	with frequencies in $\Lambda^*$.
+	
+	Finally, we identify $d_g$ in terms of $u$.  Using the mean value
+	functional from part~(b), for any $g\in\Lambda^*$ we have
+	\[
+	e_{-g}u = \sum_{h\in\Lambda^*} d_h\,e_{h-g},
+	\]
+	so its mean value is
+	\[
+	M(e_{-g}u)
+	= \sum_{h\in\Lambda^*} d_h\,M(e_{h-g}).
+	\]
+	Now $M(e_{h-g})$ is the average over one period of the exponential
+	$e^{i(h-g)\cdot x}$.  If $h\neq g$, then $e_{h-g}$ is a non-trivial
+	$\Lambda$–periodic exponential and its mean over $q_\Lambda$ is $0$.
+	If $h=g$, then $e_{h-g}\equiv 1$ and $M(e_{h-g})=1$.  Therefore
+	\[
+	M(e_{-g}u) = d_g.
+	\]
+	Thus the Fourier coefficients are given by
+	\[
+	d_g = M(e_{-g}u),
+	\]
+	as claimed.
+	
+	\hfill$\square$
+	
+	
+	% ============================================================
+	% Visual Summary for Exercise 5.7 — Lattices, Dual Lattices,
+	% Periodic Distributions, and Fourier Characters
+	% ============================================================
+	
+	\section*{Visual Summary for Exercise 5.7}
+	
+	The following figures illustrate the geometric structures underlying
+	$\Lambda$–periodic distributions on $\mathbb{R}^n$ and their Fourier
+	series supported on the dual lattice $\Lambda^*$.
+	
+	% ------------------------------------------------------------
+	% Figure 1 — Lattice and Fundamental Cell
+	% ------------------------------------------------------------
+	
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.70\textwidth]{figures/MATH-ALLS-2_lattice_plot.png}
+		\caption{A lattice $\Lambda$ generated by basis vectors
+			$\lambda_1,\lambda_2$ in $\mathbb{R}^2$.  The fundamental cell
+			$q_\Lambda$ tiles $\mathbb{R}^2$ under translation by $\Lambda$.
+			A $\Lambda$–periodic distribution $u$ satisfies $\tau_g u = u$ for all
+			$g\in\Lambda$, meaning that $u$ descends to a distribution on the torus
+			$\mathbb{R}^2/\Lambda$.}
+	\end{figure}
+	
+	\medskip
+	
+	% ------------------------------------------------------------
+	% Figure 2 — Dual Lattice
+	% ------------------------------------------------------------
+	
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.70\textwidth]{figures/MATH-ALLS-2_dual_lattice_plot.png}
+		\caption{The dual lattice $\Lambda^*$ with dual basis vectors
+			$\lambda_1^*,\lambda_2^*$ satisfying the orthogonality relation
+			$\lambda_j^*\!\cdot\lambda_k = \delta_{jk}$.
+			The Fourier transform of any $\Lambda$–periodic distribution is a
+			purely discrete measure supported on $\Lambda^*$:
+			\(
+			\widehat u = \sum_{g\in\Lambda^*} c_g\delta_g.
+			\)
+			Thus $\Lambda^*$ plays the role of the ``frequency lattice''.}
+	\end{figure}
+	
+	\medskip
+	
+	% ------------------------------------------------------------
+	% Figure 3 — Exponential Characters
+	% ------------------------------------------------------------
+	
+	\begin{figure}[ht]
+		\centering
+		\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_exponential_wave_plot.png}
+		\caption{Periodic exponential functions $e_g(x)=e^{i g\cdot x}$ for
+			$g\in\Lambda^*$.  These exponentials are exactly the characters on the
+			torus $\mathbb{R}^n/\Lambda$, satisfying $e_g(x+g_0)=e_g(x)$ for all
+			$g_0\in\Lambda$.  They form the Fourier basis for all
+			$\Lambda$--periodic distributions.}
+	\end{figure}
+	
+	\medskip
+	
+	% ------------------------------------------------------------
+	% Figure 4 — Fourier Coefficients and Mean Value
+	% ------------------------------------------------------------
+	
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.75\textwidth]{figures/MATH-ALLS-2_fourier_coeff_structure.png}
+	\caption{Schematic structure of the Fourier series representation
+		of a $\Lambda$-periodic distribution
+		$u(x)=\sum_{g\in\Lambda^*} d_g e^{i g\cdot x}$, where
+		$d_g = M(e_{-g}u)$ and $M(u)$ denotes the mean value over one
+		fundamental cell, e.g. $M(u) = \frac{1}{\lvert Q_\Lambda\rvert} u[\psi]$.
+		The coefficients satisfy the polynomial growth bound
+		$|d_g|\lesssim (1+|g|)^N$, reflecting that
+		$u\in\mathcal{D}'(\mathbb{R}^n)$. The figure highlights the discrete
+		support of $\widehat{u}$ on $\Lambda^*$ and the reconstruction of $u$
+		from its Fourier modes.}
+\end{figure}
+
+	
+\section*{Exercise 5.8 : Approximation and Basic Properties of Sobolev Spaces $H^{s}(\mathbb{R}^n)$}
+
+Suppose $s \ge 0$.
+
+\begin{enumerate}[label=\textnormal{(\alph*)}]
+	
+	\item Let $\eta \in \mathscr{S}(\mathbb{R}^n)$ satisfy
+	\[
+	\int_{\mathbb{R}^n} \eta(x)\,dx = 1,
+	\]
+	and define the mollifiers
+	\[
+	\eta_\varepsilon(x) := \varepsilon^{-n}\eta\!\left(\frac{x}{\varepsilon}\right), 
+	\qquad \varepsilon>0.
+	\]
+	Show that for every $f \in H^{s}(\mathbb{R}^n)$ one has
+	\[
+	\eta_\varepsilon * f \longrightarrow f 
+	\quad\text{in } H^{s}(\mathbb{R}^n)
+	\quad\text{as } \varepsilon\to 0.
+	\]
+	
+	\item Suppose $f \in H^{s}(\mathbb{R}^n)$ has compact support.
+	Show that there exists a sequence $\varphi_j \in C_0^\infty(\mathbb{R}^n)$ such that
+	\[
+	\varphi_j \longrightarrow f \quad\text{in } H^{s}(\mathbb{R}^n).
+	\]
+	
+	\item Show that if $t \ge s$, then
+	\[
+	\|f\|_{H^{s}(\mathbb{R}^n)} \le \|f\|_{H^{t}(\mathbb{R}^n)}.
+	\]
+	Deduce that
+	\[
+	\|f\|_{L^2(\mathbb{R}^n)} 
+	\le \frac{1}{(2\pi)^{n/2}}\|f\|_{H^{s}(\mathbb{R}^n)}.
+	\]
+	\emph{Hint: Use Parseval's formula.}
+	
+	\item Let $\alpha$ be a multiindex with $|\alpha| = k$. 
+	Show that the distributional derivative
+	\[
+	D^\alpha : H^{s+k}(\mathbb{R}^n) \longrightarrow H^{s}(\mathbb{R}^n)
+	\]
+	is a bounded linear operator.
+	
+\end{enumerate}
+
+
+% ------------------------------------------------------------
+\subsection*{Theory and Solutions}
+
+\paragraph{Sobolev norm.}
+For $s\ge 0$,
+\[
+\|f\|_{H^s(\mathbb{R}^n)}^2
+= \int_{\mathbb{R}^n} (1+|\xi|^2)^s |\widehat{f}(\xi)|^2 \, d\xi.
+\]
+
+% ------------------ (a) ---------------------
+\subsubsection*{(a) \; Approximation by Smooth Functions}
+
+\paragraph{\textbf{Goal.}}  
+Show $\eta_\varepsilon * f \to f$ in $H^s$.
+
+\paragraph{\textbf{Key fact.}}  
+$\widehat{\eta_\varepsilon}(\xi)=\widehat{\eta}(\varepsilon\xi)$ and $\widehat{\eta}(0)=1$.
+
+\paragraph{\textbf{Proof.}}
+\[
+\widehat{\eta_\varepsilon * f}(\xi)
+= \widehat{\eta}(\varepsilon\xi)\widehat{f}(\xi).
+\]
+Thus,
+\[
+\|\eta_\varepsilon * f - f\|_{H^s}^2
+= \int (1+|\xi|^2)^s 
+|\widehat{\eta}(\varepsilon\xi)-1|^2 |\widehat{f}(\xi)|^2 d\xi.
+\]
+Since $\widehat{\eta}\in \mathscr{S}$ and $\widehat{\eta}(\varepsilon\xi)\to 1$, and  
+$(1+|\xi|^2)^s|\widehat{f}(\xi)|^2\in L^1$, dominated convergence gives the result.
+
+% ------------------ (b) ---------------------
+\subsubsection*{(b) \; Approximation by Compactly Supported Smooth Functions}
+
+\paragraph{\textbf{Idea.}}
+First mollify, then cut off.
+
+\paragraph{\textbf{Construction.}}
+Let $g_\varepsilon = \eta_\varepsilon * f \to f$ in $H^s$.
+
+Let $\chi_R\in C_0^\infty$ be a smooth cutoff with $\chi_R=1$ on $B_R$.
+Define
+\[
+\varphi_{\varepsilon,R}(x)= \chi_R(x)\, g_\varepsilon(x).
+\]
+Multiplication by $\chi_R$ is bounded on $H^s$, and 
+$\chi_R g_\varepsilon \to g_\varepsilon$ as $R\to\infty$.
+A diagonal argument produces $\varphi_j\to f$ in $H^s$.
+
+% ------------------ (c) ---------------------
+\subsubsection*{(c) \; Monotonicity of Sobolev Norms and $L^2$ Estimate}
+
+\paragraph{\textbf{Claim.}}
+If $t\ge s$, then 
+\[
+(1+|\xi|^2)^s \le (1+|\xi|^2)^t,
+\]
+hence
+\[
+\|f\|_{H^s}^2 \le \|f\|_{H^t}^2.
+\]
+
+\paragraph{\textbf{$L^2$ estimate.}}
+Since
+\[
+\|f\|_{L^2}^2 
+= \frac{1}{(2\pi)^n}\int |\widehat{f}(\xi)|^2 d\xi
+\le \frac{1}{(2\pi)^n} \int (1+|\xi|^2)^s |\widehat{f}(\xi)|^2 d\xi,
+\]
+we obtain
+\[
+\|f\|_{L^2} \le \frac{1}{(2\pi)^{n/2}} \|f\|_{H^s}.
+\]
+
+% ------------------ (d) ---------------------
+\subsubsection*{(d) \; Boundedness of Derivatives}
+
+\paragraph{\textbf{Goal.}}  
+Show $D^\alpha : H^{s+k} \to H^{s}$ is bounded.
+
+\paragraph{\textbf{Fourier representation.}}
+\[
+\widehat{D^\alpha f}(\xi) = (i\xi)^\alpha \widehat{f}(\xi).
+\]
+
+\paragraph{\textbf{Estimate.}}
+Since $|\xi^\alpha| \le (1+|\xi|^2)^{k/2}$,
+\[
+\|D^\alpha f\|_{H^{s}}^2
+= \int (1+|\xi|^2)^s |\xi^\alpha|^2 |\widehat{f}(\xi)|^2 d\xi
+\le \int (1+|\xi|^2)^{s+k} |\widehat{f}(\xi)|^2 d\xi
+= \|f\|_{H^{s+k}}^2.
+\]
+Thus $D^\alpha$ is bounded.
+
+
+\subsection*{5.9 \quad Heat equation: energy estimate and heat kernel}
+
+Suppose that \(u_0 \in L^1(\mathbb{R}^n) \cap L^2(\mathbb{R}^n)\), and let
+\(u(t,x)\) be the solution of the heat equation
+\[
+\partial_t u - \Delta u = 0,
+\qquad t>0,\ x\in\mathbb{R}^n,
+\]
+with initial condition \(u(0,x) = u_0(x)\).
+In terms of the Fourier transform, \(u\) is given by
+\[
+u(t,x)
+= \frac{1}{(2\pi)^n} \int_{\mathbb{R}^n}
+\widehat{u_0}(\xi)\,e^{-t|\xi|^2}\,e^{i\xi\cdot x}\,d\xi,
+\qquad t>0.
+\]
+
+\paragraph{\textbf{(a) Problem.}}
+Show that
+\[
+\|u(t,\cdot)\|_{L^2(\mathbb{R}^n)}
+\le \|u_0\|_{L^2(\mathbb{R}^n)}
+\quad\text{for all } t>0.
+\]
+
+\paragraph{\textbf{(b) Problem.}}
+Show that
+\[
+u(t,x) = (u_0 * K_t)(x),
+\]
+where the heat kernel is defined by
+\[
+K_t(x)
+= \frac{1}{(4\pi t)^{n/2}} \exp\!\left(-\frac{|x|^2}{4t}\right),
+\qquad t>0,\ x\in\mathbb{R}^n.
+\]
+
+\paragraph{\textbf{(c) Problem.}}
+Assume that \(u_0 \ge 0\).
+Show that \(u(t,x) \ge 0\) for all \(t>0\) and
+\[
+\|u(t,\cdot)\|_{L^1(\mathbb{R}^n)}
+= \|u_0\|_{L^1(\mathbb{R}^n)}
+\quad\text{for all } t>0.
+\]
+
+\bigskip
+\paragraph{\textbf{Theory.}}
+Taking the Fourier transform in the spatial variables for the heat equation
+\(\partial_t u - \Delta u = 0\) yields the ODE
+\[
+\partial_t \widehat{u}(t,\xi) + |\xi|^2 \widehat{u}(t,\xi) = 0,
+\]
+whose solution is
+\[
+\widehat{u}(t,\xi)
+= e^{-t|\xi|^2} \widehat{u_0}(\xi).
+\]
+Using Plancherel's theorem one obtains energy estimates in \(L^2\). The factor
+\(e^{-t|\xi|^2}\) is precisely the Fourier transform of the Gaussian heat kernel
+\[
+K_t(x)
+= \frac{1}{(4\pi t)^{n/2}} e^{-|x|^2/(4t)},
+\]
+and hence
+\(\widehat{K_t}(\xi) = e^{-t|\xi|^2}\).
+By the convolution theorem, this implies
+\(u(t,\cdot) = u_0 * K_t\).
+The kernel \(K_t\) is nonnegative and normalized
+\(\int_{\mathbb{R}^n} K_t(x)\,dx = 1\),
+so convolution with \(K_t\) preserves positivity and total mass
+(\(L^1\)-norm).
+
+\bigskip
+\subsubsection*{Solution to (a): \(L^2\)-energy estimate}
+
+\paragraph{\textbf{Step 1: Fourier representation.}}
+From the theory above,
+\[
+\widehat{u}(t,\xi)
+= e^{-t|\xi|^2} \widehat{u_0}(\xi).
+\]
+
+\paragraph{\textbf{Step 2: Use Plancherel.}}
+By Plancherel's theorem,
+\[
+\|u(t,\cdot)\|_{L^2(\mathbb{R}^n)}^2
+= \frac{1}{(2\pi)^n} \int_{\mathbb{R}^n}
+|\widehat{u}(t,\xi)|^2\,d\xi
+= \frac{1}{(2\pi)^n} \int_{\mathbb{R}^n}
+e^{-2t|\xi|^2} |\widehat{u_0}(\xi)|^2\,d\xi.
+\]
+Since \(e^{-2t|\xi|^2} \le 1\),
+\[
+\|u(t,\cdot)\|_{L^2}^2
+\le \frac{1}{(2\pi)^n} \int_{\mathbb{R}^n}
+|\widehat{u_0}(\xi)|^2\,d\xi
+= \|u_0\|_{L^2}^2.
+\]
+Taking square roots gives
+\[
+\|u(t,\cdot)\|_{L^2(\mathbb{R}^n)}
+\le \|u_0\|_{L^2(\mathbb{R}^n)},
+\]
+as required.
+
+\bigskip
+\subsubsection*{Solution to (b): convolution with the heat kernel}
+
+\paragraph{\textbf{Step 1: Gaussian heat kernel.}}
+Define
+\[
+K_t(x)
+:= \frac{1}{(4\pi t)^{n/2}} \exp\!\left(-\frac{|x|^2}{4t}\right),
+\qquad t>0.
+\]
+A standard Fourier transform computation (see Lemma~1.9) shows that
+\[
+\widehat{K_t}(\xi) = e^{-t|\xi|^2}.
+\]
+
+\paragraph{\textbf{Step 2: Convolution theorem.}}
+We already know that
+\[
+\widehat{u}(t,\xi)
+= e^{-t|\xi|^2} \widehat{u_0}(\xi)
+= \widehat{u_0}(\xi)\,\widehat{K_t}(\xi).
+\]
+By the convolution theorem,
+\[
+\mathcal{F}\bigl(u_0 * K_t\bigr)(\xi)
+= \widehat{u_0}(\xi)\,\widehat{K_t}(\xi)
+= \widehat{u}(t,\xi).
+\]
+Since the Fourier transform is injective, we conclude
+\[
+u(t,x) = (u_0 * K_t)(x)
+= \int_{\mathbb{R}^n} u_0(y)\,K_t(x-y)\,dy.
+\]
+
+\bigskip
+\subsubsection*{Solution to (c): positivity and conservation of mass}
+
+Assume \(u_0 \ge 0\).
+
+\paragraph{\textbf{Positivity.}}
+From part (b),
+\[
+u(t,x) = \int_{\mathbb{R}^n} u_0(y)\,K_t(x-y)\,dy.
+\]
+Both \(u_0(y)\) and \(K_t(x-y)\) are nonnegative, hence the integral is
+nonnegative:
+\[
+u(t,x) \ge 0
+\quad\text{for all } t>0,\ x\in\mathbb{R}^n.
+\]
+
+\paragraph{\textbf{Conservation of the \(L^1\)-norm.}}
+Integrating over \(\mathbb{R}^n\) and using Fubini's theorem,
+\[
+\int_{\mathbb{R}^n} u(t,x)\,dx
+= \int_{\mathbb{R}^n} \int_{\mathbb{R}^n}
+u_0(y)\,K_t(x-y)\,dy\,dx
+= \int_{\mathbb{R}^n} u_0(y)
+\left( \int_{\mathbb{R}^n} K_t(x-y)\,dx \right) dy.
+\]
+The inner integral equals \(1\), since
+\[
+\int_{\mathbb{R}^n} K_t(x-y)\,dx
+= \int_{\mathbb{R}^n} K_t(z)\,dz = 1,
+\]
+by the normalization of the Gaussian.
+Therefore
+\[
+\int_{\mathbb{R}^n} u(t,x)\,dx
+= \int_{\mathbb{R}^n} u_0(y)\,dy,
+\]
+which shows
+\[
+\|u(t,\cdot)\|_{L^1(\mathbb{R}^n)}
+= \|u_0\|_{L^1(\mathbb{R}^n)}.
+\]
+
+\paragraph{\textbf{Conclusion.}}
+The heat semigroup \(e^{t\Delta}\) is \(L^2\)-contractive,
+admits the Gaussian kernel representation, and for nonnegative data
+preserves both positivity and the total mass.
+
+
+\section*{Exercise 5.10 : The Schrödinger Equation in $\mathbb{R}^n$}
+
+Consider the Schrödinger equation
+\[
+\begin{cases}
+	u_t = i \Delta u & \text{in } (0,T)\times \mathbb{R}^n, \\
+	u = u_0 & \text{on } \{0\}\times \mathbb{R}^n,
+\end{cases}
+\tag{3}
+\]
+
+and suppose that $u_0 \in H^2(\mathbb{R}^n)$.
+
+\begin{enumerate}[label=\textnormal{(\alph*)}]
+	
+	\item Show that \((3)\) admits a unique solution $u$ such that
+	\[
+	u \in C^0([0,T];H^2(\mathbb{R}^n)) \cap C^1((0,T);L^2(\mathbb{R}^n)),
+	\]
+	whose spatial Fourier–Plancherel transform is given by
+	\[
+	\widehat{u}(t,\xi) = \widehat{u_0}(\xi)\, e^{-it|\xi|^2}.
+	\]
+	
+	\item Show that
+	\[
+	\|u(t,\cdot)\|_{H^2(\mathbb{R}^n)} = \|u_0\|_{H^2(\mathbb{R}^n)}.
+	\]
+	
+	\item For $t>0$, define $K_\varepsilon \in L^1_{\mathrm{loc}}(\mathbb{R}^n)$ by
+	\[
+	K_\varepsilon(x)
+	= \frac{1}{(4\pi i t)^{n/2}} \, e^{\, i|x|^2 / 4t },
+	\]
+	where for $n$ odd we take the usual branch cut so that $i^{1/2}=e^{i\pi/4}$.
+	For $\varepsilon>0$ set
+	\[
+	K_\varepsilon^t(x) = e^{-\varepsilon|x|^2}\, K_t(x).
+	\]
+	
+	\begin{enumerate}[label=\roman*)]
+		\item Show that $T_{K_\varepsilon} \to T_{K_t}$ in $\mathscr{S}'$ as $\varepsilon\to0$.
+		
+		\item Show that if $\Re(\sigma)>0$, then
+		\[
+		\int_{\mathbb{R}} e^{-\sigma x^2 - i x \xi}\, dx
+		= \sqrt{\frac{\pi}{\sigma}}\, e^{-\xi^2/(4\sigma)}.
+		\]
+		
+		\item Deduce that
+		\[
+		\widehat{K_\varepsilon^t}(\xi)
+		= \left(1+\frac{i4t}{\varepsilon}\right)^{-\tfrac{n}{2}}
+		e^{-\, i t|\xi|^2/(1+4it\varepsilon)}.
+		\]
+		
+		\item Conclude that 
+		\[
+		\widehat{K_t}(\xi) = e^{-it|\xi|^2}.
+		\]
+		
+	\end{enumerate}
+	
+	\item Suppose that $u_0 \in \mathscr{S}(\mathbb{R}^n)$.  
+	Show that for $t>0$:
+	\[
+	u(t,x) = \int_{\mathbb{R}^n} u_0(y)\, K_t(x-y)\, dy,
+	\]
+	and deduce the dispersive estimate
+	\[
+	\sup_{x\in\mathbb{R}^n} |u(t,x)|
+	\;\;\lesssim\;\;
+	\frac{1}{(4\pi t)^{n/2}}\, \|u_0\|_{L^1(\mathbb{R}^n)}.
+	\]
+	(This type of estimate shows the decay of solutions to the Schrödinger equation.)
+	
+\end{enumerate}
+
+\subsection*{Schrödinger Equation in $\mathbb{R}^n$ : Theory and Solutions}
+
+Recall that for $s\ge 0$ the Sobolev norm is
+\[
+\|f\|_{H^s(\mathbb{R}^n)}^2
+= \int_{\mathbb{R}^n} (1+|\xi|^2)^s |\widehat{f}(\xi)|^2\,d\xi.
+\]
+
+% ---------- (a) ----------
+\subsubsection*{(a) \; Existence, Uniqueness and Fourier Representation}
+
+\paragraph{\textbf{Idea.}}
+Take the Fourier transform in the spatial variable, which turns the PDE
+\[
+u_t = i\Delta u
+\]
+into an ODE in $t$ for each $\xi$.
+
+\paragraph{\textbf{Derivation.}}
+Using $\widehat{\Delta u}(t,\xi) = -|\xi|^2\widehat{u}(t,\xi)$, we get
+\[
+\partial_t \widehat{u}(t,\xi) = i\widehat{\Delta u}(t,\xi)
+= -i|\xi|^2\,\widehat{u}(t,\xi), \qquad
+\widehat{u}(0,\xi) = \widehat{u_0}(\xi).
+\]
+Hence
+\[
+\widehat{u}(t,\xi)
+= e^{-it|\xi|^2}\,\widehat{u_0}(\xi).
+\]
+
+\paragraph{\textbf{Regularity.}}
+Define
+\[
+u(t,x)
+:= \frac{1}{(2\pi)^n} \int_{\mathbb{R}^n}
+\widehat{u_0}(\xi)\,e^{-it|\xi|^2} e^{ix\cdot\xi}\,d\xi.
+\]
+Since $u_0\in H^2(\mathbb{R}^n)$, we have
+$(1+|\xi|^2)^2\widehat{u_0}(\xi)\in L^2$, and the multiplier
+$e^{-it|\xi|^2}$ is bounded for each $t$. Standard Fourier multiplier
+arguments give
+\[
+u \in C^0([0,T];H^2(\mathbb{R}^n))
+\cap C^1((0,T);L^2(\mathbb{R}^n)).
+\]
+
+\paragraph{\textbf{Uniqueness.}}
+If $v$ is another solution with the same regularity and $v(0)=u_0$, then
+$\widehat{v}$ satisfies the same ODE with the same initial data and
+hence $\widehat{v}=\widehat{u}$. Thus $v=u$ and the solution is unique.
+
+\medskip
+In particular,
+\[
+\widehat{u}(t,\xi) = \widehat{u_0}(\xi)\,e^{-it|\xi|^2},
+\]
+as required.
+
+% ---------- (b) ----------
+\subsubsection*{(b) \; Conservation of the $H^2$-norm}
+
+\paragraph{\textbf{Computation.}}
+Using the formula from part~(a),
+\[
+\|u(t,\cdot)\|_{H^2}^2
+= \int_{\mathbb{R}^n} (1+|\xi|^2)^2\,|\widehat{u}(t,\xi)|^2\,d\xi
+= \int (1+|\xi|^2)^2\,|e^{-it|\xi|^2}|^2\,|\widehat{u_0}(\xi)|^2\,d\xi.
+\]
+Since $|e^{-it|\xi|^2}|=1$,
+\[
+\|u(t,\cdot)\|_{H^2}^2
+= \int (1+|\xi|^2)^2 |\widehat{u_0}(\xi)|^2\,d\xi
+= \|u_0\|_{H^2}^2.
+\]
+Hence
+\[
+\|u(t,\cdot)\|_{H^2(\mathbb{R}^n)} = \|u_0\|_{H^2(\mathbb{R}^n)}
+\quad \text{for all } t\in[0,T].
+\]
+
+% ---------- (c) ----------
+\subsubsection*{(c) \; The Schrödinger Kernel $K_t$ and its Fourier Transform}
+
+For $t>0$, set
+\[
+K_t(x) := \frac{1}{(4\pi i t)^{n/2}} e^{\, i|x|^2 /4t},
+\qquad
+K_t^\varepsilon(x) := e^{-\varepsilon|x|^2}K_t(x),\quad \varepsilon>0.
+\]
+
+\paragraph{\textbf{(i) Convergence in $\mathscr{S}'$.}}
+Let $\varphi\in\mathscr{S}(\mathbb{R}^n)$. Then
+\[
+\langle T_{K_t^\varepsilon},\varphi\rangle
+= \int_{\mathbb{R}^n} K_t(x)\,e^{-\varepsilon|x|^2}\,\varphi(x)\,dx.
+\]
+As $\varepsilon\to0$, $e^{-\varepsilon|x|^2}\to1$ pointwise, and
+\[
+|K_t(x)e^{-\varepsilon|x|^2}\varphi(x)|
+\le |K_t(x)\varphi(x)|.
+\]
+Since $K_t$ has at most polynomial growth and $\varphi$ is rapidly
+decreasing, $K_t\varphi\in L^1(\mathbb{R}^n)$, so dominated convergence
+gives
+\[
+\langle T_{K_t^\varepsilon},\varphi\rangle
+\longrightarrow \int K_t(x)\varphi(x)\,dx
+= \langle T_{K_t},\varphi\rangle.
+\]
+Thus $T_{K_t^\varepsilon}\to T_{K_t}$ in $\mathscr{S}'$.
+
+\paragraph{\textbf{(ii) Complex Gaussian integral.}}
+If $\Re(\sigma)>0$, then
+\[
+\int_{\mathbb{R}} e^{-\sigma x^2 - i\xi x}\,dx
+= \sqrt{\frac{\pi}{\sigma}}\, e^{-\xi^2/(4\sigma)}.
+\]
+This follows by completing the square and deforming the integration path.
+
+\paragraph{\textbf{(iii) Fourier transform of $K_t^\varepsilon$.}}
+We write
+\[
+K_t^\varepsilon(x)
+= \frac{1}{(4\pi i t)^{n/2}}\exp\!\Bigl(-\sigma |x|^2\Bigr),
+\qquad
+\sigma := \varepsilon - \frac{i}{4t},\quad \Re(\sigma)>0.
+\]
+Using (ii) in each coordinate, we obtain
+\[
+\widehat{e^{-\sigma |x|^2}}(\xi)
+= \left(\sqrt{\frac{\pi}{\sigma}}\right)^n
+\exp\!\Bigl(-\frac{|\xi|^2}{4\sigma}\Bigr),
+\]
+hence
+\[
+\widehat{K_t^\varepsilon}(\xi)
+= \frac{1}{(4\pi i t)^{n/2}}
+\left(\frac{\pi}{\sigma}\right)^{n/2}
+\exp\!\Bigl(-\frac{|\xi|^2}{4\sigma}\Bigr).
+\]
+A straightforward simplification yields
+\[
+\widehat{K_t^\varepsilon}(\xi)
+= \bigl(1+4it\varepsilon\bigr)^{-n/2}
+\exp\!\left(-\frac{it|\xi|^2}{1+4it\varepsilon}\right).
+\]
+
+\paragraph{\textbf{(iv) Limit as $\varepsilon\to0$.}}
+As $\varepsilon\to0$,
+\[
+1+4it\varepsilon \to 1,
+\qquad
+-\frac{it|\xi|^2}{1+4it\varepsilon} \to -it|\xi|^2.
+\]
+Thus
+\[
+\widehat{K_t^\varepsilon}(\xi) \longrightarrow e^{-it|\xi|^2}
+\quad\text{pointwise in }\xi.
+\]
+By (i), $T_{K_t^\varepsilon}\to T_{K_t}$ in $\mathscr{S}'$ and the
+Fourier transform is continuous on $\mathscr{S}'$, so we conclude
+\[
+\widehat{K_t}(\xi) = e^{-it|\xi|^2}.
+\]
+
+% ---------- (d) ----------
+\subsubsection*{(d) \; Convolution Representation and Dispersive Estimate}
+
+Assume $u_0\in\mathscr{S}(\mathbb{R}^n)$. From part~(a),
+\[
+\widehat{u}(t,\xi) = e^{-it|\xi|^2}\,\widehat{u_0}(\xi),
+\]
+and from part~(c),
+\[
+\widehat{K_t}(\xi) = e^{-it|\xi|^2}.
+\]
+Hence
+\[
+\widehat{u}(t,\xi)
+= \widehat{u_0}(\xi)\,\widehat{K_t}(\xi)
+= \mathcal{F}(u_0 * K_t)(\xi),
+\]
+so by injectivity of the Fourier transform
+\[
+u(t,x) = (u_0 * K_t)(x)
+= \int_{\mathbb{R}^n} u_0(y)\,K_t(x-y)\,dy.
+\]
+
+\paragraph{\textbf{Dispersive estimate.}}
+Since $|e^{i|z|^2/(4t)}| = 1$, we have
+\[
+|K_t(z)| = \frac{1}{(4\pi |t|)^{n/2}}
+\quad\text{for all } z\in\mathbb{R}^n.
+\]
+Then
+\[
+|u(t,x)|
+\le \int_{\mathbb{R}^n} |u_0(y)|\,|K_t(x-y)|\,dy
+\le \frac{1}{(4\pi|t|)^{n/2}} \int_{\mathbb{R}^n} |u_0(y)|\,dy.
+\]
+Taking the supremum over $x\in\mathbb{R}^n$ yields
+\[
+\sup_{x\in\mathbb{R}^n} |u(t,x)|
+\le \frac{1}{(4\pi|t|)^{n/2}}\,\|u_0\|_{L^1(\mathbb{R}^n)}.
+\]
+
+\paragraph{\textbf{Conclusion.}}
+The free Schrödinger evolution is given by
+$u(t,\cdot)=e^{it\Delta}u_0=u_0*K_t$,
+acts unitarily on $H^2(\mathbb{R}^n)$, and satisfies the dispersive
+estimate above, which shows decay in $L^\infty$ for data in $L^1$.
+
+\subsection*{Sobolev Space $H^{s}(\mathbb{R}^n)$ used in Exercise 5.10}
+
+Throughout this section, $H^{s}(\mathbb{R}^n)$ denotes the $L^2$-based Sobolev
+space. For $s \ge 0$ we define
+\[
+H^{s}(\mathbb{R}^n)
+:= \Bigl\{ f \in \mathscr{S}'(\mathbb{R}^n)
+: \int_{\mathbb{R}^n} (1+|\xi|^2)^s |\widehat{f}(\xi)|^2 \, d\xi
+< \infty \Bigr\},
+\]
+with norm
+\[
+\|f\|_{H^{s}(\mathbb{R}^n)}^2
+:= \int_{\mathbb{R}^n} (1+|\xi|^2)^s |\widehat{f}(\xi)|^2 \, d\xi.
+\]
+
+For integer $s = m \in \mathbb{N}$ this is equivalent to
+\[
+H^{m}(\mathbb{R}^n)
+= \Bigl\{ f \in L^2(\mathbb{R}^n)
+: D^\alpha f \in L^2(\mathbb{R}^n) \text{ for all } |\alpha|\le m \Bigr\},
+\]
+and
+\[
+\|f\|_{H^{m}(\mathbb{R}^n)}^2
+\simeq \sum_{|\alpha|\le m} \|D^\alpha f\|_{L^2(\mathbb{R}^n)}^2.
+\]
+
+In particular, in Exercise~5.10 the assumption $u_0 \in H^2(\mathbb{R}^n)$
+means that $u_0$ and all second-order derivatives of $u_0$ belong to
+$L^2(\mathbb{R}^n)$, and the solution $u(t,\cdot)$ stays in $H^2$ for all
+times $t$.
+
+\begin{figure}[ht]
+	\centering
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/MATH-ALLS-2_schrodinger_kernel_t1.png}
+		\caption{$t = 0.1$}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/MATH-ALLS-2_schrodinger_kernel_t2.png}
+		\caption{$t = 0.5$}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.32\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{figures/MATH-ALLS-2_schrodinger_kernel_t3.png}
+		\caption{$t = 1.0$}
+	\end{subfigure}
+	\caption{Real and imaginary parts of the one-dimensional Schr\"odinger kernel
+		$K_t(x)$ for three different times $t$. The modulus is constant
+		$\lvert K_t(x)\rvert = (4\pi |t|)^{-1/2}$, while the oscillations
+		become slower as $t$ increases.}
+	\label{fig:schrodinger-kernels}
+\end{figure}
+
+\subsection*{Relation Between Sobolev Spaces and the Schwartz Space}
+
+Let $\mathscr{S}(\mathbb{R}^n)$ denote the Schwartz space of rapidly
+decreasing smooth functions. Recall that for $s\in\mathbb{R}$ the
+$L^2$--based Sobolev space $H^s(\mathbb{R}^n)$ is defined by
+\[
+H^s(\mathbb{R}^n)
+:= \Bigl\{ f\in\mathscr{S}'(\mathbb{R}^n) :
+\int_{\mathbb{R}^n} (1+|\xi|^2)^s \,|\widehat{f}(\xi)|^2 \, d\xi
+< \infty \Bigr\}.
+\]
+
+\paragraph{Inclusion.}
+Since $\widehat{f}\in\mathscr{S}(\mathbb{R}^n)$ whenever
+$f\in\mathscr{S}(\mathbb{R}^n)$, the quantity
+$(1+|\xi|^2)^s|\widehat{f}(\xi)|^2$ decays faster than any power of
+$|\xi|$. Hence
+\[
+\mathscr{S}(\mathbb{R}^n) \subset H^s(\mathbb{R}^n)
+\quad\text{for all } s\in\mathbb{R}.
+\]
+
+\paragraph{Density.}
+For every $s\in\mathbb{R}$ the Schwartz space is dense in $H^s$:
+\[
+\overline{\mathscr{S}(\mathbb{R}^n)}^{\,H^s(\mathbb{R}^n)}
+= H^s(\mathbb{R}^n).
+\]
+This follows from approximation by mollifiers and compactly supported
+smooth functions, as in Exercise~5.8.
+
+\paragraph{Intersection over all orders.}
+One has the characterization
+\[
+\mathscr{S}(\mathbb{R}^n)
+= \bigcap_{s\in\mathbb{R}} H^s(\mathbb{R}^n),
+\]
+that is, a tempered distribution belongs to the Schwartz space if and
+only if it lies in every Sobolev space $H^s(\mathbb{R}^n)$.
+
+\paragraph{Remark.}
+The space
+\[
+H^\infty(\mathbb{R}^n)
+:= \bigcap_{m\in\mathbb{N}} H^m(\mathbb{R}^n)
+\]
+consists of functions with all derivatives in $L^2$ and contains
+$\mathscr{S}(\mathbb{R}^n)$ as a dense subspace. The additional
+requirement that both $f$ and $\widehat{f}$ decay faster than any power
+of $|x|$ and $|\xi|$ is what distinguishes the Schwartz space from
+general elements of $H^\infty$.
+
+
+\section*{Exercise 5.11 : Radial Solutions of the Wave Equation in $\mathbb{R}^3$}
+
+Let $\mathbb{R}^3_* := \mathbb{R}^3\setminus\{0\}$ and
+\[
+S_{*,T} := (-T,T)\times\mathbb{R}^3_*, 
+\qquad
+S_T := (-T,T)\times\mathbb{R}^3,
+\qquad
+\Sigma_0 := \{0\}\times\mathbb{R}^3.
+\]
+Write $r = |x|$. You may assume the formula for radial functions
+$u=u(r,t)$:
+\[
+\Delta u(|x|,t) = \Delta u(r,t)
+= \frac{\partial^2 u}{\partial r^2}(r,t)
++ \frac{2}{r}\frac{\partial u}{\partial r}(r,t).
+\]
+
+We consider the wave equation
+\[
+-\,\frac{\partial^2 u}{\partial t^2}(x,t)
++ \Delta u(x,t) = 0.
+\]
+
+\begin{enumerate}[label=\textnormal{(\alph*)}]
+	
+	\item Suppose $u(x,t) = \frac{1}{r}v(r,t)$ for some function $v$.
+	Show that $u$ solves the wave equation on $\mathbb{R}^3_*\times(-T,T)$
+	if and only if $v$ satisfies the one-dimensional wave equation
+	\[
+	-\,\frac{\partial^2 v}{\partial t^2}(r,t)
+	+ \frac{\partial^2 v}{\partial r^2}(r,t)
+	= 0
+	\quad\text{on } (0,\infty)\times(-T,T).
+	\]
+	
+	\item Suppose $f,g\in C_c^2(\mathbb{R})$. Deduce that
+	\[
+	u(x,t) = \frac{f(r+t)}{r} + \frac{g(r-t)}{r}
+	\]
+	is a solution of the wave equation on $S_{*,T}$ which vanishes for
+	large $|x|$.
+	
+	\item Show that if $f\in C_c^3(\mathbb{R})$ is an odd function
+	(i.e.\ $f(s)=-f(-s)$ for all $s$), then
+	\[
+	u(x,t) \equiv \frac{f(r+t)+f(r-t)}{2r}
+	\]
+	extends as a $C^2$ function which solves the wave equation on
+	$S_T=(-T,T)\times\mathbb{R}^3$, with
+	\[
+	u(0,t) = f'(t).
+	\]
+	
+	\item[*d)] By considering a suitable sequence of functions $f$, or otherwise,
+	deduce that there exists no constant $C$, independent of $u$, such that
+	the estimate
+	\[
+	\sup_{S_T} (|u|+|u_t|)
+	\le C \sup_{\Sigma_0} (|u|+|u_t|)
+	\]
+	holds for all solutions $u\in C^2(S_T)$ of the wave equation which vanish
+	for large $|x|$.
+	
+\end{enumerate}
+
+% ----------------------------------------------------------
+\subsection*{Theory and Solutions}
+
+\subsubsection*{(a) \; Reduction to a One-Dimensional Wave Equation}
+
+\paragraph{\textbf{Goal.}}
+Show that if $u(r,t) = v(r,t)/r$ is radial, then $u$ solves
+$-u_{tt} + \Delta u = 0$ on $\mathbb{R}^3_*\times(-T,T)$ if and only if
+$v$ solves the one-dimensional wave equation
+$-v_{tt}+v_{rr}=0$ on $(0,\infty)\times(-T,T)$.
+
+\paragraph{\textbf{Computation.}}
+Let $u(r,t) = v(r,t)/r$. Then
+\[
+u_r = \frac{v_r}{r} - \frac{v}{r^2},
+\qquad
+u_{rr}
+= \frac{v_{rr}}{r} - \frac{2v_r}{r^2} + \frac{2v}{r^3},
+\qquad
+u_{tt} = \frac{v_{tt}}{r}.
+\]
+Using the radial Laplacian,
+\[
+\Delta u
+= u_{rr} + \frac{2}{r}u_r
+= \left(\frac{v_{rr}}{r} - \frac{2v_r}{r^2} + \frac{2v}{r^3}\right)
++ \frac{2}{r}\left(\frac{v_r}{r} - \frac{v}{r^2}\right)
+= \frac{v_{rr}}{r}.
+\]
+Thus the wave equation
+\[
+-u_{tt} + \Delta u = 0
+\]
+becomes
+\[
+-\frac{v_{tt}}{r} + \frac{v_{rr}}{r} = 0
+\quad\Longleftrightarrow\quad
+-v_{tt} + v_{rr} = 0,
+\]
+for $r>0$. This proves the equivalence.
+
+\subsubsection*{(b) \; Construction of Radial Solutions}
+
+\paragraph{\textbf{Goal.}}
+Use d'Alembert's formula for the one-dimensional wave equation to
+construct radial solutions in $\mathbb{R}^3$.
+
+\paragraph{\textbf{D'Alembert solution.}}
+For the one-dimensional wave equation $-v_{tt}+v_{rr}=0$ on $\mathbb{R}$,
+the general solution is
+\[
+v(r,t) = f(r+t) + g(r-t),
+\]
+for some functions $f,g$.
+
+\paragraph{\textbf{Conclusion.}}
+If $f,g\in C_c^2(\mathbb{R})$, set
+\[
+v(r,t) = f(r+t) + g(r-t),
+\qquad
+u(r,t) = \frac{v(r,t)}{r}
+= \frac{f(r+t)}{r} + \frac{g(r-t)}{r}.
+\]
+Then $v$ solves the one-dimensional wave equation, and by part~(a),
+$u$ solves the three-dimensional wave equation on $S_{*,T}$.
+
+Since $f,g$ are compactly supported, there exists $R>0$ such that
+$f(s)=g(s)=0$ whenever $|s|\ge R$. For fixed $t\in(-T,T)$ and for $r$
+sufficiently large, both $r+t$ and $r-t$ lie outside the supports of
+$f$ and $g$, so $u(r,t)=0$. Hence $u$ vanishes for large $|x|$.
+
+\subsubsection*{(c) \; Extension Through the Origin with Odd Data}
+
+\paragraph{\textbf{Goal.}}
+Assume $f\in C_c^3(\mathbb{R})$ is odd ($f(-s)=-f(s)$). Show that
+\[
+u(r,t) := \frac{f(r+t)+f(r-t)}{2r}
+\]
+extends to a $C^2$ solution on $S_T$ and satisfies $u(0,t)=f'(t)$.
+
+\paragraph{\textbf{Construction.}}
+Define
+\[
+v(r,t) := \frac12\bigl(f(r+t)+f(r-t)\bigr).
+\]
+Then $v\in C^3$ and solves $-v_{tt}+v_{rr}=0$ on $(0,\infty)\times(-T,T)$.
+By part~(a), $u(r,t)=v(r,t)/r$ solves the wave equation on
+$\mathbb{R}^3_*\times(-T,T)$.
+
+Because $f$ is odd,
+\[
+v(0,t)
+= \frac12\bigl(f(t)+f(-t)\bigr)
+= \frac12\bigl(f(t)-f(t)\bigr)
+= 0.
+\]
+Thus $v(r,t)$ vanishes at $r=0$ for each $t$.
+
+Differentiating,
+\[
+v_r(r,t) = \frac12\bigl(f'(r+t)+f'(r-t)\bigr),
+\]
+so
+\[
+v_r(0,t)
+= \frac12\bigl(f'(t)+f'(-t)\bigr).
+\]
+Since $f$ is odd, $f'$ is even, hence $f'(-t)=f'(t)$ and
+\[
+v_r(0,t) = f'(t).
+\]
+
+\paragraph{\textbf{Extension and regularity.}}
+Near $r=0$ we have the Taylor expansion
+\[
+v(r,t) = v_r(0,t)\,r + O(r^3) = f'(t)\,r + O(r^3),
+\]
+so
+\[
+u(r,t) = \frac{v(r,t)}{r} = f'(t) + O(r^2),
+\]
+which has a finite limit as $r\to0$. Define
+\[
+u(0,t) := f'(t).
+\]
+This defines a $C^2$ function $u$ on $S_T$ which coincides with the
+radial solution for $r>0$ and therefore solves the wave equation on all
+of $S_T$.
+
+\subsubsection*{(d) \; Failure of a Maximum-Principle-Type Estimate}
+
+\paragraph{\textbf{Claim.}}
+There is no constant $C>0$ such that
+\[
+\sup_{S_T} (|u|+|u_t|)
+\le C \sup_{\Sigma_0} (|u|+|u_t|),
+\]
+for all solutions $u\in C^2(S_T)$ of the wave equation that vanish for
+large $|x|$.
+
+\paragraph{\textbf{Reduction to a one-dimensional inequality.}}
+For solutions of the form in part~(c),
+\[
+u(r,t) = \frac{f(r+t)+f(r-t)}{2r}
+\]
+with $f\in C_c^3(\mathbb{R})$ odd, we have
+\[
+u(0,t) = f'(t).
+\]
+At $t=0$,
+\[
+u(r,0) = \frac{f(r)+f(r)}{2r} = \frac{f(r)}{r},
+\qquad
+u_t(r,0) = 0,
+\]
+since $f'$ is even. Therefore,
+\[
+\sup_{\Sigma_0} (|u|+|u_t|)
+= \sup_{r>0}\left|\frac{f(r)}{r}\right|.
+\]
+On the other hand,
+\[
+\sup_{S_T} (|u|+|u_t|)
+\ge \sup_{t\in(-T,T)} |u(0,t)|
+= \sup_{t\in(-T,T)} |f'(t)|.
+\]
+
+If the estimate above held for all such $u$, then for all odd
+$f\in C_c^3(\mathbb{R})$ we would have
+\[
+\sup_{t\in(-T,T)} |f'(t)|
+\le C \sup_{r>0}\left|\frac{f(r)}{r}\right|.
+\tag{$\dagger$}
+\]
+
+\paragraph{\textbf{Construction of a contradicting sequence.}}
+Fix a nonzero $\psi\in C_c^3(\mathbb{R})$ supported in $(-1,1)$, and
+define for $R>1$:
+\[
+f_R(s) := \psi(s-R) - \psi(-s-R).
+\]
+Then $f_R\in C_c^3(\mathbb{R})$ is odd (one checks $f_R(-s)=-f_R(s)$),
+and its support is contained in two disjoint intervals located near
+$s\approx \pm R$.
+
+Since $f_R'$ is just a translate of $\psi'$, we have
+\[
+\sup_{s\in\mathbb{R}} |f_R'(s)|
+= \sup_{s\in\mathbb{R}} |\psi'(s)| =: M > 0,
+\]
+independent of $R$.
+
+However, for $s$ in the support of $f_R$ we have $|s|\ge R-1$, so
+\[
+\left|\frac{f_R(s)}{s}\right|
+\le \frac{\sup_{|y|\le 1}|\psi(y)|}{R-1},
+\]
+and hence
+\[
+\sup_{r>0}\left|\frac{f_R(r)}{r}\right|
+\le \frac{C_0}{R-1},
+\]
+for some constant $C_0$ independent of $R$.
+
+\paragraph{\textbf{Contradiction.}}
+If $(\dagger)$ held for all odd $f$, it would hold for $f_R$:
+\[
+M \le C \sup_{r>0}\left|\frac{f_R(r)}{r}\right|
+\le C\,\frac{C_0}{R-1}.
+\]
+Letting $R\to\infty$ forces the right-hand side to $0$, while $M>0$ is
+fixed. This is impossible, and therefore no such constant $C$ can exist.
+
+\paragraph{\textbf{Conclusion.}}
+The wave equation in three dimensions does not satisfy a global
+maximum-principle-type estimate of the form above; the size of the
+solution at later times cannot be controlled solely by the supremum of
+its initial data.
+
+
+
+\end{document}
