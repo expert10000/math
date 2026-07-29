@@ -1,0 +1,1695 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{enumitem}
+\usepackage{hyperref}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	urlcolor=blue,
+	citecolor=blue
+}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Commutative Algebra 14},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\fancyhf{}
+\lhead{Theory of Commutative Algebra 15}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\OO}{\mathcal O}
+\newcommand{\kk}{\mathbf{k}}
+\newcommand{\A}{\mathbb A}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Q}{\mathbb Q}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\F}{\mathbb F}
+\newcommand{\mf}{\mathfrak}
+\newcommand{\m}{\mathfrak m}
+\newcommand{\p}{\mathfrak p}
+
+\theoremstyle{definition}
+
+\newtheorem{example}[definition]{Example}
+
+
+
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\newcommand{\Coker}{\operatorname{Coker}}
+
+
+
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+
+
+\newcommand{\kerf}{\operatorname{Ker}}
+
+\newcommand{\pd}{\operatorname{pd}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\syz}{\operatorname{Syz}}
+\newcommand{\ZZ}{\mathbb{Z}}
+
+
+
+
+
+
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!60!black,
+	urlcolor=blue!60!black,
+	citecolor=blue!60!black
+}
+
+\title{\vspace{-1.5em}\bfseries Theory of Commutative Algebra 15}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in commutative algebra
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+
+\section{Resolutions and free resolutions: concrete examples over \(\mathbb Z\), polynomial rings, quotients, and localizations}
+
+\textbf{Convention.}
+Throughout, \(A\) denotes a commutative ring with \(1\), and all modules are unital \(A\)-modules.
+
+\subsection{1. What is a resolution?}
+
+Let \(M\) be an \(A\)-module. A \emph{resolution} of \(M\) is an exact sequence
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0.
+\]
+If each \(F_i\) is a free \(A\)-module, then this is called a \emph{free resolution} of \(M\).
+
+The exactness means that at every stage the image of one map equals the kernel of the next. Conceptually, a free resolution records:
+\begin{itemize}
+	\item generators of \(M\),
+	\item relations among those generators,
+	\item relations among those relations,
+	\item and so on.
+\end{itemize}
+
+Thus:
+\begin{itemize}
+	\item \(F_0\) gives generators of \(M\),
+	\item \(F_1\) gives relations among generators,
+	\item \(F_2\) gives relations among relations,
+	\item etc.
+\end{itemize}
+
+\subsection{2. The most basic resolution: quotients by ideals}
+
+If \(I \subseteq A\) is an ideal, then there is always an exact sequence
+\[
+0 \longrightarrow I \longrightarrow A \longrightarrow A/I \longrightarrow 0.
+\]
+Here the map \(A \to A/I\) is the quotient map, and its kernel is precisely \(I\).
+
+This is always a resolution of \(A/I\), but it is not always a \emph{free} resolution, because \(I\) need not be a free \(A\)-module.
+
+So the sequence
+\[
+0 \longrightarrow I \longrightarrow A \longrightarrow A/I \longrightarrow 0
+\]
+is a resolution in general, and it becomes a free resolution only when \(I\) is free.
+
+\subsection{3. The prototype over \(\mathbb Z\)}
+
+Take \(A=\mathbb Z\) and \(M=\mathbb Z/n\mathbb Z\). Then there is an exact sequence
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0.
+\]
+
+Let us check exactness:
+\begin{itemize}
+	\item the map \(\mathbb Z \to \mathbb Z/n\mathbb Z\) is reduction modulo \(n\),
+	\item its kernel is \(n\mathbb Z\),
+	\item multiplication by \(n\) identifies \(\mathbb Z\) with \(n\mathbb Z\).
+\end{itemize}
+
+So this is a free resolution of \(\mathbb Z/n\mathbb Z\) of length \(1\).
+
+This is the standard model for a cyclic module over a principal ideal domain.
+
+\subsection{4. Principal quotients over \(k[x]\)}
+
+Let \(A=k[x]\), where \(k\) is a field.
+
+\subsubsection*{Example 1: \(A/(x)\)}
+
+We have an exact sequence
+\[
+0 \longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x) \longrightarrow 0.
+\]
+Since \(A/(x)\cong k\), this can also be written as
+\[
+0 \longrightarrow k[x] \xrightarrow{\cdot x} k[x] \longrightarrow k \longrightarrow 0.
+\]
+
+So \(k\) has a free resolution of length \(1\) as a \(k[x]\)-module.
+
+\subsubsection*{Example 2: \(A/(f)\)}
+
+More generally, for any nonzero polynomial \(f \in k[x]\),
+\[
+0 \longrightarrow A \xrightarrow{\cdot f} A \longrightarrow A/(f) \longrightarrow 0
+\]
+is exact.
+
+Indeed:
+\begin{itemize}
+	\item the map \(A \to A/(f)\) is the quotient map,
+	\item its kernel is \((f)\),
+	\item the principal ideal \((f)\) is isomorphic to \(A\) via multiplication by \(f\).
+\end{itemize}
+
+So every principal quotient of \(k[x]\) has a free resolution of length \(1\).
+
+\subsection{5. A first higher example over \(k[x,y]\)}
+
+Now let \(A=k[x,y]\). Consider
+\[
+M=A/(x,y)\cong k.
+\]
+
+A free resolution of \(k\) over \(A\) is
+\[
+0 \longrightarrow A \xrightarrow{\varphi_2} A^2 \xrightarrow{\varphi_1} A \longrightarrow k \longrightarrow 0,
+\]
+where
+\[
+\varphi_1(a,b)=ax+by
+\]
+and
+\[
+\varphi_2(c)=(-cy,cx).
+\]
+
+In matrix form,
+\[
+0 \longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2
+\xrightarrow{(x\;\;y)} A \longrightarrow k \longrightarrow 0.
+\]
+
+Let us interpret this:
+\begin{itemize}
+	\item \(A \to k\) gives one generator of \(k\) as an \(A\)-module,
+	\item \(A^2 \to A\) records the two relations \(x=0\) and \(y=0\) in the quotient,
+	\item \(A \to A^2\) records the relation among those relations, namely
+	\[
+	x\cdot y - y\cdot x = 0.
+	\]
+\end{itemize}
+
+This is the beginning of the Koszul resolution.
+
+So here we see clearly why higher free modules \(F_2,F_3,\dots\) appear: they capture higher-order dependencies.
+
+\subsection{6. The general pattern over \(k[x_1,\dots,x_n]\)}
+
+Let
+\[
+A=k[x_1,\dots,x_n]
+\]
+and consider
+\[
+M=A/(x_1,\dots,x_n)\cong k.
+\]
+
+Then \(k\) has a free resolution given by the Koszul complex:
+\[
+0 \longrightarrow A^{\binom{n}{n}} \longrightarrow A^{\binom{n}{n-1}}
+\longrightarrow \cdots \longrightarrow A^{\binom{n}{1}}
+\longrightarrow A \longrightarrow k \longrightarrow 0.
+\]
+
+The important point is not only the exact shape of all maps, but the fact that:
+\begin{itemize}
+	\item the resolution is finite,
+	\item its length is \(n\),
+	\item and it reflects the \(n\) generators \(x_1,\dots,x_n\) of the maximal ideal \((x_1,\dots,x_n)\).
+\end{itemize}
+
+Thus over a polynomial ring in \(n\) variables, the residue field at the origin has a free resolution of length \(n\).
+
+\subsection{7. Over a field: every module is already free}
+
+If \(A=K\) is a field, then every \(A\)-module is just a vector space over \(K\). Every vector space has a basis, so every module is free.
+
+Therefore the theory becomes trivial: if \(M\) is a \(K\)-vector space, then a free resolution is simply
+\[
+0 \longrightarrow M \xrightarrow{\mathrm{id}} M \longrightarrow 0,
+\]
+or even one may say that no nontrivial resolution is needed, because \(M\) is already free.
+
+So over a field, free resolutions exist but are usually uninteresting.
+
+\subsection{8. The case \(\mathbb Z/p\mathbb Z\)}
+
+If by \(\mathbb Z_p\) one means \(\mathbb Z/p\mathbb Z\), then this ring is a field, usually denoted \(\mathbb F_p\).
+
+Hence every \(\mathbb F_p\)-module is a vector space, so every module is free. Therefore all free resolutions over \(\mathbb F_p\) are trivial in the same sense as over any field.
+
+For example, if \(M=\mathbb F_p^m\), then \(M\) is already a free \(\mathbb F_p\)-module of rank \(m\).
+
+\subsection{9. The localized ring \(\mathbb Z_{(p)}\)}
+
+Sometimes one writes \(\mathbb Z_p\) informally when one actually means the localization
+\[
+\mathbb Z_{(p)}=\left\{\frac{a}{b}\in \mathbb Q : p \nmid b\right\}.
+\]
+
+This is the localization of \(\mathbb Z\) at the prime ideal \((p)\). It is a local principal ideal domain.
+
+Then we have the exact sequence
+\[
+0 \longrightarrow \mathbb Z_{(p)} \xrightarrow{\cdot p} \mathbb Z_{(p)} \longrightarrow \mathbb Z_{(p)}/(p) \longrightarrow 0.
+\]
+Since
+\[
+\mathbb Z_{(p)}/(p)\cong \mathbb F_p,
+\]
+this gives a free resolution of \(\mathbb F_p\) as a \(\mathbb Z_{(p)}\)-module.
+
+So this is the localized analogue of
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot p} \mathbb Z \longrightarrow \mathbb Z/p\mathbb Z \longrightarrow 0.
+\]
+
+\subsection{10. The \(p\)-adic integers \(\mathbb Z_p\)}
+
+If instead \(\mathbb Z_p\) means the ring of \(p\)-adic integers, then similarly
+\[
+0 \longrightarrow \mathbb Z_p \xrightarrow{\cdot p} \mathbb Z_p \longrightarrow \mathbb Z_p/(p) \longrightarrow 0
+\]
+is exact, and
+\[
+\mathbb Z_p/(p)\cong \mathbb F_p.
+\]
+
+So \(\mathbb F_p\) again has a free resolution of length \(1\) over \(\mathbb Z_p\).
+
+\subsection{11. Free resolutions over a general ring}
+
+Let \(A\) be any ring and \(M\) any \(A\)-module.
+
+A free resolution always exists. Indeed:
+\begin{itemize}
+	\item choose a surjection \(F_0 \twoheadrightarrow M\) from a free module \(F_0\),
+	\item let \(K_1=\ker(F_0\to M)\),
+	\item choose a surjection \(F_1 \twoheadrightarrow K_1\) from a free module \(F_1\),
+	\item let \(K_2=\ker(F_1\to F_0)\),
+	\item and continue inductively.
+\end{itemize}
+
+Thus every module admits a free resolution
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0.
+\]
+
+However, unlike the PID or polynomial examples above, such a resolution may:
+\begin{itemize}
+	\item be very long,
+	\item be infinite,
+	\item be difficult to describe explicitly,
+	\item and be highly non-minimal.
+\end{itemize}
+
+\subsection{12. What happens under quotient?}
+
+Suppose \(I\subseteq A\) is an ideal and \(B=A/I\).
+
+If
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+is a free resolution of an \(A\)-module \(M\), then tensoring with \(A/I\) gives a complex
+\[
+\cdots \longrightarrow F_2\otimes_A A/I \longrightarrow F_1\otimes_A A/I
+\longrightarrow F_0\otimes_A A/I \longrightarrow M\otimes_A A/I \longrightarrow 0.
+\]
+
+Since each \(F_i\) is free, each tensor product \(F_i\otimes_A A/I\) is a free \(A/I\)-module:
+\[
+F_i \cong A^{r_i}
+\qquad\Longrightarrow\qquad
+F_i\otimes_A A/I \cong (A/I)^{r_i}.
+\]
+
+So quotienting produces a new complex of free \(A/I\)-modules. But the crucial point is:
+
+\medskip
+\textbf{Tensoring with \(A/I\) is right exact, but not always exact.}
+\medskip
+
+Therefore the new complex need not remain exact on the left. So a free resolution over \(A\) does \emph{not} in general stay a free resolution after quotienting.
+
+\subsubsection*{Concrete example}
+
+Start with the free resolution over \(\mathbb Z\):
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+
+Tensor with \(\mathbb Z/2\mathbb Z\). Then multiplication by \(2\) becomes the zero map, so we get
+\[
+0 \longrightarrow \mathbb Z/2\mathbb Z \xrightarrow{0} \mathbb Z/2\mathbb Z
+\longrightarrow (\mathbb Z/2\mathbb Z)\otimes_{\mathbb Z}(\mathbb Z/2\mathbb Z) \longrightarrow 0.
+\]
+
+This is no longer exact at the left-hand copy of \(\mathbb Z/2\mathbb Z\). So exactness can fail after quotienting.
+
+This is one of the reasons \(\operatorname{Tor}\) appears in homological algebra.
+
+\subsection{13. What happens under localization?}
+
+Localization behaves much better.
+
+Let \(S\subseteq A\) be a multiplicative set. If
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+is a free resolution of \(M\), then localizing gives
+\[
+\cdots \longrightarrow S^{-1}F_2 \longrightarrow S^{-1}F_1 \longrightarrow S^{-1}F_0
+\longrightarrow S^{-1}M \longrightarrow 0.
+\]
+
+Since localization is an exact functor, this sequence remains exact.
+
+Also, if \(F_i\cong A^{r_i}\), then
+\[
+S^{-1}F_i \cong (S^{-1}A)^{r_i},
+\]
+so free modules remain free after localization.
+
+Therefore:
+
+\medskip
+\textbf{Localization of a free resolution is again a free resolution.}
+\medskip
+
+\subsubsection*{Concrete example}
+
+Start with
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0.
+\]
+
+Now localize at \(S=\mathbb Z\setminus (p)\). Then we obtain
+\[
+0 \longrightarrow \mathbb Z_{(p)} \xrightarrow{\cdot n} \mathbb Z_{(p)}
+\longrightarrow (\mathbb Z/n\mathbb Z)_{(p)} \longrightarrow 0.
+\]
+
+There are two cases:
+\begin{itemize}
+	\item if \(p\nmid n\), then \(n\) becomes a unit in \(\mathbb Z_{(p)}\), so multiplication by \(n\) is an isomorphism and
+	\[
+	(\mathbb Z/n\mathbb Z)_{(p)}=0;
+	\]
+	\item if \(p\mid n\), then some \(p\)-torsion remains, so the localization is nonzero.
+\end{itemize}
+
+Thus localization isolates the part of the module that lives near the prime \((p)\).
+
+\subsection{14. Why free resolutions matter}
+
+Free resolutions are important because they allow us to define and compute derived functors.
+
+\subsubsection*{Tor}
+
+If \(F_\bullet \to M\) is a free resolution of \(M\), then
+\[
+\operatorname{Tor}_i^A(M,N)=H_i(F_\bullet\otimes_A N).
+\]
+
+So \(\operatorname{Tor}\) measures the failure of tensor product to preserve exactness.
+
+\subsubsection*{Ext}
+
+If \(F_\bullet \to M\) is a free resolution of \(M\), then
+\[
+\operatorname{Ext}^i_A(M,N)=H^i(\operatorname{Hom}_A(F_\bullet,N)).
+\]
+
+So \(\operatorname{Ext}\) records higher extension data and higher homological information about modules.
+
+\subsection{15. Summary of the most important examples}
+
+The key examples worth remembering are:
+
+\begin{enumerate}
+	\item Over \(\mathbb Z\):
+	\[
+	0 \longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0.
+	\]
+	
+	\item Over \(k[x]\):
+	\[
+	0 \longrightarrow k[x] \xrightarrow{\cdot f} k[x] \longrightarrow k[x]/(f) \longrightarrow 0.
+	\]
+	
+	\item Over \(k[x,y]\):
+	\[
+	0 \longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2
+	\xrightarrow{(x\;\;y)} A \longrightarrow k \longrightarrow 0,
+	\qquad A=k[x,y].
+	\]
+	
+	\item Under localization:
+	if \(F_\bullet \to M\) is a free resolution over \(A\), then
+	\[
+	S^{-1}F_\bullet \to S^{-1}M
+	\]
+	is again a free resolution over \(S^{-1}A\).
+	
+	\item Under quotient:
+	if \(F_\bullet \to M\) is a free resolution over \(A\), then
+	\[
+	F_\bullet \otimes_A A/I
+	\]
+	is a complex of free \(A/I\)-modules, but it need not remain exact.
+\end{enumerate}
+
+\subsection{16. Final intuition}
+
+A free resolution is a systematic way of describing a module by successively recording:
+\[
+\text{generators} \;\to\; \text{relations} \;\to\; \text{relations among relations} \;\to\; \cdots
+\]
+
+This is why resolutions are central both in concrete algebra and in homological algebra.
+
+
+\section{Companion examples and worked exercises on free resolutions}
+
+\textbf{Purpose of this companion section.}
+The previous section introduced resolutions and free resolutions in general form.
+This companion section is meant to slow the discussion down and show, in concrete terms, how one actually reads, builds, and checks free resolutions over familiar rings such as \(\mathbb Z\), polynomial rings, quotient rings, and localizations.
+
+\subsection{1. How to read a free resolution}
+
+Suppose we have a free resolution
+\[
+\cdots \longrightarrow F_2 \xrightarrow{d_2} F_1 \xrightarrow{d_1} F_0 \xrightarrow{\varepsilon} M \longrightarrow 0.
+\]
+
+The meaning of the first few terms is as follows:
+
+\begin{itemize}
+	\item \(F_0\) is a free module mapping onto \(M\), so its basis elements may be viewed as \emph{formal generators} of \(M\).
+	\item \(\ker(\varepsilon)\subseteq F_0\) consists of the relations among those generators.
+	\item \(F_1\) maps onto \(\ker(\varepsilon)\), so its basis elements encode \emph{formal relations}.
+	\item \(\ker(d_1)\subseteq F_1\) consists of relations among those relations.
+	\item \(F_2\) maps onto \(\ker(d_1)\), and the process continues.
+\end{itemize}
+
+So a free resolution is not just a sequence of modules and maps. It is a systematic record of the algebraic structure of \(M\):
+\[
+\text{generators} \;\to\; \text{relations} \;\to\; \text{relations among relations} \;\to\; \cdots
+\]
+
+\subsection{2. A very first warm-up: the module \(\mathbb Z/6\mathbb Z\)}
+
+Consider the \(\mathbb Z\)-module
+\[
+M=\mathbb Z/6\mathbb Z.
+\]
+A free resolution is
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 6} \mathbb Z \longrightarrow \mathbb Z/6\mathbb Z \longrightarrow 0.
+\]
+
+\textbf{Why is this exact?}
+
+The map \(\mathbb Z \to \mathbb Z/6\mathbb Z\) is the quotient map \(n \mapsto \overline{n}\). Its kernel is
+\[
+\ker(\mathbb Z \to \mathbb Z/6\mathbb Z)=6\mathbb Z.
+\]
+The map \(\mathbb Z \xrightarrow{\cdot 6} \mathbb Z\) has image \(6\mathbb Z\), so exactness holds.
+
+\textbf{Interpretation.}
+As a \(\mathbb Z\)-module, \(M\) is generated by one element, namely \(\overline{1}\), and there is one relation:
+\[
+6\cdot \overline{1}=0.
+\]
+Thus one free generator and one free relation are enough.
+
+\subsection{3. A polynomial example: \(k[x]/(x)\)}
+
+Let \(A=k[x]\), where \(k\) is a field, and consider
+\[
+M=A/(x).
+\]
+Since \(A/(x)\cong k\), we may think of this as the residue field at the point \(x=0\).
+
+A free resolution is
+\[
+0 \longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x) \longrightarrow 0.
+\]
+
+\textbf{Why is this exact?}
+
+The quotient map \(A \to A/(x)\) has kernel \((x)\).
+But \((x)\cong A\) via multiplication by \(x\), because
+\[
+A \longrightarrow (x), \qquad f \mapsto xf
+\]
+is an isomorphism of \(A\)-modules.
+
+\textbf{Interpretation.}
+The module \(A/(x)\) is generated by the class of \(1\), and the only relation is
+\[
+x\cdot 1 = 0 \quad \text{in } A/(x).
+\]
+
+\subsection{4. Another polynomial example: \(k[x]/(x^2)\)}
+
+Now consider
+\[
+M=A/(x^2), \qquad A=k[x].
+\]
+Again there is a free resolution
+\[
+0 \longrightarrow A \xrightarrow{\cdot x^2} A \longrightarrow A/(x^2) \longrightarrow 0.
+\]
+
+This looks formally similar to the previous example, but the quotient is different.
+
+\textbf{Important distinction.}
+The quotient \(A/(x)\) is reduced and isomorphic to the field \(k\), while \(A/(x^2)\) is not reduced: the class of \(x\) is nonzero in \(A/(x^2)\), but
+\[
+x^2=0 \quad \text{in } A/(x^2).
+\]
+So the same style of free resolution can describe very different quotient modules.
+
+\subsection{5. A first genuinely higher example: \(k[x,y]/(x,y)\)}
+
+Let
+\[
+A=k[x,y], \qquad M=A/(x,y)\cong k.
+\]
+This module is generated by the class of \(1\), but now there are two obvious relations:
+\[
+x\cdot 1=0, \qquad y\cdot 1=0.
+\]
+
+These are not independent in a completely trivial way, because there is a relation between them:
+\[
+y(x\cdot 1)-x(y\cdot 1)=0.
+\]
+
+This is exactly what the free resolution records:
+\[
+0 \longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2
+\xrightarrow{(x\;\;y)} A \longrightarrow k \longrightarrow 0.
+\]
+
+Let us check that the composition is zero:
+\[
+(x\;\;y)\begin{pmatrix}-y\\x\end{pmatrix} = -xy+yx=0.
+\]
+
+Now let us describe the maps:
+
+\begin{itemize}
+	\item The map \(A \to k\) is evaluation at \((0,0)\).
+	\item The map \(A^2 \to A\) sends \((a,b)\mapsto ax+by\).
+	\item The map \(A \to A^2\) sends \(c\mapsto (-cy,cx)\).
+\end{itemize}
+
+\textbf{Interpretation.}
+This says:
+\begin{itemize}
+	\item one generator for \(k\),
+	\item two relations \(x=0\) and \(y=0\),
+	\item one relation among these relations, namely \((-y,x)\).
+\end{itemize}
+
+This is the simplest nontrivial example showing why \(F_2\) appears.
+
+\subsection{6. The same picture in \(k[x_1,\dots,x_n]\)}
+
+Let
+\[
+A=k[x_1,\dots,x_n], \qquad M=A/(x_1,\dots,x_n)\cong k.
+\]
+Then \(M\) has a free resolution given by the Koszul complex. The beginning and end look like
+\[
+0 \longrightarrow A^{\binom{n}{n}} \longrightarrow A^{\binom{n}{n-1}}
+\longrightarrow \cdots \longrightarrow A^n \longrightarrow A \longrightarrow k \longrightarrow 0.
+\]
+
+The philosophical meaning is the same as before:
+\begin{itemize}
+	\item one generator of \(k\),
+	\item \(n\) defining relations \(x_1,\dots,x_n\),
+	\item then higher compatibility relations among those relations,
+	\item and all of these are encoded in a finite exact complex.
+\end{itemize}
+
+\subsection{7. What changes for quotient rings?}
+
+Suppose \(A\) is a ring and \(I\subseteq A\) is an ideal. Then the quotient \(B=A/I\) is a new ring.
+A module over \(B\) is the same thing as an \(A\)-module on which every element of \(I\) acts as zero.
+
+This point of view is often useful for resolutions.
+
+\subsubsection*{Example: \(A=k[x]\), \(B=A/(x)\cong k\)}
+
+As an \(A\)-module, \(B\) has the free resolution
+\[
+0 \longrightarrow A \xrightarrow{\cdot x} A \longrightarrow B \longrightarrow 0.
+\]
+
+But as a \(B\)-module, the same object is just \(B\) itself, so it is free of rank \(1\) over \(B\), and the resolution collapses to the trivial one
+\[
+0 \longrightarrow B \xrightarrow{\mathrm{id}} B \longrightarrow 0.
+\]
+
+\textbf{Lesson.}
+The shape of a resolution depends strongly on which ring we are using as the base ring.
+
+\subsection{8. What happens under localization?}
+
+Let \(S\subseteq A\) be a multiplicative set. If
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+is a free resolution over \(A\), then
+\[
+\cdots \longrightarrow S^{-1}F_2 \longrightarrow S^{-1}F_1 \longrightarrow S^{-1}F_0 \longrightarrow S^{-1}M \longrightarrow 0
+\]
+is a free resolution over \(S^{-1}A\).
+
+This works because:
+\begin{itemize}
+	\item localization is exact,
+	\item and localization preserves free modules:
+	\[
+	S^{-1}(A^r)\cong (S^{-1}A)^r.
+	\]
+\end{itemize}
+
+\subsubsection*{Example: localizing \(\mathbb Z/6\mathbb Z\) at \((5)\)}
+
+Start with
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 6} \mathbb Z \longrightarrow \mathbb Z/6\mathbb Z \longrightarrow 0.
+\]
+Localize at \(S=\mathbb Z\setminus (5)\). Then
+\[
+0 \longrightarrow \mathbb Z_{(5)} \xrightarrow{\cdot 6} \mathbb Z_{(5)}
+\longrightarrow (\mathbb Z/6\mathbb Z)_{(5)} \longrightarrow 0.
+\]
+
+Since \(6\) is invertible in \(\mathbb Z_{(5)}\), multiplication by \(6\) is an isomorphism. Therefore
+\[
+(\mathbb Z/6\mathbb Z)_{(5)}=0.
+\]
+
+\subsubsection*{Example: localizing \(\mathbb Z/6\mathbb Z\) at \((2)\)}
+
+Now localize at \(S=\mathbb Z\setminus (2)\):
+\[
+0 \longrightarrow \mathbb Z_{(2)} \xrightarrow{\cdot 6} \mathbb Z_{(2)}
+\longrightarrow (\mathbb Z/6\mathbb Z)_{(2)} \longrightarrow 0.
+\]
+
+Since \(6=2\cdot 3\), and \(3\) is invertible in \(\mathbb Z_{(2)}\), multiplication by \(6\) has the same image as multiplication by \(2\). Thus the quotient is isomorphic to
+\[
+\mathbb Z_{(2)}/(2)\cong \mathbb F_2.
+\]
+
+\textbf{Lesson.}
+Localization keeps only the part of the module visible at the chosen prime.
+
+\subsection{9. What happens under quotienting the whole complex?}
+
+Let
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0
+\]
+be the standard free resolution over \(\mathbb Z\).
+
+Now tensor with \(\mathbb Z/2\mathbb Z\). We get
+\[
+0 \longrightarrow \mathbb Z/2\mathbb Z \xrightarrow{0} \mathbb Z/2\mathbb Z
+\longrightarrow (\mathbb Z/2\mathbb Z)\otimes_{\mathbb Z}(\mathbb Z/2\mathbb Z) \longrightarrow 0.
+\]
+
+The first map is now zero, so the complex is no longer exact at the left-hand term.
+
+\textbf{Lesson.}
+Passing from \(A\) to \(A/I\) by tensoring with \(A/I\) does not in general preserve exactness.
+So free resolutions behave well under localization, but not automatically under quotient.
+
+\subsection{10. The field case and the residue field case}
+
+If \(K\) is a field, every \(K\)-module is a vector space, hence free.
+So over a field there is no need for an interesting resolution.
+
+\subsubsection*{Example: \(K^3\)}
+
+As a \(K\)-module, \(K^3\) is already free of rank \(3\). One may write the trivial resolution
+\[
+0 \longrightarrow K^3 \xrightarrow{\mathrm{id}} K^3 \longrightarrow 0.
+\]
+
+\subsubsection*{Example: \(\mathbb F_p\) over \(\mathbb F_p\)}
+
+The module \(\mathbb F_p\) over itself is free of rank \(1\), so again the free resolution is trivial.
+
+\subsubsection*{Example: \(\mathbb F_p\) over \(\mathbb Z\)}
+
+Now the situation changes:
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot p} \mathbb Z \longrightarrow \mathbb F_p \longrightarrow 0.
+\]
+
+So \(\mathbb F_p\) is not free as a \(\mathbb Z\)-module, but it does have a short free resolution over \(\mathbb Z\).
+
+\subsection{11. Free resolutions over \(A\) versus over \(A_{\mathfrak p}\)}
+
+Let \(M\) be an \(A\)-module, and let \(\mathfrak p\in \Spec(A)\). Then localizing a free resolution of \(M\) gives a free resolution of \(M_{\mathfrak p}\) over \(A_{\mathfrak p}\).
+
+This is one of the main reasons local methods are so powerful:
+complicated global questions can often be tested after localization.
+
+\subsubsection*{Example: \(A=k[x]\), \(M=A/(x(x-1))\)}
+
+Over \(A\), the module \(M\) has free resolution
+\[
+0 \longrightarrow A \xrightarrow{\cdot x(x-1)} A \longrightarrow M \longrightarrow 0.
+\]
+
+Now localize at \((x)\). In \(A_{(x)}\), the element \(x-1\) is invertible, so multiplication by \(x(x-1)\) is equivalent, up to a unit, to multiplication by \(x\). Hence
+\[
+M_{(x)} \cong A_{(x)}/(x).
+\]
+
+If instead we localize at \((x-1)\), then \(x\) becomes invertible and
+\[
+M_{(x-1)} \cong A_{(x-1)}/(x-1).
+\]
+
+So the global quotient splits into different local pieces depending on the chosen prime.
+
+\subsection{12. A worked theorem-style summary}
+
+\textbf{Proposition.}
+Let \(A\) be a ring and \(M\) an \(A\)-module.
+
+\begin{enumerate}
+	\item \(M\) always admits a free resolution.
+	\item If \(S\subseteq A\) is multiplicative, then localization sends a free resolution of \(M\) to a free resolution of \(S^{-1}M\).
+	\item If \(I\subseteq A\) is an ideal, tensoring a free resolution of \(M\) with \(A/I\) gives a complex of free \(A/I\)-modules, but not necessarily an exact one.
+\end{enumerate}
+
+\textbf{Explanation.}
+The first point follows by repeatedly choosing surjections from free modules onto kernels.
+The second follows because localization is exact and preserves freeness.
+The third fails in general because tensor product is only right exact.
+
+\subsection{13. Worked exercises}
+
+\subsubsection*{Exercise 1}
+Find a free resolution of \(\mathbb Z/12\mathbb Z\) as a \(\mathbb Z\)-module.
+
+\textbf{Solution.}
+The standard resolution is
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 12} \mathbb Z \longrightarrow \mathbb Z/12\mathbb Z \longrightarrow 0.
+\]
+The quotient map has kernel \(12\mathbb Z\), which is the image of multiplication by \(12\).
+
+\subsubsection*{Exercise 2}
+Find a free resolution of \(k[x]/(x^3)\) as a \(k[x]\)-module.
+
+\textbf{Solution.}
+We have
+\[
+0 \longrightarrow k[x] \xrightarrow{\cdot x^3} k[x] \longrightarrow k[x]/(x^3) \longrightarrow 0.
+\]
+This is exact because the kernel of the quotient map is the principal ideal \((x^3)\), which is isomorphic to \(k[x]\).
+
+\subsubsection*{Exercise 3}
+Describe a free resolution of \(k\) as a \(k[x,y]\)-module.
+
+\textbf{Solution.}
+Since
+\[
+k \cong k[x,y]/(x,y),
+\]
+a free resolution is
+\[
+0 \longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2
+\xrightarrow{(x\;\;y)} A \longrightarrow k \longrightarrow 0,
+\qquad A=k[x,y].
+\]
+The two relations are \(x=0\) and \(y=0\), and the relation among them is \((-y,x)\).
+
+\subsubsection*{Exercise 4}
+What is the localization of \(\mathbb Z/15\mathbb Z\) at \((2)\)?
+
+\textbf{Solution.}
+Start with
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 15} \mathbb Z \longrightarrow \mathbb Z/15\mathbb Z \longrightarrow 0.
+\]
+After localizing at \((2)\), the element \(15\) becomes invertible in \(\mathbb Z_{(2)}\), since \(2\nmid 15\).
+Therefore multiplication by \(15\) is an isomorphism, and the quotient becomes zero:
+\[
+(\mathbb Z/15\mathbb Z)_{(2)}=0.
+\]
+
+\subsubsection*{Exercise 5}
+What is the localization of \(\mathbb Z/15\mathbb Z\) at \((3)\)?
+
+\textbf{Solution.}
+In \(\mathbb Z_{(3)}\), the element \(5\) is invertible, so multiplication by \(15=3\cdot 5\) is equivalent, up to a unit, to multiplication by \(3\). Therefore
+\[
+(\mathbb Z/15\mathbb Z)_{(3)} \cong \mathbb Z_{(3)}/(3)\cong \mathbb F_3.
+\]
+
+\subsubsection*{Exercise 6}
+Explain why \(k[x]/(x)\) has a trivial free resolution over \(k[x]/(x)\), but a nontrivial free resolution over \(k[x]\).
+
+\textbf{Solution.}
+As a module over \(k[x]/(x)\cong k\), it is simply \(k\), which is free of rank \(1\), so the resolution is trivial.
+As a module over \(k[x]\), it is \(k[x]/(x)\), which is not free over \(k[x]\), but it has the nontrivial free resolution
+\[
+0 \longrightarrow k[x] \xrightarrow{\cdot x} k[x] \longrightarrow k[x]/(x) \longrightarrow 0.
+\]
+
+\subsection{14. A compact comparison table}
+
+\[
+\begin{array}{|c|c|c|}
+	\hline
+	\text{Base ring} & \text{Module} & \text{Typical free resolution} \\
+	\hline
+	\mathbb Z & \mathbb Z/n\mathbb Z &
+	0 \to \mathbb Z \xrightarrow{\cdot n} \mathbb Z \to \mathbb Z/n\mathbb Z \to 0 \\
+	\hline
+	k[x] & k[x]/(f) &
+	0 \to k[x] \xrightarrow{\cdot f} k[x] \to k[x]/(f) \to 0 \\
+	\hline
+	k[x,y] & k[x,y]/(x,y)\cong k &
+	0 \to A \to A^2 \to A \to k \to 0 \\
+	\hline
+	\mathbb F_p & \mathbb F_p^m &
+	\text{already free} \\
+	\hline
+	A_{\mathfrak p} & M_{\mathfrak p} &
+	\text{localize a free resolution of } M \\
+	\hline
+	A/I & M\otimes_A A/I &
+	\text{tensor the complex; exactness may fail} \\
+	\hline
+\end{array}
+\]
+
+\subsection{15. Final perspective}
+
+Free resolutions are one of the main ways algebra keeps track of hidden structure.
+At first glance, a module may look simple because it is defined by generators and relations.
+But the relations themselves may satisfy further relations, and those may satisfy still more.
+A free resolution is the device that records this whole hierarchy.
+
+For principal quotients such as \(\mathbb Z/n\mathbb Z\) or \(k[x]/(f)\), the structure stops very quickly.
+For quotients such as \(k[x,y]/(x,y)\), a higher step already appears.
+For more complicated rings and modules, the hierarchy can continue for a long time, and this is precisely why resolutions become central in homological algebra.
+
+\section{Step-by-step analysis of maps, images, and kernels in the basic resolution examples}
+
+\textbf{Purpose.}
+In the previous sections, we wrote down several free resolutions and related complexes.
+Here we go through the main examples carefully, and for each one we identify:
+\[
+\text{the maps}, \qquad \ker(\text{map}), \qquad \operatorname{im}(\text{map}),
+\]
+and we check exactness step by step.
+
+\subsection{1. The basic example over \(\mathbb Z\): \(\mathbb Z/n\mathbb Z\)}
+
+Consider the sequence
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{d_1} \mathbb Z \xrightarrow{d_0} \mathbb Z/n\mathbb Z \longrightarrow 0,
+\]
+where
+\[
+d_1(m)=nm
+\qquad\text{and}\qquad
+d_0(a)=\overline{a}.
+\]
+
+\subsubsection*{Step 1: the map \(d_1:\mathbb Z\to\mathbb Z\)}
+
+This is multiplication by \(n\):
+\[
+d_1(m)=nm.
+\]
+
+Its image is
+\[
+\operatorname{im}(d_1)=n\mathbb Z.
+\]
+
+Its kernel is
+\[
+\ker(d_1)=\{m\in\mathbb Z : nm=0\}.
+\]
+Since \(\mathbb Z\) has no zero divisors and \(n\neq 0\), this gives
+\[
+\ker(d_1)=0.
+\]
+
+So exactness at the first copy of \(\mathbb Z\) is:
+\[
+\operatorname{im}(0\to \mathbb Z)=0=\ker(d_1).
+\]
+
+\subsubsection*{Step 2: the map \(d_0:\mathbb Z\to \mathbb Z/n\mathbb Z\)}
+
+This is the quotient map:
+\[
+d_0(a)=\overline{a}.
+\]
+
+Its image is all of \(\mathbb Z/n\mathbb Z\), since every residue class is \(\overline{a}\) for some \(a\in\mathbb Z\). Hence
+\[
+\operatorname{im}(d_0)=\mathbb Z/n\mathbb Z.
+\]
+
+Its kernel is
+\[
+\ker(d_0)=\{a\in\mathbb Z : \overline{a}=0\}.
+\]
+This means precisely that \(a\) is divisible by \(n\), so
+\[
+\ker(d_0)=n\mathbb Z.
+\]
+
+But we already computed
+\[
+\operatorname{im}(d_1)=n\mathbb Z.
+\]
+Thus
+\[
+\operatorname{im}(d_1)=\ker(d_0).
+\]
+
+\subsubsection*{Conclusion}
+
+The sequence
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0
+\]
+is exact.
+
+\bigskip
+
+\subsection{2. The principal quotient over \(k[x]\): \(k[x]/(x)\)}
+
+Let \(A=k[x]\), and consider
+\[
+0 \longrightarrow A \xrightarrow{d_1} A \xrightarrow{d_0} A/(x) \longrightarrow 0,
+\]
+where
+\[
+d_1(f)=xf
+\qquad\text{and}\qquad
+d_0(g)=g+(x).
+\]
+
+\subsubsection*{Step 1: the map \(d_1:A\to A\)}
+
+This is multiplication by \(x\):
+\[
+d_1(f)=xf.
+\]
+
+Its image is
+\[
+\operatorname{im}(d_1)=\{xf : f\in A\}=(x).
+\]
+
+Its kernel is
+\[
+\ker(d_1)=\{f\in A : xf=0\}.
+\]
+Since \(k[x]\) is an integral domain and \(x\neq 0\), this implies
+\[
+\ker(d_1)=0.
+\]
+
+\subsubsection*{Step 2: the map \(d_0:A\to A/(x)\)}
+
+This is the quotient map:
+\[
+d_0(g)=g+(x).
+\]
+
+Its image is all of \(A/(x)\), because every coset has the form \(g+(x)\). Hence
+\[
+\operatorname{im}(d_0)=A/(x).
+\]
+
+Its kernel is
+\[
+\ker(d_0)=\{g\in A : g+(x)=(x)\}=(x).
+\]
+
+But
+\[
+\operatorname{im}(d_1)=(x),
+\]
+so
+\[
+\operatorname{im}(d_1)=\ker(d_0).
+\]
+
+\subsubsection*{Conclusion}
+
+The sequence
+\[
+0 \longrightarrow k[x] \xrightarrow{\cdot x} k[x] \longrightarrow k[x]/(x) \longrightarrow 0
+\]
+is exact.
+
+Since \(k[x]/(x)\cong k\), this is also a free resolution of \(k\) as a \(k[x]\)-module.
+
+\bigskip
+
+\subsection{3. The general principal quotient over \(k[x]\): \(k[x]/(f)\)}
+
+Now let \(f\in k[x]\) be nonzero, and consider
+\[
+0 \longrightarrow A \xrightarrow{d_1} A \xrightarrow{d_0} A/(f) \longrightarrow 0,
+\]
+where
+\[
+d_1(h)=fh
+\qquad\text{and}\qquad
+d_0(g)=g+(f).
+\]
+
+\subsubsection*{Step 1: the map \(d_1:A\to A\)}
+
+This is multiplication by \(f\).
+
+Its image is
+\[
+\operatorname{im}(d_1)=\{fh : h\in A\}=(f).
+\]
+
+Its kernel is
+\[
+\ker(d_1)=\{h\in A : fh=0\}.
+\]
+Since \(A=k[x]\) is an integral domain and \(f\neq 0\), we get
+\[
+\ker(d_1)=0.
+\]
+
+\subsubsection*{Step 2: the map \(d_0:A\to A/(f)\)}
+
+This is the quotient map.
+
+Its image is
+\[
+\operatorname{im}(d_0)=A/(f),
+\]
+because every coset comes from some polynomial.
+
+Its kernel is
+\[
+\ker(d_0)=(f).
+\]
+
+Since
+\[
+\operatorname{im}(d_1)=(f),
+\]
+we obtain
+\[
+\operatorname{im}(d_1)=\ker(d_0).
+\]
+
+\subsubsection*{Conclusion}
+
+The sequence
+\[
+0 \longrightarrow k[x] \xrightarrow{\cdot f} k[x] \longrightarrow k[x]/(f) \longrightarrow 0
+\]
+is exact.
+
+\bigskip
+
+\subsection{4. The first higher example: \(k[x,y]/(x,y)\cong k\)}
+
+Let
+\[
+A=k[x,y].
+\]
+Consider the complex
+\[
+0 \longrightarrow A \xrightarrow{d_2} A^2 \xrightarrow{d_1} A \xrightarrow{d_0} k \longrightarrow 0,
+\]
+where
+\[
+d_2(c)=(-cy,cx),
+\]
+\[
+d_1(a,b)=ax+by,
+\]
+and
+\[
+d_0(f)=f(0,0).
+\]
+
+We now check exactness step by step.
+
+\subsubsection*{Step 1: the map \(d_0:A\to k\)}
+
+This is evaluation at the origin:
+\[
+d_0(f)=f(0,0).
+\]
+
+Its image is all of \(k\), because any scalar \(\lambda\in k\) is obtained from the constant polynomial \(\lambda\). Thus
+\[
+\operatorname{im}(d_0)=k.
+\]
+
+Its kernel is the set of all polynomials vanishing at \((0,0)\). That is exactly the ideal
+\[
+\ker(d_0)=(x,y).
+\]
+
+So
+\[
+\ker(d_0)=\{f\in A : f(0,0)=0\}=(x,y).
+\]
+
+\subsubsection*{Step 2: the map \(d_1:A^2\to A\)}
+
+This is
+\[
+d_1(a,b)=ax+by.
+\]
+
+Its image is
+\[
+\operatorname{im}(d_1)=\{ax+by : a,b\in A\}=(x,y).
+\]
+
+Since we already computed
+\[
+\ker(d_0)=(x,y),
+\]
+it follows that
+\[
+\operatorname{im}(d_1)=\ker(d_0).
+\]
+
+So exactness holds at \(A\).
+
+\subsubsection*{Step 3: the map \(d_2:A\to A^2\)}
+
+This is
+\[
+d_2(c)=(-cy,cx).
+\]
+
+Its image is
+\[
+\operatorname{im}(d_2)=\{(-cy,cx) : c\in A\}.
+\]
+
+Now we compute \(\ker(d_1)\). An element \((a,b)\in A^2\) lies in \(\ker(d_1)\) if and only if
+\[
+d_1(a,b)=ax+by=0.
+\]
+
+We claim that every such pair has the form
+\[
+(a,b)=(-cy,cx)
+\]
+for some \(c\in A\). Hence
+\[
+\ker(d_1)=\operatorname{im}(d_2).
+\]
+
+Why? From
+\[
+ax=-by
+\]
+we see that \(y\) divides \(ax\). Since \(x\) and \(y\) are relatively prime in \(k[x,y]\), this forces \(y\mid a\). So write
+\[
+a=-cy
+\]
+for some \(c\in A\). Substituting into \(ax+by=0\), we get
+\[
+(-cy)x+by=0,
+\]
+so
+\[
+y(-cx+b)=0.
+\]
+Since \(A\) is a domain, this implies
+\[
+b=cx.
+\]
+Therefore
+\[
+(a,b)=(-cy,cx)=d_2(c).
+\]
+
+Thus
+\[
+\ker(d_1)=\operatorname{im}(d_2).
+\]
+
+\subsubsection*{Step 4: kernel of \(d_2\)}
+
+Now compute
+\[
+\ker(d_2)=\{c\in A : (-cy,cx)=(0,0)\}.
+\]
+This means
+\[
+cy=0 \qquad\text{and}\qquad cx=0.
+\]
+Since \(A=k[x,y]\) is a domain and \(x,y\neq 0\), we get
+\[
+c=0.
+\]
+Hence
+\[
+\ker(d_2)=0.
+\]
+
+\subsubsection*{Conclusion}
+
+The sequence
+\[
+0 \longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2
+\xrightarrow{(x\;\;y)} A \xrightarrow{f\mapsto f(0,0)} k \longrightarrow 0
+\]
+is exact.
+
+\bigskip
+
+\subsection{5. A quotient-ring viewpoint: \(k[x]/(x)\) over two different base rings}
+
+This is not a new complex, but it is a very important comparison.
+
+Let
+\[
+A=k[x], \qquad B=A/(x)\cong k.
+\]
+
+\subsubsection*{As an \(A\)-module}
+
+The module \(B\) has the exact sequence
+\[
+0 \longrightarrow A \xrightarrow{\cdot x} A \longrightarrow B \longrightarrow 0.
+\]
+
+We already checked:
+\[
+\operatorname{im}(\cdot x)=(x), \qquad \ker(A\to B)=(x).
+\]
+
+So over \(A\), the module \(B\) has a nontrivial free resolution.
+
+\subsubsection*{As a \(B\)-module}
+
+Now regard \(B\) as a module over itself. Then the relevant map is simply
+\[
+\operatorname{id}_B:B\to B.
+\]
+
+Its image is
+\[
+\operatorname{im}(\operatorname{id}_B)=B,
+\]
+and its kernel is
+\[
+\ker(\operatorname{id}_B)=0.
+\]
+
+So the trivial exact sequence is
+\[
+0 \longrightarrow B \xrightarrow{\operatorname{id}} B \longrightarrow 0.
+\]
+
+This shows that the same object can have very different free resolutions depending on the base ring.
+
+\bigskip
+
+\subsection{6. Localization example: \((\mathbb Z/6\mathbb Z)_{(5)}\)}
+
+Start with
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 6} \mathbb Z \longrightarrow \mathbb Z/6\mathbb Z \longrightarrow 0.
+\]
+
+Now localize at
+\[
+S=\mathbb Z\setminus (5).
+\]
+Then we obtain
+\[
+0 \longrightarrow \mathbb Z_{(5)} \xrightarrow{d_1} \mathbb Z_{(5)} \xrightarrow{d_0} (\mathbb Z/6\mathbb Z)_{(5)} \longrightarrow 0,
+\]
+where
+\[
+d_1(r)=6r.
+\]
+
+Since \(5\nmid 6\), the element \(6\) is a unit in \(\mathbb Z_{(5)}\). Therefore multiplication by \(6\) is an isomorphism.
+
+So:
+\[
+\operatorname{im}(d_1)=\mathbb Z_{(5)},
+\qquad
+\ker(d_1)=0.
+\]
+
+Because \(d_1\) is surjective, the quotient is zero:
+\[
+(\mathbb Z/6\mathbb Z)_{(5)}=0.
+\]
+
+Thus \(d_0\) is the zero map
+\[
+d_0:\mathbb Z_{(5)}\to 0,
+\]
+whose image is
+\[
+\operatorname{im}(d_0)=0
+\]
+and whose kernel is
+\[
+\ker(d_0)=\mathbb Z_{(5)}.
+\]
+
+This matches exactness, because
+\[
+\operatorname{im}(d_1)=\mathbb Z_{(5)}=\ker(d_0).
+\]
+
+\bigskip
+
+\subsection{7. Localization example: \((\mathbb Z/6\mathbb Z)_{(2)}\)}
+
+Now localize at
+\[
+S=\mathbb Z\setminus (2).
+\]
+Then
+\[
+0 \longrightarrow \mathbb Z_{(2)} \xrightarrow{d_1} \mathbb Z_{(2)} \xrightarrow{d_0} (\mathbb Z/6\mathbb Z)_{(2)} \longrightarrow 0,
+\]
+with
+\[
+d_1(r)=6r.
+\]
+
+Now \(6=2\cdot 3\), and \(3\) is a unit in \(\mathbb Z_{(2)}\). So multiplication by \(6\) has the same image as multiplication by \(2\). Hence
+\[
+\operatorname{im}(d_1)=6\mathbb Z_{(2)}=2\mathbb Z_{(2)}.
+\]
+
+Its kernel is still
+\[
+\ker(d_1)=0,
+\]
+because \(\mathbb Z_{(2)}\) is a domain.
+
+The quotient is
+\[
+(\mathbb Z/6\mathbb Z)_{(2)}\cong \mathbb Z_{(2)}/2\mathbb Z_{(2)}\cong \mathbb F_2.
+\]
+
+The map \(d_0\) is the quotient map
+\[
+d_0:\mathbb Z_{(2)}\to \mathbb Z_{(2)}/2\mathbb Z_{(2)}.
+\]
+
+So
+\[
+\operatorname{im}(d_0)=\mathbb Z_{(2)}/2\mathbb Z_{(2)},
+\]
+and
+\[
+\ker(d_0)=2\mathbb Z_{(2)}.
+\]
+
+Since
+\[
+\operatorname{im}(d_1)=2\mathbb Z_{(2)},
+\]
+we have
+\[
+\operatorname{im}(d_1)=\ker(d_0).
+\]
+
+So the localized sequence remains exact.
+
+\bigskip
+
+\subsection{8. The main counterexample: tensoring with a quotient can destroy exactness}
+
+Start with the exact sequence over \(\mathbb Z\):
+\[
+0 \longrightarrow \mathbb Z \xrightarrow{\cdot 2} \mathbb Z \longrightarrow \mathbb Z/2\mathbb Z \longrightarrow 0.
+\]
+
+Now tensor the whole sequence with \(\mathbb Z/2\mathbb Z\). We obtain
+\[
+0 \longrightarrow \mathbb Z/2\mathbb Z \xrightarrow{d_1'} \mathbb Z/2\mathbb Z
+\xrightarrow{d_0'} (\mathbb Z/2\mathbb Z)\otimes_{\mathbb Z}(\mathbb Z/2\mathbb Z) \longrightarrow 0.
+\]
+
+Let us identify the maps.
+
+\subsubsection*{Step 1: the map \(d_1'\)}
+
+This is induced by multiplication by \(2\). But modulo \(2\), multiplication by \(2\) is zero. So
+\[
+d_1'=0.
+\]
+
+Hence
+\[
+\operatorname{im}(d_1')=0,
+\qquad
+\ker(d_1')=\mathbb Z/2\mathbb Z.
+\]
+
+\subsubsection*{Step 2: the map \(d_0'\)}
+
+The tensor product
+\[
+(\mathbb Z/2\mathbb Z)\otimes_{\mathbb Z}(\mathbb Z/2\mathbb Z)
+\]
+is isomorphic to \(\mathbb Z/2\mathbb Z\). So \(d_0'\) is a map
+\[
+d_0':\mathbb Z/2\mathbb Z \to \mathbb Z/2\mathbb Z.
+\]
+
+In fact this map is an isomorphism in this case, so
+\[
+\ker(d_0')=0
+\qquad\text{and}\qquad
+\operatorname{im}(d_0')=\mathbb Z/2\mathbb Z.
+\]
+
+\subsubsection*{Where exactness fails}
+
+At the middle term \(\mathbb Z/2\mathbb Z\), exactness would require
+\[
+\operatorname{im}(d_1')=\ker(d_0').
+\]
+Here both are \(0\), so exactness at the middle term still holds.
+
+But at the first nonzero term, exactness would require
+\[
+\ker(d_1')=0.
+\]
+Instead,
+\[
+\ker(d_1')=\mathbb Z/2\mathbb Z\neq 0.
+\]
+
+So the complex is no longer exact at the left.
+
+\subsubsection*{Conclusion}
+
+Tensoring an exact sequence with a quotient ring can destroy exactness on the left.
+This is the basic phenomenon measured by \(\operatorname{Tor}\).
+
+\bigskip
+
+\subsection{9. A field example: everything becomes trivial}
+
+Let \(K\) be a field and \(M=K^m\). Consider the map
+\[
+\operatorname{id}_M:M\to M.
+\]
+
+Then
+\[
+\operatorname{im}(\operatorname{id}_M)=M,
+\qquad
+\ker(\operatorname{id}_M)=0.
+\]
+
+So
+\[
+0 \longrightarrow M \xrightarrow{\operatorname{id}} M \longrightarrow 0
+\]
+is exact.
+
+This is why free resolutions over a field are usually trivial: every module is already free.
+
+\bigskip
+
+\subsection{10. Final summary of the pattern}
+
+In all of the exact examples above, the key equalities are:
+\[
+\operatorname{im}(d_{i+1})=\ker(d_i).
+\]
+
+More concretely:
+
+\begin{itemize}
+	\item For
+	\[
+	0\to \mathbb Z \xrightarrow{\cdot n} \mathbb Z \to \mathbb Z/n\mathbb Z\to 0,
+	\]
+	we have
+	\[
+	\operatorname{im}(\cdot n)=n\mathbb Z=\ker(\mathbb Z\to \mathbb Z/n\mathbb Z).
+	\]
+	
+	\item For
+	\[
+	0\to k[x]\xrightarrow{\cdot f}k[x]\to k[x]/(f)\to 0,
+	\]
+	we have
+	\[
+	\operatorname{im}(\cdot f)=(f)=\ker(k[x]\to k[x]/(f)).
+	\]
+	
+	\item For
+	\[
+	0\to A\xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}}A^2\xrightarrow{(x\;\;y)}A\to k\to 0,
+	\]
+	we have
+	\[
+	\operatorname{im}(A\to A^2)=\ker(A^2\to A),
+	\]
+	and
+	\[
+	\operatorname{im}(A^2\to A)=(x,y)=\ker(A\to k).
+	\]
+	
+	\item For localization, exactness survives because localization preserves kernels and images in the correct way.
+	
+	\item For quotienting by tensor product, exactness can fail because tensor product is not left exact.
+\end{itemize}
+
+So when checking a proposed free resolution, the practical method is always the same:
+
+\[
+\text{write the maps explicitly} \;\to\; \text{compute images} \;\to\; \text{compute kernels} \;\to\; \text{compare them}.
+\]
+
+
+\end{document}
+

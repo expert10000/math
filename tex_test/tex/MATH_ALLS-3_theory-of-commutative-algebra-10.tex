@@ -1,0 +1,4893 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{xcolor}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Commutative Algebra 7},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\fancyhf{}
+\lhead{Theory of Commutative Algebra 9}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+\newcommand{\Coker}{\operatorname{Coker}}
+
+
+\newtheorem{example}[definition]{Example}
+\newtheorem{proposition}[definition]{Proposition}
+\newtheorem{theorem}[definition]{Theorem}
+\newtheorem{corollary}[definition]{Corollary}
+
+
+\newcommand{\kerf}{\operatorname{Ker}}
+
+\newcommand{\pd}{\operatorname{pd}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\syz}{\operatorname{Syz}}
+\newcommand{\ZZ}{\mathbb{Z}}
+\newcommand{\kk}{\mathbb{K}}
+
+
+\newcommand{\m}{\mathfrak m}
+
+
+
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!60!black,
+	urlcolor=blue!60!black,
+	citecolor=blue!60!black
+}
+
+\title{\vspace{-1.5em}\bfseries Theory of Commutative Algebra 9}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in commutative algebra
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+
+\section{Free Resolutions, Syzygies, Minimality, and Derived Functors}
+
+\subsection{Introduction}
+
+Free resolutions are one of the central tools of modern algebra. They appear in commutative algebra, homological algebra, algebraic geometry, representation theory, and algebraic topology. The basic idea is simple:
+
+\begin{quote}
+	Instead of studying a module \(M\) directly, one approximates it by free modules and keeps track of the relations, the relations among relations, and so on.
+\end{quote}
+
+This process produces a chain complex
+\[
+\cdots \longrightarrow F_2 \xrightarrow{d_2} F_1 \xrightarrow{d_1} F_0 \xrightarrow{\varepsilon} M \longrightarrow 0
+\]
+with each \(F_i\) free and the sequence exact. Such a complex is called a \emph{free resolution} of \(M\).
+
+These notes explain the definitions carefully and then develop the subject through many step-by-step examples over:
+\[
+\ZZ,\qquad k[x],\qquad k[x,y],\qquad k[x]/(x^2),
+\]
+and related rings.
+
+\subsection{Basic definitions and first constructions}
+
+\subsubsection{Free modules}
+
+\paragraph{Definition and first intuition.}
+
+\begin{definition}
+	Let \(A\) be a ring. An \(A\)-module \(F\) is called \emph{free} if there exists a set \(I\) such that
+	\[
+	F \cong \bigoplus_{i\in I} A.
+	\]
+	If \(I\) is finite with \(|I|=n\), then \(F\cong A^n\), and we say that \(F\) is a free module of rank \(n\).
+\end{definition}
+
+A free module is the module analogue of a vector space with a basis. The difference is that over a ring, not every module has a basis.
+
+\begin{example}
+	As \(\ZZ\)-modules, the free modules are
+	\[
+	\ZZ,\qquad \ZZ^2,\qquad \ZZ^n,\qquad \bigoplus_{i\in I}\ZZ.
+	\]
+\end{example}
+
+\begin{example}
+	Over \(k[x]\), the module \(k[x]^3\) is free of rank \(3\).
+\end{example}
+
+\begin{example}
+	The module \(\ZZ/6\ZZ\) is not free as a \(\ZZ\)-module, because every nonzero free \(\ZZ\)-module is torsion-free, while \(\ZZ/6\ZZ\) is torsion.
+\end{example}
+
+\begin{example}
+	The module \(k[x]/(x)\) is not free as a \(k[x]\)-module. Indeed, it is annihilated by \(x\), while no nonzero free \(k[x]\)-module has a nonzero annihilator.
+\end{example}
+
+\paragraph{Why free modules are convenient.}
+
+Free modules are easy to understand because:
+\begin{itemize}[leftmargin=2em]
+	\item maps out of free modules are determined by the images of basis elements;
+	\item tensor products with free modules are simple;
+	\item \(\Hom\) from free modules is easy to compute;
+	\item free modules are projective, so they behave well in exact sequences.
+\end{itemize}
+
+Because of this, when a module \(M\) is complicated, one often replaces it by a free resolution.
+
+\subsubsection{Exact sequences and complexes}
+
+\paragraph{Exactness.}
+
+\begin{definition}
+	A sequence of \(A\)-modules and \(A\)-linear maps
+	\[
+	\cdots \longrightarrow M_{i+1} \xrightarrow{d_{i+1}} M_i \xrightarrow{d_i} M_{i-1} \longrightarrow \cdots
+	\]
+	is called \emph{exact at \(M_i\)} if
+	\[
+	\im(d_{i+1})=\kerf(d_i).
+	\]
+	It is called \emph{exact} if it is exact at every term.
+\end{definition}
+
+\begin{remark}
+	Exactness means that the image from the left is exactly the obstruction to being zero under the next map.
+\end{remark}
+
+\paragraph{Chain complexes.}
+
+\begin{definition}
+	A \emph{chain complex} of \(A\)-modules is a sequence
+	\[
+	\cdots \xrightarrow{d_3} C_2 \xrightarrow{d_2} C_1 \xrightarrow{d_1} C_0
+	\]
+	such that
+	\[
+	d_i\circ d_{i+1}=0
+	\qquad \text{for all } i.
+	\]
+\end{definition}
+
+Thus every image is contained in the next kernel:
+\[
+\im(d_{i+1})\subseteq \kerf(d_i).
+\]
+Exactness says that this inclusion is actually equality.
+
+\paragraph{Homology.}
+
+For a chain complex \(C_\bullet\), one defines
+\[
+H_i(C_\bullet)=\kerf(d_i)/\im(d_{i+1}).
+\]
+Thus the complex is exact at \(C_i\) if and only if \(H_i(C_\bullet)=0\).
+
+\subsubsection{Resolutions and free resolutions}
+
+\begin{definition}
+	Let \(M\) be an \(A\)-module. A \emph{resolution} of \(M\) is an exact sequence
+	\[
+	\cdots \longrightarrow F_2 \xrightarrow{d_2} F_1 \xrightarrow{d_1} F_0 \xrightarrow{\varepsilon} M \longrightarrow 0.
+	\]
+\end{definition}
+
+\begin{definition}
+	If every \(F_i\) is a free \(A\)-module, then the resolution is called a \emph{free resolution} of \(M\).
+\end{definition}
+
+Thus a free resolution has the form
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+with each \(F_i\) free and exactness everywhere.
+
+\paragraph{What a free resolution records.}
+
+A free resolution records:
+\begin{enumerate}[leftmargin=2em]
+	\item generators of \(M\) (via \(F_0\to M\));
+	\item relations among those generators (via \(F_1\to F_0\));
+	\item relations among relations (via \(F_2\to F_1\));
+	\item and so on.
+\end{enumerate}
+
+These higher relations are called \emph{syzygies}.
+
+\subsubsection{How to construct a free resolution step by step}
+
+Let \(M\) be an \(A\)-module.
+
+\paragraph{Step 1: choose generators of \(M\).}
+
+Suppose \(m_1,\dots,m_r\) generate \(M\). Then there is a surjective map
+\[
+\varepsilon:A^r\to M,\qquad e_i\mapsto m_i,
+\]
+where \(e_1,\dots,e_r\) is the standard basis of \(A^r\).
+
+So we have
+\[
+A^r \xrightarrow{\varepsilon} M \to 0.
+\]
+
+\paragraph{Step 2: study the kernel.}
+
+Let
+\[
+K_1=\kerf(\varepsilon).
+\]
+This is the module of relations among the chosen generators of \(M\).
+
+Choose generators \(r_1,\dots,r_s\) of \(K_1\). Then there is a surjective map
+\[
+A^s \to K_1.
+\]
+Composing with the inclusion \(K_1\hookrightarrow A^r\), we obtain
+\[
+A^s \to A^r \to M \to 0.
+\]
+
+\paragraph{Step 3: continue inductively.}
+
+Now let
+\[
+K_2=\kerf(A^s\to A^r).
+\]
+This is the module of relations among the relations. Choose generators of \(K_2\), map a free module onto it, and continue.
+
+This inductive process produces a free resolution:
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0.
+\]
+
+\begin{remark}
+	If \(A\) is Noetherian and \(M\) is finitely generated, then at each stage one can choose finitely generated kernels, so the \(F_i\) may be chosen finitely generated.
+\end{remark}
+
+\subsection{The simplest examples}
+
+\subsubsection{A free module}
+
+\begin{example}
+	Let \(M=A^n\). Then the identity map \(A^n\to M\) gives a free resolution
+	\[
+	0\longrightarrow A^n \xrightarrow{\cong} M \longrightarrow 0.
+	\]
+	If one insists on writing it in standard form, it is
+	\[
+	0\longrightarrow A^n \xrightarrow{\mathrm{id}} A^n \longrightarrow 0.
+	\]
+	There are no nontrivial relations.
+\end{example}
+
+\subsubsection{The module \(\ZZ/n\ZZ\)}
+
+\begin{example}
+	Let \(A=\ZZ\) and \(M=\ZZ/n\ZZ\). Define
+	\[
+	\varepsilon:\ZZ\to \ZZ/n\ZZ,\qquad a\mapsto \overline{a}.
+	\]
+	This is surjective, and
+	\[
+	\kerf(\varepsilon)=n\ZZ.
+	\]
+	Now \(n\ZZ\cong \ZZ\) via \(a\mapsto na\), so we obtain the exact sequence
+	\[
+	0\longrightarrow \ZZ \xrightarrow{\cdot n} \ZZ \xrightarrow{\varepsilon} \ZZ/n\ZZ \longrightarrow 0.
+	\]
+	This is a free resolution of \(\ZZ/n\ZZ\).
+\end{example}
+
+\paragraph{Step-by-step verification.}
+
+\begin{enumerate}[leftmargin=2em]
+	\item The map \(\ZZ\to \ZZ/n\ZZ\) is surjective.
+	\item Its kernel consists of the integers divisible by \(n\), i.e. \(n\ZZ\).
+	\item The image of multiplication by \(n\) is exactly \(n\ZZ\).
+	\item Multiplication by \(n\) on \(\ZZ\) is injective if \(n\neq 0\).
+\end{enumerate}
+Hence the sequence is exact.
+
+\subsubsection{The module \(k[x]/(x)\)}
+
+\begin{example}
+	Let \(A=k[x]\), and let \(M=A/(x)\). The quotient map
+	\[
+	A\to A/(x)
+	\]
+	is surjective, and its kernel is \((x)\). Since \((x)\cong A\) via multiplication by \(x\), we get
+	\[
+	0\longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x) \longrightarrow 0.
+	\]
+	This is a free resolution.
+\end{example}
+
+\subsubsection{The module \(k[x]/(x^m)\)}
+
+\begin{example}
+	More generally, for \(m\geq 1\),
+	\[
+	0\longrightarrow k[x] \xrightarrow{\cdot x^m} k[x] \longrightarrow k[x]/(x^m) \longrightarrow 0
+	\]
+	is a free resolution.
+\end{example}
+
+This is completely analogous to the \(\ZZ/n\ZZ\) case.
+
+\subsection{Syzygies and the first nontrivial examples}
+
+\subsubsection{Definition of syzygies}
+
+\begin{definition}
+	Suppose \(M\) is generated by \(m_1,\dots,m_r\), and let
+	\[
+	\varepsilon:A^r\to M,\qquad e_i\mapsto m_i.
+	\]
+	Then \(\kerf(\varepsilon)\) is called the \emph{first syzygy module} of \(M\). Its elements are the relations
+	\[
+	a_1m_1+\cdots+a_rm_r=0.
+	\]
+\end{definition}
+
+Higher syzygies are obtained by taking kernels again in the free resolution.
+
+\subsubsection{First concrete syzygy computation}
+
+\begin{example}
+	Let \(A=k[x,y]\) and \(I=(x,y)\). The ideal \(I\) is generated by \(x\) and \(y\), so define
+	\[
+	\varphi:A^2\to I,\qquad (a,b)\mapsto ax+by.
+	\]
+	A relation among \(x\) and \(y\) is
+	\[
+	(-y)x + x y=0,
+	\]
+	so \((-y,x)\in \kerf(\varphi)\).
+	
+	In fact, \(\kerf(\varphi)\) is generated by \((-y,x)\). Thus we get an exact sequence
+	\[
+	0\longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} I \longrightarrow 0.
+	\]
+	This is a free resolution of the ideal \((x,y)\).
+\end{example}
+
+\subsubsection{A fundamental example: \(A/(x,y)\)}
+
+Let \(A=k[x,y]\), and consider the module
+\[
+M=A/(x,y).
+\]
+This is the residue field \(k\), viewed as an \(A\)-module.
+
+\paragraph{Step 1: the surjection.}
+
+The quotient map
+\[
+\varepsilon:A\to A/(x,y)
+\]
+is surjective, and
+\[
+\kerf(\varepsilon)=(x,y).
+\]
+
+\paragraph{Step 2: generate the kernel.}
+
+The ideal \((x,y)\) is generated by \(x\) and \(y\), so define
+\[
+d_1:A^2\to A,\qquad d_1(a,b)=ax+by.
+\]
+Then
+\[
+\im(d_1)=(x,y)=\kerf(\varepsilon).
+\]
+
+\paragraph{Step 3: compute the next kernel.}
+
+We seek pairs \((a,b)\in A^2\) such that
+\[
+ax+by=0.
+\]
+A basic relation is
+\[
+(-y,x),
+\]
+because
+\[
+(-y)x + x y = -xy+xy=0.
+\]
+
+In fact, every relation is a multiple of this one, so
+\[
+\kerf(d_1)=A(-y,x).
+\]
+
+Hence define
+\[
+d_2:A\to A^2,\qquad d_2(c)=(-cy,cx).
+\]
+
+\paragraph{The final free resolution.}
+
+We obtain
+\[
+0\longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} A \xrightarrow{\varepsilon} A/(x,y)\longrightarrow 0.
+\]
+
+\begin{example}
+	Thus a free resolution of \(A/(x,y)\) is
+	\[
+	0\longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} A \longrightarrow A/(x,y)\longrightarrow 0.
+	\]
+\end{example}
+
+\paragraph{Checking exactness carefully.}
+
+We verify everything explicitly:
+\begin{enumerate}[leftmargin=2em]
+	\item \(A\to A/(x,y)\) is surjective.
+	\item \(\kerf(A\to A/(x,y))=(x,y)\).
+	\item \(\im(A^2\to A)=(x,y)\).
+	\item \((x\ \ y)\begin{pmatrix}-y\\x\end{pmatrix}=-xy+yx=0\), so the composition is zero.
+	\item Every element of \(\kerf(A^2\to A)\) is a multiple of \((-y,x)\), so
+	\[
+	\kerf(A^2\to A)=\im(A\to A^2).
+	\]
+\end{enumerate}
+
+\subsubsection{The Koszul pattern}
+
+The previous example is the first nontrivial instance of the \emph{Koszul complex}.
+
+\paragraph{Two elements.}
+
+For \(A\)-elements \(f,g\), the two-term Koszul-type complex is
+\[
+0\longrightarrow A \xrightarrow{\begin{pmatrix}-g\\f\end{pmatrix}} A^2 \xrightarrow{(f\ \ g)} A.
+\]
+Indeed,
+\[
+(f\ \ g)\begin{pmatrix}-g\\f\end{pmatrix}=-fg+gf=0.
+\]
+
+If \(f,g\) behave well enough (for example, if they form a regular sequence), then this complex is exact and gives a free resolution of \(A/(f,g)\).
+
+\paragraph{Three elements.}
+
+For \(x,y,z\in A\), the Koszul complex looks like
+\[
+0\to A \to A^3 \to A^3 \to A \to A/(x,y,z)\to 0.
+\]
+The maps can be written explicitly as
+\[
+A^3 \to A,\qquad (a,b,c)\mapsto ax+by+cz,
+\]
+and the middle map is given by a skew-symmetric matrix built from \(x,y,z\).
+
+\paragraph{The case \(A=k[x,y,z]\).}
+
+\begin{example}
+	Let \(A=k[x,y,z]\). Then a free resolution of \(A/(x,y,z)\) is
+	\[
+	0\to A \xrightarrow{\begin{pmatrix}z\\-y\\x\end{pmatrix}} A^3
+	\xrightarrow{
+		\begin{pmatrix}
+			-y & -z & 0\\
+			x & 0 & -z\\
+			0 & x & y
+	\end{pmatrix}}
+	A^3
+	\xrightarrow{(x\ \ y\ \ z)} A
+	\to A/(x,y,z)\to 0.
+	\]
+\end{example}
+
+Up to sign conventions, this is the standard Koszul resolution.
+
+\subsection{More examples over \(\ZZ\) and polynomial rings}
+
+\subsubsection{Examples over \(\ZZ\)}
+
+\paragraph{\(\ZZ/2\ZZ\oplus \ZZ/3\ZZ\).}
+
+\begin{example}
+	Resolve each summand separately:
+	\[
+	0\to \ZZ \xrightarrow{\cdot 2} \ZZ \to \ZZ/2\ZZ \to 0,
+	\]
+	\[
+	0\to \ZZ \xrightarrow{\cdot 3} \ZZ \to \ZZ/3\ZZ \to 0.
+	\]
+	Taking direct sums gives
+	\[
+	0\to \ZZ^2 \xrightarrow{
+		\begin{pmatrix}
+			2 & 0\\
+			0 & 3
+	\end{pmatrix}}
+	\ZZ^2 \to \ZZ/2\ZZ\oplus \ZZ/3\ZZ \to 0.
+	\]
+	This is a free resolution.
+\end{example}
+
+\paragraph{\(\ZZ/m\ZZ\) and \(\ZZ/n\ZZ\).}
+
+Each cyclic torsion module over \(\ZZ\) has a length-one free resolution:
+\[
+0\to \ZZ \xrightarrow{\cdot m} \ZZ \to \ZZ/m\ZZ\to 0.
+\]
+Thus finitely generated abelian groups can be resolved by combining free parts and torsion parts.
+
+\paragraph{A free part plus torsion.}
+
+\begin{example}
+	Let
+	\[
+	M=\ZZ^2\oplus \ZZ/6\ZZ.
+	\]
+	A free resolution is
+	\[
+	0\to \ZZ \xrightarrow{\begin{pmatrix}0\\0\\1\\6\end{pmatrix}} \ZZ^4 \to M\to 0
+	\]
+	after choosing a suitable presentation, or more transparently:
+	\[
+	0\to \ZZ \xrightarrow{\cdot 6} \ZZ \to \ZZ/6\ZZ\to 0
+	\]
+	and adding the free summand \(\ZZ^2\). Equivalently,
+	\[
+	0\to \ZZ \to \ZZ^3 \to \ZZ^2\oplus \ZZ/6\ZZ \to 0.
+	\]
+\end{example}
+
+\subsubsection{Examples over polynomial rings}
+
+\paragraph{The quotient \(A/(x)\) in two variables.}
+
+\begin{example}
+	Let \(A=k[x,y]\). Then
+	\[
+	0\to A \xrightarrow{\cdot x} A \to A/(x)\to 0
+	\]
+	is a free resolution.
+\end{example}
+
+\paragraph{The quotient \(A/(x^2,xy)\).}
+
+Let \(A=k[x,y]\), and let
+\[
+I=(x^2,xy).
+\]
+We want a free resolution of \(A/I\).
+
+\paragraph{Step 1.}
+
+The quotient map
+\[
+A\to A/I
+\]
+has kernel \(I\).
+
+\paragraph{Step 2.}
+
+The ideal \(I\) is generated by \(x^2\) and \(xy\), so define
+\[
+d_1:A^2\to A,\qquad d_1(a,b)=ax^2+bxy.
+\]
+
+\paragraph{Step 3.}
+
+Now compute the kernel:
+\[
+ax^2+bxy=0.
+\]
+Factor:
+\[
+x(ax+by)=0.
+\]
+Since \(A=k[x,y]\) is a domain, this implies
+\[
+ax+by=0.
+\]
+Thus \((a,b)\) is a multiple of \((-y,x)\).
+
+So the kernel is generated by \((-y,x)\), and hence:
+\[
+0\to A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2
+\xrightarrow{(x^2\ \ xy)} A \to A/I\to 0
+\]
+is exact.
+
+\begin{example}
+	A free resolution of \(A/(x^2,xy)\) is
+	\[
+	0\to A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2
+	\xrightarrow{(x^2\ \ xy)} A \to A/(x^2,xy)\to 0.
+	\]
+\end{example}
+
+\paragraph{The quotient \(A/(x,y^2)\).}
+
+\begin{example}
+	Let \(A=k[x,y]\). Then \(A/(x,y^2)\) has free resolution
+	\[
+	0\to A \xrightarrow{\begin{pmatrix}-y^2\\x\end{pmatrix}} A^2
+	\xrightarrow{(x\ \ y^2)} A \to A/(x,y^2)\to 0.
+	\]
+\end{example}
+
+This is another two-generator example of the same form.
+
+\paragraph{The ideal \((x,y)\) itself.}
+
+\begin{example}
+	As an \(A=k[x,y]\)-module, the ideal \((x,y)\) has free resolution
+	\[
+	0\to A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} (x,y)\to 0.
+	\]
+\end{example}
+
+Notice that this is one step shorter than the resolution of \(A/(x,y)\).
+
+\subsection{Infinite free resolutions}
+
+\subsubsection{The basic example \(A=k[x]/(x^2)\)}
+
+Let
+\[
+A=k[x]/(x^2),
+\qquad M=A/(x).
+\]
+Since \(A/(x)\cong k\), we want to resolve the residue field \(k\).
+
+A first guess might be
+\[
+0\to A \xrightarrow{\cdot x} A \to A/(x)\to 0.
+\]
+But this is \emph{not} exact on the left, because multiplication by \(x\) is not injective:
+\[
+x\cdot x = x^2 = 0.
+\]
+So \(x\in \kerf(\cdot x)\), and the kernel is nonzero.
+
+In fact,
+\[
+\kerf(\cdot x)=(x),
+\qquad
+\im(\cdot x)=(x).
+\]
+Thus the same phenomenon repeats forever.
+
+\begin{example}
+	A free resolution of \(A/(x)\) over \(A=k[x]/(x^2)\) is
+	\[
+	\cdots \xrightarrow{\cdot x} A \xrightarrow{\cdot x} A \xrightarrow{\cdot x} A \to A/(x)\to 0.
+	\]
+	This is an infinite periodic free resolution.
+\end{example}
+
+\subsubsection{Why it is exact}
+
+At every copy of \(A\),
+\[
+\kerf(\cdot x)=(x)=\im(\cdot x),
+\]
+so the complex is exact.
+
+\subsubsection{Why this matters}
+
+This example shows:
+\begin{itemize}[leftmargin=2em]
+	\item free resolutions can be infinite;
+	\item nonregular rings often produce infinite resolutions of residue fields;
+	\item free resolutions reflect subtle properties of the ring itself.
+\end{itemize}
+
+\subsection{Minimal free resolutions, Betti numbers, and projective dimension}
+
+\subsubsection{Minimal free resolutions}
+
+\paragraph{Definition.}
+
+\begin{definition}
+	A free resolution
+	\[
+	\cdots \to F_2\to F_1\to F_0\to M\to 0
+	\]
+	is called \emph{minimal} if there are no unnecessary free summands; equivalently, over a local ring \((A,\mathfrak m)\), each differential has image contained in \(\mathfrak m F_{i-1}\).
+\end{definition}
+
+Over graded polynomial rings, one uses the graded version of the same idea.
+
+\paragraph{Examples.}
+
+\begin{example}
+	The resolution
+	\[
+	0\to \ZZ \xrightarrow{\cdot n} \ZZ \to \ZZ/n\ZZ \to 0
+	\]
+	is minimal over \(\ZZ\).
+\end{example}
+
+\begin{example}
+	The Koszul resolution
+	\[
+	0\to A \to A^2 \to A \to A/(x,y)\to 0
+	\]
+	over \(A=k[x,y]\) is minimal.
+\end{example}
+
+\begin{example}
+	The periodic resolution
+	\[
+	\cdots \xrightarrow{\cdot x} A \xrightarrow{\cdot x} A \to A/(x)\to 0
+	\]
+	over \(A=k[x]/(x^2)\) is minimal.
+\end{example}
+
+\subsubsection{Betti numbers}
+
+If a minimal free resolution has the form
+\[
+\cdots \to A^{\beta_2}\to A^{\beta_1}\to A^{\beta_0}\to M\to 0,
+\]
+then the integers \(\beta_i\) are the \emph{Betti numbers} of \(M\).
+
+\begin{example}
+	For \(\ZZ/n\ZZ\), the Betti numbers are
+	\[
+	(1,1).
+	\]
+\end{example}
+
+\begin{example}
+	For \(k[x,y]/(x,y)\), the Betti numbers are
+	\[
+	(1,2,1).
+	\]
+\end{example}
+
+\begin{example}
+	For \(k[x,y,z]/(x,y,z)\), the Betti numbers are
+	\[
+	(1,3,3,1).
+	\]
+\end{example}
+
+\begin{example}
+	For \(k[x]/(x^2)\) resolving \(k=A/(x)\), the Betti numbers are
+	\[
+	(1,1,1,1,\dots).
+	\]
+\end{example}
+
+\subsubsection{Projective dimension and finite free resolutions}
+
+\begin{definition}
+	The \emph{projective dimension} of an \(A\)-module \(M\), denoted \(\pd_A(M)\), is the smallest integer \(n\) such that \(M\) admits a projective resolution of length \(n\). If no such finite \(n\) exists, then \(\pd_A(M)=\infty\).
+\end{definition}
+
+Since free modules are projective, a finite free resolution gives an upper bound on projective dimension.
+
+\begin{example}
+	Over \(\ZZ\),
+	\[
+	\pd_\ZZ(\ZZ/n\ZZ)=1.
+	\]
+\end{example}
+
+\begin{example}
+	Over \(k[x,y]\),
+	\[
+	\pd_{k[x,y]}(k[x,y]/(x,y))=2.
+	\]
+\end{example}
+
+\begin{example}
+	Over \(k[x]/(x^2)\),
+	\[
+	\pd_A(A/(x))=\infty.
+	\]
+\end{example}
+
+\subsection{Derived functors from free resolutions}
+
+\subsubsection{Free resolutions and \(\Tor\)}
+
+One of the main reasons free resolutions are useful is that they compute derived functors.
+
+\paragraph{General principle.}
+
+Let
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0
+\]
+be a free resolution of \(M\). Tensor with an \(A\)-module \(N\):
+\[
+\cdots \to F_2\otimes_A N \to F_1\otimes_A N \to F_0\otimes_A N \to M\otimes_A N \to 0.
+\]
+This complex need not be exact on the left. Its homology is, by definition,
+\[
+\Tor_i^A(M,N).
+\]
+
+\paragraph{Step-by-step example over \(\ZZ\).}
+
+Take the free resolution
+\[
+0\to \ZZ \xrightarrow{\cdot n} \ZZ \to \ZZ/n\ZZ \to 0.
+\]
+Tensor with \(\ZZ/m\ZZ\):
+\[
+0\to \ZZ\otimes_\ZZ \ZZ/m\ZZ \xrightarrow{\cdot n}
+\ZZ\otimes_\ZZ \ZZ/m\ZZ \to \ZZ/n\ZZ\otimes_\ZZ \ZZ/m\ZZ \to 0.
+\]
+Since
+\[
+\ZZ\otimes_\ZZ \ZZ/m\ZZ \cong \ZZ/m\ZZ,
+\]
+this becomes
+\[
+0\to \ZZ/m\ZZ \xrightarrow{\cdot n} \ZZ/m\ZZ \to \ZZ/n\ZZ\otimes_\ZZ \ZZ/m\ZZ \to 0.
+\]
+Therefore
+\[
+\Tor_1^\ZZ(\ZZ/n\ZZ,\ZZ/m\ZZ)=\kerf\bigl(\cdot n:\ZZ/m\ZZ\to \ZZ/m\ZZ\bigr).
+\]
+This kernel consists of those residue classes \(\overline a\) such that
+\[
+n\overline a=0 \text{ in } \ZZ/m\ZZ.
+\]
+Hence
+\[
+\Tor_1^\ZZ(\ZZ/n\ZZ,\ZZ/m\ZZ)\cong \ZZ/\gcd(m,n)\ZZ.
+\]
+
+\subsubsection{Free resolutions and \(\Ext\)}
+
+\paragraph{General principle.}
+
+Apply \(\Hom_A(-,N)\) to a free resolution:
+\[
+0\to \Hom_A(F_0,N)\to \Hom_A(F_1,N)\to \Hom_A(F_2,N)\to \cdots.
+\]
+Its cohomology is, by definition,
+\[
+\Ext_A^i(M,N).
+\]
+
+\paragraph{Step-by-step example over \(\ZZ\).}
+
+Again use
+\[
+0\to \ZZ \xrightarrow{\cdot n} \ZZ \to \ZZ/n\ZZ \to 0.
+\]
+Apply \(\Hom_\ZZ(-,\ZZ)\):
+\[
+0\to \Hom_\ZZ(\ZZ,\ZZ)\xrightarrow{\cdot n}\Hom_\ZZ(\ZZ,\ZZ)\to \Ext_\ZZ^1(\ZZ/n\ZZ,\ZZ)\to 0.
+\]
+Since
+\[
+\Hom_\ZZ(\ZZ,\ZZ)\cong \ZZ,
+\]
+we get
+\[
+0\to \ZZ \xrightarrow{\cdot n} \ZZ \to \Ext_\ZZ^1(\ZZ/n\ZZ,\ZZ)\to 0.
+\]
+Therefore
+\[
+\Ext_\ZZ^1(\ZZ/n\ZZ,\ZZ)\cong \ZZ/n\ZZ.
+\]
+
+\subsection{Regular sequences and free resolutions}
+
+\subsubsection{Regular sequences}
+
+\begin{definition}
+	Let \(A\) be a ring and \(M\) an \(A\)-module. A sequence \(f_1,\dots,f_r\in A\) is called an \emph{\(M\)-regular sequence} if:
+	\begin{enumerate}[leftmargin=2em]
+		\item \(f_1\) is not a zero divisor on \(M\),
+		\item for each \(i\ge 2\), the class of \(f_i\) is not a zero divisor on
+		\[
+		M/(f_1,\dots,f_{i-1})M,
+		\]
+		\item and \((f_1,\dots,f_r)M\neq M\).
+	\end{enumerate}
+\end{definition}
+
+\subsubsection{Why regular sequences matter here}
+
+If \(f_1,\dots,f_r\) form a regular sequence, then the Koszul complex on \(f_1,\dots,f_r\) is exact and gives a free resolution of
+\[
+A/(f_1,\dots,f_r).
+\]
+
+\begin{example}
+	In \(A=k[x,y]\), the sequence \(x,y\) is regular, so the Koszul complex
+	\[
+	0\to A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} A \to A/(x,y)\to 0
+	\]
+	is exact.
+\end{example}
+
+\begin{example}
+	In \(A=k[x,y,z]\), the sequence \(x,y,z\) is regular, so the full Koszul complex resolves \(A/(x,y,z)\).
+\end{example}
+
+\subsection{Conceptual summary and worked example}
+
+\subsubsection{A comparative summary of main examples}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.35}
+	\begin{tabular}{>{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}p{0.23\textwidth} >{\raggedright\arraybackslash}p{0.36\textwidth}}
+		\toprule
+		Module & Ring & Free resolution \\
+		\midrule
+		\(\ZZ/n\ZZ\) & \(\ZZ\) &
+		\(
+		0\to \ZZ \xrightarrow{\cdot n} \ZZ \to \ZZ/n\ZZ\to 0
+		\) \\
+		
+		\(k[x]/(x)\) & \(k[x]\) &
+		\(
+		0\to k[x] \xrightarrow{\cdot x} k[x] \to k[x]/(x)\to 0
+		\) \\
+		
+		\(k[x,y]/(x,y)\) & \(k[x,y]\) &
+		\(
+		0\to A \to A^2 \to A \to A/(x,y)\to 0
+		\) \\
+		
+		\((x,y)\) & \(k[x,y]\) &
+		\(
+		0\to A \to A^2 \to (x,y)\to 0
+		\) \\
+		
+		\(k[x,y]/(x^2,xy)\) & \(k[x,y]\) &
+		\(
+		0\to A \to A^2 \to A \to A/(x^2,xy)\to 0
+		\) \\
+		
+		\(A/(x)\), \(A=k[x]/(x^2)\) & \(k[x]/(x^2)\) &
+		\(
+		\cdots \xrightarrow{\cdot x} A \xrightarrow{\cdot x} A \to A/(x)\to 0
+		\) \\
+		\bottomrule
+	\end{tabular}
+\end{center}
+
+\subsubsection{How to think about a free resolution conceptually}
+
+A free resolution is a structured record of the complexity of a module.
+
+\paragraph{Level 0: generators.}
+
+The map \(F_0\to M\) says how to generate \(M\).
+
+\paragraph{Level 1: relations.}
+
+The map \(F_1\to F_0\) records linear relations among those generators.
+
+\paragraph{Level 2: relations among relations.}
+
+The map \(F_2\to F_1\) records dependencies among the relations.
+
+\paragraph{Higher levels.}
+
+This process continues until it stops or continues forever.
+
+\begin{remark}
+	So a free resolution is not just a technical tool. It is a complete layered description of the internal structure of a module.
+\end{remark}
+
+\subsubsection{A fully worked example from beginning to end}
+
+We now give one full step-by-step construction in detail.
+
+\paragraph{Problem.}
+
+Let \(A=k[x,y]\), and let
+\[
+M=A/(x,y).
+\]
+Construct a free resolution of \(M\).
+
+\textbf{Solution.}
+
+\paragraph{Step 1.}
+
+Start with the natural surjection
+\[
+\varepsilon:A\to M,\qquad f\mapsto f+(x,y).
+\]
+
+\paragraph{Step 2.}
+
+Its kernel is
+\[
+\kerf(\varepsilon)=(x,y).
+\]
+
+\paragraph{Step 3.}
+
+The ideal \((x,y)\) is generated by \(x\) and \(y\), so define
+\[
+d_1:A^2\to A,\qquad d_1(a,b)=ax+by.
+\]
+Then
+\[
+\im(d_1)=(x,y)=\kerf(\varepsilon).
+\]
+
+\paragraph{Step 4.}
+
+Compute the kernel of \(d_1\). We want
+\[
+ax+by=0.
+\]
+A visible relation is
+\[
+(-y,x),
+\]
+because
+\[
+(-y)x + xy=0.
+\]
+In fact, every relation is a multiple of this one.
+
+\paragraph{Step 5.}
+
+Define
+\[
+d_2:A\to A^2,\qquad d_2(c)=(-cy,cx).
+\]
+Then
+\[
+\im(d_2)=\kerf(d_1).
+\]
+
+\paragraph{Step 6.}
+
+The map \(d_2\) is injective, so the resulting exact sequence is
+\[
+0\to A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} A \xrightarrow{\varepsilon} A/(x,y)\to 0.
+\]
+
+Therefore this is a free resolution of \(A/(x,y)\).
+
+\subsubsection{Further remarks}
+
+\paragraph{Free vs projective resolutions.}
+
+Every free resolution is a projective resolution, but not every projective module is free over an arbitrary ring. In many concrete algebra problems, free resolutions are preferred because they are explicit and computable.
+
+\paragraph{Finitely generated versus infinite rank.}
+
+In many important situations, especially over Noetherian rings and for finitely generated modules, one can choose all modules in the free resolution to be finitely generated.
+
+\paragraph{Geometric meaning.}
+
+Over a polynomial ring \(A=k[x_1,\dots,x_n]\), a quotient \(A/I\) is the coordinate ring of an affine algebraic set. A free resolution of \(A/I\) encodes the algebraic complexity of the defining equations of that set.
+
+For example:
+\begin{itemize}[leftmargin=2em]
+	\item \(A/(x)\): a hyperplane;
+	\item \(A/(x,y)\): the origin in affine \(2\)-space;
+	\item more complicated ideals correspond to more complicated geometry.
+\end{itemize}
+
+\subsubsection{Conclusion}
+
+Free resolutions are one of the main tools for understanding modules over rings. They begin with generators and relations, but they go much deeper by tracking higher syzygies. Through explicit examples one sees several important phenomena:
+
+\begin{itemize}[leftmargin=2em]
+	\item some modules have very short resolutions;
+	\item quotients by regular sequences are resolved by Koszul complexes;
+	\item ideals themselves also have free resolutions;
+	\item over singular or nonregular rings, resolutions may become infinite and even periodic;
+	\item free resolutions are the practical mechanism for computing \(\Tor\) and \(\Ext\).
+\end{itemize}
+
+Thus a free resolution is both a conceptual description of a module and a computational machine.
+
+\subsection{Regular sequences, Cohen--Macaulay rings, and Veronese subrings: definitions and examples}
+
+\subsubsection{Regular sequences: definition and intuition}
+
+Let \(R\) be a ring and \(M\) an \(R\)-module.
+
+A sequence
+\[
+f_1,\dots,f_r\in R
+\]
+is called an \emph{\(M\)-regular sequence} if the following conditions hold:
+\begin{itemize}
+	\item \(f_1\) is a nonzerodivisor on \(M\),
+	\item \(f_2\) is a nonzerodivisor on \(M/f_1M\),
+	\item \(f_3\) is a nonzerodivisor on \(M/(f_1,f_2)M\),
+	\item and so on,
+	\item moreover,
+	\[
+	(f_1,\dots,f_r)M\neq M.
+	\]
+\end{itemize}
+
+If \(M=R\), one simply says that \(f_1,\dots,f_r\) is a \emph{regular sequence in \(R\)}.
+
+\medskip
+
+\textbf{Intuition.}
+A regular sequence means that each new element cuts the module in a ``clean'' way: it never becomes a zerodivisor at the stage where it is used. Geometrically, regular sequences behave like independent equations cutting codimension one at a time.
+
+\subsubsection{First basic examples of regular sequences}
+
+\textbf{Example 1: \(x\) in \(k[x,y]\).}
+Since
+\[
+k[x,y]
+\]
+is a domain, the element \(x\neq 0\) is a nonzerodivisor. Hence
+\[
+x
+\]
+is a regular sequence of length \(1\).
+
+\medskip
+
+\textbf{Example 2: \(x,y\) in \(k[x,y]\).}
+The sequence
+\[
+x,y
+\]
+is regular in \(k[x,y]\). Indeed:
+\begin{itemize}
+	\item \(x\) is a nonzerodivisor in the domain \(k[x,y]\),
+	\item modulo \((x)\), we have
+	\[
+	k[x,y]/(x)\cong k[y],
+	\]
+	and \(y\) is a nonzerodivisor in \(k[y]\).
+\end{itemize}
+
+\medskip
+
+\textbf{Example 3: \(x^2,y^3\) in \(k[x,y]\).}
+The sequence
+\[
+x^2,\ y^3
+\]
+is also regular. Since \(k[x,y]\) is a domain, \(x^2\) is a nonzerodivisor. Modulo \((x^2)\), the element \(y^3\) still acts injectively, so it remains a nonzerodivisor.
+
+\subsubsection{Examples of sequences which are not regular}
+
+\textbf{Example 4: \(x,xy\) in \(k[x,y]\).}
+This is not a regular sequence. The first element \(x\) is fine, but in
+\[
+k[x,y]/(x),
+\]
+the class of \(xy\) is \(0\). A regular element cannot become \(0\) in the quotient. So
+\[
+x,xy
+\]
+is not regular.
+
+\medskip
+
+\textbf{Example 5: \(x\) in \(k[x,y]/(xy)\).}
+Let
+\[
+R=k[x,y]/(xy).
+\]
+Then \(x\) is a zerodivisor, because
+\[
+x\cdot y=0
+\]
+in \(R\), while \(y\neq 0\). Thus \(x\) is not regular, and similarly \(y\) is not regular.
+
+\medskip
+
+\textbf{Example 6: \(x\) in \(k[x,y]/(x^2)\).}
+In
+\[
+R=k[x,y]/(x^2),
+\]
+the class of \(x\) satisfies
+\[
+x^2=0.
+\]
+So \(x\) is nilpotent, hence a zerodivisor. Therefore \(x\) is not regular.
+
+\subsubsection{Cohen--Macaulay rings: definition}
+
+Let \((R,\mathfrak n)\) be a Noetherian local ring.
+
+Then \(R\) is called \emph{Cohen--Macaulay} if
+\[
+\depth R=\dim R.
+\]
+
+Here:
+\begin{itemize}
+	\item \(\dim R\) is the Krull dimension,
+	\item \(\depth R\) is the length of a maximal regular sequence contained in the maximal ideal \(\mathfrak n\).
+\end{itemize}
+
+\medskip
+
+\textbf{Practical criterion.}
+If one can find a regular sequence of length \(\dim R\) in \(\mathfrak n\), then \(R\) is Cohen--Macaulay.
+
+\medskip
+
+\textbf{Intuition.}
+A Cohen--Macaulay ring has as many independent nonzerodivisors as its dimension permits. It may still be singular, but it behaves algebraically much better than a general singular ring.
+
+\subsubsection{First examples of Cohen--Macaulay rings}
+
+\textbf{Example 1: polynomial rings.}
+The ring
+\[
+k[x_1,\dots,x_n]
+\]
+is Cohen--Macaulay. In fact it is regular, and every regular local ring is Cohen--Macaulay.
+
+For example, in \(k[x,y]\), the sequence
+\[
+x,y
+\]
+is regular of length \(2\), and the dimension is \(2\).
+
+\medskip
+
+\textbf{Example 2: formal power series rings.}
+The ring
+\[
+k[[x_1,\dots,x_n]]
+\]
+is also Cohen--Macaulay, again because it is regular.
+
+\medskip
+
+\textbf{Example 3: hypersurface rings.}
+A quotient of the form
+\[
+k[x_1,\dots,x_n]/(f)
+\]
+is a hypersurface ring, and hypersurfaces are Cohen--Macaulay.
+
+A basic example is
+\[
+k[x,y]/(xy).
+\]
+This ring has dimension \(1\), because \(k[x,y]\) has dimension \(2\) and quotienting by one nonzero equation lowers the dimension by \(1\). Although it has zerodivisors, it is still Cohen--Macaulay.
+
+\medskip
+
+\textbf{Example 4: Veronese-type example.}
+The ring
+\[
+S=k[x^3,x^2y,xy^2,y^3]
+\]
+localized at its homogeneous maximal ideal is Cohen--Macaulay. This is part of the general phenomenon that Veronese subrings are Cohen--Macaulay.
+
+\subsubsection{Example of a ring which is not Cohen--Macaulay}
+
+Consider
+\[
+R=k[x,y]/(x^2,xy),
+\qquad
+\mathfrak m=(x,y).
+\]
+
+Its radical is \((x)\), so geometrically the ring is supported on the line \(x=0\), hence
+\[
+\dim R=1.
+\]
+
+But the depth is \(0\), because:
+\begin{itemize}
+	\item \(x\) is a zerodivisor,
+	\item \(y\) is also a zerodivisor, since
+	\[
+	yx=0
+	\]
+	and \(x\neq 0\) in \(R\).
+\end{itemize}
+
+Thus there is no regular element in \(\mathfrak m\), so
+\[
+\depth R=0.
+\]
+Therefore
+\[
+\depth R=0<1=\dim R,
+\]
+so \(R\) is not Cohen--Macaulay.
+
+This is a standard contrast example.
+
+\subsubsection{Veronese subrings: definition}
+
+Let
+\[
+R=k[x_0,\dots,x_n]
+\]
+be a graded polynomial ring, with the usual grading by total degree.
+
+The \emph{\(d\)-th Veronese subring} of \(R\) is
+\[
+R^{(d)}=\bigoplus_{m\ge 0} R_{md}.
+\]
+
+So \(R^{(d)}\) consists exactly of those homogeneous elements whose degrees are multiples of \(d\).
+
+\medskip
+
+\textbf{Concrete meaning.}
+One keeps only the graded pieces of degree divisible by \(d\).
+
+\subsubsection{First Veronese examples}
+
+\textbf{Example 1: the second Veronese of \(k[x,y]\).}
+The second Veronese subring is
+\[
+k[x,y]^{(2)}=k[x^2,xy,y^2].
+\]
+Indeed, the degree \(2\) monomials are
+\[
+x^2,\ xy,\ y^2,
+\]
+and every even-degree monomial is generated by these.
+
+This ring is not a polynomial ring in three independent variables, because there is a relation:
+\[
+(xy)^2=x^2y^2.
+\]
+So if we write
+\[
+a=x^2,\qquad b=xy,\qquad c=y^2,
+\]
+then
+\[
+k[x^2,xy,y^2]\cong k[a,b,c]/(b^2-ac).
+\]
+
+Thus the second Veronese of \(k[x,y]\) is the coordinate ring of a quadric cone.
+
+\medskip
+
+\textbf{Example 2: the third Veronese of \(k[x,y]\).}
+The third Veronese subring is
+\[
+k[x,y]^{(3)}=k[x^3,x^2y,xy^2,y^3].
+\]
+This is exactly the ring
+\[
+S=k[x^3,x^2y,xy^2,y^3]
+\]
+from the previous problem.
+
+It consists of all combinations of monomials whose total degree is divisible by \(3\).
+
+Examples inside:
+\[
+x^3,\ x^2y,\ xy^2,\ y^3,\ x^6,\ x^3y^3,\ y^6,\ x^4y^2.
+\]
+
+Examples not inside:
+\[
+x,\ y,\ x^2,\ xy,\ y^2,\ x^2y^2.
+\]
+For instance, \(x^2y^2\) has total degree \(4\), so it is not in the third Veronese.
+
+\medskip
+
+\textbf{Example 3: the second Veronese of \(k[x,y,z]\).}
+Here
+\[
+k[x,y,z]^{(2)}
+\]
+is generated by all degree-\(2\) monomials:
+\[
+x^2,\ xy,\ xz,\ y^2,\ yz,\ z^2.
+\]
+This is an important example in projective geometry.
+
+\subsubsection{Why Veronese rings are important}
+
+Veronese subrings appear naturally in many areas:
+\begin{itemize}
+	\item projective embeddings,
+	\item graded ring constructions,
+	\item toric geometry,
+	\item invariant theory,
+	\item examples of normal and Cohen--Macaulay rings.
+\end{itemize}
+
+They are among the standard sources of nice but nontrivial rings.
+
+\subsubsection{Why \(S=k[x^3,x^2y,xy^2,y^3]\) is a Veronese ring}
+
+The ring
+\[
+S=k[x^3,x^2y,xy^2,y^3]
+\]
+is exactly the third Veronese subring of \(k[x,y]\), because it is generated by all monomials of degree \(3\), and every monomial of total degree divisible by \(3\) can be built from them.
+
+Thus
+\[
+S=k[x,y]^{(3)}.
+\]
+
+\subsubsection{Regular sequences in Veronese rings}
+
+Let
+\[
+S=k[x^3,x^2y,xy^2,y^3].
+\]
+
+A natural regular sequence is
+\[
+x^3,\ y^3.
+\]
+
+This is natural because the subring
+\[
+R=k[x^3,y^3]
+\]
+is just a polynomial ring in two variables, and \(S\) is a free \(R\)-module with basis
+\[
+1,\ x^2y,\ xy^2.
+\]
+
+So one can transfer regularity from \(R\) to \(S\).
+
+This is a very common strategy:
+\begin{quote}
+	find a polynomial subring \(R\subseteq S\), show \(S\) is finite or free over \(R\), and then use regular sequences coming from \(R\).
+\end{quote}
+
+\subsubsection{More explicit examples of regular sequences}
+
+\textbf{Example A: in \(k[x,y,z]\).}
+The sequence
+\[
+x,y,z
+\]
+is regular. Since the dimension is \(3\), the local ring at \((x,y,z)\) is Cohen--Macaulay.
+
+\medskip
+
+\textbf{Example B: in the hypersurface \(k[x,y,z]/(xy-z^2)\).}
+This ring is Cohen--Macaulay because it is a hypersurface. Suitable elements, for instance generic linear forms, can give regular sequences of length \(2\) at the origin.
+
+\medskip
+
+\textbf{Example C: in \(k[x,y]/(xy)\).}
+Although \(x\) and \(y\) are zerodivisors, the element
+\[
+x+y
+\]
+is a nonzerodivisor.
+
+Indeed, suppose
+\[
+(x+y)f=0
+\]
+in \(k[x,y]/(xy)\). Writing classes in the normal form
+\[
+a+p(x)+q(y),
+\]
+one checks that no nonzero element can be killed by \(x+y\). Thus \(x+y\) is regular.
+
+Since the ring has dimension \(1\), the existence of one regular element shows that it is Cohen--Macaulay.
+
+This is a very instructive example:
+\[
+k[x,y]/(xy)
+\]
+is Cohen--Macaulay but not regular.
+
+\subsubsection{A useful hierarchy}
+
+It is helpful to remember the chain
+\[
+\text{regular} \Longrightarrow \text{Cohen--Macaulay}.
+\]
+The converse is false.
+
+Examples:
+\begin{itemize}
+	\item \(k[x,y]\) is regular, hence Cohen--Macaulay,
+	\item \(k[x,y]/(xy)\) is Cohen--Macaulay but not regular,
+	\item \(k[x,y]/(x^2,xy)\) is not Cohen--Macaulay.
+\end{itemize}
+
+\subsubsection{Compact comparison}
+
+\textbf{Regular sequence.}
+A sequence whose elements remain nonzerodivisors step by step.
+
+\medskip
+
+\textbf{Cohen--Macaulay ring.}
+A local ring with
+\[
+\depth R=\dim R.
+\]
+
+\medskip
+
+\textbf{Veronese subring.}
+A graded subring obtained by keeping only degrees divisible by a fixed integer \(d\).
+
+\subsubsection{Important examples to remember}
+
+\textbf{Regular sequences.}
+\begin{itemize}
+	\item \(x,y\) in \(k[x,y]\),
+	\item \(x^3,y^3\) in \(k[x^3,x^2y,xy^2,y^3]\),
+	\item \(x+y\) in \(k[x,y]/(xy)\).
+\end{itemize}
+
+\textbf{Cohen--Macaulay rings.}
+\begin{itemize}
+	\item polynomial rings,
+	\item power series rings,
+	\item hypersurfaces such as \(k[x,y]/(xy)\),
+	\item Veronese subrings such as
+	\[
+	k[x^3,x^2y,xy^2,y^3].
+	\]
+\end{itemize}
+
+\textbf{A non-Cohen--Macaulay ring.}
+\begin{itemize}
+	\item
+	\[
+	k[x,y]/(x^2,xy).
+	\]
+\end{itemize}
+
+\subsubsection{Final summary}
+
+Regular sequences measure step-by-step nonzerodivisor behavior. Cohen--Macaulay rings are local rings where the depth reaches the dimension. Veronese subrings are graded subrings keeping only degrees divisible by a fixed integer, and they provide rich families of interesting Cohen--Macaulay rings.
+
+Among the most important examples to remember are:
+\[
+k[x,y],\qquad k[x,y]/(xy),\qquad k[x,y]/(x^2,xy),\qquad k[x^2,xy,y^2],\qquad k[x^3,x^2y,xy^2,y^3].
+\]
+These illustrate the contrast between regular, Cohen--Macaulay, and non-Cohen--Macaulay behavior in a very concrete way.
+
+\subsection{\(\Ext\) and \(\Tor\): definitions, intuition, and step-by-step examples}
+
+\subsubsection{Basic definitions}
+
+Let \(A\) be a ring and let \(M,N\) be \(A\)-modules.
+
+\textbf{Free resolution.}
+A \emph{free resolution} of \(M\) is an exact sequence
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+in which each \(F_i\) is a free \(A\)-module.
+
+Free resolutions are used to define the derived functors \(\Ext\) and \(\Tor\).
+
+\medskip
+
+\textbf{Definition of \(\Tor\).}
+Take a free resolution \(F_\bullet \to M\to 0\). Tensor it with \(N\):
+\[
+\cdots \longrightarrow F_2\otimes_A N \longrightarrow F_1\otimes_A N \longrightarrow F_0\otimes_A N \longrightarrow 0.
+\]
+Then
+\[
+\Tor_i^A(M,N):=H_i(F_\bullet\otimes_A N).
+\]
+
+So \(\Tor\) is obtained by taking homology after tensoring.
+
+\medskip
+
+\textbf{Definition of \(\Ext\).}
+Take a free resolution \(F_\bullet \to M\to 0\). Apply \(\Hom_A(-,N)\):
+\[
+0 \longrightarrow \Hom_A(F_0,N)\longrightarrow \Hom_A(F_1,N)\longrightarrow \Hom_A(F_2,N)\longrightarrow \cdots.
+\]
+Then
+\[
+\Ext_A^i(M,N):=H^i(\Hom_A(F_\bullet,N)).
+\]
+
+So \(\Ext\) is obtained by taking cohomology after applying \(\Hom\).
+
+\subsubsection{Degree \(0\): the first easy facts}
+
+The degree \(0\) cases recover familiar functors:
+\[
+\Tor_0^A(M,N)\cong M\otimes_A N,
+\]
+and
+\[
+\Ext_A^0(M,N)\cong \Hom_A(M,N).
+\]
+
+Thus:
+\begin{itemize}
+	\item \(\Tor_0\) is just tensor product,
+	\item \(\Ext^0\) is just \(\Hom\).
+\end{itemize}
+
+\subsubsection{Intuition}
+
+\textbf{Tensor product.}
+Tensoring is right-exact but not always exact. The failure of exactness on the left is measured by \(\Tor_1\), and higher failures are measured by higher \(\Tor_i\).
+
+\medskip
+
+\textbf{Hom.}
+The functor \(\Hom_A(-,N)\) is left-exact but not always right-exact. The first failure of exactness is measured by \(\Ext_A^1\), and the higher failures are measured by higher \(\Ext_A^i\).
+
+\medskip
+
+\textbf{Philosophically.}
+\begin{itemize}
+	\item \(\Tor\) measures how badly tensor product fails to preserve exactness,
+	\item \(\Ext\) measures how badly \(\Hom\) fails to preserve exactness.
+\end{itemize}
+
+\subsubsection{First basic example over \(\mathbb Z\)}
+
+Take
+\[
+A=\mathbb Z.
+\]
+A standard free resolution of \(\mathbb Z/n\mathbb Z\) is
+\[
+0\longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0.
+\]
+
+This single resolution already gives many important computations.
+
+\subsubsection{Step-by-step computation of \(\Tor_1^\mathbb Z(\mathbb Z/n,\mathbb Z/m)\)}
+
+Take the free resolution
+\[
+0\longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0
+\]
+and tensor with \(\mathbb Z/m\mathbb Z\). We obtain
+\[
+0\longrightarrow \Tor_1^\mathbb Z(\mathbb Z/n,\mathbb Z/m)
+\longrightarrow \mathbb Z/m
+\xrightarrow{\cdot n}
+\mathbb Z/m
+\longrightarrow (\mathbb Z/n)\otimes_\mathbb Z (\mathbb Z/m)
+\longrightarrow 0.
+\]
+
+Thus:
+\begin{itemize}
+	\item \(\Tor_1^\mathbb Z(\mathbb Z/n,\mathbb Z/m)\) is the kernel of multiplication by \(n\) on \(\mathbb Z/m\),
+	\item \((\mathbb Z/n)\otimes_\mathbb Z (\mathbb Z/m)\) is the cokernel of multiplication by \(n\) on \(\mathbb Z/m\).
+\end{itemize}
+
+The kernel consists of those classes \(\overline a\in \mathbb Z/m\) such that
+\[
+n\overline a=0 \text{ in } \mathbb Z/m,
+\]
+that is,
+\[
+m \mid na.
+\]
+This kernel has size \(\gcd(n,m)\), hence
+\[
+\Tor_1^\mathbb Z(\mathbb Z/n,\mathbb Z/m)\cong \mathbb Z/\gcd(n,m)\mathbb Z.
+\]
+
+Similarly, the cokernel also has size \(\gcd(n,m)\), so
+\[
+(\mathbb Z/n)\otimes_\mathbb Z (\mathbb Z/m)\cong \mathbb Z/\gcd(n,m)\mathbb Z.
+\]
+
+Therefore:
+\[
+\boxed{
+	\Tor_1^\mathbb Z(\mathbb Z/n,\mathbb Z/m)\cong \mathbb Z/\gcd(n,m)\mathbb Z
+}
+\]
+and
+\[
+\boxed{
+	(\mathbb Z/n)\otimes_\mathbb Z (\mathbb Z/m)\cong \mathbb Z/\gcd(n,m)\mathbb Z.
+}
+\]
+
+\medskip
+
+\textbf{Concrete subexample.}
+Take \(n=6\), \(m=4\). Since
+\[
+\gcd(6,4)=2,
+\]
+we get
+\[
+\Tor_1^\mathbb Z(\mathbb Z/6,\mathbb Z/4)\cong \mathbb Z/2,
+\]
+and
+\[
+(\mathbb Z/6)\otimes_\mathbb Z (\mathbb Z/4)\cong \mathbb Z/2.
+\]
+
+\subsubsection{Step-by-step computation of \(\Ext_\mathbb Z^1(\mathbb Z/n,M)\)}
+
+Use again the free resolution
+\[
+0\longrightarrow \mathbb Z \xrightarrow{\cdot n} \mathbb Z \longrightarrow \mathbb Z/n\mathbb Z \longrightarrow 0.
+\]
+
+Apply \(\Hom_\mathbb Z(-,M)\). Since
+\[
+\Hom_\mathbb Z(\mathbb Z,M)\cong M,
+\]
+we obtain
+\[
+0\longrightarrow \Hom_\mathbb Z(\mathbb Z/n,M)\longrightarrow M \xrightarrow{\cdot n} M \longrightarrow \Ext_\mathbb Z^1(\mathbb Z/n,M)\longrightarrow 0.
+\]
+
+Thus
+\[
+\Ext_\mathbb Z^1(\mathbb Z/n,M)\cong M/nM.
+\]
+
+So:
+\[
+\boxed{
+	\Ext_\mathbb Z^1(\mathbb Z/n,M)\cong M/nM.
+}
+\]
+
+\medskip
+
+\textbf{Concrete subexamples.}
+
+If \(M=\mathbb Z\), then
+\[
+\Ext_\mathbb Z^1(\mathbb Z/n,\mathbb Z)\cong \mathbb Z/n\mathbb Z.
+\]
+
+If \(M=\mathbb Z/m\mathbb Z\), then
+\[
+\Ext_\mathbb Z^1(\mathbb Z/n,\mathbb Z/m)\cong (\mathbb Z/m)/n(\mathbb Z/m).
+\]
+This is again isomorphic to
+\[
+\mathbb Z/\gcd(n,m)\mathbb Z.
+\]
+
+For example, if \(n=6\), \(m=4\), then
+\[
+\Ext_\mathbb Z^1(\mathbb Z/6,\mathbb Z/4)\cong \mathbb Z/2.
+\]
+
+\subsubsection{Two very useful formulas over \(\mathbb Z\)}
+
+For every abelian group \(M\),
+\[
+\Tor_1^\mathbb Z(\mathbb Z/n,M)\cong M[n]
+:=\{m\in M: nm=0\},
+\]
+the \(n\)-torsion subgroup of \(M\), and
+\[
+\Ext_\mathbb Z^1(\mathbb Z/n,M)\cong M/nM.
+\]
+
+These are two of the most useful concrete formulas in elementary homological algebra.
+
+\subsubsection{Example over \(k[x]\)}
+
+Let
+\[
+A=k[x],
+\qquad
+M=A/(x)\cong k.
+\]
+
+A free resolution of \(k\) is
+\[
+0\longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x)\longrightarrow 0.
+\]
+
+\paragraph{Compute \(\Tor_i^{k[x]}(k,k)\).}
+
+Tensor the resolution with \(k=A/(x)\). Since \(x\) acts as \(0\) on \(k\), the map \(\cdot x\) becomes the zero map. So the tensor complex is
+\[
+0\longrightarrow k \xrightarrow{0} k \longrightarrow 0.
+\]
+
+Hence
+\[
+\Tor_0^{k[x]}(k,k)\cong k,
+\qquad
+\Tor_1^{k[x]}(k,k)\cong k,
+\qquad
+\Tor_i^{k[x]}(k,k)=0 \text{ for } i\ge 2.
+\]
+
+So:
+\[
+\boxed{
+	\Tor_0^{k[x]}(k,k)\cong k,\qquad
+	\Tor_1^{k[x]}(k,k)\cong k,\qquad
+	\Tor_i^{k[x]}(k,k)=0 \ (i\ge 2).
+}
+\]
+
+\paragraph{Compute \(\Ext_{k[x]}^i(k,k[x])\).}
+
+Apply \(\Hom_A(-,A)\) to
+\[
+0\longrightarrow A \xrightarrow{\cdot x} A \longrightarrow k \longrightarrow 0.
+\]
+
+We get
+\[
+0\longrightarrow \Hom_A(A,A)\xrightarrow{\cdot x}\Hom_A(A,A)\longrightarrow 0,
+\]
+that is,
+\[
+0\longrightarrow A \xrightarrow{\cdot x} A \longrightarrow 0.
+\]
+
+Therefore:
+\[
+\Ext_{k[x]}^0(k,A)=\ker(\cdot x)=0,
+\]
+since \(x\) is not a zerodivisor in \(A\), and
+\[
+\Ext_{k[x]}^1(k,A)=A/xA\cong k.
+\]
+Also
+\[
+\Ext_{k[x]}^i(k,A)=0 \quad \text{for } i\ge 2.
+\]
+
+So:
+\[
+\boxed{
+	\Ext_{k[x]}^1(k,k[x])\cong k,
+	\qquad
+	\Ext_{k[x]}^i(k,k[x])=0 \text{ for } i\neq 1.
+}
+\]
+
+\subsubsection{Example over \(k[x,y]\)}
+
+Let
+\[
+A=k[x,y],
+\qquad
+k=A/(x,y).
+\]
+
+A free resolution of \(k\) is the Koszul resolution:
+\[
+0\longrightarrow A
+\xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}x&y\end{pmatrix}}
+A
+\longrightarrow k
+\longrightarrow 0.
+\]
+
+\paragraph{Compute \(\Tor_i^A(k,k)\).}
+
+Tensor with \(k\). Since \(x\) and \(y\) act as \(0\) on \(k\), all differentials become zero. So the complex becomes
+\[
+0\longrightarrow k \xrightarrow{0} k^2 \xrightarrow{0} k \longrightarrow 0.
+\]
+
+Hence
+\[
+\Tor_0^A(k,k)\cong k,
+\qquad
+\Tor_1^A(k,k)\cong k^2,
+\qquad
+\Tor_2^A(k,k)\cong k,
+\]
+and
+\[
+\Tor_i^A(k,k)=0 \quad \text{for } i\ge 3.
+\]
+
+Thus:
+\[
+\boxed{
+	\Tor_0^{k[x,y]}(k,k)\cong k,\qquad
+	\Tor_1^{k[x,y]}(k,k)\cong k^2,\qquad
+	\Tor_2^{k[x,y]}(k,k)\cong k.
+}
+\]
+
+\paragraph{Compute \(\Ext_A^i(k,A)\).}
+
+Apply \(\Hom_A(-,A)\). The complex becomes
+\[
+0\longrightarrow A
+\xrightarrow{\begin{pmatrix}x\\y\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}-y&x\end{pmatrix}}
+A
+\longrightarrow 0.
+\]
+
+One checks:
+\[
+\Ext_A^0(k,A)=0,
+\qquad
+\Ext_A^1(k,A)=0,
+\qquad
+\Ext_A^2(k,A)\cong A/(x,y)\cong k.
+\]
+
+So:
+\[
+\boxed{
+	\Ext_{k[x,y]}^2(k,k[x,y])\cong k,
+	\qquad
+	\Ext_{k[x,y]}^0(k,k[x,y])=\Ext_{k[x,y]}^1(k,k[x,y])=0.
+}
+\]
+
+\subsubsection{Compare with the hypersurface example \(A=k[x,y]/(xy)\)}
+
+Let
+\[
+A=k[x,y]/(xy),
+\qquad
+\mathfrak m=(x,y),
+\qquad
+k=A/\mathfrak m.
+\]
+
+A free resolution of \(k\) is
+\[
+\cdots
+\longrightarrow A^2
+\xrightarrow{\begin{pmatrix}x&0\\0&y\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}y&0\\0&x\end{pmatrix}}
+A^2
+\xrightarrow{\begin{pmatrix}x&y\end{pmatrix}}
+A
+\longrightarrow k
+\longrightarrow 0.
+\]
+
+This is eventually \(2\)-periodic.
+
+From this resolution one gets:
+\[
+\Ext_A^2(k,A)=0,
+\]
+and
+\[
+\Tor_0^A(k,k)\cong k,
+\qquad
+\Tor_i^A(k,k)\cong k^2 \text{ for all } i\ge 1.
+\]
+
+So:
+\[
+\boxed{
+	\Ext_{k[x,y]/(xy)}^2(k,A)=0,
+	\qquad
+	\Tor_0^A(k,k)\cong k,
+	\qquad
+	\Tor_i^A(k,k)\cong k^2 \ (i\ge 1).
+}
+\]
+
+This differs sharply from the polynomial-ring case because hypersurfaces often produce eventually periodic resolutions.
+
+\subsubsection{Conceptual meaning of \(\Ext^1\)}
+
+The group
+\[
+\Ext_A^1(M,N)
+\]
+classifies short exact sequences
+\[
+0\longrightarrow N\longrightarrow E\longrightarrow M\longrightarrow 0
+\]
+up to the appropriate notion of equivalence.
+
+Thus:
+\begin{itemize}
+	\item if \(\Ext_A^1(M,N)=0\), then every such extension splits,
+	\item if \(\Ext_A^1(M,N)\neq 0\), then there exist nontrivial extensions.
+\end{itemize}
+
+For example,
+\[
+\Ext_\mathbb Z^1(\mathbb Z/n,\mathbb Z)\cong \mathbb Z/n
+\]
+says that there are nontrivial extension classes of \(\mathbb Z/n\) by \(\mathbb Z\).
+
+\subsubsection{Conceptual meaning of \(\Tor_1\)}
+
+The group
+\[
+\Tor_1^A(M,N)
+\]
+measures how badly tensor product fails to preserve injectivity.
+
+Over \(\mathbb Z\), it is directly related to torsion:
+\[
+\Tor_1^\mathbb Z(\mathbb Z/n,M)\cong M[n].
+\]
+So \(\Tor_1\) literally detects \(n\)-torsion.
+
+\subsubsection{One compact comparison table}
+
+\[
+\begin{array}{|c|c|}
+	\hline
+	\text{Object} & \text{Concrete description} \\
+	\hline
+	\Tor_0^A(M,N) & M\otimes_A N \\
+	\hline
+	\Ext_A^0(M,N) & \Hom_A(M,N) \\
+	\hline
+	\Tor_1^\mathbb Z(\mathbb Z/n,M) & M[n]=\{m\in M:nm=0\} \\
+	\hline
+	\Ext_\mathbb Z^1(\mathbb Z/n,M) & M/nM \\
+	\hline
+	\Tor_1^\mathbb Z(\mathbb Z/n,\mathbb Z/m) & \mathbb Z/\gcd(n,m)\mathbb Z \\
+	\hline
+	(\mathbb Z/n)\otimes(\mathbb Z/m) & \mathbb Z/\gcd(n,m)\mathbb Z \\
+	\hline
+	\Ext_{k[x]}^1(k,k[x]) & k \\
+	\hline
+	\Tor_1^{k[x]}(k,k) & k \\
+	\hline
+	\Tor_1^{k[x,y]}(k,k) & k^2 \\
+	\hline
+	\Ext_{k[x,y]}^2(k,k[x,y]) & k \\
+	\hline
+\end{array}
+\]
+
+\subsubsection{Main pattern to remember}
+
+\begin{itemize}
+	\item Over \(\mathbb Z\), \(\Tor\) and \(\Ext\) reduce to concrete torsion and quotient formulas.
+	\item Over polynomial rings, Koszul resolutions give finite computations.
+	\item Over hypersurfaces, resolutions often become eventually periodic.
+	\item \(\Ext^1\) measures extensions.
+	\item \(\Tor_1\) measures the failure of exactness of tensoring.
+\end{itemize}
+
+\subsubsection{Final summary}
+
+\(\Ext\) and \(\Tor\) are derived functors built from free resolutions:
+\[
+\Ext_A^i(M,N)=H^i(\Hom_A(F_\bullet,N)),
+\qquad
+\Tor_i^A(M,N)=H_i(F_\bullet\otimes_A N).
+\]
+
+They are among the most useful tools in homological algebra because they turn algebraic structure into computable groups.
+
+The most important examples to remember are:
+\[
+\Ext_\mathbb Z^1(\mathbb Z/n,M)\cong M/nM,
+\qquad
+\Tor_1^\mathbb Z(\mathbb Z/n,M)\cong M[n],
+\]
+together with the polynomial-ring and hypersurface computations:
+\[
+\Ext_{k[x]}^1(k,k[x])\cong k,
+\qquad
+\Tor_1^{k[x]}(k,k)\cong k,
+\]
+\[
+\Ext_{k[x,y]}^2(k,k[x,y])\cong k,
+\qquad
+\Tor_1^{k[x,y]}(k,k)\cong k^2,
+\]
+and
+\[
+\Tor_i^{k[x,y]/(xy)}(k,k)\cong k^2 \text{ for } i\ge 1.
+\]	
+	
+\section{Minimal Homomorphisms over a Local Ring, Minimal Free Covers, and the Vanishing in \(\Ext\)}
+
+\subsection{Statement of the problem}
+
+Let \((A,\m)\) be a local ring, let
+\[
+k=A/\m,
+\]
+and let
+\[
+f:M\to N
+\]
+be an \(A\)-module homomorphism between finitely generated \(A\)-modules. We say that \(f\) is \emph{minimal} if the induced map
+\[
+f\otimes \mathrm{id}_k:\; M\otimes_A k \longrightarrow N\otimes_A k
+\]
+is an isomorphism.
+
+We want to study the following statements.
+
+\medskip
+
+\textbf{Problem.}
+\begin{enumerate}[label=\textnormal{(\alph*)},leftmargin=2em]
+	\item Show that \(f\) is minimal if and only if \(f\) is surjective and
+	\[
+	\Ker(f)\subseteq \m M.
+	\]
+	\item Show that for any finitely generated \(A\)-module \(M\), there exists a minimal homomorphism
+	\[
+	f:F\to M
+	\]
+	with \(F\) free.
+	\item Suppose
+	\[
+	0\longrightarrow K \xrightarrow{\,f\,} F \xrightarrow{\,g\,} M \longrightarrow 0
+	\]
+	is exact, with \(g\) minimal and \(K\) and \(F\) free. Show that the homomorphisms
+	\[
+	f_*:\Ext_A^i(k,K)\longrightarrow \Ext_A^i(k,F)
+	\]
+	induced by \(f\) vanish.
+\end{enumerate}
+
+These notes explain the full theory around this problem and give concrete examples step by step.
+
+\subsection{Preliminaries}
+
+\subsubsection{Local rings and the residue field}
+
+\begin{definition}
+	A commutative ring \(A\) with \(1\) is called \emph{local} if it has a unique maximal ideal \(\m\).
+\end{definition}
+
+When \((A,\m)\) is local, the quotient
+\[
+k=A/\m
+\]
+is a field, called the \emph{residue field} of \(A\).
+
+\begin{example}
+	The localization
+	\[
+	\ZZ_{(p)}=\left\{\frac{a}{b}\in \mathbb Q: p\nmid b\right\}
+	\]
+	is a local ring with maximal ideal \(p\ZZ_{(p)}\), and residue field
+	\[
+	\ZZ_{(p)}/p\ZZ_{(p)}\cong \ZZ/p\ZZ.
+	\]
+\end{example}
+
+\begin{example}
+	The formal power series ring
+	\[
+	k[[x]]
+	\]
+	is a local ring with maximal ideal \((x)\), and residue field
+	\[
+	k[[x]]/(x)\cong k.
+	\]
+\end{example}
+
+\begin{example}
+	The ring
+	\[
+	k[[x,y]]
+	\]
+	is local with maximal ideal \((x,y)\), and residue field
+	\[
+	k[[x,y]]/(x,y)\cong k.
+	\]
+\end{example}
+
+\subsubsection{Reduction modulo \(\m\)}
+
+For an \(A\)-module \(M\), tensoring with \(k=A/\m\) gives
+\[
+M\otimes_A k \cong M/\m M.
+\]
+
+So whenever we see
+\[
+M\otimes_A k,
+\]
+we should think:
+\[
+M\otimes_A k \;\text{ is the same as }\; M/\m M.
+\]
+
+\begin{remark}
+	The quotient \(M/\m M\) is naturally a vector space over \(k\). Its dimension measures the minimal number of generators of \(M\).
+\end{remark}
+
+\subsubsection{Minimal number of generators}
+
+\begin{definition}
+	For a finitely generated \(A\)-module \(M\), denote by
+	\[
+	\mu(M)
+	\]
+	the minimal number of generators of \(M\).
+\end{definition}
+
+\begin{proposition}
+	If \((A,\m)\) is local and \(M\) is finitely generated, then
+	\[
+	\mu(M)=\dim_k(M/\m M).
+	\]
+\end{proposition}
+
+\textbf{Proof.}
+If \(x_1,\dots,x_r\in M\) generate \(M\), then their classes generate \(M/\m M\) as a \(k\)-vector space, so
+\[
+\dim_k(M/\m M)\le r.
+\]
+Hence
+\[
+\dim_k(M/\m M)\le \mu(M).
+\]
+
+Conversely, choose elements \(x_1,\dots,x_n\in M\) whose classes form a basis of \(M/\m M\). Then these classes generate \(M/\m M\), so by Nakayama's lemma, \(x_1,\dots,x_n\) generate \(M\). Therefore
+\[
+\mu(M)\le n=\dim_k(M/\m M).
+\]
+So equality holds. \qed
+
+\subsection{Nakayama's lemma}
+
+Everything in this problem is controlled by Nakayama's lemma.
+
+\begin{theorem}[Nakayama]
+	Let \((A,\m)\) be a local ring and let \(M\) be a finitely generated \(A\)-module.
+	\begin{enumerate}[label=\textnormal{(\arabic*)},leftmargin=2em]
+		\item If
+		\[
+		M=\m M,
+		\]
+		then \(M=0\).
+		\item If \(N\subseteq M\) and
+		\[
+		M=N+\m M,
+		\]
+		then \(M=N\).
+		\item If \(x_1,\dots,x_r\in M\) map to generators of \(M/\m M\), then \(x_1,\dots,x_r\) generate \(M\).
+	\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+	The slogan is:
+	\begin{quote}
+		To check generators over a local ring, reduce modulo the maximal ideal.
+	\end{quote}
+\end{remark}
+
+\subsection{Minimal homomorphisms}
+
+\subsubsection{Definition}
+
+\begin{definition}
+	Let \(f:M\to N\) be a homomorphism between finitely generated \(A\)-modules over a local ring \((A,\m)\), with residue field \(k=A/\m\). We say that \(f\) is \emph{minimal} if the induced map
+	\[
+	f\otimes_A k:\; M\otimes_A k \longrightarrow N\otimes_A k
+	\]
+	is an isomorphism.
+\end{definition}
+
+Since
+\[
+M\otimes_A k\cong M/\m M,\qquad N\otimes_A k\cong N/\m N,
+\]
+this means exactly that the induced map
+\[
+\overline f:\; M/\m M \longrightarrow N/\m N
+\]
+is an isomorphism.
+
+\subsubsection{Interpretation}
+
+If \(f:F\to M\) with \(F\) free is minimal, then modulo \(\m\) the basis of \(F\) maps to a basis of \(M/\m M\). So \(F\) has exactly the right number of generators, and no redundant basis vector remains.
+
+This is why minimal maps are the algebraic formulation of ``no unnecessary generators.''
+
+\subsection{Part (a): characterization of minimal homomorphisms}
+
+\begin{theorem}
+	Let \((A,\m)\) be a local ring, and let
+	\[
+	f:M\to N
+	\]
+	be a homomorphism of finitely generated \(A\)-modules. Then \(f\) is minimal if and only if:
+	\begin{enumerate}[label=\textnormal{(\roman*)},leftmargin=2em]
+		\item \(f\) is surjective, and
+		\item
+		\[
+		\Ker(f)\subseteq \m M.
+		\]
+	\end{enumerate}
+\end{theorem}
+
+\textbf{Proof.}
+
+\textbf{Solution.}
+
+We prove both directions.
+
+\subsubsection{Direction 1: if \(f\) is minimal, then \(f\) is surjective and \(\Ker(f)\subseteq \m M\)}
+
+Assume \(f\) is minimal. Then
+\[
+f\otimes_A k:\; M\otimes_A k \to N\otimes_A k
+\]
+is an isomorphism.
+
+Equivalently,
+\[
+\overline f:\; M/\m M \to N/\m N
+\]
+is an isomorphism.
+
+We first prove that \(f\) is surjective.
+
+Let
+\[
+C=\Coker(f)=N/f(M).
+\]
+From the exact sequence
+\[
+M\xrightarrow{f} N \to C \to 0,
+\]
+tensoring with \(k\) gives a right exact sequence
+\[
+M\otimes_A k \xrightarrow{f\otimes k} N\otimes_A k \to C\otimes_A k \to 0.
+\]
+Since \(f\otimes k\) is an isomorphism, its cokernel is \(0\), so
+\[
+C\otimes_A k=0.
+\]
+But
+\[
+C\otimes_A k \cong C/\m C,
+\]
+hence
+\[
+C/\m C=0.
+\]
+By Nakayama's lemma, \(C=0\). Therefore \(f\) is surjective.
+
+Now let
+\[
+K=\Ker(f).
+\]
+Since \(f\) is surjective, we have a short exact sequence
+\[
+0\to K \to M \xrightarrow{f} N \to 0.
+\]
+The induced map
+\[
+M/\m M \to N/\m N
+\]
+is an isomorphism, hence has kernel \(0\). But the kernel of this induced map is
+\[
+(K+\m M)/\m M.
+\]
+Therefore
+\[
+(K+\m M)/\m M=0,
+\]
+so
+\[
+K\subseteq \m M.
+\]
+
+Thus \(f\) is surjective and \(\Ker(f)\subseteq \m M\).
+
+\subsubsection{Direction 2: if \(f\) is surjective and \(\Ker(f)\subseteq \m M\), then \(f\) is minimal}
+
+Assume \(f\) is surjective and let \(K=\Ker(f)\subseteq \m M\).
+
+Because \(f\) is surjective, the induced map
+\[
+\overline f:\; M/\m M \to N/\m N
+\]
+is surjective.
+
+We show it is injective. Let \(\overline x\in M/\m M\) satisfy
+\[
+\overline f(\overline x)=0.
+\]
+This means
+\[
+f(x)\in \m N.
+\]
+Since \(f\) is surjective,
+\[
+\m N=f(\m M).
+\]
+So there exists \(y\in \m M\) such that
+\[
+f(x)=f(y).
+\]
+Hence
+\[
+x-y\in \Ker(f)=K\subseteq \m M.
+\]
+But also \(y\in \m M\), so \(x\in \m M\). Therefore \(\overline x=0\).
+
+So \(\overline f\) is injective. Since it is also surjective, it is an isomorphism.
+
+Thus \(f\) is minimal. \qed
+
+\subsubsection{Meaning of the theorem}
+
+This theorem says that a minimal map is exactly a surjection whose kernel is invisible modulo \(\m\). If the kernel contained an element outside \(\m M\), then that element would survive in \(M/\m M\), meaning one of the generators was unnecessary.
+
+\subsection{Part (b): existence of minimal free covers}
+
+\begin{theorem}
+	Let \((A,\m)\) be a local ring, and let \(M\) be a finitely generated \(A\)-module. Then there exists a minimal homomorphism
+	\[
+	f:F\to M
+	\]
+	with \(F\) a free \(A\)-module.
+\end{theorem}
+
+\textbf{Proof.}
+
+\textbf{Solution.}
+
+Because \(M\) is finitely generated, the \(k\)-vector space
+\[
+M/\m M
+\]
+is finite-dimensional. Choose a basis
+\[
+\overline x_1,\dots,\overline x_r
+\]
+of \(M/\m M\).
+
+Now choose lifts
+\[
+x_1,\dots,x_r\in M
+\]
+of these basis elements.
+
+Let
+\[
+F=A^r
+\]
+with standard basis \(e_1,\dots,e_r\), and define
+\[
+f:F\to M,\qquad f(e_i)=x_i.
+\]
+
+We claim that \(f\) is minimal.
+
+First, modulo \(\m\) the induced map
+\[
+F/\m F \to M/\m M
+\]
+sends the classes of \(e_1,\dots,e_r\) to \(\overline x_1,\dots,\overline x_r\), which form a basis of \(M/\m M\).
+
+But
+\[
+F/\m F \cong k^r,
+\]
+whose standard basis is given by the classes of \(e_1,\dots,e_r\). Therefore
+\[
+F/\m F \to M/\m M
+\]
+is an isomorphism.
+
+Hence \(f\) is minimal by definition. \qed
+
+\subsubsection{Interpretation}
+
+This says that every finitely generated module admits a \emph{minimal free cover}. The rank of the free module is precisely the minimal number of generators:
+\[
+\rank(F)=\mu(M)=\dim_k(M/\m M).
+\]
+
+So part (b) is the rigorous version of the standard process:
+\begin{quote}
+	Choose a basis of \(M/\m M\), lift it to \(M\), and these lifts form a minimal system of generators of \(M\).
+\end{quote}
+
+\subsection{Part (c): vanishing of the induced maps in \(\Ext\)}
+
+We are given an exact sequence
+\[
+0\longrightarrow K \xrightarrow{\,f\,} F \xrightarrow{\,g\,} M \longrightarrow 0
+\]
+with \(g\) minimal and \(K,F\) free.
+
+We must prove that for every \(i\),
+\[
+f_*:\Ext_A^i(k,K)\to \Ext_A^i(k,F)
+\]
+is the zero map.
+
+\begin{theorem}
+	Under the hypotheses above, the maps
+	\[
+	f_*:\Ext_A^i(k,K)\to \Ext_A^i(k,F)
+	\]
+	induced by \(f\) vanish for all \(i\).
+\end{theorem}
+
+\textbf{Proof.}
+
+\textbf{Solution.}
+
+Since \(g\) is minimal and surjective, part (a) gives
+\[
+\Ker(g)\subseteq \m F.
+\]
+But the sequence is exact, so
+\[
+\im(f)=\Ker(g).
+\]
+Hence
+\[
+f(K)\subseteq \m F.
+\]
+
+Now choose bases
+\[
+K\cong A^r,\qquad F\cong A^m.
+\]
+With respect to these bases, the map \(f\) is given by a matrix
+\[
+(c_{ij})
+\]
+with entries in \(A\).
+
+Because \(f(K)\subseteq \m F\), each column of the matrix has all entries in \(\m\). Thus
+\[
+c_{ij}\in \m
+\qquad\text{for all }i,j.
+\]
+
+By the note in the problem, the induced map
+\[
+f_*:\Ext_A^i(k,A^r)\to \Ext_A^i(k,A^m)
+\]
+is given by the same matrix \((c_{ij})\), now acting on
+\[
+\Ext_A^i(k,A^r)\cong \bigl(\Ext_A^i(k,A)\bigr)^r,
+\qquad
+\Ext_A^i(k,A^m)\cong \bigl(\Ext_A^i(k,A)\bigr)^m.
+\]
+
+But \(\Ext_A^i(k,A)\) is naturally a \(k=A/\m\)-vector space, so \(\m\) acts trivially on it. Therefore multiplication by each \(c_{ij}\in \m\) is zero on \(\Ext_A^i(k,A)\).
+
+Hence every entry of the matrix acts by zero, so the whole matrix acts by zero. Therefore
+\[
+f_*=0.
+\]
+This proves the claim. \qed
+
+\subsubsection{Why part (c) matters}
+
+Part (c) is one of the first signs that minimal free resolutions are special.
+
+If
+\[
+\cdots \to F_2 \xrightarrow{d_2} F_1 \xrightarrow{d_1} F_0 \to M \to 0
+\]
+is a minimal free resolution over a local ring, then each differential satisfies
+\[
+\im(d_i)\subseteq \m F_{i-1}.
+\]
+
+Equivalently, in matrix form every entry of every differential lies in \(\m\).
+
+This has a powerful consequence: after applying \(\Hom_A(-,k)\), every differential becomes zero, because \(\m\) acts trivially on \(k\).
+
+Thus for a minimal free resolution,
+\[
+\Tor_i^A(k,M)\cong F_i\otimes_A k,
+\qquad
+\Ext_A^i(M,k)\cong \Hom_A(F_i,k),
+\]
+and the Betti numbers become easy to read off.
+
+\subsection{Minimal free resolutions}
+
+\subsubsection{Definition}
+
+\begin{definition}
+	A free resolution
+	\[
+	\cdots \to F_2 \xrightarrow{d_2} F_1 \xrightarrow{d_1} F_0 \to M \to 0
+	\]
+	of a finitely generated module \(M\) over a local ring \((A,\m)\) is called \emph{minimal} if each differential \(d_i\) is minimal.
+\end{definition}
+
+By part (a), this is equivalent to saying that each \(d_i\) is surjective onto its image and
+\[
+\Ker(d_i)\subseteq \m F_i,
+\]
+or more commonly:
+\[
+\im(d_i)\subseteq \m F_{i-1}.
+\]
+
+\subsubsection{Matrix criterion}
+
+\begin{proposition}
+	Let
+	\[
+	d:F\to G
+	\]
+	be a homomorphism of finite free modules over a local ring \((A,\m)\). Then \(d\) is minimal if and only if, with respect to some (equivalently any) bases, every entry of the matrix of \(d\) lies in \(\m\).
+\end{proposition}
+
+\textbf{Proof.}
+If all entries lie in \(\m\), then
+\[
+d(F)\subseteq \m G,
+\]
+so the induced map modulo \(\m\) is zero on the image side in the appropriate position, which is the hallmark of minimality inside a free resolution.
+
+Conversely, if \(d(F)\subseteq \m G\), then each coordinate of each \(d(e_j)\) lies in \(\m\), so every matrix entry lies in \(\m\). \qed
+
+\subsection{Examples, step by step}
+
+\subsubsection{Example 1: \(M=k\) over \(A=k[[x]]\)}
+
+Let
+\[
+A=k[[x]],\qquad \m=(x),\qquad M=A/\m\cong k.
+\]
+
+Consider the natural quotient map
+\[
+g:A\to k.
+\]
+
+Its kernel is
+\[
+\Ker(g)=(x)=\m A.
+\]
+Hence
+\[
+\Ker(g)\subseteq \m A.
+\]
+So by part (a), \(g\) is minimal.
+
+Therefore the exact sequence
+\[
+0\to A \xrightarrow{\cdot x} A \to k \to 0
+\]
+is a minimal free resolution of \(k\).
+
+\paragraph{Step-by-step interpretation.}
+
+\begin{enumerate}[leftmargin=2em]
+	\item The module \(k\) is generated by one element.
+	\item Modulo \(\m\), we have
+	\[
+	k/\m k = k.
+	\]
+	\item So the minimal free cover should have rank \(1\).
+	\item The kernel of the surjection \(A\to k\) is \((x)\), which is inside \(\m A\).
+	\item Thus the surjection is minimal.
+\end{enumerate}
+
+\subsubsection{Example 2: \(A/(x^2)\) over \(k[[x]]\)}
+
+Let
+\[
+A=k[[x]],\qquad M=A/(x^2).
+\]
+
+Take the quotient map
+\[
+g:A\to A/(x^2).
+\]
+Its kernel is
+\[
+(x^2).
+\]
+Since
+\[
+(x^2)\subseteq (x)=\m,
+\]
+we have
+\[
+\Ker(g)\subseteq \m A.
+\]
+So \(g\) is minimal.
+
+Thus
+\[
+0\to A \xrightarrow{\cdot x^2} A \to A/(x^2)\to 0
+\]
+is a minimal free resolution.
+
+\paragraph{What does the definition say modulo \(\m\)?}
+
+Modulo \(\m\), the induced map
+\[
+A/\m A \to (A/(x^2))/\m (A/(x^2))
+\]
+is
+\[
+k \to k,
+\]
+which is an isomorphism. So the definition of minimality is satisfied exactly.
+
+\subsubsection{Example 3: a surjection that is not minimal}
+
+Let
+\[
+A=k[[x]],\qquad M=k=A/(x).
+\]
+
+We know the natural map
+\[
+A\to k
+\]
+is minimal.
+
+Now define
+\[
+h:A^2\to k,\qquad h(a,b)=a \bmod (x).
+\]
+
+This is surjective, but it is not minimal.
+
+Indeed, modulo \(\m=(x)\), we get
+\[
+\overline h:\; k^2\to k,\qquad (\bar a,\bar b)\mapsto \bar a.
+\]
+This map is surjective but not injective, so it is not an isomorphism.
+
+Equivalently,
+\[
+\Ker(h)\not\subseteq \m A^2,
+\]
+because \((0,1)\in \Ker(h)\) but
+\[
+(0,1)\notin (x)A^2.
+\]
+
+So this map has one unnecessary free generator.
+
+\subsubsection{Example 4: \(k\) over \(A=k[[x,y]]\)}
+
+Let
+\[
+A=k[[x,y]],\qquad \m=(x,y),\qquad M=k=A/\m.
+\]
+
+The quotient map
+\[
+A\to k
+\]
+is minimal, since its kernel is
+\[
+(x,y)\subseteq \m A.
+\]
+
+Now resolve \((x,y)\). It is generated by \(x\) and \(y\), so define
+\[
+A^2\to A,\qquad (a,b)\mapsto ax+by.
+\]
+Its kernel is generated by \((-y,x)\). Therefore we get the exact sequence
+\[
+0\to A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} A \to k \to 0.
+\]
+
+This is a minimal free resolution.
+
+\paragraph{Why is it minimal?}
+
+Both differentials have matrix entries in \(\m=(x,y)\):
+\[
+(x\ \ y),\qquad \begin{pmatrix}-y\\x\end{pmatrix}.
+\]
+So all entries lie in \(\m\), hence the resolution is minimal.
+
+\subsubsection{Example 5: part (c) in the \(k[[x,y]]\) example}
+
+Consider
+\[
+0\to A \xrightarrow{f} A^2 \xrightarrow{g} A \to k \to 0
+\]
+with
+\[
+f=\begin{pmatrix}-y\\x\end{pmatrix},\qquad g=(x\ \ y).
+\]
+
+Since
+\[
+f(A)\subseteq \m A^2,
+\]
+the induced map
+\[
+f_*:\Ext_A^i(k,A)\to \Ext_A^i(k,A^2)
+\]
+is zero for every \(i\).
+
+This is exactly the statement of part (c) in a concrete case.
+
+\subsubsection{Example 6: \(A/(x,y^2)\) over \(k[[x,y]]\)}
+
+Let
+\[
+A=k[[x,y]],\qquad M=A/(x,y^2).
+\]
+
+Start with the quotient map
+\[
+A\to A/(x,y^2).
+\]
+Its kernel is \((x,y^2)\), and
+\[
+(x,y^2)\subseteq (x,y)=\m.
+\]
+So the quotient map is minimal.
+
+Now define
+\[
+A^2\to A,\qquad (a,b)\mapsto ax+by^2.
+\]
+A relation is
+\[
+(-y^2,x),
+\]
+since
+\[
+(-y^2)x + x y^2=0.
+\]
+
+Thus we get
+\[
+0\to A \xrightarrow{\begin{pmatrix}-y^2\\x\end{pmatrix}} A^2
+\xrightarrow{(x\ \ y^2)} A \to A/(x,y^2)\to 0.
+\]
+
+Again all coefficients lie in \(\m=(x,y)\), so this is minimal.
+
+\subsubsection{Example 7: \(A/(x_1,\dots,x_n)\) over a regular local ring}
+
+Let
+\[
+A=k[[x_1,\dots,x_n]]
+\]
+with maximal ideal
+\[
+\m=(x_1,\dots,x_n).
+\]
+Then \(k=A/\m\) has a minimal free resolution given by the Koszul complex:
+\[
+0\to A \to A^{\binom{n}{n-1}} \to \cdots \to A^{\binom{n}{1}} \to A \to k \to 0.
+\]
+
+Every differential has entries in \(\m\), so the resolution is minimal.
+
+For \(n=1\), this is
+\[
+0\to A \xrightarrow{\cdot x_1} A \to k \to 0.
+\]
+
+For \(n=2\), this is
+\[
+0\to A \xrightarrow{\begin{pmatrix}-x_2\\x_1\end{pmatrix}} A^2
+\xrightarrow{(x_1\ \ x_2)} A \to k \to 0.
+\]
+
+\subsection{How part (b) produces minimal generators}
+
+Let us write out the construction more explicitly.
+
+Suppose \(M\) is finitely generated over \((A,\m)\), and
+\[
+\dim_k(M/\m M)=r.
+\]
+Choose a basis
+\[
+\overline x_1,\dots,\overline x_r
+\]
+of \(M/\m M\).
+
+Lift each \(\overline x_i\) to an element \(x_i\in M\). Then:
+\begin{enumerate}[leftmargin=2em]
+	\item the elements \(x_1,\dots,x_r\) generate \(M\) by Nakayama;
+	\item no proper subset generates \(M\), because their classes are linearly independent modulo \(\m\);
+	\item the resulting map
+	\[
+	A^r\to M,\qquad e_i\mapsto x_i
+	\]
+	is minimal.
+\end{enumerate}
+
+So the basis of \(M/\m M\) gives a minimal generating set of \(M\).
+
+\subsection{Relation to Betti numbers}
+
+\subsubsection{Minimal free resolutions and \(\Tor\)}
+
+If
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0
+\]
+is a minimal free resolution over a local ring, then every differential becomes zero after tensoring with \(k\). Thus
+\[
+\Tor_i^A(k,M)\cong F_i\otimes_A k.
+\]
+Therefore
+\[
+\beta_i(M):=\rank(F_i)=\dim_k \Tor_i^A(k,M).
+\]
+
+These \(\beta_i(M)\) are the \emph{Betti numbers} of \(M\).
+
+\subsubsection{First Betti number}
+
+In particular,
+\[
+\beta_0(M)=\mu(M)=\dim_k(M/\m M).
+\]
+
+So part (b) identifies the first Betti number with the minimal number of generators.
+
+\subsection{Relation to \(\Ext\)}
+
+Because minimal resolutions have all differentials in \(\m\), applying \(\Hom_A(-,k)\) kills all differentials. Hence if
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0
+\]
+is minimal, then
+\[
+\Ext_A^i(M,k)\cong \Hom_A(F_i,k).
+\]
+Therefore
+\[
+\dim_k \Ext_A^i(M,k)=\rank(F_i)=\beta_i(M).
+\]
+
+This is why part (c) is not just a technical fact: it is one piece of the general mechanism behind minimal free resolutions.
+
+\subsection{A worked proof outline in compact form}
+
+For reference, here is the core argument of the whole problem in a very compressed form.
+
+\subsubsection{Part (a)}
+
+\[
+f \text{ minimal}
+\iff
+f\otimes_A k \text{ is an isomorphism}
+\iff
+M/\m M \to N/\m N \text{ is an isomorphism}.
+\]
+
+If \(f\otimes k\) is an isomorphism, then \(\Coker(f)\otimes k=0\), so \(\Coker(f)=0\) by Nakayama, hence \(f\) is surjective. Also the kernel of \(M/\m M\to N/\m N\) is
+\[
+(\Ker(f)+\m M)/\m M,
+\]
+so if the induced map is injective, then \(\Ker(f)\subseteq \m M\).
+
+Conversely, if \(f\) is surjective and \(\Ker(f)\subseteq \m M\), then the induced map modulo \(\m\) is automatically surjective and also injective, hence an isomorphism.
+
+\subsubsection{Part (b)}
+
+Choose a basis of \(M/\m M\), lift it to \(M\), and map the basis of a free module \(F\) to these lifts. The induced map modulo \(\m\) is an isomorphism, so the map is minimal.
+
+\subsubsection{Part (c)}
+
+Since \(g\) is minimal, part (a) implies
+\[
+\Ker(g)\subseteq \m F.
+\]
+But \(\Ker(g)=\im(f)\), so
+\[
+f(K)\subseteq \m F.
+\]
+Thus, in matrix form, every entry of \(f\) lies in \(\m\). These entries act trivially on \(\Ext_A^i(k,A)\), since that is a \(k\)-vector space. Therefore the induced map \(f_*\) is zero.
+
+\subsection{Summary}
+
+The central ideas of the problem are:
+
+\begin{enumerate}[leftmargin=2em]
+	\item Over a local ring, the quotient \(M/\m M\) measures the minimal number of generators of \(M\).
+	\item A homomorphism is minimal exactly when it becomes an isomorphism after reduction modulo \(\m\).
+	\item Every finitely generated module has a minimal surjection from a free module.
+	\item In a minimal free resolution, every differential has image inside \(\m\)-times the previous free module.
+	\item Equivalently, every differential matrix has all entries in \(\m\).
+	\item This forces the induced maps on \(\Ext\) and on complexes with coefficients in \(k\) to vanish.
+\end{enumerate}
+
+So this problem is one of the foundational steps in the theory of minimal free resolutions, Betti numbers, and homological algebra over local rings.
+
+\subsection{A short appendix: one-line examples}
+
+\begin{example}
+	Over \(A=k[[x]]\), the map
+	\[
+	A\to k
+	\]
+	is minimal, but
+	\[
+	A^2\to k,\qquad (a,b)\mapsto a \bmod (x)
+	\]
+	is not minimal.
+\end{example}
+
+\begin{example}
+	Over \(A=k[[x,y]]\), the minimal free resolution of \(k\) begins
+	\[
+	0\to A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} A \to k\to 0.
+	\]
+\end{example}
+
+\begin{example}
+	Over \(A=k[[x_1,\dots,x_n]]\), the minimal free resolution of \(k\) is the Koszul complex on \(x_1,\dots,x_n\).
+\end{example}
+\section{\textbf{Minimal Free Resolutions over Noetherian Local Rings\\
+		Theory, Existence, and Examples}}
+
+\subsection{Statement of the problem}
+
+Let \((A,\m)\) be a local ring, let
+\[
+k=A/\m,
+\]
+and let
+\[
+F^\bullet \to M \to 0
+\]
+be a free resolution of a finitely generated \(A\)-module \(M\) by finitely generated free modules, with maps
+\[
+f_i:F_{i+1}\to F_i.
+\]
+
+We say that this free resolution is \emph{minimal} if all maps
+\[
+f_i\otimes \mathrm{id}_k:\; F_{i+1}\otimes_A k \longrightarrow F_i\otimes_A k
+\]
+are zero.
+
+The problem is:
+
+\medskip
+
+\textbf{Problem.}
+Show that if \(A\) is Noetherian, then minimal free resolutions exist.
+
+\subsection{General background}
+
+\subsubsection{Local rings and residue fields}
+
+\begin{definition}
+	A commutative ring \(A\) with \(1\) is called \emph{local} if it has a unique maximal ideal \(\m\).
+\end{definition}
+
+If \((A,\m)\) is local, then
+\[
+k=A/\m
+\]
+is a field, called the \emph{residue field}.
+
+\begin{example}
+	The formal power series ring
+	\[
+	k[[x]]
+	\]
+	is local with maximal ideal \((x)\), and residue field \(k\).
+\end{example}
+
+\begin{example}
+	The ring
+	\[
+	k[[x,y]]
+	\]
+	is local with maximal ideal \((x,y)\), and residue field \(k\).
+\end{example}
+
+\begin{example}
+	The localization
+	\[
+	\ZZ_{(p)}
+	\]
+	is local with maximal ideal \(p\ZZ_{(p)}\), and residue field \(\ZZ/p\ZZ\).
+\end{example}
+
+\subsubsection{Free resolutions}
+
+\begin{definition}
+	A \emph{free resolution} of an \(A\)-module \(M\) is an exact complex
+	\[
+	\cdots \longrightarrow F_2 \xrightarrow{f_1} F_1 \xrightarrow{f_0} F_0 \xrightarrow{\varepsilon} M \longrightarrow 0
+	\]
+	where each \(F_i\) is a free \(A\)-module.
+\end{definition}
+
+In our setting, we assume that all \(F_i\) are finitely generated free modules.
+
+\begin{remark}
+	A free resolution records generators of \(M\), then relations among those generators, then relations among relations, and so on. These higher relations are called syzygies.
+\end{remark}
+
+\subsubsection{Reduction modulo \(\m\)}
+
+For any \(A\)-module \(N\), we have a natural isomorphism
+\[
+N\otimes_A k \cong N/\m N.
+\]
+Therefore the condition
+\[
+f_i\otimes_A k = 0
+\]
+means exactly that the induced map
+\[
+F_{i+1}/\m F_{i+1}\longrightarrow F_i/\m F_i
+\]
+is zero.
+
+\subsection{Minimal free resolutions}
+
+\subsubsection{Definition}
+
+\begin{definition}
+	A free resolution
+	\[
+	\cdots \longrightarrow F_2 \xrightarrow{f_1} F_1 \xrightarrow{f_0} F_0 \xrightarrow{\varepsilon} M \longrightarrow 0
+	\]
+	over a local ring \((A,\m)\) is called \emph{minimal} if for every \(i\),
+	\[
+	f_i\otimes_A k:\; F_{i+1}\otimes_A k \to F_i\otimes_A k
+	\]
+	is the zero map.
+\end{definition}
+
+\subsubsection{Equivalent criterion}
+
+\begin{proposition}
+	Let
+	\[
+	f:F\to G
+	\]
+	be a homomorphism of free \(A\)-modules over a local ring \((A,\m)\). Then the following are equivalent:
+	\begin{enumerate}[label=\textnormal{(\roman*)},leftmargin=2em]
+		\item
+		\[
+		f\otimes_A k=0;
+		\]
+		\item the induced map
+		\[
+		F/\m F \to G/\m G
+		\]
+		is zero;
+		\item
+		\[
+		f(F)\subseteq \m G.
+		\]
+	\end{enumerate}
+\end{proposition}
+
+\textbf{Solution.}
+Since
+\[
+F\otimes_A k \cong F/\m F,
+\qquad
+G\otimes_A k \cong G/\m G,
+\]
+conditions \(\textnormal{(i)}\) and \(\textnormal{(ii)}\) are the same.
+
+Now the induced map \(F/\m F \to G/\m G\) is zero if and only if for every \(x\in F\), the class of \(f(x)\) in \(G/\m G\) is zero, which is equivalent to
+\[
+f(x)\in \m G
+\qquad\text{for all }x\in F.
+\]
+That is exactly
+\[
+f(F)\subseteq \m G.
+\]
+So all three conditions are equivalent. \qed
+
+\begin{remark}
+	Thus a free resolution is minimal if and only if every differential has image inside \(\m\) times the previous free module.
+\end{remark}
+
+\subsection{Why this is the right notion}
+
+If some differential had a coefficient outside \(\m\), then modulo \(\m\) that coefficient would become a nonzero scalar in \(k\). This would indicate that one can split off a trivial summand
+\[
+0\to A \xrightarrow{\cong} A \to 0,
+\]
+so the resolution was not truly minimal.
+
+Thus the condition
+\[
+f_i(F_{i+1})\subseteq \m F_i
+\]
+means that no basis element can be removed by cancellation.
+
+\subsection{The key input from minimal surjections}
+
+Before proving existence of minimal free resolutions, one needs the existence of minimal surjections from free modules.
+
+\begin{proposition}
+	Let \((A,\m)\) be a local ring, and let \(N\) be a finitely generated \(A\)-module. Then there exists a surjective homomorphism
+	\[
+	\pi:F\to N
+	\]
+	with \(F\) finitely generated free such that
+	\[
+	\Ker(\pi)\subseteq \m F.
+	\]
+	Equivalently, \(\pi\otimes_A k\) is an isomorphism.
+\end{proposition}
+
+\textbf{Solution.}
+The \(k\)-vector space
+\[
+N/\m N
+\]
+is finite-dimensional because \(N\) is finitely generated. Choose a basis
+\[
+\overline{x}_1,\dots,\overline{x}_r
+\]
+of \(N/\m N\), and choose lifts
+\[
+x_1,\dots,x_r\in N.
+\]
+
+Let
+\[
+F=A^r
+\]
+with basis \(e_1,\dots,e_r\), and define
+\[
+\pi:F\to N,\qquad \pi(e_i)=x_i.
+\]
+Modulo \(\m\), the induced map
+\[
+F/\m F \to N/\m N
+\]
+sends the basis classes of \(e_1,\dots,e_r\) to the basis \(\overline{x}_1,\dots,\overline{x}_r\), so it is an isomorphism.
+
+Hence \(\pi\) is surjective and satisfies
+\[
+\Ker(\pi)\subseteq \m F.
+\]
+\qed
+
+\begin{remark}
+	This is exactly the first step in constructing a minimal free resolution: choose a minimal set of generators, lift it to a basis of a free module, and map onto the given module.
+\end{remark}
+
+\subsection{Where Noetherianity is used}
+
+The construction of a minimal free resolution is inductive. Starting with \(M\), one chooses a minimal surjection
+\[
+F_0\to M.
+\]
+Then one studies the kernel
+\[
+K_1=\Ker(F_0\to M),
+\]
+and chooses a minimal surjection
+\[
+F_1\to K_1.
+\]
+Then one studies the next kernel, and so on.
+
+To continue this process, each kernel must be finitely generated. This is where the Noetherian assumption is needed.
+
+\begin{proposition}
+	If \(A\) is Noetherian and \(F\) is a finitely generated free \(A\)-module, then every submodule of \(F\) is finitely generated.
+\end{proposition}
+
+\textbf{Solution.}
+Since \(F\cong A^n\) for some \(n\), it is a finitely generated \(A\)-module. Over a Noetherian ring, every submodule of a finitely generated module is finitely generated. \qed
+
+\begin{remark}
+	So the Noetherian hypothesis guarantees that the successive syzygy modules are finitely generated, and therefore can again be covered by finitely generated free modules.
+\end{remark}
+
+\subsection{Main theorem: existence of minimal free resolutions}
+
+\begin{theorem}
+	Let \((A,\m)\) be a Noetherian local ring, and let \(M\) be a finitely generated \(A\)-module. Then \(M\) admits a minimal free resolution by finitely generated free \(A\)-modules.
+\end{theorem}
+
+\textbf{Solution.}
+We construct the resolution inductively.
+
+\subsubsection*{Step 1: first minimal surjection}
+
+Since \(M\) is finitely generated, by the previous proposition there exists a finitely generated free module \(F_0\) and a surjective map
+\[
+\varepsilon:F_0\to M
+\]
+such that
+\[
+\Ker(\varepsilon)\subseteq \m F_0.
+\]
+Set
+\[
+K_1=\Ker(\varepsilon).
+\]
+
+Because \(A\) is Noetherian and \(F_0\) is finitely generated, the submodule \(K_1\subseteq F_0\) is finitely generated.
+
+\subsubsection*{Step 2: resolve the first kernel minimally}
+
+Again by the minimal surjection proposition, there exists a finitely generated free module \(F_1\) and a surjective map
+\[
+\pi_1:F_1\to K_1
+\]
+such that
+\[
+\Ker(\pi_1)\subseteq \m F_1.
+\]
+Now compose \(\pi_1\) with the inclusion \(K_1\hookrightarrow F_0\). This gives a map
+\[
+f_0:F_1\to F_0
+\]
+whose image is
+\[
+\im(f_0)=K_1=\Ker(\varepsilon).
+\]
+Hence we now have an exact sequence
+\[
+F_1\xrightarrow{f_0}F_0\xrightarrow{\varepsilon}M\to 0.
+\]
+
+Moreover, because
+\[
+\im(f_0)=K_1\subseteq \m F_0,
+\]
+we get
+\[
+f_0\otimes_A k=0.
+\]
+
+\subsubsection*{Step 3: continue inductively}
+
+Let
+\[
+K_2=\Ker(\pi_1)=\Ker(f_0 \text{ as a map onto }K_1).
+\]
+Since \(K_2\subseteq F_1\) and \(F_1\) is finitely generated over the Noetherian ring \(A\), the module \(K_2\) is finitely generated.
+
+Choose a finitely generated free module \(F_2\) and a minimal surjection
+\[
+\pi_2:F_2\to K_2.
+\]
+Composing with \(K_2\hookrightarrow F_1\), we obtain a map
+\[
+f_1:F_2\to F_1
+\]
+with
+\[
+\im(f_1)=K_2=\Ker(f_0).
+\]
+Since \(\im(f_1)\subseteq \m F_1\), we have
+\[
+f_1\otimes_A k=0.
+\]
+
+Repeating this process, for each \(i\ge 0\) we define
+\[
+K_{i+1}=\Ker(f_{i-1})
+\]
+and choose a minimal surjection
+\[
+F_{i+1}\to K_{i+1}
+\]
+from a finitely generated free module \(F_{i+1}\). Composing with the inclusion \(K_{i+1}\hookrightarrow F_i\), we obtain
+\[
+f_i:F_{i+1}\to F_i
+\]
+such that
+\[
+\im(f_i)=K_{i+1}=\Ker(f_{i-1})
+\]
+and
+\[
+\im(f_i)\subseteq \m F_i.
+\]
+
+\subsubsection*{Step 4: conclusion}
+
+Thus we obtain an exact complex
+\[
+\cdots \longrightarrow F_2 \xrightarrow{f_1} F_1 \xrightarrow{f_0} F_0 \xrightarrow{\varepsilon} M \longrightarrow 0
+\]
+with each \(F_i\) finitely generated free, and satisfying
+\[
+\im(f_i)\subseteq \m F_i
+\qquad\text{for every }i.
+\]
+By the criterion above, this is equivalent to
+\[
+f_i\otimes_A k=0
+\qquad\text{for every }i.
+\]
+Hence the free resolution is minimal. \qed
+
+\subsection{Compact proof}
+
+Here is the proof in its shortest standard form.
+
+\begin{theorem}
+	If \((A,\m)\) is Noetherian local and \(M\) is finitely generated, then \(M\) has a minimal free resolution by finitely generated free modules.
+\end{theorem}
+
+\textbf{Solution.}
+Choose a minimal surjection
+\[
+F_0\to M.
+\]
+Let
+\[
+K_1=\Ker(F_0\to M).
+\]
+Since \(A\) is Noetherian and \(F_0\) is finitely generated, \(K_1\) is finitely generated. Choose a minimal surjection
+\[
+F_1\to K_1.
+\]
+Composing with \(K_1\hookrightarrow F_0\) gives
+\[
+F_1\to F_0.
+\]
+Inductively, if
+\[
+F_i\to F_{i-1}
+\]
+has been constructed, let
+\[
+K_{i+1}=\Ker(F_i\to F_{i-1}).
+\]
+Again \(K_{i+1}\) is finitely generated, so choose a minimal surjection
+\[
+F_{i+1}\to K_{i+1}.
+\]
+This yields an exact complex
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0.
+\]
+Each differential has image contained in \(\m\) times the previous free module, so each differential becomes zero after tensoring with \(k\). Therefore the resolution is minimal. \qed
+
+\subsection{Examples, step by step}
+
+\subsubsection{Example 1: \(k\) over \(A=k[[x]]\)}
+
+Let
+\[
+A=k[[x]],\qquad \m=(x),\qquad M=k=A/(x).
+\]
+
+We construct a minimal free resolution of \(M\).
+
+\subsubsection*{Step 1}
+Take the natural surjection
+\[
+\varepsilon:A\to k.
+\]
+Its kernel is
+\[
+(x).
+\]
+Since
+\[
+(x)\subseteq \m A,
+\]
+the map is minimal.
+
+\subsubsection*{Step 2}
+Now resolve the kernel \((x)\). It is generated by \(x\), so take
+\[
+F_1=A
+\]
+and define
+\[
+f_0:A\to A,\qquad f_0(1)=x.
+\]
+This is multiplication by \(x\):
+\[
+f_0=\cdot x.
+\]
+
+\subsubsection*{Step 3}
+Because \(A=k[[x]]\) is a domain, multiplication by \(x\) is injective, so the kernel is \(0\). Thus the resolution ends.
+
+So the minimal free resolution is
+\[
+0\longrightarrow A \xrightarrow{\cdot x} A \longrightarrow k \longrightarrow 0.
+\]
+
+\subsubsection*{Why is it minimal?}
+Because
+\[
+x\in \m=(x),
+\]
+we have
+\[
+(\cdot x)\otimes_A k = 0.
+\]
+
+\subsubsection{Example 2: \(A/(x^2)\) over \(k[[x]]\)}
+
+Let
+\[
+A=k[[x]],\qquad \m=(x),\qquad M=A/(x^2).
+\]
+
+\subsubsection*{Step 1}
+The quotient map
+\[
+A\to A/(x^2)
+\]
+is surjective, with kernel \((x^2)\). Since
+\[
+(x^2)\subseteq (x)=\m,
+\]
+the map is minimal.
+
+\subsubsection*{Step 2}
+Resolve \((x^2)\). Since it is generated by \(x^2\), the first differential is
+\[
+A\xrightarrow{\cdot x^2}A.
+\]
+
+\subsubsection*{Step 3}
+Again \(A\) is a domain, so multiplication by \(x^2\) is injective. Thus the resolution is
+\[
+0\longrightarrow A \xrightarrow{\cdot x^2} A \longrightarrow A/(x^2)\longrightarrow 0.
+\]
+
+This is minimal because \(x^2\in \m\).
+
+\subsubsection{Example 3: \(k\) over \(A=k[[x,y]]\)}
+
+Let
+\[
+A=k[[x,y]],\qquad \m=(x,y),\qquad M=k=A/\m.
+\]
+
+\subsubsection*{Step 1}
+Take the quotient map
+\[
+\varepsilon:A\to k.
+\]
+Its kernel is
+\[
+(x,y).
+\]
+
+\subsubsection*{Step 2}
+The ideal \((x,y)\) is minimally generated by \(x\) and \(y\), so take
+\[
+F_1=A^2
+\]
+and define
+\[
+f_0:A^2\to A,\qquad f_0(a,b)=ax+by.
+\]
+Its image is \((x,y)\), so it fits into
+\[
+A^2\xrightarrow{(x\ \ y)}A\to k\to 0.
+\]
+
+\subsubsection*{Step 3}
+Now compute the kernel of \(f_0\). A basic relation is
+\[
+(-y,x),
+\]
+since
+\[
+(-y)x + xy = 0.
+\]
+In fact this generates the kernel. So take
+\[
+F_2=A
+\]
+and define
+\[
+f_1:A\to A^2,\qquad f_1(1)=(-y,x).
+\]
+Thus
+\[
+f_1=\begin{pmatrix}-y\\x\end{pmatrix}.
+\]
+
+\subsubsection*{Step 4}
+Since \(x,y\) form a regular sequence in \(k[[x,y]]\), the kernel of \(f_1\) is \(0\). Hence the resolution ends.
+
+So the minimal free resolution is
+\[
+0\longrightarrow A \xrightarrow{\begin{pmatrix}-y\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y)} A \longrightarrow k \longrightarrow 0.
+\]
+
+\subsubsection*{Why is it minimal?}
+All coefficients \(x\) and \(y\) lie in \(\m=(x,y)\). Hence both differentials become zero modulo \(\m\).
+
+\subsubsection{Example 4: \(k\) over \(A=k[x]/(x^2)\)}
+
+Let
+\[
+A=k[x]/(x^2),\qquad \m=(x),\qquad M=k=A/(x).
+\]
+
+This ring is local and Noetherian. We now construct the minimal free resolution.
+
+\subsubsection*{Step 1}
+Take the quotient map
+\[
+A\to k.
+\]
+Its kernel is \((x)\), which is contained in \(\m A\), so it is minimal.
+
+\subsubsection*{Step 2}
+Resolve \((x)\). It is generated by \(x\), so take
+\[
+A\xrightarrow{\cdot x}A.
+\]
+
+\subsubsection*{Step 3}
+Now compute the kernel of multiplication by \(x\). Because \(x^2=0\), we have
+\[
+\Ker(\cdot x)=(x).
+\]
+So the same kernel appears again.
+
+\subsubsection*{Step 4}
+Therefore the pattern repeats forever, giving the infinite minimal free resolution
+\[
+\cdots \xrightarrow{\cdot x} A \xrightarrow{\cdot x} A \xrightarrow{\cdot x} A \longrightarrow k \longrightarrow 0.
+\]
+
+\subsubsection*{Why is it minimal?}
+Because every differential is multiplication by \(x\), and
+\[
+x\in \m.
+\]
+So every differential becomes zero after tensoring with \(k\).
+
+\begin{remark}
+	This example shows that minimal free resolutions exist but need not terminate.
+\end{remark}
+
+\subsubsection{Example 5: \(A/(x,y^2)\) over \(k[[x,y]]\)}
+
+Let
+\[
+A=k[[x,y]],\qquad \m=(x,y),\qquad M=A/(x,y^2).
+\]
+
+\subsubsection*{Step 1}
+Start with the quotient map
+\[
+A\to A/(x,y^2).
+\]
+Its kernel is
+\[
+(x,y^2)\subseteq (x,y)=\m.
+\]
+Hence it is minimal.
+
+\subsubsection*{Step 2}
+Now resolve \((x,y^2)\). It is generated by \(x\) and \(y^2\), so take
+\[
+A^2\to A,\qquad (a,b)\mapsto ax+by^2.
+\]
+
+\subsubsection*{Step 3}
+A relation is
+\[
+(-y^2,x),
+\]
+because
+\[
+(-y^2)x + xy^2 = 0.
+\]
+Thus the next map is
+\[
+A\xrightarrow{\begin{pmatrix}-y^2\\x\end{pmatrix}}A^2.
+\]
+
+So we get a free resolution
+\[
+0\longrightarrow A \xrightarrow{\begin{pmatrix}-y^2\\x\end{pmatrix}} A^2 \xrightarrow{(x\ \ y^2)} A \longrightarrow A/(x,y^2)\longrightarrow 0.
+\]
+
+Since all coefficients lie in \(\m=(x,y)\), it is minimal.
+
+\subsection{How the construction works conceptually}
+
+A minimal free resolution is built by repeatedly choosing minimal generators of successive kernels:
+
+\begin{enumerate}[leftmargin=2em]
+	\item choose a minimal generating set of \(M\);
+	\item this gives a minimal surjection \(F_0\to M\);
+	\item compute the kernel \(K_1\);
+	\item choose a minimal generating set of \(K_1\);
+	\item this gives a minimal surjection \(F_1\to K_1\);
+	\item continue forever or until the kernel becomes \(0\).
+\end{enumerate}
+
+Thus the \(i\)-th free module in the minimal resolution corresponds to a minimal generating set of the \(i\)-th syzygy module.
+
+\subsection{Betti numbers}
+
+\begin{definition}
+	Suppose
+	\[
+	\cdots \to F_2\to F_1\to F_0\to M\to 0
+	\]
+	is a minimal free resolution of a finitely generated module \(M\), and write
+	\[
+	F_i\cong A^{\beta_i}.
+	\]
+	Then the numbers \(\beta_i\) are called the \emph{Betti numbers} of \(M\).
+\end{definition}
+
+Because every differential in a minimal free resolution becomes zero after tensoring with \(k\), we have
+\[
+\Tor_i^A(k,M)\cong F_i\otimes_A k\cong k^{\beta_i}.
+\]
+Hence
+\[
+\beta_i=\dim_k \Tor_i^A(k,M).
+\]
+
+So minimal free resolutions do not just exist: they also encode important invariants of the module.
+
+\subsection{Uniqueness remark}
+
+Although the problem asks only for existence, a standard theorem says that over a local ring, minimal free resolutions are unique up to isomorphism of complexes. In particular, the ranks \(\beta_i\) are intrinsic invariants of the module.
+
+\subsection{Summary of the proof}
+
+The proof of existence rests on three ideas:
+
+\begin{enumerate}[leftmargin=2em]
+	\item Every finitely generated module over a local ring admits a minimal surjection from a finitely generated free module.
+	\item Over a Noetherian ring, the kernel of a map from a finitely generated free module is again finitely generated.
+	\item Repeating this construction inductively yields an exact complex in which every differential has image inside \(\m\) times the previous free module, hence every differential becomes zero modulo \(\m\).
+\end{enumerate}
+
+Therefore every finitely generated module over a Noetherian local ring has a minimal free resolution by finitely generated free modules.
+
+\subsection{Final compact theorem-and-proof version}
+
+\begin{theorem}
+	Let \((A,\m)\) be a Noetherian local ring and \(M\) a finitely generated \(A\)-module. Then there exists a minimal free resolution
+	\[
+	\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+	\]
+	with each \(F_i\) finitely generated free.
+\end{theorem}
+
+\textbf{Solution.}
+Choose a minimal surjection
+\[
+F_0\to M
+\]
+with \(F_0\) finitely generated free. Let
+\[
+K_1=\Ker(F_0\to M).
+\]
+Because \(A\) is Noetherian and \(F_0\) is finitely generated, \(K_1\) is finitely generated. Choose a minimal surjection
+\[
+F_1\to K_1.
+\]
+Composing with the inclusion \(K_1\hookrightarrow F_0\), obtain
+\[
+F_1\to F_0
+\]
+with image \(K_1\). Continue inductively: if
+\[
+F_i\to F_{i-1}
+\]
+has been constructed, let
+\[
+K_{i+1}=\Ker(F_i\to F_{i-1}),
+\]
+which is finitely generated because \(A\) is Noetherian. Choose a minimal surjection
+\[
+F_{i+1}\to K_{i+1}.
+\]
+This yields an exact complex
+\[
+\cdots \to F_2\to F_1\to F_0\to M\to 0.
+\]
+Each differential has image contained in \(\m\) times the previous free module, so each differential becomes zero after tensoring with \(k=A/\m\). Hence the resulting free resolution is minimal. \qed
+
+
+\section{Projective Dimension, Minimal Free Resolutions, and Tor}
+
+\subsection{Statement of the problem}
+
+Let \((A,\mathfrak m)\) be a Noetherian local ring, let
+\[
+k=A/\mathfrak m,
+\]
+and let \(M\) be a finitely generated \(A\)-module.
+
+We define the projective dimension \(\operatorname{pd}_A(M)\) of \(M\) to be the smallest integer \(n\) for which there exists a free resolution
+\[
+0 \longrightarrow F_n \longrightarrow \cdots \longrightarrow F_0 \longrightarrow M \longrightarrow 0.
+\]
+This number need not be finite.
+
+The problem is to show that if \(\operatorname{pd}_A(M)\) is finite, then it equals the length of every minimal free resolution of \(M\). Further, one must prove that
+\[
+\operatorname{pd}_A(M)
+=
+\min \bigl\{\, i \;\big|\; \Tor^A_{i+1}(k,M)=0 \,\bigr\}.
+\]
+
+\subsection{General theory}
+
+The key point is that over a Noetherian local ring, minimal free resolutions are detected by the residue field.
+
+Let
+\[
+\cdots \longrightarrow F_2 \xrightarrow{d_2} F_1 \xrightarrow{d_1} F_0 \longrightarrow M \longrightarrow 0
+\]
+be a free resolution of \(M\) by finitely generated free \(A\)-modules.
+
+We say that this resolution is \emph{minimal} if every differential becomes zero after tensoring with \(k\), that is,
+\[
+d_i \otimes_A k = 0
+\qquad \text{for all } i.
+\]
+Equivalently,
+\[
+\operatorname{Im}(d_i)\subseteq \mathfrak m F_{i-1}
+\qquad \text{for all } i.
+\]
+
+This condition has a decisive consequence. Since all differentials in
+\[
+F_\bullet \otimes_A k
+\]
+are zero, its homology is simply the complex itself degree by degree. Hence for a minimal free resolution,
+\[
+\Tor_i^A(k,M)
+=
+H_i(F_\bullet \otimes_A k)
+=
+F_i \otimes_A k.
+\]
+Therefore
+\[
+\dim_k \Tor_i^A(k,M)=\operatorname{rank}(F_i).
+\]
+
+So the free modules appearing in a minimal free resolution are determined by the Tor groups with the residue field. In particular,
+\[
+F_i=0
+\quad \Longleftrightarrow \quad
+\Tor_i^A(k,M)=0.
+\]
+
+This is the central fact behind the statement of the problem.
+
+\subsection{Betti numbers and the meaning of the theorem}
+
+The numbers
+\[
+\beta_i^A(M):=\dim_k \Tor_i^A(k,M)
+\]
+are called the \emph{Betti numbers} of \(M\) over \(A\).
+
+If
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+is a minimal free resolution, then
+\[
+F_i \cong A^{\beta_i^A(M)}.
+\]
+Thus the minimal free resolution is, in a precise sense, the smallest free resolution possible: no free summand can be removed, because its size is already measured by \(\Tor_i^A(k,M)\).
+
+The statement of the problem says that if the projective dimension is finite, then the last nonzero term in the minimal free resolution occurs exactly in degree \(\operatorname{pd}_A(M)\), and this can also be read off from the last nonvanishing Tor group.
+
+\subsection{Proof of the theorem}
+
+\textbf{Solution.}
+
+Let
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+be a minimal free resolution of \(M\). Since the resolution is minimal, each differential becomes zero after tensoring with \(k=A/\mathfrak m\). Therefore
+\[
+\Tor_i^A(k,M)
+=
+H_i(F_\bullet \otimes_A k)
+=
+F_i \otimes_A k
+\qquad \text{for all } i.
+\tag{1}
+\]
+
+Assume now that \(\operatorname{pd}_A(M)=n<\infty\). By definition, there exists a free resolution of \(M\) of length \(n\):
+\[
+0 \longrightarrow G_n \longrightarrow G_{n-1} \longrightarrow \cdots \longrightarrow G_0 \longrightarrow M \longrightarrow 0.
+\]
+Since this resolution ends in degree \(n\), we have
+\[
+\Tor_j^A(k,M)=0
+\qquad \text{for all } j>n.
+\]
+Using (1), it follows that
+\[
+F_j \otimes_A k = 0
+\qquad \text{for all } j>n.
+\]
+But each \(F_j\) is a finitely generated free \(A\)-module, so
+\[
+F_j \otimes_A k = 0
+\quad \Longrightarrow \quad
+F_j=0.
+\]
+Hence
+\[
+F_j=0
+\qquad \text{for all } j>n.
+\]
+So the minimal free resolution has length at most \(n\).
+
+Now suppose the minimal free resolution has length \(m\). Then
+\[
+F_m \neq 0
+\qquad \text{and} \qquad
+F_j=0 \text{ for } j>m.
+\]
+From (1) we obtain
+\[
+\Tor_m^A(k,M)\cong F_m\otimes_A k \neq 0.
+\]
+Therefore \(\Tor_m^A(k,M)\neq 0\). If there were a free resolution of \(M\) of length \(<m\), then computing Tor from that shorter resolution would give
+\[
+\Tor_m^A(k,M)=0,
+\]
+which is impossible. Hence no free resolution can have length \(<m\). This shows that
+\[
+\operatorname{pd}_A(M)\ge m.
+\]
+But we already proved that the minimal free resolution has length at most \(n=\operatorname{pd}_A(M)\), so
+\[
+m\le \operatorname{pd}_A(M).
+\]
+Combining the two inequalities gives
+\[
+m=\operatorname{pd}_A(M).
+\]
+
+Thus, if \(\operatorname{pd}_A(M)\) is finite, then it equals the length of every minimal free resolution of \(M\).
+
+It remains to prove the Tor characterization. Let
+\[
+n=\operatorname{pd}_A(M).
+\]
+Then the minimal free resolution has length \(n\), so
+\[
+F_n\neq 0
+\qquad \text{and} \qquad
+F_{n+1}=0.
+\]
+Using (1), we get
+\[
+\Tor_n^A(k,M)\cong F_n\otimes_A k\neq 0
+\]
+and
+\[
+\Tor_{n+1}^A(k,M)\cong F_{n+1}\otimes_A k=0.
+\]
+Therefore \(n\) is exactly the smallest integer \(i\) such that \(\Tor_{i+1}^A(k,M)=0\). Hence
+\[
+\operatorname{pd}_A(M)
+=
+\min \bigl\{\, i \;\big|\; \Tor^A_{i+1}(k,M)=0 \,\bigr\}.
+\]
+
+This completes the proof.
+
+\subsection{A conceptual reformulation}
+
+The theorem is often remembered in the following equivalent form:
+
+if \(\operatorname{pd}_A(M)<\infty\), then
+\[
+\operatorname{pd}_A(M)
+=
+\sup \bigl\{\, i \;\big|\; \Tor_i^A(k,M)\neq 0 \,\bigr\}.
+\]
+
+Indeed, the last nonzero free module in a minimal free resolution occurs exactly in the same degree as the last nonzero Tor group with \(k\).
+
+So projective dimension is measured by how long the module continues to have nontrivial homological interaction with the residue field.
+
+\subsection{Example 1: a free module}
+
+Let
+\[
+M=A^r.
+\]
+Then \(M\) is already free, so there is a free resolution
+\[
+0 \longrightarrow A^r \xrightarrow{\operatorname{id}} M \longrightarrow 0.
+\]
+Thus
+\[
+\operatorname{pd}_A(M)=0.
+\]
+
+Also, since \(M\) is free, tensoring is exact, so
+\[
+\Tor_i^A(k,M)=0
+\qquad \text{for all } i\ge 1.
+\]
+Hence the smallest \(i\) such that \(\Tor_{i+1}^A(k,M)=0\) is \(i=0\), which agrees with the theorem.
+
+This is the simplest case: projective dimension \(0\) means precisely that the module is projective, and over a local ring a finitely generated projective module is free.
+
+\subsection{Example 2: the residue field over a discrete valuation ring}
+
+Let
+\[
+A=k[[t]],
+\qquad
+\mathfrak m=(t),
+\qquad
+M=A/(t)\cong k.
+\]
+A free resolution of \(M\) is
+\[
+0 \longrightarrow A \xrightarrow{\cdot t} A \longrightarrow A/(t) \longrightarrow 0.
+\]
+
+We check exactness carefully:
+
+the map \(A\to A/(t)\) is the natural quotient map, whose kernel is \((t)\). Since \(A\) is a domain, multiplication by \(t\) gives an injective map
+\[
+A \xrightarrow{\cdot t} A
+\]
+whose image is exactly \((t)\). So the sequence is exact.
+
+This resolution is minimal because the matrix entry \(t\) lies in \(\mathfrak m\).
+
+Now tensor with \(k=A/\mathfrak m\). Since \(t\) becomes zero mod \(\mathfrak m\), the complex becomes
+\[
+0 \longrightarrow k \xrightarrow{0} k \longrightarrow 0.
+\]
+Therefore
+\[
+\Tor_0^A(k,M)\cong k,
+\qquad
+\Tor_1^A(k,M)\cong k,
+\qquad
+\Tor_i^A(k,M)=0 \text{ for } i\ge 2.
+\]
+Hence
+\[
+\operatorname{pd}_A(M)=1.
+\]
+
+This matches the formula:
+\[
+\operatorname{pd}_A(M)
+=
+\min \bigl\{\, i \;\big|\; \Tor_{i+1}^A(k,M)=0 \,\bigr\}
+=
+1,
+\]
+because \(\Tor_2^A(k,M)=0\) but \(\Tor_1^A(k,M)\neq 0\).
+
+\subsection{Example 3: the residue field over a two-dimensional regular local ring}
+
+Let
+\[
+A=k[[x,y]],
+\qquad
+\mathfrak m=(x,y),
+\qquad
+M=k=A/\mathfrak m.
+\]
+A minimal free resolution of \(k\) is the Koszul complex on \(x,y\):
+\[
+0
+\longrightarrow
+A
+\xrightarrow{\binom{-y}{x}}
+A^2
+\xrightarrow{(x\ \ y)}
+A
+\longrightarrow
+k
+\longrightarrow
+0.
+\]
+
+This is exact because \(x,y\) is a regular sequence in \(k[[x,y]]\).
+
+It is minimal because all entries in the matrices belong to \(\mathfrak m=(x,y)\).
+
+After tensoring with \(k\), all differentials become zero, so the complex becomes
+\[
+0 \longrightarrow k \xrightarrow{0} k^2 \xrightarrow{0} k \longrightarrow 0.
+\]
+Hence
+\[
+\Tor_0^A(k,k)\cong k,
+\qquad
+\Tor_1^A(k,k)\cong k^2,
+\qquad
+\Tor_2^A(k,k)\cong k,
+\qquad
+\Tor_i^A(k,k)=0 \text{ for } i\ge 3.
+\]
+Therefore
+\[
+\operatorname{pd}_A(k)=2.
+\]
+
+This is a very important example: the residue field of a \(2\)-dimensional regular local ring has projective dimension \(2\).
+
+\subsection{Example 4: quotient by a nonzerodivisor}
+
+Let \((A,\mathfrak m)\) be a Noetherian local ring and let \(x\in \mathfrak m\) be a nonzerodivisor. Set
+\[
+M=A/(x).
+\]
+Then a free resolution is
+\[
+0 \longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x) \longrightarrow 0.
+\]
+
+The map \(A\to A\) given by multiplication by \(x\) is injective because \(x\) is a nonzerodivisor, and its image is \((x)\), the kernel of the quotient map \(A\to A/(x)\). So the sequence is exact.
+
+It is minimal because \(x\in \mathfrak m\).
+
+Tensoring with \(k\), the map becomes zero, so
+\[
+0 \longrightarrow k \xrightarrow{0} k \longrightarrow 0.
+\]
+Thus
+\[
+\Tor_1^A(k,M)\cong k,
+\qquad
+\Tor_i^A(k,M)=0 \text{ for } i\ge 2.
+\]
+Hence
+\[
+\operatorname{pd}_A(A/(x))=1.
+\]
+
+This example shows that a quotient by one nonzerodivisor has projective dimension \(1\).
+
+\subsection{Example 5: quotient by a regular sequence}
+
+Let \((A,\mathfrak m)\) be a Noetherian local ring, and let
+\[
+f_1,\dots,f_r \in \mathfrak m
+\]
+be a regular sequence. Set
+\[
+M=A/(f_1,\dots,f_r).
+\]
+Then the Koszul complex \(K_\bullet(f_1,\dots,f_r)\) is a free resolution of \(M\). It has the form
+\[
+0
+\longrightarrow
+A^{\binom{r}{r}}
+\longrightarrow
+A^{\binom{r}{r-1}}
+\longrightarrow
+\cdots
+\longrightarrow
+A^{\binom{r}{1}}
+\longrightarrow
+A
+\longrightarrow
+M
+\longrightarrow
+0.
+\]
+
+This resolution is minimal because each differential is built from the elements \(f_i\), and all \(f_i\in \mathfrak m\). Hence all differentials vanish after tensoring with \(k\).
+
+Therefore
+\[
+\Tor_i^A(k,M)\cong k^{\binom{r}{i}}
+\qquad \text{for } 0\le i\le r,
+\]
+and
+\[
+\Tor_i^A(k,M)=0
+\qquad \text{for } i>r.
+\]
+Thus
+\[
+\operatorname{pd}_A(M)=r.
+\]
+
+This is one of the most important families of examples: quotients by regular sequences have finite projective dimension equal to the length of the sequence.
+
+\subsection{Example 6: an infinite minimal resolution}
+
+It is equally important to see what happens when the projective dimension is infinite.
+
+Let
+\[
+A=k[\varepsilon]/(\varepsilon^2),
+\qquad
+\mathfrak m=(\varepsilon),
+\qquad
+M=k=A/\mathfrak m.
+\]
+Consider the complex
+\[
+\cdots
+\longrightarrow
+A
+\xrightarrow{\cdot \varepsilon}
+A
+\xrightarrow{\cdot \varepsilon}
+A
+\xrightarrow{\cdot \varepsilon}
+A
+\longrightarrow
+k
+\longrightarrow
+0.
+\]
+
+We verify exactness. Since \(\varepsilon^2=0\), one has
+\[
+\operatorname{Im}(\cdot \varepsilon)=(\varepsilon).
+\]
+Also,
+\[
+\ker(\cdot \varepsilon)=(\varepsilon),
+\]
+because for an element \(a+b\varepsilon\in A\),
+\[
+(a+b\varepsilon)\varepsilon=a\varepsilon,
+\]
+which is zero exactly when \(a=0\). So
+\[
+\ker(\cdot \varepsilon)=\operatorname{Im}(\cdot \varepsilon).
+\]
+Thus the complex is exact.
+
+It is minimal because \(\varepsilon\in \mathfrak m\), so every differential becomes zero after tensoring with \(k\).
+
+Hence after tensoring with \(k\), we get
+\[
+\cdots \longrightarrow k \xrightarrow{0} k \xrightarrow{0} k \xrightarrow{0} k \longrightarrow 0.
+\]
+Therefore
+\[
+\Tor_i^A(k,k)\cong k
+\qquad \text{for all } i\ge 0.
+\]
+No higher Tor group ever vanishes, so
+\[
+\operatorname{pd}_A(k)=\infty.
+\]
+
+This example shows why the assumption \(\operatorname{pd}_A(M)<\infty\) is necessary in the theorem.
+
+\subsection{Why the local hypothesis matters}
+
+The whole argument depends on the fact that over a local ring, minimality can be expressed by the condition
+\[
+d_i \otimes_A k = 0.
+\]
+This allows one to identify
+\[
+\Tor_i^A(k,M)
+\]
+directly with the \(i\)-th term of the minimal free resolution after reduction mod \(\mathfrak m\).
+
+Over general nonlocal rings, minimal resolutions can still be studied, but the theory is less immediate and often requires grading or localization at primes.
+
+So the local situation is special because the residue field detects exactly how many free generators survive in each degree.
+
+\subsection{Summary}
+
+For a finitely generated module \(M\) over a Noetherian local ring \((A,\mathfrak m)\), a minimal free resolution
+\[
+\cdots \longrightarrow F_2 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+has the property that
+\[
+\Tor_i^A(k,M)\cong F_i\otimes_A k.
+\]
+Therefore:
+\begin{itemize}
+	\item the rank of \(F_i\) is \(\dim_k \Tor_i^A(k,M)\),
+	\item \(F_i=0\) if and only if \(\Tor_i^A(k,M)=0\),
+	\item if \(\operatorname{pd}_A(M)<\infty\), then the last nonzero term of the minimal free resolution occurs in degree \(\operatorname{pd}_A(M)\),
+	\item equivalently,
+	\[
+	\operatorname{pd}_A(M)
+	=
+	\min \bigl\{\, i \;\big|\; \Tor^A_{i+1}(k,M)=0 \,\bigr\}.
+	\]
+\end{itemize}
+
+Thus projective dimension is completely visible in the Tor groups with the residue field, and minimal free resolutions are the natural homological device for reading it.
+
+
+\section{The Auslander--Buchsbaum Formula}
+
+\subsection{Statement of the problem}
+
+Let \((A,\mathfrak m)\) be a Noetherian local ring, and let \(M\) be a finitely generated \(A\)-module with finite projective dimension:
+\[
+\operatorname{pd}_A(M)<\infty.
+\]
+Assuming \(M\neq 0\), show that
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+
+This is one of the fundamental results of homological commutative algebra. It is usually called the \emph{Auslander--Buchsbaum formula}.
+
+\subsection{Depth: definition and meaning}
+
+Let \((A,\mathfrak m)\) be a local ring and let \(M\) be a finitely generated \(A\)-module with \(M\neq 0\).
+
+The \emph{depth} of \(M\), denoted \(\operatorname{depth}(M)\), is the length of a maximal \(M\)-regular sequence contained in \(\mathfrak m\). In other words,
+\[
+\operatorname{depth}(M)=\sup\bigl\{\, r \mid \text{there exists an \(M\)-regular sequence } x_1,\dots,x_r\in \mathfrak m \,\bigr\}.
+\]
+
+Recall that a sequence \(x_1,\dots,x_r\in \mathfrak m\) is \(M\)-regular if:
+\begin{itemize}
+	\item \(x_1\) is not a zerodivisor on \(M\),
+	\item \(x_2\) is not a zerodivisor on \(M/x_1M\),
+	\item \(\dots\),
+	\item \(x_r\) is not a zerodivisor on \(M/(x_1,\dots,x_{r-1})M\),
+	\item and \((x_1,\dots,x_r)M\neq M\).
+\end{itemize}
+
+In particular:
+\begin{itemize}
+	\item \(\operatorname{depth}(A)\) means the depth of \(A\) as an \(A\)-module,
+	\item if \(F\cong A^r\) is a finite free module with \(r>0\), then
+	\[
+	\operatorname{depth}(F)=\operatorname{depth}(A),
+	\]
+	because a sequence is \(A\)-regular if and only if it is \(A^r\)-regular.
+\end{itemize}
+
+\subsection{The key homological input: the depth lemma}
+
+The hint refers to a previous result, and the relevant tool is the \emph{depth lemma}.
+
+A standard form is the following.
+
+\medskip
+
+\textbf{Depth Lemma.}
+Suppose
+\[
+0 \longrightarrow L \longrightarrow M \longrightarrow N \longrightarrow 0
+\]
+is a short exact sequence of finitely generated modules over a Noetherian local ring. Then:
+\begin{align*}
+	\operatorname{depth}(M) &\ge \min\bigl(\operatorname{depth}(L),\operatorname{depth}(N)\bigr),\\[4pt]
+	\operatorname{depth}(L) &\ge \min\bigl(\operatorname{depth}(M),\operatorname{depth}(N)+1\bigr),\\[4pt]
+	\operatorname{depth}(N) &\ge \min\bigl(\operatorname{depth}(L)-1,\operatorname{depth}(M)\bigr).
+\end{align*}
+
+A particularly important consequence is the following syzygy-depth relation.
+
+\medskip
+
+\textbf{Corollary.}
+If
+\[
+0 \longrightarrow K \longrightarrow F \longrightarrow M \longrightarrow 0
+\]
+is exact, where \(F\) is a nonzero finite free \(A\)-module and \(M\) is not free, then
+\[
+\operatorname{depth}(K)=\operatorname{depth}(M)+1
+\]
+provided \(\operatorname{pd}_A(M)<\infty\).
+
+This is the form used in the induction below.
+
+\subsection{Projective dimension and first syzygies}
+
+Let
+\[
+0 \longrightarrow K \longrightarrow F \longrightarrow M \longrightarrow 0
+\]
+be exact with \(F\) finite free, where \(K\) is the first syzygy of \(M\).
+
+If \(\operatorname{pd}_A(M)=n\ge 1\), then
+\[
+\operatorname{pd}_A(K)=n-1.
+\]
+
+Indeed, if \(M\) has a free resolution of length \(n\),
+\[
+0 \longrightarrow F_n \longrightarrow \cdots \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0,
+\]
+then removing the last map \(F_0\to M\) gives a free resolution of \(K\) of length \(n-1\). So
+\[
+\operatorname{pd}_A(K)\le n-1.
+\]
+
+Conversely, if \(\operatorname{pd}_A(K)\le n-2\), then splicing a free resolution of \(K\) of length \(n-2\) with the exact sequence
+\[
+0 \longrightarrow K \longrightarrow F \longrightarrow M \longrightarrow 0
+\]
+would produce a free resolution of \(M\) of length at most \(n-1\), contradicting the minimality of \(n=\operatorname{pd}_A(M)\). Thus
+\[
+\operatorname{pd}_A(K)=n-1.
+\]
+
+This is the homological step that makes induction possible.
+
+\subsection{Proof of the formula}
+
+\textbf{Solution.}
+
+We prove by induction on
+\[
+n=\operatorname{pd}_A(M).
+\]
+
+\medskip
+
+\textbf{Base case \(n=0\).}
+
+If
+\[
+\operatorname{pd}_A(M)=0,
+\]
+then \(M\) is projective. Since \(A\) is local and \(M\) is finitely generated, every finitely generated projective module is free. Hence
+\[
+M\cong A^r
+\qquad \text{for some } r>0.
+\]
+Therefore
+\[
+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+So
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)
+=
+0+\operatorname{depth}(A)
+=
+\operatorname{depth}(A).
+\]
+
+\medskip
+
+\textbf{Case \(n=1\).}
+
+Suppose
+\[
+\operatorname{pd}_A(M)=1.
+\]
+Then there is an exact sequence
+\[
+0 \longrightarrow F_1 \longrightarrow F_0 \longrightarrow M \longrightarrow 0
+\]
+with \(F_0\) and \(F_1\) finite free modules.
+
+Since \(F_1\) is free,
+\[
+\operatorname{depth}(F_1)=\operatorname{depth}(A).
+\]
+By the depth lemma in the syzygy form,
+\[
+\operatorname{depth}(F_1)=\operatorname{depth}(M)+1.
+\]
+Hence
+\[
+\operatorname{depth}(M)+1=\operatorname{depth}(A),
+\]
+that is,
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)=1+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+
+So the formula holds when \(\operatorname{pd}_A(M)=1\).
+
+\medskip
+
+\textbf{Induction step.}
+
+Assume the formula is true for all finitely generated \(A\)-modules of projective dimension \(n-1\), where \(n\ge 2\), and let
+\[
+\operatorname{pd}_A(M)=n.
+\]
+
+Choose a surjection from a finite free module onto \(M\):
+\[
+F \twoheadrightarrow M,
+\]
+and let \(K\) be its kernel. Then we have a short exact sequence
+\[
+0 \longrightarrow K \longrightarrow F \longrightarrow M \longrightarrow 0
+\]
+with \(F\) finite free.
+
+By the discussion above,
+\[
+\operatorname{pd}_A(K)=n-1.
+\]
+Therefore, by the induction hypothesis,
+\[
+\operatorname{pd}_A(K)+\operatorname{depth}(K)=\operatorname{depth}(A).
+\]
+Since \(\operatorname{pd}_A(K)=n-1\), this becomes
+\[
+(n-1)+\operatorname{depth}(K)=\operatorname{depth}(A).
+\tag{1}
+\]
+
+Now apply the depth lemma in the syzygy form to
+\[
+0 \longrightarrow K \longrightarrow F \longrightarrow M \longrightarrow 0.
+\]
+Because \(F\) is free and \(M\) is not free (its projective dimension is \(n\ge 1\)), we get
+\[
+\operatorname{depth}(K)=\operatorname{depth}(M)+1.
+\tag{2}
+\]
+
+Substituting (2) into (1), we obtain
+\[
+(n-1)+\bigl(\operatorname{depth}(M)+1\bigr)=\operatorname{depth}(A),
+\]
+hence
+\[
+n+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+
+Since \(n=\operatorname{pd}_A(M)\), this is exactly
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+
+This completes the induction and proves the theorem.
+
+\subsection{What the formula means}
+
+The Auslander--Buchsbaum formula says that, over a Noetherian local ring, finite projective dimension forces an exact balance between:
+\begin{itemize}
+	\item the number of steps needed in a free resolution of \(M\), and
+	\item the depth of \(M\).
+\end{itemize}
+
+If the projective dimension is large, then the depth must be small.  
+If the depth is large, then the projective dimension must be small.
+
+So the formula measures a trade-off:
+\[
+\text{homological complexity} + \text{depth} = \text{depth of the ring}.
+\]
+
+It is one of the reasons depth is such a useful invariant: it is not just combinatorial data about regular sequences, but a quantity directly linked to the length of resolutions.
+
+\subsection{Example 1: free modules}
+
+Let \(A\) be any Noetherian local ring, and let
+\[
+M=A^r
+\qquad (r\ge 1).
+\]
+Then
+\[
+\operatorname{pd}_A(M)=0,
+\qquad
+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+Hence
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)
+=
+0+\operatorname{depth}(A)
+=
+\operatorname{depth}(A).
+\]
+
+So the formula is immediate in the free case.
+
+\subsection{Example 2: a quotient by one nonzerodivisor}
+
+Let
+\[
+A=k[[x,y]],
+\qquad
+M=A/(x).
+\]
+Since \(x\) is a nonzerodivisor in the regular local ring \(A\), we have an exact sequence
+\[
+0 \longrightarrow A \xrightarrow{\cdot x} A \longrightarrow A/(x) \longrightarrow 0.
+\]
+Thus
+\[
+\operatorname{pd}_A(M)=1.
+\]
+
+Now \(A\) is a regular local ring of dimension \(2\), so
+\[
+\operatorname{depth}(A)=2.
+\]
+Also,
+\[
+A/(x)\cong k[[y]]
+\]
+is a \(1\)-dimensional regular local ring, so
+\[
+\operatorname{depth}(M)=1.
+\]
+Therefore
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)=1+1=2=\operatorname{depth}(A).
+\]
+
+\subsection{Example 3: the residue field of a discrete valuation ring}
+
+Let
+\[
+A=k[[t]],
+\qquad
+\mathfrak m=(t),
+\qquad
+M=k=A/\mathfrak m.
+\]
+A free resolution of \(k\) is
+\[
+0 \longrightarrow A \xrightarrow{\cdot t} A \longrightarrow k \longrightarrow 0.
+\]
+So
+\[
+\operatorname{pd}_A(k)=1.
+\]
+
+Now \(k\) has depth \(0\), because every element of \(\mathfrak m\) acts as zero on \(k\), so no element of \(\mathfrak m\) can be \(k\)-regular. Thus
+\[
+\operatorname{depth}(k)=0.
+\]
+Since \(A\) is a DVR,
+\[
+\operatorname{depth}(A)=1.
+\]
+Hence
+\[
+\operatorname{pd}_A(k)+\operatorname{depth}(k)=1+0=1=\operatorname{depth}(A).
+\]
+
+\subsection{Example 4: the residue field of a two-dimensional regular local ring}
+
+Let
+\[
+A=k[[x,y]],
+\qquad
+M=k=A/(x,y).
+\]
+The minimal free resolution of \(k\) is the Koszul complex
+\[
+0 \longrightarrow A \longrightarrow A^2 \longrightarrow A \longrightarrow k \longrightarrow 0.
+\]
+So
+\[
+\operatorname{pd}_A(k)=2.
+\]
+
+Again,
+\[
+\operatorname{depth}(k)=0,
+\]
+because every element of \(\mathfrak m=(x,y)\) kills some nonzero element of \(k\), indeed acts as zero.
+
+Since \(A\) is a \(2\)-dimensional regular local ring,
+\[
+\operatorname{depth}(A)=2.
+\]
+Therefore
+\[
+\operatorname{pd}_A(k)+\operatorname{depth}(k)=2+0=2=\operatorname{depth}(A).
+\]
+
+\subsection{Example 5: quotient by a regular sequence}
+
+Let
+\[
+A=k[[x_1,\dots,x_d]]
+\]
+and let
+\[
+M=A/(x_1,\dots,x_r)
+\qquad (0\le r\le d).
+\]
+Since \(x_1,\dots,x_r\) is a regular sequence, the Koszul complex gives a free resolution of \(M\) of length \(r\), so
+\[
+\operatorname{pd}_A(M)=r.
+\]
+
+Also,
+\[
+M\cong k[[x_{r+1},\dots,x_d]],
+\]
+which is a regular local ring of dimension \(d-r\). Hence
+\[
+\operatorname{depth}(M)=d-r.
+\]
+Since
+\[
+\operatorname{depth}(A)=d,
+\]
+we obtain
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)
+=
+r+(d-r)
+=
+d
+=
+\operatorname{depth}(A).
+\]
+
+This example makes the formula very concrete.
+
+\subsection{Why the hypothesis \(\operatorname{pd}_A(M)<\infty\) matters}
+
+The formula can fail completely if \(M\) has infinite projective dimension.
+
+For example, let
+\[
+A=k[\varepsilon]/(\varepsilon^2),
+\qquad
+M=k=A/(\varepsilon).
+\]
+Then \(A\) is an Artinian local ring, so
+\[
+\operatorname{depth}(A)=0.
+\]
+Also
+\[
+\operatorname{depth}(k)=0.
+\]
+But \(k\) has infinite projective dimension over \(A\), because its minimal free resolution is infinite:
+\[
+\cdots \xrightarrow{\cdot \varepsilon} A \xrightarrow{\cdot \varepsilon} A \xrightarrow{\cdot \varepsilon} A \longrightarrow k \longrightarrow 0.
+\]
+
+So the left-hand side is not finite at all, and there is no equality of the form
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+
+Thus finite projective dimension is an essential hypothesis.
+
+\subsection{Summary}
+
+For a nonzero finitely generated module \(M\) over a Noetherian local ring \((A,\mathfrak m)\), if
+\[
+\operatorname{pd}_A(M)<\infty,
+\]
+then
+\[
+\operatorname{pd}_A(M)+\operatorname{depth}(M)=\operatorname{depth}(A).
+\]
+
+The proof proceeds by induction on the projective dimension:
+\begin{itemize}
+	\item if \(\operatorname{pd}_A(M)=0\), then \(M\) is free, so its depth is the same as the depth of \(A\);
+	\item if \(\operatorname{pd}_A(M)\ge 1\), one takes the first syzygy
+	\[
+	0 \longrightarrow K \longrightarrow F \longrightarrow M \longrightarrow 0,
+	\]
+	where \(F\) is free;
+	\item then
+	\[
+	\operatorname{pd}_A(K)=\operatorname{pd}_A(M)-1
+	\]
+	and
+	\[
+	\operatorname{depth}(K)=\operatorname{depth}(M)+1;
+	\]
+	\item induction finishes the argument.
+\end{itemize}
+
+This theorem is one of the clearest bridges between regular sequences, depth, and free resolutions.
+
+\end{document}
+

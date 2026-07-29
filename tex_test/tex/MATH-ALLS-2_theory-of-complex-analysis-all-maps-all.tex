@@ -1,0 +1,1895 @@
+% =========================================================
+% Complex Analysis — Problems + Background + Solutions
+% (branch-cut contour, Fourier transforms, SC rectangle map)
+% Step-by-step style; no custom environments; prints cleanly
+% =========================================================
+\documentclass[11pt]{article}
+
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{microtype}
+\setlength{\parskip}{0.85em}
+\setlength{\parindent}{0pt}
+
+\DeclareMathOperator{\Res}{Res}
+
+\newcommand{\BoxEq}[1]{\begin{equation*}\boxed{\displaystyle #1}\end{equation*}}
+
+\DeclareMathOperator{\arccot}{arccot}
+\DeclareMathOperator{\arsinh}{arsinh}
+\DeclareMathOperator{\arcosh}{arcosh}
+\DeclareMathOperator{\artanh}{artanh}
+\DeclareMathOperator{\arcoth}{arcoth}
+
+\usepackage{tikz,pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usepackage{enumitem}
+
+\begin{document}
+	
+	\begin{center}
+		{\Large\bf Complex Analysis: Contours, Fourier Transforms, and Schwarz--Christoffel}\\[0.45em]
+		{\small Problems with background and complete solutions}
+	\end{center}
+	
+	\bigskip
+	
+	% =========================================================
+	\section{Problem 1: Evaluate \(\displaystyle \int_{-1}^{1}\frac{\sqrt{1-x^{2}}}{x^{2}+1}\,dx\) by contour integration}
+	
+	\textit{Hint.} Consider \(F(z)=\sqrt{z^{2}-1}/(z^{2}+1)\) with a branch cut on \([-1,1]\), and integrate around a large circle.
+	
+	\subsection*{Background}
+	Fix the branch of \(G(z)=\sqrt{z^{2}-1}\) with cut on \([-1,1]\) and \(G(x)>0\) for \(x>1\).
+	For \(x\in(-1,1)\),
+	\[
+	G(x+i0)=+\,i\sqrt{1-x^{2}},\qquad G(x-i0)=-\,i\sqrt{1-x^{2}}.
+	\]
+	Hence the sum of the upper and lower lip integrals across the cut equals
+	\[
+	2i\int_{-1}^{1}\frac{\sqrt{1-x^{2}}}{x^{2}+1}\,dx = 2i\,I.
+	\]
+	
+	\subsection*{Solution}
+	Define
+	\[
+	F(z)=\frac{\sqrt{z^{2}-1}}{z^{2}+1},\qquad z\in\mathbb C\setminus[-1,1].
+	\]
+	Poles: \(z=\pm i\) (simple). Large-circle behavior: \(F(z)=\dfrac{1}{z}+O(z^{-3})\); thus
+	\[
+	\int_{|z|=R}F(z)\,dz \longrightarrow 2\pi i \qquad (R\to\infty).
+	\]
+	Deforming the big circle to a contour hugging the cut gives
+	\[
+	\underbrace{\int_{|z|=R}F(z)\,dz}_{\to\,2\pi i}
+	=
+	\underbrace{\int_{\text{upper lip}}F\,dz+\int_{\text{lower lip}}F\,dz}_{=\,2i\,I}
+	+\text{(vanishing end caps)}.
+	\]
+	Residues at the simple poles:
+	\begin{align*}
+		\Res_{z=i}F
+		&=\lim_{z\to i}\frac{(z-i)\sqrt{z^{2}-1}}{(z-i)(z+i)}
+		=\frac{\sqrt{i^{2}-1}}{2i}
+		=\frac{\sqrt{-2}}{2i}
+		=\frac{\sqrt2}{2},\\
+		\Res_{z=-i}F
+		&=\lim_{z\to -i}\frac{(z+i)\sqrt{z^{2}-1}}{(z-i)(z+i)}
+		=\frac{\sqrt{(-i)^{2}-1}}{-2i}
+		=\frac{\sqrt{-2}}{-2i}
+		=\frac{\sqrt2}{2}.
+	\end{align*}
+	Hence, by the residue theorem,
+	\[
+	\int_{|z|=R}F(z)\,dz \longrightarrow 2\pi i\left(\frac{\sqrt2}{2}+\frac{\sqrt2}{2}\right)=2\pi i\sqrt2.
+	\]
+	Equating the two expressions for the big-circle integral,
+	\[
+	2i\,I=2\pi i(\sqrt2-1)\quad\Rightarrow\quad
+	\boxed{\,I=\pi(\sqrt2-1)\, }.
+	\]
+	
+	\subsection*{Check (real calculus)}
+	With \(x=\sin\theta\),
+	\[
+	I=2\int_{0}^{\pi/2}\frac{\cos^{2}\theta}{1+\sin^{2}\theta}\,d\theta
+	=2\int_{0}^{\infty}\frac{dt}{(1+t^{2})(1+2t^{2})}\,dt
+	=\pi(\sqrt2-1).
+	\]
+	
+	\bigskip\hrule\bigskip
+	
+	% =========================================================
+	\section{Problem 2: Fourier transforms and inverse verification}
+	
+	We use the convention \(\displaystyle \widehat f(\xi)=\int_{-\infty}^{\infty} f(x)\,e^{-i\xi x}\,dx\) and
+	\(\displaystyle f(x)=\frac{1}{2\pi}\int_{-\infty}^{\infty}\widehat f(\xi)\,e^{i\xi x}\,d\xi\).
+	
+	\subsection*{(a) \(f(x)=e^{-|x|}\) — Transform and step-by-step inverse}
+	\textit{Transform:}
+	\[
+	\widehat f(\xi)
+	=\int_{0}^{\infty}e^{-(1+i\xi)x}\,dx+\int_{-\infty}^{0}e^{(1-i\xi)x}\,dx
+	=\frac{1}{1+i\xi}+\frac{1}{1-i\xi}
+	=\boxed{\frac{2}{1+\xi^{2}}}.
+	\]
+	
+	\textit{Inverse by residues (two cases):}
+	\begin{align*}
+		f(x)
+		&=\frac{1}{2\pi}\int_{\mathbb R}\frac{2\,e^{i\xi x}}{1+\xi^{2}}\,d\xi
+		=\frac{1}{2\pi}\int_{\mathbb R}\frac{2\,e^{i\xi x}}{(\xi-i)(\xi+i)}\,d\xi.
+		\\[0.25em]
+		\textbf{Case }x>0:\quad
+		f(x)
+		&=\frac{1}{2\pi}\oint_{\Gamma^+}\frac{2\,e^{i\xi x}}{(\xi-i)(\xi+i)}\,d\xi
+		&&\text{(close upward; Jordan’s lemma)}\\
+		&=\frac{1}{2\pi}(2\pi i)\,\Res_{\xi=i}\!\left(\frac{2\,e^{i\xi x}}{(\xi-i)(\xi+i)}\right)
+		=\frac{i\,2\,e^{ix}}{2i( i+i)}=\;e^{-x}.
+		\\[0.35em]
+		\textbf{Case }x<0:\quad
+		f(x)
+		&=\frac{1}{2\pi}\oint_{\Gamma^-}\frac{2\,e^{i\xi x}}{(\xi-i)(\xi+i)}\,d\xi
+		&&\text{(close downward)}\\
+		&=\frac{1}{2\pi}(2\pi i)\,\Res_{\xi=-i}\!\left(\frac{2\,e^{i\xi x}}{(\xi-i)(\xi+i)}\right)
+		=\;e^{\,x}.
+	\end{align*}
+	Therefore \(\boxed{\,f(x)=e^{-|x|}\,}\).
+	
+	\subsection*{(b) \(f(x)=e^{-a^{2}x^{2}}\) (\(a>0\)) — Transform and step-by-step inverse}
+	\textit{Transform:}
+	\begin{align*}
+		\widehat f(\xi)
+		&=\int_{\mathbb R}e^{-a^{2}x^{2}-i\xi x}\,dx
+		= e^{-\xi^{2}/(4a^{2})}\int_{\mathbb R}e^{-a^{2}\left(x+i\frac{\xi}{2a^{2}}\right)^{2}}dx\\
+		&\phantom{=} \qquad \Rightarrow\qquad
+		\boxed{\,\widehat f(\xi)=\frac{\sqrt{\pi}}{a}\,e^{-\xi^{2}/(4a^{2})}\, }.
+	\end{align*}
+	(Justify by integrating over a large rectangle whose vertical sides are the real line and
+	the line shifted up by \(i\,\xi/(2a^{2})\); the horizontal sides vanish by Gaussian decay.)
+	
+	\textit{Inverse by a rectangular shift (explicit steps):}
+	\begin{align*}
+		f(x)
+		&=\frac{1}{2\pi}\int_{\mathbb R}\frac{\sqrt{\pi}}{a}\,e^{-\xi^{2}/(4a^{2})}\,e^{i\xi x}\,d\xi\\
+		&=\frac{1}{2\pi}\cdot\frac{\sqrt{\pi}}{a}\,
+		\int_{\mathbb R} \exp\!\left(-\frac{1}{4a^{2}}(\xi-2ia^{2}x)^{2}\right)\,
+		\exp\!\left(-a^{2}x^{2}\right)\,d\xi
+		&&\text{(complete the square)}\\
+		&=\frac{1}{2\pi}\cdot\frac{\sqrt{\pi}}{a}\,e^{-a^{2}x^{2}}
+		\int_{\mathbb R+2ia^{2}x} \exp\!\left(-\frac{u^{2}}{4a^{2}}\right)\,du
+		&&\text{(shift contour vertically)}\\
+		&=\frac{1}{2\pi}\cdot\frac{\sqrt{\pi}}{a}\,e^{-a^{2}x^{2}}
+		\int_{\mathbb R} \exp\!\left(-\frac{u^{2}}{4a^{2}}\right)\,du
+		&&\text{(no poles; horizontal sides vanish)}\\
+		&=\frac{1}{2\pi}\cdot\frac{\sqrt{\pi}}{a}\,e^{-a^{2}x^{2}}\cdot 2a\sqrt{\pi}
+		\;=\;e^{-a^{2}x^{2}}.
+	\end{align*}
+	
+	\bigskip\hrule\bigskip
+	
+	% =========================================================
+	\section{Problem 3: Schwarz--Christoffel map from the half-plane to a rectangle}
+	
+	\subsection*{Statement}
+	Write down, as an integral, the Schwarz--Christoffel map from the upper half-plane \(\mathbb H\) to a rectangle,
+	with vertices being the images of the points \(z=\pm1\) and \(z=\pm a\) (with \(a>1\) real).
+	Explain why \(a\) cannot be chosen arbitrarily, but is determined by the rectangle’s aspect ratio.
+	
+	\subsection*{Background}
+	For prevertices \(x_k\in\mathbb R\) mapping to interior angles \(\alpha_k\pi\) in the polygon,
+	\[
+	f'(z)=C\prod_k (z-x_k)^{\alpha_k-1}\qquad\text{(up to an affine change of variables).}
+	\]
+	A rectangle has \(\alpha_k=\tfrac12\) at each vertex, so every factor’s exponent is \(-\tfrac12\).
+	
+	\subsection*{Solution}
+	Place prevertices at \(-a,-1,1,a\) (in order) with \(a>1\).
+	Then
+	\[
+	f'(z)=C\,(z{+}a)^{-1/2}(z{+}1)^{-1/2}(z{-}1)^{-1/2}(z{-}a)^{-1/2}
+	=\frac{C}{\sqrt{(z^{2}-1)(z^{2}-a^{2})}}.
+	\]
+	Integrating,
+	\[
+	\boxed{\qquad f(z)=A+C\int^{\,z}\frac{dt}{\sqrt{(t^{2}-1)(t^{2}-a^{2})}}\qquad}
+	\]
+	maps \(\mathbb H\) conformally to a rectangle (up to translation and scaling).
+	
+	\subsection*{Aspect ratio determines \(a\)}
+	Side lengths are proportional to real integrals between consecutive prevertices:
+	\[
+	W(a)=\int_{-1}^{1}\frac{dt}{\sqrt{(1-t^{2})(a^{2}-t^{2})}},\qquad
+	H(a)=\int_{1}^{a}\frac{dt}{\sqrt{(t^{2}-1)(a^{2}-t^{2})}}.
+	\]
+	Let \(k=1/a\in(0,1)\). Standard substitutions give
+	\[
+	W(a)=\frac{2}{a}\,K(k),\qquad H(a)=\frac{2}{a}\,K'(k),
+	\]
+	where \(K\) is the complete elliptic integral of the first kind and \(K'(k)=K(\sqrt{1-k^{2}})\).
+	Thus
+	\[
+	\frac{H(a)}{W(a)}=\frac{K'(k)}{K(k)}\qquad\text{with }k=\frac{1}{a}.
+	\]
+	Given a rectangle, this ratio fixes \(k\) (hence \(a\)) uniquely; therefore \(a\) is not free.
+	
+	\bigskip
+	
+	
+	% ==================== Part (a) ====================
+	\section*{4(a). Statement and branch points}
+	Suppose \(\zeta^2=z^2+1\) and
+	\[
+	z-i=r_1e^{i\theta_1},\qquad z+i=r_2e^{i\theta_2}\qquad (r_1,r_2>0).
+	\]
+	Then
+	\[
+	\boxed{\ \zeta=\pm(r_1r_2)^{1/2}e^{\,i(\theta_1+\theta_2)/2}\ }.
+	\]
+	\emph{Reason.} \(z^2+1=(z-i)(z+i)=r_1r_2e^{i(\theta_1+\theta_2)}\). Any square root has the two signs above.
+	The branch points of the multifunction \((z^2+1)^{1/2}\) are where either factor vanishes, i.e. \(z=\pm i\).
+	
+	% ==================== Part (b) ====================
+	\section*{4(b). A branch with a finite vertical cut}
+	Define the branch by
+	\[
+	f(z)=(r_1r_2)^{1/2}e^{\,i(\theta_1+\theta_2)/2},\qquad -\frac{\pi}{2}<\theta_1,\theta_2\le\frac{3\pi}{2}.
+	\]
+	
+	\subsection*{Values across the imaginary axis}
+	Let \(z=x+iy\) and set \(\phi(y)=\tfrac12(\theta_1+\theta_2)\).
+	Note
+	\[
+	r_1=|y-1|,\quad r_2=|y+1|,\qquad
+	\arg(i t)=\begin{cases}\pi/2,&t>0,\\ -\pi/2,&t<0.\end{cases}
+	\]
+	\textbf{(i) \(|y|<1\).} \(y-1<0\), \(y+1>0\).
+	\begin{align*}
+		x\to 0^+:&\ \theta_1\to(-\pi/2)^+,\ \theta_2\to(\pi/2)^- \Rightarrow \phi(y)\to 0,\\
+		x\to 0^-:&\ \theta_1\to(3\pi/2)^-,\ \theta_2\to(\pi/2)^+ \Rightarrow \phi(y)\to \pi.
+	\end{align*}
+	Hence
+	\[
+	f(0^+{+}iy)=\sqrt{1-y^2},\qquad f(0^-{+}iy)=-\sqrt{1-y^2}.
+	\]
+	\textbf{(ii) \(y>1\).} \(\theta_1=\theta_2=\pi/2\) on both sides, so \(\phi(y)=\pi/2\) and
+	\[
+	f(\pm0{+}iy)= i\sqrt{y^2-1}.
+	\]
+	\textbf{(iii) \(y<-1\).} \(\theta_1=\theta_2=-\pi/2\) (mod \(2\pi\)), so \(\phi(y)=-\pi/2\) and
+	\[
+	f(\pm0{+}iy)= -i\sqrt{y^2-1}.
+	\]
+	
+	\subsection*{Branch cut and behaviour at infinity}
+	The only jump occurs for \(|y|<1\) on the imaginary axis, hence the branch cut is
+	\[
+	\boxed{\,S=\{x+iy : x=0,\ |y|\le 1\}\, }.
+	\]
+	For \(|z|\to\infty\),
+	\[
+	f(z)=|z|e^{i\arg z}\,(1+o(1))=z\,(1+o(1)),
+	\]
+	so \(f(z)\sim z\). The image of \(S\) is the real segment \([-1,1]\); the imaginary axis outside \(S\) maps to the
+	imaginary axis. Thus \(f:\mathbb C\setminus S\to \mathbb C\setminus[-1,1]\) is conformal with \(f(z)\sim z\).
+	
+	% ==================== Part (c) ====================
+	\section*{4(c). A branch with two semi-infinite vertical cuts}
+	Now define
+	\[
+	f(z)=(r_1r_2)^{1/2}e^{\,i(\theta_1+\theta_2)/2},\qquad
+	-\frac{3\pi}{2}<\theta_1\le\frac{\pi}{2},\quad -\frac{\pi}{2}<\theta_2\le\frac{3\pi}{2}.
+	\]
+	
+	\subsection*{Values across the imaginary axis}
+	Let \(z=x+iy\), \(x\to0^\pm\).
+	\begin{itemize}
+		\item \(|y|<1\): we may keep \(\theta_1\approx -\pi/2\), \(\theta_2\approx \pi/2\) on both sides, hence
+		\[
+		f(\pm0{+}iy)=\sqrt{1-y^2}\quad(\text{no jump}).
+		\]
+		\item \(y>1\): crossing the axis forces \(\theta_1\) to jump by \(2\pi\); thus
+		\[
+		f(0^+{+}iy)=+i\sqrt{y^2-1},\qquad f(0^-{+}iy)=-i\sqrt{y^2-1}.
+		\]
+		\item \(y<-1\): analogously,
+		\[
+		f(0^+{+}iy)=-i\sqrt{y^2-1},\qquad f(0^-{+}iy)=+i\sqrt{y^2-1}.
+		\]
+	\end{itemize}
+	Therefore the branch cut consists of the two rays \((-\infty i,-i]\cup[i,+\infty i)\).
+	
+	\subsection*{Values on the real axis and asymptotics by half-planes}
+	For \(z=x\in\mathbb R\),
+	\[
+	r_1=r_2=\sqrt{x^2+1},\qquad
+	\frac{\theta_1+\theta_2}{2}=\begin{cases}0,&x>0,\\ \pi,&x<0.\end{cases}
+	\]
+	Hence
+	\[
+	\boxed{\,f(x)=\operatorname{sgn}(x)\,\sqrt{x^2+1}\, }.
+	\]
+	As \(|z|\to\infty\),
+	\[
+	f(z)\sim |z|e^{i\arg z}\times
+	\begin{cases}1,& \Re z>0,\\ -1,& \Re z<0,\end{cases}
+	\]
+	i.e.
+	\[
+	\boxed{\,f(z)\sim z\ \text{for }\Re z>0,\qquad f(z)\sim -z\ \text{for }\Re z<0.}
+	\]
+	
+	
+	\section*{Exact problem statement (as in the text)}
+	
+% ---------- Problem 4 (readable, line-broken version) ----------
+\section*{4.\; Branches of \(\sqrt{z^{2}+1}\) — Problem statement}
+
+\begin{enumerate}[label=(\alph*),leftmargin=2.1em]
+	
+	\item \textbf{(a)}\;
+	Show that, if \(\zeta^{2}=z^{2}+1\) and
+	\[
+	z = i + r_{1}e^{i\theta_{1}} = -\,i + r_{2}e^{i\theta_{2}},
+	\qquad r_{1},r_{2}>0,\ \theta_{1},\theta_{2}\in\mathbb{R},
+	\]
+	then
+	\[
+	\zeta \;=\; \pm\,(r_{1}r_{2})^{1/2}\,e^{\,i(\theta_{1}+\theta_{2})/2}.
+	\]
+	Explain briefly why \(z=\pm i\) are the branch points of the multifunction \((z^{2}+1)^{1/2}\).
+	
+	\medskip
+	
+	\item \textbf{(b)}\;
+	Consider the branch defined by
+	\[
+	f(z) \;=\; (r_{1}r_{2})^{1/2} \, e^{\,i(\theta_{1}+\theta_{2})/2},
+	\qquad -\tfrac{\pi}{2}<\theta_{1},\ \theta_{2}\le \tfrac{3\pi}{2}.
+	\]
+	State the values of \((\theta_{1}+\theta_{2})/2\) on either side of the imaginary axis,
+	and hence compute \(f(\pm0+iy)\) in terms of \(y\) for \(y\in\mathbb{R}\).
+	Deduce that the branch cut is
+	\[
+	S \;=\; \{\,x+iy:\ x=0,\ |y|\le 1\,\}.
+	\]
+	Show that \(f(z)\sim z\) as \(|z|\to\infty\)
+	(i.e.\ \(f(z)/z\to 1\) as \(|z|\to\infty\)).
+	Sketch the image of the cut \(z\)-plane \(\mathbb{C}\setminus S\) under the map \(\zeta=f(z)\).
+	
+	\medskip
+	
+	\item \textbf{(c)}\;
+	Consider instead the branch
+	\[
+	f(z) \;=\; (r_{1}r_{2})^{1/2} \, e^{\,i(\theta_{1}+\theta_{2})/2},
+	\qquad -\tfrac{3\pi}{2}<\theta_{1}\le \tfrac{\pi}{2},\quad
+	-\tfrac{\pi}{2}<\theta_{2}\le \tfrac{3\pi}{2}.
+	\]
+	State the values of \((\theta_{1}+\theta_{2})/2\) on either side of the imaginary axis,
+	and hence compute \(f(\pm0+iy)\) in terms of \(y\) for \(y\in\mathbb{R}\).
+	Deduce that the branch cut is along the imaginary axis
+	from \(z=-i\infty\) to \(z=-i\) and from \(z=i\) to \(z=i\infty\).
+	Compute \(f(x)\) in terms of \(x\) for \(x\in\mathbb{R}\).
+	Show that
+	\[
+	f(z)\sim
+	\begin{cases}
+		z,  & \text{as } |z|\to\infty \text{ with } \Re(z)>0,\\[2pt]
+		-z,  & \text{as } |z|\to\infty \text{ with } \Re(z)<0.
+	\end{cases}
+	\]
+	Sketch the images of the half-planes \(\Re(z)>0\) and \(\Re(z)<0\) under the map \(\zeta=f(z)\).
+	
+\end{enumerate}
+	
+	\bigskip\hrule\bigskip
+	
+	% =========================
+	\section*{Solutions (with background)}
+	
+	Throughout, write
+	\[
+	z-i=r_{1}e^{i\theta_{1}},\qquad z+i=r_{2}e^{i\theta_{2}},\qquad r_{1},r_{2}>0,
+	\]
+	so that
+	\[
+	z^{2}+1=(z-i)(z+i)=r_{1}r_{2}\,e^{i(\theta_{1}+\theta_{2})}.
+	\]
+	
+	\subsection*{(a) Formula for \(\zeta\) and branch points}
+	Since \(\zeta^{2}=r_{1}r_{2}\,e^{i(\theta_{1}+\theta_{2})}\), any square root is
+	\[
+	\boxed{\ \zeta=\pm(r_{1}r_{2})^{1/2}e^{i(\theta_{1}+\theta_{2})/2}\ }.
+	\]
+	Branch points occur at zeros of \(z^{2}+1\), where an argument for a factor cannot be chosen continuously:
+	these are exactly \(z=\pm i\).
+	
+	\subsection*{(b) Branch with finite vertical cut \(S=\{x=0,\,|y|\le 1\}\)}
+	
+	\textbf{Branch choice.} Take \(-\frac{\pi}{2}<\theta_{1},\theta_{2}\le \frac{3\pi}{2}\) and define
+	\(f(z)=(r_{1}r_{2})^{1/2}e^{i(\theta_{1}+\theta_{2})/2}\).
+	
+	\textbf{Angles on the imaginary axis.} Let \(z=x+iy\) and denote
+	\(\phi(y)=\tfrac12(\theta_{1}+\theta_{2})\).
+	Use
+	\[
+	r_{1}=|y-1|,\quad r_{2}=|y+1|,\qquad
+	\arg(i t)=\begin{cases}\pi/2,&t>0,\\ -\pi/2,&t<0.\end{cases}
+	\]
+	\emph{(i) \(|y|<1\).}
+	As \(x\to 0^{+}\): \(\theta_{1}\to (-\pi/2)^{+}\), \(\theta_{2}\to (\pi/2)^{-}\Rightarrow \phi(y)\to 0\).
+	As \(x\to 0^{-}\): to keep \(\theta_{1}\) in \((-\pi/2,3\pi/2]\) we add \(2\pi\),
+	so \(\theta_{1}\to (3\pi/2)^{-}\), \(\theta_{2}\to(\pi/2)^{+}\Rightarrow \phi(y)\to \pi\).
+	Hence
+	\[
+	\boxed{\,f(0^{+}+iy)=\sqrt{1-y^{2}},\qquad f(0^{-}+iy)=-\sqrt{1-y^{2}}\quad(|y|<1)\, }.
+	\]
+	
+	\emph{(ii) \(y>1\).}
+	\(\theta_{1}=\theta_{2}=\pi/2\) from either side, so
+	\[
+	\boxed{\,f(\pm 0+iy)= i\sqrt{y^{2}-1}\quad(y>1)\, }.
+	\]
+	
+	\emph{(iii) \(y<-1\).}
+	\(\theta_{1}=\theta_{2}=-\pi/2\) (mod \(2\pi\)), so
+	\[
+	\boxed{\,f(\pm 0+iy)= -i\sqrt{y^{2}-1}\quad(y<-1)\, }.
+	\]
+	
+	\textbf{Branch cut.}
+	The only sign jump occurs for \(|y|<1\) on the imaginary axis, hence
+	\[
+	\boxed{\,S=\{x+iy:\ x=0,\ |y|\le 1\}\, }.
+	\]
+	
+	\textbf{Asymptotics.}
+	As \(|z|\to\infty\),
+	\[
+	r_{1}r_{2}=|z-i||z+i|=|z^{2}+1|=|z|^{2}(1+o(1)),\qquad
+	\theta_{1}+\theta_{2}=\arg(z^{2}+1)=2\arg z+o(1),
+	\]
+	so
+	\[
+	\boxed{\,f(z)\sim z\quad (|z|\to\infty)\, }.
+	\]
+	
+	\textbf{Image sketch.}
+	The cut segment \(S\) maps to the real interval \([-1,1]\) (opposite sides map to \((0,1]\) and \([-1,0)\));
+	outside \(S\) the imaginary axis maps to the imaginary axis. Thus \(f:\mathbb C\setminus S\to\mathbb C\setminus[-1,1]\) is conformal with \(f(z)\sim z\).
+	
+	\subsection*{(c) Branch with two semi-infinite cuts}
+	
+	\textbf{Branch choice.}
+	Take \(-\frac{3\pi}{2}<\theta_{1}\le \frac{\pi}{2}\) and \(-\frac{\pi}{2}<\theta_{2}\le \frac{3\pi}{2}\),
+	and define \(f(z)=(r_{1}r_{2})^{1/2}e^{i(\theta_{1}+\theta_{2})/2}\).
+	
+	\textbf{Angles across the imaginary axis.}
+	For \(z=x+iy\):
+	
+	\emph{(i) \(|y|<1\).}
+	We may keep \(\theta_{1}\approx -\pi/2\) and \(\theta_{2}\approx \pi/2\) on both sides, hence
+	\[
+	\boxed{\,f(\pm 0+iy)=\sqrt{1-y^{2}}\quad(|y|<1)\, }.
+	\]
+	
+	\emph{(ii) \(y>1\).}
+	Crossing the axis forces \(\theta_{1}\) to jump by \(2\pi\); therefore
+	\[
+	\boxed{\,f(0^{+}+iy)=+i\sqrt{y^{2}-1},\qquad f(0^{-}+iy)=-i\sqrt{y^{2}-1}\quad(y>1)\, }.
+	\]
+	
+	\emph{(iii) \(y<-1\).}
+	Similarly,
+	\[
+	\boxed{\,f(0^{+}+iy)=-i\sqrt{y^{2}-1},\qquad f(0^{-}+iy)=+i\sqrt{y^{2}-1}\quad(y<-1)\, }.
+	\]
+	
+	\textbf{Branch cuts.}
+	The discontinuities occur on the rays
+	\[
+	\boxed{\,(-i\infty,-i]\ \cup\ [i,+i\infty)\, }.
+	\]
+	
+	\textbf{Values on the real axis.}
+	For \(z=x\in\mathbb R\), \(r_{1}=r_{2}=\sqrt{x^{2}+1}\) and
+	\[
+	\frac{\theta_{1}+\theta_{2}}{2}=
+	\begin{cases}
+		0,& x>0,\\
+		\pi,& x<0.
+	\end{cases}
+	\qquad\Rightarrow\qquad
+	\boxed{\,f(x)=\operatorname{sgn}(x)\,\sqrt{x^{2}+1}\, }.
+	\]
+	
+	\textbf{Asymptotics by half-planes.}
+	As \(|z|\to\infty\),
+	\[
+	\boxed{\,f(z)\sim z\ \ \text{for }\Re z>0,\qquad f(z)\sim -z\ \ \text{for }\Re z<0\, }.
+	\]
+	
+	% =========================================================
+	% Problem 5 — Images of sets under simple maps
+	% (a) inversion, (b) sine of a vertical strip, (c) z+e^z on a horizontal strip
+	% =========================================================
+	\section{Problem 5: Images under $\zeta=\dfrac1z$, $\zeta=\sin z$, and $\zeta=z+e^{z}$}
+	
+	\subsection*{(a) Intersection of $|z-1|<1$ and $|z+i|<1$ under $\zeta=1/z$}
+	
+	\textbf{Background (inversion).}
+	If $w=1/z$ and $|z-a|=|a|$ (a circle through $0$), then
+	\[
+	|1-aw|=|a||w|\ \Longleftrightarrow\ 1=2\Re(aw)\ \Longleftrightarrow\ \Re(aw)=\tfrac12,
+	\]
+	i.e. the image is a straight line.
+	
+	\textbf{Boundary images.}
+	\[
+	|z-1|=1 \ \longmapsto\ \Re(w)=\tfrac12,\qquad
+	|z+i|=1 \ \longmapsto\ \Re((-i)w)=\tfrac12\ \Longleftrightarrow\ \Im(w)=\tfrac12 .
+	\]
+	
+	\textbf{Which side is the interior?}
+	\[
+	|z-1|<1 \iff |1/w-1|<1 \iff |1-w|<|w|\iff \Re(w)>\tfrac12;
+	\]
+	\[
+	|z+i|<1 \iff |1+iw|<|w|\iff \Im(w)>\tfrac12.
+	\]
+	
+	\textbf{Image.} The lens $|z-1|<1\cap|z+i|<1$ maps to the quarter-plane
+	\[
+	\boxed{\ \{\,w:\ \Re w>\tfrac12,\ \Im w>\tfrac12\,\}\ }.
+	\]
+	
+	\bigskip\hrule\bigskip
+	
+	\subsection*{(b) Strip $-\dfrac{\pi}{2}<x<\dfrac{\pi}{2}$ under $\zeta=\sin z$}
+	
+	Write $z=x+iy$. Then
+	\[
+	\sin z=\sin x\,\cosh y \;+\; i\,\cos x\,\sinh y.
+	\]
+	
+	\textbf{Boundary lines.}
+	\[
+	\sin\!\Big(\pm \frac{\pi}{2}+iy\Big)=\pm \cosh y\in\mathbb{R},\quad |\cosh y|\ge1.
+	\]
+	Hence the boundaries map onto the real rays $[1,\infty)$ and $(-\infty,-1]$.
+	
+	\textbf{Conformality.}
+	$\cos z\neq 0$ on $|x|<\pi/2$ (zeros lie on $x=\pi/2+k\pi$), so $\sin$ is conformal and injective on the strip.
+	
+	\textbf{Image.} The image is the simply connected domain whose boundary is those rays; by symmetry (the line $x=0$ maps to the entire imaginary axis),
+	\[
+	\boxed{\ \sin:\ \{-\tfrac{\pi}{2}<\Re z<\tfrac{\pi}{2}\}\ \xrightarrow[\text{1--1}]{}
+		\ \mathbb{C}\setminus\big((-\infty,-1]\cup[1,\infty)\big). \ }
+	\]
+	
+	\bigskip\hrule\bigskip
+	
+	\subsection*{(c) Strip $-\pi<y<\pi$ under $\zeta=f(z)=z+e^{z}$}
+	
+	Let $z=x+iy$. Then
+	\[
+	f(z)=\big(x+e^{x}\cos y\big)\;+\;i\big(y+e^{x}\sin y\big).
+	\]
+	
+	\textbf{Critical points (hint).}
+	\[
+	f'(z)=1+e^{z}=0 \iff e^{z}=-1 \iff z=i(2k+1)\pi .
+	\]
+	There are no critical points in the open strip $-\pi<y<\pi$; the boundary points $z=\pm i\pi$ are the only adjacent critical points.
+	
+	\textbf{Boundary images.}
+	For $y=\pm\pi$, $\sin y=0$, $\cos y=-1$:
+	\[
+	f(x\pm i\pi)=\big(x-e^{x}\big)\ \pm\ i\pi.
+	\]
+	Here $u(x)=x-e^{x}$ has a unique maximum $-1$ at $x=0$ and $u(x)\to-\infty$ as $x\to\pm\infty$.
+	Thus each boundary maps to a horizontal half-line
+	\[
+	(-\infty,-1]\,+\,i\pi,\qquad (-\infty,-1]\,-\,i\pi,
+	\]
+	meeting at the critical values $-1\pm i\pi$.
+	
+	\textbf{Interior and image.}
+	With no interior critical points, $f$ is conformal on the strip.
+	For fixed $y\in(-\pi,\pi)$, $f(x+iy)\to -\infty+iy$ as $x\to-\infty$ and
+	$f(x+iy)\sim e^{x}e^{iy}\to\infty$ along the ray $\arg\zeta=y$ as $x\to+\infty$.
+	Hence the image is the plane with the two horizontal half-lines removed:
+	\[
+	\boxed{\ \mathbb{C}\setminus\Big((-\infty,-1]+i\pi\ \cup\ (-\infty,-1]-i\pi\Big). \ }
+	\]
+	
+	\section{Problem 6 — Conformal mappings}
+	
+	\subsection*{Exact problem statement}
+	
+	\noindent
+	(a)\; $D$ is the region exterior to the two circles $|z-1|=1$ and $|z+1|=1$.
+	Find a conformal mapping from $D$ to the exterior of the unit circle.\\
+	\emph{Hint:} First apply an inversion with respect to the origin $(z\mapsto 1/z)$,
+	then rotate and scale so as to use the exponential function to get to a half plane,
+	from where use Möbius.
+	
+	\medskip
+	\noindent
+	(b)\; Find a conformal map from the unit disc $|z|<1$ onto the strip $-\pi/2<\eta<\pi/2$,
+	taking the origin to the origin, $1$ to $\xi=+\infty$, $-1$ to $\xi=-\infty$.
+	(Thus, the upper half of the unit circle maps to $\eta=\pi/2$ and the lower half to $\eta=-\pi/2$.)
+	
+	\medskip
+	\noindent
+	(c)\; Find a conformal map of the quarter-disc $0<|z|<1,\ 0<\arg z<\pi/2$
+	to the upper half-plane $\eta>0$, taking $0$ to $0$, $1$ to $1$, and $i$ to $\infty$.
+	
+	\bigskip\hrule\bigskip
+	
+	\subsection*{Solutions (step by step)}
+	
+	\paragraph{(a) Exterior of the two circles $\to$ exterior of $|\zeta|=1$.}
+	\begin{itemize}
+		\setlength{\itemsep}{0.4em}
+		\item \textbf{Invert.} Let $w=1/z$. Then the circles through $0$ become lines:
+		\[
+		|z-1|=1 \Rightarrow \Re w=\tfrac12,\qquad
+		|z+1|=1 \Rightarrow \Re w=-\tfrac12.
+		\]
+		Hence $D$ maps to the vertical strip $S=\{-\tfrac12<\Re w<\tfrac12\}$.
+		\item \textbf{Rotate/scale to a horizontal strip.} Put $s=i\pi w$.
+		Then $|\Im s|<\pi/2$.
+		\item \textbf{Exponential to a half-plane.} Let $u=e^{\,s}$.
+		Then $|\Im s|<\pi/2 \;\Longrightarrow\; \Re u>0$.
+		\item \textbf{Möbius to exterior unit disk.} Use
+	% needs \usepackage{amsmath}
+	\[
+	\Phi(u)=\frac{u+1}{u-1},\qquad \operatorname{Re} u>0 \longmapsto |\zeta|>1.
+	\]
+	
+	\end{itemize}
+	Therefore a concrete map is
+	\[
+	\boxed{\ \zeta=\Phi\!\big(e^{\,i\pi/z}\big)=\dfrac{e^{\,i\pi/z}+1}{e^{\,i\pi/z}-1}\ }.
+	\]
+	
+	\bigskip
+	
+	\paragraph{(b) Unit disk $\to$ strip $-\pi/2<\Im\zeta<\pi/2$.}
+	\begin{itemize}
+		\setlength{\itemsep}{0.4em}
+		\item \textbf{Disk to right half-plane (Cayley).}
+		\[
+		w=\frac{1+z}{1-z},\qquad |z|<1 \mapsto \Re w>0,
+		\]
+		and $z=0\mapsto w=1$, $z=1\mapsto w=\infty$, $z=-1\mapsto w=0$.
+		\item \textbf{Log to a horizontal strip.}
+		\[
+		\zeta=\log w \quad (\text{principal branch}),\qquad \Im\zeta\in\big(-\tfrac{\pi}{2},\tfrac{\pi}{2}\big).
+		\]
+		Then $\zeta(0)=0$, $\zeta(1)=+\infty$, $\zeta(-1)=-\infty$.
+	\end{itemize}
+	Hence
+	\[
+	\boxed{\ \zeta=\log\!\left(\frac{1+z}{1-z}\right)\ }.
+	\]
+	
+	\bigskip
+	
+	\paragraph{(c) Quarter-disk $\to$ upper half-plane; $0\mapsto0$, $1\mapsto1$, $i\mapsto\infty$.}
+	\begin{itemize}
+		\setlength{\itemsep}{0.4em}
+		\item \textbf{Square to upper semicircle.}
+		\[
+		t=z^{2}:\quad \{0<|z|<1,\ 0<\arg z<\tfrac{\pi}{2}\}
+		\longmapsto \{|t|<1,\ \Im t>0\}.
+		\]
+		Moreover $0\mapsto0$, $1\mapsto1$, $i\mapsto-1$.
+		\item \textbf{Real Möbius to upper half-plane.}
+		Find $M(t)$ with $M(-1)=\infty$, $M(0)=0$, $M(1)=1$.
+		A suitable choice is
+		\[
+		M(t)=\frac{2t}{t+1}.
+		\]
+	\end{itemize}
+	Therefore
+	\[
+	\boxed{\ \zeta=M(z^{2})=\frac{2z^{2}}{z^{2}+1}\ }.
+	\]
+	It maps the quarter-disk conformally onto $\Im\zeta>0$ and has
+	$\zeta(0)=0$, $\zeta(1)=1$, $\zeta(i)=\infty$.
+	
+	
+	% =====================================================================
+	% Problem 6(c) — Quarter-disk to upper half-plane: full explanation
+	% =====================================================================
+	\section*{6(c)\quad Quarter-disk $0<|z|<1,\ 0<\arg z<\tfrac{\pi}{2}$
+		$\longrightarrow$ upper half-plane $\Im\zeta>0$,
+		with $0\mapsto0$, $1\mapsto1$, $i\mapsto\infty$}
+	
+	\subsection*{Goal}
+	Construct an explicit conformal map $\zeta=\zeta(z)$ that maps the open quarter-disk
+	\[
+	Q=\{\,z:\ 0<|z|<1,\ 0<\arg z<\tfrac{\pi}{2}\,\}
+	\]
+	onto the upper half-plane $\mathbb H=\{\zeta:\ \Im\zeta>0\}$, sending the three marked boundary
+	points
+	\[
+	z=0 \longmapsto \zeta=0,\qquad
+	z=1 \longmapsto \zeta=1,\qquad
+	z=i \longmapsto \zeta=\infty .
+	\]
+	
+	\subsection*{Step 1: Square to unfold the angle}
+	Let
+	\[
+	t=z^{2}.
+	\]
+	Write $z=re^{i\theta}$ with $0<r<1$ and $0<\theta<\frac{\pi}{2}$. Then
+	\[
+	t=r^{2}e^{i(2\theta)}\quad\Rightarrow\quad |t|<1,\ \ 0<\arg t<\pi \iff \Im t>0.
+	\]
+	Therefore the squaring map $z\mapsto t=z^{2}$ sends $Q$ \emph{bijectively and conformally}
+	onto the \emph{open upper semicircle}
+	\[
+	S=\{\,t:\ |t|<1,\ \Im t>0\,\}.
+	\]
+	On the boundary rays/arcs we have
+	\[
+	0\mapsto 0,\qquad 1\mapsto 1,\qquad i\mapsto -1.
+	\]
+	(Conformality is immediate, since $(z^{2})'=2z\neq 0$ on $Q$.)
+	
+	\subsection*{Step 2: Real Möbius map fixing the three marked points and sending $S$ to $\mathbb H$}
+	Seek a real-coefficient Möbius transformation
+	\[
+	M(t)=\frac{a t+b}{c t+d},\qquad a,b,c,d\in\mathbb R,\ \ ad-bc\neq0,
+	\]
+	such that
+	\[
+	M(-1)=\infty,\qquad M(0)=0,\qquad M(1)=1.
+	\]
+	Imposing the conditions:
+	
+	\begin{itemize}
+		\item $M(-1)=\infty \ \Rightarrow\ c(-1)+d=0 \ \Rightarrow\ d=c$.
+		\item $M(0)=0 \ \Rightarrow\ b/d=0 \ \Rightarrow\ b=0$.
+		\item $M(1)=1 \ \Rightarrow\ a/(c+d)=1 \ \Rightarrow\ a=c+d=2c$.
+	\end{itemize}
+	
+	Up to an overall nonzero constant (which does not change the map), we can take $c=1$ and obtain
+	\[
+	\boxed{\,M(t)=\frac{2t}{t+1}\,}.
+	\]
+	
+	\paragraph{Why $M$ maps $S$ into $\Im\zeta>0$ (and in fact maps the whole upper half-plane to itself).}
+	Let $t=x+iy$ with $y>0$. Then
+	\[
+	M(t)=\frac{2t}{1+t},\qquad
+	\Im M(t)=\frac{2\,\Im\big(t(1+\overline{t})\big)}{|1+t|^{2}}
+	=\frac{2\,\Im t}{|1+t|^{2}}
+	=\frac{2y}{|1+t|^{2}}
+	>0.
+	\]
+	Hence $M$ maps $\{\,\Im t>0\,\}$ into itself; in particular it maps the upper semicircle $S$
+	(which lies in $\Im t>0$) into the upper half-plane. Moreover
+	\[
+	M'(t)=\frac{2}{(1+t)^{2}}\neq0\quad\text{on}\ S,
+	\]
+	so $M$ is conformal (locally injective) there. The three-point normalization guarantees that it
+	sends the three distinguished boundary points as prescribed:
+	\[
+	M(-1)=\infty,\qquad M(0)=0,\qquad M(1)=1.
+	\]
+	
+	\subsection*{Step 3: Compose and verify}
+	Define the desired map
+	\[
+	\boxed{\ \zeta(z)=M\big(z^{2}\big)=\frac{2z^{2}}{z^{2}+1}\ }.
+	\]
+	Then the normalization follows immediately:
+	\[
+	\zeta(0)=0,\qquad \zeta(1)=1,\qquad \zeta(i)=\infty .
+	\]
+	Because $t=z^{2}$ has $\Im t>0$ on $Q$ and $\Im M(t)>0$ for $\Im t>0$, we have
+	\[
+	\Im \zeta(z)=\Im\big(M(z^{2})\big)>0\quad\text{for all }z\in Q.
+	\]
+	Also $\zeta'(z)=M'(z^{2})\cdot 2z=\dfrac{4z}{(1+z^{2})^{2}}\neq0$ on $Q$, hence the map is conformal
+	throughout the domain.
+	
+	\subsection*{Boundary correspondence (for intuition)}
+	\begin{itemize}
+		\item The \emph{real radius} segment $\{\,0<z<1\,\}$ maps by $t=z^{2}$ to $(0,1)$ and then by $M$
+		to $(0,1)\subset\mathbb R$; thus that edge lands on the real axis between $0$ and $1$.
+		\item The \emph{imaginary radius} segment $\{\,0<iz<i\,\}$ maps by $t=z^{2}$ to $(0,-1)$ and then by $M$
+		to $(0,\infty)$ on $\mathbb R$; thus the edge $0\to i$ lands on the ray $[0,\infty)$.
+		\item The \emph{circular arc} $\{\,e^{i\theta}: 0<\theta<\tfrac{\pi}{2}\,\}$ maps by $t=z^{2}$ to the unit
+		semicircle $\{\,e^{i\phi}: 0<\phi<\pi\,\}$ and then by $M$ to the real line as a boundary set.
+	\end{itemize}
+	The interior of the quarter-disk maps onto $\Im\zeta>0$ by the positivity computation for $\Im M(t)$.
+	
+	\subsection*{Conclusion}
+	The composition
+	\[
+	\boxed{\ \zeta(z)=\frac{2z^{2}}{z^{2}+1}\ }
+	\]
+	is a conformal bijection from the open quarter-disk $Q$ onto the upper half-plane $\mathbb H$,
+	satisfying the three mapping conditions $0\mapsto0$, $1\mapsto1$, $i\mapsto\infty$.
+	
+	
+	% ===== Problem 6(b): unit disk to strip — how & why =====
+	
+	\subsection*{(b) Unit disk $\to$ strip $-\dfrac{\pi}{2}<\Im\zeta<\dfrac{\pi}{2}$}
+	
+	\textbf{Disk to right half-plane (Cayley).}
+	\[
+	w=\frac{1+z}{1-z},\qquad |z|<1 \;\Longrightarrow\; \operatorname{Re} w>0,
+	\]
+	and on the marked points
+	\[
+	z=0 \mapsto w=1,\qquad z=1 \mapsto w=\infty,\qquad z=-1 \mapsto w=0.
+	\]
+	Moreover, the unit circle $|z|=1\setminus\{1\}$ maps to the imaginary axis $\operatorname{Re} w=0$.
+	
+	\medskip
+	\textbf{Log to a horizontal strip.}
+	Use the principal logarithm on the right half-plane:
+	\[
+	\zeta=\log w=\ln|w|+i\,\arg(w),\qquad \arg(w)\in\big(-\tfrac{\pi}{2},\tfrac{\pi}{2}\big),
+	\]
+	so
+	\[
+	-\frac{\pi}{2} < \Im \zeta < \frac{\pi}{2}.
+	\]
+	At the marked points:
+	\[
+	\zeta(0)=\log 1=0,\qquad
+	\zeta(1)=\log(\infty)=+\infty,\qquad
+	\zeta(-1)=\log(0)=-\infty.
+	\]
+	
+	\medskip
+	\textbf{Which boundary goes where.}
+	For $z=e^{i\theta}$,
+	\[
+	w=\frac{1+e^{i\theta}}{1-e^{i\theta}}
+	= -\,i\,\cot\!\left(\frac{\theta}{2}\right)\in i\mathbb{R}.
+	\]
+	Hence
+	\[
+	0<\theta<\pi\ (\text{upper semicircle}) \Rightarrow \Im w<0 \Rightarrow \Im \zeta=-\frac{\pi}{2},
+	\]
+	\[
+	\pi<\theta<2\pi\ (\text{lower semicircle}) \Rightarrow \Im w>0 \Rightarrow \Im \zeta=+\frac{\pi}{2}.
+	\]
+	(If one wants the upper semicircle to land on $\Im\zeta=+\pi/2$, use $\zeta=-\log\!\left(\frac{1+z}{1-z}\right)$.)
+	
+	\medskip
+	\textbf{Hence}
+	\[
+	\boxed{\ \zeta=\log\!\left(\frac{1+z}{1-z}\right)\ }
+	\]
+	is a conformal bijection from $|z|<1$ onto the strip $-\pi/2<\Im\zeta<\pi/2$ with
+	$0\mapsto 0$, $1\mapsto +\infty$, $-1\mapsto -\infty$.
+	
+	
+	% =====================================================================
+	% Problem 6(a) — Exterior of two tangent circles -> Exterior of unit disk
+	% Full, non-shortened LaTeX with detailed steps and checks
+	% =====================================================================
+	
+	\subsection*{(a) Exterior of the two circles $\boldsymbol{|z-1|=1}$ and $\boldsymbol{|z+1|=1}$ 
+		$\;\longrightarrow\;$ exterior of $\boldsymbol{|\zeta|=1}$}
+	
+	\paragraph{Goal.}
+	Let
+	\[
+	D=\big\{z\in\mathbb C:\ |z-1|\ge 1,\ |z+1|\ge 1\big\}\setminus\big(\{|z-1|=1\}\cup\{|z+1|=1\}\big),
+	\]
+	the region \emph{exterior to both} unit circles centered at $\pm1$.
+	Construct an explicit conformal bijection $F:D\to\{\zeta:\ |\zeta|>1\}$.
+	
+	\paragraph{Step 1: Inversion.}
+	Let $w=\dfrac{1}{z}$.
+	For any $a\in\mathbb C$, the circle $\{|z-a|=|a|\}$ (which passes through $0$) satisfies
+	\[
+	|z-a|=|a|
+	\iff \left|\frac{1}{w}-a\right|=|a|
+	\iff |1-aw|=|a||w|
+	\iff 1=2\,\Re(aw).
+	\]
+	Hence circles through $0$ invert to \emph{lines}.
+	For $a=1$ and $a=-1$ we obtain
+	\[
+	|z-1|=1 \iff \Re w=\frac{1}{2},
+	\qquad
+	|z+1|=1 \iff \Re w=-\frac{1}{2}.
+	\]
+	
+	\emph{Which side is the exterior?}  Using $|1-aw|^{2}=(1-2\Re(aw)+|a|^{2}|w|^{2})$ we compute
+	\[
+	|z-1|>1
+	\iff |1-w|>|w|
+	\iff 1-2\Re w>0
+	\iff \Re w<\frac{1}{2},
+	\]
+	\[
+	|z+1|>1
+	\iff |1+ w|>|w|
+	\iff 1+2\Re w>0
+	\iff \Re w>-\frac{1}{2}.
+	\]
+	Therefore the inversion $w=1/z$ sends $D$ bijectively onto the \emph{vertical strip}
+	\[
+	S=\Big\{\,w\in\mathbb C:\ -\tfrac12<\Re w<\tfrac12\,\Big\}.
+	\]
+	(Since $z\neq 0$ on $D$, the inversion is analytic and injective there.)
+	
+	\paragraph{Step 2: Rotate/scale to a horizontal strip.}
+	Define
+	\[
+	s=i\pi w.
+	\]
+	Write $w=u+iv$ with $-\tfrac12<u<\tfrac12$. Then $s=i\pi(u+iv)=-\pi v+i\pi u$, so
+	\[
+	|\Im s|=|\pi u|<\frac{\pi}{2}.
+	\]
+	Consequently $S$ is mapped conformally onto the horizontal strip
+	\[
+	T=\Big\{\,s\in\mathbb C:\ |\Im s|<\frac{\pi}{2}\,\Big\}.
+	\]
+	
+	\paragraph{Step 3: Exponential to the right half-plane.}
+	Set
+	\[
+	u=e^{\,s}.
+	\]
+	If $s=\sigma+i\tau$ with $|\tau|<\pi/2$, then
+	\[
+	\Re u = \Re\big(e^{\sigma}(\cos\tau+i\sin\tau)\big)=e^{\sigma}\cos\tau>0,
+	\]
+	because $\cos\tau>0$ on $(-\pi/2,\pi/2)$.
+	Hence $e^{(\cdot)}$ maps $T$ conformally and bijectively onto the \emph{right half-plane}
+	\[
+	H=\{\,u\in\mathbb C:\ \Re u>0\,\},
+	\]
+	and the boundary lines $\Im s=\pm\pi/2$ go to the imaginary axis $\Re u=0$.
+	
+	\paragraph{Step 4: Möbius map from the right half-plane to the exterior disk.}
+	Consider
+	\[
+	\Phi(u)=\frac{u+1}{u-1}.
+	\]
+	For $u\in H$ we have the equivalence
+	\[
+	|\Phi(u)|>1
+	\iff |u+1|>|u-1|
+	\iff (u+1)(\bar u+1)>(u-1)(\bar u-1)
+	\iff 4\,\Re u>0,
+	\]
+	which holds precisely on $H$. Thus $\Phi$ maps $H$ conformally onto $\{\zeta:\ |\zeta|>1\}$ and
+	sends the imaginary axis to the unit circle $|\zeta|=1$.
+	
+	\paragraph{Step 5: Composition and explicit formula.}
+	The composition of the four conformal bijections yields
+	\[
+	F:D \xrightarrow{\,z\mapsto w=1/z\,} S
+	\xrightarrow{\,w\mapsto s=i\pi w\,} T
+	\xrightarrow{\,s\mapsto u=e^{\,s}\,} H
+	\xrightarrow{\,u\mapsto \Phi(u)\,} \{|\zeta|>1\}.
+	\]
+	Therefore an explicit mapping is
+	\[
+	\boxed{\quad \zeta = F(z) = \Phi\!\big(e^{\,i\pi/z}\big)
+		= \frac{e^{\,i\pi/z}+1}{\,e^{\,i\pi/z}-1\,}\quad }.
+	\]
+	Every factor is analytic and injective on the relevant domain; hence $F$ is conformal and bijective from $D$ onto $\{|\zeta|>1\}$.
+	
+	\paragraph{Asymptotic check at infinity (sanity).}
+	As $z\to\infty$ we have $e^{\,i\pi/z}=1+\dfrac{i\pi}{z}+O(z^{-2})$, so
+	\[
+	\zeta
+	=\frac{2+\dfrac{i\pi}{z}+O(z^{-2})}{\dfrac{i\pi}{z}+O(z^{-2})}
+	= \frac{2}{i\pi}\,z\,\Big(1+O(z^{-1})\Big)
+	= -\,\frac{2i}{\pi}\,z\Big(1+O(z^{-1})\Big),
+	\]
+	which confirms that far out in $D$ the map behaves like an affine scaling of $z$, as expected.
+	
+	\paragraph{Boundary correspondence (orientation).}
+	\begin{itemize}
+		\item The line $\Re w=\tfrac12$ (image of $|z-1|=1$) becomes $\Im s=\tfrac{\pi}{2}$,
+		then the imaginary axis, and finally the unit circle $|\zeta|=1$.
+		\item The line $\Re w=-\tfrac12$ (image of $|z+1|=1$) becomes $\Im s=-\tfrac{\pi}{2}$,
+		then the same imaginary axis, and again $|\zeta|=1$.
+		\item The interior $-\tfrac12<\Re w<\tfrac12$ maps to $|\Im s|<\tfrac{\pi}{2}$,
+		then to $\Re u>0$, and finally to $|\zeta|>1$.
+	\end{itemize}
+	This completes the construction and detailed verification.
+	
+	% =====================================================================
+	% Problem 7 — Half–plane with a circular hole: map to an annulus and solve
+	% DO NOT SHORTEN — full statement, background, derivation, and checks
+	% =====================================================================
+	
+	\section{Problem 7: Temperature in a right half–plane with a removed disk}
+	
+	\subsection*{Exact statement (verbatim)}
+	The domain $D$ consists of the right-hand half plane $x>0$ with the circle $|z-a|=b$, $0<b<a$, and its interior removed.
+	Find the temperature $u(x,y)$ in steady heat flow if $u=0$ on the $y$ axis, $u=1$ on $|z-a|=b$, and $u\to0$ at infinity.
+	
+	\medskip
+	\noindent\textit{Hint:} Show that the mapping $\displaystyle \zeta=\frac{z-\alpha}{z+\alpha}$, with $\alpha$ real and positive,
+	takes $D$ onto an annular region with the imaginary axis mapping to $|\zeta|=1$ and show that, if $\alpha^{2}=a^{2}-b^{2}$, then the image of $D$ is a concentric circular annulus.
+	
+	\bigskip\hrule\bigskip
+	
+	\subsection*{Background: why the suggested Möbius map produces an annulus}
+	Consider the real-parameter Möbius map
+	\[
+	\zeta=\zeta(z)=\frac{z-\alpha}{z+\alpha}, \qquad \alpha>0.
+	\]
+	\paragraph{Imaginary axis.}
+	For $z=iy$ we have
+	\[
+	\left|\frac{iy-\alpha}{iy+\alpha}\right|=1 \quad\text{(numerator and denominator are conjugates),}
+	\]
+	so the $y$–axis maps to the unit circle $|\zeta|=1$.
+	
+	\paragraph{Image of the circle $\boldsymbol{|z-a|=b}$.}
+	Write $z=a+be^{i\theta}$ and compute
+	\[
+	|\zeta|^{2}
+	=\frac{|a-\alpha+be^{i\theta}|^{2}}{|a+\alpha+be^{i\theta}|^{2}}
+	=\frac{A+B\cos\theta}{C+D\cos\theta},
+	\]
+	where
+	\[
+	A=(a-\alpha)^{2}+b^{2}, \qquad B=2b(a-\alpha), \qquad
+	C=(a+\alpha)^{2}+b^{2}, \qquad D=2b(a+\alpha).
+	\]
+	For $|\zeta|$ to be constant on the circle (i.e. the image is a circle \emph{centered at the origin}),
+	the $\cos\theta$–dependence must drop out:
+	\[
+	\frac{A+B\cos\theta}{\,C+D\cos\theta\,}\equiv\frac{A}{C}
+	\quad\Longleftrightarrow\quad AD=BC.
+	\]
+	We now verify that
+	\[
+	AD-BC
+	=2b\Big[(a+\alpha)((a-\alpha)^{2}+b^{2})-(a-\alpha)((a+\alpha)^{2}+b^{2})\Big]
+	=4b\alpha\,(\alpha^{2}+b^{2}-a^{2}).
+	\]
+	Thus $AD=BC$ is equivalent to
+	\[
+	\boxed{\ \alpha^{2}=a^{2}-b^{2}\ }.
+	\]
+	With this choice (note $a>b>0\Rightarrow \alpha>0$), the ratio becomes \emph{constant}:
+	\[
+	|\zeta|^{2}=\frac{A}{C}
+	=\frac{(a-\alpha)^{2}+b^{2}}{(a+\alpha)^{2}+b^{2}}
+	=\frac{2a(a-\alpha)}{2a(a+\alpha)}
+	=\frac{a-\alpha}{a+\alpha}.
+	\]
+	Hence the circle $|z-a|=b$ maps to the circle $|\zeta|=\rho$ with
+	\[
+	\boxed{\ \rho=\sqrt{\frac{a-\alpha}{a+\alpha}}\in(0,1). \ }
+	\]
+	
+	\paragraph{Image of the domain.}
+	Therefore, for $\alpha=\sqrt{a^{2}-b^{2}}$, the map $z\mapsto\zeta$ sends the domain $D$
+	(right half–plane with the closed disk $\{|z-a|\le b\}$ removed) onto the concentric circular \emph{annulus}
+	\[
+	\mathcal A=\{\ \rho<|\zeta|<1\ \}.
+	\]
+	The boundary pieces correspond as follows:
+	\[
+	\{x=0\}\ \longmapsto\ |\zeta|=1,
+	\qquad
+	\{|z-a|=b\}\ \longmapsto\ |\zeta|=\rho.
+	\]
+	
+	\bigskip\hrule\bigskip
+	
+	\subsection*{Solving the Dirichlet problem on the annulus}
+	Let $U(\zeta)$ denote the temperature in the $\zeta$–plane. Harmonicity is preserved by conformal maps, so
+	$U$ is harmonic on $\mathcal A$ and the boundary data become
+	\[
+	U=0 \ \ \text{on}\ \ |\zeta|=1,
+	\qquad
+	U=1 \ \ \text{on}\ \ |\zeta|=\rho.
+	\]
+	By rotational symmetry, $U$ depends only on $r=|\zeta|$. The general radial harmonic function on an annulus is
+	$A\log r + B$. Imposing the boundary values gives
+	\[
+	U(r)=\frac{\log(1/r)}{\log(1/\rho)}
+	=\frac{-\log r}{-\log \rho}
+	=\frac{\log r}{\log \rho}
+	\quad\text{for}\quad \rho<r<1.
+	\]
+	(Any of the three displayed forms is correct; we will use the first one momentarily.)
+	
+	\bigskip\hrule\bigskip
+	
+	\subsection*{Pullback to the original $z$–plane and final formula}
+	The physical temperature is $u(z)=U(\zeta(z))$ with $r=|\zeta(z)|=\left|\frac{z-\alpha}{z+\alpha}\right|$.
+	Hence
+	\[
+	u(z)
+	=U\!\left(\left|\frac{z-\alpha}{z+\alpha}\right|\right)
+	=\frac{\displaystyle \log\!\left(\frac{1}{\left|\frac{z-\alpha}{z+\alpha}\right|}\right)}
+	{\displaystyle \log\!\left(\frac{1}{\rho}\right)}
+	=\frac{\displaystyle \log\left|\frac{z+\alpha}{z-\alpha}\right|}
+	{\displaystyle \log\!\left(\frac{1}{\rho}\right)}.
+	\]
+	Since $\displaystyle \rho=\sqrt{\frac{a-\alpha}{a+\alpha}}$ we have
+	\[
+	\log\!\left(\frac{1}{\rho}\right)
+	=\frac{1}{2}\,\log\!\left(\frac{a+\alpha}{a-\alpha}\right).
+	\]
+	Therefore a convenient explicit form is
+	\[
+	\boxed{\quad
+		u(z)
+		=\frac{2\,\log\!\left|\dfrac{z+\alpha}{z-\alpha}\right|}
+		{\log\!\left(\dfrac{a+\alpha}{a-\alpha}\right)},
+		\qquad
+		\alpha=\sqrt{a^{2}-b^{2}}.
+		\quad}
+	\]
+	
+	\bigskip
+	
+	\subsection*{Checks of the boundary conditions and far field}
+	\begin{itemize}
+		\item \textbf{On the $y$--axis $x=0$:} for $z=iy$ we have $\left|\dfrac{z-\alpha}{z+\alpha}\right|=1$,
+		so the numerator $\log\left|\dfrac{z+\alpha}{z-\alpha}\right|=0$ and hence $u=0$.
+		\item \textbf{On the circle $|z-a|=b$:} by construction $|\zeta|=\rho$, i.e.
+		$\left|\dfrac{z-\alpha}{z+\alpha}\right|=\rho$, so
+		$\log\left|\dfrac{z+\alpha}{z-\alpha}\right|=\log\!\left(\dfrac{1}{\rho}\right)$
+		and the fraction evaluates to $u=1$.
+		\item \textbf{At infinity:} as $|z|\to\infty$, $\left|\dfrac{z+\alpha}{z-\alpha}\right|\to 1$,
+		so the numerator $\to 0$ and $u(z)\to 0$.
+	\end{itemize}
+	
+	\bigskip\hrule\bigskip
+	
+	\subsection*{Summary}
+	With $\alpha=\sqrt{a^{2}-b^{2}}$ and $\displaystyle \rho=\sqrt{\frac{a-\alpha}{a+\alpha}}$,
+	the Möbius map $\displaystyle \zeta=\frac{z-\alpha}{z+\alpha}$ carries
+	$D$ onto the annulus $\{\rho<|\zeta|<1\}$.
+	The unique harmonic function with $U=1$ on $|\zeta|=\rho$ and $U=0$ on $|\zeta|=1$
+	is $U(r)=\log(1/r)/\log(1/\rho)$, and hence
+	\[
+	u(z)=\frac{2\,\log\!\left|\dfrac{z+\alpha}{z-\alpha}\right|}
+	{\log\!\left(\dfrac{a+\alpha}{a-\alpha}\right)}.
+	\]
+	This $u$ satisfies all the prescribed boundary conditions and $u(z)\to 0$ as $|z|\to\infty$.
+	
+
+\section*{Hyperbolic maps: $\sinh$, $\cosh$, $\tanh$, $\coth$ — background, zeros/poles, and strip mappings}
+
+\subsection*{1.\ $w=\sinh z$}
+\textbf{Background:} entire, odd; period $2\pi i$. \quad
+\textbf{Zeros:} $z=i\pi k$; \textbf{poles:} none.\\
+\textbf{Decomposition: } $w=u+iv=\sinh x\cos y + i\,\cosh x\sin y$.\\
+\textbf{Vertical lines } $x=\text{const}$: $\left(\frac{u}{\sinh x}\right)^2+\left(\frac{v}{\cosh x}\right)^2=1$ (ellipses, foci $\pm i$).\\
+\textbf{Horizontal lines } $y=\text{const}$: $\left(\frac{u}{\cos y}\right)^2-\left(\frac{v}{\sin y}\right)^2=-1$ (hyperbolas, foci $\pm i$).\\
+\textbf{Strip mapping:}
+\[
+\boxed{\,\sinh:\ \{|\Im z|<\tfrac{\pi}{2}\}\ \xrightarrow{\ 1\text{--}1\ }\ \mathbb C\setminus i\big((-\infty,-1]\cup[1,\infty)\big)\,}
+\]
+Boundaries $y=\pm\frac{\pi}{2}$ map to imaginary rays $\pm i[1,\infty)$.
+
+\bigskip\hrule\bigskip
+
+\subsection*{2.\ $w=\cosh z$}
+\textbf{Background:} entire, even; period $2\pi i$. \quad
+\textbf{Zeros:} $z=i\pi(k+\frac12)$; \textbf{poles:} none.\\
+\textbf{Decomposition: } $w=u+iv=\cosh x\cos y + i\,\sinh x\sin y$.\\
+\textbf{Vertical lines } $x=\text{const}$: $\left(\frac{u}{\cosh x}\right)^2+\left(\frac{v}{\sinh x}\right)^2=1$ (ellipses, foci $\pm1$).\\
+\textbf{Horizontal lines } $y=\text{const}$: $\left(\frac{u}{\cos y}\right)^2-\left(\frac{v}{\sin y}\right)^2=1$ (hyperbolas, foci $\pm1$).\\
+\textbf{Strip mapping:}
+\[
+\boxed{\,\cosh:\ \{|\Im z|<\pi\}\ \xrightarrow{\ 2\text{--}1\ }\ \mathbb C\setminus\big((-\infty,-1]\cup[1,\infty)\big)\,}
+\]
+On the half-strip $0<|\Im z|<\pi$, the map is 1--1 onto the slit plane.
+
+\bigskip\hrule\bigskip
+
+\subsection*{3.\ $w=\tanh z$}
+\textbf{Background:} meromorphic, odd; period $i\pi$. \quad
+\textbf{Zeros:} $z=i\pi k$; \textbf{poles:} $z=i\pi(k+\tfrac12)$.\\
+\textbf{Strip $\to$ disk:}
+\[
+\boxed{\,\tanh:\ \{|\Im z|<\tfrac{\pi}{2}\}\ \xrightarrow{\ 1\text{--}1\ }\ \mathbb D\,}
+\]
+Real line maps to $(-1,1)$; as $|\Im z|\to\pi/2$, $|\tanh z|\to1$.
+
+\bigskip\hrule\bigskip
+
+\subsection*{4.\ $w=\coth z$}
+\textbf{Background:} meromorphic, odd; period $i\pi$. \quad
+\textbf{Zeros:} $z=i\pi(k+\tfrac12)$; \textbf{poles:} $z=i\pi k$.\\
+\textbf{Strip $\to$ exterior disk:}
+\[
+\boxed{\,\coth:\ \{|\Im z|<\tfrac{\pi}{2}\}\setminus\{0\}\ \xrightarrow{\ 1\text{--}1\ }\ \{\,|w|>1\,\}\,}
+\]
+Real line maps to $(-\infty,-1)\cup(1,\infty)$; $|\Im z|\to\pi/2$ gives $|w|\to1^+$.
+
+
+
+% =====================================================================
+% Hyperbolic Maps: sinh, cosh, tanh, coth — theory, geometry, strip mappings
+% Full LaTeX: background, zeros/poles, geometry of lines, strip/band maps,
+% inverse branches, boundary correspondence, and useful identities
+% =====================================================================
+
+\section*{Hyperbolic Conformal Maps: $\sinh$, $\cosh$, $\tanh$, $\coth$}
+
+\subsection*{Notation and preliminaries}
+Throughout, write $z=x+iy$, $x,y\in\mathbb R$, and $w=u+iv$ for the image.
+Recall the basic identities
+\[
+\cosh z=\frac{e^{z}+e^{-z}}{2},\qquad
+\sinh z=\frac{e^{z}-e^{-z}}{2},\qquad
+\tanh z=\frac{\sinh z}{\cosh z},\qquad
+\coth z=\frac{\cosh z}{\sinh z}.
+\]
+We use the principal branch of the logarithm $\log$ on $\mathbb C\setminus(-\infty,0]$, and principal square roots $\sqrt{\cdot}$ with branch cut on $(-\infty,0]$ unless stated otherwise.
+
+\bigskip\hrule\bigskip
+
+% ============================ 1. SINH ============================
+\subsection*{1.\ $w=\sinh z$}
+
+\paragraph{Analytic background.}\mbox{}\\[2pt]
+$\sinh$ is an \emph{entire}, \emph{odd} function, with imaginary-periodicity:
+\[
+\sinh(-z)=-\sinh z,\qquad \sinh(z+2\pi i)=\sinh z.
+\]
+Zeros occur at $z_k=i\pi k$ for $k\in\mathbb Z$ (all simple). No poles.
+
+\medskip
+
+\paragraph{Cauchy--Riemann decomposition.}\mbox{}\\[2pt]
+With $z=x+iy$,
+\[
+\sinh z=\sinh x\cos y\ +\ i\,\cosh x\sin y \quad\Rightarrow\quad
+u=\sinh x\cos y,\ \ v=\cosh x\sin y.
+\]
+From this, one obtains orthogonal families of confocal conics:
+\begin{align*}
+	x=\text{const}&:\quad \left(\frac{u}{\sinh x}\right)^{2}+\left(\frac{v}{\cosh x}\right)^{2}=1
+	&&\text{(ellipses, foci at $\pm i$)},\\[2pt]
+	y=\text{const}&:\quad \left(\frac{u}{\cos y}\right)^{2}-\left(\frac{v}{\sin y}\right)^{2}=-1
+	&&\text{(hyperbolas, foci at $\pm i$)}.
+\end{align*}
+Real and imaginary axes map as:
+\[
+y=0:\ w=\sinh x\in\mathbb R\ \text{(onto $\mathbb R$)},\qquad
+x=0:\ w=i\sin y\ \text{(onto the segment $i[-1,1]$)}.
+\]
+
+\medskip
+
+\paragraph{Jacobian and conformality.}\mbox{}\\[2pt]
+$\sinh'(z)=\cosh z$, and $\cosh z\neq 0$ on the strip $|\Im z|<\tfrac{\pi}{2}$; hence $\sinh$ is conformal there.
+
+\medskip
+
+\paragraph{Canonical strip mapping (global picture).}\mbox{}\\[2pt]
+\[
+\boxed{\
+	\sinh:\ \{\,|\Im z|<\tfrac{\pi}{2}\,\}\ \xrightarrow[\ \text{biholomorphism}\ ]{}\ 
+	\mathbb C\setminus i\big((-\infty,-1]\cup[1,\infty)\big)\ .
+}
+\]
+\emph{Explanation.} The boundary lines $y=\pm\frac{\pi}{2}$ map to the imaginary rays $\pm i[1,\infty)$
+(via $v=\cosh x\,\sin y$ with $\sin(\pm\pi/2)=\pm1$ and $u=\sinh x\cos(\pm\pi/2)=0$), while the interior maps injectively since $\cosh z\neq0$ and periodicity in the imaginary direction has period $2\pi$, not $\pi$.
+
+\medskip
+
+\paragraph{Inverse branch and branch cuts.}\mbox{}\\[2pt]
+A principal inverse on the slit domain is
+\[
+\operatorname{arsinh} w=\log\!\big(w+\sqrt{w^{2}+1}\big),
+\]
+with branch cuts along $i(-\infty,-1]\cup i[1,\infty)$ so that $\Im(\operatorname{arsinh} w)\in(-\tfrac{\pi}{2},\tfrac{\pi}{2})$.
+
+\medskip
+
+\paragraph{Useful identities.}\mbox{}\\[2pt]
+\[
+\cosh^{2}z-\sinh^{2}z=1,\qquad
+\sinh(z+\zeta)=\sinh z\,\cosh\zeta+\cosh z\,\sinh\zeta.
+\]
+
+\bigskip\hrule\bigskip
+
+% ============================ 2. COSH ============================
+\subsection*{2.\ $w=\cosh z$}
+
+\paragraph{Analytic background.}\mbox{}\\[2pt]
+$\cosh$ is \emph{entire}, \emph{even}, and $2\pi i$-periodic:
+\[
+\cosh(-z)=\cosh z,\qquad \cosh(z+2\pi i)=\cosh z.
+\]
+Zeros at $z=i\pi\big(k+\tfrac12\big)$, all simple. No poles.
+
+\medskip
+
+\paragraph{Cauchy--Riemann decomposition.}\mbox{}\\[2pt]
+With $z=x+iy$,
+\[
+\cosh z=\cosh x\cos y\ +\ i\,\sinh x\sin y \quad\Rightarrow\quad
+u=\cosh x\cos y,\ \ v=\sinh x\sin y.
+\]
+Again one gets confocal conics:
+\begin{align*}
+	x=\text{const}&:\quad \left(\frac{u}{\cosh x}\right)^{2}+\left(\frac{v}{\sinh x}\right)^{2}=1
+	&&\text{(ellipses, foci at $\pm1$)},\\[2pt]
+	y=\text{const}&:\quad \left(\frac{u}{\cos y}\right)^{2}-\left(\frac{v}{\sin y}\right)^{2}=1
+	&&\text{(hyperbolas, foci at $\pm1$)}.
+\end{align*}
+On the axes,
+\[
+y=0:\ w=\cosh x\in[1,\infty),\qquad
+x=0:\ w=\cos y\in[-1,1].
+\]
+
+\medskip
+
+\paragraph{Critical points and injectivity on strips.}\mbox{}\\[2pt]
+$\cosh'(z)=\sinh z$, which vanishes at $z=i\pi k$. Thus $\cosh$ fails to be injective across lines $y=k\pi$, but is injective on any strip avoiding these lines (e.g.\ $0<\Im z<\pi$).
+
+\medskip
+
+\paragraph{Canonical strip mapping.}\mbox{}\\[2pt]
+\[
+\boxed{\
+	\cosh:\ \{\,0<\Im z<\pi\,\}\ \xrightarrow[\ \text{biholomorphism}\ ]{}\ 
+	\mathbb C\setminus\big((-\infty,-1]\cup[1,\infty)\big)\ .
+}
+\]
+\emph{Explanation.} The midline $y=0$ maps to $[1,\infty)$; the top boundary $y=\pi$ maps to $(-\infty,-1]$; injectivity holds on $0<\Im z<\pi$ since there $\sinh z\neq0$.
+
+\medskip
+
+\paragraph{Inverse branch and branch cuts.}\mbox{}\\[2pt]
+\[
+\operatorname{arcosh} w=\log\!\Big(w+\sqrt{w-1}\,\sqrt{w+1}\Big),
+\]
+with branch cuts along $(-\infty,-1]\cup[1,\infty)$ so that $\Re(\operatorname{arcosh} w)\ge0$ and $0<\Im(\operatorname{arcosh} w)<\pi$ on the principal sheet.
+
+\medskip
+
+\paragraph{Useful identities.}\mbox{}\\[2pt]
+\[
+\cosh(z+\zeta)=\cosh z\,\cosh\zeta+\sinh z\,\sinh\zeta,\qquad
+\cosh z=1+2\sinh^{2}\!\frac{z}{2}.
+\]
+
+\bigskip\hrule\bigskip
+
+% ============================ 3. TANH ============================
+\subsection*{3.\ $w=\tanh z$}
+
+\paragraph{Analytic background.}\mbox{}\\[2pt]
+$\tanh$ is \emph{meromorphic}, \emph{odd}, and $i\pi$-periodic:
+\[
+\tanh(-z)=-\tanh z,\qquad \tanh(z+i\pi)=\tanh z.
+\]
+Zeros at $z=i\pi k$; poles (simple) at $z=i\pi\big(k+\tfrac12\big)$.
+
+\medskip
+
+\paragraph{Strip $\leftrightarrow$ disk (Cayley-type).}\mbox{}\\[2pt]
+\[
+\boxed{\
+	\tanh:\ \{\,|\Im z|<\tfrac{\pi}{2}\,\}\ \xrightarrow[\ \text{biholomorphism}\ ]{}\ \mathbb D\ .
+}
+\]
+\emph{Boundary correspondence.} The real axis $y=0$ maps bijectively onto $(-1,1)$ (strictly increasing).
+As $y\to\pm\frac{\pi}{2}$, $|\tanh(x+iy)|\to1$ uniformly in $x$; hence the horizontal boundaries map to $\partial\mathbb D$.
+
+\medskip
+
+\paragraph{Inverse (disk $\to$ strip).}\mbox{}\\[2pt]
+\[
+\operatorname{artanh} w=\frac{1}{2}\log\!\left(\frac{1+w}{1-w}\right),
+\qquad |w|<1,
+\]
+which maps $\mathbb D$ conformally onto $\{|\Im z|<\tfrac{\pi}{2}\}$.
+
+\medskip
+
+\paragraph{Derivative and Schwarz--Pick.}\mbox{}\\[2pt]
+\[
+(\tanh z)'=\operatorname{sech}^{2}\!z,\qquad
+\left|\tanh'(z)\right|=\frac{1}{|\cosh z|^{2}}
+\]
+and conjugating by a disk automorphism shows $\tanh$ is extremal for the disk-strip version of Schwarz--Pick.
+
+\medskip
+
+\paragraph{Level sets.}\mbox{}\\[2pt]
+Lines $x=\text{const}$ and $y=\text{const}$ in the strip map to orthogonal circle arcs inside $\mathbb D$ meeting $\partial\mathbb D$ orthogonally (images of preimages under the conformal equivalence with the half-plane followed by a Cayley map).
+
+\bigskip\hrule\bigskip
+
+% ============================ 4. COTH ============================
+\subsection*{4.\ $w=\coth z$}
+
+\paragraph{Analytic background.}\mbox{}\\[2pt]
+$\coth$ is \emph{meromorphic}, \emph{odd}, and $i\pi$-periodic:
+\[
+\coth(-z)=-\coth z,\qquad \coth(z+i\pi)=\coth z.
+\]
+Poles (simple) at $z=i\pi k$; zeros (simple) at $z=i\pi\big(k+\tfrac12\big)$.
+
+\medskip
+
+\paragraph{Strip $\leftrightarrow$ exterior disk.}\mbox{}\\[2pt]
+\[
+\boxed{\
+	\coth:\ \{\,|\Im z|<\tfrac{\pi}{2}\,\}\setminus\{0\}\ \xrightarrow[\ \text{biholomorphism}\ ]{}\ \{\,|w|>1\,\}\ .
+}
+\]
+\emph{Boundary correspondence.} The real axis (excluding $0$) maps to the rays $(-\infty,-1)\cup(1,\infty)$.
+As $y\to\pm\frac{\pi}{2}$, $|\coth(x+iy)|\to1^{+}$; thus horizontal boundaries map to the unit circle from the \emph{exterior} side.
+
+\medskip
+
+\paragraph{Inverse (exterior disk $\to$ strip).}\mbox{}\\[2pt]
+\[
+\operatorname{arcoth} w=\frac{1}{2}\log\!\left(\frac{w+1}{w-1}\right),\qquad |w|>1,
+\]
+with the standard logarithm branch so that $\Im(\operatorname{arcoth} w)\in(-\tfrac{\pi}{2},\tfrac{\pi}{2})$.
+
+\medskip
+
+\paragraph{Relation with $\tanh$.}\mbox{}\\[2pt]
+\[
+\coth z=\tanh\!\left(z+\tfrac{i\pi}{2}\right),
+\]
+so the exterior-disk picture is just the disk picture shifted vertically by $i\pi/2$ and inverted via $w\mapsto 1/w$.
+
+\bigskip\hrule\bigskip
+
+% ============================ 5. Global relations & composition ============================
+\subsection*{5.\ Global relations, inverse formulas, and composition patterns}
+
+\paragraph{Inverse formulas (principal branches).}\mbox{}\\[2pt]
+\[
+\operatorname{arsinh} w=\log\!\big(w+\sqrt{w^{2}+1}\big),\qquad
+\operatorname{arcosh} w=\log\!\big(w+\sqrt{w-1}\,\sqrt{w+1}\big),
+\]
+\[
+\operatorname{artanh} w=\frac12\log\!\left(\frac{1+w}{1-w}\right),\qquad
+\operatorname{arcoth} w=\frac12\log\!\left(\frac{w+1}{w-1}\right).
+\]
+Branch cuts are chosen to match the canonical target domains described above.
+
+\medskip
+
+\paragraph{Disk/half-plane equivalences via Cayley.}\mbox{}\\[2pt]
+Using the Cayley map $C(\zeta)=\frac{1+\zeta}{1-\zeta}$ and its inverse $C^{-1}(w)=\frac{w-1}{w+1}$,
+\[
+\tanh z=\ C^{-1}\!\left(e^{2z}\right),\qquad
+\coth z=\ C^{-1}\!\left(e^{2z}\right)^{-1},\qquad
+\sinh z=\frac{e^{z}-e^{-z}}{2},\quad \cosh z=\frac{e^{z}+e^{-z}}{2}.
+\]
+Thus strip $\leftrightarrow$ disk/exterior-disk mappings for $\tanh$ and $\coth$ are just the exponential’s strip-to-sector equivalences composed with a Cayley map.
+
+\medskip
+
+\paragraph{Growth and boundary behavior.}\mbox{}\\[2pt]
+As $x\to\pm\infty$ with $y$ fixed, $\sinh z\sim \frac12 e^{x}e^{iy}$ and $\cosh z\sim \frac12 e^{x}e^{iy}$; hence horizontal lines map to asymptotically radial curves. For $\tanh$ and $\coth$, $|\tanh(x+iy)|\to 1$ and $|\coth(x+iy)|\to 1$ exponentially in $|x|$ (uniform in $y$ within the strip height).
+
+\medskip
+
+\paragraph{Critical sets and injectivity regions.}\mbox{}\\[2pt]
+$\sinh'(z)=\cosh z$ vanishes along $y=\frac{\pi}{2}+\pi\mathbb Z$; $\cosh'(z)=\sinh z$ vanishes along $y=\pi\mathbb Z$.
+Therefore, the natural injectivity strips are $|\Im z|<\tfrac{\pi}{2}$ for $\sinh$ and $0<\Im z<\pi$ for $\cosh$.
+For $\tanh$ and $\coth$, poles on the horizontal boundaries determine the natural strip height $\pi$.
+
+\bigskip\hrule\bigskip
+
+% ============================ 6. Summary boxes ============================
+\subsection*{6.\ Summary: canonical conformal equivalences (boxed)}
+\[
+\boxed{\
+	\sinh:\ \{\,|\Im z|<\tfrac{\pi}{2}\,\}\ \longrightarrow\ 
+	\mathbb C\setminus i\big((-\infty,-1]\cup[1,\infty)\big)\ \ \text{(biholomorphism)}\ .
+}
+\]
+\[
+\boxed{\
+	\cosh:\ \{\,0<\Im z<\pi\,\}\ \longrightarrow\ 
+	\mathbb C\setminus\big((-\infty,-1]\cup[1,\infty)\big)\ \ \text{(biholomorphism)}\ .
+}
+\]
+\[
+\boxed{\
+	\tanh:\ \{\,|\Im z|<\tfrac{\pi}{2}\,\}\ \longrightarrow\ \mathbb D\ \ \text{(biholomorphism)}\ .
+}
+\]
+\[
+\boxed{\
+	\coth:\ \{\,|\Im z|<\tfrac{\pi}{2}\,\}\setminus\{0\}\ \longrightarrow\ \{\,|w|>1\,\}\ \ \text{(biholomorphism)}\ .
+}
+\]
+
+\medskip
+
+\subsection*{7.\ (Optional) Proof sketches for strip mappings}
+
+\paragraph{Injectivity for $\sinh$ on $|\Im z|<\pi/2$.}
+If $\sinh z_{1}=\sinh z_{2}$ then $e^{z_{1}}-e^{-z_{1}}=e^{z_{2}}-e^{-z_{2}}$.
+Rearranging gives $\{e^{z_{1}},e^{-z_{1}}\}=\{e^{z_{2}},e^{-z_{2}}\}$.
+Taking logs in the horizontal strip $|\Im z|<\pi/2$ (where the exponential is injective modulo $2\pi i$) forces $z_{1}=z_{2}$.
+
+\paragraph{Boundary images for $\sinh$.}
+Set $z=x\pm i\pi/2$. Then $\sinh z=\sinh x\cdot 0 \ \pm i\,\cosh x$, so the boundaries map to $\pm i[1,\infty)$; the interior cannot reach those rays by the open mapping theorem and the maximum modulus principle applied to $1/(\sinh z\mp i)$.
+
+\paragraph{Analogous arguments} apply to $\cosh$ (use $\sinh$ zeros to avoid critical lines) and to $\tanh,\coth$ using the representation via exponentials and the Cayley transform.
+
+
+
+
+% =====================================================================
+% Inverse Circular Functions: arcsin, arccos, arctan, arccot
+% Principal branches, branch cuts, strip images, boundary correspondence
+% =====================================================================
+
+\section*{Inverse Circular Functions: $\arcsin$, $\arccos$, $\arctan$, $\arccot$}
+
+\subsection*{Conventions}
+We use principal branches of $\log$ and $\sqrt{\cdot}$ with branch cut $(-\infty,0]$ unless stated otherwise.
+For each inverse, the principal domain is obtained by slitting the $w$–plane along the images of the multiple values.
+
+\bigskip\hrule\bigskip
+
+% ============================ arcsin ============================
+\subsection*{1.\ $z=\arcsin w$}
+
+\paragraph{Principal formula (single-valued on the slit plane).}\mbox{}\\[2pt]
+\BoxEq{ \arcsin w = -\,i\,\log\!\Big(i\,w+\sqrt{\,1-w^{2}\,}\Big) }
+
+\paragraph{Branch points \& cuts.}\mbox{}\\[2pt]
+Branch points at $w=\pm1$; principal cuts along $(-\infty,-1]\cup[1,\infty)$.
+
+\paragraph{Target strip (canonical range).}\mbox{}\\[2pt]
+\BoxEq{ \arcsin:\ \mathbb C\setminus\big((-\infty,-1]\cup[1,\infty)\big)\ \longrightarrow\ \{\,|\Re z|<\tfrac{\pi}{2}\,\} }
+For $w\in(-1,1)$, $\arcsin w\in(-\tfrac{\pi}{2},\tfrac{\pi}{2})\subset\mathbb R$.
+For $w>1$,
+$\arcsin w=\tfrac{\pi}{2}-i\,\operatorname{arcosh} w$ (hence $\Re=\tfrac{\pi}{2}$);
+for $w<-1$,
+$\arcsin w=-\tfrac{\pi}{2}+i\,\operatorname{arcosh}(-w)$ (hence $\Re=-\tfrac{\pi}{2}$).
+
+\paragraph{Boundary correspondence.}\mbox{}\\[2pt]
+Approaching the cuts $[1,\infty)$ or $(-\infty,-1]$ forces $\Re \arcsin w\to \pm\tfrac{\pi}{2}$ and $|\Im \arcsin w|\to\infty$.
+The real axis segment $(-1,1)$ maps to the real segment $(-\tfrac{\pi}{2},\tfrac{\pi}{2})$.
+
+\bigskip\hrule\bigskip
+
+% ============================ arccos ============================
+\subsection*{2.\ $z=\arccos w$}
+
+\paragraph{Principal formulae.}\mbox{}\\[2pt]
+\BoxEq{ \arccos w = \frac{\pi}{2}-\arcsin w }
+\BoxEq{ \arccos w = \frac{1}{i}\,\log\!\Big(w+\sqrt{w-1}\,\sqrt{w+1}\Big) }
+
+\paragraph{Branch points \& cuts.}\mbox{}\\[2pt]
+Same as $\arcsin$: branch points $\pm1$; cuts $(-\infty,-1]\cup[1,\infty)$.
+
+\paragraph{Target strip (canonical range).}\mbox{}\\[2pt]
+\BoxEq{ \arccos:\ \mathbb C\setminus\big((-\infty,-1]\cup[1,\infty)\big)\ \longrightarrow\ \{\,0<\Re z<\pi\,\} }
+For $w\in(-1,1)$, $\arccos w\in(0,\pi)\subset\mathbb R$.
+For $w>1$, $\arccos w=i\,\operatorname{arcosh} w$ (so $\Re=0$);
+for $w<-1$, $\arccos w=\pi - i\,\operatorname{arcosh}(-w)$ (so $\Re=\pi$).
+
+\paragraph{Boundary correspondence.}\mbox{}\\[2pt]
+The two slits map to the vertical strip boundaries $\Re z=0$ and $\Re z=\pi$.
+The central interval $(-1,1)$ maps to the real segment $(0,\pi)$.
+
+\bigskip\hrule\bigskip
+
+% ============================ arctan ============================
+\subsection*{3.\ $z=\arctan w$}
+
+\paragraph{Principal formula.}\mbox{}\\[2pt]
+\BoxEq{ \arctan w = \frac{1}{2i}\,\log\!\left(\frac{1+i\,w}{\,1-i\,w\,}\right) }
+
+\paragraph{Branch points \& cuts.}\mbox{}\\[2pt]
+Branch points at $w=\pm i$; principal cuts $i(-\infty,-1]\cup i[1,\infty)$ along the imaginary axis beyond $\pm i$.
+
+\paragraph{Target strip (canonical range).}\mbox{}\\[2pt]
+\BoxEq{ \arctan:\ \mathbb C\setminus i\big((-\infty,-1]\cup[1,\infty)\big)\ \longrightarrow\ \{\,|\Re z|<\tfrac{\pi}{2}\,\} }
+On $\mathbb R$, $\arctan \mathbb R=(-\tfrac{\pi}{2},\tfrac{\pi}{2})$.
+Approaching $w=\pm i\,t$ ($t\ge1$) drives $\Re \arctan w\to \pm\tfrac{\pi}{2}$ and $|\Im|\to\infty$.
+
+\paragraph{Symmetries.}\mbox{}\\[2pt]
+$\arctan(-w)=-\arctan w$; conjugation across the real axis preserves values away from cuts.
+
+\bigskip\hrule\bigskip
+
+% ============================ arccot ============================
+\subsection*{4.\ $z=\arccot w$}
+
+\paragraph{Principal formulae.}\mbox{}\\[2pt]
+\BoxEq{ \arccot w = \frac{1}{2i}\,\log\!\left(\frac{w+i}{\,w-i\,}\right) }
+\BoxEq{ \arccot w = \frac{\pi}{2}-\arctan w }
+
+\paragraph{Branch points \& cuts.}\mbox{}\\[2pt]
+As for $\arctan$: branch points at $w=\pm i$; cuts $i(-\infty,-1]\cup i[1,\infty)$.
+
+\paragraph{Target strip (canonical range).}\mbox{}\\[2pt]
+\BoxEq{ \arccot:\ \mathbb C\setminus i\big((-\infty,-1]\cup[1,\infty)\big)\ \longrightarrow\ \{\,0<\Re z<\pi\,\} }
+On $\mathbb R$, $\arccot \mathbb R=(0,\pi)$.
+Approaching the cuts pins the image to $\Re z=0$ or $\Re z=\pi$ with $|\Im|\to\infty$.
+
+\bigskip\hrule\bigskip
+
+% ============================ Relations & identities ============================
+\subsection*{5.\ Relations and identities (principal branches)}
+\[
+\arcsin w + \arccos w = \frac{\pi}{2},\qquad
+\arctan w + \arccot w = \frac{\pi}{2}.
+\]
+\[
+\arcsin w = -\,i\,\operatorname{arsinh}(i w),\qquad
+\arccos w = \operatorname{arcosh} w \cdot \frac{1}{i}\ \ (\text{on }[1,\infty)).
+\]
+\[
+\arctan w = \frac{1}{2i}\big(\log(1+i w)-\log(1-i w)\big),\quad
+\arccot w = \frac{1}{2i}\big(\log(w+i)-\log(w-i)\big).
+\]
+
+\medskip
+
+\subsection*{6.\ Boundary/axis behavior (summary)}
+\begin{itemize}
+	\item $\arcsin$: real on $(-1,1)$; the cuts map to $\Re z=\pm\tfrac{\pi}{2}$.
+	\item $\arccos$: real on $(-1,1)$; the cuts map to $\Re z=0,\ \pi$.
+	\item $\arctan$: real on $\mathbb R$; the imaginary-axis cuts beyond $\pm i$ map to $\Re z=\pm\tfrac{\pi}{2}$.
+	\item $\arccot$: real on $\mathbb R$; the same cuts map to $\Re z=0,\ \pi$.
+\end{itemize}
+
+
+
+
+
+
+	
+\section*{Conformal maps: an overview catalogue (no details)}
+
+\begin{enumerate}
+	\item \textbf{Cayley (disk $\leftrightarrow$ right half-plane).}\\[2pt]
+	\[
+	\boxed{\,w=\frac{1+z}{1-z}\,}\qquad\text{inverse:}\quad z=\frac{w-1}{w+1}.
+	\]
+	
+	\item \textbf{Half-plane $\to$ half-plane (three-point normalization).}\\[2pt]
+	\[
+	\boxed{\,w=\frac{(z-a)(c-b)}{(z-b)(c-a)}\,}.
+	\]
+	
+	\item \textbf{Disk automorphisms.}\\[2pt]
+	\[
+	\boxed{\,\phi_{a,\theta}(z)=e^{i\theta}\frac{z-a}{1-\bar a z}\,},\qquad |a|<1.
+	\]
+	
+	\item \textbf{Strip $|\Im z|<h/2$ $\to$ right half-plane.}\\[2pt]
+	\[
+	\boxed{\,w=\exp\!\left(\frac{\pi z}{h}\right)\,}.
+	\]
+	
+	\item \textbf{Strip $|\Im z|<h/2$ $\to$ unit disk.}\\[2pt]
+	\[
+	\boxed{\,\zeta=\frac{e^{\pi z/h}-1}{\,e^{\pi z/h}+1\,}\,}.
+	\]
+	
+	\item \textbf{Strip $\to$ strip (height scaling).}\\[2pt]
+	\[
+	\boxed{\,z\mapsto \frac{h_2}{h_1}\,z\,}.
+	\]
+	
+	\item \textbf{Band $a<\Im z<b$ $\to$ centered strip.}\\[2pt]
+	\[
+	\boxed{\,z\mapsto \frac{\pi}{b-a}\!\left(z-i\frac{a+b}{2}\right)\,}.
+	\]
+	
+	\item \textbf{Sector $\{0<\arg z<\alpha\}$ $\to$ upper half-plane.}\\[2pt]
+	\[
+	\boxed{\,w=z^{\pi/\alpha}\,}\ \ \text{(principal branch)}.
+	\]
+	
+	\item \textbf{Wedge $\to$ disk.}\\[2pt]
+	Compose item (8) with Cayley (item 1).
+	
+	\item \textbf{Upper half-plane $\to$ disk (prescribed triple).}\\[2pt]
+	\[
+	\boxed{\,\Phi(z)=\frac{(z-a)}{(z-\bar a)}\cdot \frac{(b-\bar a)}{(b-a)}\,}.
+	\]
+	
+	\item \textbf{Annulus $r<|z|<1$ $\leftrightarrow$ strip.}\\[2pt]
+	\[
+	\boxed{\,w=\log z\,}\quad\text{maps to }\ \log r<\Re w<0.
+	\]
+	
+	\item \textbf{Annulus $\to$ disk.}\\[2pt]
+	Use $w=\log z$ then item (5).
+	
+	\item \textbf{Half-plane minus disk $\to$ annulus.}\\[2pt]
+	\[
+	\boxed{\,\zeta=\frac{z-\alpha}{z+\alpha}\,},\qquad \alpha^{2}=a^{2}-b^{2}.
+	\]
+	
+	\item \textbf{Disk with off-center hole $\to$ annulus.}\\[2pt]
+	Center via $\phi_a$ (item 3), then items (11)–(12).
+	
+	\item \textbf{Punctured plane $\leftrightarrow$ cylinder.}\\[2pt]
+	\[
+	\boxed{\,w=\log z\,}\quad(\text{period }2\pi i).
+	\]
+	
+	\item \textbf{Strip $\to$ punctured plane.}\\[2pt]
+	\[
+	\boxed{\,z\mapsto e^{z}\,}.
+	\]
+	
+	\item \textbf{Ray-slit plane $\mathbb C\setminus[0,\infty)$ $\to$ half-plane.}\\[2pt]
+	\[
+	\boxed{\,w=\sqrt{z}\,}\ \ \text{(choose branch)}.
+	\]
+	
+	\item \textbf{Segment-slit plane $\mathbb C\setminus[a,b]$ $\to$ half-plane.}\\[2pt]
+	\[
+	\boxed{\,w=\sqrt{\frac{z-a}{\,z-b\,}}\,}.
+	\]
+	
+	\item \textbf{Exterior of $[-1,1]$ $\leftrightarrow$ exterior unit circle (Joukowski).}\\[2pt]
+	\[
+	\boxed{\,w=z+\frac{1}{z}\,},\qquad
+	z=\frac{w\pm\sqrt{w^{2}-4}}{2}.
+	\]
+	
+	\item \textbf{Exterior of ellipse $\leftrightarrow$ exterior unit circle.}\\[2pt]
+	\[
+	\boxed{\,w=\tfrac12\!\left(c z+\frac{1}{c z}\right)\,}\quad(\text{$c$ from axes}).
+	\]
+	
+	\item \textbf{Right half-plane $\to$ vertical strip.}\\[2pt]
+	\[
+	\boxed{\,z\mapsto \frac{1}{\pi}\log\frac{z-1}{\,z+1\,}\,}.
+	\]
+	
+	\item \textbf{Upper half-plane $\to$ rectangle (SC/elliptic).}\\[2pt]
+	\[
+	\boxed{\,\zeta=\int^z \frac{dt}{\sqrt{(t-a)(t-b)(t-c)(t-d)}}\,}.
+	\]
+	
+	\item \textbf{Rectangle $\to$ disk (Jacobi sn).}\\[2pt]
+	\[
+	\boxed{\,\zeta=\operatorname{sn}\!\left(\frac{K(k)}{L}\,z;\,k\right)\,}.
+	\]
+	
+	\item \textbf{Half-disk $\leftrightarrow$ half-plane.}\\[2pt]
+	Restriction of Cayley (item 1) and inverse.
+	
+	\item \textbf{Lens (intersection of two disks) $\to$ disk.}\\[2pt]
+	Möbius normalizes the circles; then a power map; then Cayley.
+	
+	\item \textbf{Half-strip $\{x>0,\ 0<\Im z<h\}$ $\to$ half-disk.}\\[2pt]
+	\[
+	\boxed{\,\exp(\pi z/h)\,}\ \ \text{then power, then Cayley}.
+	\]
+	
+	\item \textbf{Polygon $\to$ half-plane (Schwarz--Christoffel).}\\[2pt]
+	\[
+	\boxed{\,\Phi'(z)=C\prod_k (z-z_k)^{\alpha_k-1}\,},\qquad \sum\alpha_k=2.
+	\]
+	
+	\item \textbf{Upper half-plane $\to$ slit half-plane.}\\[2pt]
+	\[
+	\boxed{\,w=z+\frac{1}{z}\,}\ \ \text{then a real Möbius adjustment}.
+	\]
+	
+	\item \textbf{Disk $\to$ disk with boundary arc removed.}\\[2pt]
+	Automorphism to put endpoints at $\pm1$, then boundary power $z^\lambda$.
+	
+	\item \textbf{Finite Blaschke product (disk $\to$ disk, degree $n$).}\\[2pt]
+	\[
+	\boxed{\,B(z)=e^{i\theta}\prod_{k=1}^n \frac{z-a_k}{\,1-\bar a_k z\,}\,}.
+	\]
+\end{enumerate}
+
+	
+	
+	
+\section*{1.\ Cayley transform: $\mathbb D \leftrightarrow$ right half-plane}
+
+\paragraph{Map and inverse.}\mbox{}\\[2pt]
+\[
+w=\frac{1+z}{\,1-z\,}
+\quad\text{maps}\quad
+\mathbb D=\{|z|<1\}\ \text{onto}\ \{\,\Re w>0\,\},
+\qquad
+z=\frac{w-1}{\,w+1\,}
+\]
+is the inverse.
+
+\medskip
+
+\paragraph{Why $\Re w>0$.}\mbox{}\\[2pt]
+Compute
+\[
+\Re\!\left(\frac{1+z}{\,1-z\,}\right)
+=\frac{\,1-|z|^{2}\,}{\,|1-z|^{2}\,}.
+\]
+Thus $\Re w>0$ for $|z|<1$, and $\Re w=0$ for $|z|=1$ (except $z=1$, which maps to $w=\infty$).
+Therefore
+\[
+|z|<1\ \Longleftrightarrow\ \Re w>0,
+\qquad
+|z|=1\ \Longleftrightarrow\ \Re w=0 .
+\]
+
+\medskip
+
+\paragraph{Boundary correspondence.}\mbox{}\\[2pt]
+$z=0\mapsto w=1$,
+\quad
+$z\to1^{-}\mapsto w\to+\infty$,
+\quad
+and $\partial\mathbb D\setminus\{1\}$ maps to the line $\Re w=0$.\\[2pt]
+Circles/lines orthogonal to $\partial\mathbb D$ map to \emph{vertical} lines in the $w$–plane.
+
+\bigskip\hrule\bigskip
+
+\section*{2.\ Three-point Möbius normalization: half-plane $\leftrightarrow$ half-plane}
+
+\paragraph{Cross-ratio map to the real axis.}\mbox{}\\[2pt]
+Let $L$ be a line or circle, and choose three distinct points $a,b,c\in L$. Define
+\[
+\Phi(z)=\frac{(z-a)(c-b)}{(z-b)(c-a)}.
+\]
+Then $\Phi(L)\subset\mathbb R\cup\{\infty\}$, with
+\[
+\Phi(a)=0,\qquad \Phi(b)=\infty,\qquad \Phi(c)=1,
+\]
+and the two sides of $L$ map to the half-planes $\Im\Phi(z)\gtrless 0$.
+
+\medskip
+
+\paragraph{Half-plane to half-plane via three boundary points.}\mbox{}\\[2pt]
+Given half-planes $H_1,H_2$ with boundary arcs $L_1,L_2$,
+pick ordered boundary triples $a,b,c\in L_1$ and $A,B,C\in L_2$ (same cyclic order).
+Then
+\[
+T(z)=\frac{(z-a)(c-b)}{(z-b)(c-a)}\cdot\frac{(C-A)}{(C-B)}
+\]
+is a Möbius map sending $L_1\!\to L_2$ with
+\[
+a\mapsto A,\qquad b\mapsto B,\qquad c\mapsto C,
+\]
+and taking the chosen side of $H_1$ onto the chosen side of $H_2$.
+
+\medskip
+
+\paragraph{Specialization to the real line.}\mbox{}\\[2pt]
+To send $L$ to $\mathbb R$, use $\Phi$ above; then pre/postcompose with an \emph{affine real} map
+\[
+\xi\longmapsto \alpha\,\xi+\beta,\qquad \alpha>0,
+\]
+to obtain any target half-plane, e.g.\ $\Re w>0$ or $\Im w>0$.
+
+	
+	
+\end{document}
+

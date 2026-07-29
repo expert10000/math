@@ -1,0 +1,5029 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- packages ---
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\usepackage{microtype}
+\usepackage[shortlabels]{enumitem} % <— only enumitem, shortlabels enables [(a)] if you want it
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{{figures/}}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usepackage{centernot}
+\newcommand{\qed}{\hfill$\square$}
+\usepackage{booktabs,tabularx}
+
+\usepackage{tikz-cd} 
+
+\usepackage{fontspec}
+
+\usepackage{amsmath,amssymb,amsthm}
+
+\newenvironment{statement}{\par\noindent\textbf{Statement.}\ }{\par}
+
+% --- theorem setups ---
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remark} % unnumbered
+
+
+
+
+
+
+\theoremstyle{remark}
+\newtheorem*{counterexample}{Counterexample}
+
+
+
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\Arg}{Arg}
+\DeclareMathOperator{\Res}{Res}
+\DeclareMathOperator{\Log}{Log}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\axes}[3]{%
+	\draw[->,thin] (#1) -- ++(2.0,0) node[right] {#2};
+	\draw[->,thin] (#1) -- ++(0,2.0) node[above] {#3};
+}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlist{itemsep=6pt, topsep=6pt, parsep=2pt, partopsep=2pt}
+
+% SCOPED header: bold ends immediately after the line
+\newcommand{\probheader}[1]{%
+	\par\vspace{8pt}%
+	{\Large\bfseries #1\par}% <- braces scope the bold
+	\vspace{6pt}%
+}
+
+% Thin separator (optional)
+\newcommand{\sep}{\vspace{6pt}\hrule\vspace{8pt}}
+
+
+\geometry{margin=1in}
+\setlength{\parskip}{0.9em}
+\setlength{\parindent}{0pt}
+\linespread{1.12}
+\setlist[itemize]{topsep=0.3em,itemsep=0.2em}
+\setlist[enumerate]{topsep=0.3em,itemsep=0.2em}
+
+\title{\Large Analysis Topics}
+\author{}
+\date{}
+
+
+\begin{document}
+
+	\maketitle
+	
+	
+% --- start snippet ---
+\section*{Problem}
+
+Let \(X\subset \mathbb{R}^2\) be non-compact.
+Prove that there exists a continuous unbounded function \(f:X\to\mathbb{R}\).
+
+\bigskip
+
+\section*{Theory / tools}
+
+\begin{itemize}
+
+\item \textbf{Heine--Borel in \(\mathbb{R}^2\).}
+
+A set is compact iff it is \emph{closed and bounded}.
+
+Thus, if \(X\) is non-compact, then either
+
+(i) \(X\) is unbounded,
+
+or
+
+(ii) \(X\) is bounded but not closed (so \(\overline{X}\setminus X\neq\varnothing\)).
+
+\item \textbf{Distance maps are continuous.}
+
+For any fixed \(p\in\mathbb{R}^2\),
+the maps \(x\mapsto \|x\|\) and \(x\mapsto \|x-p\|\) are continuous on \(\mathbb{R}^2\).
+
+If \(p\notin X\), then \(x\mapsto 1/\|x-p\|\) is continuous on \(X\).
+
+\end{itemize}
+
+\bigskip
+
+\section*{Solution}
+
+\noindent\textbf{Case 1: \(X\) unbounded.}
+
+Define
+\[
+f(x)=\|x\|, \qquad x\in X .
+\]
+
+Then \(f\) is continuous.
+Since \(X\) is unbounded, for every \(M>0\) there exists \(x\in X\) with \(\|x\|>M\);
+hence \(f\) is unbounded.
+
+\bigskip
+
+\noindent\textbf{Case 2: \(X\) bounded but not closed.}
+
+Choose \(p\in\overline{X}\setminus X\) and define
+\[
+f(x)=\frac{1}{\|x-p\|}, \qquad x\in X .
+\]
+
+The denominator never vanishes on \(X\), so \(f\) is continuous there.
+Because \(p\) is a limit point of \(X\), there exists a sequence \(x_n\in X\) with \(x_n\to p\);
+thus \(\|x_n-p\|\to 0\) and \(f(x_n)\to\infty\).
+Therefore \(f\) is unbounded.
+
+\bigskip
+
+In either case there exists a continuous unbounded \(f:X\to\mathbb{R}\). \qed
+
+\bigskip
+
+\section*{Examples}
+
+\begin{enumerate}
+
+\item \textbf{Open unit disk.}
+
+\(X=\{x\in\mathbb{R}^2:\|x\|<1\}\).
+Take \(p=(1,0)\in\partial X\).
+Then \(f(x)=1/\|x-p\|\) is continuous on \(X\) and unbounded near \(p\).
+
+\item \textbf{Parabola (unbounded).}
+
+\(X=\{(t,t^2):t\in\mathbb{R}\}\).
+The map \(f(x)=\|x\|\) (equivalently \(f(t,t^2)=\sqrt{t^2+t^4}\))
+is continuous and unbounded.
+
+\end{enumerate}
+% --- end snippet ---
+
+\section*{Problem}
+
+Consider the metric space \((\mathbb{Q},d)\) where \(\mathbb{Q}\) is the set of rational numbers and \(d(x,y)=|x-y|\) is the usual Euclidean metric.
+
+Let
+\[
+P = \{\, p\in\mathbb{Q} : 2 < p^2 < 3 \,\}.
+\]
+
+Prove that \(P\) is closed and bounded in \(\mathbb{Q}\), but not compact.
+
+Give an open cover of \(P\) which has no finite subcover.
+
+\bigskip
+
+\section*{Theory}
+
+Open (resp.\ closed) sets of \(\mathbb{Q}\) are precisely intersections of open (resp.\ closed) sets of \(\mathbb{R}\) with \(\mathbb{Q}\).
+
+For any \(A\subset\mathbb{R}\),
+\[
+\overline{A\cap\mathbb{Q}}^{\,\mathbb{Q}} \;=\; \overline{A}^{\,\mathbb{R}} \cap \mathbb{Q}.
+\]
+Hence if the only new points in \(\overline{A}^{\,\mathbb{R}}\) are irrational, they vanish after intersecting with \(\mathbb{Q}\).
+
+Boundedness in \(\mathbb{Q}\) is the same as boundedness in \(\mathbb{R}\) because the metric is the restriction of the Euclidean metric.
+
+Compactness means every open cover admits a finite subcover. In metric spaces, compactness implies completeness and total boundedness; since \((\mathbb{Q},d)\) is not complete, many closed-and-bounded subsets are not compact.
+
+\bigskip
+
+\section*{Solution}
+
+\noindent\textbf{Closedness.}
+
+Note that
+\[
+P = \mathbb{Q} \cap \big( (\sqrt{2},\sqrt{3}) \cup (-\sqrt{3},-\sqrt{2}) \big).
+\]
+
+The real closure of \((\sqrt{2},\sqrt{3}) \cup (-\sqrt{3},-\sqrt{2})\) is
+\[
+[\sqrt{2},\sqrt{3}] \cup [-\sqrt{3},-\sqrt{2}].
+\]
+
+Intersecting with \(\mathbb{Q}\) removes the irrational endpoints, so
+\[
+\overline{P}^{\,\mathbb{Q}} \;=\; \big( [\sqrt{2},\sqrt{3}] \cup [-\sqrt{3},-\sqrt{2}] \big) \cap \mathbb{Q} \;=\; P.
+\]
+
+Therefore \(P\) is closed in \(\mathbb{Q}\).
+
+\bigskip
+
+\noindent\textbf{Boundedness.}
+
+For any \(p\in P\), \(2 < p^2 < 3\) implies \(\sqrt{2} < |p| < \sqrt{3}\).
+Thus \(P\subset (-\sqrt{3},\sqrt{3})\) and is bounded.
+
+\bigskip
+
+\noindent\textbf{Non-compactness via an open cover with no finite subcover.}
+
+For each \(n\in\mathbb{N}\), define
+\[
+U_n = \big(\sqrt{2},\, \sqrt{3}-\tfrac{1}{n} \big) \cap \mathbb{Q},
+\qquad
+V_n = \big( -\sqrt{3}+\tfrac{1}{n},\, -\sqrt{2} \big) \cap \mathbb{Q}.
+\]
+
+Each \(U_n\) and \(V_n\) is open in \(\mathbb{Q}\) (intersection of a real open interval with \(\mathbb{Q}\)).
+
+Moreover,
+\[
+P \;=\; \Big( \bigcup_{n=1}^{\infty} U_n \Big) \;\cup\; \Big( \bigcup_{n=1}^{\infty} V_n \Big),
+\]
+so the family \(\mathcal{U}=\{U_n, V_n : n\in\mathbb{N}\}\) is an open cover of \(P\).
+
+Assume a finite subfamily covers \(P\) and let \(N\) be the largest index used.
+Then the rationals in \((\sqrt{3}-\tfrac{1}{N}, \sqrt{3})\) are not contained in any \(U_n\) with \(n\le N\), and similarly the rationals in \((-\sqrt{3}, -\sqrt{3}+\tfrac{1}{N})\) are not contained in any \(V_n\) with \(n\le N\).
+Hence that finite subfamily fails to cover \(P\), a contradiction.
+
+Therefore \(P\) is not compact.
+
+\bigskip
+
+\section*{Examples / Remarks}
+
+\(P\) is closed in \(\mathbb{Q}\) but not closed in \(\mathbb{R}\); its real closure adds the irrational endpoints \(\pm \sqrt{2}, \pm \sqrt{3}\).
+
+Any finite subset of \(\mathbb{Q}\) is compact. By contrast, \([0,1]\cap\mathbb{Q}\) is closed and bounded in \(\mathbb{Q}\) but not compact; one can build a similar open cover that leaves uncovered rationals arbitrarily close to \(0\) or \(1\).
+
+\section*{Problem 3 — Positive separation}
+
+Let \(K\subset \mathbb{R}^2\) be compact and let \(F\subset \mathbb{R}^2\) be closed with \(K\cap F=\varnothing\).
+
+Show that there exists \(\delta>0\) such that \(d(x,y)\ge \delta\) for every \(x\in K\) and every \(y\in F\).
+
+Give two proofs: one from compactness of \(K\), and one using sequential compactness.
+
+\bigskip
+
+\section*{Theory}
+
+For \(A\subset\mathbb{R}^2\) and \(x\in\mathbb{R}^2\),
+\[
+\operatorname{dist}(x,A)=\inf\{\|x-a\|:a\in A\}.
+\]
+If \(A\) is closed and \(x\notin A\), then \(\operatorname{dist}(x,A)>0\).
+
+Compactness: every open cover has a finite subcover.
+
+Sequential compactness: every sequence in \(K\) has a convergent subsequence with limit in \(K\).
+
+Closed sets are sequentially closed.
+
+\bigskip
+
+\section*{Proof A (open-cover argument)}
+
+For each \(x\in K\), since \(x\notin F\) and \(F\) is closed, we have \(\operatorname{dist}(x,F)>0\).
+Let
+\[
+r_x=\tfrac12\,\operatorname{dist}(x,F).
+\]
+Then \(B(x,r_x)\cap F=\varnothing\).
+The family \(\{B(x,r_x):x\in K\}\) covers \(K\).
+
+By compactness of \(K\), choose \(x_1,\dots,x_m\in K\) with
+\[
+K\subset \bigcup_{i=1}^{m} B(x_i,r_{x_i}).
+\]
+Set
+\[
+\delta=\min_{1\le i\le m} r_{x_i}>0.
+\]
+If \(x\in K\) and \(y\in F\), choose \(i\) so that \(x\in B(x_i,r_{x_i})\).
+Because \(B(x_i,r_{x_i})\cap F=\varnothing\), we have \(d(x,y)\ge r_{x_i}\ge\delta\).
+Thus \(d(x,y)\ge\delta\) for all \(x\in K,\; y\in F\).
+
+\bigskip
+
+\section*{Proof B (sequential compactness)}
+
+Assume no such \(\delta>0\) exists.
+Then for each \(n\in\mathbb{N}\) there exist \(x_n\in K\) and \(y_n\in F\) with
+\[
+d(x_n,y_n)<\tfrac{1}{n}.
+\]
+By sequential compactness, there is a subsequence \(x_{n_k}\to x\in K\).
+Since \(d(x_{n_k},y_{n_k})\to 0\), it follows that \(y_{n_k}\to x\).
+Because \(F\) is closed and all \(y_{n_k}\in F\), we have \(x\in F\).
+Hence \(x\in K\cap F\), a contradiction.
+
+Therefore some \(\delta>0\) exists.
+
+\bigskip
+
+\section*{Examples / Remarks}
+
+If \(K=\{(x,y):x^2+y^2=1\}\) and \(F=\{(3,t):t\in\mathbb{R}\}\), then the minimal distance is \(2\).
+
+If compactness of \(K\) is dropped, the claim may fail; there are disjoint closed sets with zero infimum distance.
+
+\section*{Sequential compactness: examples and counterexamples}
+
+\subsection*{Definition}
+A topological space \(X\) is sequentially compact if every sequence in \(X\) has a convergent subsequence with limit in \(X\).
+
+\bigskip
+
+\subsection*{Examples (are sequentially compact)}
+
+\begin{itemize}
+\item Closed and bounded subsets of \(\mathbb{R}^n\) (e.g.\ \([0,1]^n\), spheres, closed balls). By Bolzano--Weierstrass.
+\item Any compact metric space (in metric spaces, compact \(\Leftrightarrow\) sequentially compact).
+\item Finite spaces (every sequence is eventually constant).
+\end{itemize}
+
+\medskip
+
+\subsection*{Non-examples in metric spaces (not sequentially compact)}
+
+\begin{itemize}
+\item \((0,1)\subset\mathbb{R}\): the sequence \(x_n=1/n\) has no convergent subsequence in \((0,1)\).
+\item \([0,\infty)\): the sequence \(x_n=n\) has no convergent subsequence.
+\item \([0,1]\cap\mathbb{Q}\): rationals \(q_n\to\sqrt{2}\) (in \(\mathbb{R}\)) yield no convergent subsequence in the space.
+\end{itemize}
+
+\medskip
+
+\subsection*{Sequentially compact but not compact (non-metric)}
+
+\begin{itemize}
+\item An uncountable set with the co-countable topology.
+
+Any sequence has a convergent subsequence (indeed, often converges to every point), so the space is sequentially compact.
+The open cover \(\{\,X\setminus\{x\}\,:\,x\in X\,\}\) has no finite subcover, so the space is not compact.
+\end{itemize}
+
+\smallskip
+
+\subsection*{Compact but not sequentially compact (non-metric)}
+
+\begin{itemize}
+\item The Cantor cube \(2^{\mathbb{R}}\) (product of \(\{0,1\}\) over an uncountable index set).
+
+Compact by Tychonoff, but not sequentially compact; there exist sequences with no convergent subsequence (product convergence is coordinatewise and can be made to oscillate on infinitely many coordinates).
+
+\item The Stone--Čech compactification \(\beta\mathbb{N}\).
+
+Compact Hausdorff, yet not sequentially compact.
+\end{itemize}
+
+\medskip
+
+\noindent\textbf{Summary.}
+In metric spaces, compactness and sequential compactness coincide. In general topological spaces, neither implies the other.
+
+
+\section*{Definitions and comparisons}
+
+\noindent\textbf{Compact.}
+Every open cover has a finite subcover.
+
+\smallskip
+
+\noindent\textbf{Paracompact.}
+Every open cover has a locally finite open refinement
+(i.e., each point meets only finitely many sets of the refinement).
+
+\smallskip
+
+\noindent\textbf{Precompact (totally bounded / relatively compact).}
+In a metric (or uniform) space: for every \(\varepsilon>0\) there exist finitely many
+\(\varepsilon\)-balls covering the space.
+Equivalently, the closure in the completion is compact.
+
+\smallskip
+
+\noindent\textbf{Sequentially compact.}
+Every sequence has a convergent subsequence with limit in the space.
+
+\smallskip
+
+\noindent\textbf{Lindel\"of.}
+Every open cover admits a countable subcover.
+
+\smallskip
+
+\section*{Implications (high level)}
+
+\noindent\textbf{General spaces.}
+\[
+\text{Compact} \;\Rightarrow\; \text{Lindel\"of} \quad\text{and}\quad
+\text{Compact} \;\Rightarrow\; \text{Paracompact}.
+\]
+The converses need not hold.
+
+\smallskip
+
+\noindent\textbf{Metric spaces.}
+\[
+\text{Compact} \;\Longleftrightarrow\; \text{Sequentially compact}
+\;\Longleftrightarrow\; \text{Complete}+\text{Totally bounded (Precompact)}.
+\]
+Also, every metric space is paracompact, and
+\[
+\text{Separable} \;\Longleftrightarrow\; \text{Second countable}
+\;\Longleftrightarrow\; \text{Lindel\"of}.
+\]
+
+\smallskip
+
+\section*{Mini examples}
+
+\noindent\emph{Precompact but not compact:} \((0,1)\subset\mathbb{R}\).
+
+\smallskip
+
+\noindent\emph{Lindel\"of but not compact:} \(\mathbb{R}\) with the usual topology.
+
+\smallskip
+
+\noindent\emph{Compact hence paracompact:} any compact Hausdorff space.
+
+\smallskip
+
+\noindent\emph{Sequentially compact} \(=\) \emph{compact (metric):} closed intervals \([a,b]\subset\mathbb{R}\).
+
+\section*{Problem 4 — Complete metric on $(0,1]$ with the usual topology}
+
+Find a metric \(d\) on \(X=(0,1]\) such that \((X,d)\) is complete and such that the \(d\)-open subsets
+are exactly the open subsets of \(X\) in the Euclidean subspace topology.
+
+\smallskip
+
+\section*{Theory}
+
+If \(\phi:(X,\tau)\to(Y,\rho)\) is a homeomorphism and \((Y,\rho)\) is complete, then
+\(d(x,y):=\rho(\phi(x),\phi(y))\) makes \((X,d)\) complete and induces \(\tau\).
+
+For \(X=(0,1]\), the map \(\phi(x)=1/x\) is a homeomorphism onto \([1,\infty)\),
+which is complete under the Euclidean metric.
+
+\smallskip
+
+\section*{Solution}
+
+Define
+\[
+d(x,y)=\Bigl|\frac{1}{x}-\frac{1}{y}\Bigr|,\qquad x,y\in(0,1].
+\]
+
+\noindent\textbf{Same topology.}
+The metric \(d\) is the pullback of the Euclidean metric on \([1,\infty)\) via the homeomorphism \(\phi(x)=1/x\).
+Hence the \(d\)-open sets coincide with the Euclidean-open sets of \((0,1]\).
+
+\smallskip
+
+\noindent\textbf{Completeness.}
+Let \((x_n)\) be \(d\)-Cauchy. Then \((\phi(x_n))=(1/x_n)\) is Cauchy in \([1,\infty)\),
+so \(\phi(x_n)\to L\in[1,\infty)\).
+Therefore \(x_n=\phi^{-1}(\phi(x_n))\to \phi^{-1}(L)=1/L\in(0,1]\).
+Thus every \(d\)-Cauchy sequence converges in \(X\), i.e., \((X,d)\) is complete.
+
+\smallskip
+
+\section*{Examples / Counterexamples}
+
+\emph{Euclidean metric not complete:}
+\(x_n=1/n\) is Euclidean-Cauchy in \((0,1]\) but converges to \(0\notin X\).
+
+\smallskip
+
+\emph{Under \(d\):}
+\(\phi(x_n)=n\) is not Cauchy, so no issue with completeness.
+
+\smallskip
+
+\emph{A \(d\)-Cauchy sequence:}
+\(x_n=1/(1+1/n)\) has \(\phi(x_n)=1+1/n\to 1\), hence \(x_n\to 1\in X\).
+
+\smallskip
+
+\emph{Alternative metric:}
+\(d'(x,y)=|x-y|+\bigl|1/x-1/y\bigr|\) is also complete and induces the same topology.
+
+\section*{Understanding $d$-open sets and the subspace topology}
+
+\subsection*{What ``$d$-open'' means}
+
+Given a metric \(d\) on a set \(X\), we say a subset \(U\subseteq X\) is \emph{$d$-open}
+if for every point \(x\in U\) there exists a radius \(r>0\) such that the
+\emph{open $d$-ball}
+\[
+B_d(x,r)=\{\,y\in X:\ d(x,y)<r\,\}
+\]
+is contained in \(U\).
+
+\smallskip
+
+Equivalently, \(U\) is a union of $d$-balls.
+The collection of all $d$-open sets forms the \textbf{topology induced by $d$}.
+
+\medskip
+
+\subsection*{What the subspace topology is}
+
+Suppose \(Y\) is a topological space (for example, a metric space with its metric--induced open sets),
+and \(X\subseteq Y\).
+
+The \textbf{subspace topology} on \(X\) is defined as
+\[
+\mathcal{T}_X=\{\,U\cap X : U\subseteq Y \text{ is open in } Y\,\}.
+\]
+
+\smallskip
+
+So a set \(A\subseteq X\) is open in the subspace topology if and only if
+it is the intersection of \(X\) with some open subset of the ambient space \(Y\).
+
+\medskip
+
+\subsection*{How these relate (and to Problem 4)}
+
+\begin{itemize}
+	\item Start with \(Y=\mathbb{R}\) equipped with the usual metric \(|\cdot|\).
+	\item Take \(X=(0,1]\subset Y\).
+	\item The subspace topology on \(X\) consists of all sets of the form \((a,b)\cap(0,1]\).
+	
+	For example:
+	\begin{itemize}
+		\item The set \((0.2,0.7]\) is \emph{not} open in \(X\)
+		because the point \(0.7\) would need a right-hand neighborhood inside \(X\),
+		which does not exist.
+		\item The set \((0.2,0.7)\) \emph{is} open in \(X\).
+	\end{itemize}
+\end{itemize}
+
+\smallskip
+
+In Problem~4 we defined a new metric on \(X\) by
+\[
+d(x,y)=\left|\frac{1}{x}-\frac{1}{y}\right|.
+\]
+
+The key property required was:
+\[
+\text{a subset of } X \text{ is open with respect to } d
+\quad\text{iff}\quad
+\text{it is open in the usual Euclidean subspace topology.}
+\]
+
+\smallskip
+
+That means:
+\[
+\text{$d$-open sets on $X$} \;=\; \text{open sets of the subspace topology from $\mathbb{R}$.}
+\]
+
+So the metric \(d\) does not change which sets are open;
+it only changes the distances so that completeness is recovered.
+
+\medskip
+
+\subsection*{Quick examples}
+
+
+	In \(X=(0,1]\):
+	\begin{itemize}
+		\item \(U=(0.3,0.8)\) is open in the subspace topology
+		(it is \((0.3,0.8)\cap(0,1]\)); hence it is $d$-open as well.
+		\smallskip
+		\item \(V=(0,1]\) is open in the subspace topology
+		(it is \(\mathbb{R}\cap(0,1]\)); hence also $d$-open.
+		\smallskip
+		\item \(W=(0,1]\setminus\{1\}\) is \emph{not} open in the subspace topology
+		because near the endpoint \(1\) one cannot fit a right-hand neighborhood
+		contained in \(W\); therefore \(W\) is not $d$-open either.
+	\end{itemize}
+
+	
+\section*{Problem 5 — Fixed points on the open disc}
+
+Let \(B=\{(x,y)\in\mathbb{R}^2: x^2+y^2<1\}\).
+If \(f:B\to B\) is continuous, must \(f\) have a fixed point?
+Does the answer change if \(f\) is surjective?
+
+\smallskip
+
+\subsection*{Theory}
+
+Brouwer's fixed point theorem guarantees a fixed point for continuous self-maps
+of the \emph{closed} disc \(\overline{B}\).
+It does not apply to the non-compact open disc \(B\).
+Automorphisms of the unit disc \(B\subset\mathbb{C}\) are Möbius maps
+\[
+\phi_{a,\theta}(z)=e^{i\theta}\frac{z-a}{1-\overline{a}z},\qquad |a|<1,
+\]
+many of which have no fixed point in \(B\).
+
+\smallskip
+
+\subsection*{Solution}
+
+\noindent\textbf{Claim.} There exist continuous maps \(f:B\to B\) with no fixed point.
+This remains true even if \(f\) is surjective.
+
+\smallskip
+
+\noindent\textbf{Example (surjective, no fixed point).}
+For \(r\in(0,1)\), define
+\[
+f(z)=\frac{z+r}{1+rz},\qquad |z|<1 .
+\]
+Then \(f:B\to B\) is a disc automorphism with inverse
+\(f^{-1}(w)=\dfrac{w-r}{1-rw}\), hence bijective and in particular surjective.
+
+To find fixed points, solve \(f(z)=z\):
+\[
+z=\frac{z+r}{1+rz}
+\;\Longleftrightarrow\;
+z(1+rz)=z+r
+\;\Longleftrightarrow\;
+r z^2=r
+\;\Longleftrightarrow\;
+z=\pm 1 .
+\]
+Thus all fixed points lie on the boundary \(\partial B\), so \(f\) has no fixed point in \(B\).
+
+\smallskip
+
+Therefore a continuous self-map of the \emph{open} disc need not have a fixed point,
+and this remains true even under surjectivity.  
+This does not contradict Brouwer, which concerns the \emph{closed} disc.
+
+\smallskip
+
+\subsection*{Remarks}
+
+Simple affine contractions of \(B\) typically have a fixed point (by Banach’s fixed point theorem).
+The Möbius automorphisms provide clean counterexamples on the open disc.
+	
+	
+\section*{Problem 6 — Expanding maps on a compact space are onto}
+
+Let \((X,d)\) be a compact metric space and \(f:X\to X\) be continuous with
+\[
+d(f(x),f(y)) \ge d(x,y)\qquad (\forall x,y\in X).
+\]
+Prove that \(f\) is surjective.
+
+\smallskip
+
+\section*{Theory}
+
+\noindent\textbf{Compact images are compact.}
+If \(X\) is compact and \(f:X\to X\) is continuous, then \(f(X)\) is compact (hence closed) in \(X\).
+
+\smallskip
+
+\noindent\textbf{Positive distance from a compact set.}
+If \(C\subset X\) is compact and \(x\notin C\), then
+\(\operatorname{dist}(x,C)=\min_{z\in C} d(x,z)>0\).
+
+\smallskip
+
+\noindent\textbf{Sequential compactness.}
+In metric spaces, compactness \(\Leftrightarrow\) every sequence admits a convergent subsequence.
+
+\smallskip
+
+\noindent\textbf{Monotone gaps under expansion.}
+From \(d(fu,fv)\ge d(u,v)\) it follows inductively that for the orbit \(x_{n+1}=f(x_n)\),
+the differences satisfy \(d(x_n,x_{n+1})\ge d(x_{n-1},x_n)\) for all \(n\).
+
+\smallskip
+
+\noindent\textbf{Injectivity (useful side fact).}
+If \(d(fx,fy)\ge d(x,y)\) and \(f(x)=f(y)\), then \(0\ge d(x,y)\Rightarrow x=y\); hence \(f\) is injective.
+
+\smallskip
+
+\section*{Solution}
+
+Assume \(f\) is not surjective. Choose \(x_0\in X\setminus f(X)\).
+
+Since \(f(X)\) is compact, the distance
+\[
+r=\operatorname{dist}(x_0,f(X))=\min_{y\in f(X)} d(x_0,y)
+\]
+satisfies \(r>0\). Hence \(d(x_0,y)\ge r\) for all \(y\in f(X)\).
+
+\smallskip
+
+Consider the sequence \(x_{n+1}=f(x_n)\). Then \(x_n\in f(X)\) for all \(n\ge1\), so
+\(d(x_0,x_1)\ge r\).
+Using \(d(fu,fv)\ge d(u,v)\) iteratively, we obtain
+\[
+d(x_n,x_{n+1}) \ \ge\ d(x_{n-1},x_n) \ \ge \ \cdots \ \ge\ d(x_0,x_1)\ \ge\ r
+\qquad (n\ge1).
+\]
+Therefore \((x_n)\) is not Cauchy and hence has no convergent subsequence.
+
+\smallskip
+
+This contradicts the sequential compactness of \(X\). Therefore \(f\) must be surjective. \qed
+
+\smallskip
+
+\section*{Examples / Counterexamples}
+
+\noindent\emph{Why compactness matters (counterexample).}
+On \(X=(0,1]\) with \(d(x,y)=\bigl|1/x-1/y\bigr|\), the map \(f(x)=x/2\) is continuous,
+not surjective (image \((0,\tfrac12]\)), and
+\[
+d(f(x),f(y))=\left|\tfrac{2}{x}-\tfrac{2}{y}\right|=2\,d(x,y)\ge d(x,y).
+\]
+So the conclusion can fail without compactness.
+
+\smallskip
+
+\noindent\emph{Typical positive example.}
+Let \(X=S^1\) with the arc-length metric and \(f\) be a rotation.
+Then \(d(fx,fy)=d(x,y)\) (an isometry), and \(f\) is bijective in particular surjective,
+in line with the theorem.
+
+\smallskip
+
+\noindent\emph{No constant maps allowed.}
+A constant map \(f(x)\equiv p\) would force \(0=d(fx,fy)\ge d(x,y)\) for all \(x,y\),
+impossible unless \(X\) is a singleton.
+
+\section*{Problem 7 — Radial projection to $\partial D$ and continuity in the base point}
+
+Let $D=\{z\in\mathbb{R}^2:\|z\|\le 1\}$ be the closed unit disc and $\partial D=\{z:\|z\|=1\}$ its boundary.
+
+\smallskip
+
+\noindent\textbf{(i)} Fix $x\in D$. Let $K\subset D$ be compact with $x\notin K$.
+For $y\in K$, follow the ray
+\[
+\gamma_{x,y}(t)=x+t(y-x),\qquad t\ge 0,
+\]
+until it first meets $\partial D$; call this intersection $f_x(y)\in \partial D$.
+Show that $f_x:K\to\partial D$ is continuous.
+
+\smallskip
+
+\noindent\textbf{(ii)} Let $g:D\to D$ be continuous and let $x_0\in D$ with $x_0\ne g(x_0)$.
+Show that there is $r>0$ with $x\ne g(x)$ for all $x\in B_r(x_0)$.
+For $x\in B_r(x_0)$ define $h(x)=f_x\bigl(g(x)\bigr)$ (using $f_x$ from (i)).
+Prove that $h$ is continuous at $x_0$.
+
+\bigskip
+
+\section*{Theory you’ll use}
+
+\noindent\textbf{Ray/affine parametrization.}
+With $v=y-x\ne 0$, the first hit of the ray $x+t(y-x)$ with $\partial D$ occurs at the unique
+$t=\tau(x,y)\ge 1$ solving $\|x+t(y-x)\|=1$.
+Equivalently,
+\[
+\|v\|^2\,\tau^2+2\langle x,v\rangle \tau + (\|x\|^2-1)=0,
+\]
+so the relevant root is
+\[
+\tau(x,y)=\frac{-\langle x,v\rangle+\sqrt{\,\langle x,v\rangle^2+(1-\|x\|^2)\,\|v\|^2\,}}{\|v\|^2},
+\qquad v=y-x\ne 0,
+\]
+and
+\[
+f_x(y)=x+\tau(x,y)\,(y-x).
+\]
+This formula is continuous in $(x,y)$ on $U=\{(x,y)\in D\times D:\ y\ne x\}$.
+
+\smallskip
+
+\noindent\textbf{Uniform separation on compact $K$.}
+If $K\subset D$ is compact and $x\notin K$, then
+$\delta:=\inf_{y\in K}\|y-x\|>0$, so $v=y-x$ never vanishes on $K$.
+
+\smallskip
+
+\noindent\textbf{Composition principle.}
+If $F(x,y)$ is continuous on a set and $g$ is continuous with $(x,g(x))$ remaining in that set near $x_0$,
+then $x\mapsto F(x,g(x))$ is continuous at $x_0$.
+
+\smallskip
+
+\noindent\textbf{Positivity near $x_0$.}
+The map $x\mapsto \|x-g(x)\|$ is continuous; if it is $>0$ at $x_0$, it stays $>0$ on some ball $B_r(x_0)$.
+
+\bigskip
+
+\subsection*{(i) Continuity of $f_x$ for fixed $x$ and compact $K \subset D \setminus \{x\}$}
+
+For $y \in K$ put $v(y)=y-x\neq 0$ and define $\tau(x,y)$ as above.
+Since $K$ is compact and $x\notin K$, we have $\inf_{y\in K}\|v(y)\|>0$; hence the denominator $\|v(y)\|^2$ stays away
+from $0$. The map
+\[
+y \longmapsto \tau(x,y)
+=
+\frac{-\langle x, v(y)\rangle \;+\; \sqrt{\langle x, v(y)\rangle^{2} + (1-\|x\|^{2})\,\|v(y)\|^{2}}}
+{\|v(y)\|^{2}}
+\]
+is continuous on $K$. Therefore
+\[
+f_x(y)=x+\tau(x,y)\,v(y)
+\]
+is a continuous function $K \to \partial D$.
+
+\smallskip
+
+\emph{(Geometric remark.)} One may also argue by the implicit function theorem applied to
+$F(t,y)=\|x+t(y-x)\|^{2}-1$: at the first hit, $\partial_t F=2\langle x+t(y-x),\, y-x\rangle>0$,
+so $t=\tau(x,y)$ depends continuously on $y$.
+
+\bigskip
+
+\section*{Solution to (ii)}
+
+Define $\phi(x)=\|x-g(x)\|$. Then $\phi$ is continuous and $\phi(x_0)=:a>0$.
+Choose $r>0$ such that $\phi(x)\ge a/2>0$ for all $x\in B_r(x_0)$.
+Thus $g(x)\ne x$ on $B_r(x_0)$, so $f_x(g(x))$ is well-defined there.
+
+Let
+\[
+F:U\to\partial D,\qquad F(x,y)=x+\tau(x,y)\,(y-x),\qquad
+U=\{(x,y)\in D\times D:\ y\ne x\}.
+\]
+We know $F$ is continuous on $U$. Since $(x,g(x))\in U$ for all $x\in B_r(x_0)$ and $g$ is continuous,
+the composition
+\[
+h(x)=F\bigl(x,g(x)\bigr)=f_x\bigl(g(x)\bigr)
+\]
+is continuous at $x_0$. \qed
+
+\bigskip
+
+\section*{Examples / remarks}
+
+\noindent\emph{Special case $x=0$.}
+Then $f_0(y)=y/\|y\|$ (radial projection to $\partial D$), continuous on any compact $K\subset D\setminus\{0\}$.
+If $g(0)\ne 0$, part (ii) gives continuity at $x_0$ of
+$h(x)=\dfrac{g(x)-x}{\|g(x)-x\|}$ (up to the affine rescaling along the ray).
+
+\smallskip
+
+\noindent\emph{No extension through $y=x$.}
+In general $f_x$ cannot be extended continuously to $y=x$:
+approaching $x$ along different directions sends $f_x(y)$ to different points of $\partial D$.
+	
+	
+\section*{Deriving and explaining the formula for $\tau(x,y)$}
+
+Fix $x\in D$ and $y\in D\setminus\{x\}$, and consider the ray
+\[
+\gamma_{x,y}(t)=x+t(y-x), \qquad t\ge 0 .
+\]
+We want the \emph{first} parameter $t=\tau(x,y)$ for which $\gamma_{x,y}(t)\in \partial D$, i.e.
+\[
+\|\gamma_{x,y}(t)\|=\|x+t(y-x)\|=1 .
+\]
+
+\smallskip
+
+\noindent\textbf{Quadratic equation.}
+Set $v:=y-x\neq 0$. Then
+\[
+\|x+t v\|^2
+= \|x\|^2 + 2t\,\langle x,v\rangle + t^2\|v\|^2 .
+\]
+The boundary condition $\|x+t v\|^2=1$ becomes
+\[
+\|v\|^2\,t^2 + 2\langle x,v\rangle\,t + (\|x\|^2-1)=0 .
+\]
+Let $a=\|v\|^2>0$, $b=2\langle x,v\rangle$, and $c=\|x\|^2-1\le 0$ (since $x\in D$).
+By the quadratic formula,
+\[
+t
+= \frac{-b \pm \sqrt{\,b^2-4ac\,}}{2a}
+= \frac{-\langle x,v\rangle \pm \sqrt{\,\langle x,v\rangle^{2} + (1-\|x\|^{2})\,\|v\|^{2}\,}}{\|v\|^{2}} .
+\]
+
+\smallskip
+
+\noindent\textbf{Choosing the correct root (first hit for $t\ge 0$).}
+The discriminant is
+\[
+\Delta=\langle x,v\rangle^{2} + (1-\|x\|^{2})\,\|v\|^{2}\ \ge\ 0 .
+\]
+Moreover $\sqrt{\Delta}\ge |\langle x,v\rangle|$, hence the \emph{plus} root
+\[
+\boxed{\displaystyle
+	\tau(x,y)=\frac{-\langle x,v\rangle + \sqrt{\,\langle x,v\rangle^{2} + (1-\|x\|^{2})\,\|v\|^{2}\,}}{\|v\|^{2}}
+}
+\]
+is nonnegative (its numerator is $\ge 0$).
+
+The \emph{minus} root has numerator $-\langle x,v\rangle-\sqrt{\Delta}\le 0$, so it is $\le 0$ and corresponds
+to moving \emph{backwards} along the line (negative $t$), not along our ray $t\ge 0$.
+
+\smallskip
+
+\noindent\textbf{Uniqueness of the positive intersection.}
+Let $s(t)=\|x+t v\|^2$. Then $s$ is a strictly convex quadratic in $t$ with
+$s(0)=\|x\|^2\le 1$ and $s(t)\to\infty$ as $t\to\infty$.
+If $x\in \operatorname{int} D$, then $s(0)<1$, so the equation $s(t)=1$ has exactly one solution with $t>0$
+(the other solution is negative).
+If $x\in \partial D$ and $y\ne x$, then $t=0$ is one solution and the other solution is positive;
+this positive one is the “first hit after leaving $x$.” In either case, the ray meets $\partial D$
+at exactly one parameter $t>0$, namely $t=\tau(x,y)$ above.
+
+\smallskip
+
+\noindent\textbf{Continuity of $\tau$ and of the projection $f_x$.}
+On the set
+\[
+U=\{(x,y)\in D\times D:\ y\ne x\}
+\]
+all operations in the displayed formula are continuous:
+$(x,y)\mapsto \langle x,y-x\rangle$, $(x,y)\mapsto \|x\|^2$, $(x,y)\mapsto \|y-x\|^2$,
+the square and square-root maps, and division by $\|y-x\|^2>0$.
+Hence $(x,y)\mapsto \tau(x,y)$ is continuous on $U$.
+Consequently,
+\[
+f_x(y)=x+\tau(x,y)\,(y-x)
+\]
+depends continuously on $(x,y)$ on $U$, and in particular $y\mapsto f_x(y)$ is continuous
+on any compact $K\subset D\setminus\{x\}$ (where $\|y-x\|$ is bounded away from $0$).
+
+\smallskip
+
+\noindent\textbf{Geometric remark (alternative justification).}
+Define $F(t,y)=\|x+t(y-x)\|^2-1$.
+At the first hit, we have $\partial_t F=2\langle x+t(y-x),\,y-x\rangle>0$, so by the implicit function theorem
+the solution $t=\tau(x,y)$ depends continuously on $y$, giving the same conclusion.
+
+\section*{Problem 8 — Brouwer $\Rightarrow$ a positive eigenvector}
+
+Let $A$ be a $3\times3$ matrix with positive entries. Use Brouwer's fixed-point theorem
+to prove that $A$ has an eigenvector with positive entries.
+
+\smallskip
+
+\noindent\emph{Hint.} Use $A$ to define a self-map of the triangle
+\[
+T=\mathrm{conv}\{(1,0,0),(0,1,0),(0,0,1)\}
+=\{x\in\mathbb{R}^3: x_i\ge 0,\; x_1+x_2+x_3=1\}.
+\]
+
+\bigskip
+
+\subsection*{Theory}
+
+$T$ is compact and convex. Brouwer's theorem: every continuous self-map of a compact convex
+subset of $\mathbb{R}^n$ has a fixed point. If $A>0$ (entrywise) and $x\in T$, then $Ax$ has
+strictly positive coordinates, and normalizing by the sum of its coordinates keeps the result in $T$.
+If some coordinate of $x$ is $0$, the image under $A$ has all coordinates $>0$, so the normalization
+lands in the interior of $T$.
+
+\bigskip
+
+\subsection*{Solution}
+
+Define
+\[
+F:T\to T,\qquad F(x)=\frac{Ax}{\mathbf{1}^\top Ax},\qquad \mathbf{1}=(1,1,1)^\top .
+\]
+Because $A>0$, we have $Ax\in(0,\infty)^3$ for every $x\in T$, hence $\mathbf{1}^\top Ax>0$
+and $F$ is well-defined and continuous. Also, $F(T)\subseteq T$ since the coordinates are
+nonnegative and sum to $1$.
+
+By Brouwer's fixed-point theorem there exists $x^\ast\in T$ with $F(x^\ast)=x^\ast$.
+Let $\lambda=\mathbf{1}^\top Ax^\ast>0$. Then
+\[
+Ax^\ast=\lambda x^\ast ,
+\]
+so $x^\ast$ is an eigenvector with eigenvalue $\lambda>0$.
+
+We claim $x^\ast$ has strictly positive entries. If some coordinate of $x^\ast$ were $0$,
+then $Ax^\ast$ would have all coordinates $>0$ (since $A>0$), and so
+$F(x^\ast)=\dfrac{Ax^\ast}{\mathbf{1}^\top Ax^\ast}$ would lie in the interior of $T$,
+contradicting $x^\ast=F(x^\ast)$. Hence $x^\ast$ has all coordinates $>0$.
+
+\qed
+
+\bigskip
+
+\subsection*{Example}
+
+For
+\[
+A=
+\begin{pmatrix}
+	2&1&1\\
+	1&2&1\\
+	1&1&2
+\end{pmatrix},
+\quad
+F(x)=\frac{Ax}{\mathbf{1}^\top Ax}.
+\]
+We have $A(1,1,1)^\top=4(1,1,1)^\top$, so the fixed point in $T$ is
+$x^\ast=(\tfrac13,\tfrac13,\tfrac13)$ with eigenvalue $\lambda=4$, and all entries are positive.
+
+	\section*{Theory of Matrix Eigenvectors}
+	
+	\subsection*{Definitions}
+	Let $\mathbb{F}$ be a field (typically $\mathbb{R}$ or $\mathbb{C}$) and let $A\in\mathbb{F}^{n\times n}$ represent a linear operator $T:\mathbb{F}^n\to\mathbb{F}^n$.
+	A nonzero vector $v\in\mathbb{F}^n$ is an \emph{eigenvector} of $A$ with \emph{eigenvalue} $\lambda\in\mathbb{F}$ if
+	\[
+	A v = \lambda v.
+	\]
+	Equivalently, $(A-\lambda I)v=0$, so $v\in\ker(A-\lambda I)$ and $\lambda$ is an eigenvalue if and only if
+	\[
+	\det(A-\lambda I)=0.
+	\]
+	The \emph{eigenspace} associated with $\lambda$ is $E_\lambda=\ker(A-\lambda I)$.
+	
+	\subsection*{Characteristic polynomial and spectrum}
+	The \emph{characteristic polynomial} of $A$ is
+	\[
+	p_A(\lambda)=\det(\lambda I - A)=\lambda^n+c_{n-1}\lambda^{n-1}+\cdots+c_0.
+	\]
+	The \emph{spectrum} (set of eigenvalues) is $\sigma(A)=\{\lambda\in\mathbb{F}:p_A(\lambda)=0\}$.
+	
+	\subsection*{Algebraic and geometric multiplicities}
+	For $\lambda\in\sigma(A)$:
+	\begin{itemize}
+		\item The \emph{algebraic multiplicity} $m_a(\lambda)$ is the multiplicity of $\lambda$ as a root of $p_A$.
+		\item The \emph{geometric multiplicity} $m_g(\lambda)$ is the dimension of the eigenspace $E_\lambda=\ker(A-\lambda I)$.
+	\end{itemize}
+	These satisfy
+	\[
+	1 \le m_g(\lambda)\le m_a(\lambda).
+	\]
+	
+	\subsection*{Eigenspaces, independence, invariant subspaces}
+	Each eigenspace $E_\lambda$ is an $A$-invariant subspace: if $x\in E_\lambda$, then $A x=\lambda x\in E_\lambda$.
+	If $\lambda_1,\dots,\lambda_k$ are pairwise distinct eigenvalues, then $E_{\lambda_1},\dots,E_{\lambda_k}$ are linearly independent subspaces, and any collection of eigenvectors from distinct eigenvalues is linearly independent.
+	
+	\subsection*{Diagonalizability and Jordan form}
+	The matrix $A$ is \emph{diagonalizable} over $\mathbb{F}$ if there exists a basis of $\mathbb{F}^n$ consisting of eigenvectors of $A$. Equivalently, there exists an invertible $P$ with
+	\[
+	A=P D P^{-1},\qquad D=\mathrm{diag}(\lambda_1,\dots,\lambda_n).
+	\]
+	This holds if and only if $\sum_{\lambda\in\sigma(A)} m_g(\lambda)=n$, which in turn implies $m_g(\lambda)=m_a(\lambda)$ for each eigenvalue $\lambda$.
+	If $A$ is not diagonalizable, there exists an invertible $P$ with
+	\[
+	A = P J P^{-1},
+	\]
+	where $J$ is the \emph{Jordan normal form}, a block-diagonal matrix of Jordan blocks
+	$J_k(\lambda)=\lambda I_k+N_k$ with $N_k$ nilpotent, $(N_k)_{i,i+1}=1$, zeros elsewhere.
+	
+	\subsection*{Real vs.\ complex eigenstructure}
+	Over $\mathbb{C}$, the characteristic polynomial splits into linear factors, so $A$ has $n$ complex eigenvalues counting algebraic multiplicity. Over $\mathbb{R}$, eigenvalues may be complex or may fail to be real (e.g.\ a planar rotation without reflection has no real eigenvalues).
+	
+	\subsection*{Special matrix classes}
+	\begin{itemize}
+		\item \textbf{Normal matrices} ($AA^*=A^*A$): unitarily diagonalizable, i.e.\ $A=U D U^*$ with $U$ unitary and $D$ diagonal.
+		\item \textbf{Hermitian / symmetric} ($A^*=A$ or $A^\top=A$): all eigenvalues are real; there exists an orthonormal eigenbasis (Spectral Theorem).
+		\item \textbf{Positive (semi)definite}: $x^* A x>0$ (or $\ge 0$) for $x\ne 0$; eigenvalues are positive (or nonnegative).
+		\item \textbf{Unitary / orthogonal}: $A^*A=I$ (or $A^\top A=I$); eigenvalues have modulus $1$.
+		\item \textbf{Nonnegative / stochastic}: For irreducible nonnegative $A$, Perron--Frobenius guarantees a largest eigenvalue $\rho(A)>0$ with a strictly positive eigenvector.
+	\end{itemize}
+	
+	\subsection*{Similarity invariants and the minimal polynomial}
+	Matrices $A$ and $B$ are similar if $B=P^{-1}AP$ for some invertible $P$. Similar matrices share spectrum (with algebraic multiplicities), the characteristic polynomial, and the \emph{minimal polynomial} $\mu_A$, the monic polynomial of least degree with $\mu_A(A)=0$. One has $\mu_A\mid p_A$. Moreover, $A$ is diagonalizable if and only if $\mu_A$ splits over $\mathbb{F}$ into pairwise distinct linear factors.
+	
+	\subsection*{Functional calculus for polynomials}
+	If $q$ is a polynomial, then the eigenvalues of $q(A)$ are $\{q(\lambda):\lambda\in\sigma(A)\}$, with eigenvectors preserved: if $A v=\lambda v$, then $q(A)v=q(\lambda)v$.
+	
+	\subsection*{Basic stability properties}
+	If $\lambda\in\sigma(A)$ and $k\in\mathbb{N}$, then $\lambda^k\in\sigma(A^k)$. If $A$ is invertible, then $\lambda\ne 0$ and $\lambda^{-1}\in\sigma(A^{-1})$. The spectra of $A$, $A^\top$, and $A^*$ coincide (over $\mathbb{C}$, counting multiplicity).
+	
+	\subsection*{Computation of eigenpairs}
+	\begin{itemize}
+		\item \emph{Exact (small $n$)}: compute $p_A$, find its roots, then for each root $\lambda$, solve $(A-\lambda I)v=0$.
+		\item \emph{Numerical}: QR algorithm (all eigenvalues for dense $A$), power iteration (dominant eigenpair), inverse iteration / Rayleigh quotient iteration (targeted eigenpairs), Arnoldi/Lanczos (large sparse).
+	\end{itemize}
+	
+	\subsection*{Examples}
+	\paragraph{Example 1 (Diagonal).}
+	$A=\begin{pmatrix}3&0\\0&1\end{pmatrix}$ has $p_A(\lambda)=(\lambda-3)(\lambda-1)$, eigenvectors $e_1$ for $\lambda=3$ and $e_2$ for $\lambda=1$. Here $m_a=m_g=1$ for each eigenvalue, so $A$ is diagonalizable.
+	
+	\paragraph{Example 2 (Defective).}
+	$A=\begin{pmatrix}1&1\\0&1\end{pmatrix}$ has $p_A(\lambda)=(\lambda-1)^2$. The eigenspace is $\ker(A-I)=\mathrm{span}\{(1,0)^\top\}$, so $m_a(1)=2$ but $m_g(1)=1$; $A$ is not diagonalizable and is already a Jordan block.
+	
+	
+	\section*{Theory of matrix eigenvectors}
+	
+	\subsection*{Definitions}
+	
+	Let $A\in\mathbb{F}^{n\times n}$ with $\mathbb{F}\in\{\mathbb{R},\mathbb{C}\}$.
+	A nonzero vector $v\in\mathbb{F}^n$ is an \emph{eigenvector} of $A$ with \emph{eigenvalue} $\lambda\in\mathbb{F}$
+	if
+	\[
+	A v = \lambda v , \qquad v\ne 0 .
+	\]
+	The \emph{eigenspace} for $\lambda$ is $E_\lambda=\ker(A-\lambda I)$ and has dimension
+	$g_\lambda=\dim E_\lambda$ (the \emph{geometric multiplicity}).
+	The \emph{characteristic polynomial} is $\chi_A(t)=\det(tI-A)$.
+	If $\lambda$ is a root of $\chi_A$, its multiplicity as a root is the \emph{algebraic multiplicity} $a_\lambda$.
+	
+	\smallskip
+	
+	\subsection*{Basic properties}
+	
+	Over $\mathbb{C}$, $\chi_A$ splits and has degree $n$, so $A$ has $n$ eigenvalues counted with algebraic multiplicity.
+	Always $1\le g_\lambda\le a_\lambda$ and $\sum_\lambda a_\lambda=n$.
+	Eigenvectors corresponding to distinct eigenvalues are linearly independent.
+	
+	\smallskip
+	
+	\subsection*{Diagonalization}
+	
+	$A$ is \emph{diagonalizable} over $\mathbb{F}$ if there exists a basis of eigenvectors; equivalently
+	\[
+	A=P D P^{-1}, \qquad D=\mathrm{diag}(\lambda_1,\dots,\lambda_n),
+	\]
+	or $\sum_\lambda g_\lambda=n$, or $g_\lambda=a_\lambda$ for all $\lambda$.
+	Diagonalizable matrices admit spectral decompositions and satisfy $p(A)=P\,p(D)\,P^{-1}$ for polynomials $p$.
+	
+	\smallskip
+	
+	\subsection*{Left eigenvectors}
+	
+	A nonzero row vector $w^\top$ with $w^\top A=\lambda w^\top$ is a \emph{left eigenvector}.
+	Equivalently, $w$ is a right eigenvector of $A^\top$ with the same eigenvalue.
+	
+	\smallskip
+	
+	\subsection*{Spectral radius and norms}
+	
+	The \emph{spectral radius} is $\rho(A)=\max\{|\lambda|:\lambda\in\sigma(A)\}$.
+	For any operator norm $\|\cdot\|$, $\rho(A)\le \|A\|$, with equality $\|A\|_2=\rho(A)$ when $A$ is normal
+	($A^*A=AA^*$), e.g.\ symmetric or unitary.
+	
+	\smallskip
+	
+	\subsection*{Cayley--Hamilton and minimal polynomial}
+	
+	\emph{Cayley--Hamilton:} $\chi_A(A)=0$.
+	The \emph{minimal polynomial} $m_A$ is the unique monic polynomial of least degree with $m_A(A)=0$.
+	Its roots are the distinct eigenvalues of $A$.
+	$A$ is diagonalizable over $\mathbb{F}$ iff $m_A$ splits over $\mathbb{F}$ and has no repeated roots.
+	
+	\smallskip
+	
+	\subsection*{Schur, spectral, and Jordan theorems}
+	
+	\emph{Schur (complex field):} For $A\in\mathbb{C}^{n\times n}$ there exists unitary $Q$ with
+	\[
+	A=Q T Q^*, \qquad T \text{ upper triangular, diag}(T)=\{\text{eigenvalues of }A\}.
+	\]
+	
+	\smallskip
+	
+	\emph{Spectral theorem (real symmetric / complex Hermitian):}
+	If $A=A^\top$ (or $A=A^*$), then
+	\[
+	A=Q \Lambda Q^\top \quad (\text{or } Q \Lambda Q^*),
+	\]
+	with $Q$ orthogonal/unitary and $\Lambda$ real diagonal. Hence $A$ has an orthonormal eigenbasis.
+	
+	\smallskip
+	
+	\emph{Jordan normal form (over $\mathbb{C}$):}
+	There exists invertible $S$ such that $A=SJS^{-1}$ with $J$ block diagonal,
+	each block $J_k(\lambda)$ having $\lambda$ on the diagonal and ones on the superdiagonal.
+	Nontrivial blocks (size $>1$) occur exactly when $g_\lambda<a_\lambda$.
+	
+	\smallskip
+	
+	\subsection*{Invariant subspaces and polynomials in $A$}
+	
+	If $Av=\lambda v$, then for any polynomial $p$ we have $p(A)v=p(\lambda)v$ and $A^k v=\lambda^k v$.
+	If $|\lambda|<1$, then $A^k v\to 0$; if $|\lambda|>1$, then $\|A^k v\|\to\infty$.
+	Eigenspaces are invariant subspaces; direct sums of eigenspaces are invariant and (when summed to full dimension) yield diagonalization.
+	
+	\smallskip
+	
+	\subsection*{Real vs.\ complex eigenstructure}
+	
+	Real matrices may lack real eigenvalues; complexification guarantees $n$ eigenvalues counting multiplicity.
+	Over $\mathbb{R}$, real canonical forms (e.g., real Jordan or real Schur) group complex conjugate pairs into $2\times2$ blocks.
+	
+	\smallskip
+	
+	\subsection*{Perron--Frobenius (positive / nonnegative matrices)}
+	
+	If $A>0$ (all entries strictly positive), then:
+	\begin{itemize}
+		\item There exists a simple, real eigenvalue $\lambda_{\max}>0$ with eigenvector $v>0$ (all entries positive).
+		\item $\lambda_{\max}=\rho(A)$ and, in the positive (or primitive) case, $|\lambda|<\lambda_{\max}$ for every other eigenvalue.
+		\item The Perron eigenvector is unique up to positive scaling.
+	\end{itemize}
+	
+	\smallskip
+	
+	\subsection*{Examples}
+	
+	\noindent\emph{Diagonalizable.}
+	\[
+	A=\begin{bmatrix}2&1\\0&3\end{bmatrix},\quad
+	\chi_A(t)=(t-2)(t-3).
+	\]
+	Eigenvectors for $2$ and $3$ span $\mathbb{R}^2$; $A=PDP^{-1}$ with $D=\mathrm{diag}(2,3)$.
+	
+	\smallskip
+	
+	\noindent\emph{Defective (not diagonalizable).}
+	\[
+	A=\begin{bmatrix}1&1\\0&1\end{bmatrix},\quad
+	\chi_A(t)=(t-1)^2,\ g_1=1<a_1=2.
+	\]
+	Jordan form has a single $2\times2$ block $J_2(1)$.
+	
+	\smallskip
+	
+	\noindent\emph{Symmetric (orthogonal eigenbasis).}
+	\[
+	A=\begin{bmatrix}2&-1\\-1&2\end{bmatrix}.
+	\]
+	Eigenvalues $1$ and $3$; eigenvectors can be chosen orthonormal.
+	
+	\smallskip
+	
+	\noindent\emph{Perron vector.}
+	\[
+	A=\begin{bmatrix}2&1&1\\1&2&1\\1&1&2\end{bmatrix},\qquad
+	A(1,1,1)^\top=4(1,1,1)^\top .
+	\]
+	Perron eigenpair $(\lambda_{\max},v)=(4,(1,1,1)^\top)$.
+	
+\section*{Problem 9 --- Brouwer gives a root in the unit disk}
+
+Use the Brouwer fixed point theorem to prove that there exists a complex number $z$ with $|z|\le 1$
+such that
+\[
+z^4 - z^3 + 8z^2 + 11z + 1 = 0.
+\]
+
+\bigskip
+
+\section*{Theory}
+
+Identify $\mathbb{C}$ with $\mathbb{R}^2$. The closed unit disk
+\[
+\overline{\mathbb{D}}=\{\, z\in\mathbb{C} : |z|\le 1 \,\}
+\]
+is compact and convex.
+\emph{Brouwer fixed point theorem:} every continuous map from a compact, convex subset of $\mathbb{R}^n$
+to itself has a fixed point.
+
+\bigskip
+
+\section*{Solution}
+
+Rewrite the equation as a fixed point problem:
+\[
+z^4 - z^3 + 8z^2 + 11z + 1 = 0
+\quad\Longleftrightarrow\quad
+z \;=\; -\,\frac{z^4 - z^3 + 8z^2 + 1}{11} \;=:\; \Phi(z).
+\]
+For any $z$ with $|z|\le 1$ we have
+\[
+|\Phi(z)| \;\le\; \frac{|z|^4 + |z|^3 + 8|z|^2 + 1}{11}
+\;\le\; \frac{1 + 1 + 8 + 1}{11}
+\;=\; 1.
+\]
+Hence $\Phi$ is a continuous self-map of the closed unit disk $\overline{\mathbb{D}}$.
+
+By the Brouwer fixed point theorem there exists $z^*\in \overline{\mathbb{D}}$ such that $\Phi(z^*)=z^*$.
+Substituting back gives
+\[
+(z^*)^4 - (z^*)^3 + 8(z^*)^2 + 11 z^* + 1 = 0,
+\]
+so the polynomial has a root with $|z^*|\le 1$. \qed
+
+We define
+\[
+\Phi(z) \;=\; -\,\frac{z^4 - z^3 + 8z^2 + 1}{11}.
+\]
+Then
+\[
+|\Phi(z)|
+\;=\;
+\frac{1}{11}\,\bigl|\,z^4 - z^3 + 8z^2 + 1\,\bigr|
+\;\le\;
+\frac{1}{11}\,\bigl(|z|^4 + |z|^3 + 8|z|^2 + |1|\bigr),
+\]
+where we used the triangle inequality $|a+b|\le |a|+|b|$ repeatedly on the four-term sum.
+If $|z|\le 1$, then $|z|^k\le 1$ for $k=2,3,4$ and $|1|=1$, hence
+\[
+|\Phi(z)| \;\le\; \frac{1+1+8+1}{11} \;=\; 1.
+\]
+Therefore $\Phi$ maps the closed unit disk into itself.
+
+\bigskip
+\noindent\textbf{General trick.}
+If you can write a polynomial equation in the form
+\[
+z \;=\; \frac{q(z)}{c},
+\]
+with $c>0$ and $|q(z)|\le c$ whenever $|z|\le 1$, then
+\[
+\Phi(z) \;=\; \frac{q(z)}{c}
+\]
+is a continuous self-map of the closed unit disk $\overline{\mathbb{D}}$.
+By Brouwer's fixed point theorem, there exists a fixed point $z$ with $|z|\le 1$.
+
+\smallskip
+
+In our case we chose $c=11$, the coefficient of $z$, and put all the other terms into
+\[
+q(z) = -\bigl(z^4 - z^3 + 8z^2 + 1\bigr),
+\]
+whose modulus satisfies $|q(z)|\le 11$ on $|z|\le 1$.
+Therefore $\Phi(\overline{\mathbb{D}})\subseteq\overline{\mathbb{D}}$, and a fixed point
+of $\Phi$ yields a root of the polynomial within the unit disk.
+
+\section*{Problem 10 — Compactness and sequential compactness in $C[0,1]$}
+
+Let $C[0,1]$ be the metric space consisting of all continuous functions $f:[0,1]\to\mathbb{R}$,
+with distance
+\[
+d(f,g)=\sup_{x\in[0,1]}|f(x)-g(x)|.
+\]
+
+\bigskip
+
+\section*{(i) Supremum is a maximum}
+
+Let $h(x)=|f(x)-g(x)|$. Since $h$ is continuous on the compact interval $[0,1]$,
+the Extreme Value Theorem ensures that $h$ attains its maximum and minimum values.
+Therefore
+\[
+d(f,g)=\sup_{x\in[0,1]}|f(x)-g(x)|=\max_{x\in[0,1]}|f(x)-g(x)|.
+\]
+
+\bigskip
+
+\subsection*{(ii) $X$ is not sequentially compact}
+
+Let
+\[
+X=\{\, f\in C[0,1] : f([0,1])\subseteq[0,1]\,\}.
+\]
+Consider the sequence $f_n(x)=x^n$ for $x\in[0,1]$.
+Each $f_n$ lies in $X$ because $x^n\in[0,1]$ for $x\in[0,1]$.
+
+For any fixed $x\in[0,1)$, $f_n(x)=x^n\to 0$, while $f_n(1)=1$.
+Hence $f_n$ converges pointwise to
+\[
+f(x)=
+\begin{cases}
+	0, & 0\le x<1,\\[3pt]
+	1, & x=1,
+\end{cases}
+\]
+which is discontinuous at $x=1$.
+
+Since the limit function is not continuous, the convergence cannot be uniform.
+No subsequence can converge uniformly either (every subsequence has the same pointwise limit).
+Thus $(f_n)$ has no convergent subsequence in $C[0,1]$ under $d(f,g)=\|f-g\|_\infty$.
+
+Therefore $X$ is not sequentially compact.
+
+\bigskip
+
+\subsection*{(iii) $X$ is not compact (open cover argument)}
+
+In metric spaces, compactness $\Leftrightarrow$ sequential compactness,
+so $X$ is not compact. Nevertheless, we can give an explicit open cover with no finite subcover.
+
+For each $n\in\mathbb{N}$, define
+\[
+U_n = \{\, f\in X : f(1) > 1 - \tfrac{1}{n} \,\}.
+\]
+Each $U_n$ is open in the sup-norm topology.
+The collection $\{U_n : n\in\mathbb{N}\}$ covers $X$, since for every $f\in X$,
+$f(1)\in[0,1]$ so $f(1)>1-1/n$ for some $n$.
+
+However, no finite subcollection covers $X$.
+If $U_{n_1},\dots,U_{n_k}$ are finitely many, let $N=\max\{n_i\}$.
+Then the constant function $f(x)\equiv 1-\tfrac{1}{2N}$ lies in $X$ but satisfies
+$f(1)=1-\tfrac{1}{2N}<1-\tfrac{1}{N}$, hence $f\notin U_N$.
+Thus this cover has no finite subcover.
+
+\bigskip
+
+\subsection*{Remarks and examples}
+
+\begin{itemize}
+	\item The sequence $f_n(x)=x^n$ is a classical example in $C[0,1]$ showing failure of compactness.
+	\item The family $X$ is bounded and closed but not equicontinuous; by the Arzelà–Ascoli theorem it is not relatively compact.
+	\item $C[0,1]$ with $\|\cdot\|_\infty$ is complete but infinite-dimensional, hence non-compact.
+\end{itemize}
+
+\section*{Supremum vs.\ Maximum}
+
+\noindent\textbf{Definitions.}
+For $S\subset\mathbb{R}$:
+\begin{itemize}
+	\item The \emph{maximum} $\max S$ is a number $m\in S$ with $s\le m$ for all $s\in S$.
+	\item The \emph{supremum} $\sup S$ is the least upper bound: the smallest $\alpha\in\mathbb{R}$ such that $s\le \alpha$ for all $s\in S$.
+\end{itemize}
+If $\max S$ exists, then $\sup S=\max S$. The supremum need not belong to $S$.
+
+\smallskip
+
+\noindent\textbf{Examples.}
+\begin{itemize}
+	\item $S=(0,1)$: $\sup S=1$ but $\max S$ does not exist (1 is not in $S$).
+	\item $S=[0,1]$: $\sup S=\max S=1$ (attained).
+	\item $S=\{1-\tfrac1n:n\in\mathbb{N}\}$: $\sup S=1$, no maximum (1 is only a limit point).
+	\item $S=\{0,1,2,\dots,100\}$: $\sup S=\max S=100$.
+	\item $S=(-\infty,0)$: $\sup S=0$, no maximum.
+\end{itemize}
+
+\smallskip
+
+\noindent\textbf{For functions.}
+If $f:[a,b]\to\mathbb{R}$ is continuous and $[a,b]$ is compact, then by the Extreme Value Theorem
+\[
+\sup_{x\in[a,b]} f(x) \;=\; \max_{x\in[a,b]} f(x).
+\]
+If the domain is not compact, or $f$ is not continuous, the supremum may fail to be attained:
+\begin{itemize}
+	\item $f(x)=x$ on $(0,1)$: $\sup f=1$ but $f$ has no maximum.
+	\item $f(x)=\sin x$ on $\bigl(-\tfrac{\pi}{2},\tfrac{\pi}{2}\bigr)$: $\sup f=1$ but no maximum (endpoints excluded).
+\end{itemize}
+
+\smallskip
+
+\noindent\textbf{Application to $C[0,1]$.}
+For $f,g\in C[0,1]$, the function $h(x)=|f(x)-g(x)|$ is continuous on the compact interval $[0,1]$.
+Hence
+\[
+\sup_{x\in[0,1]} |f(x)-g(x)| \;=\; \max_{x\in[0,1]} |f(x)-g(x)|.
+\]
+
+\section*{Extreme Value Theorem (EVT)}
+
+\noindent\textbf{Statement.}
+Let $K\subset\mathbb{R}^n$ be compact and let $f:K\to\mathbb{R}$ be continuous.
+Then there exist points $x_{\min},x_{\max}\in K$ such that
+\[
+f(x_{\min})=\min_{x\in K} f(x), \qquad f(x_{\max})=\max_{x\in K} f(x).
+\]
+Equivalently,
+\[
+\sup_{x\in K} f(x)=\max_{x\in K} f(x), \qquad \inf_{x\in K} f(x)=\min_{x\in K} f(x).
+\]
+
+\smallskip
+
+\noindent\textbf{Proof sketch.}
+Let $M=\sup_{x\in K} f(x)$. Choose $x_n\in K$ with $f(x_n)\to M$.
+By compactness, some subsequence $x_{n_k}\to x^*\in K$.
+By continuity, $f(x^*)=\lim_{k\to\infty} f(x_{n_k})=M$, so the supremum is attained.
+Apply the same argument to $-f$ to get a minimum.
+
+\smallskip
+
+\noindent\textbf{Why the hypotheses are needed.}
+\begin{itemize}
+	\item If the domain is not compact, even continuous functions may fail to attain extrema:
+	$f(x)=x$ on $(0,1)$ has $\sup=1$ but no maximum.
+	\item If $f$ is not continuous, attainment can fail even on compact sets (pathologies exist).
+\end{itemize}
+
+\bigskip
+
+\section*{Application to Problem 10}
+
+For $f,g\in C[0,1]$,
+
+ set $h(x)=|f(x)-g(x)|$.
+
+Then $h$ is continuous on the compact interval $[0,1]$.
+By the EVT,
+\[
+\sup_{x\in[0,1]} |f(x)-g(x)| \;=\; \max_{x\in[0,1]} |f(x)-g(x)|.
+\]
+Hence the metric $d(f,g)=\sup_{x\in[0,1]}|f(x)-g(x)|$ is the maximum value of $|f-g|$ on $[0,1]$.
+
+
+\section*{Open cover argument for non-compactness of $X$}
+
+Let $X=\{f\in C[0,1]: 0\le f(x)\le 1 \text{ for all }x\in[0,1]\}$ with the sup norm.
+
+\smallskip
+
+\noindent\textbf{Define the cover.}
+For each $n\in\mathbb{N}$ set
+\[
+U_n=\bigl\{\,f\in X:\ f(1)>1-\tfrac1n\,\bigr\}.
+\]
+
+\noindent\emph{$U_n$ is open.}
+The evaluation functional $E_1:C[0,1]\to\mathbb{R}$, $E_1(f)=f(1)$, is continuous since
+$|E_1(f)-E_1(g)|=|f(1)-g(1)|\le \|f-g\|_\infty$.
+Thus $U_n=E_1^{-1}\bigl((1-\tfrac1n,\infty)\bigr)$ is open.
+
+\smallskip
+
+\noindent\emph{$\{U_n\}_{n\in\mathbb{N}}$ covers $X$.}
+If $f\in X$ then $f(1)\in[0,1]$, hence there exists $n$ with $1-\tfrac1n<f(1)$, i.e.\ $f\in U_n$.
+
+\smallskip
+
+\noindent\textbf{No finite subcover.}
+Given finitely many $U_{n_1},\dots,U_{n_k}$, let $N=\max\{n_1,\dots,n_k\}$ and consider
+the constant function $f_N(x)\equiv 1-\tfrac{1}{2N}$.
+Then $f_N\in X$ but
+\[
+f_N(1)=1-\tfrac{1}{2N}\le 1-\tfrac1N,
+\]
+so $f_N\notin U_N$, hence $f_N$ is not contained in the finite union $U_{n_1}\cup\cdots\cup U_{n_k}$.
+Therefore no finite subcollection covers $X$.
+
+\smallskip
+
+Consequently, $X$ is not compact.
+
+\section*{Rational fibers and their role}
+
+For $f:\mathbb{R}\to\mathbb{R}$ and $q\in\mathbb{R}$, the \emph{fiber} (level set) at $q$ is
+\[
+f^{-1}(q)=\{x\in\mathbb{R}:\ f(x)=q\}.
+\]
+A \emph{rational fiber} means $q\in\mathbb{Q}$.
+
+\smallskip
+
+\noindent\textbf{Key mechanism (with IVP).}
+Assume $f$ has the intermediate value property and that each rational fiber $f^{-1}(q)$ is closed.
+Fix $q\in\mathbb{Q}$. Then the sublevel and superlevel sets
+\[
+U_q=f^{-1}((-\infty,q)),\qquad V_q=f^{-1}((q,\infty))
+\]
+are open. Indeed, if $x_0\in U_q$ but every neighborhood of $x_0$ contains points with values $\ge q$,
+the IVP forces points with value exactly $q$ arbitrarily close to $x_0$, hence $x_0\in\overline{f^{-1}(q)}$.
+Since $f^{-1}(q)$ is closed, $x_0\in f^{-1}(q)$, contradicting $f(x_0)<q$.
+Thus $U_q$ is open; similarly $V_q$ is open.
+
+\smallskip
+
+For rationals $r<s$,
+\[
+f^{-1}((r,s))=V_r\cap U_s
+\]
+is open. Because intervals with rational endpoints form a base of $\mathbb{R}$,
+the preimage of every open set is open; hence $f$ is continuous.
+
+\bigskip
+
+\noindent\textbf{Examples.}
+\begin{itemize}
+	\item \emph{IVP but some rational fiber not closed (discontinuous):}
+	$f(x)=\sin(1/x)$ for $x\ne 0$, $f(0)=0$. For $q=\tfrac12$, $f^{-1}(q)$ accumulates at $0$ but does not contain $0$.
+	\item \emph{Closed rational fibers but no IVP (discontinuous):}
+	$f(x)=\mathbf{1}_{[0,\infty)}(x)$. Fibers at $q=0,1$ are closed; others are empty (closed). Yet $f$ is discontinuous at $0$.
+	\item \emph{Continuous:} any continuous $f$ has all fibers $f^{-1}(q)$ closed for every $q\in\mathbb{R}$ and satisfies IVP.
+\end{itemize}
+
+\section*{Problem 12 — Minimal-matching distance on unordered $q$-tuples}
+
+Let $q\ge 2$ and $n\ge 1$ be integers. Denote by $\mathcal{Q}$ the set of all unordered
+$q$-tuples of points in $\mathbb{R}^n$ (repetitions allowed):
+\[
+\mathcal{Q}=\bigl\{\{x_1,x_2,\dots,x_q\}: x_j\in\mathbb{R}^n\bigr\}.
+\]
+Define $\mathcal{G}:\mathcal{Q}\times\mathcal{Q}\to\mathbb{R}$ by
+\[
+\mathcal{G}\!\left(\{x_1,\dots,x_q\},\{y_1,\dots,y_q\}\right)
+=\inf_{\sigma\in S_q}\left(\sum_{j=1}^{q}\|\,y_j-x_{\sigma(j)}\,\|^{2}\right)^{1/2}.
+\]
+
+\smallskip
+
+\noindent\textbf{(i)} Show that $\mathcal{G}$ is a metric on $\mathcal{Q}$.
+
+\smallskip
+
+\noindent\textbf{(ii)} Assume $n=1$. In this case, for any point
+$x=\{x_1,\dots,x_q\}\in\mathcal{Q}$, relabel so that $x_1\le \cdots \le x_q$, and do likewise for
+$y=\{y_1,\dots,y_q\}$. Is it true that
+\[
+\mathcal{G}\!\left(\{x_1,\dots,x_q\},\{y_1,\dots,y_q\}\right)
+=\left(\sum_{j=1}^{q}(x_j-y_j)^2\right)^{1/2}\,?
+\]
+
+Fix $q\ge2$ and $n\ge1$. Let $\mathcal Q$ be the set of unordered $q$-tuples (multisets) of points in $\mathbb{R}^n$.
+For $x=\{x_1,\dots,x_q\}$ and $y=\{y_1,\dots,y_q\}$ define
+\[
+\mathcal G(x,y)=\inf_{\sigma\in S_q}\Bigl(\sum_{j=1}^q \|y_j-x_{\sigma(j)}\|^2\Bigr)^{1/2}.
+\]
+
+\smallskip
+
+\section*{(i) $\mathcal G$ is a metric on $\mathcal Q$}
+
+\noindent\emph{Nonnegativity and symmetry} are immediate.
+
+\smallskip
+
+\noindent\emph{Identity of indiscernibles.}
+If $\mathcal G(x,y)=0$, there exist permutations $\sigma_k$ with
+$\sum_j\|y_j-x_{\sigma_k(j)}\|^2\to 0$, hence (passing to a subsequence of permutations if needed)
+$y_j=x_{\sigma(j)}$ for all $j$, i.e.\ the multisets coincide.
+Conversely, equal multisets give zero cost.
+
+\smallskip
+
+\noindent\emph{Triangle inequality.}
+Let $\alpha,\beta\in S_q$. For each $i$,
+$\|x_i-z_{\beta(i)}\|\le \|x_i-y_{\alpha(i)}\|+\|y_{\alpha(i)}-z_{\beta(i)}\|$.
+Applying Minkowski’s inequality in $\mathbb{R}^{nq}$,
+\[
+\Bigl(\sum_{i=1}^q \|x_i-z_{\beta(i)}\|^2\Bigr)^{1/2}
+\le
+\Bigl(\sum_{i=1}^q \|x_i-y_{\alpha(i)}\|^2\Bigr)^{1/2}
++
+\Bigl(\sum_{i=1}^q \|y_{\alpha(i)}-z_{\beta(i)}\|^2\Bigr)^{1/2}.
+\]
+Taking the infimum over $\alpha$ on the right and over $\beta$ on the left yields
+$\mathcal G(x,z)\le \mathcal G(x,y)+\mathcal G(y,z)$.
+Thus $\mathcal G$ is a metric.
+
+\bigskip
+
+\section*{(ii) The one-dimensional case}
+
+Assume $n=1$ and label so that $x_1\le\cdots\le x_q$ and $y_1\le\cdots\le y_q$.
+By the rearrangement inequality,
+\[
+\sum_{j=1}^{q}(x_j-y_j)^2 \ \le\ \sum_{j=1}^{q}(x_j-y_{\sigma(j)})^2
+\qquad\text{for all }\sigma\in S_q.
+\]
+Hence the infimum in the definition of $\mathcal{G}$ is attained at $\sigma=\mathrm{id}$, and
+\[
+\mathcal{G}\bigl(\{x_1,\dots,x_q\},\{y_1,\dots,y_q\}\bigr)
+=\Bigl(\sum_{j=1}^{q}(x_j-y_j)^2\Bigr)^{1/2}.
+\]
+
+\section*{Problem 1 — Winding number of a polynomial image}
+
+Let $p(z)=z^{2}-4z+3$ and define $\gamma:[0,1]\to\mathbb C$ by $\gamma(t)=p(e^{2\pi i t})$.
+
+\smallskip
+
+\noindent\textbf{(a)} Show that the closed path associated with $\gamma$ does not pass through $0$.
+
+\noindent\textbf{(b)} Compute $w(\gamma,0)$:
+(i) directly from the definition; (ii) by factoring; (iii) by the dog–walking lemma.
+
+\bigskip
+
+\subsection*{Solution}
+
+\noindent\textbf{(a)} Put $\theta=2\pi t$. Then
+\[
+\Re\,\gamma(t)=\cos(2\theta)-4\cos\theta+3
+=2(\cos\theta-1)^2\ge 0,
+\]
+with equality only at $\theta=0,2\pi$. Thus for $t\in(0,1)$ we have $\Re\,\gamma(t)>0$, so
+$\gamma(t)\ne 0$. The associated closed loop (identify $t=0$ and $t=1$) avoids $0$.
+
+\smallskip
+
+\noindent\textbf{(b)(i) Direct computation.}
+With $\theta=2\pi t$,
+\[
+\Im\,\gamma(t)=\sin(2\theta)-4\sin\theta
+=2\sin\theta(\cos\theta-2),
+\]
+which is negative on $(0,\pi)$, zero at $\theta=\pi$ (where $\gamma=\!p(-1)=8>0$), and positive on
+$(\pi,2\pi)$. Since $\Re\,\gamma(t)>0$ on $(0,1)$, the loop lies in the right half–plane,
+crossing the real axis once at a positive point. The argument increases from just below
+$-\frac{\pi}{2}$ to just above $+\frac{\pi}{2}$ (change $+\pi$), and the closing jump at the basepoint
+contributes $-\pi$. Total change $0$, hence $w(\gamma,0)=0$.
+
+\smallskip
+
+\noindent\textbf{(b)(ii) By factoring.}
+$p(z)=(z-1)(z-3)$, so
+\[
+\gamma(t)=\big(e^{2\pi i t}-1\big)\big(e^{2\pi i t}-3\big).
+\]
+The loop $e^{2\pi i t}-3$ is the circle centered at $-3$ of radius $1$ and does not encircle $0$,
+so its winding number is $0$. The loop $e^{2\pi i t}-1$ is the circle centered at $-1$ of radius $1$,
+touching $0$ only at the basepoint; its winding is $0$. Therefore $w(\gamma,0)=0$.
+
+\smallskip
+
+\noindent\textbf{(b)(iii) By the dog–walking lemma.}
+Let $a(t)=e^{2\pi i t}-1$ and $b(t)=e^{2\pi i t}-3$. Then
+$w(\gamma,0)=w(a\cdot b,0)=w(a,0)+w(b,0)=0+0=0$.
+\qed
+
+\section*{Winding Number}
+
+Given a continuous closed path (loop) 
+\[
+\gamma : [0,1] \to \mathbb{C}
+\]
+and a point \(a \in \mathbb{C}\) with \(\gamma(t) \neq a\) for all \(t\),
+the \emph{winding number} (or \emph{index}) of \(\gamma\) about \(a\) is defined by
+\[
+w(\gamma,a)
+= \frac{1}{2\pi} \Delta_{t\in[0,1]} \arg\bigl(\gamma(t)-a\bigr)
+= \frac{1}{2\pi i}\int_\gamma \frac{dz}{z-a},
+\]
+i.e. the total change of the argument of \(\gamma(t)-a\) divided by \(2\pi\),
+equivalently the contour integral.
+
+\smallskip
+
+\noindent
+\textit{Intuitively:} \(w(\gamma,a)\) counts how many times (with orientation) the curve \(\gamma\)
+goes around the point \(a\).
+
+\bigskip
+\subsection*{Key properties}
+
+\begin{itemize}
+	\item \textbf{Integer-valued:}
+	\(w(\gamma,a)\in\mathbb{Z}\) (it is always an integer).
+	
+	\item \textbf{Homotopy invariance:}
+	If two loops avoiding \(a\) can be continuously deformed into one another
+	without crossing \(a\), then they have the same winding number about \(a\).
+	
+	\item \textbf{Additivity:}
+	For loop concatenation \(\gamma_1 * \gamma_2\),
+	\[
+	w(\gamma_1 * \gamma_2,a)
+	= w(\gamma_1,a) + w(\gamma_2,a).
+	\]
+	
+	\item \textbf{Orientation:}
+	Reversing direction flips the sign:
+	\[
+	w(\gamma^{-1},a) = -\,w(\gamma,a).
+	\]
+	
+	\item \textbf{Locality:}
+	If \(a\) lies in a component of \(\mathbb{C}\setminus\gamma([0,1])\) that is “outside,”
+	then \(w(\gamma,a)=0\).
+	For a positively oriented simple closed curve,
+	\(w(\gamma,a)=1\) for points inside and \(w(\gamma,a)=0\) for points outside
+	(Jordan curve theorem).
+	
+	\item \textbf{Multiplicativity for products (“dog-walking lemma”):}
+	\[
+	w(\gamma_1\cdot\gamma_2,0)
+	= w(\gamma_1,0) + w(\gamma_2,0),
+	\]
+	for loops avoiding \(0\), where
+	\((\gamma_1\cdot\gamma_2)(t)=\gamma_1(t)\gamma_2(t)\).
+\end{itemize}
+
+\bigskip
+\subsection*{How to compute in practice}
+
+\begin{enumerate}
+	\item \textbf{Total argument change.}
+	Track \(\arg(\gamma(t)-a)\) continuously and add up its net change over one loop;
+	divide by \(2\pi\).
+	
+	\item \textbf{Integral formula.}
+	\[
+	w(\gamma,a) = \frac{1}{2\pi i}\int_\gamma \frac{dz}{z-a}.
+	\]
+	For piecewise \(C^1\) curves this is straightforward; residues help
+	if the integrand is more general.
+	
+	\item \textbf{Counting signed crossings (real-axis trick).}
+	When \(\gamma\) never hits \(a\) and you can choose a ray from \(a\)
+	that the curve crosses transversely,
+	\(w(\gamma,a)\) equals the number of crossings from below to above
+	\emph{minus} the number from above to below
+	(signs determined by orientation).
+\end{enumerate}
+
+\bigskip
+\subsection*{Examples}
+
+\begin{itemize}
+	\item \( \gamma(t)=e^{2\pi i t} \): unit circle around \(0\);
+	\(w(\gamma,0)=1.\)
+	\item \( \gamma(t)=e^{2\pi i k t} \): \(k\)-fold loop;
+	\(w(\gamma,0)=k.\)
+	\item \( \gamma(t)=e^{2\pi i t}-3 \): shifted circle not enclosing \(0\);
+	\(w(\gamma,0)=0.\)
+	\item \( \gamma(t)=(e^{2\pi i t}-1)(e^{2\pi i t}-3) \): product path;
+	\(w(\gamma,0)=w(e^{2\pi i t}-1,0)+w(e^{2\pi i t}-3,0)=0.\)
+\end{itemize}
+
+\section*{Problem 2 — Fixed and antipodal points for a disk–extendable circle map}
+
+Let $g:S^{1}\to S^{1}$ be continuous, where $S^{1}=\{z\in\mathbb C:\ |z|=1\}$.
+Suppose $g$ admits a continuous extension $G:D\to S^{1}$ to the closed unit disk
+$D=\{z\in\mathbb C:\ |z|\le 1\}$ (so $G|_{S^{1}}=g$).
+Prove that:
+\begin{enumerate}\item[(a)]
+	there exists $z\in S^{1}$ with $g(z)=z$;
+	\item[(b)]
+	there exists $z\in S^{1}$ with $g(z)=-z$.
+\end{enumerate}
+
+\bigskip
+
+
+\section*{Theory you’ll use}
+
+\begin{itemize}\setlength{\itemsep}{0.7em}
+	
+	\item \textbf{Degree on $S^{1}$.}
+	For $g:S^{1}\to S^{1}$, there is an integer $\deg g$ such that, if
+	\[
+	g(e^{i\theta}) \;=\; e^{i f(\theta)}
+	\]
+	for a continuous lift $f:\mathbb{R}\to\mathbb{R}$ (possible since $\exp(i\cdot):\mathbb{R}\to S^{1}$ is a covering), then
+	\[
+	\deg g \;=\; \frac{f(\theta+2\pi)-f(\theta)}{2\pi} \;\in\; \mathbb{Z}.
+	\]
+	If $g$ is \emph{null–homotopic} (homotopic to a constant), then $\deg g=0$.
+	
+	\item \textbf{Why $\deg g=0$ here.}
+	The extension $G:D\to S^{1}$ gives a homotopy on the boundary:
+	\[
+	H(r,e^{i\theta}) \;=\; G\!\big(re^{i\theta}\big), \qquad r\in[0,1].
+	\]
+	Thus $g$ is homotopic on $S^{1}$ to the constant map $z\mapsto G(0)$.
+	Hence $g$ is null–homotopic and $\deg g=0$.
+	
+	\item \textbf{Intermediate value on a lift.}
+	With $\deg g=0$ we may choose a lift $f$ with $f(\theta+2\pi)=f(\theta)$.
+	Put $h(\theta)=f(\theta)-\theta$. Then
+	\[
+	h(\theta+2\pi)=f(\theta+2\pi)-(\theta+2\pi)=h(\theta)-2\pi,
+	\]
+	so as $\theta$ runs from $0$ to $2\pi$, the continuous function $h$ drops by $2\pi$.
+	Therefore it attains every value in an interval of length $2\pi$; in particular some $2k\pi$
+	and some $\pi+2k\pi$.
+	
+	\item \textbf{Translations to fixed/antipodal points.}
+	\[
+	g(e^{i\theta})=e^{i\theta}
+	\;\Longleftrightarrow\;
+	f(\theta)\equiv \theta \pmod{2\pi}
+	\;\Longleftrightarrow\;
+	h(\theta)\in 2\pi\mathbb{Z}.
+	\]
+	\[
+	g(e^{i\theta})=-\,e^{i\theta}
+	\;\Longleftrightarrow\;
+	f(\theta)\equiv \theta+\pi \pmod{2\pi}
+	\;\Longleftrightarrow\;
+	h(\theta)\in \pi+2\pi\mathbb{Z}.
+	\]
+	
+\end{itemize}
+
+
+\subsection*{Theory}
+
+\begin{itemize}
+	\item \textbf{Degree and lifts.} For $g:S^{1}\to S^{1}$ there is an integer $\deg g$ with the property:
+	there exists a continuous lift $f:\mathbb R\to\mathbb R$ such that
+	$g(e^{i\theta})=e^{if(\theta)}$ and
+	\[
+	\deg g=\frac{f(\theta+2\pi)-f(\theta)}{2\pi}.
+	\]
+	If $g$ is null–homotopic, then $\deg g=0$.
+	
+	\item \textbf{Extension $\Rightarrow$ degree $0$.}
+	Setting $H(r,e^{i\theta})=G(re^{i\theta})$ for $r\in[0,1]$ gives a homotopy on $S^{1}$
+	from $g$ to the constant map $z\mapsto G(0)$. Hence $g$ is null–homotopic and $\deg g=0$.
+	
+	\item \textbf{Intermediate value on $h(\theta)=f(\theta)-\theta$.}
+	When $\deg g=0$ we can choose $f$ with $f(\theta+2\pi)=f(\theta)$.
+	Then $h(\theta+2\pi)=h(\theta)-2\pi$, so $h$ takes every value in an interval of length $2\pi$.
+\end{itemize}
+
+\bigskip
+
+\subsection*{Solution}
+
+Since $\deg g=0$, choose a lift $f$ with $f(\theta+2\pi)=f(\theta)$ and write $h(\theta)=f(\theta)-\theta$.
+Then $h$ is continuous and $h(\theta+2\pi)=h(\theta)-2\pi$; hence as $\theta$ runs from $0$ to $2\pi$,
+$h$ takes every value in an interval of length $2\pi$.
+
+\smallskip
+\noindent\textbf{(a) Fixed point.}
+There exists $\theta_0$ with $h(\theta_0)=2k\pi$ for some $k\in\mathbb Z$, i.e.
+$f(\theta_0)=\theta_0+2k\pi$. Therefore
+\[
+g(e^{i\theta_0})=e^{if(\theta_0)}=e^{i(\theta_0+2k\pi)}=e^{i\theta_0},
+\]
+so $z=e^{i\theta_0}$ satisfies $g(z)=z$.
+
+\smallskip
+\noindent\textbf{(b) Antipodal point.}
+Likewise there exists $\theta_1$ with $h(\theta_1)=\pi+2k\pi$.
+Then
+\[
+g(e^{i\theta_1})=e^{if(\theta_1)}=e^{i(\theta_1+\pi)}=-\,e^{i\theta_1},
+\]
+so $z=e^{i\theta_1}$ satisfies $g(z)=-z$.
+\qed
+
+\bigskip
+
+\subsection*{Remarks / Examples}
+
+If $g$ is constant, both conclusions are immediate.
+If $g(z)=\overline{z}$, then $g$ extends to $G(re^{i\theta})=e^{-i\theta}$ and one finds
+fixed points at $z=\pm1$ and antipodal points at $z=\pm i$.
+Maps like $g(z)=z^{k}$ with $|k|\ge2$ have $\deg g=k\ne0$ and do not extend to $D$,
+so (a)–(b) need not hold for them.
+
+
+\section*{Degree of a map $g:S^{1}\to S^{1}$}
+
+\noindent\textbf{Intuition.}
+The degree $\deg g\in\mathbb{Z}$ tells how many times (with orientation) the image loop
+$g\circ \gamma$ winds around the circle while the domain circle is traversed once.
+Positive degree means counterclockwise wrapping; negative degree means clockwise.
+
+\bigskip
+
+\noindent\textbf{Definition via a lift.}
+Parametrize $S^{1}$ by $\theta\mapsto e^{i\theta}$.
+Since $\exp(i\,\cdot):\mathbb{R}\to S^{1}$ is a covering map, there exists a continuous
+\emph{lift} $f:\mathbb{R}\to\mathbb{R}$ with
+\[
+g\bigl(e^{i\theta}\bigr)=e^{i f(\theta)} \qquad (\theta\in\mathbb{R}).
+\]
+Then
+\[
+\deg g \;=\; \frac{f(\theta+2\pi)-f(\theta)}{2\pi}\ \in\ \mathbb{Z}.
+\]
+Equivalently, $\deg g$ is the total change of the argument of $g(e^{i\theta})$ over one lap,
+divided by $2\pi$.
+
+\bigskip
+
+\noindent\textbf{Equivalent description (winding number).}
+Let $\gamma(\theta)=g(e^{i\theta})$.
+Then
+\[
+\deg g \;=\; \frac{1}{2\pi}\,\Delta_{\theta\in[0,2\pi]}\arg\gamma(\theta)
+\;=\; \frac{1}{2\pi i}\int_{\gamma}\frac{dz}{z}.
+\]
+
+\bigskip
+
+\noindent\textbf{Basic facts.}
+\begin{itemize}\setlength{\itemsep}{0.5em}
+	\item $\deg(g_1\!\circ g_2)=\deg(g_1)\,\deg(g_2)$.
+	\item $g$ is null–homotopic (homotopic to a constant) $\iff \deg g=0$.
+	\item Two maps $S^{1}\to S^{1}$ are homotopic $\iff$ they have the same degree.
+\end{itemize}
+
+\bigskip
+
+\noindent\textbf{Examples.}
+\[
+g(z)=z^{k}\ \Rightarrow\ \deg g=k;\qquad
+g(z)=\overline{z}\ \Rightarrow\ \deg g=-1;\qquad
+g(z)\equiv 1\ \Rightarrow\ \deg g=0.
+\]
+
+\section*{Problem 3 — Can a discontinuous function be uniformly approximated by polynomials?}
+
+\noindent\textbf{Question.}
+Does there exist a function $f:[0,1]\to\mathbb{R}$ with a discontinuity which can be approximated
+\emph{uniformly on $[0,1]$} by polynomials?
+
+\bigskip
+
+\section*{Theory}
+
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item \textbf{Weierstrass theorem.} Every continuous $f:[0,1]\to\mathbb{R}$ can be uniformly approximated by polynomials.
+	\item \textbf{Uniform limits preserve continuity.}
+	If $p_n$ are continuous and $\|p_n-f\|_\infty\to 0$, then $f$ is continuous.
+	\item \textbf{Jump lower bound.} If $f$ has a jump at $x_0$ with left/right limits $a<b$, then for any continuous $g$
+	\[
+	\|f-g\|_\infty \ \ge\ \frac{b-a}{2}.
+	\]
+	In particular, the step function $f=\mathbf{1}_{[1/2,1]}$ satisfies
+	$\inf_{g\in C[0,1]}\|f-g\|_\infty\ge \tfrac12$.
+\end{itemize}
+
+\bigskip
+
+\section*{Answer and proof}
+
+\noindent\textbf{Answer: No.}
+Suppose there were polynomials $p_n$ with $p_n\to f$ uniformly on $[0,1]$.
+Since each $p_n$ is continuous and uniform limits of continuous functions are continuous,
+$f$ must be continuous, a contradiction. Hence a discontinuous function cannot be uniformly
+approximated on $[0,1]$ by polynomials.
+
+\bigskip
+
+\section*{Examples / remarks}
+
+\begin{itemize}
+	\item \emph{Pointwise vs.\ uniform:} One can build polynomials that converge pointwise to a step function away from the jump, but the uniform error on $[0,1]$ never goes below $1/2$.
+	\item \emph{Uniform on punctured sets:} For any $\varepsilon>0$, the step function can be uniformly approximated on $[0,1]\setminus(1/2-\varepsilon,\,1/2+\varepsilon)$.
+	\item \emph{$L^p$ approximation:} For $1\le p<\infty$, polynomials are dense in $L^p[0,1]$; discontinuous functions can be approximated in $L^p$ (but not uniformly).
+\end{itemize}
+
+\section*{Problem 4 — Degrees must blow up in uniform polynomial approximation}
+
+Let $f:[0,1]\to\mathbb{R}$ be continuous and not a polynomial. Suppose $(p_n)$ are polynomials
+with $p_n\to f$ uniformly on $[0,1]$, and set $d_n=\deg p_n$. Prove that $d_n\to\infty$.
+
+\bigskip
+
+\section*{Theory}
+
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item \textbf{Finite-dimensional subspaces are closed.}
+	In any normed linear space $X$, every finite-dimensional subspace $V$ is closed in $X$.
+	\item \textbf{Bounded degree subspace.}
+	$\mathcal P_{\le m}:=\{p:\deg p\le m\}\subset C[0,1]$ has dimension $m+1$
+	(basis $1,x,\dots,x^m$), hence is a closed subspace of $(C[0,1],\|\cdot\|_\infty)$.
+	\item \textbf{Uniform limit in a closed set.}
+	If $E\subset X$ is closed and $x_n\in E$ with $x_n\to x$, then $x\in E$.
+\end{itemize}
+
+\bigskip
+
+\section*{Solution}
+
+Assume $\{d_n\}$ is not unbounded. Then there exists $m$ and an infinite subsequence $(p_{n_k})$
+with $\deg p_{n_k}\le m$ for all $k$, i.e.\ $p_{n_k}\in \mathcal P_{\le m}$.
+Since $\mathcal P_{\le m}$ is closed in $C[0,1]$ and $p_{n_k}\to f$ uniformly, we must have
+$f\in \mathcal P_{\le m}$; thus $f$ is a polynomial of degree $\le m$, contradicting the
+assumption that $f$ is not a polynomial. Hence $d_n\to\infty$. \qed
+
+\bigskip
+
+\section*{Remarks}
+
+Examples such as $f(x)=|x|$, $f(x)=\sqrt{x}$, or $f(x)=e^x$ on $[0,1]$ show that any uniformly
+convergent polynomial approximation requires degrees tending to infinity; a bounded-degree
+family cannot approximate a non-polynomial uniformly.
+
+\section*{Practical meaning and approximation error}
+
+The theorem implies that if $f$ is continuous but not a polynomial, then any sequence of
+polynomials $(p_n)$ converging uniformly to $f$ must have degrees $\deg p_n\to\infty$.
+In practice, this means:
+
+\begin{itemize}\setlength{\itemsep}{0.7em}
+	\item We can only use a \emph{finite-degree} polynomial $p_m$ at a time,
+	which yields an approximation error that depends on $m$.
+	\item Increasing the degree $m$ decreases the approximation error;
+	we stop once the error is below the desired tolerance.
+\end{itemize}
+
+\bigskip
+
+\noindent
+Define the \emph{best uniform (Chebyshev) approximation error} by
+\[
+E_m(f) \;:=\; \inf_{\deg p\le m} \|f-p\|_\infty .
+\]
+Then $E_m(f)\to 0$ as $m\to\infty$ (by Weierstrass), but the rate of decay
+depends on the smoothness of $f$:
+
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item If $f$ is \textbf{analytic} in a neighborhood of $[0,1]$,
+	then $E_m(f)$ decays \textbf{exponentially fast}
+	(``spectral accuracy'').
+	\item If $f\in C^k[0,1]$, then $E_m(f)\lesssim C\,m^{-k}$ (a Jackson-type estimate).
+	\item If $f$ is merely continuous, $E_m(f)\to0$ but may do so \textbf{arbitrarily slowly}.
+\end{itemize}
+
+\bigskip
+
+\noindent
+\textbf{Practical approximation strategies.}
+\begin{itemize}
+	\item Use \textbf{Chebyshev polynomials} or the \textbf{Remez algorithm}
+	to find near-optimal or optimal polynomial approximations
+	in the uniform norm.
+	\item Choose the degree $m$ so that the maximum (or sampled) error
+	is below the target tolerance $\varepsilon$.
+	\item For interpolation, prefer \textbf{Chebyshev nodes} rather than
+	equispaced points, to avoid large oscillations (Runge phenomenon).
+\end{itemize}
+
+\bigskip
+
+\noindent
+Thus, polynomial approximation of a non-polynomial function is always an
+\emph{infinite-degree process} in theory, but a \emph{finite-degree compromise}
+in practice: we stop at the degree $m$ that yields the desired accuracy.
+
+\section*{Approximation without uniformity}
+
+\noindent\textbf{Pointwise at continuity points (Bernstein).}
+For a bounded function $f:[0,1]\to\mathbb{R}$, the Bernstein polynomials
+\[
+B_n[f](x)=\sum_{k=0}^n f\!\left(\frac{k}{n}\right)\binom{n}{k} x^k(1-x)^{\,n-k}
+\]
+satisfy $B_n[f](x)\to f(x)$ at every continuity point $x$ of $f$. If $f$ is continuous, the convergence is uniform (Weierstrass); if $f$ is discontinuous, the convergence is typically pointwise but not uniform.
+
+\smallskip
+
+\noindent\textbf{$L^p$-approximation ($1\le p<\infty$).}
+Polynomials are dense in $L^p([0,1])$; i.e., for any $f\in L^p$ and $\varepsilon>0$ there exists a polynomial $p$
+with $\|f-p\|_{L^p}<\varepsilon$. Thus discontinuous functions can be approximated by polynomials in $L^p$,
+even though uniform approximation may be impossible.
+
+\bigskip
+
+\section*{Example: a step function}
+
+Let $H(x)=\mathbf{1}_{[1/2,\,1]}(x)$. Then
+\[
+B_n[H](x)=\sum_{k=\lceil n/2\rceil}^{n}\binom{n}{k}\,x^k(1-x)^{n-k}.
+\]
+One has
+\[
+B_n[H](x)\to
+\begin{cases}
+	0, & x<\tfrac{1}{2},\\[2pt]
+	\tfrac12, & x=\tfrac{1}{2},\\[2pt]
+	1, & x>\tfrac{1}{2},
+\end{cases}
+\qquad (n\to\infty).
+\]
+Hence $B_n[H]\to H$ pointwise at all continuity points of $H$, but not uniformly.
+Moreover, for each $1\le p<\infty$,
+\[
+\|B_n[H]-H\|_{L^p([0,1])}\longrightarrow 0,
+\]
+so $H$ is approximable by polynomials in $L^p$.
+
+\bigskip
+
+\section*{Summary}
+Dropping uniform convergence allows polynomial approximation of discontinuous functions:
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item pointwise convergence at continuity points (e.g.\ Bernstein polynomials),
+	\item $L^p$-convergence for every $1\le p<\infty$ (polynomials are dense in $L^p$),
+	\item often almost-everywhere convergence for suitable subsequences.
+\end{itemize}
+Uniform convergence on the whole interval still fails for discontinuous $f$.
+
+\section*{Degrees still blow up without uniformity}
+
+Let $(p_n)$ be polynomials on $[0,1]$ converging to $f$ (pointwise, or in $L^p$, $1\le p<\infty$).
+If $f$ is not a polynomial, then necessarily $\deg p_n\to\infty$.
+
+\smallskip
+
+\noindent\textbf{Proof (pointwise case).}
+Assume $\deg p_n\le m$ for all $n$. Let $\mathcal P_{\le m}$ be the space of polynomials of degree $\le m$.
+Choose distinct nodes $x_0,\dots,x_m\in[0,1]$. The evaluation map
+\[
+T:\mathcal P_{\le m}\to\mathbb{R}^{m+1}, \qquad T(p)=(p(x_0),\dots,p(x_m))
+\]
+is a linear isomorphism. Since $p_n(x_j)\to f(x_j)$ for each $j$, we have $T(p_n)\to v:=(f(x_0),\dots,f(x_m))$.
+Let $p:=T^{-1}(v)\in\mathcal P_{\le m}$. By Lagrange interpolation, for each $x$ there exists a linear functional
+$L_x:\mathbb{R}^{m+1}\to\mathbb{R}$ with $p_n(x)=L_x\!\big(T(p_n)\big)$; hence
+$p_n(x)\to L_x(v)=p(x)$. Therefore the pointwise limit $f$ equals $p$, a polynomial of degree $\le m$.
+Contradiction. Thus $\deg p_n$ cannot be bounded; hence $\deg p_n\to\infty$.
+\qed
+
+\smallskip
+
+\noindent\textbf{Remark (normed convergences).}
+For convergence in any norm (e.g.\ $L^p$), the same conclusion holds since
+$\mathcal P_{\le m}$ is finite-dimensional and therefore closed; a limit of $(p_n)$ with $\deg p_n\le m$
+must lie in $\mathcal P_{\le m}$.
+
+\section*{Problem 5 — Interpolation remainder and uniform convergence}
+
+Let $f:[-1,1]\to\mathbb{R}$ be $(n+1)$-times continuously differentiable and
+$J_n=\{x_0,\dots,x_n\}\subset[-1,1]$ distinct.
+Let $P_{J_n}\in\Pi_n$ be the unique polynomial with $P_{J_n}(x_j)=f(x_j)$.
+Define
+\[
+\beta_{J_n}(x)=(x-x_0)\cdots(x-x_n).
+\]
+
+\bigskip
+
+\noindent\textbf{Remainder formula.}
+For every $x\in[-1,1]$ there exists $\zeta\in(-1,1)$ such that
+\[
+f(x)-P_{J_n}(x)=\frac{f^{(n+1)}(\zeta)}{(n+1)!}\,\beta_{J_n}(x).
+\]
+
+\emph{Proof.}
+If $x=x_j$ this is trivial. Otherwise choose $\lambda$ so that
+$g(y)=f(y)-P_{J_n}(y)-\lambda\,\beta_{J_n}(y)$ satisfies $g(x)=0$.
+Since $g(x_j)=0$ for $j=0,\dots,n$, $g$ has $n+2$ distinct zeros.
+By repeated Rolle, there exists $\zeta$ with
+$g^{(n+1)}(\zeta)=0$. Because $\deg P_{J_n}\le n$,
+$g^{(n+1)}(y)=f^{(n+1)}(y)-\lambda (n+1)!$, hence
+$\lambda=f^{(n+1)}(\zeta)/(n+1)!$. Evaluating at $x$ yields the formula. \qed
+
+\bigskip
+
+\noindent\textbf{Uniform convergence under factorial control.}
+Assume $f\in C^\infty[-1,1]$ and $\sup_{x}|f^{(n)}(x)|\le M^n$ for all $n\ge1$.
+From the remainder formula and the bound
+\[
+|\beta_{J_n}(x)|=\prod_{j=0}^{n}|x-x_j|\le 2^{\,n+1}\qquad(x,x_j\in[-1,1]),
+\]
+we obtain, uniformly in $x$ and in the choice of nodes $J_n$,
+\[
+\|f-P_{J_n}\|_{\infty}
+\le \frac{\sup_{y}|f^{(n+1)}(y)|}{(n+1)!}\,\sup_{x}|\beta_{J_n}(x)|
+\le \frac{M^{n+1}\,2^{\,n+1}}{(n+1)!}\xrightarrow[n\to\infty]{}0.
+\]
+Hence $P_{J_n}\to f$ uniformly on $[-1,1]$. \qed
+
+\bigskip
+
+\subsection*{Remarks}
+The crude bound $\sup|\beta_{J_n}|\le 2^{n+1}$ is node-independent.
+Sharper bounds are possible for specific choices, e.g.\ Chebyshev nodes minimize $\|\beta_{J_n}\|_\infty$
+among monic polynomials, yielding $\|\beta_{J_n}\|_\infty=2^{-n}$.
+Without derivative growth control, poor nodes can cause divergence (Runge phenomenon).
+
+\section*{Approximation and interpolation: definitions}
+
+\noindent\textbf{Approximation (by polynomials).}
+Let $X\subset\mathbb{R}$ and $f:X\to\mathbb{R}$. A sequence of polynomials $(p_n)$
+\emph{approximates} $f$ on $X$ if $p_n\to f$ in a prescribed mode:
+\begin{itemize}\setlength{\itemsep}{0.4em}
+	\item \emph{Uniform approximation:} $\|f-p_n\|_\infty:=\sup_{x\in X}|f(x)-p_n(x)|\to 0$.
+	\item \emph{Pointwise approximation:} for every $x\in X$, $p_n(x)\to f(x)$.
+	\item \emph{$L^p$ approximation ($1\le p<\infty$):} $\|f-p_n\|_{L^p(X)}\to 0$.
+\end{itemize}
+For $m\in\mathbb{N}$, a \emph{best degree-$m$ approximation} is a polynomial
+$p_m^*\in\Pi_m$ such that
+\[
+\|f-p_m^*\|=\inf_{q\in\Pi_m}\|f-q\|,
+\]
+where $\|\cdot\|$ is the chosen norm (e.g., $\|\cdot\|_\infty$ or $\|\cdot\|_{L^p}$).
+
+\bigskip
+
+\noindent\textbf{Interpolation (by polynomials).}
+Given distinct nodes $x_0,\dots,x_n\in X$ and data $y_j=f(x_j)$,
+a polynomial $P\in\Pi_n$ \emph{interpolates} $f$ at the nodes if
+\[
+P(x_j)=f(x_j)\qquad (j=0,\dots,n).
+\]
+For distinct nodes, such $P$ exists and is unique; it can be written in
+\emph{Lagrange form}
+\[
+P(x)=\sum_{j=0}^n f(x_j)\,\ell_j(x),\qquad
+\ell_j(x)=\prod_{\substack{k=0\\ k\ne j}}^n \frac{x-x_k}{x_j-x_k},
+\]
+or in \emph{Newton form} using divided differences.
+
+\bigskip
+
+\noindent\textbf{Approximation vs.\ interpolation.}
+Interpolation enforces exact matching at finitely many points; approximation aims to minimize a global error without necessarily matching at any specific point. An interpolant may approximate well (e.g.\ at Chebyshev nodes), but can also behave poorly (Runge phenomenon with equispaced nodes).
+
+
+\section*{Problem 6 — Chebyshev nodes minimize the sup norm}
+
+Fix $n\ge1$ and let $J=\{x_1,\dots,x_n\}\subset[-1,1]$ be distinct points.
+Set $\beta_J(x)=(x-x_1)\cdots(x-x_n)$ and
+\[
+F(x_1,\dots,x_n)=\sup_{x\in[-1,1]}|\beta_J(x)|.
+\]
+Prove that $F$ is minimized when $x_k=\cos\!\bigl(\tfrac{(2k-1)\pi}{2n}\bigr)$, $k=1,\dots,n$.
+
+\bigskip
+
+\section*{Theory}
+The Chebyshev polynomials $T_n(x)=\cos(n\arccos x)$ satisfy $|T_n(x)|\le1$ on $[-1,1]$ and
+$T_n(\cos(\frac{k\pi}{n}))=(-1)^k$ for $k=0,\dots,n$. For $n\ge1$, the leading coefficient of $T_n$ is $2^{n-1}$,
+so $q_n(x):=2^{1-n}T_n(x)$ is monic and $\|q_n\|_\infty=2^{1-n}$. Its zeros are
+$\cos(\frac{(2k-1)\pi}{2n})$, $k=1,\dots,n$.
+
+\bigskip
+
+\section*{Solution}
+
+Let $p(x)=(x-x_1)\cdots(x-x_n)$ be any monic degree-$n$ polynomial with nodes in $[-1,1]$.
+Let $q_n(x)=2^{1-n}T_n(x)$ be the monic Chebyshev polynomial.
+
+\smallskip
+
+Consider the $n+1$ points
+\[
+\xi_k:=\cos\!\Bigl(\frac{k\pi}{n}\Bigr),\qquad k=0,1,\dots,n,
+\]
+at which $T_n(\xi_k)=(-1)^k$ and thus $q_n(\xi_k)=2^{1-n}(-1)^k$.
+
+\smallskip
+
+If $\|p\|_\infty<\|q_n\|_\infty=2^{1-n}$, then
+\[
+|p(\xi_k)|<|q_n(\xi_k)|=2^{1-n}\qquad\text{for all }k,
+\]
+so the values $p(\xi_k)$ and $q_n(\xi_k)$ have the \emph{same sign} $(-1)^k$.
+
+\smallskip
+
+Hence the function $r:=p-q_n$ satisfies
+\[
+r(\xi_k)=p(\xi_k)-q_n(\xi_k)
+\]
+and \emph{alternates in sign} at the points $\xi_0,\xi_1,\dots,\xi_n$.
+By the intermediate value theorem, $r$ has at least one zero in each open interval
+$(\xi_{k+1},\xi_k)$, i.e.\ at least $n$ distinct zeros in $(-1,1)$.
+
+\smallskip
+
+But $\deg r\le n-1$, a contradiction unless $r\equiv 0$.
+Therefore no monic polynomial can have smaller sup-norm than $q_n$, and the minimizer is unique:
+\[
+\min_{p\in\Pi_n^{\mathrm{mon}}}\ \|p\|_\infty \;=\; \|q_n\|_\infty \;=\; 2^{1-n}.
+\]
+
+\smallskip
+
+Consequently, the product $\beta_J$ attains the minimal possible
+$\sup_{[-1,1]}|\cdot|$ exactly when it equals $q_n$ (hence has the same zeros), i.e.\ when
+\[
+x_k \;=\; \cos\!\Bigl(\frac{(2k-1)\pi}{2n}\Bigr),
+\qquad k=1,\dots,n.
+\]
+
+Thus $F$ is minimized at the \textbf{Chebyshev nodes}.
+
+\smallskip
+
+\section*{Examples}
+For $n=1$, $q_1(x)=x$ and $\min\|p\|_\infty=1$ (zero at $0$).  
+For $n=2$, $q_2(x)=x^2-\tfrac12$ with zeros $\pm\frac{\sqrt2}{2}$ and $\|q_2\|_\infty=\tfrac12$.
+
+	
+\subsection*{Theory you’ll use}
+
+\subsubsection*{Chebyshev polynomials}
+The Chebyshev polynomials $T_n(x)=\cos(n\arccos x)$ satisfy
+\[
+|T_n(x)|\le 1 \quad (x\in[-1,1]), 
+\qquad
+T_n\!\left(\cos\!\frac{k\pi}{n}\right)=\cos(k\pi)=(-1)^k\quad (k=0,\dots,n).
+\]
+For $n\ge 1$, the leading coefficient of $T_n$ is $2^{\,n-1}$. Hence
+\[
+q_n(x):=2^{1-n}\,T_n(x)
+\]
+is \emph{monic} of degree $n$ and
+\[
+\|q_n\|_\infty=\sup_{x\in[-1,1]}|q_n(x)|=\;2^{\,1-n}.
+\]
+Its zeros are precisely
+\[
+x_k=\cos\!\Bigl(\frac{(2k-1)\pi}{2n}\Bigr), \qquad k=1,\dots,n.
+\]
+
+\subsubsection*{Extremal (alternation) property}
+Among all monic polynomials $\Pi^{\mathrm{mon}}_n$ of degree $n$,
+\[
+\inf_{p\in\Pi^{\mathrm{mon}}_n}\ \|p\|_\infty
+\;=\; \|q_n\|_\infty \;=\; 2^{\,1-n},
+\]
+and the minimizer is unique (up to equality) and equal to $q_n$.
+A concise proof uses the \emph{alternation} of $T_n$ at the points $\cos(k\pi/n)$.	
+	
+	
+\section*{Chebyshev polynomials $T_n$: core formulas}
+
+\subsection*{Definitions}
+\[
+T_n(x)=\cos\!\big(n\arccos x\big),\qquad x\in[-1,1],\ n\ge0.
+\]
+Equivalently, the three–term recurrence
+\[
+T_0(x)=1,\quad T_1(x)=x,\quad
+T_{n+1}(x)=2x\,T_n(x)-T_{n-1}(x)\quad(n\ge1).
+\]
+
+\subsection*{Basic properties}
+\[
+|T_n(x)|\le 1\ \ (x\in[-1,1]),\qquad
+T_n(1)=1,\ \ T_n(-1)=(-1)^n.
+\]
+Zeros:
+\[
+T_n\big(\cos\theta\big)=0\ \Longleftrightarrow\ 
+\theta=\frac{(2k-1)\pi}{2n},\ \ x_k=\cos\!\Bigl(\frac{(2k-1)\pi}{2n}\Bigr),\ k=1,\dots,n.
+\]
+Extrema:
+\[
+x=\cos\!\Bigl(\frac{k\pi}{n}\Bigr),\ k=0,\dots,n,\qquad
+T_n\!\left(\cos\!\frac{k\pi}{n}\right)=\cos(k\pi)=(-1)^k.
+\]
+
+\subsection*{Leading coefficient and monic scaling}
+For $n\ge1$, the leading coefficient of $T_n$ is $2^{\,n-1}$, so the monic Chebyshev is
+\[
+q_n(x):=2^{1-n}T_n(x),\qquad \|q_n\|_\infty=2^{1-n}.
+\]
+
+\subsection*{Explicit expansion}
+For $n\ge0$,
+\[
+T_n(x)
+=\frac{n}{2}\sum_{j=0}^{\lfloor n/2\rfloor}
+\frac{(-1)^j}{n-j}\binom{n-j}{j}\,(2x)^{n-2j},
+\]
+or equivalently
+\[
+T_n(x)=\sum_{j=0}^{\lfloor n/2\rfloor}
+(-1)^j\,\frac{n}{n-j}\binom{n-j}{j}\,x^{\,n-2j}.
+\]
+
+\subsection*{Generating function}
+\[
+\sum_{n=0}^{\infty} T_n(x)\,t^n=\frac{1-xt}{\,1-2xt+t^2\,},\qquad |t|<1.
+\]
+
+\subsection*{Derivative / relation with $U_{n}$}
+Let $U_{n}$ be Chebyshev polynomials of the second kind. Then
+\[
+\frac{d}{dx}T_n(x)=n\,U_{n-1}(x),\qquad
+U_{n}(\cos\theta)=\frac{\sin\big((n+1)\theta\big)}{\sin\theta}.
+\]
+
+\subsection*{Orthogonality (on $[-1,1]$)}
+\[
+\int_{-1}^{1}\frac{T_m(x)T_n(x)}{\sqrt{1-x^2}}\,dx=
+\begin{cases}
+	0,& m\ne n,\\[2pt]
+	\pi,& n=m=0,\\[2pt]
+	\frac{\pi}{2},& n=m\ge1.
+\end{cases}
+\]
+
+\subsection*{Examples}
+
+\begin{enumerate}\setlength{\itemsep}{0.6em}
+	\item \textbf{$n=2$.}
+	Monic Chebyshev:
+	\[
+	q_2(x)=2^{1-2}T_2(x)=x^2-\tfrac12,\qquad \|q_2\|_\infty=\tfrac12.
+	\]
+	Zeros at $\pm 2^{-1/2}$. Any other two nodes yield a larger sup norm.
+	
+	\item \textbf{$n=3$ : Chebyshev vs.\ equispaced.}
+	\[
+	q_3(x)=2^{1-3}T_3(x)=x^3-\tfrac34 x,\qquad \|q_3\|_\infty=\tfrac14.
+	\]
+	Equispaced nodes $\{-1,0,1\}$ give $p(x)=x^3-x$.
+	Max on $[-1,1]$ at $x=\pm 1/\sqrt{3}$:
+	\[
+	\|p\|_\infty=\frac{2}{3\sqrt3}\approx 0.385\;>\;\tfrac14.
+	\]
+	
+	\item \textbf{$n=4$ : Chebyshev vs.\ equispaced.}
+	\[
+	q_4(x)=2^{1-4}T_4(x)=x^4-x^2+\tfrac18,\qquad \|q_4\|_\infty=\tfrac18.
+	\]
+	Equispaced nodes $\{-1,-\tfrac13,\tfrac13,1\}$ give
+	\[
+	p(x)=(x^2-1)\Bigl(x^2-\tfrac{1}{9}\Bigr)=x^4-\tfrac{10}{9}x^2+\tfrac19.
+	\]
+	Critical points $x=0,\ \pm\sqrt{5}/3$ yield
+	\[
+	\|p\|_\infty=\max\left\{\tfrac{1}{9},\,\tfrac{16}{81}\right\}=\tfrac{16}{81}\approx 0.198
+	\;>\;\tfrac18.
+	\]
+\end{enumerate}
+
+\section*{Problem 7 — Uniqueness of the minimax polynomial}
+
+\subsection*{Exact statement}
+
+Let $f\in C([0,1])$. Suppose $p$ is a polynomial of degree $<n$ that minimizes the uniform error
+\[
+\|f-q\|_\infty \;:=\; \sup_{x\in[0,1]} |\,f(x)-q(x)\,|
+\]
+among all polynomials $q$ with $\deg q<n$.
+The \emph{converse equal--ripple criterion} (equioscillation theorem) says there exist $n+1$ points
+\[
+0\le a_0 < a_1 < \cdots < a_n \le 1
+\]
+such that either
+\[
+f(a_k)-p(a_k) \;=\; (-1)^k\,\|f-p\|_\infty \qquad \text{for } k=0,\dots,n,
+\]
+or
+\[
+f(a_k)-p(a_k) \;=\; (-1)^{k+1}\,\|f-p\|_\infty \qquad \text{for } k=0,\dots,n.
+\]
+
+\smallskip
+\noindent
+\textbf{Task.} Assuming this converse criterion, prove: for every $f\in C([0,1])$ and every positive integer $n$,
+the minimizer of $\|f-q\|_\infty$ over $\deg q<n$ is \emph{unique}.
+
+
+\subsection*{Theory you’ll use}
+
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item \textbf{Convexity.}
+	The set $\Pi_{<n}$ of polynomials of degree $<n$ is convex, and the map
+	$q\mapsto \|f-q\|_\infty$ is convex.
+	Hence, if $p_1,p_2$ are both minimizers with common error $E$, the midpoint
+	$r=\tfrac12(p_1+p_2)$ satisfies $\|f-r\|_\infty\le E$,
+	with \emph{strict} inequality unless the error oscillations at alternation points
+	cancel exactly.
+	
+	\item \textbf{Equal--ripple (converse form).}
+	If $p$ is a minimizer, there exist $n+1$ points where the error equals $\pm E$
+	with \emph{alternating sign}. Any such ordered set is called an \emph{alternant} for $p$.
+	
+	\item \textbf{Zeros from alternating signs.}
+	If two continuous functions coincide in value at $n+1$ points with alternating signs,
+	then their difference has at least $n$ sign changes; hence at least $n$ distinct zeros
+	in $(0,1)$ (by the intermediate value theorem).
+\end{itemize}
+
+\smallskip
+
+\subsection*{Solution}
+
+Assume, for contradiction, there are two distinct minimizers $p_1\ne p_2$ with common error
+$E=\|f-p_1\|_\infty=\|f-p_2\|_\infty$. By the converse equal–ripple criterion, there is an alternant
+$0\le a_0<\cdots<a_n\le 1$ with
+\[
+f(a_k)-p_1(a_k)=\sigma\,(-1)^k E\qquad (k=0,\dots,n),
+\]
+for some $\sigma\in\{\pm1\}$. Consider the midpoint $r=\tfrac12(p_1+p_2)$.
+If for some $k$ the signs of $f(a_k)-p_2(a_k)$ agree with those of $f(a_k)-p_1(a_k)$, then
+$|f(a_k)-r(a_k)|<E$. Since the signs at the $n+1$ points $a_k$ alternate, this would force
+$\|f-r\|_\infty<E$ (by the standard alternation argument), contradicting minimality.
+
+Hence for every $k$ we must have
+\[
+\operatorname{sgn}\!\bigl(f(a_k)-p_2(a_k)\bigr)=-\operatorname{sgn}\!\bigl(f(a_k)-p_1(a_k)\bigr),
+\qquad |f(a_k)-p_2(a_k)|=E .
+\]
+Subtracting yields $(p_2-p_1)(a_k)=0$ for $k=0,\dots,n$. The polynomial $p_2-p_1$ has degree $<n$
+and at least $n+1$ distinct zeros, hence is identically zero. Therefore $p_1=p_2$, a contradiction.
+Thus the minimax polynomial of degree $<n$ is unique. \qed
+
+\bigskip
+
+\subsection*{Remarks / examples}
+
+For $f(x)=x^2$ on $[-1,1]$ and $n=1$, the unique minimizer is the constant $p(x)=1/3$,
+with alternation at $-1,0,1$. For $f(x)=|x|$ and $n=2$, the unique minimax line $p(x)=ax$
+equioscillates at four points $-1,-\xi,\xi,1$, giving a unique slope $a$.
+	
+\section*{Equal-ripple (equioscillation) and the minimax polynomial}
+
+\noindent\textbf{Setting.}
+Let $f\in C([a,b])$ and let $\Pi_n$ be the set of polynomials of degree $\le n$.
+The \emph{best uniform (minimax) error} is
+\[
+E_n \;=\; \min_{p\in\Pi_n}\,\|f-p\|_\infty
+\qquad\text{with}\qquad
+\|g\|_\infty:=\max_{x\in[a,b]}|g(x)|.
+\]
+Any $p_n^{*}\in\Pi_n$ attaining this minimum is called a minimax (or best uniform) polynomial of degree $\le n$ for $f$.
+
+\medskip
+\noindent\textbf{Chebyshev alternation theorem (equal-ripple).}
+A polynomial $p_n^{*}\in\Pi_n$ is a minimax approximant if and only if there exist $n+2$ points
+\[
+a\le x_0 < x_1 < \cdots < x_{n+1} \le b
+\]
+such that
+\[
+f(x_k)-p_n^{*}(x_k)=(-1)^k\,E_n\quad\text{for }k=0,1,\dots,n+1,
+\qquad\text{and}\qquad
+|f(x)-p_n^{*}(x)|\le E_n\ \ \text{for all }x\in[a,b].
+\]
+In words: the error $f-p_n^{*}$ \emph{equioscillates} between $\pm E_n$ at $n+2$ alternating points and nowhere exceeds $E_n$ in magnitude. Under this condition the minimax approximant is unique (unless $f\in\Pi_n$, where the exact fit can be non-unique in a trivial sense).
+
+\medskip
+\noindent\textbf{Existence and ``is the minimizer a polynomial?''}
+Yes. Parametrize $p(x)=\sum_{k=0}^n c_k x^k$. The map $c\mapsto \|f-p\|_\infty$ is continuous, and a minimizing sequence can be confined to a compact set in coefficient space; hence a minimizer exists. By construction it lies in $\Pi_n$ (possibly of degree $<n$ if the optimal top coefficients vanish). Uniqueness holds under the alternation condition above.
+
+\medskip
+\noindent\textbf{Weighted version.}
+For a continuous positive weight $w:[a,b]\to(0,\infty)$, the weighted minimax problem
+\[
+E_{n,w} \;=\; \min_{p\in\Pi_n}\ \|\,w(\cdot)\,(f-p)\,\|_\infty
+\]
+has the same characterization with $w(x_k)\bigl(f(x_k)-p_n^{*}(x_k)\bigr)=(-1)^k E_{n,w}$ at $n+2$ alternating points, and $|w(x)(f(x)-p_n^{*}(x))|\le E_{n,w}$ on $[a,b]$.
+
+\medskip
+\noindent\textbf{Classic example: monic minimax on $[-1,1]$.}
+Among \emph{monic} polynomials of degree $n$,
+\[
+\min_{\substack{p\in\Pi_n\\ \text{lead coeff}=1}}\ \max_{|x|\le 1}|p(x)|
+\]
+the unique solution is the scaled Chebyshev polynomial
+\[
+p_n^{*}(x)=2^{1-n}\,T_n(x),
+\]
+because $T_n$ has leading coefficient $2^{\,n-1}$. On $[-1,1]$ we have $|T_n(x)|\le 1$ and $T_n$ attains $\pm 1$ at $n+1$ alternating extrema, so
+\[
+\max_{|x|\le 1}|p_n^{*}(x)| \;=\; 2^{1-n},
+\]
+and the error exhibits an equal-ripple pattern. (Recall $T_n(\cos\theta)=\cos(n\theta)$, and $T_n$ equioscillates between $\pm1$ on $[-1,1]$.)
+
+\section*{8. Pointwise polynomial approximation on $\mathbb{R}$}
+\textbf{Claim.} For any continuous $f:\mathbb{R}\to\mathbb{R}$ there exist polynomials $p_n$ such that $p_n(x)\to f(x)$ for every $x\in\mathbb{R}$.
+
+\textbf{Proof.} For each $n\in\mathbb{N}$, by Weierstrass on $[-n,n]$ there is a polynomial $q_n$ with
+\[
+\sup_{|x|\le n}\,|q_n(x)-f(x)|\le \frac{1}{n}.
+\]
+Set $p_n:=q_n$. Fix $x\in\mathbb{R}$ and choose $N>|x|$. For all $n\ge N$, we have $x\in[-n,n]$, hence
+$|p_n(x)-f(x)|\le 1/n\to 0$. Therefore $p_n(x)\to f(x)$ for every $x\in\mathbb{R}$. \qed
+
+\section*{Problem 9. Bernstein operator on $x^3$}
+
+\paragraph{Problem.}
+Let $B_n:C[0,1]\to C[0,1]$ be the Bernstein operator
+\[
+(B_n f)(x)=\sum_{k=0}^{n} f\!\left(\frac{k}{n}\right)\binom{n}{k}x^{k}(1-x)^{n-k}.
+\]
+Show directly that $B_n f\to f$ uniformly on $[0,1]$ for the function $f(x)=x^3$.
+
+\paragraph{Solution.}
+For $f(x)=x^3$ write $K\sim\mathrm{Bin}(n,x)$ so that
+\[
+(B_n f)(x)=\mathbb{E}\!\left[\left(\frac{K}{n}\right)^3\right]
+=\frac{\mathbb{E}[K^3]}{n^3}.
+\]
+Use the factorial-moment identities
+\[
+\mathbb{E}[K]=nx,\qquad
+\mathbb{E}[K(K-1)]=n(n-1)x^2,\qquad
+\mathbb{E}[K(K-1)(K-2)]=n(n-1)(n-2)x^3,
+\]
+and the decomposition \(K^3=K(K-1)(K-2)+3K(K-1)+K\). Hence
+\[
+\mathbb{E}[K^3]=n(n-1)(n-2)x^3+3n(n-1)x^2+nx,
+\]
+so
+\[
+(B_n f)(x)=\frac{(n-1)(n-2)}{n^2}\,x^3+\frac{3(n-1)}{n^2}\,x^2+\frac{1}{n^2}\,x.
+\]
+Therefore
+\[
+(B_n f)(x)-x^3
+= -\Big(\frac{3}{n}-\frac{2}{n^2}\Big)x^3+\frac{3(n-1)}{n^2}x^2+\frac{1}{n^2}x.
+\]
+For $x\in[0,1]$ this yields the uniform bound
+\[
+\|B_n f-f\|_\infty
+\le \frac{3}{n}-\frac{2}{n^2}+\frac{3(n-1)}{n^2}+\frac{1}{n^2}
+= \frac{3}{n}+\frac{2}{n^2}\xrightarrow[n\to\infty]{}0.
+\]
+Thus $B_n f\to f$ uniformly on $[0,1]$ for $f(x)=x^3$. \qed
+
+\section*{10. First five Chebyshev polynomials}
+Define $T_0(x)=1$, $T_1(x)=x$, and $T_{n+1}(x)=2xT_n(x)-T_{n-1}(x)$. Then
+\[
+\begin{aligned}
+	T_0(x)&=1,\\
+	T_1(x)&=x,\\
+	T_2(x)&=2x^2-1,\\
+	T_3(x)&=4x^3-3x,\\
+	T_4(x)&=8x^4-8x^2+1.
+\end{aligned}
+\]
+% (Optionally) $T_5(x)=16x^5-20x^3+5x$.
+	
+\section*{Problem 11. Legendre polynomials via Gram--Schmidt and Rodrigues-type formula}
+
+\paragraph{Problem.}
+(i) Use orthogonality (the Gram--Schmidt method) to compute the Legendre polynomials $p_n$ for $n=0,1,2,3$.
+\par (ii) Explain why $\dfrac{d^m}{dx^m}(1-x)^n(1+x)^n$ vanishes at $x=1$ or $x=-1$ whenever $m<n$.
+Suppose that $P_n(x)=\dfrac{d^n}{dx^n}(1-x^2)^n$. Use integration by parts to show that
+\[
+\int_{-1}^{1} P_n(x)P_m(x)\,dx=0\qquad(m\ne n).
+\]
+Conclude that the $P_n$ are scalar multiples of the Legendre polynomials $p_n$.
+\par (iii) Compute $P_n$ for $n=0,1,2,3$ and check the last sentence of (ii).
+
+\paragraph{Solution.}
+
+\subparagraph*{(i) Gram--Schmidt on $\{1,x,x^2,x^3\}$ in $L^2([-1,1])$.}
+Use $\langle f,g\rangle=\int_{-1}^1 f(x)g(x)\,dx$.
+
+\emph{Step 0.} $q_0=1$. Take $p_0=1$ (normalization by a positive constant is irrelevant).
+
+\emph{Step 1.} $q_1=x-\dfrac{\langle x,1\rangle}{\langle 1,1\rangle}\,1=x$ (since $\int_{-1}^1 x\,dx=0$). Take $p_1=x$.
+
+\emph{Step 2.} 
+\[
+q_2=x^2-\frac{\langle x^2,1\rangle}{\langle 1,1\rangle}\,1
+-\frac{\langle x^2,x\rangle}{\langle x,x\rangle}\,x
+= x^2-\frac{(2/3)}{2}\cdot 1-0\cdot x
+= x^2-\frac{1}{3}.
+\]
+Scale to the standard Legendre form: $p_2=\frac{3}{2}\,q_2=\frac{1}{2}(3x^2-1)$.
+
+\emph{Step 3.}
+\[
+q_3=x^3-\frac{\langle x^3,1\rangle}{\langle 1,1\rangle}\,1
+-\frac{\langle x^3,x\rangle}{\langle x,x\rangle}\,x
+-\frac{\langle x^3,x^2\rangle}{\langle x^2,x^2\rangle}\,x^2
+= x^3-\frac{(2/5)}{(2/3)}\,x
+= x^3-\frac{3}{5}x,
+\]
+since $\int x^3=0$, $\int x^5=0$. Scaling: $p_3=\frac{5}{2}\,q_3=\frac{1}{2}(5x^3-3x)$.
+
+Thus,
+\[
+p_0=1,\qquad p_1=x,\qquad p_2=\tfrac{1}{2}(3x^2-1),\qquad p_3=\tfrac{1}{2}(5x^3-3x).
+\]
+
+\subparagraph*{(ii) Endpoint vanishing and orthogonality of $P_n(x)=\dfrac{d^n}{dx^n}(1-x^2)^n$.}
+Note $(1-x)^n$ has a zero of order $n$ at $x=1$, hence so does $(1-x)^n(1+x)^n$; similarly at $x=-1$.
+Therefore $\dfrac{d^m}{dx^m}(1-x)^n(1+x)^n=0$ at $x=\pm1$ for all $m<n$.
+
+Let $P_n(x)=\dfrac{d^n}{dx^n}(1-x^2)^n$. For $m<n$,
+integrate by parts $n$ times:
+\[
+\int_{-1}^1 P_n(x)P_m(x)\,dx
+=\int_{-1}^1 \frac{d^n}{dx^n}(1-x^2)^n\,P_m(x)\,dx
+=\Big[ \sum_{\ell=0}^{n-1}(\cdots)\Big] + (-1)^n \int_{-1}^1 (1-x^2)^n\,\frac{d^n}{dx^n}P_m(x)\,dx.
+\]
+All boundary terms vanish because each boundary term involves a derivative of $(1-x^2)^n$ of order $<n$ evaluated at $x=\pm1$, which is $0$ by the first part.
+But $\deg P_m=m<n$, hence $\dfrac{d^n}{dx^n}P_m\equiv0$, so the remaining integral is $0$.
+By symmetry the same holds for $m>n$. Therefore $P_n$ and $P_m$ are orthogonal for $m\ne n$.
+
+Since (i) shows that the Legendre polynomials $\{p_n\}$ are the orthogonal degree-by-degree basis for this inner product, the orthogonal family $\{P_n\}$ must satisfy $P_n=c_n\,p_n$ with nonzero constants $c_n$.
+
+\subparagraph*{(iii) Explicit $P_n$ and comparison.}
+Compute by differentiation:
+\[
+\begin{aligned}
+	P_0(x)&=(1-x^2)^{0}=1,\\
+	P_1(x)&=\frac{d}{dx}(1-x^2)=-2x,\\
+	P_2(x)&=\frac{d^2}{dx^2}(1-2x^2+x^4)=\frac{d}{dx}(-4x+4x^3)=-4+12x^2=4(3x^2-1),\\
+	P_3(x)&=\frac{d^3}{dx^3}(1-3x^2+3x^4-x^6)=\frac{d}{dx}\big(-6+36x^2-30x^4\big)=72x-120x^3\\
+	&=-24(5x^3-3x).
+\end{aligned}
+\]
+Comparing with (i),
+\[
+P_0=1=p_0,\quad
+P_1=-2\,p_1,\quad
+P_2=8\,p_2,\quad
+P_3=-48\,p_3,
+\]
+so indeed $P_n=c_n\,p_n$ with $c_n=(-1)^n\,2^n n!$, consistent with the Rodrigues formula
+\[
+p_n(x)=\frac{1}{2^n n!}\,\frac{d^n}{dx^n}(x^2-1)^n
+=\frac{(-1)^n}{2^n n!}\,\frac{d^n}{dx^n}(1-x^2)^n.
+\]
+\qed
+
+
+\section*{Building orthogonal polynomials: Gram–Schmidt and Rodrigues (exam–ready)}
+
+\subsection*{Setting}
+Work in the polynomial space
+\[
+\mathcal P_n=\{ \text{polynomials of degree }\le n\}
+\]
+with the $L^2$ inner product on $[-1,1]$ (Legendre weight $w\equiv1$):
+\[
+\langle f,g\rangle=\int_{-1}^{1} f(x)g(x)\,dx .
+\]
+
+\subsection*{Goal}
+Orthonormalize the monomial basis $1,x,x^2,\dots$ to get an orthogonal family
+$\{p_0,p_1,\dots\}$ on $[-1,1]$. Up to scaling, these are the \textbf{Legendre polynomials}.
+
+\subsection*{Gram–Schmidt recipe on $\{1,x,x^2,\dots\}$}
+For $k=0,1,2,\dots$ set
+\[
+q_k(x)=x^k-\sum_{j=0}^{k-1}\frac{\langle x^k,p_j\rangle}{\langle p_j,p_j\rangle}\,p_j(x),
+\qquad
+p_k=\frac{q_k}{\|q_k\|}.
+\]
+Because the weight is even and the interval is symmetric, you automatically get parity:
+$p_k$ is even/odd for $k$ even/odd.
+
+\smallskip
+\noindent\textbf{First few (with the standard normalization $P_n(1)=1$):}
+\[
+P_0=1,\qquad
+P_1=x,\qquad
+P_2=\tfrac12(3x^2-1),\qquad
+P_3=\tfrac12(5x^3-3x).
+\]
+
+\smallskip
+\noindent\textbf{Orthogonality and three–term recurrence:}
+\[
+\int_{-1}^{1} P_\ell(x)P_m(x)\,dx=0\quad(\ell\ne m),\qquad
+(n+1)P_{n+1}(x)=(2n+1)xP_n(x)-nP_{n-1}(x).
+\]
+
+\subsection*{Rodrigues formula (closed form for classical families)}
+For a classical weight $w(x)$ on $[a,b]$ satisfying a Pearson ODE, the orthogonal
+polynomials admit
+\[
+p_n(x)=\frac{1}{\kappa_n\,w(x)}\,\frac{d^n}{dx^n}\!\Big( w(x)\,\sigma(x)^n\Big),
+\]
+where $\sigma,\tau$ (from the Pearson equation) are polynomials and $\kappa_n$ fixes the normalization.
+
+\subsubsection*{Legendre (weight $w\equiv 1$ on $[-1,1]$)}
+\[
+\boxed{\;P_n(x)=\frac{1}{2^n n!}\,\frac{d^n}{dx^n}\left(x^2-1\right)^{\!n}\;}
+\quad=\quad
+\frac{(-1)^n}{2^n n!}\,\frac{d^n}{dx^n}\left(1-x^2\right)^{\!n}.
+\]
+
+\smallskip
+\noindent\textbf{Immediate consequences.}
+\begin{itemize}\setlength{\itemsep}{0.4em}
+	\item Parity: $P_n(-x)=(-1)^n P_n(x)$.
+	\item Normalization: $P_n(1)=1$.
+	\item Leading coefficient:
+	\[
+	\operatorname{lc}(P_n)=\frac{(2n)!}{2^n (n!)^2}.
+	\]
+	\item Orthogonality (with the standard $L^2$ inner product):
+	\[
+	\int_{-1}^{1} P_n(x)P_m(x)\,dx
+	=\frac{2}{2n+1}\,\delta_{nm}.
+	\]
+\end{itemize}
+
+\subsection*{Other classical families (Rodrigues forms; for reference)}
+\begin{itemize}\setlength{\itemsep}{0.35em}
+	\item \textbf{Hermite} (weight $e^{-x^2}$ on $\mathbb R$):
+	\[
+	H_n(x)=( -1)^n e^{x^2}\frac{d^n}{dx^n}\big(e^{-x^2}\big).
+	\]
+	\item \textbf{Laguerre} (weight $e^{-x}$ on $[0,\infty)$):
+	\[
+	L_n(x)=\frac{e^{x}}{n!}\,\frac{d^n}{dx^n}\big(e^{-x} x^{n}\big).
+	\]
+	\item \textbf{Jacobi} (weight $(1-x)^\alpha(1+x)^\beta$ on $[-1,1]$, $\alpha,\beta>-1$):
+	\[
+	P_n^{(\alpha,\beta)}(x)
+	=\frac{(-1)^n}{2^n n!}\,\frac{1}{(1-x)^\alpha(1+x)^\beta}\,
+	\frac{d^n}{dx^n}\!\Big[(1-x)^{\alpha+n}(1+x)^{\beta+n}\Big].
+	\]
+\end{itemize}
+
+\subsection*{(Optional) Useful generating/ODE facts for Legendre}
+\begin{itemize}\setlength{\itemsep}{0.35em}
+	\item Differential equation:
+	\[
+	\frac{d}{dx}\!\left[(1-x^2)P_n'(x)\right]+n(n+1)P_n(x)=0.
+	\]
+	\item Generating function:
+	\[
+	\sum_{n=0}^{\infty} P_n(x)\,t^n=\frac{1}{\sqrt{1-2xt+t^2}},\qquad |t|<1.
+	\]
+\end{itemize}
+
+	
+	\section*{Problem 12 — Moment conditions force $f\equiv0$}
+	
+	\subsection*{Statement}
+	(1) If $f\in C[0,1]$ and $\int_0^1 f(x)x^n\,dx=0$ for all $n=0,1,2,\dots$, prove $f\equiv0$.\\
+	(2) If only $\int_0^1 f(x)x^n\,dx=0$ for all $n=1,2,\dots$, does $f\equiv0$ still follow?
+	
+	\subsection*{Theory}
+	\begin{itemize}\setlength{\itemsep}{0.5em}
+		\item Polynomials are dense in $C[0,1]$ (Weierstrass).
+		\item $\{p\in\mathcal P:\ p(0)=0\}$ is dense in $\{g\in C[0,1]:\ g(0)=0\}$.
+		\item If $f\in C[0,1]$ and $\int f g=0$ for all continuous $g$ supported in a small neighborhood of $a\in(0,1]$, then $f(a)=0$.
+	\end{itemize}
+	
+	\subsection*{Solution}
+	\paragraph{(1)} For any polynomial $p$, $\int_0^1 f p=0$. By density and continuity of $g\mapsto\int f g$,
+	$\int_0^1 f g=0$ for all $g\in C[0,1]$. Taking $g=f$ gives $\int_0^1 f^2=0$, hence $f\equiv0$.
+	
+	\paragraph{(2)} For any polynomial $p$ with $p(0)=0$, $\int_0^1 f p=0$. By density this holds for all
+	$g\in C[0,1]$ with $g(0)=0$. Fix $a\in(0,1]$ and choose $g\ge0$, $g(0)=0$, supported near $a$ and not identically $0$.
+	If $f(a)\ne0$, then $\int_0^1 f g\ne0$, contradiction. Thus $f(a)=0$ for all $a\in(0,1]$, and by continuity at $0$,
+	$f(0)=0$. Therefore $f\equiv0$. \qed
+	
+	\section*{Problem 13 — Orthogonality of Chebyshev polynomials}
+	
+	\subsection*{Statement}
+	Find a positive weight $w$ on $[-1,1]$ such that
+	\[
+	\int_{-1}^{1} T_m(x)T_n(x)\,w(x)\,dx=0\qquad (m\ne n),
+	\]
+	and prove the orthogonality.
+	
+	\subsection*{Solution}
+	Use $x=\cos\theta$ with $\theta\in[0,\pi]$. Then $T_k(x)=\cos(k\theta)$, $dx=-\sin\theta\,d\theta$ and
+	$\sqrt{1-x^2}=\sin\theta$, hence
+	\[
+	\int_{-1}^{1} T_m(x)T_n(x)\,\frac{dx}{\sqrt{1-x^2}}
+	=\int_{0}^{\pi} \cos(m\theta)\cos(n\theta)\,d\theta=0\qquad(m\ne n).
+	\]
+	Therefore the weight is $w(x)=(1-x^2)^{-1/2}$ and the Chebyshev polynomials are orthogonal with respect to $w$.
+	\qed
+	
+	\subsection*{Normalization (optional)}
+	\[
+	\int_{-1}^{1}\frac{T_n(x)^2}{\sqrt{1-x^2}}\,dx=
+	\begin{cases}
+		\pi,& n=0,\\[3pt]
+		\frac{\pi}{2},& n\ge1.
+	\end{cases}
+	\]
+	\section*{Problem — From polynomial accuracy to convergence for all continuous $f$}
+	
+	For each $n\in\mathbb N$ let weights $A_k^{(n)}\ge 0$ and nodes $x_k^{(n)}\in[a,b]$, $k=1,\dots,n$.
+	Assume that for every polynomial $P$,
+	\[
+	\varepsilon_n(P):=\Bigl|\int_a^b P(x)\,dx-\sum_{k=1}^n A_k^{(n)}\,P\!\bigl(x_k^{(n)}\bigr)\Bigr|
+	\;\xrightarrow[n\to\infty]{}\;0 .
+	\]
+	Prove that for every $f\in C([a,b])$,
+	\[
+	\varepsilon_n(f):=\Bigl|\int_a^b f(x)\,dx-\sum_{k=1}^n A_k^{(n)}\,f\!\bigl(x_k^{(n)}\bigr)\Bigr|\to 0.
+	\]
+	
+	\bigskip
+	
+	\section*{Theory you’ll use}
+	\begin{itemize}\setlength{\itemsep}{0.6em}
+		\item \textbf{Weierstrass:} Polynomials are dense in $C([a,b])$ for $\|\cdot\|_\infty$.
+		\item \textbf{Total mass from the constant polynomial:}
+		\[
+		\sum_{k=1}^n A_k^{(n)}=\int_a^b 1\,dx - \varepsilon_n(1)\ \longrightarrow\ b-a .
+		\]
+		\item \textbf{Error splitting (for any polynomial $P$):}
+		\[
+		\varepsilon_n(f)\le \int_a^b |f-P|
+		+ \varepsilon_n(P) + \Bigl(\sum_{k=1}^n A_k^{(n)}\Bigr)\|f-P\|_\infty .
+		\]
+	\end{itemize}
+	
+	\bigskip
+	
+	\section*{Solution}
+	Fix $\varepsilon>0$.
+	By Weierstrass, choose a polynomial $P$ with $\|f-P\|_\infty<\delta$. Then
+	\[
+	\varepsilon_n(f)\le (b-a)\delta+\varepsilon_n(P)+\Bigl(\sum_{k=1}^n A_k^{(n)}\Bigr)\delta .
+	\]
+	By hypothesis $\varepsilon_n(P)\to 0$, so pick $N_1$ with $\varepsilon_n(P)<\varepsilon/3$ for $n\ge N_1$.
+
+	Since $\sum_k A_k^{(n)}\to b-a$, pick $N_2$ such that $\sum_k A_k^{(n)}\le b-a+1$ for $n\ge N_2$.
+
+	For $n\ge N:=\max\{N_1,N_2\}$ one has
+	\[
+	\varepsilon_n(f)\le \bigl(2(b-a)+1\bigr)\delta+\frac{\varepsilon}{3}.
+	\]
+	Choose $\delta=\varepsilon\big/(3(2(b-a)+1))$.
+	
+	Then $\varepsilon_n(f)\le \varepsilon$ for $n\ge N$.
+	
+	Hence $\varepsilon_n(f)\to 0$ for every $f\in C([a,b])$. \qed
+	
+	\section*{Examples (what the theorem covers)}
+	
+	\begin{itemize}\setlength{\itemsep}{1em}
+		
+		\item \textbf{Midpoint/trapezoidal/Simpson families.}  
+		For each fixed polynomial $P$, their errors $\varepsilon_n(P)\to 0$ as the mesh is refined;  
+		hence the rules converge for every continuous $f$.
+		
+		\item \textbf{Positive Newton–Cotes with refining nodes.}  
+		If the weights stay nonnegative and the rule integrates polynomials increasingly well  
+		(in the sense above), then it converges for all continuous $f$.
+		
+	\end{itemize}
+	
+	
+	
+	\section*{Problem 2 — Maximal degree of exactness for an $n$–point rule}
+	
+	It is known that there exist $n$ distinct points $\alpha_1,\dots,\alpha_n\in[-1,1]$ and real numbers
+	$A_1,\dots,A_n$ such that
+	\[
+	\int_{-1}^{1} p(x)\,dx=\sum_{j=1}^n A_j\,p(\alpha_j)
+	\quad\text{for all } p \text{ with } \deg p\le 2n-1
+	\]
+	(Gauss–Legendre; the $\alpha_j$ are the zeros of $P_n$).  
+	Is it possible to choose $n$ nodes and weights so that the same holds for every $p$ with $\deg p\le 2n$?
+	
+	\smallskip
+	
+	\subsection*{Theory you’ll use}
+	
+	\begin{itemize}\setlength{\itemsep}{1em}
+		
+		\item \textbf{Gaussian quadrature optimality.}  
+		An $n$-node quadrature rule cannot be exact for all polynomials beyond degree $2n-1$  
+		(and Gauss rules achieve this maximal degree of exactness).
+		
+		\item \textbf{Simple obstruction for degree $2n$.}  
+		If the rule uses nodes $\alpha_1,\dots,\alpha_n$, consider the polynomial
+		\[
+		q(x)=\prod_{j=1}^{n}(x-\alpha_j)^2 .
+		\]
+		Then $q\ge 0$, $q\not\equiv 0$, $\deg q=2n$, and $q(\alpha_j)=0$ for all $j$.
+		
+		\item \textbf{Positivity of the integral.}  
+		Since $q\ge 0$ and not identically zero,
+		\[
+		\int_{-1}^{1} q(x)\,dx > 0 .
+		\]
+		
+	\end{itemize}
+	
+	
+	\section*{Solution}
+	\textbf{No.} Suppose the rule is exact up to degree $2n$. Let the $n$ distinct nodes be $\alpha_1,\dots,\alpha_n$,
+	and define
+	\[
+	q(x)=\prod_{j=1}^n (x-\alpha_j)^2 .
+	\]
+	Then $\deg q=2n$, $q(x)\ge 0$, $q\not\equiv 0$, and $q(\alpha_j)=0$ for each $j$.
+	Exactness for degree $2n$ would give
+	\[
+	\int_{-1}^{1} q(x)\,dx \;=\; \sum_{j=1}^n A_j\,q(\alpha_j) \;=\; 0,
+	\]
+	whereas $\int_{-1}^{1} q(x)\,dx>0$ since $q\ge 0$ and is not identically zero. This contradiction shows
+	that no $n$–point rule can be exact for all polynomials of degree $\le 2n$.
+	Therefore Gauss–Legendre (exact to degree $2n-1$) is optimal. \qed
+	
+	\bigskip
+	
+	\section*{Examples}
+	For $n=1$, the Gauss rule $\alpha_1=0$, $A_1=2$ is exact for degree $\le1$ but not for $x^2$.
+	For $n=2$, the Gauss rule $\alpha_{1,2}=\pm 1/\sqrt{3}$, $A_1=A_2=1$ is exact for degree $\le3$; it fails for
+	$q(x)=(x^2-\tfrac13)^2$ (sum $=0$ but $\int_{-1}^{1}q>0$).
+	
+	
+\section*{Legendre polynomials $P_n$: definition and core properties}
+
+\subsection*{Definitions}
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item \textbf{Rodrigues formula:}
+	\[
+	P_n(x)=\frac{1}{2^n n!}\,\frac{d^n}{dx^n}\,(x^2-1)^{\,n},\qquad n=0,1,2,\dots
+	\]
+	\item \textbf{Generating function:}
+	\[
+	\sum_{n=0}^\infty P_n(x)\,t^n=\frac{1}{\sqrt{\,1-2xt+t^2\,}},\qquad |t|<1.
+	\]
+	\item \textbf{Three–term recurrence:}
+	\[
+	(n+1)P_{n+1}(x)=(2n+1)\,x\,P_n(x)-n\,P_{n-1}(x),\quad n\ge1,
+	\]
+	with $P_0(x)=1$, $P_1(x)=x$.
+\end{itemize}
+
+\subsection*{First few polynomials}
+\[
+\begin{aligned}
+	P_0(x)&=1,\\
+	P_1(x)&=x,\\
+	P_2(x)&=\tfrac{1}{2}(3x^2-1),\\
+	P_3(x)&=\tfrac{1}{2}(5x^3-3x),\\
+	P_4(x)&=\tfrac{1}{8}(35x^4-30x^2+3),\\
+	P_5(x)&=\tfrac{1}{8}(63x^5-70x^3+15x).
+\end{aligned}
+\]
+
+\subsection*{Orthogonality and normalization}
+\[
+\int_{-1}^{1} P_m(x)\,P_n(x)\,dx=\frac{2}{2n+1}\,\delta_{mn},\qquad
+P_n(1)=1,\qquad P_n(-x)=(-1)^nP_n(x).
+\]
+
+\subsection*{Differential equation (Sturm–Liouville)}
+\[
+\frac{d}{dx}\!\Big[(1-x^2)P_n'(x)\Big]+n(n+1)\,P_n(x)=0.
+\]
+
+\subsection*{Zeros and interlacing}
+All zeros of $P_n$ lie in $(-1,1)$, are simple, and interlace with the zeros of $P_{n\pm1}$.
+
+\subsection*{Gauss–Legendre quadrature}
+Let $x_1,\dots,x_n$ be the (distinct) zeros of $P_n$. Then for polynomials of degree $\le 2n-1$,
+\[
+\int_{-1}^{1} p(x)\,dx=\sum_{k=1}^{n} w_k\,p(x_k),
+\qquad
+w_k=\frac{2}{\bigl(1-x_k^2\bigr)\,\bigl[P_n'(x_k)\bigr]^2}\;>\;0.
+\]
+
+\subsection*{Useful integrals / norms}
+\[
+\int_{-1}^{1} P_n(x)^2\,dx=\frac{2}{2n+1},\qquad
+\int_{-1}^{1} x\,P_n(x)\,P_m(x)\,dx=
+\frac{2(n+1)}{(2n+1)(2n+3)}\delta_{m,n+1}+\frac{2n}{(2n+1)(2n-1)}\delta_{m,n-1}.
+\]
+
+\subsection*{Remarks}
+Legendre polynomials are the $w\equiv1$ case of the Jacobi family $P_n^{(\alpha,\beta)}$ with $\alpha=\beta=0$.
+They appear in spherical harmonics $Y_\ell^m$ via the associated Legendre functions.
+	
+	
+\section*{Legendre Polynomials}
+
+\subsection*{Definition and Construction}
+The \emph{Legendre polynomials} $\{P_n(x)\}_{n\ge0}$ form an orthogonal sequence on $[-1,1]$
+with respect to the weight $w(x)\equiv1$.
+They can be obtained by applying the Gram–Schmidt process to
+$\{1,x,x^2,\dots\}$ in $L^2([-1,1])$, or equivalently via the
+\emph{Rodrigues formula:}
+\[
+P_n(x)=\frac{1}{2^n n!}\frac{d^n}{dx^n}(x^2-1)^n.
+\]
+The normalization is $P_n(1)=1$.
+
+\subsection*{Orthogonality and Normalization}
+For all $m,n\ge0$,
+\[
+\int_{-1}^{1}P_m(x)P_n(x)\,dx=\frac{2}{2n+1}\,\delta_{mn}.
+\]
+Thus, $P_n$ are orthogonal under the standard $L^2$ inner product on $[-1,1]$.
+
+\subsection*{Recurrence Relation}
+They satisfy the three-term recurrence
+\[
+(n+1)P_{n+1}(x)=(2n+1)xP_n(x)-nP_{n-1}(x),
+\]
+with $P_0(x)=1$ and $P_1(x)=x$.
+
+\subsection*{Differential Equation (Sturm–Liouville form)}
+Each $P_n$ satisfies
+\[
+\frac{d}{dx}\Big[(1-x^2)P_n'(x)\Big]+n(n+1)P_n(x)=0.
+\]
+This shows they are eigenfunctions of a self-adjoint differential operator.
+
+\subsection*{Generating Function}
+Legendre polynomials are generated by
+\[
+\sum_{n=0}^{\infty}P_n(x)t^n
+=\frac{1}{\sqrt{1-2xt+t^2}},\qquad |t|<1.
+\]
+
+\subsection*{Parity and Examples}
+They satisfy $P_n(-x)=(-1)^nP_n(x)$.
+The first few are
+\[
+\begin{aligned}
+	P_0(x)&=1,\\
+	P_1(x)&=x,\\
+	P_2(x)&=\tfrac{1}{2}(3x^2-1),\\
+	P_3(x)&=\tfrac{1}{2}(5x^3-3x),\\
+	P_4(x)&=\tfrac{1}{8}(35x^4-30x^2+3).
+\end{aligned}
+\]
+
+\subsection*{Zeros and Quadrature}
+All $n$ zeros of $P_n$ lie in $(-1,1)$ and are simple.
+If $x_k$ are these zeros, then \emph{Gauss–Legendre quadrature} gives exact integration for
+polynomials up to degree $2n-1$:
+\[
+\int_{-1}^{1}p(x)\,dx=\sum_{k=1}^n w_k\,p(x_k),\qquad
+w_k=\frac{2}{(1-x_k^2)\,[P_n'(x_k)]^2}.
+\]
+
+\subsection*{Orthogonality Examples}
+\[
+\int_{-1}^{1}P_0(x)P_1(x)\,dx=0,\quad
+\int_{-1}^{1}P_2(x)^2\,dx=\frac{2}{5}.
+\]
+
+\subsection*{Remarks}
+Legendre polynomials are a special case of the \emph{Jacobi polynomials}
+$P_n^{(\alpha,\beta)}(x)$ with parameters $\alpha=\beta=0$.
+They play a central role in potential theory and in the expression of spherical harmonics
+$Y_\ell^m(\theta,\phi)$ via associated Legendre functions $P_\ell^m$.
+
+\section*{Legendre via Gram--Schmidt and the Christoffel--Darboux identity}
+
+\subsection*{Inner product and plan}
+Work in $L^2([-1,1])$ with weight $w\equiv1$:
+\[
+\langle f,g\rangle=\int_{-1}^{1} f(x)g(x)\,dx.
+\]
+Apply Gram--Schmidt to the monomials $\{1,x,x^2,\dots\}$ to obtain an orthogonal family
+$\{p_0,p_1,\dots\}$; after the usual normalization $P_n(1)=1$ we get the \emph{Legendre polynomials} $P_n$.
+
+\subsection*{Gram--Schmidt construction}
+Set $q_0(x)=1$, $p_0=q_0/\|q_0\|$, and for $k\ge1$ define
+\[
+q_k(x)=x^k-\sum_{j=0}^{k-1}\frac{\langle x^k,p_j\rangle}{\langle p_j,p_j\rangle}\,p_j(x),
+\qquad
+p_k=\frac{q_k}{\|q_k\|}.
+\]
+Because the interval and weight are even, $p_k$ has definite parity:
+$p_k$ is even for $k$ even and odd for $k$ odd.
+
+\subsection*{First few polynomials (standard normalization $P_n(1)=1$)}
+\[
+P_0=1,\qquad
+P_1=x,\qquad
+P_2=\tfrac12(3x^2-1),\qquad
+P_3=\tfrac12(5x^3-3x),\qquad
+P_4=\tfrac18(35x^4-30x^2+3).
+\]
+
+\subsection*{Orthogonality and norms}
+\[
+\int_{-1}^{1} P_m(x)P_n(x)\,dx=\frac{2}{2n+1}\,\delta_{mn}.
+\]
+Thus $\|P_n\|_{L^2}^2=\dfrac{2}{2n+1}$.
+
+\subsection*{Three--term recurrence (from Gram--Schmidt / Favard)}
+The multiplication operator $x:\mathrm{span}\{P_0,\dots,P_n\}\to\mathrm{span}\{P_0,\dots,P_{n+1}\}$ is symmetric,
+so $xP_n$ has no $P_{n-2},P_{n-3},\dots$ components.
+Projecting $xP_n$ onto $\{P_{n+1},P_n,P_{n-1}\}$ and using orthogonality yields
+\[
+(n+1)P_{n+1}(x)=(2n+1)x\,P_n(x)-n\,P_{n-1}(x),\qquad n\ge1,
+\]
+with $P_0=1$, $P_1=x$.
+
+\subsection*{Rodrigues formula and ODE (for reference)}
+\[
+P_n(x)=\frac{1}{2^n n!}\frac{d^n}{dx^n}(x^2-1)^n,
+\qquad
+\frac{d}{dx}\!\Big[(1-x^2)P_n'(x)\Big]+n(n+1)P_n(x)=0.
+\]
+
+\subsection*{Christoffel--Darboux identity (Legendre)}
+For $x\ne y$,
+\[
+\boxed{\quad
+	\sum_{k=0}^{n} (2k+1)\,P_k(x)\,P_k(y)
+	= \frac{n+1}{x-y}\,\Big(P_{n+1}(x)P_n(y)-P_n(x)P_{n+1}(y)\Big).
+	\quad}
+\]
+Taking the limit $y\to x$ gives the diagonal form
+\[
+\boxed{\quad
+	\sum_{k=0}^{n} (2k+1)\,P_k(x)^2
+	= (n+1)\,\big(P_{n+1}'(x)\,P_n(x)-P_n'(x)\,P_{n+1}(x)\big).
+	\quad}
+\]
+
+\subsubsection*{Proof sketch (via the three--term recurrence)}
+Let $S_n(x,y)=\sum_{k=0}^{n} (2k+1)P_k(x)P_k(y)$.
+Multiply the recurrence
+\[
+(n+1)P_{n+1}(x)=(2n+1)xP_n(x)-nP_{n-1}(x)
+\]
+by $P_n(y)$, and the same with $x\leftrightarrow y$; subtract.
+After cancellation in the telescoping sum, divide by $(x-y)$ to obtain the displayed formula.
+
+\subsection*{Two useful corollaries}
+\begin{itemize}\setlength{\itemsep}{0.5em}
+	\item \textbf{Reproducing kernel for degree $\le n$:}
+	\[
+	K_n(x,y)=\sum_{k=0}^{n}\frac{2k+1}{2}\,P_k(x)P_k(y)
+	=\frac{n+1}{2}\,\frac{P_{n+1}(x)P_n(y)-P_n(x)P_{n+1}(y)}{x-y}.
+	\]
+	Then for all polynomials $p$ with $\deg p\le n$,
+	\(
+	p(x)=\int_{-1}^{1} K_n(x,y)\,p(y)\,dy.
+	\)
+	
+	\item \textbf{Partial--sum bound:}
+	\[
+	\left|\sum_{k=0}^{n}(2k+1)P_k(x)P_k(y)\right|
+	\le \frac{2(n+1)}{|x-y|}\qquad (x\ne y,\; x,y\in[-1,1]),
+	\]
+	since $|P_m|\le1$ on $[-1,1]$.
+\end{itemize}
+
+\subsection*{Worked Gram--Schmidt: constructing $P_2$}
+
+Use $\langle f,g\rangle=\int_{-1}^{1} f(x)g(x)\,dx$.
+
+\paragraph{Step 1: $P_0$.}
+$q_0=1$, $\|q_0\|^2=\int_{-1}^{1}1\,dx=2$. Take $p_0=q_0/\|q_0\|$ and then rescale to $P_0(1)=1$:
+\[
+P_0(x)=1.
+\]
+
+\paragraph{Step 2: $P_1$.}
+Start with $x$ and orthogonalize against $P_0$:
+\[
+\langle x,P_0\rangle=\int_{-1}^{1} x\,dx=0 \quad\Rightarrow\quad q_1=x.
+\]
+Rescale so that $P_1(1)=1$: \ $P_1(x)=x$.
+
+\paragraph{Step 3: $P_2$.}
+Start with $x^2$ and subtract the $P_0,P_1$ components:
+\[
+\langle x^2,P_1\rangle=\int_{-1}^{1} x^3\,dx=0,\qquad
+\langle x^2,P_0\rangle=\int_{-1}^{1} x^2\,dx=\frac{2}{3},\qquad
+\langle P_0,P_0\rangle=2.
+\]
+Thus
+\[
+q_2(x)=x^2-\frac{\langle x^2,P_0\rangle}{\langle P_0,P_0\rangle}P_0(x)
+=x^2-\frac{1}{3}.
+\]
+Rescale to make $P_2(1)=1$:
+\[
+P_2(x)=\frac{q_2(x)}{q_2(1)}
+=\frac{x^2-\tfrac13}{1-\tfrac13}
+=\frac12(3x^2-1).
+\]
+
+\subsection*{Weights $w_k$ via the Christoffel--Darboux identity}
+
+Let $x_1,\dots,x_n$ be the distinct zeros of $P_n$. Define the cardinal polynomials
+\[
+\ell_k(x)=\frac{P_n(x)}{(x-x_k)\,P_n'(x_k)}\qquad (k=1,\dots,n),
+\]
+so that $\ell_k(x_j)=\delta_{kj}$ and $\deg \ell_k=n-1$.
+
+\paragraph{Key identity (C--D).}
+For $x\neq y$,
+\[
+\sum_{m=0}^{n-1}\frac{2m+1}{2}P_m(x)P_m(y)
+=\frac{n}{2}\,\frac{P_n(x)P_{n-1}(y)-P_{n-1}(x)P_n(y)}{x-y}.
+\]
+Set $y=x_k$; since $P_n(x_k)=0$,
+\[
+K_{n-1}(x,x_k):=\sum_{m=0}^{n-1}\frac{2m+1}{2}P_m(x)P_m(x_k)
+=\frac{n}{2}\,\frac{P_n(x)\,P_{n-1}(x_k)}{x-x_k}.
+\]
+Use the derivative relation $(1-x^2)P_n'(x)=n\big(P_{n-1}(x)-xP_n(x)\big)$; at $x=x_k$ this gives
+\[
+P_{n-1}(x_k)=\frac{1-x_k^2}{n}\,P_n'(x_k).
+\]
+Hence
+\[
+K_{n-1}(x,x_k)=\frac{1}{2}\,(1-x_k^2)\,[P_n'(x_k)]^2\,\ell_k(x).
+\]
+
+\paragraph{Integrate both sides.}
+By orthogonality, $\displaystyle\int_{-1}^{1}P_m(x)\,dx=0$ for $m\ge1$, while $\int_{-1}^{1}P_0(x)\,dx=2$.
+Therefore
+\[
+\int_{-1}^{1}K_{n-1}(x,x_k)\,dx
+=\sum_{m=0}^{n-1}\frac{2m+1}{2}P_m(x_k)\int_{-1}^{1}P_m(x)\,dx
+=\frac{2\cdot1}{2}\,P_0(x_k)=1.
+\]
+Consequently,
+\[
+1=\frac{1}{2}\,(1-x_k^2)\,[P_n'(x_k)]^2\int_{-1}^{1}\ell_k(x)\,dx.
+\]
+
+\paragraph{Weights and cardinal integrals.}
+For Gauss--Legendre quadrature (exact for degree $\le 2n-1$), the weights satisfy
+\[
+w_k=\int_{-1}^{1}\ell_k(x)\,dx,
+\]
+since for any $p$ with $\deg p\le 2n-1$ one has the interpolation identity
+$p(x)=\sum_{j=1}^{n} p(x_j)\ell_j(x)+P_n(x)r(x)$ with $\deg r\le n-1$, and
+$\int P_n r=0$ by orthogonality.
+
+Combining with the previous line gives the standard weight formula:
+\[
+\boxed{\quad
+	w_k=\frac{2}{\bigl(1-x_k^2\bigr)\,[P_n'(x_k)]^2},\qquad k=1,\dots,n.
+	\quad}
+\]
+
+\section*{Numerical Quadrature: setup, exactness, error, and convergence}
+
+\subsection*{Problem (quadrature)}
+Given a function $f$ on $[a,b]$, approximate the integral
+\[
+I(f):=\int_a^b f(x)\,dx
+\]
+by a \emph{quadrature rule}
+\[
+Q_n(f):=\sum_{k=1}^{n} A_k\, f(x_k),
+\]
+where the \emph{nodes} $x_k\in[a,b]$ and \emph{weights} $A_k\in\mathbb{R}$ are chosen in advance.
+
+\bigskip
+
+\subsection*{Degree of exactness}
+The \emph{degree of exactness} (or precision) of $Q_n$ is the largest integer $m\ge 0$ such that
+\[
+Q_n(p)=I(p)\qquad\text{for all polynomials $p$ with }\deg p\le m.
+\]
+Examples:
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item \textbf{Midpoint rule} ($n=1$): $Q_1(f)=(b-a)\,f\!\big(\tfrac{a+b}{2}\big)$, exact for $\deg\le1$.
+	\item \textbf{Trapezoidal rule} ($n=2$): $Q_2(f)=\tfrac{b-a}{2}\big(f(a)+f(b)\big)$, exact for $\deg\le1$.
+	\item \textbf{Simpson’s rule} ($n=3$): $Q_3(f)=\tfrac{b-a}{6}\big(f(a)+4f(\tfrac{a+b}{2})+f(b)\big)$, exact for $\deg\le3$.
+	\item \textbf{Gauss–Legendre} (optimal): $n$ nodes $\{x_k\}$ are the zeros of $P_n$; with suitable $A_k>0$ the rule is exact for $\deg\le 2n-1$.
+\end{itemize}
+
+\bigskip
+
+\subsection*{Error representations}
+
+\paragraph{Classical remainder (smooth $f$).}
+If $Q_n$ has degree $m$ and $f\in C^{m+1}[a,b]$, then
+\[
+I(f)-Q_n(f) \;=\; \frac{f^{(m+1)}(\xi)}{(m+1)!}\,\int_a^b \omega_{m+1}(x)\,dx,
+\qquad
+\omega_{m+1}(x):=\prod_{k=1}^n (x-x_k),
+\]
+for some $\xi\in(a,b)$ (exact form depends on the rule; for Newton--Cotes the exponent reflects paneling).
+
+\paragraph{Peano kernel (general linear rules).}
+If $Q$ is linear and exact on $\Pi_{r-1}$ (all polynomials of degree $\le r-1$), then for $f\in C^r[a,b]$
+\[
+I(f)-Q(f)=\int_a^b f^{(r)}(t)\,K_r(t)\,dt,
+\qquad
+K_r(t):=\frac{1}{(r-1)!}\int_a^b (x-t)_{+}^{\,r-1}\,dx \;-\; \sum_{k=1}^n A_k\,\frac{(x_k-t)_{+}^{\,r-1}}{(r-1)!}.
+\]
+Hence
+\[
+|I(f)-Q(f)|\ \le\ \|f^{(r)}\|_\infty \int_a^b |K_r(t)|\,dt.
+\]
+
+\bigskip
+
+\subsection*{Convergence: when does $Q_n(f)\to I(f)$?}
+
+\begin{itemize}\setlength{\itemsep}{0.6em}
+	\item \textbf{Polynomial density + control of weights.}
+	Suppose for each polynomial $p$ we have $\varepsilon_n(p):=|I(p)-Q_n(p)|\to0$ as $n\to\infty$,
+	the weights $A_k^{(n)}\ge0$, and
+	\[
+	\sum_{k=1}^n A_k^{(n)} \;=\; I(1)-\varepsilon_n(1)\ \longrightarrow\ b-a .
+	\]
+	Then for every $f\in C([a,b])$,
+	\[
+	|I(f)-Q_n(f)| \;\xrightarrow[n\to\infty]{}\; 0.
+	\]
+	\emph{Idea:} approximate $f$ uniformly by a polynomial $p$ (Weierstrass), split the error, and use positivity to bound $\sum A_k^{(n)}$.
+	\item \textbf{Composite Newton--Cotes (refining mesh).}
+	On a uniform partition with mesh $h\to0$, the composite midpoint/trapezoidal/Simpson rules converge for $f\in C([a,b])$ (with classical rates if $f$ is smoother).
+	\item \textbf{Gaussian sequences.}
+	Increasing $n$ in Gauss--Legendre quadrature gives rapidly convergent approximations for analytic $f$ (often near-exponential decay of the error).
+\end{itemize}
+
+\bigskip
+
+\subsection*{Gaussian quadrature specifics (Legendre case)}
+If $x_1,\dots,x_n$ are the zeros of $P_n$ on $[-1,1]$, then there are \emph{unique} positive weights
+\[
+w_k=\frac{2}{\bigl(1-x_k^2\bigr)\,[P_n'(x_k)]^2}
+\]
+such that
+\[
+\int_{-1}^{1} p(x)\,dx=\sum_{k=1}^{n} w_k\,p(x_k)\qquad \text{for all } \deg p\le 2n-1.
+\]
+This degree $2n-1$ is \emph{optimal} for $n$ nodes.
+
+\bigskip
+
+\subsection*{Quick comparison table}
+
+\begin{itemize}\setlength{\itemsep}{0.5em}
+	\item \textbf{Midpoint / Trapezoidal / Simpson:}
+	simple, composite versions easy; exactness $\le 1$ (mid/trap), $3$ (Simpson); global error $O(h^2)$ (trap), $O(h^4)$ (Simpson) for smooth $f$.
+	\item \textbf{Newton--Cotes (high order):}
+	many nodes, can yield negative weights and instability; not recommended for large $n$.
+	\item \textbf{Gauss--Legendre:}
+	best degree for a fixed $n$; positive weights; excellent for smooth/analytic $f$.
+	\item \textbf{Clenshaw--Curtis:}
+	Chebyshev cosine nodes; easy to implement, FFT-accelerated; performance close to Gauss for many $f$.
+\end{itemize}
+\section*{Example: quadrature for $f(x)=\sinh x$ on $[0,1]$}
+
+\subsection*{Exact integral}
+\[
+I=\int_{0}^{1}\sinh x\,dx=\cosh(1)-1.
+\]
+
+\subsection*{Single-panel rules}
+\[
+\begin{aligned}
+	&\text{Midpoint:} &&Q_{\mathrm{mid}}=(b-a)\,f\!\left(\tfrac{a+b}{2}\right)=1\cdot \sinh\!\left(\tfrac12\right),\\[4pt]
+	&\text{Trapezoidal:} &&Q_{\mathrm{trap}}=\tfrac{1}{2}\big(f(0)+f(1)\big)=\tfrac12\sinh(1),\\[4pt]
+	&\text{Simpson:} &&Q_{\mathrm{simp}}=\tfrac{1}{6}\Big(f(0)+4f\!\left(\tfrac12\right)+f(1)\Big).
+\end{aligned}
+\]
+Numerically,
+\[
+\begin{aligned}
+	Q_{\mathrm{mid}}&\approx 0.5210953, \\
+	Q_{\mathrm{trap}}&\approx 0.5876010, \\
+	Q_{\mathrm{simp}}&\approx 0.5430699, \qquad
+	I=\cosh(1)-1\approx 0.5430806.
+\end{aligned}
+\]
+Absolute errors:
+\(
+|Q_{\mathrm{mid}}-I|\approx 1.36\cdot 10^{-3},\
+|Q_{\mathrm{trap}}-I|\approx 5.46\cdot 10^{-3},\
+|Q_{\mathrm{simp}}-I|\approx 1.09\cdot 10^{-5}.
+\)
+
+\subsection*{Composite Simpson (even $N$ panels)}
+For $N=16,32$ panels on $[0,1]$:
+\[
+\begin{aligned}
+	&N=16:\quad |Q_{\mathrm{simp},\,N}-I|\approx 4.60\times 10^{-8},\\
+	&N=32:\quad |Q_{\mathrm{simp},\,N}-I|\approx 2.88\times 10^{-9}.
+\end{aligned}
+\]
+
+\subsection*{Gauss--Legendre (optimal $n$-point rules)}
+Mapping the $n$-point Gauss--Legendre rule from $[-1,1]$ to $[0,1]$ gives
+\[
+Q_n=\sum_{k=1}^{n} w_k\,\sinh(x_k),\quad
+x_k=\tfrac{1}{2}(1+\xi_k),\ \ w_k=\tfrac{1}{2}\omega_k,
+\]
+where $(\xi_k,\omega_k)$ are the standard nodes/weights on $[-1,1]$.
+Numerically,
+\[
+\begin{aligned}
+	&n=4:\ |Q_4-I|\approx 3.0\times 10^{-10},\\
+	&n=5,6:\ \text{error at machine precision}.
+\end{aligned}
+\]
+\subsection*{Conclusion}
+For analytic $f$ like $\sinh x$, Gauss--Legendre achieves very high accuracy with few nodes
+(degree of exactness $2n-1$), while composite Simpson converges at fourth order as the mesh refines.
+
+\section*{Problem 3 — Chebyshev–alternation for a sparse cosine series}
+
+\paragraph{Problem.}
+Let $T_j$ be the $j$-th Chebyshev polynomial of the first kind and let
+$\{\gamma_j\}_{j\ge 1}$ be nonnegative with $\sum_{j=1}^\infty \gamma_j<\infty$.
+Show that the series
+\[
+f(x)=\sum_{j=1}^{\infty}\gamma_j\,T_{3j}(x),\qquad x\in[-1,1],
+\]
+defines a continuous function on $[-1,1]$. Moreover, for each $n\ge 0$ there exist points
+\[
+-1\le x_0<x_1<\cdots<x_{3^{n+1}}\le 1
+\]
+such that, if $P_n(x)=\sum_{j=1}^{n}\gamma_j T_{3j}(x)$, then
+\[
+f(x_k)-P_n(x_k)=(-1)^k\sum_{j=n+1}^{\infty}\gamma_j,\qquad k=0,1,\dots,3^{n+1}.
+\]
+
+\paragraph{Theory.}
+\begin{enumerate}[label=(\arabic*), leftmargin=*, itemsep=0.6em, topsep=0.4em]
+	\item \textbf{Cosine representation and bound.}
+	For all $\theta\in\mathbb{R}$,
+	\[
+	T_m(\cos\theta)=\cos(m\theta),
+	\]
+	hence $\lvert T_m(x)\rvert\le 1$ for every $x\in[-1,1]$.
+	
+	\item \textbf{Composition identity.}
+	For positive integers $a,b$,
+	\[
+	T_{ab}(x)=T_a\!\big(T_b(x)\big).
+	\]
+	
+	\item \textbf{Extrema grid.}
+	The extrema of $T_M$ occur at
+	\[
+	x_k=\cos\!\Big(\frac{k\pi}{M}\Big), \qquad k=0,1,\dots,M,
+	\]
+	with values $T_M(x_k)=(-1)^k$.
+	
+	\item \textbf{Positive Chebyshev combination bound.}
+	If $G(y)=\sum_{j\ge1}\alpha_j\,T_j(y)$ with $\alpha_j\ge 0$, then for all $y\in[-1,1]$,
+	\[
+	\lvert G(y)\rvert \le \sum_{j\ge1}\alpha_j,
+	\]
+	with equality iff each $T_j(y)$ takes an endpoint value $\pm 1$ and all have the same sign.
+\end{enumerate}
+
+
+\paragraph{Solution.}
+\emph{Continuity.}
+Since $|T_{3j}(x)|\le 1$ and $\sum_j\gamma_j<\infty$, the M-test yields uniform convergence
+of $\sum_{j=1}^{\infty}\gamma_j T_{3j}$ on $[-1,1]$. Hence $f$ is continuous.
+
+\smallskip
+\emph{Alternation for the remainder.}
+Fix $n\ge 0$ and set
+\[
+R_n(x)=f(x)-P_n(x)=\sum_{j=n+1}^{\infty}\gamma_j\,T_{3j}(x),\qquad
+G_n(y)=\sum_{j=n+1}^{\infty}\gamma_j\,T_j(y).
+\]
+Using $T_{3j}=T_j\circ T_3$, we have $R_n(x)=G_n\!\big(T_3(x)\big)$.
+
+By (4), $|G_n(y)|\le \sum_{j>n}\gamma_j$ for all $y$, with equality precisely when all
+terms simultaneously achieve their extremal values with a common sign.
+
+ The standard
+equioscillation argument for positive cosine combinations (applied on the extremal grid of
+$T_{3^n}$) produces points
+\[
+-1\le y^{(n)}_0<y^{(n)}_1<\cdots<y^{(n)}_{3^n}\le 1
+\]
+such that
+\[
+G_n\!\big(y^{(n)}_k\big)=(-1)^k\sum_{j>n}\gamma_j,\qquad k=0,1,\dots,3^n.
+\]
+
+Now use $R_n(x)=G_n\!\big(T_3(x)\big)$.
+ For each $k$, let
+$x_{k,1}<x_{k,2}<x_{k,3}$ be the three (monotone-branch) preimages of $y^{(n)}_k$ under
+$T_3:[-1,1]\to[-1,1]$.
+
+ Merging these ordered triples over $k=0,\dots,3^n$ yields an
+increasing sequence of $(3\cdot 3^n)+1=3^{n+1}+1$ points
+\[
+-1\le x_0<x_1<\cdots<x_{3^{n+1}}\le 1,
+\]
+and for each such point,
+\[
+R_n(x_\ell)=G_n\big(T_3(x_\ell)\big)=G_n\!\big(y^{(n)}_{k(\ell)}\big)
+= (-1)^{k(\ell)}\sum_{j>n}\gamma_j.
+\]
+A direct inspection of the three monotone branches shows that along the merged list the
+parity alternates consecutively, hence
+\[
+R_n(x_\ell)=(-1)^\ell\sum_{j=n+1}^{\infty}\gamma_j,\qquad \ell=0,1,\dots,3^{n+1}.
+\]
+Therefore $f(x_\ell)-P_n(x_\ell)=(-1)^\ell\sum_{j=n+1}^{\infty}\gamma_j$, as required.
+
+\paragraph{Examples.}
+(1) If $\gamma_j=0$ for $j>m$, then for $n\ge m$ the remainder vanishes and the conclusion is
+trivial; for $n<m$ the same construction applies with the finite tail.
+
+
+(2) For $\gamma_j=r^j$ with $0<r<1$, one has $G_n(y)=\sum_{j>n}(r\,T_1(y))^j$ and the above
+construction yields the alternation points; in particular for $n=0$ the four points
+$x_0<x_1<x_2<x_3$ satisfy $f(x_k)=(-1)^k\frac{r}{1-r}$.
+
+
+\paragraph{Examples (exact formulas).}
+
+\emph{(1) Finite tail.}
+If $\gamma_j=0$ for $j>m$, then for $n\ge m$ the remainder
+$R_n(x)=f(x)-P_n(x)$ vanishes.
+For $n<m$,
+\[
+R_n(x)=\sum_{j=n+1}^{m}\gamma_j\,T_{3j}(x),
+\]
+and at the alternation points from the theorem,
+\[
+R_n(x_k)=(-1)^k\sum_{j=n+1}^{m}\gamma_j .
+\]
+
+\emph{(2) Geometric weights $\gamma_j=r^j$ with $0<r<1$.}
+Let $y:=T_3(x)\in[-1,1]$.
+Using the Chebyshev generating function
+\[
+\sum_{j=1}^{\infty} r^{j}T_j(y)=\frac{r\,y-r^2}{1-2ry+r^2},
+\qquad
+\sum_{j=1}^{n} r^{j}T_j(y)
+=\frac{r\,y - r^{n+1}T_{n+1}(y) + r^{n+2}T_n(y) - r^2 y}{1-2ry+r^2},
+\]
+we obtain the exact closed forms
+\[
+f(x)=\frac{r\,T_3(x)-r^2}{1-2r\,T_3(x)+r^2},\qquad
+P_n(x)=\frac{r\,T_3(x) - r^{n+1}T_{n+1}(T_3(x))
+	+ r^{n+2}T_n(T_3(x)) - r^2 T_3(x)}{1-2r\,T_3(x)+r^2},
+\]
+and hence the remainder
+\[
+R_n(x)=f(x)-P_n(x)
+=\frac{r^{\,n+1}\big(T_{n+1}(T_3(x)) - r\,T_n(T_3(x))\big)}{1-2r\,T_3(x)+r^2}.
+\]
+In particular, if $T_3(x)=1$ then
+\[
+R_n(x)=\sum_{j=n+1}^{\infty} r^{j}=\frac{r^{\,n+1}}{1-r}.
+\]
+Therefore, for $n=0$, the four alternation points $x_0<x_1<x_2<x_3$ satisfy
+\[
+f(x_k)=(-1)^k\,\frac{r}{1-r}\qquad (k=0,1,2,3).
+\]
+
+	
+	
+	
+\subsection*{Gauss--Legendre quadrature for $\displaystyle \int_0^1 \sinh x\,dx$}
+
+\paragraph{Legendre polynomials and GL rules.}
+The Legendre polynomials satisfy
+\[
+P_0(t)=1,\quad P_1(t)=t,\quad (n+1)P_{n+1}(t)=(2n+1)tP_n(t)-nP_{n-1}(t).
+\]
+For $n=1,2,3$:
+\[
+P_1(t)=t,\quad P_2(t)=\tfrac12(3t^2-1),\quad P_3(t)=\tfrac12(5t^3-3t).
+\]
+Gauss--Legendre nodes on $[-1,1]$ are the roots $t_i$ of $P_n(t)$ and the weights are
+\[
+w_i=\frac{2}{(1-t_i^2)\,[P_n'(t_i)]^2}.
+\]
+Mapping to $[0,1]$ with $x=\frac{t+1}{2}$ gives $x_i=\frac{t_i+1}{2}$ and $W_i=\frac{w_i}{2}$, so
+\[
+\int_0^1 f(x)\,dx \approx \sum_{i=1}^n W_i f(x_i).
+\]
+
+\paragraph{Exact value.}
+\[
+I=\int_0^1 \sinh x\,dx=\cosh(1)-1\approx 0.5430806348152437.
+\]
+
+\paragraph{Case $n=1$.}
+$P_1(t)=t\Rightarrow t_1=0$, $P_1'(0)=1$, hence
+$w_1=2$, $x_1=\tfrac12$, $W_1=1$.
+\[
+Q_1=\sinh(1/2)\approx 0.5210953054937474,\quad Q_1-I\approx -2.1985\times 10^{-2}.
+\]
+
+\paragraph{Case $n=2$.}
+$P_2(t)=\tfrac12(3t^2-1)$ has roots $t_{1,2}=\pm 1/\sqrt{3}$.
+Since $P_2'(t)=3t$, $w_{1,2}=1$.
+Mapping: $x_{1,2}=\frac{1\pm 1/\sqrt{3}}{2}$ and $W_{1,2}=\tfrac12$.
+\[
+Q_2=\tfrac12\!\left[\sinh\!\Big(\tfrac{1-1/\sqrt{3}}{2}\Big)+
+\sinh\!\Big(\tfrac{1+1/\sqrt{3}}{2}\Big)\right]
+\approx 0.5429588092378294,\;
+Q_2-I\approx -1.2183\times 10^{-4}.
+\]
+
+\paragraph{Case $n=3$.}
+$P_3(t)=\tfrac12(5t^3-3t)$ has roots $t=\{0,\pm\sqrt{3/5}\}$.
+With $P_3'(t)=\tfrac12(15t^2-3)$,
+\[
+w=\left\{\tfrac{5}{9},\,\tfrac{8}{9},\,\tfrac{5}{9}\right\}
+\quad\text{at}\quad
+t=\left\{-\sqrt{\tfrac35},\,0,\,\sqrt{\tfrac35}\right\}.
+\]
+Mapping to $[0,1]$:
+\[
+x=\left\{\tfrac{1-\sqrt{3/5}}{2},\,\tfrac12,\,\tfrac{1+\sqrt{3/5}}{2}\right\},\qquad
+W=\left\{\tfrac{5}{18},\,\tfrac{4}{9},\,\tfrac{5}{18}\right\}.
+\]
+Thus
+\[
+Q_3=\tfrac{5}{18}\sinh\!\Big(\tfrac{1-\sqrt{3/5}}{2}\Big)
++\tfrac{4}{9}\sinh\!\Big(\tfrac12\Big)
++\tfrac{5}{18}\sinh\!\Big(\tfrac{1+\sqrt{3/5}}{2}\Big)
+\approx 0.5430803743542271,
+\]
+and $Q_3-I\approx -2.6046\times 10^{-7}$.
+	
+	
+\subsection*{Problem 3: Chebyshev series with explicit {$\gamma$} coefficients}
+
+\paragraph{Setup and continuity.}
+Let $T_k$ denote Chebyshev polynomials of the first kind. Given nonnegative coefficients
+$\gamma_j$ with $\sum_{j=1}^\infty \gamma_j<\infty$, define
+\[
+f(x)=\sum_{j=1}^\infty \gamma_j\,T_{3j}(x),\qquad x\in[-1,1].
+\]
+Since $|T_{3j}(x)|\le 1$ on $[-1,1]$ and $\sum_j\gamma_j<\infty$, the Weierstrass M--test gives
+uniform convergence; hence $f$ is continuous.
+
+\paragraph{Partial sums, remainder, and tail mass.}
+For $n\ge 0$ set
+\[
+P_n(x)=\sum_{j=1}^{n}\gamma_j\,T_{3j}(x),\qquad
+R_n(x)=f(x)-P_n(x)=\sum_{j=n+1}^{\infty}\gamma_j\,T_{3j}(x),
+\]
+and denote the $\gamma$-tail by
+\[
+S_n:=\sum_{j=n+1}^{\infty}\gamma_j .
+\]
+
+\paragraph{Alternation points and formula.}
+For each $n$ there exist $3^{\,n+1}\!+\!1$ points, e.g.
+\[
+x_k=\cos\!\Big(\frac{k\pi}{3^{\,n+1}}\Big),\qquad k=0,1,\dots,3^{\,n+1},
+\]
+such that
+\[
+\boxed{ \quad f(x_k)-P_n(x_k)=R_n(x_k)=(-1)^k\,S_n,\qquad k=0,1,\dots,3^{\,n+1}. \quad}
+\]
+Thus the remainder has constant magnitude $S_n$ and alternates in sign on this grid.
+
+\paragraph{Examples (exact).}
+
+\emph{(1) Finite tail.}
+If $\gamma_j=0$ for $j>m$, then $R_n\equiv 0$ for $n\ge m$.
+When $n<m$,
+\[
+R_n(x_k)=(-1)^k\sum_{j=n+1}^{m}\gamma_j .
+\]
+
+\emph{(2) Geometric weights.}
+If $\gamma_j=r^j$ with $0<r<1$, let $y:=T_3(x)$.
+Using the generating function $\sum_{j\ge 1} r^j T_j(y)=\frac{r y-r^2}{1-2 r y+r^2}$ and its
+truncation,
+\[
+\sum_{j=1}^{n} r^{j}T_j(y)
+=\frac{r y - r^{n+1}T_{n+1}(y) + r^{n+2}T_n(y) - r^2 y}{1-2r y+r^2},
+\]
+we obtain
+\[
+f(x)=\frac{r\,T_3(x)-r^2}{1-2r\,T_3(x)+r^2},\qquad
+R_n(x)=\frac{r^{\,n+1}\big(T_{n+1}(T_3(x)) - r\,T_n(T_3(x))\big)}{1-2r\,T_3(x)+r^2}.
+\]
+At the alternation points,
+\[
+R_n(x_k)=(-1)^k\,\frac{r^{\,n+1}}{1-r}.
+\]
+	
+	\paragraph{Applications.}
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+	\item \textbf{Exact uniform error.}
+	For $P_n(x)=\sum_{j\le n}\gamma_j T_{3j}(x)$ with $\gamma_j\ge 0$,
+	\[
+	\|f-P_n\|_\infty = S_n:=\sum_{j>n}\gamma_j,
+	\]
+	and this value is attained at $x_k=\cos\!\big(\tfrac{k\pi}{3^{n+1}}\big)$.
+	
+	\item \textbf{Tolerance–driven truncation.}
+	Given $\varepsilon>0$, choose $n$ so that $S_n\le \varepsilon$. If $\gamma_j$ are unknown,
+	estimate $S_n$ via
+	\[
+	S_n = \max_{0\le k\le 3^{n+1}} |f(x_k)-P_n(x_k)|.
+	\]
+	
+	\item \textbf{Equioscillation certificate.}
+	The remainder $R_n$ alternates with constant magnitude $S_n$, providing a best-uniform
+	(minimax-like) error profile for the truncation under nonnegative coefficients.
+	
+	\item \textbf{Practical diagnostics.}
+	Sampling only at $\{x_k\}$ detects the worst-case error and guides adaptive refinement.
+	
+	\item \textbf{Closed-form analysis (geometric $\gamma$).}
+	For $\gamma_j=r^j$, $0<r<1$,
+	\[
+	f(x)=\frac{rT_3(x)-r^2}{1-2rT_3(x)+r^2},\quad
+	R_n(x)=\frac{r^{n+1}\big(T_{n+1}(T_3(x))-r\,T_n(T_3(x))\big)}{1-2rT_3(x)+r^2}.
+	\]
+\end{enumerate}
+	
+	
+	\paragraph{Approximation vs.\ interpolation.}
+	Given nonnegative coefficients $\gamma_j$, we approximate
+	$f(x)=\sum_{j\ge1}\gamma_j T_{3j}(x)$ by the partial sum
+	$P_n(x)=\sum_{j=1}^{n}\gamma_j T_{3j}(x)$.
+	The points $x_k=\cos\!\big(\frac{k\pi}{3^{n+1}}\big)$ are used to
+	\emph{certify the error}:
+	\[
+	f(x_k)-P_n(x_k)=(-1)^k S_n,\qquad S_n=\sum_{j>n}\gamma_j=\|f-P_n\|_\infty.
+	\]
+	They are \emph{not} interpolation nodes. Interpolation would require constructing
+	a polynomial $Q$ such that $Q(y_i)=f(y_i)$ at prescribed nodes $y_i$.
+	
+\paragraph{From $f$ to $\gamma$: Chebyshev projection.}
+Write $x=\cos\theta$ and expand
+\[
+f(x)=\sum_{m=0}^\infty a_m T_m(x),
+\quad
+a_m=\frac{2}{\pi}\int_{0}^{\pi} f(\cos\theta)\cos(m\theta)\,d\theta\ (m\ge1),\quad
+a_0=\frac{1}{\pi}\int_{0}^{\pi} f(\cos\theta)\,d\theta.
+\]
+Set $\gamma_j:=a_{3j}$ so that
+\[
+f(x)=\sum_{j\ge1}\gamma_j T_{3j}(x)+a_0 T_0(x)
+\quad\text{(with $a_m=0$ for $m\not\equiv 0\!\!\!\pmod 3$ if the expansion is exact).}
+\]
+Given nonnegative $\gamma_j$, the $n$-term truncation $P_n(x)=\sum_{j=1}^n\gamma_j T_{3j}(x)$
+has uniform error
+\[
+\|f-P_n\|_\infty = S_n:=\sum_{j>n}\gamma_j,
+\]
+attained at $x_k=\cos\!\big(\frac{k\pi}{3^{n+1}}\big)$, where
+$f(x_k)-P_n(x_k)=(-1)^k S_n$.
+
+\subsection*{Practical procedure: from $f$ to $\gamma_j$ and error evaluation}
+
+\paragraph{Step 1 — Start with a known function $f(x)$ on $[-1,1]$.}
+For example,
+\[
+f(x)=e^x,\quad f(x)=\sinh x,\quad\text{or any continuous function you can evaluate.}
+\]
+
+\paragraph{Step 2 — Expand $f$ in Chebyshev polynomials.}
+Use the cosine change of variable $x=\cos\theta$.
+The Chebyshev expansion is
+\[
+f(x)=\sum_{m=0}^{\infty} a_m T_m(x),
+\]
+where the coefficients are given by
+\[
+a_0=\frac{1}{\pi}\int_0^{\pi} f(\cos\theta)\,d\theta,
+\qquad
+a_m=\frac{2}{\pi}\int_0^{\pi} f(\cos\theta)\cos(m\theta)\,d\theta,
+\quad (m\ge1).
+\]
+In practice, these integrals are evaluated efficiently using a
+\emph{Discrete Cosine Transform (DCT)}.
+
+\paragraph{Step 3 — Extract the coefficients that correspond to indices $3j$.}
+\[
+\gamma_j := a_{3j}, \qquad j=1,2,\dots
+\]
+Now you have the nonnegative (if $f$ satisfies the theorem’s assumption) sequence $\gamma_j$.
+
+\paragraph{Step 4 — Form the truncated approximation.}
+\[
+P_n(x)=\sum_{j=1}^{n}\gamma_j\,T_{3j}(x).
+\]
+This $P_n$ is your $n$-term Chebyshev approximation to $f$.
+
+\paragraph{Step 5 — Compute the tail (expected uniform error bound).}
+\[
+S_n=\sum_{j=n+1}^{\infty}\gamma_j.
+\]
+In practice, $S_n$ is approximated by summing until $\gamma_j$ become negligible.
+
+\paragraph{Step 6 — Evaluate at the special alternation points.}
+\[
+x_k=\cos\!\Big(\frac{k\pi}{3^{n+1}}\Big),
+\qquad k=0,1,\dots,3^{n+1}.
+\]
+At these points, the error has the explicit alternating form
+\[
+f(x_k)-P_n(x_k)=(-1)^k\,S_n,
+\]
+so that $\|f-P_n\|_\infty=S_n$.
+
+\bigskip
+\paragraph{Summary.}
+\begin{center}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{>{$}l<{$} | l}
+		\hline
+		\textbf{Symbol} & \textbf{Meaning} \\ \hline
+		f(x) & Given continuous function on $[-1,1]$ \\
+		T_m(x) & Chebyshev polynomial of degree $m$ \\
+		a_m & Chebyshev coefficients of $f$ \\
+		\gamma_j = a_{3j} & Extracted subsequence (used in this theorem) \\
+		P_n(x)=\sum_{j=1}^{n}\gamma_j T_{3j}(x) & $n$-term approximation \\
+		R_n(x)=f(x)-P_n(x) & Remainder (error) \\
+		S_n=\sum_{j>n}\gamma_j & Uniform error magnitude \\
+		x_k=\cos\frac{k\pi}{3^{n+1}} & Alternation points of $R_n$ \\
+		f(x_k)-P_n(x_k)=(-1)^k S_n & Alternating error pattern \\ \hline
+	\end{tabular}
+\end{center}
+
+
+\section*{Problem 4 — Arbitrarily slow polynomial approximation}
+
+\paragraph{Statement.}
+For each $f\in C([-1,1])$, let
+\[
+E_n(f)=\inf_{p\in\mathcal{P}_n}\,\sup_{x\in[-1,1]}|f(x)-p(x)|
+\]
+be the distance from $f$ to the space $\mathcal{P}_n$ of polynomials of degree at most $n$.
+By the Weierstrass theorem, $E_n(f)\to0$ for every $f\in C([-1,1])$.
+Using the result of Question~3, show that the convergence $E_n(f)\to0$
+can be \emph{arbitrarily slow}: for any decreasing sequence
+$\{\delta_n\}_{n\ge1}$ of nonnegative numbers with $\delta_n\to0$,
+there exists $f\in C([-1,1])$ such that
+\[
+E_n(f)\ge\delta_n,\qquad n=1,2,\dots.
+\]
+
+\paragraph{Theory.}
+The Weierstrass approximation theorem ensures $E_n(f)\to0$, but gives no rate.
+From Problem~3, any series
+\[
+f(x)=\sum_{j\ge1}\gamma_j T_{3j}(x), \qquad \gamma_j\ge0,\ \sum_{j}\gamma_j<\infty,
+\]
+defines a continuous function satisfying
+\[
+\|f-P_n\|_\infty=\sum_{j>n}\gamma_j=:S_n.
+\]
+Hence, by prescribing the tail $S_n$, we can fully control the uniform error of the
+polynomial truncation.
+
+\paragraph{Solution.}
+Given a decreasing sequence $\delta_n\downarrow0$, define coefficients
+\[
+\gamma_j=\delta_{j-1}-\delta_j, \qquad (\delta_0:=\sum_{j\ge1}\gamma_j<\infty).
+\]
+Then $\gamma_j\ge0$ and
+\[
+S_n=\sum_{j>n}\gamma_j=\delta_n.
+\]
+Define
+\[
+f(x)=\sum_{j\ge1}\gamma_j T_{3j}(x).
+\]
+By Problem~3, this series converges uniformly on $[-1,1]$,
+so $f\in C([-1,1])$.
+Its partial sums $P_n(x)=\sum_{j\le n}\gamma_jT_{3j}(x)$ satisfy
+\[
+\|f-P_n\|_\infty=S_n=\delta_n,
+\]
+thus
+\[
+E_n(f)\ge\|f-P_n\|_\infty=\delta_n,\qquad n=1,2,\dots.
+\]
+Therefore, $E_n(f)\to0$ but as slowly as the prescribed sequence $\delta_n$.
+
+\paragraph{Examples.}
+\begin{enumerate}[label=(\arabic*), leftmargin=*]
+	\item \textbf{Linear rate.}
+	For $\delta_n=\frac{1}{n+1}$, one has
+	$\gamma_j=\frac{1}{j}-\frac{1}{j+1}=\frac{1}{j(j+1)}$ and
+	\[
+	f(x)=\sum_{j\ge1}\frac{1}{j(j+1)}\,T_{3j}(x),
+	\qquad E_n(f)\ge\frac{1}{n+1}.
+	\]
+	\item \textbf{Logarithmic rate.}
+	For $\delta_n=\frac{1}{\log(n+2)}$, 
+	$\gamma_j=\frac{1}{\log(j+1)}-\frac{1}{\log(j+2)}$ and
+	$E_n(f)\ge 1/\log(n+2)$.
+	\item \textbf{Exponential rate.}
+	For $\delta_n=r^n$ with $0<r<1$, $\gamma_j=r^{j-1}(1-r)$, giving
+	\[
+	f(x)=\sum_{j\ge1}(1-r)r^{j-1}T_{3j}(x),
+	\quad E_n(f)\ge r^n.
+	\]
+\end{enumerate}
+
+\paragraph{Conclusion.}
+By suitable choice of $\gamma_j$, one can make the polynomial approximation
+of $f$ converge to $f$ at any desired (arbitrarily slow) rate.
+
+\section*{Problem 5 — Hat functions and piecewise–linear interpolation}
+
+\paragraph{Problem.}
+For $n,r\in\mathbb{Z}$ and $n\ge1$, define $\Delta_{n,r}:[-1,1]\to\mathbb{R}$ by
+\[
+\Delta_{n,r}(x)=\max\{0,\; 1-n|x-rn^{-1}|\}.
+\]
+Sketch $\Delta_{n,r}$.
+For $f:[-1,1]\to\mathbb{R}$, show that
+\[
+f_n(x)=\sum_{m=-n}^{n} f\!\left(\frac{m}{n}\right)\Delta_{n,m}(x)
+\]
+is piecewise linear with $f_n(r/n)=f(r/n)$.
+Show that if $f$ is continuous, then $\|f_n-f\|_\infty\to0$ as $n\to\infty$.
+
+\paragraph{Theory.}
+Each $\Delta_{n,r}$ is a tent function supported on $[(r-1)/n,(r+1)/n]$ with value $1$
+at $x=r/n$ and slopes $\pm n$. On each cell $[k/n,(k+1)/n]$, exactly two hats are nonzero,
+$\Delta_{n,k}$ and $\Delta_{n,k+1}$, and they satisfy
+$\Delta_{n,k}(x)+\Delta_{n,k+1}(x)=1$. If $f$ is continuous on $[-1,1]$, then its modulus
+of continuity $\omega_f(\delta)=\sup_{|x-y|\le\delta}|f(x)-f(y)|$ obeys
+$\omega_f(\delta)\to0$ as $\delta\downarrow0$.
+
+\paragraph{Sketch / explicit form of $\Delta_{n,r}$.}
+\[
+\Delta_{n,r}(x)=
+\begin{cases}
+	n\big(x-\frac{r-1}{n}\big), & x\in\big[\frac{r-1}{n},\frac{r}{n}\big],\\[2pt]
+	n\big(\frac{r+1}{n}-x\big), & x\in\big[\frac{r}{n},\frac{r+1}{n}\big],\\[2pt]
+	0, & \text{otherwise.}
+\end{cases}
+\]
+
+\paragraph{Piecewise linearity and interpolation.}
+If $x\in[k/n,(k+1)/n]$, then
+\[
+\Delta_{n,k}(x)=\frac{k+1}{n}-x,\qquad
+\Delta_{n,k+1}(x)=x-\frac{k}{n},
+\]
+and all other $\Delta_{n,m}(x)$ vanish. Hence
+\[
+f_n(x)=f\!\left(\frac{k}{n}\right)\Big(\frac{k+1}{n}-x\Big)
++f\!\left(\frac{k+1}{n}\right)\Big(x-\frac{k}{n}\Big),
+\]
+which is linear in $x$ on that interval. In particular,
+$f_n(r/n)=f(r/n)$ for each $r$.
+
+\paragraph{Uniform convergence for continuous $f$.}
+For $x\in[k/n,(k+1)/n]$ write $x=\lambda \frac{k}{n}+(1-\lambda)\frac{k+1}{n}$ with
+$\lambda=\frac{k+1}{n}-x\in[0,1]$. Then
+\[
+f_n(x)=\lambda f\!\left(\frac{k}{n}\right)
++(1-\lambda)f\!\left(\frac{k+1}{n}\right),
+\]
+so
+\[
+|f(x)-f_n(x)|
+\le \lambda\Big|f(x)-f\!\left(\frac{k}{n}\right)\Big|
++(1-\lambda)\Big|f(x)-f\!\left(\frac{k+1}{n}\right)\Big|
+\le \omega_f\!\left(\frac{1}{n}\right).
+\]
+Therefore $\|f-f_n\|_\infty \le \omega_f(1/n)\to0$ as $n\to\infty$.
+
+\paragraph{Examples.}
+\begin{enumerate}[label=(\arabic*), leftmargin=*]
+	\item $f(x)=x^2$: $f_n$ is the polygonal line through $\{(m/n,(m/n)^2)\}$;
+	$\|f-f_n\|_\infty=\Theta(n^{-2})$.
+	\item $f(x)=|x|$: convergence is uniform with $\|f-f_n\|_\infty=O(n^{-1})$ (Lipschitz $1$).
+	\item $f=\operatorname{sign}(x)$ (discontinuous): $f_n$ does not converge uniformly to $f$;
+	uniform convergence requires continuity.
+\end{enumerate}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.85\linewidth]{figures/MATH-ALLS-2_hat_fan_n5.png}
+	\caption{Hat functions $\Delta_{5,r}(x)$ for $r=-5,\dots,5$ on $[-1,1]$.}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.85\linewidth]{figures/MATH-ALLS-2_hat_fan_n10.png}
+	\caption{Denser fan of hats $\Delta_{10,r}(x)$ for $r=-10,\dots,10$.}
+\end{figure}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=.75\linewidth]{figures/MATH-ALLS-2_hat_single_n8_r3.png}
+	\caption{Single hat $\Delta_{8,3}(x)$ with peak at $x=\frac{3}{8}$ and support
+		$\big[\frac{2}{8},\frac{4}{8}\big]$.}
+\end{figure}
+
+\section*{Problem 6 — A Schauder basis for $C([-1,1])$ from hat functions}
+
+\paragraph{Statement.}
+Using the result of Question~5, prove that there exists a sequence
+$\{\phi_n\}_{n\ge0}\subset C([-1,1])$ such that for every $f\in C([-1,1])$ there exists a
+\emph{unique} series $\sum_{n=0}^{\infty} a_n \phi_n$ which converges uniformly to $f$.
+
+
+\paragraph{Theory.}
+We recall the hat (tent) framework from Question~5 and collect the identities used in the proof.
+
+\begin{enumerate}[label=(\alph*), leftmargin=*, itemsep=0.5em]
+	\item \textbf{Hat functions on a uniform grid.}
+	For $n\in\mathbb{N}$ and $r\in\mathbb{Z}$ define
+	\[
+	\Delta_{n,r}(x)=\max\!\{0,\;1-n\lvert x-r/n\rvert\},\qquad x\in[-1,1].
+	\]
+	Then $\Delta_{n,r}$ is supported on $[(r-1)/n,(r+1)/n]$, satisfies
+	$\Delta_{n,r}(r/n)=1$, is linear with slopes $\pm n$ on its support, and for each
+	$x\in[k/n,(k+1)/n]$ one has
+	\[
+	\Delta_{n,k}(x)+\Delta_{n,k+1}(x)=1,\qquad
+	\Delta_{n,m}(x)=0\ \text{for } m\notin\{k,k+1\}.
+	\]
+	Consequently, for any $f\in C([-1,1])$ the piecewise–linear interpolant
+	\[
+	f_n(x)=\sum_{m=-n}^{n} f\!\left(\frac{m}{n}\right)\Delta_{n,m}(x)
+	\]
+	is linear on each $[k/n,(k+1)/n]$, interpolates the data $f_n(m/n)=f(m/n)$, and
+	satisfies the uniform error bound
+	\[
+	\|f-f_n\|_\infty\le \omega_f\!\left(\frac{1}{n}\right),
+	\]
+	where $\omega_f(\delta)=\sup_{|x-y|\le \delta}|f(x)-f(y)|$ is the modulus of continuity.
+	
+	\item \textbf{Dyadic refinement and midpoint hats (Faber–Schauder atoms).}
+	On $[0,1]$ (with $u=\frac{x+1}{2}$) define the dyadic midpoint hats
+	\[
+	h_{k,m}(u)=\max\!\Big\{0,\;1-2^{k+1}\Big|u-\frac{2m-1}{2^{k+1}}\Big|\Big\},
+	\qquad k\ge 0,\ m=1,\dots,2^{k}.
+	\]
+	Each $h_{k,m}$ is the tent of height $1$ with support
+	$\big[(m-1)/2^{k},(m+1)/2^{k}\big]$ and peak at $(2m-1)/2^{k+1}$.
+	Transport to $[-1,1]$ via $\phi_{k,m}(x)=h_{k,m}\big(\frac{x+1}{2}\big)$ and add two
+	low-order functions $\phi_0(x)=1$, $\phi_1(x)=\frac{x+1}{2}$.
+	
+	\item \textbf{Telescoping of piecewise–linear interpolants.}
+	Let $g(u)=f(2u-1)$ and let $g_{2^K}$ be the piecewise–linear interpolant on the dyadic
+	grid $\{j/2^K\}_{j=0}^{2^K}$. Then
+	\[
+	g_{2^{K}}(u)
+	= g_{2^{0}}(u)
+	+ \sum_{k=0}^{K-1}\big(g_{2^{k+1}}(u)-g_{2^{k}}(u)\big),
+	\]
+	and each difference admits the representation
+	\[
+	g_{2^{k+1}}(u)-g_{2^{k}}(u)
+	= \sum_{m=1}^{2^{k}} d_{k,m}\,h_{k,m}(u),
+	\]
+	with \emph{detail coefficients} (midpoint second differences)
+	\[
+	d_{k,m}
+	= g\!\Big(\frac{2m-1}{2^{k+1}}\Big)
+	-\frac{1}{2}\Bigg[
+	g\!\Big(\frac{m-1}{2^{k}}\Big)
+	+ g\!\Big(\frac{m}{2^{k}}\Big)\Bigg].
+	\]
+	Hence, for $K\ge1$,
+	\[
+	g_{2^{K}}(u) = a_0 + a_1 u + \sum_{k=0}^{K-1}\sum_{m=1}^{2^{k}} d_{k,m}\,h_{k,m}(u),
+	\qquad a_0=g(0),\ \ a_1=g(1)-g(0).
+	\]
+	Pulling back to $[-1,1]$ yields
+	\[
+	f_{2^{K}}(x)= a_0\,\phi_0(x)+a_1\,\phi_1(x)
+	+ \sum_{k=0}^{K-1}\sum_{m=1}^{2^{k}} d_{k,m}\,\phi_{k,m}(x).
+	\]
+	
+	\item \textbf{Uniform convergence and uniqueness.}
+	By the bound in (a), $f_{2^{K}}\to f$ uniformly as $K\to\infty$, hence
+	\[
+	f(x)= a_0\,\phi_0(x)+a_1\,\phi_1(x)
+	+ \sum_{k=0}^{\infty}\sum_{m=1}^{2^{k}} d_{k,m}\,\phi_{k,m}(x)
+	\]
+	is a uniformly convergent series in $\{\phi_n\}\subset C([-1,1])$.
+	Uniqueness of the coefficients follows from the triangular structure with respect to
+	levels: if $\sum a_n\phi_n\equiv 0$, then $a_0=a_1=0$ (evaluation at the endpoints),
+	and at each level $k$ the functions $\{\phi_{k,m}\}_m$ have disjoint supports and are
+	the only basis elements nonzero at their midpoints; thus all detail coefficients vanish
+	by induction.
+\end{enumerate}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\paragraph{Construction (Faber–Schauder system).}
+Work on $[0,1]$ with $u\in[0,1]$ and define
+\[
+\psi_0(u)=1,\quad \psi_1(u)=u,\qquad
+h_{k,m}(u)=\max\!\Big\{0,\;1-2^{k+1}\Big|u-\frac{2m-1}{2^{k+1}}\Big|\Big\}
+\]
+for $k\ge0$ and $m=1,\dots,2^k$.
+Transport to $[-1,1]$ by $u=(x+1)/2$:
+\[
+\phi_0(x)=1,\qquad \phi_1(x)=\tfrac{x+1}{2},\qquad
+\phi_{k,m}(x)=h_{k,m}\!\Big(\tfrac{x+1}{2}\Big).
+\]
+Enumerate $\{\phi_n\}$ as $(\phi_0,\phi_1,\phi_{0,1},\phi_{1,1},\phi_{1,2},\ldots)$.
+
+\paragraph{Coefficients and partial sums.}
+Given $f\in C([-1,1])$, set $g(u)=f(2u-1)$. Define
+\[
+a_0=g(0),\qquad a_1=g(1)-g(0),
+\]
+and for $k\ge0$, $m=1,\dots,2^k$,
+\[
+d_{k,m}=g\!\Big(\frac{2m-1}{2^{k+1}}\Big)
+-\frac12\Bigg[g\!\Big(\frac{m-1}{2^k}\Big)+g\!\Big(\frac{m}{2^k}\Big)\Bigg].
+\]
+Let $g_{2^K}$ be the piecewise–linear interpolant on the dyadic grid $\{j/2^K\}$.
+Then the standard decomposition (telescoping across levels) gives
+\[
+g_{2^K}(u)=a_0+a_1 u+\sum_{k=0}^{K-1}\sum_{m=1}^{2^k} d_{k,m}\,h_{k,m}(u).
+\]
+Hence, on $[-1,1]$,
+\[
+f_{2^K}(x)=a_0\,\phi_0(x)+a_1\,\phi_1(x)
++\sum_{k=0}^{K-1}\sum_{m=1}^{2^k} d_{k,m}\,\phi_{k,m}(x).
+\]
+
+\paragraph{Uniform convergence.}
+By Question~5, $f_{2^K}\to f$ uniformly on $[-1,1]$. Letting $K\to\infty$ yields the uniformly
+convergent expansion
+\[
+f(x)=a_0\,\phi_0(x)+a_1\,\phi_1(x)
++\sum_{k=0}^{\infty}\sum_{m=1}^{2^k} d_{k,m}\,\phi_{k,m}(x),
+\]
+i.e. a series $\sum_{n\ge0} a_n\phi_n$ converging uniformly to $f$.
+
+\paragraph{Uniqueness.}
+Suppose $\sum_{n\ge0} a_n\phi_n\equiv 0$. Evaluating at $x=-1$ and $x=1$ gives
+$a_0=0$ and $a_1=0$. Proceeding by levels, at level $k$ the functions
+$\{\phi_{k,m}\}_m$ have disjoint supports and each is the only basis function nonzero at
+its own midpoint; hence each coefficient must be zero. By induction, all coefficients vanish,
+so the representation is unique.
+
+\paragraph{Examples.}
+\begin{enumerate}[label=(\arabic*), leftmargin=*]
+	\item $f(x)=ax+b$: all detail coefficients $d_{k,m}$ vanish; only the low–order terms
+	$\phi_0,\phi_1$ remain.
+	\item $f(x)=x^2$: $d_{k,m}=\frac14\,2^{-2k}$ for all $m$, giving a rapidly convergent sum of
+	midpoint hats across levels.
+\end{enumerate}
+
+\paragraph{Conclusion.}
+The system $\{\phi_n\}$ is a Schauder basis for $C([-1,1])$ (the Faber–Schauder basis):
+every continuous function admits a unique uniformly convergent series in these functions.
+
+	
+\section*{Problem 7 — Powers preserve uniform convergence}
+
+\paragraph{Statement.}
+Let $f_n:[0,1]\to\mathbb{R}$ satisfy $f_n\to f$ uniformly on $[0,1]$, and suppose $f$ is bounded.
+Show that for any integer $m\ge1$, the functions $g_n(t)=f_n(t)^m$ converge uniformly on $[0,1]$
+to $g(t)=f(t)^m$.
+
+\paragraph{Theory.}
+For all $a,b\in\mathbb{R}$ and $m\ge1$,
+\[
+a^m-b^m=(a-b)\sum_{k=0}^{m-1}a^{m-1-k}b^{k},
+\]
+hence if $|a|,|b|\le M$ then $|a^m-b^m|\le m M^{m-1}|a-b|$.
+Uniform convergence $f_n\to f$ implies $\|f_n-f\|_\infty\to0$.
+
+\paragraph{Proof.}
+Let $M=\|f\|_\infty<\infty$. Since $f_n\to f$ uniformly, there exists $N$ with
+$\|f_n-f\|_\infty\le 1$ for all $n\ge N$. Then for $n\ge N$,
+\[
+\|f_n\|_\infty \le \|f\|_\infty+\|f_n-f\|_\infty \le M+1=:M'.
+\]
+For any $t\in[0,1]$,
+\[
+|f_n(t)^m-f(t)^m|
+\le |f_n(t)-f(t)| \sum_{k=0}^{m-1} |f_n(t)|^{m-1-k} |f(t)|^{k}
+\le m(M')^{m-1}\,|f_n(t)-f(t)|.
+\]
+Taking sup over $t$ yields
+\[
+\|f_n^m-f^m\|_\infty \le m(M')^{m-1}\,\|f_n-f\|_\infty \xrightarrow[n\to\infty]{} 0.
+\]
+Therefore $f_n^m\to f^m$ uniformly on $[0,1]$.
+\qed
+
+\paragraph{Examples.}
+\begin{enumerate}[label=(\arabic*), leftmargin=*]
+	\item $f_n(t)=t+\tfrac1n$, $f(t)=t$, $m=3$: 
+	$\|f_n^3-f^3\|_\infty \le 12/n \to 0$.
+	\item $f_n(t)=\sin(nt)/n$, $f\equiv0$: for any $m\ge1$,
+	$\|f_n^m-f^m\|_\infty=\|f_n\|_\infty^m \le (1/n)^m \to 0$.
+\end{enumerate}
+
+\section*{Problem 8 — Polynomial (vs.\ rational) approximation on a punctured disc}
+
+
+paragraph{Problem (exact).}
+Let $B_r(z)$ denote the open disc of radius $r$ about $z\in\mathbb C$ and set
+\[
+U \;=\; B_2(1)\setminus B_1(0).
+\]
+Suppose $f$ is holomorphic on $U$.
+\begin{enumerate}[label=(\roman*), leftmargin=*]
+	\item Prove that there exists a sequence of \emph{rational functions} which converges to $f$
+	uniformly on compact subsets of $U$.
+	\item Must there be a sequence of \emph{polynomials} which converges to $f$ uniformly on $U$?
+	\item If, in addition, $f$ is holomorphic on some open set containing $\overline U$,
+	must there be a sequence of \emph{polynomials} which converges to $f$ uniformly on $U$?
+\end{enumerate}
+
+\paragraph{Theory.}
+We will use the following results.
+\begin{enumerate}[label=(\alph*), leftmargin=*, itemsep=0.4em]
+	\item \textbf{Runge’s theorem (rational form).}
+	Let $K\subset\mathbb C$ be compact and let $E=\widehat{\mathbb C}\setminus K$.
+	If $E$ has finitely many components, then every function holomorphic on a neighborhood
+	of $K$ can be uniformly approximated on $K$ by rational functions whose poles lie in a
+	prescribed finite set containing at least one point from each bounded component of $E$.
+	If $E$ is connected and contains $\infty$, the approximants can be chosen to be polynomials.
+	\item \textbf{Mergelyan’s theorem (polynomial form).}
+	If $K\subset\mathbb C$ is compact with connected complement and $f$ is continuous on $K$
+	and holomorphic in $\operatorname{int}K$, then there exists a sequence of polynomials
+	converging uniformly to $f$ on $K$.
+	\item \textbf{Cauchy integral test for non-approximability.}
+	If $p_n\to g$ uniformly on a simple closed curve $\Gamma$, then
+	$\int_\Gamma p_n(z)\,dz\to\int_\Gamma g(z)\,dz$.
+	For every polynomial $p$, $\int_\Gamma p(z)\,dz=0$.
+	\item \textbf{Geometry of $U$.}
+	The complement of $U$ in the Riemann sphere has two components:
+	the unbounded $\mathbb C\setminus B_2(1)$ (containing $\infty$) and the bounded
+	$\overline{B_1(0)}$ (containing $0$). Thus Runge’s theorem yields rational
+	approximation on compacts of $U$ with all poles placed in the bounded component
+	(e.g.\ at $0$), but not, in general, polynomial approximation on all of $U$ unless
+	$f$ extends holomorphically across the hole so that the relevant compact has
+	connected complement.
+\end{enumerate}
+
+\paragraph{Setting.}
+Let $B_r(z)$ be the open disc of radius $r$ about $z\in\mathbb C$ and
+$U=B_2(1)\setminus B_1(0)$. Assume $f$ is holomorphic on $U$.
+
+\paragraph{(i) Local uniform approximation.}
+The complement $\widehat{\mathbb C}\setminus U$ has two components:
+the unbounded $\mathbb C\setminus B_2(1)$ and the bounded $\overline{B_1(0)}$.
+By Runge’s theorem, for every compact $K\Subset U$ there exist rational functions $r_n$
+with all poles in $\overline{B_1(0)}$ (indeed at $0$) such that $r_n\to f$
+uniformly on $K$. Thus $f$ is locally uniformly approximable by rational functions with poles at $0$.
+\emph{(If the statement asks for polynomials, this is false in general; see (ii).)}
+
+\paragraph{(ii) Uniform approximation on $U$ by polynomials?}
+\emph{No.} Consider $f(z)=1/z\in O(U)$. Suppose polynomials $p_n$ satisfy $p_n\to f$
+uniformly on $U$. Let $\Gamma=\{\,|z|=r\,\}$ with $1<r<2$ and $\Gamma\subset U$.
+Then
+\[
+\int_\Gamma p_n(z)\,dz \longrightarrow \int_\Gamma \frac{1}{z}\,dz = 2\pi i,
+\]
+whereas for all polynomials $p_n$ we have $\int_\Gamma p_n(z)\,dz=0$ by Cauchy’s theorem,
+a contradiction. Hence, in general, no such polynomial sequence exists.
+
+\paragraph{(iii) If $f$ extends holomorphically across $\overline U$.}
+Assume $f$ is holomorphic on some open set $W\supset \overline U$.
+Then $f$ is holomorphic on a neighborhood of the compact set $K=\overline{B_2(1)}$,
+whose complement is connected and contains $\infty$.
+By Runge’s theorem (or Mergelyan’s theorem),
+there are polynomials $p_n$ with $p_n\to f$ uniformly on $K$; in particular,
+$p_n\to f$ uniformly on $U$.
+Therefore under this additional assumption the answer is \emph{yes}.
+	
+\section*{Problem 9 — Polynomial approximation of $1/z$ on a semicircle}
+
+\paragraph{Statement.}
+Construct polynomials $p_n$ converging uniformly to $1/z$ on
+$K=\{z\in\mathbb C: |z|=1,\ \Re z\ge 0\}$.
+
+\paragraph{Theory.}
+By Mergelyan’s theorem, if $K$ is compact with connected complement and
+$f\in C(K)$ is holomorphic on $\operatorname{int}K$, then there exist polynomials
+$P_n$ with $P_n\to f$ uniformly on $K$.
+Our $K$ is a closed Jordan arc, $\operatorname{int}K=\varnothing$, and
+$\widehat{\mathbb C}\setminus K$ is connected.
+
+\paragraph{Solution.}
+The function $f(z)=1/z$ is continuous on $K$. Since $K$ has connected complement and
+empty interior, Mergelyan applies; therefore there exist polynomials $p_n$ with
+$\sup_{z\in K}|p_n(z)-1/z|\to0$.
+
+\paragraph{Example.}
+One may build $p_n$ via Faber polynomials of the arc or via discrete least–squares fits on $K$;
+both converge uniformly by Mergelyan.
+
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\bigskip
+\section*{Problem 10 — Characterization on a Runge domain}
+
+\paragraph{Statement.}
+Let $U\subset\mathbb C$ be bounded and assume $\mathbb C\setminus U$ is connected.
+Show that $f:U\to\mathbb C$ is holomorphic iff for every compact $K\subset U$ and $\varepsilon>0$
+there exists a polynomial $P$ with $\sup_{K}|f-P|<\varepsilon$.
+
+\paragraph{Theory.}
+If $\mathbb C\setminus U$ is connected, $U$ is a Runge domain; by the
+Runge–Oka–Weil theorem, holomorphic functions on $U$ can be uniformly approximated on compacts
+by polynomials. Uniform limits of holomorphic functions on open sets are holomorphic.
+
+\paragraph{Proof.}
+($\Rightarrow$) For $f\in\mathcal O(U)$ and $K\Subset U$, Runge–Oka–Weil yields a polynomial $P$
+with $\sup_{K}|f-P|<\varepsilon$.
+($\Leftarrow$) If for each $K\Subset U$ there are polynomials $P_n$ with $P_n\to f$ uniformly on $K$,
+then by Weierstrass $f$ is holomorphic on $K^\circ$, hence on $U$.
+
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\bigskip
+\section*{Problem 11 — A pointwise–vanishing polynomial sequence outside $0$}
+
+\paragraph{Statement.}
+Does there exist polynomials $p_n$ with $p_n(0)=1$ and $p_n(z)\to0$ for all $z\ne0$?
+
+\paragraph{Construction \& Proof.}
+Enumerate a dense set $\{w_j\}_{j\ge1}\subset\mathbb Q(i)\setminus\{0\}$ and choose integers
+$N_j\uparrow\infty$. Define partial products
+\[
+p_n(z)=\prod_{j=1}^{n}\big(1-\tfrac{z}{w_j}\big)^{N_j}.
+\]
+Then $p_n(0)=1$. For fixed $z\ne0$ there are infinitely many $j$ with
+$|1-z/w_j|\le\frac12$; hence $|p_n(z)|\le\prod_{j\le n,\ |1-z/w_j|\le1/2}2^{-N_j}\to0$.
+Therefore $p_n(z)\to0$ for each $z\ne0$.
+
+\paragraph{Remark.}
+Choosing $N_j=j$ suffices; taking $N_j=2^j$ accelerates decay.
+
+\noindent\rule{\textwidth}{0.4pt}
+
+
+\bigskip
+\section*{Problem 12 — Extending a uniform polynomial limit from an annulus}
+
+\paragraph{Statement.}
+Let $A=\{z: \tfrac12\le|z|\le1\}$ and $f:A\to\mathbb C$ be continuous, holomorphic on
+$\{ \tfrac12<|z|<1\}$. If polynomials $p_n\to f$ uniformly on $A$, prove that there is
+$g\in C(\{|z|\le1\})$, holomorphic on $|z|<1$, with $g=f$ on $A$.
+
+\paragraph{Proof.}
+Fix $\varepsilon>0$. From uniform convergence on $A$, choose $N$ so that
+$\sup_{A}|p_n-p_m|<\varepsilon$ for $n,m\ge N$. By the maximum modulus principle on the annulus,
+$\sup_{\tfrac12\le|z|\le1}|p_n-p_m|<\varepsilon$. On the disk $|z|\le\tfrac12$,
+\[
+\sup_{|z|\le\tfrac12}|p_n-p_m|
+\le \sup_{|z|=\tfrac12}|p_n-p_m|<\varepsilon.
+\]
+Therefore $\sup_{|z|\le1}|p_n-p_m|<\varepsilon$, so $\{p_n\}$ is uniformly Cauchy on $|z|\le1$,
+hence converges uniformly to some $g\in C(\{|z|\le1\})$, holomorphic on $|z|<1$.
+Uniform convergence on $A$ gives $g=f$ on $A$.
+	
+\noindent\rule{\textwidth}{0.4pt}	
+	
+\paragraph{Definition (Jordan curve).}
+A subset $J\subset \mathbb{R}^2$ is a \emph{Jordan curve} if there exists a continuous
+injective map $\gamma:\mathbb{S}^1\to\mathbb{R}^2$ such that $J=\gamma(\mathbb{S}^1)$.
+Equivalently, $J$ is a simple closed curve (continuous, no self-intersections).
+
+\paragraph{Related notions.}
+A \emph{Jordan arc} is the image of a homeomorphism $\eta:[a,b]\to\mathbb{R}^2$.
+A \emph{Jordan domain} is a bounded open set $D\subset\mathbb{R}^2$ whose boundary
+$\partial D$ is a Jordan curve (typically oriented positively).
+
+\paragraph{Jordan curve theorem.}
+Every Jordan curve $J$ divides $\mathbb{R}^2$ into exactly two connected components,
+an interior and an exterior, with $J$ as their common boundary.
+	
+\noindent\rule{\textwidth}{0.4pt}		
+	
+\section*{Mergelyan's Theorem (Polynomial Approximation)}
+
+\paragraph{Statement.}
+Let $K\subset\mathbb{C}$ be compact with \textbf{connected complement} $\mathbb{C}\setminus K$.
+If $f$ is continuous on $K$ and holomorphic in the interior $K^\circ$, then there exists
+a sequence of \textbf{polynomials} $p_n$ with
+\[
+\sup_{z\in K} |f(z)-p_n(z)| \;\longrightarrow\; 0.
+\]
+\begin{itemize}
+	\item If $K^\circ=\varnothing$ (for example, $K$ is a Jordan curve or arc),
+	the condition “holomorphic in the interior” is vacuous; every continuous $f$ on $K$
+	is uniformly approximable by polynomials.
+	\item If $\mathbb{C}\setminus K$ is not connected (i.e., $K$ has holes),
+	polynomials are in general \emph{not} dense, but \textbf{rational functions with poles outside $K$}
+	are dense (Runge--Oka--Weil).
+\end{itemize}
+
+\paragraph{Useful Variants and Corollaries.}
+\begin{itemize}
+	\item \textbf{Runge--Oka--Weil (rational form).}
+	For any compact $K$ and any finite set $E$ meeting every bounded component
+	of $\mathbb{C}\setminus K$, functions holomorphic near $K$ can be uniformly approximated
+	on $K$ by rational functions with all poles in $E$.
+	\item \textbf{Mergelyan on Jordan domains.}
+	If $K=\overline{\Omega}$ with $\Omega$ a bounded Jordan domain,
+	then every $f\in A(\Omega)$ (continuous on $\overline{\Omega}$, holomorphic on $\Omega$)
+	is a uniform limit of polynomials.
+	\item \textbf{Maximum modulus transfer.}
+	Uniform convergence on $K$ of polynomials implies uniform convergence
+	on compact subsets of $K^\circ$ of their derivatives (by Cauchy estimates).
+\end{itemize}
+
+\paragraph{When It Fails (and What to Use Instead).}
+\begin{itemize}
+	\item On an \emph{annulus} $K=\{r\le |z|\le R\}$,
+	the complement $\mathbb{C}\setminus K$ has two components,
+	so polynomials are not generally dense; but rational functions with poles at $0$ (or $\infty$)
+	are dense (Runge).
+	\item If $f$ \emph{extends holomorphically across the holes},
+	one can enlarge $K$ to a compact with connected complement and then apply Mergelyan.
+\end{itemize}
+
+\paragraph{Tiny Proof Sketch (ideas only).}
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+	\item Consider the uniform algebra $P(K)$ (uniform closure of polynomials on $K$).
+	\item If $\mathbb{C}\setminus K$ is connected, $K$ is \emph{polynomially convex};
+	by deep results (Mergelyan 1951), any $f\in A(K)$ can be uniformly approximated in $P(K)$.
+	\item Tools behind the proof include Runge’s theorem, peak functions,
+	and the theory of uniform algebras.
+\end{enumerate}
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\paragraph{Historical Note.}
+The theorem was proved by S.\ N.\ Mergelyan in 1951 and generalizes earlier
+approximation results of Weierstrass (on intervals) and Runge (on rational approximation).
+It represents the final step in characterizing all compact sets $K$ in $\mathbb{C}$
+for which polynomials are dense in $A(K)$.
+	
+	
+
+
+\section*{Problem 1 — Irrationality of $\sqrt3+\sqrt5$ and $e^2$}
+
+\paragraph{Statement.}
+Prove that $\sqrt3+\sqrt5$ and $e^2$ are irrational.
+
+\paragraph{Solution.}
+(1) If $\sqrt3+\sqrt5=r\in\mathbb Q$, then
+$8+2\sqrt{15}=r^2\in\mathbb Q$, so $\sqrt{15}\in\mathbb Q$, a contradiction.
+Hence $\sqrt3+\sqrt5\notin\mathbb Q$.
+
+(2) Write $e^2=\sum_{k=0}^\infty \frac{2^k}{k!}$. Suppose $e^2=\frac pq$ with $p,q\in\mathbb N$.
+Let $N\ge\max\{q,5\}$ and set
+\[
+A_N:=N!\sum_{k=0}^{N}\frac{2^k}{k!}\in\mathbb Z,\qquad
+T_N:=N!\sum_{k=N+1}^{\infty}\frac{2^k}{k!}.
+\]
+Then $N!\,e^2=A_N+T_N$ and $N!\,e^2=\frac{pN!}{q}\in\mathbb Z$, so $T_N\in\mathbb Z$.
+But for $N\ge5$,
+\[
+0<T_N<\frac{2^{N+1}}{N+1}\cdot\frac{1}{1-\frac{2}{N+2}}<1,
+\]
+a contradiction. Hence $e^2\notin\mathbb Q$.
+
+\bigskip
+\section*{Problem 2 — Algebraic zeros and coefficients}
+
+\paragraph{Statement.}
+(i) Show that a real number $\alpha$ is algebraic iff it is a zero of a polynomial with rational coefficients.
+(ii) Is it true that if all the roots of a polynomial are algebraic numbers, then the polynomial must
+have rational coefficients?
+
+\paragraph{Solution.}
+(i) If $\sum_{k=0}^m a_k\alpha^k=0$ with $a_k\in\mathbb Z$, then certainly $\alpha$ is a root of a polynomial with rational coefficients. Conversely, if $\sum_{k=0}^m q_k\alpha^k=0$ with $q_k\in\mathbb Q$, multiply by a common denominator to obtain an integer–coefficient polynomial vanishing at $\alpha$.
+
+(ii) \emph{False.} Example: $p(x)=x-\sqrt2$ has the algebraic root $\sqrt2$ but $p$ has nonrational coefficient $\sqrt2$. In general, if all roots are algebraic, the coefficients are algebraic numbers (by Vieta), not necessarily rational.
+
+\bigskip
+\section*{Problem 3 — Uncountably many transcendental numbers}
+
+\paragraph{Statement.}
+Let $b_n\in\{1,2\}$ and define
+\[
+x=\sum_{n=0}^{\infty}\frac{b_n}{10^{\,n!}}.
+\]
+Show that this gives another proof that the set of transcendental numbers is uncountable.
+
+\paragraph{Solution.}
+Let $p_N/q_N$ be the $N$th partial sum with $q_N=10^{N!}$. Then
+\[
+0<\Big|x-\frac{p_N}{q_N}\Big|<\frac{1}{10^{(N+1)!}}<\frac{1}{q_N^{\,m}}
+\quad\text{for every fixed }m\text{ and all sufficiently large }N.
+\]
+Thus $x$ is a Liouville number and hence transcendental. The map
+$\{1,2\}^{\mathbb N}\ni(b_n)\mapsto x$ is injective, so there are $2^{\aleph_0}$ many such numbers.
+
+\bigskip
+\section*{Problem 4 — Step–function limits by polynomials}
+
+\paragraph{Statement.}
+(i) Show there exists a sequence of polynomials $P_n$ such that
+\[
+P_n(z)\to
+\begin{cases}
+	1,& |z|\le1,\ \Re z\ge0,\\
+	0,& |z|\le1,\ \Re z<0,
+\end{cases}
+\qquad(n\to\infty).
+\]
+(ii) Show there exists a sequence of polynomials $Q_n$ such that
+\[
+Q_n(z)\to
+\begin{cases}
+	1,& \Re z\ge0,\\
+	0,& \Re z<0,
+\end{cases}
+\qquad(n\to\infty).
+\]
+
+\paragraph{Theory.}
+If $\Omega\subset\mathbb C$ is open and $\mathbb C\setminus\Omega$ is connected (a Runge domain),
+then any $f\in\mathcal O(\Omega)$ can be uniformly approximated on each compact $K\Subset\Omega$
+by polynomials. A diagonal argument over an exhaustion of $\Omega$ yields pointwise convergence.
+
+\paragraph{Proof.}
+(i) Let $\Omega_+=\{z:|z|<1,\ \Re z>0\}$ and $\Omega_-=\{z:|z|<1,\ \Re z<0\}$, and set $\Omega=\Omega_+\cup\Omega_-$. Define $f\equiv1$ on $\Omega_+$ and $f\equiv0$ on $\Omega_-$. Then $f\in\mathcal O(\Omega)$ and $\mathbb C\setminus\Omega$ is connected; hence by Runge there are polynomials approximating $f$ uniformly on each compact $K\Subset\Omega$. Choosing a diagonal sequence gives polynomials $P_n$ with the stated pointwise limits on the two halves of the closed unit disk.
+
+(ii) Let $\Omega=\{ \Re z>0\}\cup\{ \Re z<0\}=\mathbb C\setminus i\mathbb R$ and define $f\equiv1$ on the right half–plane and $f\equiv0$ on the left. Again $\mathbb C\setminus\Omega$ is connected, so Runge yields polynomials $Q_n$ converging to $f$ on compacta; the diagonal argument gives the claimed pointwise limits.
+
+\section*{Vieta's Formulas and Liouville's Theorem}
+
+\paragraph{Vieta's Formulas.}
+Let
+\[
+P(x)=a_n x^n+a_{n-1}x^{n-1}+\cdots+a_0
+=a_n\prod_{j=1}^n (x-r_j),
+\]
+with roots $r_1,\dots,r_n$ (counted with multiplicity). Denote the elementary symmetric
+polynomials
+\[
+e_k(r_1,\dots,r_n)=\sum_{1\le j_1<\cdots<j_k\le n} r_{j_1}\cdots r_{j_k},
+\qquad e_0:=1.
+\]
+Then for $k=0,1,\dots,n$,
+\[
+a_{n-k}=(-1)^k\,a_n\, e_k(r_1,\dots,r_n).
+\]
+In particular, for a monic polynomial ($a_n=1$),
+\[
+\sum_{j=1}^n r_j=-a_{n-1},\quad
+\sum_{i<j} r_ir_j=a_{n-2},\ \ldots,\ 
+\prod_{j=1}^n r_j=(-1)^n a_0.
+\]
+Hence each coefficient is a symmetric polynomial in the roots. If all $r_j$ are algebraic,
+then every coefficient $a_k$ is algebraic (though not necessarily rational).
+
+\paragraph{Example.}
+If $r_1=\sqrt2$, $r_2=\sqrt3$, then
+\[
+P(x)=(x-\sqrt2)(x-\sqrt3)=x^2-(\sqrt2+\sqrt3)x+\sqrt6,
+\]
+so by Vieta $a_1=-(r_1+r_2)$ and $a_0=r_1r_2$.
+
+\noindent\rule{\textwidth}{0.4pt}
+
+\paragraph{Liouville's Theorem (Classical).}
+If $\alpha$ is algebraic of degree $d\ge2$, then there exists $C(\alpha)>0$ such that
+\[
+\Big|\alpha-\frac{p}{q}\Big|>\frac{C(\alpha)}{q^{\,d}}
+\qquad\text{for all } p/q\in\mathbb Q,\ q\ge1.
+\]
+\emph{Corollary (Liouville numbers).} A real number $x$ is a Liouville number if for every
+$m\in\mathbb N$ there exist infinitely many $p/q$ with
+$0<|x-\frac{p}{q}|<q^{-m}$. Every Liouville number is transcendental.
+
+\paragraph{Example (Liouville constant).}
+\[
+L=\sum_{n=1}^\infty 10^{-n!}.
+\]
+Let $p_N/10^{N!}$ be the $N$th partial sum. Then
+\[
+0<\Big|L-\frac{p_N}{10^{N!}}\Big|<10^{-(N+1)!}
+<\big(10^{N!}\big)^{-m}\quad\text{for any fixed }m\text{ and $N$ large,}
+\]
+hence $L$ is Liouville and therefore transcendental.
+
+\paragraph{Context (Roth's Theorem).}
+If $\alpha$ is irrational algebraic, then for every $\varepsilon>0$,
+\[
+\Big|\alpha-\frac{p}{q}\Big|>\frac{c(\alpha,\varepsilon)}{q^{\,2+\varepsilon}}
+\]
+for all but finitely many rationals $p/q$. This is much stronger than Liouville's $q^{-d}$ bound.
+
+\section*{Problem 5 — Continued Fractions for $100/37$ and $\sqrt{7}$}
+
+\paragraph{Statement.}
+Find the simple continued fraction expansions for $100/37$ and $\sqrt7$.
+
+\paragraph{Solution.}
+\textbf{(a) $100/37$.}
+\[
+100=2\cdot 37+26,\quad
+37=1\cdot 26+11,\quad
+26=2\cdot 11+4,\quad
+11=2\cdot 4+3,\quad
+4=1\cdot 3+1,\quad
+3=3\cdot 1.
+\]
+Hence
+\[
+\frac{100}{37}=[2;1,2,2,1,3].
+\]
+
+\noindent
+\textbf{(b) $\sqrt7$.}
+With $a_0=\lfloor\sqrt7\rfloor=2$ and the standard recurrences
+\(
+m_{k+1}=d_k a_k-m_k,\ 
+d_{k+1}=(7-m_{k+1}^2)/d_k,\ 
+a_{k+1}=\left\lfloor (a_0+m_{k+1})/d_{k+1}\right\rfloor,
+\)
+one obtains
+\[
+\sqrt7=[2;\overline{1,1,1,4}].
+\]
+
+\bigskip
+\section*{Problem 6 — Best Denominator $<10$ Approximating $71/49$}
+
+\paragraph{Statement.}
+Which rational with denominator less than $10$ best approximates $71/49$?
+
+\paragraph{Solution.}
+Let $x=71/49\approx1.4489796$. For each $q=1,\dots,9$ choose $p=\mathrm{round}(qx)$.
+The smallest error occurs at $q=9$, $p=13$:
+\[
+\left|\frac{13}{9}-x\right|\approx 0.00458,
+\]
+which beats all other denominators $<10$. Therefore the best is $\boxed{13/9}$.
+
+\bigskip
+\section*{Problem 7 — Alternating Continued Fraction with $a,b>0$}
+
+\paragraph{Statement.}
+Let
+\[
+x=\cfrac{1}{\displaystyle a+\cfrac{1}{\displaystyle b+\cfrac{1}{\displaystyle a+\cfrac{1}{\displaystyle b+\cdots}}}},
+\qquad a,b\in\mathbb N.
+\]
+\begin{enumerate}[label=(\alph*), leftmargin=*]
+	\item Show that $x$ solves $a x^2 + a b x - b=0$.
+	\item For $a=b=1$, prove $x=\frac{-1+\sqrt5}{2}$ and that the convergents $p_n/q_n$ satisfy
+	$p_n=F_n$, $q_n=F_{n+1}$ where $(F_n)$ are Fibonacci numbers, $F_0=0$, $F_1=1$.
+	\item Show Cassini’s identity $F_{n+1}F_{n-1}-F_n^2=(-1)^{n+1}$.
+	\item Prove $F_{2n+1}=F_n^2+F_{n+1}^2$ and $F_{2n}=F_n(F_{n-1}+F_{n+1})$.
+	With $x_n=F_{n+1}/F_n$ express $x_{2n}$ as a function of $x_n$ and deduce that
+	$y_k=x_{2^k}$ converges very rapidly to $\phi=(1+\sqrt5)/2$.
+\end{enumerate}
+
+\paragraph{Proof.}
+(a) Since the pattern repeats after the inner $b$, we have $x=\dfrac{1}{a+\dfrac{1}{b+x}}$.
+Thus
+\[
+\frac{1}{x}=a+\frac{1}{b+x}\;\Longrightarrow\;
+(b+x)\Big(\frac{1}{x}-a\Big)=1
+\;\Longrightarrow\; a x^2 + a b x - b=0.
+\]
+
+(b) With $a=b=1$, the quadratic gives $x^2+x-1=0$ and $x=\tfrac{-1+\sqrt5}{2}$.
+The SCF is $[0;1,1,1,\ldots]$. Convergent recurrences
+$p_{-1}=1,p_0=0,\ p_n=p_{n-1}+p_{n-2}$ and
+$q_{-1}=0,q_0=1,\ q_n=q_{n-1}+q_{n-2}$ yield $p_n=F_n$, $q_n=F_{n+1}$.
+
+(c) Cassini: $F_{n+1}F_{n-1}-F_n^2=(-1)^{n+1}$, proved by induction or Binet’s formula.
+
+(d) Identities (by induction or Binet):
+\[
+F_{2n+1}=F_n^2+F_{n+1}^2,\qquad F_{2n}=F_n(F_{n-1}+F_{n+1}).
+\]
+Therefore, with $x_n=F_{n+1}/F_n$,
+\[
+x_{2n}=\frac{F_{2n+1}}{F_{2n}}
+=\frac{F_n^2+F_{n+1}^2}{F_n(F_{n-1}+F_{n+1})}
+=\frac{1+x_n^2}{2x_n-1}=:T(x_n).
+\]
+Since $\phi^2=\phi+1$, we have $T(\phi)=\phi$, and
+\[
+T'(x)=\frac{2(x^2-x-1)}{(2x-1)^2},\qquad T'(\phi)=0,
+\]
+so the iteration $y_{k+1}=T(y_k)$ has quadratic convergence to $\phi$.
+
+\section*{Problem 8 — A CF for $\tanh y$ and irrationality of $e$}
+
+\paragraph{Statement.}
+From the continued fraction for $\tan z$ (valid for $z\in\mathbb C$, $|z|\le 1$), obtain a continued fraction for $\tanh y$ ($y\in\mathbb R$) and deduce
+\[
+\frac{e+1}{e-1}=2+\cfrac{1}{6+\cfrac{1}{10+\cfrac{1}{14+\cfrac{1}{18+\cdots}}}}.
+\]
+Explain why this gives another proof that $e$ is irrational.
+
+\paragraph{Theory.}
+Euler’s CF:
+\[
+\tan z=\cfrac{z}{1-\cfrac{z^{2}}{3-\cfrac{z^{2}}{5-\cfrac{z^{2}}{7-\cdots}}}}
+\quad (|z|\le1).
+\]
+Since $\tan(i y)= i\,\tanh y$, we obtain CFs for $\tanh y$ and $\coth y=1/\tanh y$.
+
+\paragraph{Solution.}
+Substitute $z=i y$ and simplify:
+\[
+\tanh y=\cfrac{y}{1+\cfrac{y^{2}}{3+\cfrac{y^{2}}{5+\cfrac{y^{2}}{7+\cdots}}}},
+\quad
+\coth y=\frac{1}{y}+\cfrac{y}{3+\cfrac{y^{2}}{5+\cfrac{y^{2}}{7+\cdots}}}.
+\]
+With $y=1$,
+\[
+\coth 1=\frac{e+1}{e-1}
+=2+\cfrac{1}{6+\cfrac{1}{10+\cfrac{1}{14+\cdots}}}.
+\]
+The CF is infinite with integer partial denominators, so its value is irrational; hence
+$\coth 1$ is irrational. Solving $r=\frac{e+1}{e-1}$ for $e$ gives $e=\frac{1+r}{1-r}$,
+so $r$ rational would force $e$ rational—contradiction.
+
+\bigskip
+\section*{Problem 9 — From $f(nx)\to0$ to $f(t)\to0$}
+
+\paragraph{Statement.}
+Let $f:[1,\infty)\to\mathbb R$ be continuous and suppose $f(n x)\to0$ as $n\to\infty$ for each fixed $x\ge1$.
+Show $f(t)\to0$ as $t\to\infty$.
+
+\paragraph{Proof.}
+Fix $\varepsilon>0$ and set $Q_k=\{x\ge1:\ |f(n x)|\le\varepsilon\ \forall n\ge k\}$.
+Each $x\mapsto f(n x)$ is continuous, hence $Q_k=\bigcap_{n\ge k}\{x:\ |f(n x)|\le\varepsilon\}$ is closed.
+By the assumption $[1,\infty)=\bigcup_{k\ge1} Q_k$. By Baire, some $Q_{k_0}$ contains an
+interval $[a,b]\subset[1,\infty)$. For $t\ge T:=ab/(b-a)$, choose an integer
+$n\in[t/b,\,t/a]$ (nonempty). Then $x:=t/n\in[a,b]\subset Q_{k_0}$ and with $n\ge k_0$
+we have $|f(t)|=|f(n x)|\le\varepsilon$. Thus $f(t)\to0$ as $t\to\infty$.
+
+\bigskip
+\section*{Problem 10 — Limsup of Open Dense Sets}
+
+\paragraph{Statement.}
+Let $(A_j)$ be subsets of $[0,1]$ such that for each $N\ge1$, the union $\bigcup_{j\ge N}A_j$
+is open and dense in $[0,1]$. Show that
+\[
+S=\{x\in[0,1]: x\in A_j\ \text{for infinitely many }j\}
+\]
+is dense. Must $S$ be open? Must $\bigcap_{j=1}^{\infty} A_j\neq\varnothing$?
+
+\paragraph{Solution.}
+Note $S=\limsup A_j=\bigcap_{N\ge1}\big(\bigcup_{j\ge N}A_j\big)$, an intersection of open dense sets.
+By Baire, $S$ is dense (indeed a dense $G_\delta$). In general $S$ need not be open.
+Moreover, $\bigcap_{j\ge1}A_j$ can be empty (e.g.\ $A_j=[0,1]\setminus\{q_j\}$ removing a different rational each $j$).
+
+\bigskip
+\section*{Problem 11 — Removing $\mathbb Q$}
+
+\paragraph{Statement.}
+If $G$ is open dense in $\mathbb R$, show $G\setminus\mathbb Q$ is dense. If only $G$ is uncountable and dense, must $G\setminus\mathbb Q$ be dense?
+
+\paragraph{Solution.}
+For any nonempty open interval $U$, $G\cap U$ is a nonempty open interval; removing the countable set $\mathbb Q$ leaves it nonempty. Hence $G\setminus\mathbb Q$ is dense.
+If $G$ is merely uncountable and dense, not necessarily: take $G=\mathbb Q\cup C$ with $C$ a Cantor set. Then $G$ is dense and uncountable, but $G\setminus\mathbb Q=C$ is nowhere dense.
+
+\bigskip
+\section*{Problem 12 — A Dense Set with Super–Polynomial Approximations}
+
+\paragraph{Statement.}
+Show there is a dense set of reals $x$ such that for each $n\in\mathbb N$ there exist integers $p,q$ with $q\ge2$ and
+$
+0<\big|x-\frac{p}{q}\big|<\frac{1}{q^{\,n}}.
+$
+
+\paragraph{Construction \& Proof.}
+Fix an interval $(\alpha,\beta)$. Choose $r=\frac{u}{10^M}\in(\alpha,\beta)$ and $N$ large with
+$\sum_{k\ge N}10^{-k!}<\beta-\alpha$. Define
+\[
+x=r+\sum_{k=N}^{\infty}10^{-k!}\in(\alpha,\beta).
+\]
+For any $m\in\mathbb N$, taking $q=10^{K!}$ with $K\ge\max\{N,m\}$ and $p$ the truncation numerator,
+\[
+0<\Big|x-\frac{p}{q}\Big|<10^{-(K+1)!}<\frac{1}{q^{\,m}}.
+\]
+Thus every interval contains such $x$; the set is dense.
+
+\paragraph{Liouville numbers and Problem 12.}
+\begin{definition}[Liouville number]
+	A real number $x$ is a \emph{Liouville number} if for every $n\in\mathbb N$ there exist
+	infinitely many rationals $p/q$ ($q\ge2$) such that
+	\[
+	0<\Big|x-\frac{p}{q}\Big|<\frac{1}{q^{\,n}}.
+	\]
+\end{definition}
+
+\begin{proposition}[Problem 12 $\Rightarrow$ Liouville]
+	Let
+	\[
+	x \;=\; r+\sum_{k=N}^{\infty}10^{-k!}, \qquad r=\frac{u}{10^M}\in\mathbb Q,
+	\]
+	as constructed in Problem~12. Then $x$ is a Liouville number (hence transcendental).
+\end{proposition}
+
+\begin{proof}
+	Fix $n\in\mathbb N$ and let $K\ge\max\{N,n\}$. Define the truncation
+	\[
+	\frac{p_K}{q_K} \;=\; r+\sum_{k=N}^{K}\,10^{-k!}, \qquad q_K=10^{K!}\in\mathbb N.
+	\]
+	Then
+	\[
+	0<\Big|x-\frac{p_K}{q_K}\Big|
+	=\sum_{j=K+1}^{\infty}10^{-j!}
+	<10^{-(K+1)!}
+	<\frac{1}{(10^{K!})^{\,n}}
+	=\frac{1}{q_K^{\,n}}.
+	\]
+	Since this holds for every $K\ge\max\{N,n\}$, we obtain \emph{infinitely many} such rationals
+	for each fixed $n$. Hence $x$ is a Liouville number.
+\end{proof}
+
+\begin{corollary}
+	The set $\mathcal L$ of Liouville numbers is dense in $\mathbb R$; in particular,
+	the set produced in Problem~12 is a dense subset of $\mathcal L$.
+\end{corollary}
+
+\begin{remark}[Topological/measure size of $\mathcal L$]
+	One has
+	\[
+	\mathcal L
+	= \bigcap_{n=1}^{\infty}\ \bigcup_{q\ge2}\ \bigcup_{p\in\mathbb Z}
+	\Big(\tfrac{p}{q}-q^{-n},\,\tfrac{p}{q}+q^{-n}\Big),
+	\]
+	so $\mathcal L$ is a dense $G_\delta$ (comeager) subset of $\mathbb R$, but it has Lebesgue measure $0$.
+	Moreover, by Liouville's theorem (and Roth's refinement), no irrational algebraic number lies in $\mathcal L$.
+\end{remark}
+
+
+	
+	
+\end{document}	
+

@@ -1,0 +1,942 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{caption}      % optional but recommended
+\usepackage{subcaption} 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{tikz-cd}
+\usepackage{float}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usetikzlibrary{positioning}
+
+\usetikzlibrary{decorations.markings}
+
+\usetikzlibrary{backgrounds}
+
+\usetikzlibrary{calc,arrows.meta,patterns,decorations.pathreplacing}
+\usepackage{tikz-3dplot}
+\usepackage{xcolor}
+
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\Log}{Log}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newcommand{\II}{\mathrm{I\!I}}
+
+\newcommand{\C}{\mathbb{C}}
+
+% (optional) if you also want the first fundamental form:
+\newcommand{\I}{\mathrm{I}}
+
+\newcommand{\hyp}{\mathbb{H}}
+
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\T}{\mathsf{T}} % transpose symbol
+
+
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\newcommand{\n}{6}
+
+% --- codim operator (put in the preamble) ---
+\DeclareMathOperator{\codim}{codim}
+
+
+\newcommand{\Solution}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\Theory}{\par\medskip\noindent\textbf{Theory.}\ }
+\newcommand{\Proof}{\par\medskip\noindent\textbf{Proof.}\ }
+
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+	\fancyhead[L]{\textit{Linear Algebra 1}}
+\fancyhead[R]{\textit{Exercises}}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+
+% --- HEADER ---
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}{Definition}
+
+% Option A: as an operator (recommended)
+\DeclareMathOperator{\Span}{span}
+
+% or, shorter version
+
+
+
+\newcommand{\sph}{\mathrm{sph}}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+
+\theoremstyle{definition}      % bold heading, upright body
+\newtheorem{example}[theorem]{Exercise}
+
+
+\newtheorem*{Exercise}{Exercise}
+
+% =========================================================
+% E2 + E3  (same style as E1)
+% =========================================================
+% TikZ helpers (Poincaré disk geodesic from boundary angles)
+% Requires: \usetikzlibrary{arrows.meta}
+% =========================================================
+
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Usage: \DiskGeodesic[<draw options>]{<a deg>}{<b deg>}
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+% Handles the diameter case (antipodal endpoints) where det=0.
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+% --- palette ---
+\definecolor{BBlue}{RGB}{0,92,184}
+\definecolor{GOrange}{RGB}{230,120,20}
+\definecolor{PGreen}{RGB}{0,140,90}
+\definecolor{RRed}{RGB}{200,40,60}
+\definecolor{LFill}{RGB}{240,245,255}
+
+% --- tikz styles ---
+\tikzset{
+	base/.style={thick, draw=black!65},
+	gamma/.style={very thick, draw=GOrange, -{Latex[length=2.2mm]}},
+	fiber/.style={thick, draw=BBlue},
+	section/.style={thick, draw=PGreen},
+	transport/.style={very thick, draw=RRed, -{Latex[length=2.2mm]}},
+	pt/.style={circle, fill=black, inner sep=1.3pt},
+	spt/.style={circle, fill=PGreen, inner sep=1.3pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1, inner sep=2pt, rounded corners=2pt}
+}
+
+
+\newtheorem{remark}[theorem]{Remark} 
+\tikzset{
+	>={Latex[length=2.6mm]},
+	axis/.style={black, thin, ->},
+	unitcircle/.style={black, very thin},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	removable/.style={black, thick},
+	essstar/.style={yellow!65!orange, star, star points=7, minimum size=6pt, draw=orange!80!black, fill=yellow!70!orange},
+	lattice/.style={blue!70!black, fill=blue!70!black},
+	note/.style={black!70, font=\scriptsize}
+}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+
+% --- colors and styles for the charts ---
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+% styles
+\definecolor{PoleRed}{RGB}{214,49,56}
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1  % <- force visible text
+	},
+}
+
+
+\tikzset{
+	->-/.style={
+		postaction={decorate},
+		decoration={
+			markings,
+			mark=at position 0.18 with {\arrow{Stealth[length=2.2mm]}}
+		}
+	},
+	% p10loop must NOT use "expanded"
+	p10loop/.style={thick}
+}
+
+
+
+% --- colors (define what you use) ---
+\definecolor{DiagBlue}{RGB}{0,92,184}
+\definecolor{DiagOrange}{RGB}{230,120,20}
+\definecolor{DiagGreen}{RGB}{0,140,90}
+\definecolor{DiagRed}{RGB}{200,40,60}
+\definecolor{DiagGray}{RGB}{80,80,80}
+\definecolor{DiagLight}{RGB}{240,245,255} % <-- this fixes \fill[DiagLight]...
+
+% --- tikz styles (define what you use in [ax], [base], [fib], [pt2], [lab], etc.) ---
+\tikzset{
+	ax/.style={-{Latex[length=2.2mm]}, thick, draw=DiagGray},
+	base/.style={thick, draw=DiagBlue},
+	fib/.style={thick, draw=DiagGray},
+	loop/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagOrange},
+	transport/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagRed},
+	pt/.style={circle, fill=DiagRed, inner sep=1.2pt},
+	pt2/.style={circle, fill=DiagGreen, inner sep=1.2pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1,
+		inner sep=2.2pt, rounded corners=2pt}
+}
+
+\title{Linear Algebra 1}
+\author{}
+\date{}
+
+
+
+
+\begin{document}
+	\maketitle
+
+\subsection*{Problem Set — Bases, Subspaces, and Vector-Space Isomorphisms}
+
+\subsubsection*{Problem 1 — Which modified lists are bases?}
+
+\textbf{Exact statement.}
+Suppose that the vectors $e_1,\dots,e_n$ form a basis for a real vector space $V$.
+Which of the following are also bases?
+\begin{enumerate}
+	\item[(a)] $e_1+e_2,\ e_2+e_3,\ \dots,\ e_{n-1}+e_n,\ e_n$;
+	\item[(b)] $e_1+e_2,\ e_2+e_3,\ \dots,\ e_{n-1}+e_n,\ e_n+e_1$;
+	\item[(c)] $e_1-e_n,\ e_2+e_{n-1},\ \dots,\ e_n+(-1)^n e_1$.
+\end{enumerate}
+
+\textbf{Solution.}
+Write the proposed lists as $v_1,\dots,v_n$.
+
+\medskip
+\noindent\textbf{(a)} Let $v_k=e_k+e_{k+1}$ for $1\le k\le n-1$ and $v_n=e_n$.
+Then we can recover the original basis:
+\[
+e_n=v_n,\qquad
+e_{n-1}=v_{n-1}-e_n,\qquad
+e_{n-2}=v_{n-2}-e_{n-1},\ \dots,\ 
+e_1=v_1-e_2.
+\]
+Hence $v_1,\dots,v_n$ span $V$ and are linearly independent; they form a basis.
+
+\medskip
+\noindent\textbf{(b)} Let $v_k=e_k+e_{k+1}$ for $1\le k\le n-1$ and $v_n=e_n+e_1$.
+Consider the alternating sum
+\[
+S:=v_1-v_2+v_3-\cdots+(-1)^{n-1}v_n.
+\]
+A direct cancellation shows:
+\[
+S=
+\begin{cases}
+	0, & n\ \text{even},\\[4pt]
+	2e_1, & n\ \text{odd}.
+\end{cases}
+\]
+If $n$ is even, this gives a nontrivial linear dependence, so the list is not a basis.
+If $n$ is odd, then $e_1=\tfrac12 S$ lies in $\mathrm{span}(v_1,\dots,v_n)$, and then
+\[
+e_2=v_1-e_1,\quad e_3=v_2-e_2,\quad \dots,\quad e_n=v_{n-1}-e_{n-1},
+\]
+so all $e_i$ lie in the span; hence $v_1,\dots,v_n$ span $V$. Since there are $n$ vectors spanning an
+$n$-dimensional space, they form a basis. Therefore (b) is a basis iff $n$ is odd.
+
+\medskip
+\noindent\textbf{(c)} Interpret the pattern as
+\[
+v_k:=e_k+(-1)^k e_{n+1-k}\qquad (1\le k\le n).
+\]
+Pair indices $k$ and $m:=n+1-k$. Then
+\[
+v_k=e_k+(-1)^k e_m,\qquad
+v_m=e_m+(-1)^m e_k.
+\]
+If $n$ is odd, then $(-1)^m=(-1)^{n+1-k}=(-1)^{n+1}(-1)^k=(+1)(-1)^k=(-1)^k$, so
+\[
+v_k-(-1)^k v_m = 0
+\]
+for each pair, giving a nontrivial dependence; hence not a basis.
+
+If $n$ is even, then $(-1)^m=(-1)^{n+1-k}=(-1)^{n+1}(-1)^k=-( -1)^k$, so
+\[
+v_k=e_k+s e_m,\qquad v_m=e_m-s e_k,\qquad (s:=(-1)^k).
+\]
+Solving yields
+\[
+e_k=\frac{v_k-sv_m}{2},\qquad e_m=\frac{sv_k+v_m}{2}.
+\]
+Thus every $e_i$ lies in $\mathrm{span}(v_1,\dots,v_n)$, so the $v_i$ span $V$ and hence form a basis.
+Therefore (c) is a basis iff $n$ is even.
+
+\bigskip
+
+\subsubsection*{Problem 2 — Unions and distributive-looking identities}
+
+\textbf{Exact statement.}
+Let $T,U,W$ be subspaces of $V$.
+\begin{enumerate}
+	\item[(i)] Show that $T\cup U$ is a subspace of $V$ only if either $T\subseteq U$ or $U\subseteq T$.
+	\item[(ii)] Give explicit counterexamples to:
+	\begin{enumerate}
+		\item[(a)] $T+(U\cap W)=(T+U)\cap(T+W)$;
+		\item[(b)] $(T+U)\cap W=(T\cap W)+(U\cap W)$.
+	\end{enumerate}
+	\item[(iii)] Show that each equality in (ii) can be replaced by a valid inclusion of one side in the other.
+\end{enumerate}
+
+\textbf{Solution.}
+\textbf{(i)} If $T\subseteq U$ or $U\subseteq T$, then $T\cup U$ equals the larger subspace, hence is a subspace.
+Conversely, assume $T\cup U$ is a subspace and neither contains the other.
+Choose $t\in T\setminus U$ and $u\in U\setminus T$. Since $T\cup U$ is a subspace, it is closed under addition,
+so $t+u\in T\cup U$. If $t+u\in T$, then $u=(t+u)-t\in T$, contradiction. If $t+u\in U$, then
+$t=(t+u)-u\in U$, contradiction. Hence one must contain the other.
+
+\medskip
+\textbf{(ii)(a)} In $V=\mathbb R^2$, let
+\[
+T=\mathrm{span}(e_1),\qquad U=\mathrm{span}(e_2),\qquad W=\mathrm{span}(e_1+e_2).
+\]
+Then $U\cap W=\{0\}$, so $T+(U\cap W)=T$. But $T+U=\mathbb R^2$ and $T+W=\mathbb R^2$, hence
+\[
+(T+U)\cap(T+W)=\mathbb R^2\neq T.
+\]
+
+\medskip
+\textbf{(ii)(b)} In $V=\mathbb R^2$, let
+\[
+T=\mathrm{span}(e_1+e_2),\qquad U=\mathrm{span}(e_1-e_2),\qquad W=\mathrm{span}(e_1).
+\]
+Then $T+U=\mathbb R^2$, so $(T+U)\cap W=W$. But $T\cap W=\{0\}$ and $U\cap W=\{0\}$, so
+\[
+(T\cap W)+(U\cap W)=\{0\}\neq W.
+\]
+
+\medskip
+\textbf{(iii)} For (a), if $x\in T+(U\cap W)$ then $x=t+z$ with $t\in T$ and $z\in U\cap W$.
+Thus $x\in T+U$ and $x\in T+W$, so
+\[
+T+(U\cap W)\subseteq (T+U)\cap(T+W).
+\]
+For (b), if $x\in (T\cap W)+(U\cap W)$ then $x=t+u$ with $t\in T\cap W$ and $u\in U\cap W$.
+Then $t,u\in W$ so $x\in W$, and also $t\in T$, $u\in U$ so $x\in T+U$. Hence
+\[
+(T\cap W)+(U\cap W)\subseteq (T+U)\cap W.
+\]
+
+\bigskip
+
+\subsubsection*{Problem 3 — Decide if $V\cong W$ and exhibit an isomorphism if so}
+
+\textbf{Exact statement.}
+For each pair $(V,W)$ of vector spaces over $\mathbb R$, either give an isomorphism $V\to W$
+or show that no such isomorphism can exist. Here $P(\mathbb R)$ denotes polynomial functions $\mathbb R\to\mathbb R$
+and $C[a,b]$ denotes continuous real-valued functions on $[a,b]$.
+\begin{enumerate}
+	\item[(a)] $V=\mathbb R^4$, $W=\{x\in\mathbb R^5:\ x_1+x_2+x_3+x_4+x_5=0\}$.
+	\item[(b)] $V=\mathbb R^5$, $W=\{p\in P:\ \deg p\le 5\}$.
+	\item[(c)] $V=C[0,1]$, $W=C[-1,1]$.
+	\item[(d)] $V=C[0,1]$, $W=\{f\in C[0,1]: f(0)=0,\ f\text{ continuously differentiable}\}$.
+	\item[(e)] $V=\mathbb R^2$, $W=\{\text{real solutions of } \ddot x(t)+x(t)=0\}$.
+	\item[(f)] $V=\mathbb R^4$, $W=C[0,1]$.
+	\item[(g)] (Harder) $V=P(\mathbb R)$, $W=\mathbb R^{\mathbb N}$.
+\end{enumerate}
+
+\textbf{Solution.}
+
+\medskip
+\noindent\textbf{(a)} Define
+\[
+\phi:\mathbb R^4\to W,\qquad \phi(a,b,c,d)=(a,b,c,d,-(a+b+c+d)).
+\]
+Then $\phi$ is linear, injective, and surjective (projection onto the first four coordinates is an inverse).
+Hence $V\cong W$.
+
+\medskip
+\noindent\textbf{(b)} $W$ has basis $\{1,x,x^2,x^3,x^4,x^5\}$, so $\dim W=6$, while $\dim\mathbb R^5=5$.
+Thus no isomorphism exists.
+
+\medskip
+\noindent\textbf{(c)} Let $\alpha:[-1,1]\to[0,1]$ be $\alpha(t)=\frac{t+1}{2}$.
+Define
+\[
+F:C[0,1]\to C[-1,1],\qquad (Ff)(t)=f(\alpha(t)).
+\]
+Then $F$ is linear and bijective with inverse
+\[
+(F^{-1}g)(x)=g(2x-1).
+\]
+Hence $C[0,1]\cong C[-1,1]$.
+
+\medskip
+\noindent\textbf{(d)} Define
+\[
+T:C[0,1]\to W,\qquad (Tf)(x)=\int_0^x f(t)\,dt.
+\]
+Then $Tf\in C^1[0,1]$, $(Tf)(0)=0$, and $(Tf)'=f$. Thus $T$ is linear.
+If $Tf=0$, then differentiating gives $f=0$, so $T$ is injective. If $g\in W$, then $g'=h\in C[0,1]$ and
+\[
+g(x)=g(0)+\int_0^x g'(t)\,dt=\int_0^x h(t)\,dt = Th(x),
+\]
+so $T$ is surjective. Hence $V\cong W$ with inverse $g\mapsto g'$.
+
+\medskip
+\noindent\textbf{(e)} The solution set of $\ddot x + x=0$ is
+\[
+W=\{\,x(t)=a\cos t + b\sin t:\ a,b\in\mathbb R\,\}.
+\]
+Define
+\[
+\psi:\mathbb R^2\to W,\qquad \psi(a,b)(t)=a\cos t+b\sin t.
+\]
+This map is linear and bijective, so $V\cong W$.
+
+\medskip
+\noindent\textbf{(f)} $\mathbb R^4$ is finite-dimensional.
+But $C[0,1]$ is infinite-dimensional since $\{1,x,x^2,\dots\}$ is linearly independent in $C[0,1]$.
+Therefore no isomorphism exists.
+
+\medskip
+\noindent\textbf{(g)} $P(\mathbb R)$ has countable basis $\{1,x,x^2,\dots\}$, hence $\dim P(\mathbb R)=\aleph_0$.
+In $\mathbb R^{\mathbb N}$, for each $r\in\mathbb R$ define
+\[
+v_r:=(1,r,r^2,r^3,\dots).
+\]
+If $r_1,\dots,r_k$ are distinct and $\sum_{i=1}^k a_i v_{r_i}=0$, then looking at coordinates $n=0,1,\dots,k-1$ gives
+\[
+\sum_{i=1}^k a_i r_i^n=0\qquad (n=0,1,\dots,k-1),
+\]
+a Vandermonde system with nonzero determinant, forcing $a_i=0$ for all $i$.
+Thus $\{v_r:r\in\mathbb R\}$ is linearly independent, so $\dim(\mathbb R^{\mathbb N})\ge |\mathbb R|$.
+Since $|\mathbb R^{\mathbb N}|=|\mathbb R|$, we get $\dim(\mathbb R^{\mathbb N})=|\mathbb R|$ (uncountable).
+Hence $P(\mathbb R)\not\cong \mathbb R^{\mathbb N}$.
+
+\subsection*{Theory — Bases, Subspaces, and Isomorphisms (for Problems 1--3)}
+
+\subsubsection*{A. Bases and change-of-basis matrices}
+
+Let $(e_1,\dots,e_n)$ be a basis of a real vector space $V$.
+Given vectors $(v_1,\dots,v_n)$ in $V$, write each $v_j$ uniquely as
+\[
+v_j=\sum_{i=1}^n a_{ij} e_i.
+\]
+The coefficient matrix $A=(a_{ij})$ is the change-of-coordinates matrix from the $e$-basis to the $v$-list.
+
+\medskip
+\noindent\textbf{Basis criterion.}
+The following are equivalent:
+\[
+(v_1,\dots,v_n)\ \text{is a basis}
+\quad\Longleftrightarrow\quad
+\text{columns of }A\text{ are linearly independent}
+\quad\Longleftrightarrow\quad
+A\text{ is invertible}
+\quad\Longleftrightarrow\quad
+\det(A)\neq 0.
+\]
+
+\medskip
+\noindent\textbf{Triangular case.}
+If $A$ is triangular (upper or lower), then
+\[
+\det(A)=\prod_{i=1}^n a_{ii}.
+\]
+Hence a triangular $A$ with all diagonal entries nonzero is automatically invertible. In practice this corresponds
+to solving for the original basis vectors by back-substitution.
+
+\bigskip
+
+\subsubsection*{B. Subspaces: unions, sums, intersections, and inclusions}
+
+\noindent\textbf{Subspace test.}
+A nonempty subset $S\subseteq V$ is a subspace iff it is closed under addition and scalar multiplication.
+
+\medskip
+\noindent\textbf{Union of subspaces.}
+If $T$ and $U$ are subspaces, then $T\cup U$ is a subspace only in the nested case:
+\[
+T\cup U\ \text{is a subspace}\quad\Longleftrightarrow\quad T\subseteq U\ \text{or}\ U\subseteq T.
+\]
+Indeed, if $t\in T\setminus U$ and $u\in U\setminus T$, then $t+u$ cannot lie in $T$ or $U$ (otherwise subtraction
+would force containment), contradicting closure under addition.
+
+\medskip
+\noindent\textbf{Sum and intersection.}
+For subspaces $T,U\le V$,
+\[
+T+U:=\{t+u:\ t\in T,\ u\in U\}
+\]
+is the smallest subspace containing $T$ and $U$, and $T\cap U$ is always a subspace.
+
+\medskip
+\noindent\textbf{Always-true inclusions.}
+For any subspaces $T,U,W\le V$,
+\[
+T+(U\cap W)\subseteq (T+U)\cap(T+W).
+\]
+(If $x=t+z$ with $z\in U\cap W$, then $x\in T+U$ and $x\in T+W$.)
+Also,
+\[
+(T\cap W)+(U\cap W)\subseteq (T+U)\cap W.
+\]
+(Each summand lies in $W$ and in $T+U$.)
+
+\medskip
+\noindent\textbf{Modular law (useful sufficient condition for equality).}
+If $T\subseteq W$, then
+\[
+T+(U\cap W)=(T+U)\cap W.
+\]
+Thus ``distributive-like'' equalities may fail without extra containment hypotheses, but inclusions remain valid.
+
+\medskip
+\noindent\textbf{Grassmann formula (finite-dimensional $V$).}
+If $V$ is finite-dimensional and $T,U\le V$, then
+\[
+\dim(T+U)=\dim T+\dim U-\dim(T\cap U).
+\]
+
+\bigskip
+
+\subsubsection*{C. Vector-space isomorphisms}
+
+\noindent\textbf{Definition.}
+A linear map $L:V\to W$ is an isomorphism if it is bijective (equivalently, has a linear inverse).
+
+\medskip
+\noindent\textbf{Finite-dimensional classification.}
+If $V$ and $W$ are finite-dimensional over $\mathbb R$, then
+\[
+V\cong W \quad\Longleftrightarrow\quad \dim V=\dim W.
+\]
+Given bases $(v_i)$ of $V$ and $(w_i)$ of $W$, the map $L(v_i)=w_i$ extends uniquely to an isomorphism.
+
+\medskip
+\noindent\textbf{Standard dimension facts.}
+A single nontrivial linear equation in $\mathbb R^n$ defines a hyperplane of dimension $n-1$.
+Polynomials of degree $\le m$ have basis $\{1,x,\dots,x^m\}$ and hence dimension $m+1$.
+
+\medskip
+\noindent\textbf{Function spaces via reparametrization.}
+If $\alpha:[c,d]\to[a,b]$ is a homeomorphism, then
+\[
+C[a,b]\cong C[c,d],\qquad f\mapsto f\circ \alpha.
+\]
+In suitable settings, integration/differentiation can yield isomorphisms, e.g.
+\[
+C[0,1]\to \{g\in C^1[0,1]:g(0)=0\},\qquad f\mapsto\Big(x\mapsto\int_0^x f(t)\,dt\Big).
+\]
+
+\medskip
+\noindent\textbf{Linear ODE solution spaces.}
+For a linear homogeneous ODE of order $k$, the space of real solutions is a $k$-dimensional real vector space.
+For $\ddot x + x=0$, a basis is $\{\cos t,\sin t\}$.
+
+\medskip
+\noindent\textbf{Infinite-dimensional obstructions.}
+A finite-dimensional vector space is never isomorphic to an infinite-dimensional one.
+Moreover, $P(\mathbb R)$ has a countable basis $\{1,x,x^2,\dots\}$, while $\mathbb R^{\mathbb N}$ has uncountable
+Hamel dimension (one can exhibit a continuum-sized linearly independent set via a Vandermonde argument).
+Therefore $P(\mathbb R)\not\cong \mathbb R^{\mathbb N}$.
+
+
+\subsubsection*{Problem 4 — Sum of linear maps; images/kernels; idempotents}
+
+\textbf{Exact statement.}
+\begin{enumerate}
+	\item[(i)] If $\alpha$ and $\beta$ are linear maps from $U$ to $V$ show that $\alpha+\beta$ is linear.
+	Give explicit counter-examples to:
+	\[
+	\text{(a) }\operatorname{im}(\alpha+\beta)=\operatorname{im}(\alpha)+\operatorname{im}(\beta),\qquad
+	\text{(b) }\ker(\alpha+\beta)=\ker(\alpha)\cap\ker(\beta).
+	\]
+	Show that in general each equality can be replaced by a valid inclusion of one side in the other.
+	\item[(ii)] Let $\alpha:V\to V$ be linear. Show that if $\alpha^2=\alpha$ then
+	$V=\ker(\alpha)\oplus \operatorname{im}(\alpha)$.
+	Does your proof still work if $V$ is infinite dimensional? Is the result still true?
+\end{enumerate}
+
+\textbf{Solution.}
+\textbf{(i)} For $u,u'\in U$ and $\lambda\in\mathbb R$,
+\[
+(\alpha+\beta)(u+u')=\alpha(u+u')+\beta(u+u')
+=(\alpha u+\alpha u')+(\beta u+\beta u')
+=(\alpha+\beta)u+(\alpha+\beta)u',
+\]
+\[
+(\alpha+\beta)(\lambda u)=\alpha(\lambda u)+\beta(\lambda u)=\lambda\alpha(u)+\lambda\beta(u)
+=\lambda(\alpha+\beta)(u),
+\]
+so $\alpha+\beta$ is linear.
+
+Counterexample to (a): take $U=V=\mathbb R$, $\alpha=\mathrm{id}$, $\beta=-\mathrm{id}$.
+Then $\alpha+\beta=0$, hence $\operatorname{im}(\alpha+\beta)=\{0\}$ but
+$\operatorname{im}(\alpha)+\operatorname{im}(\beta)=\mathbb R$.
+In general,
+\[
+\operatorname{im}(\alpha+\beta)\subseteq \operatorname{im}(\alpha)+\operatorname{im}(\beta),
+\]
+since $(\alpha+\beta)(u)=\alpha(u)+\beta(u)$.
+
+Counterexample to (b): with the same $\alpha,\beta$, we have $\ker(\alpha+\beta)=\mathbb R$ but
+$\ker(\alpha)\cap\ker(\beta)=\{0\}$.
+In general,
+\[
+\ker(\alpha)\cap\ker(\beta)\subseteq \ker(\alpha+\beta),
+\]
+since $\alpha(u)=\beta(u)=0\Rightarrow (\alpha+\beta)(u)=0$.
+
+\medskip
+\textbf{(ii)} Assume $\alpha^2=\alpha$.
+For any $x\in V$,
+\[
+x=(x-\alpha x)+\alpha x.
+\]
+Moreover,
+\[
+\alpha(x-\alpha x)=\alpha x-\alpha^2 x=\alpha x-\alpha x=0,
+\]
+so $x-\alpha x\in\ker(\alpha)$ and $\alpha x\in\operatorname{im}(\alpha)$, hence
+$V=\ker(\alpha)+\operatorname{im}(\alpha)$.
+
+If $y\in\ker(\alpha)\cap\operatorname{im}(\alpha)$, then $y=\alpha(x)$ for some $x$ and
+$0=\alpha(y)=\alpha(\alpha x)=\alpha^2 x=\alpha x=y$, so $y=0$. Thus the sum is direct:
+\[
+V=\ker(\alpha)\oplus\operatorname{im}(\alpha).
+\]
+No finite-dimensional hypothesis was used, so the proof works for infinite-dimensional $V$ and the result remains true.
+
+\bigskip
+
+\subsubsection*{Problem 5 — Bases for $U$, $W$, $U\cap W$, and a description of $U+W$ in $\mathbb R^5$}
+
+\textbf{Exact statement.}
+Let
+\[
+U=\{x\in\mathbb R^5:\ x_1+x_3+x_4=0,\ \ 2x_1+2x_2+x_5=0\},\qquad
+W=\{x\in\mathbb R^5:\ x_1+x_5=0,\ \ x_2=x_3=x_4\}.
+\]
+Find bases for $U$ and $W$ containing a basis for $U\cap W$ as a subset.
+Give a basis for $U+W$ and show that
+\[
+U+W=\{x\in\mathbb R^5:\ x_1+2x_2+x_5=x_3+x_4\}.
+\]
+
+\textbf{Solution.}
+For $U$, solve
+\[
+x_1=-x_3-x_4,\qquad x_5=-2x_1-2x_2=2x_3+2x_4-2x_2.
+\]
+With free variables $x_2,x_3,x_4$,
+\[
+x=x_2(0,1,0,0,-2)+x_3(-1,0,1,0,2)+x_4(-1,0,0,1,2).
+\]
+Thus a basis of $U$ is
+\[
+u_1=(0,1,0,0,-2),\quad u_2=(-1,0,1,0,2),\quad u_3=(-1,0,0,1,2).
+\]
+
+For $W$, write $x_2=x_3=x_4=t$ and $x_1=s$, so $x_5=-s$. Then
+\[
+x=(s,t,t,t,-s)=s(1,0,0,0,-1)+t(0,1,1,1,0),
+\]
+hence a basis of $W$ is
+\[
+w_1=(1,0,0,0,-1),\quad w_2=(0,1,1,1,0).
+\]
+
+For $U\cap W$, take $x=(s,t,t,t,-s)\in W$ and impose $x_1+x_3+x_4=0$:
+\[
+s+2t=0\Rightarrow s=-2t.
+\]
+Therefore
+\[
+U\cap W=\mathrm{span}\{v\},\qquad v=(-2,1,1,1,2).
+\]
+Note that $v=u_1+u_2+u_3$ and $v=-2w_1+w_2$, so bases containing $v$ are
+\[
+\mathcal B_U=\{v,u_2,u_3\}\ \text{ for }U,\qquad \mathcal B_W=\{v,w_1\}\ \text{ for }W.
+\]
+Since $\dim(U+W)=3+2-1=4$, a basis for $U+W$ is
+\[
+\mathcal B_{U+W}=\{v,u_2,u_3,w_1\}.
+\]
+
+Let $S:=\{x\in\mathbb R^5:\ x_1+2x_2+x_5=x_3+x_4\}$.
+If $x\in U+W$ and $x=a v+b u_2+c u_3+d w_1$, then a coordinate check gives
+$x_1+2x_2+x_5=x_3+x_4$, hence $U+W\subseteq S$.
+
+Conversely, given $x\in S$, set
+\[
+a=x_2,\qquad b=x_3-x_2,\qquad c=x_4-x_2,\qquad d=x_1+x_3+x_4.
+\]
+Then one verifies $x=a v+b u_2+c u_3+d w_1$, hence $x\in U+W$, so $S\subseteq U+W$.
+Therefore $U+W=S$.
+
+\bigskip
+
+\subsubsection*{Problem 6 — Descending images, ascending kernels, and rank constraints}
+
+\textbf{Exact statement.}
+\begin{enumerate}
+	\item[(i)] Let $\alpha:V\to V$ be an endomorphism of a finite dimensional vector space $V$.
+	Show that
+	\[
+	V\supseteq \operatorname{im}(\alpha)\supseteq \operatorname{im}(\alpha^2)\supseteq \cdots,\qquad
+	\{0\}\subseteq \ker(\alpha)\subseteq \ker(\alpha^2)\subseteq \cdots.
+	\]
+	If $r_k=\mathrm{rk}(\alpha^k)$, deduce that $r_k\ge r_{k+1}$ and
+	$r_k-r_{k+1}\ge r_{k+1}-r_{k+2}$.
+	Conclude that if for some $k\ge 0$ we have $r_k=r_{k+1}$, then $r_k=r_{k+\ell}$ for all $\ell\ge 0$.
+	\item[(ii)] Suppose $\dim(V)=5$, $\alpha^3=0$, but $\alpha^2\ne 0$.
+	What possibilities are there for $\mathrm{rk}(\alpha)$ and $\mathrm{rk}(\alpha^2)$?
+\end{enumerate}
+
+\textbf{Solution.}
+\textbf{(i)} Since
+\[
+\operatorname{im}(\alpha^{k+1})=\alpha(\operatorname{im}(\alpha^k))\subseteq \operatorname{im}(\alpha^k),
+\]
+the images form a descending chain. Also $\alpha^k(v)=0\Rightarrow \alpha^{k+1}(v)=\alpha(0)=0$, hence
+$\ker(\alpha^k)\subseteq \ker(\alpha^{k+1})$.
+
+Let $r_k=\dim\operatorname{im}(\alpha^k)$. The inclusion
+$\operatorname{im}(\alpha^{k+1})\subseteq \operatorname{im}(\alpha^k)$ implies $r_k\ge r_{k+1}$.
+
+Consider the restriction $\alpha:\operatorname{im}(\alpha^k)\to \operatorname{im}(\alpha^{k+1})$, which is surjective.
+Rank--nullity for this restricted map gives
+\[
+\dim(\ker(\alpha)\cap \operatorname{im}(\alpha^k))
+=\dim\operatorname{im}(\alpha^k)-\dim\operatorname{im}(\alpha^{k+1})
+=r_k-r_{k+1}.
+\]
+Similarly,
+\[
+r_{k+1}-r_{k+2}=\dim(\ker(\alpha)\cap \operatorname{im}(\alpha^{k+1})).
+\]
+Since $\operatorname{im}(\alpha^{k+1})\subseteq \operatorname{im}(\alpha^k)$, we have
+\[
+\ker(\alpha)\cap \operatorname{im}(\alpha^{k+1})\subseteq \ker(\alpha)\cap \operatorname{im}(\alpha^k),
+\]
+so $r_{k+1}-r_{k+2}\le r_k-r_{k+1}$, i.e.
+\[
+r_k-r_{k+1}\ge r_{k+1}-r_{k+2}.
+\]
+
+If $r_k=r_{k+1}$, then $r_k-r_{k+1}=0$, hence $0\ge r_{k+1}-r_{k+2}$.
+But also $r_{k+1}\ge r_{k+2}$, so $r_{k+1}=r_{k+2}$. Inductively, $r_k=r_{k+\ell}$ for all $\ell\ge 0$.
+
+\medskip
+\textbf{(ii)} Here $r_3=0$ and $r_2\ge 1$.
+Also $\operatorname{im}(\alpha^2)\subseteq \ker(\alpha)$ because $\alpha(\alpha^2(v))=\alpha^3(v)=0$.
+Thus
+\[
+r_2\le \dim\ker(\alpha)=5-r_1 \quad\Rightarrow\quad r_1+r_2\le 5.
+\]
+From (i), the successive drops satisfy
+\[
+(5-r_1)\ge (r_1-r_2)\ge (r_2-0)=r_2,
+\]
+so $r_1\ge 2r_2$ and $r_2\ge 1$.
+The only integer solutions are
+\[
+(\mathrm{rk}(\alpha),\mathrm{rk}(\alpha^2))=(2,1)\quad\text{or}\quad(3,1).
+\]
+Both occur (Jordan types $3+1+1$ and $3+2$ respectively).
+
+
+\subsection*{Theory — Linear maps, projections, and powers (Problems 4--6)}
+
+\subsubsection*{4. Sums of linear maps; images and kernels}
+
+Let $U,V$ be vector spaces over $\mathbb R$. The set
+\[
+\mathrm{Hom}(U,V)=\{\text{linear maps }U\to V\}
+\]
+is a vector space with operations defined pointwise:
+\[
+(\alpha+\beta)(u)=\alpha(u)+\beta(u),\qquad (c\alpha)(u)=c\,\alpha(u).
+\]
+Hence if $\alpha,\beta$ are linear then $\alpha+\beta$ is linear.
+
+\medskip
+\noindent\textbf{Always-true inclusions.}
+For linear maps $\alpha,\beta:U\to V$,
+\[
+\operatorname{im}(\alpha+\beta)\subseteq \operatorname{im}(\alpha)+\operatorname{im}(\beta),
+\]
+since $(\alpha+\beta)(u)=\alpha(u)+\beta(u)$ is a sum of an element of $\operatorname{im}(\alpha)$ and an element of
+$\operatorname{im}(\beta)$. Also
+\[
+\ker(\alpha)\cap\ker(\beta)\subseteq \ker(\alpha+\beta),
+\]
+since $\alpha(u)=\beta(u)=0\Rightarrow (\alpha+\beta)(u)=0$.
+Equalities may fail because of cancellation (e.g.\ $\beta=-\alpha$).
+
+\bigskip
+
+\subsubsection*{4(ii). Idempotents and projections}
+
+A linear map $\alpha:V\to V$ is \emph{idempotent} if $\alpha^2=\alpha$.
+Then $\alpha$ is a projection onto its image along its kernel:
+
+\medskip
+\noindent\textbf{Decomposition.}
+For any $x\in V$,
+\[
+x=(x-\alpha x)+\alpha x,
+\]
+and
+\[
+\alpha(x-\alpha x)=\alpha x-\alpha^2x=\alpha x-\alpha x=0,
+\]
+so $x-\alpha x\in\ker(\alpha)$, while $\alpha x\in\operatorname{im}(\alpha)$.
+Thus $V=\ker(\alpha)+\operatorname{im}(\alpha)$.
+
+\medskip
+\noindent\textbf{Directness.}
+If $y\in\ker(\alpha)\cap\operatorname{im}(\alpha)$, then $y=\alpha(x)$ for some $x$ and
+\[
+0=\alpha(y)=\alpha(\alpha x)=\alpha^2x=\alpha x=y,
+\]
+so $y=0$ and
+\[
+V=\ker(\alpha)\oplus\operatorname{im}(\alpha).
+\]
+No dimension hypothesis is used, so the proof works and the statement remains true even if $V$ is infinite-dimensional.
+
+\bigskip
+
+\subsubsection*{5. Subspaces defined by linear equations}
+
+A subset of $\mathbb R^n$ given by homogeneous linear equations,
+\[
+U=\{x\in\mathbb R^n:Ax=0\},
+\]
+is a subspace (it is nonempty and closed under addition and scalar multiplication).
+
+\medskip
+\noindent\textbf{Bases via parametrization.}
+To find a basis of such a subspace, solve the system, choose free parameters, and express the general solution as
+a linear combination of parameter-vectors. These parameter-vectors span the solution space and are linearly independent
+when they correspond to independent parameters.
+
+\medskip
+\noindent\textbf{Intersections and sums.}
+Intersections $U\cap W$ are found by solving both systems simultaneously. Sums $U+W$ are subspaces, and in finite
+dimensions one has the Grassmann formula:
+\[
+\dim(U+W)=\dim U+\dim W-\dim(U\cap W).
+\]
+A practical way to build a basis for $U+W$ is: start with a basis of $U\cap W$, extend to bases of $U$ and $W$, then
+combine and discard redundant vectors.
+
+\bigskip
+
+\subsubsection*{6. Powers of an endomorphism; rank stabilization; nilpotent patterns}
+
+Let $\alpha:V\to V$ be linear. Then for all $k\ge 0$,
+\[
+\operatorname{im}(\alpha^{k+1})=\alpha(\operatorname{im}(\alpha^k))\subseteq \operatorname{im}(\alpha^k),
+\qquad
+\ker(\alpha^k)\subseteq \ker(\alpha^{k+1}),
+\]
+so images form a descending chain and kernels form an ascending chain.
+
+\medskip
+\noindent\textbf{Ranks and drops.}
+Let $r_k=\mathrm{rk}(\alpha^k)=\dim\operatorname{im}(\alpha^k)$. Then $r_k\ge r_{k+1}$.
+Moreover, the restriction
+\[
+\alpha:\operatorname{im}(\alpha^k)\to \operatorname{im}(\alpha^{k+1})
+\]
+is surjective, so rank--nullity yields
+\[
+r_k-r_{k+1}=\dim\big(\ker(\alpha)\cap \operatorname{im}(\alpha^k)\big).
+\]
+Since $\operatorname{im}(\alpha^{k+1})\subseteq \operatorname{im}(\alpha^k)$, we have
+\[
+\ker(\alpha)\cap \operatorname{im}(\alpha^{k+1})
+\subseteq
+\ker(\alpha)\cap \operatorname{im}(\alpha^k),
+\]
+hence
+\[
+r_k-r_{k+1}\ge r_{k+1}-r_{k+2}.
+\]
+In particular, if $r_k=r_{k+1}$ for some $k$, then all subsequent ranks stabilize:
+$r_k=r_{k+\ell}$ for every $\ell\ge 0$.
+
+\medskip
+\noindent\textbf{Nilpotent operators.}
+If $\alpha$ is nilpotent, it has a Jordan decomposition with block sizes $\lambda_1,\dots,\lambda_t$.
+Then
+\[
+\mathrm{rk}(\alpha)=\sum_{i=1}^t(\lambda_i-1),\qquad
+\mathrm{rk}(\alpha^2)=\sum_{i=1}^t\max(\lambda_i-2,0).
+\]
+Thus rank constraints for $\alpha,\alpha^2$ can be read off from possible partitions of $\dim V$ into allowed block sizes.
+
+
+	\end{document}
+

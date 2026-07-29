@@ -1,0 +1,5686 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+\usepackage{array}
+
+\usepackage{float}
+
+\usepackage{centernot}
+
+\DeclareMathOperator{\rank}{rank}
+
+\DeclareMathOperator{\Deck}{Deck}
+
+\usepackage{tikz-cd}
+
+\usepackage{tocloft}
+\setlength{\cftsubsecnumwidth}{3.2em}
+
+\newtheorem{prop}{Proposition}[section]
+
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\RP}{\mathbb{R}\mathrm{P}}
+
+\newcommand{\Z}{\mathbb{Z}}
+
+\newcommand{\Chi}{\chi}
+\newcommand{\del}{\partial}
+
+\newtheorem{definition}{Definition}[section]
+
+\newtheorem{example}[definition]{Example}
+
+\usetikzlibrary{arrows.meta,positioning,calc,shapes.geometric}
+
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Algebraic Topology 12},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\fancyhf{}
+\lhead{Theory of Algebraic Topology 12}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+
+\DeclareMathOperator{\depth}{depth}
+\DeclareMathOperator{\Tor}{Tor}
+\DeclareMathOperator{\Ext}{Ext}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+
+\newcommand{\longdash}{\mathrel{\text{---}}}
+
+\title{\vspace{-1.5em}\bfseries Theory of Algebraic Topology 12}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{plain}
+		\begin{center}
+		\begin{minipage}{0.92\textwidth}
+			Lecture notes with worked examples in algebraic topology
+		\end{minipage}
+	\end{center}
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+
+\section{Problem 11. Mod-\(p\) homology test and chain homotopy equivalences}
+
+\textbf{Statement.}
+Let \(C_*\) be a free finitely generated chain complex defined over \(\mathbb Z\). Show that
+\[
+H_*(C)=0
+\]
+if and only if
+\[
+H_*(C\otimes \mathbb Z/p)=0
+\]
+for every prime \(p\).
+
+Now suppose
+\[
+f:C_* \longrightarrow C'_*
+\]
+is a chain map. Using Problem 5 from Example Sheet 1, show that \(f\) is a chain homotopy equivalence if and only if the induced map
+\[
+f_*:H_*(C\otimes \mathbb Z/p)\longrightarrow H_*(C'\otimes \mathbb Z/p)
+\]
+is an isomorphism for every prime \(p\).
+
+\textbf{Solution.}
+
+Write
+\[
+\mathbb F_p=\mathbb Z/p.
+\]
+Since \(C_*\) is a chain complex of free abelian groups, we may apply the universal coefficient theorem for homology. For every \(n\), there is a short exact sequence
+\[
+0
+\longrightarrow
+H_n(C)\otimes \mathbb F_p
+\longrightarrow
+H_n(C\otimes \mathbb F_p)
+\longrightarrow
+\operatorname{Tor}_1^{\mathbb Z}(H_{n-1}(C),\mathbb F_p)
+\longrightarrow
+0.
+\]
+
+First suppose that
+\[
+H_*(C)=0.
+\]
+Then \(H_n(C)=0\) for every \(n\), and so both outer terms in the universal coefficient sequence vanish. Therefore
+\[
+H_n(C\otimes \mathbb F_p)=0
+\]
+for every \(n\) and every prime \(p\).
+
+Conversely, suppose that
+\[
+H_*(C\otimes \mathbb F_p)=0
+\]
+for every prime \(p\). Then the universal coefficient sequence implies in particular that
+\[
+H_n(C)\otimes \mathbb F_p=0
+\]
+for every \(n\) and every prime \(p\).
+
+Because \(C_*\) is a free finitely generated chain complex over \(\mathbb Z\), each homology group \(H_n(C)\) is a finitely generated abelian group. By the structure theorem for finitely generated abelian groups,
+\[
+H_n(C)\cong \mathbb Z^r\oplus
+\bigoplus_{j=1}^m \mathbb Z/q_j^{a_j}.
+\]
+If \(r>0\), then
+\[
+H_n(C)\otimes \mathbb F_p
+\]
+contains a copy of \(\mathbb F_p\) for every prime \(p\), which is impossible. Hence \(r=0\).
+
+If a torsion summand \(\mathbb Z/q^a\) occurs, then taking \(p=q\) gives
+\[
+\mathbb Z/q^a\otimes \mathbb F_q \cong \mathbb F_q\neq 0,
+\]
+again impossible. Therefore there is no torsion either. Hence
+\[
+H_n(C)=0
+\]
+for every \(n\). Thus
+\[
+H_*(C)=0.
+\]
+
+Now let
+\[
+f:C_*\longrightarrow C'_*
+\]
+be a chain map. We use the mapping cone
+\[
+\operatorname{Cone}(f).
+\]
+Recall that \(f\) is a quasi-isomorphism if and only if
+\[
+H_*(\operatorname{Cone}(f))=0.
+\]
+Moreover, for finite free chain complexes over \(\mathbb Z\), an acyclic cone is contractible, and by the standard cone criterion this is equivalent to \(f\) being a chain homotopy equivalence.
+
+Suppose first that \(f\) is a chain homotopy equivalence. Then tensoring with \(\mathbb F_p\) preserves chain homotopies, so
+\[
+f\otimes \mathbb F_p:C_*\otimes \mathbb F_p
+\longrightarrow
+C'_*\otimes \mathbb F_p
+\]
+is also a chain homotopy equivalence. Therefore it induces an isomorphism on homology:
+\[
+f_*:H_*(C\otimes \mathbb F_p)
+\longrightarrow
+H_*(C'\otimes \mathbb F_p).
+\]
+
+Conversely, suppose that for every prime \(p\), the map
+\[
+f_*:H_*(C\otimes \mathbb F_p)
+\longrightarrow
+H_*(C'\otimes \mathbb F_p)
+\]
+is an isomorphism. Then the mapping cone of
+\[
+f\otimes \mathbb F_p
+\]
+is acyclic:
+\[
+H_*(\operatorname{Cone}(f\otimes \mathbb F_p))=0.
+\]
+But tensoring commutes with taking the mapping cone, so
+\[
+\operatorname{Cone}(f\otimes \mathbb F_p)
+\cong
+\operatorname{Cone}(f)\otimes \mathbb F_p.
+\]
+Hence
+\[
+H_*(\operatorname{Cone}(f)\otimes \mathbb F_p)=0
+\]
+for every prime \(p\).
+
+By the first part of the problem, applied to the finite free chain complex
+\[
+\operatorname{Cone}(f),
+\]
+we get
+\[
+H_*(\operatorname{Cone}(f))=0.
+\]
+Thus \(\operatorname{Cone}(f)\) is acyclic. Since it is a finite free chain complex over \(\mathbb Z\), Problem 5 from Example Sheet 1 implies that \(\operatorname{Cone}(f)\) is contractible. Therefore, by the mapping cone criterion, \(f\) is a chain homotopy equivalence.
+
+So \(f\) is a chain homotopy equivalence if and only if it induces an isomorphism on homology after tensoring with \(\mathbb Z/p\) for every prime \(p\).
+
+\[
+\boxed{
+	f \text{ is a chain homotopy equivalence}
+	\iff
+	f_*:H_*(C\otimes \mathbb Z/p)\to H_*(C'\otimes \mathbb Z/p)
+	\text{ is an isomorphism for all primes }p.
+}
+\]
+
+
+\section{Problem 12. Free resolution over \(\mathbb C[x]/(x^3)\) and Tor groups}
+
+\textbf{Statement.}
+Let
+\[
+R=\mathbb C[x]/(x^3),
+\]
+and for \(i=1,2\), let
+\[
+M_i=\mathbb C[x]/(x^i)
+\]
+be regarded as an \(R\)-module. Find a free resolution of \(M_1\), and use it to compute
+\[
+\operatorname{Tor}^R_*(M_1,M_1)
+\]
+and
+\[
+\operatorname{Tor}^R_*(M_1,M_2).
+\]
+
+\textbf{Solution.}
+
+We have
+\[
+R=\mathbb C[x]/(x^3).
+\]
+The module \(M_1\) is
+\[
+M_1=\mathbb C[x]/(x)\cong R/(x).
+\]
+The module \(M_2\) is
+\[
+M_2=\mathbb C[x]/(x^2)\cong R/(x^2).
+\]
+
+We first construct a free resolution of \(M_1\). Since
+\[
+x^3=0 \quad \text{in } R,
+\]
+multiplication by \(x\) and multiplication by \(x^2\) compose to zero:
+\[
+x\cdot x^2=x^3=0.
+\]
+Thus we get a \(2\)-periodic chain complex
+\[
+\cdots
+\longrightarrow
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\longrightarrow
+M_1
+\longrightarrow
+0.
+\]
+
+We claim that this is exact. The final map
+\[
+R\longrightarrow M_1=R/(x)
+\]
+is the quotient map. Its kernel is
+\[
+(x).
+\]
+But \((x)\) is exactly the image of multiplication by \(x\):
+\[
+R\xrightarrow{\cdot x} R.
+\]
+
+Next,
+\[
+\ker(\cdot x:R\to R)
+=
+\{r\in R: xr=0\}.
+\]
+Since \(R=\mathbb C[x]/(x^3)\), every element has the form
+\[
+r=a+bx+cx^2.
+\]
+Then
+\[
+xr=ax+bx^2.
+\]
+This is zero in \(R\) if and only if
+\[
+a=0,\qquad b=0.
+\]
+Hence
+\[
+r=cx^2,
+\]
+so
+\[
+\ker(\cdot x)=(x^2).
+\]
+But this is exactly the image of multiplication by \(x^2\).
+
+Similarly,
+\[
+\ker(\cdot x^2:R\to R)
+=
+\{r\in R:x^2r=0\}.
+\]
+For \(r=a+bx+cx^2\), we get
+\[
+x^2r=ax^2.
+\]
+Thus \(x^2r=0\) if and only if \(a=0\), so
+\[
+r=bx+cx^2.
+\]
+Hence
+\[
+\ker(\cdot x^2)=(x),
+\]
+which is the image of multiplication by \(x\). Therefore the resolution is exact.
+
+So a free resolution of \(M_1\) is
+\[
+\boxed{
+	\cdots
+	\longrightarrow
+	R
+	\xrightarrow{\cdot x^2}
+	R
+	\xrightarrow{\cdot x}
+	R
+	\xrightarrow{\cdot x^2}
+	R
+	\xrightarrow{\cdot x}
+	R
+	\longrightarrow
+	M_1
+	\longrightarrow
+	0.
+}
+\]
+
+Now tensor this free resolution with \(M_1\). Since \(x=0\) on \(M_1=R/(x)\), both multiplication by \(x\) and multiplication by \(x^2\) become zero maps. Thus the tensor complex is
+\[
+\cdots
+\longrightarrow
+M_1
+\xrightarrow{0}
+M_1
+\xrightarrow{0}
+M_1
+\xrightarrow{0}
+M_1
+\xrightarrow{0}
+M_1
+\longrightarrow
+0.
+\]
+Therefore every homology group is just \(M_1\). Hence
+\[
+\boxed{
+	\operatorname{Tor}^R_n(M_1,M_1)\cong M_1
+	\cong \mathbb C
+	\quad \text{for every } n\geq 0.
+}
+\]
+
+Now tensor the same free resolution with
+\[
+M_2=R/(x^2).
+\]
+On \(M_2\), multiplication by \(x^2\) is zero, but multiplication by \(x\) is nonzero. Indeed, as a \(\mathbb C\)-vector space,
+\[
+M_2=\operatorname{span}_{\mathbb C}\{1,x\},
+\]
+with
+\[
+x\cdot 1=x,\qquad x\cdot x=x^2=0.
+\]
+Therefore the tensor complex becomes
+\[
+\cdots
+\longrightarrow
+M_2
+\xrightarrow{\cdot x}
+M_2
+\xrightarrow{0}
+M_2
+\xrightarrow{\cdot x}
+M_2
+\xrightarrow{0}
+M_2
+\xrightarrow{\cdot x}
+M_2
+\longrightarrow
+0.
+\]
+
+We compute the homology. First,
+\[
+\operatorname{im}(\cdot x)=xM_2=(x),
+\]
+which is the one-dimensional vector space spanned by \(x\). Also,
+\[
+\ker(\cdot x)=\{m\in M_2:xm=0\}.
+\]
+If
+\[
+m=a+bx,
+\]
+then
+\[
+xm=ax.
+\]
+Hence \(xm=0\) if and only if \(a=0\), so
+\[
+\ker(\cdot x)=(x).
+\]
+
+Thus
+\[
+\ker(\cdot x)=(x),
+\qquad
+\operatorname{im}(\cdot x)=(x),
+\qquad
+\ker(0)=M_2,
+\qquad
+\operatorname{im}(0)=0.
+\]
+
+For degree \(0\), we get
+\[
+\operatorname{Tor}^R_0(M_1,M_2)
+\cong
+M_1\otimes_R M_2
+\cong
+M_2/xM_2
+\cong
+M_2/(x)
+\cong
+\mathbb C.
+\]
+
+For degree \(1\),
+\[
+\operatorname{Tor}^R_1(M_1,M_2)
+\cong
+\ker(\cdot x)/\operatorname{im}(0)
+=
+(x)/0
+\cong
+\mathbb C.
+\]
+
+For degree \(2\),
+\[
+\operatorname{Tor}^R_2(M_1,M_2)
+\cong
+\ker(0)/\operatorname{im}(\cdot x)
+=
+M_2/(x)
+\cong
+\mathbb C.
+\]
+
+The same pattern repeats periodically. Therefore
+\[
+\boxed{
+	\operatorname{Tor}^R_n(M_1,M_2)\cong \mathbb C
+	\quad \text{for every } n\geq 0.
+}
+\]
+
+Equivalently, as \(R\)-modules,
+\[
+\boxed{
+	\operatorname{Tor}^R_n(M_1,M_2)\cong M_1
+	\quad \text{for every } n\geq 0.
+}
+\]
+
+
+\section{Problem 13. Extension from \(X\times\{0\}\cup A\times I\)}
+
+\textbf{Statement.}
+Let \(X\) be a finite cell complex, and let \(A\) be a subcomplex of \(X\). Let
+\[
+Y=X\times\{0\}\cup A\times I
+\subset X\times I.
+\]
+Show that any map
+\[
+Y\longrightarrow Z
+\]
+extends to a map
+\[
+X\times I\longrightarrow Z.
+\]
+Hint: start with the case
+\[
+X=D^n,\qquad A=S^{n-1}.
+\]
+
+\textbf{Solution.}
+
+The space
+\[
+Y=X\times\{0\}\cup A\times I
+\]
+consists of two parts:
+
+\[
+X\times\{0\},
+\]
+which is the whole space \(X\) at time \(0\), and
+\[
+A\times I,
+\]
+which is the cylinder on the subcomplex \(A\).
+
+So \(Y\) contains the initial copy of \(X\), together with the whole homotopy cylinder over \(A\). The problem asks us to prove that any map already defined on this part extends over the whole cylinder \(X\times I\).
+
+The key point is that the inclusion
+\[
+Y\subset X\times I
+\]
+has a retraction. In other words, we will show that there exists a continuous map
+\[
+r:X\times I\longrightarrow Y
+\]
+such that
+\[
+r(y)=y
+\]
+for every \(y\in Y\). Then, given any map
+\[
+g:Y\longrightarrow Z,
+\]
+we can define its extension by
+\[
+\widetilde g=g\circ r:X\times I\longrightarrow Z.
+\]
+This clearly restricts to \(g\) on \(Y\), because \(r\) is the identity on \(Y\).
+
+We first prove the basic cell case:
+\[
+X=D^n,\qquad A=S^{n-1}.
+\]
+Then
+\[
+Y=D^n\times\{0\}\cup S^{n-1}\times I.
+\]
+Geometrically, this is the bottom disk of the cylinder \(D^n\times I\), together with the side wall of the cylinder.
+
+For example, when \(n=1\), the space \(D^1\times I\) is a square, and
+\[
+D^1\times\{0\}\cup S^0\times I
+\]
+is the union of the bottom edge and the two vertical side edges. This is a deformation retract of the square.
+
+When \(n=2\), the space \(D^2\times I\) is a solid cylinder, and
+\[
+D^2\times\{0\}\cup S^1\times I
+\]
+is the union of the bottom disk and the cylindrical side wall. Again, this is a deformation retract of the solid cylinder.
+
+In general, there is a retraction
+\[
+r_n:D^n\times I\longrightarrow D^n\times\{0\}\cup S^{n-1}\times I.
+\]
+One way to visualize it is to push every point of the cylinder \(D^n\times I\) outward and downward until it lands either on the bottom \(D^n\times\{0\}\) or on the side \(S^{n-1}\times I\). Points already on the bottom or on the side are fixed.
+
+Therefore, for the pair
+\[
+(D^n,S^{n-1}),
+\]
+any map
+\[
+D^n\times\{0\}\cup S^{n-1}\times I
+\longrightarrow Z
+\]
+extends to a map
+\[
+D^n\times I\longrightarrow Z
+\]
+by composing with this retraction.
+
+Now let \(X\) be a finite cell complex and \(A\subset X\) a subcomplex. Since \(A\) is a subcomplex, the cells of \(X\setminus A\) are attached to \(A\) skeleton by skeleton. We extend the given map cell by cell.
+
+Assume that the map has already been extended over the cylinder on the part of \(X\) constructed so far. Let \(e^n\) be an \(n\)-cell of \(X\setminus A\). Its characteristic map has the form
+\[
+\varphi:D^n\longrightarrow X,
+\]
+with boundary
+\[
+\varphi(S^{n-1})
+\]
+lying in the previously constructed part of \(X\).
+
+Over this cell, the new part to be filled is
+\[
+D^n\times I.
+\]
+The map is already defined on
+\[
+D^n\times\{0\}\cup S^{n-1}\times I,
+\]
+because \(D^n\times\{0\}\) belongs to \(X\times\{0\}\), and \(S^{n-1}\times I\) lies over the previously constructed skeleton.
+
+By the basic cell case, the map extends over
+\[
+D^n\times I.
+\]
+Doing this for every cell of \(X\setminus A\), and using the fact that \(X\) is finite, we obtain an extension over all of
+\[
+X\times I.
+\]
+
+Thus every map
+\[
+g:Y\longrightarrow Z
+\]
+extends to a map
+\[
+\widetilde g:X\times I\longrightarrow Z.
+\]
+
+\[
+\boxed{
+	\text{Every map }Y=X\times\{0\}\cup A\times I\to Z
+	\text{ extends to }X\times I\to Z.
+}
+\]
+
+This is exactly the cellular form of the homotopy extension property for the pair
+\[
+(A\subset X).
+\]
+
+\section{Theory and definitions behind Problems 11--13}
+
+\subsection*{1. Chain complexes over \(\mathbb Z\)}
+
+A \textbf{chain complex} over \(\mathbb Z\) is a sequence of abelian groups and homomorphisms
+\[
+\cdots
+\longrightarrow C_{n+1}
+\xrightarrow{d_{n+1}}
+C_n
+\xrightarrow{d_n}
+C_{n-1}
+\longrightarrow \cdots
+\]
+such that
+\[
+d_n\circ d_{n+1}=0
+\]
+for every \(n\). Equivalently, one writes
+\[
+d^2=0.
+\]
+
+The maps \(d_n\) are called \textbf{boundary maps} or \textbf{differentials}. The condition \(d^2=0\) is the algebraic version of the geometric principle
+\[
+\text{the boundary of a boundary is zero.}
+\]
+
+For example, if \(\sigma\) is an oriented triangle, then
+\[
+\partial \sigma
+\]
+is the alternating sum of its three oriented edges. Taking the boundary again gives vertices, but each vertex appears twice with opposite signs. Hence
+\[
+\partial^2\sigma=0.
+\]
+
+\subsection*{2. Cycles, boundaries, and homology}
+
+Let \(C_*\) be a chain complex. The group of \textbf{\(n\)-cycles} is
+\[
+Z_n(C)=\ker(d_n:C_n\to C_{n-1}).
+\]
+
+The group of \textbf{\(n\)-boundaries} is
+\[
+B_n(C)=\operatorname{im}(d_{n+1}:C_{n+1}\to C_n).
+\]
+
+Since \(d_n d_{n+1}=0\), every boundary is automatically a cycle. Therefore
+\[
+B_n(C)\subseteq Z_n(C).
+\]
+
+The \textbf{\(n\)-th homology group} is defined by
+\[
+H_n(C)=Z_n(C)/B_n(C).
+\]
+
+Thus homology measures cycles that are not boundaries:
+\[
+\text{homology}
+=
+\frac{\text{closed objects}}{\text{objects that bound something}}.
+\]
+
+For instance,
+\[
+H_1(S^1)\cong \mathbb Z,
+\]
+because the circle contains a closed \(1\)-dimensional loop that does not bound a disk inside \(S^1\).
+
+On the other hand,
+\[
+H_1(D^2)=0,
+\]
+because every closed loop in the disk bounds a region inside the disk.
+
+\subsection*{3. Free finitely generated chain complexes}
+
+A chain complex \(C_*\) over \(\mathbb Z\) is called \textbf{free finitely generated} if each chain group \(C_n\) is a finitely generated free abelian group. That is,
+\[
+C_n\cong \mathbb Z^{r_n}
+\]
+for some finite integer \(r_n\).
+
+This assumption is important because subgroups and quotients of finitely generated abelian groups are again finitely generated. Therefore the homology groups
+\[
+H_n(C)
+\]
+are finitely generated abelian groups.
+
+By the structure theorem for finitely generated abelian groups, every finitely generated abelian group \(A\) has a decomposition
+\[
+A\cong \mathbb Z^r\oplus
+\mathbb Z/n_1\oplus\cdots\oplus \mathbb Z/n_k.
+\]
+
+The summand \(\mathbb Z^r\) is called the \textbf{free part}, and the finite cyclic summands are called the \textbf{torsion part}.
+
+This theorem is central in Problem 11. It implies that if a finitely generated abelian group disappears after reducing modulo every prime \(p\), then the group must already have been zero.
+
+\subsection*{4. Tensoring with \(\mathbb Z/p\)}
+
+For a prime number \(p\), the group
+\[
+\mathbb Z/p
+\]
+is a field. It is often denoted by
+\[
+\mathbb F_p.
+\]
+
+Given a chain complex \(C_*\), tensoring with \(\mathbb Z/p\) gives a new chain complex
+\[
+C_*\otimes \mathbb Z/p.
+\]
+
+The \(n\)-th chain group of this new complex is
+\[
+C_n\otimes \mathbb Z/p.
+\]
+
+If
+\[
+C_n\cong \mathbb Z^r,
+\]
+then
+\[
+C_n\otimes \mathbb Z/p
+\cong
+(\mathbb Z/p)^r.
+\]
+
+Thus tensoring with \(\mathbb Z/p\) changes integer coefficients into coefficients modulo \(p\).
+
+Geometrically, this means that multiplicities are read modulo \(p\). For example, over \(\mathbb Z\) one has
+\[
+2\neq 0,
+\]
+but over \(\mathbb Z/2\) one has
+\[
+2=0.
+\]
+
+This is why mod-\(p\) homology can detect torsion. For example,
+\[
+\mathbb Z/2\otimes \mathbb Z/2\cong \mathbb Z/2,
+\]
+whereas
+\[
+\mathbb Z/2\otimes \mathbb Z/3=0.
+\]
+
+Therefore, to detect all possible torsion in a finitely generated abelian group, one must test all primes \(p\).
+
+\subsection*{5. Universal coefficient theorem}
+
+The \textbf{universal coefficient theorem for homology} relates integral homology to homology with coefficients in another abelian group.
+
+For a free chain complex \(C_*\) over \(\mathbb Z\), there is a short exact sequence
+\[
+0
+\longrightarrow
+H_n(C)\otimes G
+\longrightarrow
+H_n(C\otimes G)
+\longrightarrow
+\operatorname{Tor}_1^{\mathbb Z}(H_{n-1}(C),G)
+\longrightarrow
+0.
+\]
+
+In Problem 11, one takes
+\[
+G=\mathbb Z/p.
+\]
+
+Therefore,
+\[
+0
+\longrightarrow
+H_n(C)\otimes \mathbb Z/p
+\longrightarrow
+H_n(C\otimes \mathbb Z/p)
+\longrightarrow
+\operatorname{Tor}_1^{\mathbb Z}(H_{n-1}(C),\mathbb Z/p)
+\longrightarrow
+0.
+\]
+
+This means that mod-\(p\) homology has two sources.
+
+The first source is
+\[
+H_n(C)\otimes \mathbb Z/p,
+\]
+which comes from ordinary \(n\)-dimensional homology.
+
+The second source is
+\[
+\operatorname{Tor}_1^{\mathbb Z}(H_{n-1}(C),\mathbb Z/p),
+\]
+which detects \(p\)-torsion in the previous degree.
+
+Thus \(H_n(C\otimes \mathbb Z/p)\) detects both the free part of \(H_n(C)\) and the \(p\)-torsion part of \(H_{n-1}(C)\).
+
+This is why the condition
+\[
+H_*(C\otimes \mathbb Z/p)=0
+\quad
+\text{for every prime }p
+\]
+forces
+\[
+H_*(C)=0.
+\]
+
+\subsection*{6. Chain maps}
+
+Let \(C_*\) and \(C'_*\) be chain complexes. A \textbf{chain map}
+\[
+f:C_*\to C'_*
+\]
+is a collection of group homomorphisms
+\[
+f_n:C_n\to C'_n
+\]
+such that the differentials are respected:
+\[
+d'_n f_n=f_{n-1}d_n.
+\]
+
+Equivalently, the diagram
+\[
+\begin{array}{ccc}
+	C_n & \xrightarrow{f_n} & C'_n\\
+	\downarrow d_n && \downarrow d'_n\\
+	C_{n-1} & \xrightarrow{f_{n-1}} & C'_{n-1}
+\end{array}
+\]
+commutes.
+
+This condition says that \(f\) sends boundaries to boundaries in a compatible way. In particular, a chain map sends cycles to cycles and boundaries to boundaries. Therefore it induces a map on homology:
+\[
+f_*:H_n(C)\to H_n(C').
+\]
+
+\subsection*{7. Chain homotopy}
+
+Let
+\[
+f,g:C_*\to C'_*
+\]
+be two chain maps. They are called \textbf{chain homotopic} if there exist homomorphisms
+\[
+s_n:C_n\to C'_{n+1}
+\]
+such that
+\[
+f-g=d's+sd.
+\]
+
+In degree \(n\), this means
+\[
+f_n-g_n
+=
+d'_{n+1}s_n+s_{n-1}d_n.
+\]
+
+The maps \(s_n\) form a \textbf{chain homotopy} from \(f\) to \(g\).
+
+This is the algebraic analogue of a topological homotopy between continuous maps.
+
+A fundamental property is:
+\[
+f\simeq g
+\quad\Longrightarrow\quad
+f_*=g_* \text{ on homology}.
+\]
+
+Thus chain homotopic maps induce the same maps on homology.
+
+\subsection*{8. Chain homotopy equivalence}
+
+A chain map
+\[
+f:C_*\to C'_*
+\]
+is called a \textbf{chain homotopy equivalence} if there exists a chain map
+\[
+g:C'_*\to C_*
+\]
+such that
+\[
+gf\simeq \operatorname{id}_{C_*}
+\]
+and
+\[
+fg\simeq \operatorname{id}_{C'_*}.
+\]
+
+In other words, \(f\) has an inverse up to chain homotopy.
+
+A chain homotopy equivalence always induces isomorphisms on homology:
+\[
+f_*:H_n(C)\to H_n(C')
+\]
+is an isomorphism for every \(n\).
+
+A chain map that induces isomorphisms on all homology groups is called a \textbf{quasi-isomorphism}.
+
+Thus we have the implication
+\[
+\text{chain homotopy equivalence}
+\Longrightarrow
+\text{quasi-isomorphism}.
+\]
+
+The converse is not true in complete generality. However, for finite free chain complexes over \(\mathbb Z\), the mapping cone criterion allows one to prove the converse under suitable hypotheses.
+
+\subsection*{9. Mapping cone}
+
+Let
+\[
+f:C_*\to C'_*
+\]
+be a chain map. The \textbf{mapping cone} of \(f\), denoted
+\[
+\operatorname{Cone}(f),
+\]
+is a new chain complex that measures how far \(f\) is from being a homology equivalence.
+
+Its chain groups are
+\[
+\operatorname{Cone}(f)_n=C'_n\oplus C_{n-1}.
+\]
+
+The differential is defined by
+\[
+d(y,x)=\bigl(d'y+f(x),-dx\bigr).
+\]
+
+The key theorem is:
+\[
+f \text{ is a quasi-isomorphism}
+\iff
+H_*(\operatorname{Cone}(f))=0.
+\]
+
+Therefore, the mapping cone is acyclic precisely when \(f\) induces isomorphisms on homology.
+
+In Problem 11, the strategy is:
+\[
+f \text{ induces an isomorphism modulo }p
+\text{ for every prime }p
+\]
+\[
+\Longrightarrow
+\operatorname{Cone}(f)\otimes \mathbb Z/p
+\text{ is acyclic for every prime }p
+\]
+\[
+\Longrightarrow
+\operatorname{Cone}(f)
+\text{ is acyclic}
+\]
+\[
+\Longrightarrow
+\operatorname{Cone}(f)
+\text{ is contractible}
+\]
+\[
+\Longrightarrow
+f
+\text{ is a chain homotopy equivalence}.
+\]
+
+\subsection*{10. Acyclic and contractible chain complexes}
+
+A chain complex \(C_*\) is called \textbf{acyclic} if
+\[
+H_n(C)=0
+\]
+for every \(n\).
+
+This means every cycle is a boundary:
+\[
+Z_n(C)=B_n(C)
+\]
+for every \(n\).
+
+A chain complex is called \textbf{contractible} if its identity map is chain homotopic to the zero map:
+\[
+\operatorname{id}_{C_*}\simeq 0.
+\]
+
+Equivalently, there exist homomorphisms
+\[
+s_n:C_n\to C_{n+1}
+\]
+such that
+\[
+ds+sd=\operatorname{id}_{C_*}.
+\]
+
+Every contractible chain complex is acyclic:
+\[
+\text{contractible}
+\Longrightarrow
+\text{acyclic}.
+\]
+
+The converse is not always true. However, for finite free chain complexes over \(\mathbb Z\), acyclicity implies contractibility because the relevant short exact sequences split.
+
+This is why the finite free assumption is essential in Problem 11.
+
+\section{Theory for Problem 12}
+
+\subsection*{11. Modules over quotient rings}
+
+In Problem 12, the ring is
+\[
+R=\mathbb C[x]/(x^3).
+\]
+
+This means that we work with polynomials in \(x\), but impose the relation
+\[
+x^3=0.
+\]
+
+Therefore every element of \(R\) has a unique representative of the form
+\[
+a+bx+cx^2,
+\]
+where
+\[
+a,b,c\in \mathbb C.
+\]
+
+The modules in the problem are
+\[
+M_1=\mathbb C[x]/(x),
+\]
+and
+\[
+M_2=\mathbb C[x]/(x^2).
+\]
+
+As \(R\)-modules, these are
+\[
+M_1\cong R/(x),
+\]
+and
+\[
+M_2\cong R/(x^2).
+\]
+
+In \(M_1\), one has
+\[
+x=0.
+\]
+
+In \(M_2\), one has
+\[
+x^2=0,
+\]
+but generally
+\[
+x\neq 0.
+\]
+
+Thus, as \(\mathbb C\)-vector spaces,
+\[
+M_1\cong \mathbb C,
+\]
+whereas
+\[
+M_2\cong \mathbb C\oplus \mathbb Cx.
+\]
+
+\subsection*{12. Free resolutions}
+
+Let \(R\) be a ring and let \(M\) be an \(R\)-module. A \textbf{free resolution} of \(M\) is an exact sequence
+\[
+\cdots
+\longrightarrow
+F_2
+\longrightarrow
+F_1
+\longrightarrow
+F_0
+\longrightarrow
+M
+\longrightarrow
+0,
+\]
+where each \(F_i\) is a free \(R\)-module.
+
+A free \(R\)-module is a module of the form
+\[
+R^n
+\]
+or, more generally, a direct sum of copies of \(R\).
+
+The purpose of a free resolution is to replace a possibly non-free module \(M\) by a sequence of free modules. This makes it possible to compute derived functors such as \(\operatorname{Tor}\).
+
+In Problem 12, the module
+\[
+M_1=R/(x)
+\]
+has the \(2\)-periodic free resolution
+\[
+\cdots
+\longrightarrow
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\longrightarrow
+M_1
+\longrightarrow
+0.
+\]
+
+The maps alternate between multiplication by \(x\) and multiplication by \(x^2\). Consecutive maps compose to zero because
+\[
+x\cdot x^2=x^3=0
+\]
+in \(R\).
+
+This complex is exact because
+\[
+\ker(\cdot x)=(x^2),
+\]
+and
+\[
+\ker(\cdot x^2)=(x).
+\]
+
+Therefore each kernel is the image of the previous map.
+
+\subsection*{13. Tor groups}
+
+The tensor product functor
+\[
+-\otimes_R N
+\]
+is right exact, but not necessarily exact.
+
+This means that tensoring an exact sequence with \(N\) may destroy exactness on the left. The groups \(\operatorname{Tor}\) measure precisely this failure of exactness.
+
+To compute
+\[
+\operatorname{Tor}_n^R(M,N),
+\]
+one takes a free resolution of \(M\),
+\[
+F_*\to M,
+\]
+then tensors it with \(N\):
+\[
+F_*\otimes_R N.
+\]
+
+Then
+\[
+\operatorname{Tor}_n^R(M,N)
+=
+H_n(F_*\otimes_R N).
+\]
+
+Thus \(\operatorname{Tor}\) is the homology of the tensor product of a free resolution.
+
+In Problem 12, to compute
+\[
+\operatorname{Tor}_*^R(M_1,M_1)
+\]
+and
+\[
+\operatorname{Tor}_*^R(M_1,M_2),
+\]
+we use the free resolution of \(M_1\), then tensor with \(M_1\) and \(M_2\).
+
+\subsection*{14. Why the Tor groups are nonzero in every degree}
+
+The ring
+\[
+R=\mathbb C[x]/(x^3)
+\]
+is not a regular ring. It contains nilpotent elements because
+\[
+x^3=0
+\]
+but
+\[
+x\neq 0.
+\]
+
+This nilpotent behavior causes modules such as
+\[
+M_1=R/(x)
+\]
+to have infinite projective, or free, resolutions.
+
+The resolution repeats forever:
+\[
+\cdots
+\xrightarrow{\cdot x}
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\xrightarrow{\cdot x^2}
+R.
+\]
+
+Therefore the resulting Tor groups also have a periodic pattern.
+
+When tensoring with \(M_1\), both multiplication by \(x\) and multiplication by \(x^2\) become zero because \(x=0\) in \(M_1\). Hence every differential in the tensor complex is zero, and one gets
+\[
+\operatorname{Tor}_n^R(M_1,M_1)\cong \mathbb C
+\]
+for every \(n\geq 0\).
+
+When tensoring with \(M_2\), multiplication by \(x^2\) is zero, while multiplication by \(x\) is nonzero. Nevertheless, the kernel and image of multiplication by \(x\) both equal the one-dimensional subspace \((x)\). Hence the homology in every degree is again one-dimensional over \(\mathbb C\), so
+\[
+\operatorname{Tor}_n^R(M_1,M_2)\cong \mathbb C
+\]
+for every \(n\geq 0\).
+
+\section{Theory for Problem 13}
+
+\subsection*{15. Cell complexes}
+
+A \textbf{cell complex}, or \textbf{CW complex}, is a topological space built by attaching disks of increasing dimension.
+
+A \(0\)-cell is a point.
+
+A \(1\)-cell is an interval attached by its endpoints.
+
+A \(2\)-cell is a disk attached along its boundary circle.
+
+In general, an \(n\)-cell is a copy of the open disk
+\[
+e^n\cong \mathring D^n.
+\]
+
+It is attached using a \textbf{characteristic map}
+\[
+\varphi:D^n\to X.
+\]
+
+The boundary
+\[
+S^{n-1}=\partial D^n
+\]
+is attached to the previous skeleton.
+
+Thus a CW complex is constructed step by step:
+\[
+X^0\subset X^1\subset X^2\subset\cdots.
+\]
+
+Here \(X^n\) is called the \textbf{\(n\)-skeleton}.
+
+\subsection*{16. Subcomplexes}
+
+A subspace
+\[
+A\subset X
+\]
+is called a \textbf{subcomplex} if it is itself made from whole cells of \(X\).
+
+For example, if \(X\) is a triangle together with its interior, then the boundary circle made from the three edges is a subcomplex.
+
+However, a random curved arc inside the triangle is not a subcomplex, because it is not a union of cells of \(X\).
+
+In Problem 13, the assumption that \(A\) is a subcomplex is essential. It allows us to extend maps cell by cell. When a new cell is attached, its boundary already lies in the part of the space where the map has been defined.
+
+\subsection*{17. The space \(Y=X\times\{0\}\cup A\times I\)}
+
+The product
+\[
+X\times I
+\]
+is the cylinder on \(X\).
+
+The subspace
+\[
+Y=X\times\{0\}\cup A\times I
+\]
+contains two parts.
+
+First, it contains the whole bottom copy of \(X\):
+\[
+X\times\{0\}.
+\]
+
+Second, it contains the vertical cylinder on \(A\):
+\[
+A\times I.
+\]
+
+Therefore \(Y\) is the part of \(X\times I\) on which a homotopy is already prescribed.
+
+One may think of this as:
+\[
+\text{bottom: all of }X,
+\]
+and
+\[
+\text{sides: only over }A.
+\]
+
+The missing part is the cylinder over the cells of \(X\setminus A\).
+
+\subsection*{18. Homotopy extension property}
+
+Problem 13 is a formulation of the \textbf{homotopy extension property}.
+
+A pair
+\[
+(A,X)
+\]
+has the homotopy extension property if the following holds.
+
+Suppose we are given a map
+\[
+f:X\to Z
+\]
+and a homotopy
+\[
+H:A\times I\to Z
+\]
+such that
+\[
+H(a,0)=f(a)
+\]
+for all \(a\in A\). Then there exists an extended homotopy
+\[
+\widetilde H:X\times I\to Z
+\]
+such that
+\[
+\widetilde H(x,0)=f(x)
+\]
+for all \(x\in X\), and
+\[
+\widetilde H(a,t)=H(a,t)
+\]
+for all \(a\in A\) and \(t\in I\).
+
+Equivalently, every map
+\[
+X\times\{0\}\cup A\times I\to Z
+\]
+extends to a map
+\[
+X\times I\to Z.
+\]
+
+This is exactly the statement of Problem 13.
+
+Therefore Problem 13 says:
+\[
+\boxed{
+	\text{CW-pairs }(X,A)\text{ have the homotopy extension property.}
+}
+\]
+
+\subsection*{19. Cofibrations}
+
+An inclusion
+\[
+A\hookrightarrow X
+\]
+is called a \textbf{cofibration} if it has the homotopy extension property.
+
+Thus Problem 13 states that if \(A\) is a subcomplex of a finite cell complex \(X\), then
+\[
+A\hookrightarrow X
+\]
+is a cofibration.
+
+This is one of the most important structural facts about CW complexes. It means that subcomplex inclusions behave well with respect to homotopies.
+
+In practical terms, if a homotopy has already been prescribed on \(A\), and if we know the starting map on all of \(X\), then the homotopy can be extended from \(A\) to all of \(X\).
+
+\subsection*{20. Retractions and deformation retractions}
+
+Let \(A\subset X\). A \textbf{retraction} from \(X\) onto \(A\) is a continuous map
+\[
+r:X\to A
+\]
+such that
+\[
+r(a)=a
+\]
+for every \(a\in A\).
+
+Equivalently,
+\[
+r|_A=\operatorname{id}_A.
+\]
+
+A \textbf{deformation retraction} is stronger. It is a homotopy
+\[
+H:X\times I\to X
+\]
+such that
+\[
+H(x,0)=x,
+\]
+\[
+H(x,1)\in A,
+\]
+and
+\[
+H(a,t)=a
+\]
+for every \(a\in A\) and every \(t\in I\).
+
+In Problem 13, the key geometric fact is that
+\[
+D^n\times I
+\]
+retracts onto
+\[
+D^n\times\{0\}\cup S^{n-1}\times I.
+\]
+
+This subspace is the bottom of the cylinder together with its side wall.
+
+This local retraction is the cell-level reason why the homotopy extension property holds for CW-pairs.
+
+\subsection{21. The basic disk case}
+
+The fundamental case in Problem 13 is
+\[
+X=D^n,
+\qquad
+A=S^{n-1}.
+\]
+
+Then
+\[
+X\times I=D^n\times I.
+\]
+
+This is a cylinder on the disk.
+
+The subspace
+\[
+D^n\times\{0\}\cup S^{n-1}\times I
+\]
+is the union of the bottom disk and the side wall.
+
+For \(n=1\), the space \(D^1\times I\) is a square. The subspace
+\[
+D^1\times\{0\}\cup S^0\times I
+\]
+is the bottom edge together with the two vertical side edges.
+
+For \(n=2\), the space \(D^2\times I\) is a solid cylinder. The subspace
+\[
+D^2\times\{0\}\cup S^1\times I
+\]
+is the bottom disk together with the cylindrical side wall.
+
+In each case, the entire cylinder can be pushed onto the bottom-and-side subspace. Therefore there exists a retraction
+\[
+r_n:D^n\times I
+\to
+D^n\times\{0\}\cup S^{n-1}\times I.
+\]
+
+Consequently, any map
+\[
+D^n\times\{0\}\cup S^{n-1}\times I
+\to Z
+\]
+extends to a map
+\[
+D^n\times I\to Z
+\]
+by composing with this retraction.
+
+\subsection*{22. Cell-by-cell extension}
+
+For a general finite cell complex \(X\), one builds \(X\) from \(A\) by attaching cells.
+
+Suppose \(e^n\) is an \(n\)-cell of \(X\setminus A\). Its characteristic map is
+\[
+\varphi:D^n\to X.
+\]
+
+The boundary
+\[
+\varphi(S^{n-1})
+\]
+lies in the previously constructed skeleton.
+
+When extending over the cylinder on this cell, we need to extend over
+\[
+D^n\times I.
+\]
+
+The map is already known on
+\[
+D^n\times\{0\}\cup S^{n-1}\times I.
+\]
+
+Indeed, the piece
+\[
+D^n\times\{0\}
+\]
+belongs to \(X\times\{0\}\), while the piece
+\[
+S^{n-1}\times I
+\]
+lies over the previous skeleton.
+
+By the basic disk case, the map extends over
+\[
+D^n\times I.
+\]
+
+Doing this for every cell of \(X\setminus A\), one obtains an extension over all of
+\[
+X\times I.
+\]
+
+This proves the homotopy extension property for finite CW-pairs.
+
+\section{Summary of the theory}
+
+Problem 11 is about detecting integral homology using mod-\(p\) homology. Its key tools are:
+\[
+\text{universal coefficient theorem},
+\]
+\[
+\text{finite generation},
+\]
+\[
+\text{mapping cones},
+\]
+and
+\[
+\text{chain homotopy equivalences}.
+\]
+
+Problem 12 is about computing Tor groups using a free resolution. Its key tools are:
+\[
+\text{free resolutions},
+\]
+\[
+\text{tensor products},
+\]
+\[
+\text{periodic resolutions},
+\]
+and
+\[
+\text{nilpotent quotient rings}.
+\]
+
+Problem 13 is about extending homotopies from a subcomplex. Its key tools are:
+\[
+\text{CW complexes},
+\]
+\[
+\text{subcomplexes},
+\]
+\[
+\text{cofibrations},
+\]
+\[
+\text{homotopy extension property},
+\]
+and
+\[
+\text{cell-by-cell extension}.
+\]
+
+Together, these problems connect three major ideas:
+\[
+\boxed{
+	\text{homological algebra}
+	\quad+\quad
+	\text{chain homotopy theory}
+	\quad+\quad
+	\text{CW-complex topology}.
+}
+\]
+
+% Required packages:
+% \usepackage{amsmath,amssymb}
+% \usepackage{array,booktabs}
+% \usepackage{xcolor}
+% \usepackage{tikz}
+
+\section*{Concrete examples, charts, and diagrams for Problems 11--13}
+
+\subsection*{Examples for Problem 11: mod-\(p\) detection}
+
+Problem 11 says that for a free finitely generated chain complex \(C_*\) over \(\mathbb Z\),
+\[
+H_*(C)=0
+\]
+if and only if
+\[
+H_*(C\otimes \mathbb Z/p)=0
+\]
+for every prime \(p\).
+
+The examples below explain why one has to test every prime \(p\), and how free parts and torsion parts of homology are detected modulo primes.
+
+\subsubsection*{Example 11.1. A chain complex with \(\mathbb Z/2\)-torsion}
+
+Consider the chain complex
+\[
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{\cdot 2}
+\mathbb Z
+\longrightarrow
+0,
+\]
+where the copy of \(\mathbb Z\) on the left is in degree \(1\), and the copy of \(\mathbb Z\) on the right is in degree \(0\). Thus
+\[
+C_1=\mathbb Z,
+\qquad
+C_0=\mathbb Z,
+\qquad
+d_1(n)=2n.
+\]
+
+The homology is
+\[
+H_1(C)=\ker(\cdot 2)=0,
+\]
+because multiplication by \(2\) on \(\mathbb Z\) is injective. Also,
+\[
+H_0(C)
+=
+\mathbb Z/\operatorname{im}(\cdot 2)
+=
+\mathbb Z/2.
+\]
+Hence
+\[
+H_*(C)\neq 0.
+\]
+
+Now reduce modulo a prime \(p\). Tensoring with
+\[
+\mathbb F_p=\mathbb Z/p
+\]
+gives
+\[
+0
+\longrightarrow
+\mathbb F_p
+\xrightarrow{\cdot 2}
+\mathbb F_p
+\longrightarrow
+0.
+\]
+
+If \(p=2\), then multiplication by \(2\) becomes the zero map:
+\[
+\mathbb F_2
+\xrightarrow{0}
+\mathbb F_2.
+\]
+Therefore
+\[
+H_1(C\otimes \mathbb F_2)\cong \mathbb F_2,
+\qquad
+H_0(C\otimes \mathbb F_2)\cong \mathbb F_2.
+\]
+So the \(\mathbb Z/2\)-torsion is detected modulo \(2\).
+
+If \(p\neq 2\), multiplication by \(2\) is invertible in \(\mathbb F_p\). Therefore
+\[
+H_*(C\otimes \mathbb F_p)=0
+\]
+for every prime \(p\neq 2\).
+
+\begin{center}
+	\begin{tabular}{c|c|c}
+		\textbf{Prime \(p\)} & \textbf{Differential over \(\mathbb F_p\)} & \textbf{Mod-\(p\) homology}\\
+		\hline
+		\(2\) & \(0\) & nonzero\\
+		\(3\) & multiplication by \(2\), invertible & zero\\
+		\(5\) & multiplication by \(2\), invertible & zero\\
+		\(7\) & multiplication by \(2\), invertible & zero
+	\end{tabular}
+\end{center}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=2.4cm,
+		every node/.style={font=\small},
+		box/.style={draw, rounded corners, minimum width=1.3cm, minimum height=0.75cm, fill=blue!5}
+		]
+		\node[box] (z1) {\(\mathbb Z\)};
+		\node[box, right=of z1] (z0) {\(\mathbb Z\)};
+		\draw[->, thick] (z1) -- node[above] {\(\cdot 2\)} (z0);
+		
+		\node[below=1.2cm of z1, box, fill=green!5] (f21) {\(\mathbb F_2\)};
+		\node[below=1.2cm of z0, box, fill=green!5] (f20) {\(\mathbb F_2\)};
+		\draw[->, thick] (f21) -- node[above] {\(0\)} (f20);
+		
+		\node[below=1.2cm of f21, box, fill=orange!7] (fp1) {\(\mathbb F_p\)};
+		\node[below=1.2cm of f20, box, fill=orange!7] (fp0) {\(\mathbb F_p\)};
+		\draw[->, thick] (fp1) -- node[above] {\(\cdot 2\), \(p\neq 2\)} (fp0);
+		
+		\node[left=0.7cm of z1] {\(C_1\)};
+		\node[left=0.7cm of f21] {\(p=2\)};
+		\node[left=0.7cm of fp1] {\(p\neq 2\)};
+	\end{tikzpicture}
+	\caption{The chain complex \(0\to \mathbb Z \xrightarrow{\cdot 2}\mathbb Z\to 0\). Modulo \(2\), the differential becomes zero; modulo any other prime, it is invertible.}
+\end{figure}
+
+\subsubsection*{Example 11.2. A chain complex with \(\mathbb Z/6\)-torsion}
+
+Consider
+\[
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{\cdot 6}
+\mathbb Z
+\longrightarrow
+0.
+\]
+
+The homology is
+\[
+H_1(C)=0,
+\]
+and
+\[
+H_0(C)=\mathbb Z/6.
+\]
+
+Now reduce modulo primes. Over \(\mathbb F_p\), the differential is multiplication by
+\[
+6\bmod p.
+\]
+
+If \(p=2\), then
+\[
+6\equiv 0\pmod 2.
+\]
+If \(p=3\), then
+\[
+6\equiv 0\pmod 3.
+\]
+So modulo \(2\) and modulo \(3\), the differential becomes zero and homology appears.
+
+If \(p=5\), then
+\[
+6\equiv 1\pmod 5,
+\]
+so the map is invertible and the mod-\(5\) homology vanishes.
+
+\begin{center}
+	\begin{tabular}{c|c|c}
+		\textbf{Prime \(p\)} & \textbf{\(6\bmod p\)} & \textbf{Homology of \(C\otimes \mathbb F_p\)}\\
+		\hline
+		\(2\) & \(0\) & nonzero\\
+		\(3\) & \(0\) & nonzero\\
+		\(5\) & \(1\) & zero\\
+		\(7\) & \(6\) & zero
+	\end{tabular}
+\end{center}
+
+This example shows that the torsion group
+\[
+\mathbb Z/6
+\]
+is detected exactly at the primes dividing \(6\), namely
+\[
+2
+\quad\text{and}\quad
+3.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		prime/.style={circle, draw, minimum size=0.9cm, fill=yellow!15},
+		detect/.style={circle, draw, minimum size=0.9cm, fill=red!20},
+		nodetect/.style={circle, draw, minimum size=0.9cm, fill=gray!10}
+		]
+		\node (torsion) at (0,0) [draw, rounded corners, fill=blue!5, minimum width=2.5cm, minimum height=0.9cm] {\(\mathbb Z/6\)};
+		
+		\node[detect] (p2) at (-3,-1.8) {\(2\)};
+		\node[detect] (p3) at (-1,-1.8) {\(3\)};
+		\node[nodetect] (p5) at (1,-1.8) {\(5\)};
+		\node[nodetect] (p7) at (3,-1.8) {\(7\)};
+		
+		\draw[->, thick] (torsion) -- node[left] {detected} (p2);
+		\draw[->, thick] (torsion) -- node[left] {detected} (p3);
+		\draw[->, thick, dashed] (torsion) -- node[right] {not detected} (p5);
+		\draw[->, thick, dashed] (torsion) -- node[right] {not detected} (p7);
+		
+		\node at (0,-3.0) {\(\mathbb Z/6\)-torsion is visible modulo \(2\) and modulo \(3\), but not modulo \(5\) or \(7\).};
+	\end{tikzpicture}
+	\caption{Prime detection for \(\mathbb Z/6\)-torsion.}
+\end{figure}
+
+\subsubsection*{Example 11.3. A free homology class is detected by every prime}
+
+Consider the chain complex
+\[
+0
+\longrightarrow
+\mathbb Z
+\longrightarrow
+0,
+\]
+with \(\mathbb Z\) placed in degree \(0\). Then
+\[
+H_0(C)=\mathbb Z.
+\]
+
+After tensoring with \(\mathbb F_p\), we get
+\[
+H_0(C\otimes \mathbb F_p)
+\cong
+\mathbb Z\otimes \mathbb F_p
+\cong
+\mathbb F_p.
+\]
+
+Thus a free \(\mathbb Z\)-summand is visible modulo every prime \(p\).
+
+\begin{center}
+	\begin{tabular}{c|c}
+		\textbf{Integral homology piece} & \textbf{Mod-\(p\) detection}\\
+		\hline
+		\(\mathbb Z\) & visible for every prime \(p\)\\
+		\(\mathbb Z/2\) & visible at \(p=2\)\\
+		\(\mathbb Z/3\) & visible at \(p=3\)\\
+		\(\mathbb Z/6\) & visible at \(p=2,3\)\\
+		\(\mathbb Z/10\) & visible at \(p=2,5\)
+	\end{tabular}
+\end{center}
+
+This gives the intuition behind the theorem:
+\[
+H_*(C)=0
+\iff
+H_*(C\otimes \mathbb F_p)=0
+\text{ for every prime }p.
+\]
+
+\subsubsection*{Example 11.4. A chain map detected by mod-\(p\) homology}
+
+Let
+\[
+C_*=
+\left(
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{\cdot 2}
+\mathbb Z
+\longrightarrow
+0
+\right).
+\]
+
+Define a chain map
+\[
+f:C_*\to C_*
+\]
+by multiplication by \(2\) in both degrees:
+\[
+f_1=\cdot 2,
+\qquad
+f_0=\cdot 2.
+\]
+
+This is a chain map because the square commutes:
+\[
+(\cdot 2)(\cdot 2)=(\cdot 2)(\cdot 2).
+\]
+
+The homology is
+\[
+H_0(C)\cong \mathbb Z/2.
+\]
+The induced map on \(H_0(C)\) is multiplication by \(2\) on \(\mathbb Z/2\), hence it is the zero map:
+\[
+\mathbb Z/2
+\xrightarrow{0}
+\mathbb Z/2.
+\]
+
+Therefore \(f\) is not a homology isomorphism, and hence it is not a chain homotopy equivalence.
+
+Modulo \(2\), the map \(f\otimes \mathbb F_2\) is also zero, so the failure is detected by mod-\(2\) homology.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=2.3cm,
+		every node/.style={font=\small},
+		box/.style={draw, rounded corners, minimum width=1.2cm, minimum height=0.7cm, fill=blue!5}
+		]
+		\node[box] (c1) {\(\mathbb Z\)};
+		\node[box, right=of c1] (c0) {\(\mathbb Z\)};
+		\node[box, below=1.4cm of c1] (c1b) {\(\mathbb Z\)};
+		\node[box, below=1.4cm of c0] (c0b) {\(\mathbb Z\)};
+		
+		\draw[->, thick] (c1) -- node[above] {\(\cdot 2\)} (c0);
+		\draw[->, thick] (c1b) -- node[above] {\(\cdot 2\)} (c0b);
+		
+		\draw[->, thick] (c1) -- node[left] {\(\cdot 2\)} (c1b);
+		\draw[->, thick] (c0) -- node[right] {\(\cdot 2\)} (c0b);
+		
+		\node at ($(c1)!0.5!(c0)+(0,0.55)$) {\(C_*\)};
+		\node at ($(c1b)!0.5!(c0b)+(0,-0.55)$) {\(C_*\)};
+	\end{tikzpicture}
+	\caption{A chain map \(f:C_*\to C_*\) given by multiplication by \(2\) in both degrees. On \(H_0(C)\cong \mathbb Z/2\), this map is zero.}
+\end{figure}
+
+\subsection*{Examples for Problem 12: free resolutions and Tor groups}
+
+Recall that in Problem 12,
+\[
+R=\mathbb C[x]/(x^3).
+\]
+Thus
+\[
+x^3=0
+\]
+inside \(R\), while \(x\) and \(x^2\) are generally nonzero.
+
+Every element of \(R\) has the form
+\[
+a+bx+cx^2,
+\qquad
+a,b,c\in \mathbb C.
+\]
+
+\subsubsection*{Example 12.1. The ring \(R=\mathbb C[x]/(x^3)\)}
+
+As a \(\mathbb C\)-vector space,
+\[
+R=\operatorname{span}_{\mathbb C}\{1,x,x^2\}.
+\]
+
+Multiplication by \(x\) acts as follows:
+\[
+1\mapsto x,
+\qquad
+x\mapsto x^2,
+\qquad
+x^2\mapsto 0.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=1.8cm,
+		every node/.style={font=\small},
+		basis/.style={draw, circle, minimum size=0.8cm, fill=blue!8}
+		]
+		\node[basis] (one) {\(1\)};
+		\node[basis, right=of one] (x) {\(x\)};
+		\node[basis, right=of x] (x2) {\(x^2\)};
+		\node[right=of x2] (zero) {\(0\)};
+		
+		\draw[->, thick] (one) -- node[above] {\(\cdot x\)} (x);
+		\draw[->, thick] (x) -- node[above] {\(\cdot x\)} (x2);
+		\draw[->, thick] (x2) -- node[above] {\(\cdot x\)} (zero);
+		
+		\node[below=0.8cm of x] {\(R=\mathbb C[x]/(x^3)\)};
+	\end{tikzpicture}
+	\caption{Multiplication by \(x\) in \(R=\mathbb C[x]/(x^3)\).}
+\end{figure}
+
+This diagram shows that \(x\) is nilpotent of order \(3\):
+\[
+x^3=0.
+\]
+
+\subsubsection*{Example 12.2. The modules \(M_1\) and \(M_2\)}
+
+The two modules are
+\[
+M_1=R/(x),
+\qquad
+M_2=R/(x^2).
+\]
+
+In \(M_1\), one has
+\[
+x=0.
+\]
+Therefore
+\[
+M_1=\operatorname{span}_{\mathbb C}\{1\}.
+\]
+
+In \(M_2\), one has
+\[
+x^2=0,
+\]
+but \(x\neq 0\). Therefore
+\[
+M_2=\operatorname{span}_{\mathbb C}\{1,x\}.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		basis/.style={draw, circle, minimum size=0.78cm, fill=green!10}
+		]
+		\node[basis] (m11) at (0,0) {\(1\)};
+		\node (m10) at (2,0) {\(0\)};
+		\draw[->, thick] (m11) -- node[above] {\(\cdot x\)} (m10);
+		\node[left=0.7cm of m11] {\(M_1\)};
+		
+		\node[basis] (m21) at (0,-1.6) {\(1\)};
+		\node[basis] (m2x) at (2,-1.6) {\(x\)};
+		\node (m20) at (4,-1.6) {\(0\)};
+		\draw[->, thick] (m21) -- node[above] {\(\cdot x\)} (m2x);
+		\draw[->, thick] (m2x) -- node[above] {\(\cdot x\)} (m20);
+		\node[left=0.7cm of m21] {\(M_2\)};
+		
+		\node[basis, fill=blue!8] (r1) at (0,-3.2) {\(1\)};
+		\node[basis, fill=blue!8] (rx) at (2,-3.2) {\(x\)};
+		\node[basis, fill=blue!8] (rx2) at (4,-3.2) {\(x^2\)};
+		\node (r0) at (6,-3.2) {\(0\)};
+		\draw[->, thick] (r1) -- node[above] {\(\cdot x\)} (rx);
+		\draw[->, thick] (rx) -- node[above] {\(\cdot x\)} (rx2);
+		\draw[->, thick] (rx2) -- node[above] {\(\cdot x\)} (r0);
+		\node[left=0.7cm of r1] {\(R\)};
+	\end{tikzpicture}
+	\caption{The action of \(x\) on \(M_1\), \(M_2\), and \(R\).}
+\end{figure}
+
+Thus one may remember the modules by the following hierarchy:
+\[
+R:\ 1\mapsto x\mapsto x^2\mapsto 0,
+\]
+\[
+M_2:\ 1\mapsto x\mapsto 0,
+\]
+\[
+M_1:\ 1\mapsto 0.
+\]
+
+\subsubsection*{Example 12.3. The periodic free resolution of \(M_1\)}
+
+The module
+\[
+M_1=R/(x)
+\]
+has the free resolution
+\[
+\cdots
+\longrightarrow
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\longrightarrow
+M_1
+\longrightarrow
+0.
+\]
+
+The maps alternate between multiplication by \(x\) and multiplication by \(x^2\). Consecutive maps compose to zero because
+\[
+x\cdot x^2=x^3=0.
+\]
+
+The exactness comes from the two kernel computations
+\[
+\ker(\cdot x)=(x^2),
+\]
+and
+\[
+\ker(\cdot x^2)=(x).
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=1.65cm,
+		every node/.style={font=\small},
+		module/.style={draw, rounded corners, minimum width=1.05cm, minimum height=0.7cm, fill=blue!6}
+		]
+		\node[module] (r4) {\(R\)};
+		\node[module, right=of r4] (r3) {\(R\)};
+		\node[module, right=of r3] (r2) {\(R\)};
+		\node[module, right=of r2] (r1) {\(R\)};
+		\node[module, right=of r1] (r0) {\(R\)};
+		\node[right=1.45cm of r0] (m1) {\(M_1\)};
+		\node[right=1.0cm of m1] (zero) {\(0\)};
+		
+		\draw[->, thick] (r4) -- node[above] {\(\cdot x^2\)} (r3);
+		\draw[->, thick] (r3) -- node[above] {\(\cdot x\)} (r2);
+		\draw[->, thick] (r2) -- node[above] {\(\cdot x^2\)} (r1);
+		\draw[->, thick] (r1) -- node[above] {\(\cdot x\)} (r0);
+		\draw[->, thick] (r0) -- node[above] {quotient} (m1);
+		\draw[->, thick] (m1) -- (zero);
+		
+		\node[left=0.4cm of r4] {\(\cdots\)};
+	\end{tikzpicture}
+	\caption{The \(2\)-periodic free resolution of \(M_1=R/(x)\).}
+\end{figure}
+
+\subsubsection*{Example 12.4. Tensoring the resolution with \(M_1\)}
+
+In \(M_1=R/(x)\), we have
+\[
+x=0.
+\]
+Therefore multiplication by \(x\) is zero, and multiplication by \(x^2\) is also zero.
+
+After tensoring the resolution with \(M_1\), the complex becomes
+\[
+\cdots
+\longrightarrow
+M_1
+\xrightarrow{0}
+M_1
+\xrightarrow{0}
+M_1
+\xrightarrow{0}
+M_1
+\longrightarrow
+0.
+\]
+
+Since every differential is zero, every element is a cycle and no nonzero element is a boundary. Hence
+\[
+\operatorname{Tor}_n^R(M_1,M_1)\cong M_1\cong \mathbb C
+\]
+for every \(n\geq 0\).
+
+\begin{center}
+	\begin{tabular}{c|c|c}
+		\textbf{Degree \(n\)} & \textbf{Tensor differential} & \(\operatorname{Tor}_n^R(M_1,M_1)\)\\
+		\hline
+		\(0\) & \(0\) & \(\mathbb C\)\\
+		\(1\) & \(0\) & \(\mathbb C\)\\
+		\(2\) & \(0\) & \(\mathbb C\)\\
+		\(3\) & \(0\) & \(\mathbb C\)\\
+		\(4\) & \(0\) & \(\mathbb C\)
+	\end{tabular}
+\end{center}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=1.6cm,
+		every node/.style={font=\small},
+		module/.style={draw, rounded corners, minimum width=1.15cm, minimum height=0.7cm, fill=green!8}
+		]
+		\node[module] (a4) {\(M_1\)};
+		\node[module, right=of a4] (a3) {\(M_1\)};
+		\node[module, right=of a3] (a2) {\(M_1\)};
+		\node[module, right=of a2] (a1) {\(M_1\)};
+		\node[module, right=of a1] (a0) {\(M_1\)};
+		
+		\draw[->, thick] (a4) -- node[above] {\(0\)} (a3);
+		\draw[->, thick] (a3) -- node[above] {\(0\)} (a2);
+		\draw[->, thick] (a2) -- node[above] {\(0\)} (a1);
+		\draw[->, thick] (a1) -- node[above] {\(0\)} (a0);
+		
+		\node[left=0.4cm of a4] {\(\cdots\)};
+	\end{tikzpicture}
+	\caption{After tensoring with \(M_1\), all differentials are zero.}
+\end{figure}
+
+\subsubsection*{Example 12.5. Tensoring the resolution with \(M_2\)}
+
+In
+\[
+M_2=R/(x^2),
+\]
+multiplication by \(x^2\) is zero, but multiplication by \(x\) is nonzero.
+
+As a vector space,
+\[
+M_2=\operatorname{span}_{\mathbb C}\{1,x\}.
+\]
+
+Multiplication by \(x\) is given by
+\[
+1\mapsto x,
+\qquad
+x\mapsto 0.
+\]
+
+So after tensoring the resolution with \(M_2\), the complex becomes
+\[
+\cdots
+\longrightarrow
+M_2
+\xrightarrow{\cdot x}
+M_2
+\xrightarrow{0}
+M_2
+\xrightarrow{\cdot x}
+M_2
+\xrightarrow{0}
+M_2.
+\]
+
+Inside \(M_2\),
+\[
+\operatorname{im}(\cdot x)=(x),
+\]
+and
+\[
+\ker(\cdot x)=(x).
+\]
+
+Thus the image and the kernel of multiplication by \(x\) are the same one-dimensional subspace. Consequently, the homology in every degree is one-dimensional over \(\mathbb C\):
+\[
+\operatorname{Tor}_n^R(M_1,M_2)\cong \mathbb C
+\]
+for every \(n\geq 0\).
+
+\begin{center}
+	\begin{tabular}{c|c|c|c}
+		\textbf{Degree \(n\)} & \textbf{Kernel} & \textbf{Image from previous map} & \(\operatorname{Tor}_n^R(M_1,M_2)\)\\
+		\hline
+		\(0\) & \(M_2\) modulo \(xM_2\) & \((x)\) & \(\mathbb C\)\\
+		\(1\) & \((x)\) & \(0\) & \(\mathbb C\)\\
+		\(2\) & \(M_2\) & \((x)\) & \(\mathbb C\)\\
+		\(3\) & \((x)\) & \(0\) & \(\mathbb C\)\\
+		\(4\) & \(M_2\) & \((x)\) & \(\mathbb C\)
+	\end{tabular}
+\end{center}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=1.6cm,
+		every node/.style={font=\small},
+		module/.style={draw, rounded corners, minimum width=1.15cm, minimum height=0.7cm, fill=orange!10}
+		]
+		\node[module] (b4) {\(M_2\)};
+		\node[module, right=of b4] (b3) {\(M_2\)};
+		\node[module, right=of b3] (b2) {\(M_2\)};
+		\node[module, right=of b2] (b1) {\(M_2\)};
+		\node[module, right=of b1] (b0) {\(M_2\)};
+		
+		\draw[->, thick] (b4) -- node[above] {\(\cdot x\)} (b3);
+		\draw[->, thick] (b3) -- node[above] {\(0\)} (b2);
+		\draw[->, thick] (b2) -- node[above] {\(\cdot x\)} (b1);
+		\draw[->, thick] (b1) -- node[above] {\(0\)} (b0);
+		
+		\node[left=0.4cm of b4] {\(\cdots\)};
+	\end{tikzpicture}
+	\caption{After tensoring with \(M_2\), the differentials alternate between multiplication by \(x\) and the zero map.}
+\end{figure}
+
+Therefore
+\[
+\boxed{
+	\operatorname{Tor}_n^R(M_1,M_2)\cong \mathbb C
+	\quad
+	\text{for every }n\geq 0.
+}
+\]
+
+\subsection*{Examples for Problem 13: extension from bottom and side wall}
+
+Problem 13 states that if \(X\) is a finite cell complex, \(A\subset X\) is a subcomplex, and
+\[
+Y=X\times\{0\}\cup A\times I
+\subset X\times I,
+\]
+then every map
+\[
+Y\to Z
+\]
+extends to a map
+\[
+X\times I\to Z.
+\]
+
+Geometrically,
+\[
+X\times I
+\]
+is the cylinder on \(X\). The subspace
+\[
+Y=X\times\{0\}\cup A\times I
+\]
+contains the whole bottom copy of \(X\), and the vertical cylinder only over \(A\).
+
+Thus:
+\[
+\text{\(Y\) = bottom over all of \(X\) + vertical side over \(A\).}
+\]
+
+\subsubsection*{Example 13.1. The interval case}
+
+Let
+\[
+X=D^1=[-1,1],
+\qquad
+A=S^0=\{-1,1\}.
+\]
+
+Then
+\[
+X\times I
+\]
+is a square. The subspace
+\[
+Y=D^1\times\{0\}\cup S^0\times I
+\]
+is the bottom edge plus the two vertical side edges.
+
+So \(Y\) is a U-shaped subset of the square.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small}
+		]
+		% square
+		\draw[gray!40, thick] (0,0) rectangle (4,3);
+		
+		% Y highlighted
+		\draw[very thick, blue] (0,0) -- (4,0);
+		\draw[very thick, blue] (0,0) -- (0,3);
+		\draw[very thick, blue] (4,0) -- (4,3);
+		
+		% labels
+		\node[below left] at (0,0) {\((-1,0)\)};
+		\node[below right] at (4,0) {\((1,0)\)};
+		\node[above left] at (0,3) {\((-1,1)\)};
+		\node[above right] at (4,3) {\((1,1)\)};
+		
+		\node at (2,-0.55) {\(D^1\times\{0\}\)};
+		\node[rotate=90] at (-0.55,1.5) {\(\{-1\}\times I\)};
+		\node[rotate=90] at (4.55,1.5) {\(\{1\}\times I\)};
+		
+		\node at (2,3.35) {\(D^1\times I\)};
+	\end{tikzpicture}
+	\caption{For \(X=D^1\) and \(A=S^0\), the space \(Y\) is the bottom edge together with the two side edges.}
+\end{figure}
+
+Any map from this U-shaped subspace to a space \(Z\) extends over the whole square. Geometrically, the square retracts onto this U-shaped subset.
+
+\subsubsection*{Example 13.2. The disk case}
+
+Let
+\[
+X=D^2,
+\qquad
+A=S^1.
+\]
+
+Then
+\[
+X\times I=D^2\times I
+\]
+is a solid cylinder.
+
+The subspace
+\[
+Y=D^2\times\{0\}\cup S^1\times I
+\]
+is the bottom disk together with the cylindrical side wall.
+
+So \(Y\) is like a cup: it has the bottom and the side wall, but not the top disk.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% cylinder side
+		\draw[thick, blue] (-2,0) arc[start angle=180,end angle=360,x radius=2,y radius=0.45];
+		\draw[thick, blue, dashed] (2,0) arc[start angle=0,end angle=180,x radius=2,y radius=0.45];
+		
+		\draw[thick, blue] (-2,0) -- (-2,3);
+		\draw[thick, blue] (2,0) -- (2,3);
+		
+		% top ellipse, missing disk
+		\draw[thick, gray!60, dashed] (-2,3) arc[start angle=180,end angle=360,x radius=2,y radius=0.45];
+		\draw[thick, gray!60, dashed] (2,3) arc[start angle=0,end angle=180,x radius=2,y radius=0.45];
+		
+		% side shading lines
+		\draw[blue!55] (-1.2,0.35) -- (-1.2,3.35);
+		\draw[blue!55] (0,0.45) -- (0,3.45);
+		\draw[blue!55] (1.2,0.35) -- (1.2,3.35);
+		
+		% bottom disk filled lightly
+		\fill[blue!10] (-2,0) arc[start angle=180,end angle=360,x radius=2,y radius=0.45]
+		arc[start angle=0,end angle=180,x radius=2,y radius=0.45];
+		
+		\node at (0,-0.95) {\(D^2\times\{0\}\): bottom disk included};
+		\node[right] at (2.25,1.5) {\(S^1\times I\): side wall included};
+		\node at (0,3.95) {top disk not required in \(Y\)};
+	\end{tikzpicture}
+	\caption{For \(X=D^2\) and \(A=S^1\), \(Y\) is the bottom disk plus the cylindrical side wall.}
+\end{figure}
+
+Any map
+\[
+D^2\times\{0\}\cup S^1\times I
+\to Z
+\]
+extends over
+\[
+D^2\times I.
+\]
+
+This is the basic geometric model behind the homotopy extension property.
+
+\subsubsection*{Example 13.3. A triangle as one \(2\)-cell}
+
+Let \(X\) be a filled triangle, and let \(A\) be its boundary. Then
+\[
+X\cong D^2,
+\qquad
+A\cong S^1.
+\]
+
+The cylinder
+\[
+X\times I
+\]
+is a triangular prism. The subspace
+\[
+Y=X\times\{0\}\cup A\times I
+\]
+contains:
+\[
+\text{the bottom filled triangle},
+\]
+and
+\[
+\text{the three vertical rectangular side faces}.
+\]
+It does not contain the top filled triangle as part of the prescribed data.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% bottom triangle coordinates
+		\coordinate (A) at (0,0);
+		\coordinate (B) at (3.7,0);
+		\coordinate (C) at (1.85,1.5);
+		
+		% top triangle shift
+		\coordinate (At) at (0.7,2.1);
+		\coordinate (Bt) at (4.4,2.1);
+		\coordinate (Ct) at (2.55,3.6);
+		
+		% bottom filled triangle
+		\fill[blue!10] (A)--(B)--(C)--cycle;
+		\draw[very thick, blue] (A)--(B)--(C)--cycle;
+		
+		% side faces edges
+		\draw[very thick, blue] (A)--(At);
+		\draw[very thick, blue] (B)--(Bt);
+		\draw[very thick, blue] (C)--(Ct);
+		
+		\draw[very thick, blue] (A)--(B)--(Bt)--(At)--cycle;
+		\draw[very thick, blue] (B)--(C)--(Ct)--(Bt)--cycle;
+		\draw[very thick, blue] (C)--(A)--(At)--(Ct)--cycle;
+		
+		% top triangle dashed
+		\draw[thick, gray!70, dashed] (At)--(Bt)--(Ct)--cycle;
+		
+		\node at (1.8,-0.45) {bottom triangle \(X\times\{0\}\) included};
+		\node[right] at (4.55,2.7) {top filled triangle not prescribed};
+		\node[left] at (-0.25,1.6) {side faces \(A\times I\) included};
+	\end{tikzpicture}
+	\caption{A filled triangle crossed with \(I\) gives a triangular prism. The space \(Y\) consists of the bottom triangle and the three side faces.}
+\end{figure}
+
+Thus any map from the bottom triangle plus the side faces extends over the whole triangular prism.
+
+\subsubsection*{Example 13.4. Attaching one \(2\)-cell to a circle}
+
+Let
+\[
+A=S^1.
+\]
+Attach one \(2\)-cell to \(A\) along the identity map
+\[
+S^1\to S^1.
+\]
+The resulting space is
+\[
+X=D^2.
+\]
+
+The homotopy extension property says that if we know a map on the whole disk at time \(0\),
+\[
+D^2\times\{0\}\to Z,
+\]
+and we know a homotopy on the boundary circle,
+\[
+S^1\times I\to Z,
+\]
+then we can extend this to a homotopy on the whole disk:
+\[
+D^2\times I\to Z.
+\]
+
+In words:
+\[
+\text{known: whole disk at \(t=0\) and boundary circle for all \(t\),}
+\]
+\[
+\text{unknown: interior of the disk for \(t>0\),}
+\]
+\[
+\text{Problem 13 says: the interior can be filled continuously.}
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% left disk at t=0
+		\fill[blue!10] (0,0) circle (1.0);
+		\draw[very thick, blue] (0,0) circle (1.0);
+		\node at (0,-1.35) {\(D^2\times\{0\}\)};
+		\node at (0,1.35) {known};
+		
+		% arrow
+		\draw[->, thick] (1.4,0) -- (2.4,0);
+		\node at (1.9,0.35) {extend};
+		
+		% right cylinder symbolic
+		\draw[thick, blue] (3.4,-0.6) arc[start angle=180,end angle=360,x radius=1.0,y radius=0.25];
+		\draw[thick, blue, dashed] (5.4,-0.6) arc[start angle=0,end angle=180,x radius=1.0,y radius=0.25];
+		\draw[thick, blue] (3.4,-0.6)--(3.4,1.4);
+		\draw[thick, blue] (5.4,-0.6)--(5.4,1.4);
+		\draw[thick, gray!70, dashed] (3.4,1.4) arc[start angle=180,end angle=360,x radius=1.0,y radius=0.25];
+		\draw[thick, gray!70, dashed] (5.4,1.4) arc[start angle=0,end angle=180,x radius=1.0,y radius=0.25];
+		
+		\node at (4.4,-1.2) {\(D^2\times I\)};
+		\node[right] at (5.6,0.4) {\(S^1\times I\) known};
+		\node at (4.4,1.9) {interior filled};
+	\end{tikzpicture}
+	\caption{A homotopy given on the boundary circle and an initial map on the whole disk extends over the whole disk cylinder.}
+\end{figure}
+
+\subsection*{Summary chart for Problems 11--13}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.3}
+	\begin{tabular}{c|p{4.1cm}|p{4.1cm}|p{4.8cm}}
+		\textbf{Problem} & \textbf{Main object} & \textbf{Key operation} & \textbf{What the examples show}\\
+		\hline
+		11 & Chain complexes over \(\mathbb Z\) & Reduce modulo \(p\) & Free parts and torsion are detected by mod-\(p\) homology\\
+		\hline
+		12 & Modules over \(R=\mathbb C[x]/(x^3)\) & Free resolution and tensor product & Tor is computed as homology of a periodic complex\\
+		\hline
+		13 & CW-pair \(A\subset X\) & Extend from \(X\times\{0\}\cup A\times I\) & Bottom-plus-side data extends over the full cylinder
+	\end{tabular}
+\end{center}
+
+\subsection*{Final diagram summary}
+
+\subsubsection*{Problem 11 diagram}
+
+A typical integral chain complex is
+\[
+0
+\longrightarrow
+\mathbb Z
+\xrightarrow{\cdot m}
+\mathbb Z
+\longrightarrow
+0.
+\]
+
+After reduction modulo \(p\), it becomes
+\[
+0
+\longrightarrow
+\mathbb F_p
+\xrightarrow{\cdot (m\bmod p)}
+\mathbb F_p
+\longrightarrow
+0.
+\]
+
+If \(p\mid m\), then the differential becomes zero and homology appears. If \(p\nmid m\), then the differential is invertible and homology vanishes.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=2.0cm,
+		every node/.style={font=\small},
+		box/.style={draw, rounded corners, minimum width=1.2cm, minimum height=0.72cm, fill=blue!5}
+		]
+		\node[box] (z1) {\(\mathbb Z\)};
+		\node[box, right=of z1] (z0) {\(\mathbb Z\)};
+		\draw[->, thick] (z1) -- node[above] {\(\cdot m\)} (z0);
+		\node[left=0.8cm of z1] {\(\mathbb Z\)-complex};
+		
+		\node[box, below=1.35cm of z1, fill=green!8] (f1) {\(\mathbb F_p\)};
+		\node[box, below=1.35cm of z0, fill=green!8] (f0) {\(\mathbb F_p\)};
+		\draw[->, thick] (f1) -- node[above] {\(\cdot(m\bmod p)\)} (f0);
+		\node[left=0.8cm of f1] {mod \(p\)};
+		
+		\draw[->, dashed] ($(z1)!0.5!(z0)+(0,-0.35)$) -- ($(f1)!0.5!(f0)+(0,0.35)$);
+		\node at ($(z1)!0.5!(z0)+(0,-0.75)$) {tensor with \(\mathbb F_p\)};
+	\end{tikzpicture}
+	\caption{Reduction of a chain complex modulo a prime \(p\).}
+\end{figure}
+
+\subsubsection*{Problem 12 diagram}
+
+The free resolution of \(M_1\) is
+\[
+\cdots
+\longrightarrow
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\xrightarrow{\cdot x^2}
+R
+\xrightarrow{\cdot x}
+R
+\longrightarrow
+M_1
+\longrightarrow
+0.
+\]
+
+After tensoring with \(M_1\), all maps become zero:
+\[
+\cdots
+\longrightarrow
+M_1
+\xrightarrow{0}
+M_1
+\xrightarrow{0}
+M_1
+\xrightarrow{0}
+M_1.
+\]
+
+After tensoring with \(M_2\), the maps alternate:
+\[
+\cdots
+\longrightarrow
+M_2
+\xrightarrow{\cdot x}
+M_2
+\xrightarrow{0}
+M_2
+\xrightarrow{\cdot x}
+M_2.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		module/.style={draw, rounded corners, minimum width=1.05cm, minimum height=0.68cm}
+		]
+		% row 1
+		\node[module, fill=blue!6] (r4) at (0,0) {\(R\)};
+		\node[module, fill=blue!6] (r3) at (1.8,0) {\(R\)};
+		\node[module, fill=blue!6] (r2) at (3.6,0) {\(R\)};
+		\node[module, fill=blue!6] (r1) at (5.4,0) {\(R\)};
+		\draw[->, thick] (r4)--node[above]{\(\cdot x^2\)}(r3);
+		\draw[->, thick] (r3)--node[above]{\(\cdot x\)}(r2);
+		\draw[->, thick] (r2)--node[above]{\(\cdot x^2\)}(r1);
+		\node[left=0.7cm of r4] {\(F_*\)};
+		
+		% row 2
+		\node[module, fill=green!8] (m14) at (0,-1.6) {\(M_1\)};
+		\node[module, fill=green!8] (m13) at (1.8,-1.6) {\(M_1\)};
+		\node[module, fill=green!8] (m12) at (3.6,-1.6) {\(M_1\)};
+		\node[module, fill=green!8] (m11) at (5.4,-1.6) {\(M_1\)};
+		\draw[->, thick] (m14)--node[above]{\(0\)}(m13);
+		\draw[->, thick] (m13)--node[above]{\(0\)}(m12);
+		\draw[->, thick] (m12)--node[above]{\(0\)}(m11);
+		\node[left=0.7cm of m14] {\(F_*\otimes_R M_1\)};
+		
+		% row 3
+		\node[module, fill=orange!10] (m24) at (0,-3.2) {\(M_2\)};
+		\node[module, fill=orange!10] (m23) at (1.8,-3.2) {\(M_2\)};
+		\node[module, fill=orange!10] (m22) at (3.6,-3.2) {\(M_2\)};
+		\node[module, fill=orange!10] (m21) at (5.4,-3.2) {\(M_2\)};
+		\draw[->, thick] (m24)--node[above]{\(\cdot x\)}(m23);
+		\draw[->, thick] (m23)--node[above]{\(0\)}(m22);
+		\draw[->, thick] (m22)--node[above]{\(\cdot x\)}(m21);
+		\node[left=0.7cm of m24] {\(F_*\otimes_R M_2\)};
+	\end{tikzpicture}
+	\caption{The periodic resolution and its tensor products with \(M_1\) and \(M_2\).}
+\end{figure}
+
+\subsubsection*{Problem 13 diagram}
+
+The full cylinder is
+\[
+X\times I.
+\]
+The prescribed subspace is
+\[
+Y=X\times\{0\}\cup A\times I.
+\]
+
+Thus one knows the map on:
+\[
+\text{the whole bottom copy of \(X\),}
+\]
+and on
+\[
+\text{the vertical cylinder over \(A\).}
+\]
+
+The homotopy extension property says that this data extends over all of
+\[
+X\times I.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% generic cylinder-like rectangle
+		\draw[gray!50, thick] (0,0) rectangle (4,2.6);
+		
+		% included bottom
+		\draw[very thick, blue] (0,0)--(4,0);
+		\node at (2,-0.45) {\(X\times\{0\}\)};
+		
+		% included A side as a smaller vertical strip
+		\draw[very thick, blue] (0.8,0)--(0.8,2.6);
+		\draw[very thick, blue] (3.2,0)--(3.2,2.6);
+		\node[rotate=90] at (0.45,1.3) {\(A\times I\)};
+		\node[rotate=90] at (3.55,1.3) {\(A\times I\)};
+		
+		\node at (2,2.95) {\(X\times I\)};
+		\node at (2,1.3) {extend over the missing interior};
+	\end{tikzpicture}
+	\caption{Schematic picture of \(Y=X\times\{0\}\cup A\times I\subset X\times I\).}
+\end{figure}
+
+\[
+\boxed{
+	\text{Problem 11: mod-\(p\) detection}
+}
+\]
+\[
+\boxed{
+	\text{Problem 12: periodic free resolutions and Tor}
+}
+\]
+\[
+\boxed{
+	\text{Problem 13: homotopy extension from bottom plus side}
+}
+\]
+
+\section{Problem 14. Killing the \(n\)-skeleton and consequences for homology}
+
+\textbf{Statement.}
+Let
+\[
+f:X\to Y
+\]
+be a map of finite cell complexes, and suppose that
+\[
+\pi_i(Y,*)=0
+\qquad
+\text{for all }0<i\leq n.
+\]
+Using Problem 10, show that there is a map
+\[
+\overline f:X/X_n\to Y
+\]
+such that
+\[
+\overline f\circ \pi\simeq f,
+\]
+where
+\[
+\pi:X\to X/X_n
+\]
+is the quotient map.
+
+Deduce the following consequences:
+
+\[
+\text{(a)}\qquad H_i(Y)=0
+\quad
+\text{for }0<i\leq n.
+\]
+
+\[
+\text{(b)}\qquad
+\psi:\pi_{n+1}(Y,*)\to H_{n+1}(Y)
+\]
+is surjective.
+
+\[
+\text{(c)}\qquad
+\text{If }\pi_i(Y,*)=0\text{ for all }i>0,\text{ then }Y\text{ is contractible.}
+\]
+
+\textbf{Solution.}
+
+We assume that \(Y\) is path-connected, or equivalently that all maps under consideration land in the component of the chosen basepoint \(*\).
+
+Let
+\[
+X_n\subset X
+\]
+be the \(n\)-skeleton of \(X\). Since
+\[
+\pi_i(Y,*)=0
+\qquad
+\text{for }0<i\leq n,
+\]
+Problem 10 implies that the restriction
+\[
+f|_{X_n}:X_n\to Y
+\]
+is homotopic to a constant map.
+
+Thus, after replacing \(f\) by a homotopic map, we may assume that
+\[
+f(X_n)=\{*\}.
+\]
+
+Because \(f\) is constant on \(X_n\), it factors through the quotient
+\[
+X/X_n.
+\]
+Therefore there exists a map
+\[
+\overline f:X/X_n\to Y
+\]
+such that
+\[
+\overline f\circ \pi=f
+\]
+for the modified representative of the homotopy class. Hence for the original \(f\), we get
+\[
+\boxed{
+	\overline f\circ \pi\simeq f.
+}
+\]
+
+This proves the first claim.
+
+\subsubsection*{(a) Vanishing of \(H_i(Y)\) for \(0<i\leq n\)}
+
+Apply the first part to the identity map
+\[
+\operatorname{id}_Y:Y\to Y.
+\]
+Then there exists a map
+\[
+g:Y/Y_n\to Y
+\]
+such that
+\[
+g\circ \pi\simeq \operatorname{id}_Y,
+\]
+where
+\[
+\pi:Y\to Y/Y_n
+\]
+collapses the \(n\)-skeleton \(Y_n\) to a point.
+
+Passing to homology gives
+\[
+g_*\circ \pi_*=(\operatorname{id}_Y)_*.
+\]
+
+Now observe that \(Y/Y_n\) has no cells in dimensions
+\[
+1,2,\ldots,n.
+\]
+Therefore
+\[
+H_i(Y/Y_n)=0
+\qquad
+\text{for }0<i\leq n.
+\]
+
+Hence, for \(0<i\leq n\), the map
+\[
+\pi_*:H_i(Y)\to H_i(Y/Y_n)
+\]
+has target zero. Thus
+\[
+\pi_*=0.
+\]
+Therefore
+\[
+(\operatorname{id}_Y)_*
+=
+g_*\circ \pi_*
+=
+0.
+\]
+
+But the identity map on \(H_i(Y)\) can be zero only if
+\[
+H_i(Y)=0.
+\]
+
+Hence
+\[
+\boxed{
+	H_i(Y)=0
+	\qquad
+	\text{for }0<i\leq n.
+}
+\]
+
+\subsubsection*{(b) Surjectivity of the Hurewicz homomorphism}
+
+Again use the factorization of the identity map:
+\[
+Y\xrightarrow{\pi}Y/Y_n\xrightarrow{g}Y,
+\]
+with
+\[
+g\circ \pi\simeq \operatorname{id}_Y.
+\]
+
+Passing to homology in degree \(n+1\), every class
+\[
+\alpha\in H_{n+1}(Y)
+\]
+satisfies
+\[
+\alpha
+=
+(g\circ \pi)_*(\alpha)
+=
+g_*(\pi_*(\alpha)).
+\]
+
+So every class in \(H_{n+1}(Y)\) is the image under \(g_*\) of some class in
+\[
+H_{n+1}(Y/Y_n).
+\]
+
+Now \(Y/Y_n\) has a single \(0\)-cell and no cells in dimensions
+\[
+1,\ldots,n.
+\]
+Its \((n+1)\)-cells therefore contribute spheres
+\[
+S^{n+1}\to Y/Y_n.
+\]
+
+Consequently,
+\[
+H_{n+1}(Y/Y_n)
+\]
+is generated by homology classes represented by maps
+\[
+S^{n+1}\to Y/Y_n.
+\]
+
+Composing such maps with
+\[
+g:Y/Y_n\to Y
+\]
+gives maps
+\[
+S^{n+1}\to Y.
+\]
+Their homology classes lie in the image of the Hurewicz homomorphism
+\[
+\psi:\pi_{n+1}(Y,*)\to H_{n+1}(Y).
+\]
+
+Since every class of \(H_{n+1}(Y)\) is obtained in this way, the Hurewicz homomorphism is surjective:
+
+\[
+\boxed{
+	\psi:\pi_{n+1}(Y,*)\to H_{n+1}(Y)
+	\text{ is surjective.}
+}
+\]
+
+\subsubsection*{(c) If all homotopy groups vanish, then \(Y\) is contractible}
+
+Assume now that
+\[
+\pi_i(Y,*)=0
+\qquad
+\text{for all }i>0.
+\]
+
+Since \(Y\) is a finite cell complex, it has some finite dimension, say
+\[
+\dim Y=N.
+\]
+
+Apply the first part with
+\[
+n=N
+\]
+and with
+\[
+f=\operatorname{id}_Y.
+\]
+
+Then there exists a map
+\[
+g:Y/Y_N\to Y
+\]
+such that
+\[
+g\circ \pi\simeq \operatorname{id}_Y.
+\]
+
+But
+\[
+Y_N=Y,
+\]
+because \(N=\dim Y\). Hence
+\[
+Y/Y_N=Y/Y
+\]
+is a single point.
+
+Therefore the identity map
+\[
+\operatorname{id}_Y
+\]
+is homotopic to a constant map:
+\[
+\operatorname{id}_Y\simeq c_*.
+\]
+
+This means precisely that \(Y\) is contractible.
+
+Thus
+\[
+\boxed{
+	\pi_i(Y,*)=0\text{ for all }i>0
+	\quad\Longrightarrow\quad
+	Y\text{ is contractible.}
+}
+\]
+
+This is a finite CW-complex version of Whitehead's theorem.
+
+\bigskip
+
+\section{Problem 15. Acyclic non-contractible complexes and homology-equivalent maps}
+
+\textbf{Statement.}
+This question assumes some knowledge of \(\pi_1\).
+
+\begin{enumerate}
+	\item[(a)] Construct a connected finite cell complex \(X\) with
+	\[
+	\widetilde H_*(X)=0
+	\]
+	but which is not contractible.
+	
+	\item[(b)] Find a map
+	\[
+	f:S^1\vee S^2\to S^1\vee S^2
+	\]
+	which induces the identity map on
+	\[
+	H_*(S^1\vee S^2),
+	\]
+	but is not homotopic to the identity.
+\end{enumerate}
+
+\textbf{Solution.}
+
+\subsubsection*{(a) A finite acyclic complex which is not contractible}
+
+We construct a finite \(2\)-dimensional cell complex from a group presentation.
+
+Let
+\[
+G=
+\left\langle
+x,y,z
+\ \middle|\
+x^2=xyz,\quad
+y^3=xyz,\quad
+z^5=xyz
+\right\rangle.
+\]
+
+This is a standard presentation of the binary icosahedral group, a non-trivial finite perfect group.
+
+Let \(X\) be the presentation complex of this presentation. Thus \(X\) has:
+
+\begin{itemize}
+	\item one \(0\)-cell,
+	\item three \(1\)-cells corresponding to \(x,y,z\),
+	\item three \(2\)-cells corresponding to the relators
+	\[
+	r_1=x^2(xyz)^{-1},
+	\]
+	\[
+	r_2=y^3(xyz)^{-1},
+	\]
+	\[
+	r_3=z^5(xyz)^{-1}.
+	\]
+\end{itemize}
+
+The cellular chain complex of \(X\) has the form
+\[
+0
+\longrightarrow
+C_2(X)
+\xrightarrow{d_2}
+C_1(X)
+\xrightarrow{d_1}
+C_0(X)
+\longrightarrow
+0.
+\]
+
+Since there is one \(0\)-cell, and all \(1\)-cells are loops based at it,
+\[
+d_1=0.
+\]
+
+Also,
+\[
+C_2(X)\cong \mathbb Z^3,
+\qquad
+C_1(X)\cong \mathbb Z^3.
+\]
+
+The boundary map \(d_2\) is given by the exponent-sum matrix of the relators. The exponent-sum vectors are
+\[
+r_1:\quad (1,-1,-1),
+\]
+\[
+r_2:\quad (-1,2,-1),
+\]
+\[
+r_3:\quad (-1,-1,4).
+\]
+
+Therefore
+\[
+d_2
+=
+\begin{pmatrix}
+	1 & -1 & -1\\
+	-1 & 2 & -1\\
+	-1 & -1 & 4
+\end{pmatrix}.
+\]
+
+Its determinant is
+\[
+\det
+\begin{pmatrix}
+	1 & -1 & -1\\
+	-1 & 2 & -1\\
+	-1 & -1 & 4
+\end{pmatrix}
+=
+-1.
+\]
+
+Hence \(d_2\) is an isomorphism
+\[
+\mathbb Z^3\to \mathbb Z^3.
+\]
+
+Therefore
+\[
+H_2(X)=\ker d_2=0,
+\]
+and
+\[
+H_1(X)=\ker d_1/\operatorname{im}d_2
+=
+\mathbb Z^3/\mathbb Z^3
+=
+0.
+\]
+
+Since \(X\) is connected,
+\[
+H_0(X)\cong \mathbb Z.
+\]
+
+Thus
+\[
+\widetilde H_*(X)=0.
+\]
+
+So \(X\) is acyclic.
+
+However,
+\[
+\pi_1(X)\cong G,
+\]
+and \(G\) is non-trivial. Therefore \(X\) is not simply connected.
+
+If \(X\) were contractible, then it would be simply connected. Hence \(X\) is not contractible.
+
+Thus we have constructed a connected finite cell complex such that
+\[
+\boxed{
+	\widetilde H_*(X)=0
+	\quad
+	\text{but}
+	\quad
+	X\text{ is not contractible.}
+}
+\]
+
+\subsubsection*{(b) A homology identity map which is not homotopic to the identity}
+
+Let
+\[
+X=S^1\vee S^2.
+\]
+
+Let
+\[
+a\in \pi_1(X)
+\]
+be the generator coming from the \(S^1\)-summand.
+
+Let
+\[
+u\in \pi_2(X)
+\]
+be the class represented by the inclusion
+\[
+S^2\hookrightarrow S^1\vee S^2.
+\]
+
+The universal cover of \(X=S^1\vee S^2\) is an infinite line, with a copy of \(S^2\) attached at each integer point. Therefore
+\[
+\pi_2(X)\cong \mathbb Z[t,t^{-1}]u,
+\]
+where \(t\) records the action of the generator \(a\in \pi_1(X)\).
+
+The ordinary homology group
+\[
+H_2(X)\cong \mathbb Z
+\]
+is obtained from \(\pi_2(X)\) by forgetting the \(t\)-position. Algebraically, this corresponds to the augmentation map
+\[
+\varepsilon:\mathbb Z[t,t^{-1}]\to \mathbb Z,
+\]
+defined by
+\[
+\varepsilon\left(\sum_k m_k t^k\right)
+=
+\sum_k m_k.
+\]
+
+Now define a map
+\[
+f:S^1\vee S^2\to S^1\vee S^2
+\]
+as follows.
+
+On the \(S^1\)-summand, let
+\[
+f|_{S^1}=\operatorname{id}_{S^1}.
+\]
+
+On the \(S^2\)-summand, choose a based map representing the element
+\[
+(2-t)u\in \pi_2(X)\cong \mathbb Z[t,t^{-1}]u.
+\]
+
+Thus
+\[
+f_*(u)=(2-t)u.
+\]
+
+We now check the induced map on homology.
+
+In degree \(1\), \(f\) is the identity on \(S^1\), so
+\[
+f_*:H_1(X)\to H_1(X)
+\]
+is the identity.
+
+In degree \(2\), the induced map is multiplication by
+\[
+\varepsilon(2-t).
+\]
+But
+\[
+\varepsilon(2-t)=2-1=1.
+\]
+Therefore
+\[
+f_*:H_2(X)\to H_2(X)
+\]
+is also the identity.
+
+Hence \(f\) induces the identity on all homology groups:
+\[
+\boxed{
+	f_*=\operatorname{id}
+	\text{ on }H_*(S^1\vee S^2).
+}
+\]
+
+However, \(f\) is not homotopic to the identity.
+
+Indeed, the identity map sends
+\[
+u\mapsto u.
+\]
+But \(f\) sends
+\[
+u\mapsto (2-t)u.
+\]
+
+Since
+\[
+2-t\neq 1
+\]
+in
+\[
+\mathbb Z[t,t^{-1}],
+\]
+the induced maps on \(\pi_2(X)\) are different. Therefore \(f\) is not based-homotopic to the identity.
+
+Even if one allows free homotopy, a homotopy from \(f\) to the identity could only change the induced action on \(\pi_2\) by multiplication by a monomial \(t^k\). But
+\[
+2-t
+\]
+is not a monomial. Hence \(f\) is not freely homotopic to the identity either.
+
+Thus
+\[
+\boxed{
+	f:S^1\vee S^2\to S^1\vee S^2
+	\text{ induces the identity on homology but is not homotopic to }
+	\operatorname{id}.
+}
+\]
+% Required packages:
+% \usepackage{amsmath,amssymb}
+% \usepackage{array}
+
+\section*{Theory, definitions, and context for Problems 14--15}
+
+\subsection*{1. The \(n\)-skeleton \(X_n\)}
+
+If \(X\) is a cell complex, then its \textbf{\(n\)-skeleton} is the subcomplex made from all cells of dimension at most \(n\). It is usually denoted by
+\[
+X_n=X^n.
+\]
+
+Thus:
+\[
+X_0=\text{the set of vertices},
+\]
+\[
+X_1=\text{vertices plus edges},
+\]
+\[
+X_2=\text{vertices, edges, and \(2\)-cells},
+\]
+and so on.
+
+For example, if \(X\) is a filled triangle, then
+\[
+X_0=\text{three vertices},
+\]
+\[
+X_1=\text{the boundary circle made from three edges},
+\]
+and
+\[
+X_2=X=\text{the filled triangle}.
+\]
+
+The quotient
+\[
+X/X_n
+\]
+means that the whole \(n\)-skeleton is collapsed to one point. In this quotient, all cells of dimension \(\leq n\) disappear into the basepoint, while the cells of dimension \(>n\) remain visible.
+
+A crucial special case is
+\[
+D^{n+1}/S^n\cong S^{n+1}.
+\]
+
+Indeed, if one collapses the boundary of an \((n+1)\)-disk to one point, the result is an \((n+1)\)-sphere. This is why, after collapsing the \(n\)-skeleton, each \((n+1)\)-cell behaves like an \((n+1)\)-sphere.
+
+\subsection*{2. Meaning of \(\pi_i(Y,*)=0\)}
+
+The group
+\[
+\pi_i(Y,*)
+\]
+is the \(i\)-th homotopy group of \(Y\) based at \(*\). It consists of based homotopy classes of maps
+\[
+S^i\to Y.
+\]
+
+The condition
+\[
+\pi_i(Y,*)=0
+\]
+means that every based map
+\[
+S^i\to Y
+\]
+is homotopic to the constant map.
+
+Geometrically:
+\[
+\pi_1(Y,*)=0
+\]
+means that every loop in \(Y\) can be contracted to the basepoint.
+
+Similarly,
+\[
+\pi_2(Y,*)=0
+\]
+means that every \(2\)-sphere in \(Y\) can be contracted.
+
+Also,
+\[
+\pi_3(Y,*)=0
+\]
+means that every \(3\)-sphere in \(Y\) can be contracted.
+
+Therefore, the assumption in Problem 14,
+\[
+\pi_i(Y,*)=0
+\qquad
+0<i\leq n,
+\]
+means that \(Y\) has no nontrivial homotopy in dimensions
+\[
+1,2,\ldots,n.
+\]
+
+Informally,
+\[
+Y
+\]
+is homotopically trivial up to dimension \(n\).
+
+\subsection*{3. Why maps from \(X_n\) become null-homotopic}
+
+Suppose \(X_n\) is an \(n\)-dimensional finite cell complex and
+\[
+\pi_i(Y,*)=0
+\qquad
+0<i\leq n.
+\]
+
+Then every map
+\[
+X_n\to Y
+\]
+is homotopic to a constant map.
+
+The reason is cellular and inductive.
+
+First consider the \(0\)-skeleton. If \(Y\) is path-connected, then the images of all vertices can be moved to the basepoint.
+
+Next consider the \(1\)-cells. The obstruction to contracting a loop lies in
+\[
+\pi_1(Y,*).
+\]
+If
+\[
+\pi_1(Y,*)=0,
+\]
+then the \(1\)-dimensional part can be killed.
+
+Then consider the \(2\)-cells. The obstruction to killing a map on a \(2\)-cell lies in
+\[
+\pi_2(Y,*).
+\]
+If
+\[
+\pi_2(Y,*)=0,
+\]
+then the \(2\)-dimensional part can also be killed.
+
+Continuing in this way, the obstruction to killing \(k\)-cells lies in
+\[
+\pi_k(Y,*).
+\]
+
+Therefore, if all homotopy groups
+\[
+\pi_i(Y,*)
+\]
+vanish for
+\[
+0<i\leq n,
+\]
+then any map from an \(n\)-dimensional finite cell complex into \(Y\) is homotopic to a constant map.
+
+This is the key input used in Problem 14.
+
+\subsection*{4. Why the map factors through \(X/X_n\)}
+
+Suppose
+\[
+f:X\to Y
+\]
+is a map and suppose that the restriction
+\[
+f|_{X_n}:X_n\to Y
+\]
+is homotopic to a constant map.
+
+After replacing \(f\) by a homotopic map, we may assume that
+\[
+f(X_n)=\{*\}.
+\]
+
+Now \(f\) sends every point of \(X_n\) to the same point. This is exactly the condition needed for \(f\) to factor through the quotient
+\[
+X/X_n.
+\]
+
+Thus there exists a map
+\[
+\overline f:X/X_n\to Y
+\]
+such that
+\[
+\overline f\circ \pi=f
+\]
+for the modified representative of \(f\), where
+\[
+\pi:X\to X/X_n
+\]
+is the quotient map.
+
+For the original map, this gives
+\[
+\overline f\circ \pi\simeq f.
+\]
+
+The idea is:
+\[
+\text{if \(f\) is constant on \(X_n\), then one may collapse \(X_n\) before applying \(f\).}
+\]
+
+Diagrammatically, the situation is
+\[
+X
+\xrightarrow{\pi}
+X/X_n
+\xrightarrow{\overline f}
+Y.
+\]
+
+\section*{Context for Problem 14(a)}
+
+\subsection*{5. Why \(H_i(Y)=0\) for \(0<i\leq n\)}
+
+Problem 14(a) says that if
+\[
+\pi_i(Y,*)=0
+\qquad
+0<i\leq n,
+\]
+then
+\[
+H_i(Y)=0
+\qquad
+0<i\leq n.
+\]
+
+This is a weak form of the Hurewicz theorem. It says that vanishing of low-dimensional homotopy groups forces vanishing of low-dimensional homology groups.
+
+The proof uses the factorization result applied to the identity map
+\[
+\operatorname{id}_Y:Y\to Y.
+\]
+
+By the first part of Problem 14, there exists a map
+\[
+g:Y/Y_n\to Y
+\]
+such that
+\[
+g\circ \pi\simeq \operatorname{id}_Y,
+\]
+where
+\[
+\pi:Y\to Y/Y_n
+\]
+collapses the \(n\)-skeleton \(Y_n\) to a point.
+
+Passing to homology gives
+\[
+g_*\circ \pi_*=(\operatorname{id}_Y)_*.
+\]
+
+Now the quotient space
+\[
+Y/Y_n
+\]
+has no cells in dimensions
+\[
+1,2,\ldots,n.
+\]
+
+Therefore
+\[
+H_i(Y/Y_n)=0
+\qquad
+0<i\leq n.
+\]
+
+Hence, for \(0<i\leq n\), the map
+\[
+\pi_*:H_i(Y)\to H_i(Y/Y_n)
+\]
+has zero target. Therefore
+\[
+\pi_*=0.
+\]
+
+So
+\[
+(\operatorname{id}_Y)_*
+=
+g_*\circ \pi_*
+=
+0.
+\]
+
+But the identity map on \(H_i(Y)\) can be zero only if
+\[
+H_i(Y)=0.
+\]
+
+Thus
+\[
+\boxed{
+	H_i(Y)=0
+	\qquad
+	0<i\leq n.
+}
+\]
+
+\section*{Context for Problem 14(b)}
+
+\subsection*{6. The Hurewicz homomorphism}
+
+The \textbf{Hurewicz homomorphism} is a natural map
+\[
+\psi:\pi_k(Y,*)\to H_k(Y).
+\]
+
+It sends a homotopy class of maps
+\[
+\alpha:S^k\to Y
+\]
+to the homology class obtained by pushing forward the fundamental class of the sphere:
+\[
+\psi([\alpha])=\alpha_*([S^k]).
+\]
+
+Thus the Hurewicz homomorphism takes
+\[
+\text{a homotopy class of a sphere in \(Y\)}
+\]
+and produces
+\[
+\text{the homology class represented by that sphere}.
+\]
+
+For example, the identity map
+\[
+\operatorname{id}_{S^n}:S^n\to S^n
+\]
+represents a generator of
+\[
+\pi_n(S^n)\cong \mathbb Z.
+\]
+
+Under the Hurewicz homomorphism, this generator maps to a generator of
+\[
+H_n(S^n)\cong \mathbb Z.
+\]
+
+So the Hurewicz map translates spherical homotopy information into homology.
+
+\subsection*{7. Why the Hurewicz map is surjective in degree \(n+1\)}
+
+Problem 14(b) says that if
+\[
+\pi_i(Y,*)=0
+\qquad
+0<i\leq n,
+\]
+then the Hurewicz homomorphism
+\[
+\psi:\pi_{n+1}(Y,*)\to H_{n+1}(Y)
+\]
+is surjective.
+
+Surjective means that every homology class in
+\[
+H_{n+1}(Y)
+\]
+is represented by a sphere
+\[
+S^{n+1}\to Y.
+\]
+
+The reason comes from the quotient
+\[
+Y/Y_n.
+\]
+
+Since all cells of dimension \(\leq n\) have been collapsed, the first possible positive-dimensional cells in
+\[
+Y/Y_n
+\]
+occur in dimension
+\[
+n+1.
+\]
+
+Each \((n+1)\)-cell has boundary inside \(Y_n\). After collapsing \(Y_n\), the boundary becomes a point. Hence each \((n+1)\)-cell gives a sphere:
+\[
+D^{n+1}/S^n\cong S^{n+1}.
+\]
+
+Therefore the homology group
+\[
+H_{n+1}(Y/Y_n)
+\]
+is generated by homology classes represented by maps
+\[
+S^{n+1}\to Y/Y_n.
+\]
+
+Now use the map
+\[
+g:Y/Y_n\to Y
+\]
+from the factorization of the identity map. Composing a sphere
+\[
+S^{n+1}\to Y/Y_n
+\]
+with \(g\), we get a sphere
+\[
+S^{n+1}\to Y.
+\]
+
+These are elements of
+\[
+\pi_{n+1}(Y,*),
+\]
+and their homology classes are their images under the Hurewicz map.
+
+Since every class in \(H_{n+1}(Y)\) is obtained in this way, the Hurewicz map is surjective:
+\[
+\boxed{
+	\psi:\pi_{n+1}(Y,*)\to H_{n+1}(Y)
+	\text{ is onto.}
+}
+\]
+
+\section*{Context for Problem 14(c)}
+
+\subsection*{8. Contractible spaces}
+
+A space \(Y\) is called \textbf{contractible} if it is homotopy equivalent to a point.
+
+Equivalently, the identity map
+\[
+\operatorname{id}_Y:Y\to Y
+\]
+is homotopic to a constant map:
+\[
+\operatorname{id}_Y\simeq c_*.
+\]
+
+This means that \(Y\) can be continuously shrunk to one point inside itself.
+
+Examples of contractible spaces include:
+\[
+D^n,
+\]
+\[
+\mathbb R^n,
+\]
+and any tree.
+
+Non-examples include:
+\[
+S^1,
+\]
+because
+\[
+\pi_1(S^1)\cong \mathbb Z,
+\]
+and
+\[
+S^2,
+\]
+because
+\[
+\pi_2(S^2)\cong \mathbb Z.
+\]
+
+\subsection*{9. Why vanishing of all homotopy groups implies contractibility here}
+
+Problem 14(c) says that if
+\[
+\pi_i(Y,*)=0
+\qquad
+\text{for all }i>0,
+\]
+then \(Y\) is contractible.
+
+For finite cell complexes, this follows directly from the first part of Problem 14.
+
+Let
+\[
+N=\dim Y.
+\]
+
+Then
+\[
+Y_N=Y.
+\]
+
+Apply the factorization result to
+\[
+f=\operatorname{id}_Y
+\]
+with
+\[
+n=N.
+\]
+
+There exists a map
+\[
+g:Y/Y_N\to Y
+\]
+such that
+\[
+g\circ \pi\simeq \operatorname{id}_Y.
+\]
+
+But
+\[
+Y_N=Y,
+\]
+so
+\[
+Y/Y_N=Y/Y
+\]
+is a single point.
+
+Therefore the identity map of \(Y\) factors, up to homotopy, through a point:
+\[
+\operatorname{id}_Y\simeq c_*.
+\]
+
+Hence
+\[
+Y
+\]
+is contractible.
+
+This is closely related to \textbf{Whitehead's theorem}, which says that a weak homotopy equivalence between CW complexes is a homotopy equivalence. In particular, a path-connected CW complex with all homotopy groups trivial is contractible.
+
+\section*{Theory for Problem 15(a)}
+
+\subsection*{10. Reduced homology}
+
+The \textbf{reduced homology} groups
+\[
+\widetilde H_i(X)
+\]
+are a slight modification of ordinary homology.
+
+For \(i>0\),
+\[
+\widetilde H_i(X)=H_i(X).
+\]
+
+The difference occurs in degree \(0\). If \(X\) is path-connected, then
+\[
+H_0(X)\cong \mathbb Z,
+\]
+but
+\[
+\widetilde H_0(X)=0.
+\]
+
+Thus saying
+\[
+\widetilde H_*(X)=0
+\]
+means that \(X\) has the same homology as a point.
+
+A space satisfying
+\[
+\widetilde H_*(X)=0
+\]
+is called \textbf{acyclic}.
+
+Therefore Problem 15(a) asks for a finite connected cell complex \(X\) such that
+\[
+\widetilde H_*(X)=0,
+\]
+but
+\[
+X\not\simeq *.
+\]
+
+In words, \(X\) should have the homology of a point but should not be contractible.
+
+\subsection*{11. Acyclic does not imply contractible}
+
+Every contractible space is acyclic:
+\[
+X\simeq *
+\quad\Longrightarrow\quad
+\widetilde H_*(X)=0.
+\]
+
+However, the converse is false:
+\[
+\widetilde H_*(X)=0
+\quad
+\not\Longrightarrow
+\quad
+X\simeq *.
+\]
+
+The reason is that homology does not see all homotopy information.
+
+Homology is abelian. In particular, for a path-connected space \(X\),
+\[
+H_1(X)
+\]
+is the abelianization of the fundamental group:
+\[
+H_1(X)\cong \pi_1(X)_{\mathrm{ab}}.
+\]
+
+Therefore, if
+\[
+\pi_1(X)
+\]
+is nontrivial but perfect, then
+\[
+\pi_1(X)_{\mathrm{ab}}=0.
+\]
+
+This gives
+\[
+H_1(X)=0,
+\]
+even though
+\[
+\pi_1(X)\neq 0.
+\]
+
+This is the main idea behind the acyclic but non-contractible example in Problem 15(a).
+
+\subsection*{12. Perfect groups}
+
+A group \(G\) is called \textbf{perfect} if
+\[
+G=[G,G],
+\]
+where
+\[
+[G,G]
+\]
+is the commutator subgroup of \(G\).
+
+Equivalently, \(G\) is perfect if its abelianization is zero:
+\[
+G_{\mathrm{ab}}=G/[G,G]=0.
+\]
+
+For a path-connected space \(X\), one has
+\[
+H_1(X)\cong \pi_1(X)_{\mathrm{ab}}.
+\]
+
+Therefore, if
+\[
+\pi_1(X)
+\]
+is perfect, then
+\[
+H_1(X)=0.
+\]
+
+A perfect fundamental group can be invisible to first homology, even though it prevents the space from being contractible.
+
+Thus, the strategy in Problem 15(a) is:
+
+\[
+\text{choose a finite \(2\)-complex with nontrivial perfect fundamental group,}
+\]
+but arrange the cellular boundary map so that all reduced homology groups vanish.
+
+\subsection*{13. Presentation complexes}
+
+Given a group presentation
+\[
+G=
+\langle x_1,\ldots,x_m\mid r_1,\ldots,r_k\rangle,
+\]
+one can build a \(2\)-dimensional CW complex \(X_G\), called the \textbf{presentation complex}.
+
+It has:
+\[
+\text{one \(0\)-cell,}
+\]
+\[
+m\text{ one-cells, one for each generator }x_i,
+\]
+and
+\[
+k\text{ two-cells, one for each relation }r_j.
+\]
+
+The fundamental group of this complex is precisely
+\[
+\pi_1(X_G)\cong G.
+\]
+
+The cellular chain groups are
+\[
+C_2(X_G)\cong \mathbb Z^k,
+\]
+\[
+C_1(X_G)\cong \mathbb Z^m,
+\]
+and
+\[
+C_0(X_G)\cong \mathbb Z.
+\]
+
+Because there is one \(0\)-cell and all \(1\)-cells are loops based at it, the cellular boundary map
+\[
+d_1:C_1(X_G)\to C_0(X_G)
+\]
+is zero.
+
+The boundary map
+\[
+d_2:C_2(X_G)\to C_1(X_G)
+\]
+is determined, after abelianization, by the exponent sums of the generators in the relators.
+
+For example, if a relator contains the generator \(x_i\) with total exponent \(a_i\), then the corresponding column or row of the cellular boundary matrix records the integer \(a_i\).
+
+If the exponent-sum matrix gives an isomorphism
+\[
+\mathbb Z^k\to \mathbb Z^m,
+\]
+then
+\[
+H_1(X_G)=0
+\]
+and
+\[
+H_2(X_G)=0.
+\]
+
+Since \(X_G\) is connected, one also has
+\[
+\widetilde H_0(X_G)=0.
+\]
+
+Thus \(X_G\) can be acyclic.
+
+However, if
+\[
+G\neq 1,
+\]
+then
+\[
+\pi_1(X_G)\neq 0.
+\]
+
+Therefore \(X_G\) is not simply connected, and hence it cannot be contractible.
+
+\section*{Theory for Problem 15(b)}
+
+\subsection*{14. Wedge sums}
+
+The \textbf{wedge sum}
+\[
+S^1\vee S^2
+\]
+is obtained by taking a circle \(S^1\) and a sphere \(S^2\), and identifying one point of the circle with one point of the sphere.
+
+Thus
+\[
+S^1\vee S^2
+\]
+is a circle and a \(2\)-sphere attached at a common basepoint.
+
+Its homology is
+\[
+H_0(S^1\vee S^2)\cong \mathbb Z,
+\]
+\[
+H_1(S^1\vee S^2)\cong \mathbb Z,
+\]
+\[
+H_2(S^1\vee S^2)\cong \mathbb Z,
+\]
+and
+\[
+H_i(S^1\vee S^2)=0
+\qquad
+\text{for }i\geq 3.
+\]
+
+The generator of
+\[
+H_1(S^1\vee S^2)
+\]
+comes from the \(S^1\)-summand.
+
+The generator of
+\[
+H_2(S^1\vee S^2)
+\]
+comes from the \(S^2\)-summand.
+
+So a map
+\[
+f:S^1\vee S^2\to S^1\vee S^2
+\]
+induces the identity on homology if it preserves these two homology classes.
+
+However, preserving homology does not force \(f\) to be homotopic to the identity.
+
+\subsection*{15. Why homology is weaker than homotopy}
+
+Homology sees abelian information.
+
+Homotopy sees much more structure, especially when the fundamental group acts on higher homotopy groups.
+
+For
+\[
+X=S^1\vee S^2,
+\]
+we have
+\[
+\pi_1(X)\cong \mathbb Z.
+\]
+
+This nontrivial fundamental group acts on
+\[
+\pi_2(X).
+\]
+
+That action is invisible to ordinary homology, but visible to homotopy.
+
+This is the central idea in Problem 15(b).
+
+The map in Problem 15(b) is designed so that it acts trivially on ordinary homology, but nontrivially on \(\pi_2(X)\) as a module over the group ring of \(\pi_1(X)\).
+
+\subsection*{16. Universal cover of \(S^1\vee S^2\)}
+
+Let
+\[
+X=S^1\vee S^2.
+\]
+
+The universal cover
+\[
+\widetilde X
+\]
+looks like an infinite line, with one copy of \(S^2\) attached at each integer point.
+
+Symbolically, it looks like
+\[
+\cdots
+\text{---}
+S^2
+\text{---}
+S^2
+\text{---}
+S^2
+\text{---}
+\cdots.
+\]
+
+More precisely, the infinite line covers the \(S^1\)-part, and at every lift of the basepoint there is a copy of the \(S^2\)-summand.
+
+The deck transformation corresponding to the generator of
+\[
+\pi_1(X)\cong \mathbb Z
+\]
+shifts the line by one unit. Denote this shift by
+\[
+t.
+\]
+
+Therefore the second homotopy group is
+\[
+\pi_2(X)\cong H_2(\widetilde X)\cong \mathbb Z[t,t^{-1}].
+\]
+
+If \(u\) is the class of one lifted sphere, then
+\[
+u
+\]
+is the sphere at one vertex,
+\[
+tu
+\]
+is the sphere at the next vertex,
+\[
+t^{-1}u
+\]
+is the sphere at the previous vertex,
+and so on.
+
+Thus
+\[
+\pi_2(X)\cong \mathbb Z[t,t^{-1}]u.
+\]
+
+This group is much larger than ordinary homology:
+\[
+H_2(X)\cong \mathbb Z.
+\]
+
+\subsection*{17. The augmentation map}
+
+Ordinary homology forgets where the sphere sits in the universal cover.
+
+The map
+\[
+\varepsilon:\mathbb Z[t,t^{-1}]\to \mathbb Z
+\]
+defined by
+\[
+\varepsilon\left(\sum_k a_k t^k\right)
+=
+\sum_k a_k
+\]
+is called the \textbf{augmentation map}.
+
+It sends every power of \(t\) to \(1\):
+\[
+\varepsilon(t^k)=1.
+\]
+
+Thus
+\[
+\varepsilon(1)=1,
+\]
+\[
+\varepsilon(t)=1,
+\]
+and
+\[
+\varepsilon(t^{-1})=1.
+\]
+
+For example,
+\[
+\varepsilon(2-t)=2-1=1.
+\]
+
+Therefore the element
+\[
+(2-t)u
+\]
+has the same ordinary homology class as
+\[
+u,
+\]
+even though it is a different element of
+\[
+\pi_2(X).
+\]
+
+This is the key trick in Problem 15(b).
+
+\subsection*{18. The map \(f\) in Problem 15(b)}
+
+Define
+\[
+f:S^1\vee S^2\to S^1\vee S^2
+\]
+as follows.
+
+On the \(S^1\)-summand, let
+\[
+f|_{S^1}=\operatorname{id}_{S^1}.
+\]
+
+On the \(S^2\)-summand, choose a based map representing the element
+\[
+(2-t)u\in \pi_2(S^1\vee S^2).
+\]
+
+Then on \(\pi_2\),
+\[
+u\mapsto (2-t)u.
+\]
+
+On ordinary homology, we apply the augmentation map:
+\[
+\varepsilon(2-t)=1.
+\]
+
+Therefore on \(H_2\),
+\[
+f_*=\operatorname{id}.
+\]
+
+Also, because \(f\) is the identity on \(S^1\), we get
+\[
+f_*=\operatorname{id}
+\]
+on \(H_1\).
+
+Thus
+\[
+f_*=\operatorname{id}
+\]
+on all homology groups.
+
+However, \(f\) is not homotopic to the identity. Indeed, the identity map sends
+\[
+u\mapsto u,
+\]
+whereas \(f\) sends
+\[
+u\mapsto (2-t)u.
+\]
+
+Since
+\[
+2-t\neq 1
+\]
+in
+\[
+\mathbb Z[t,t^{-1}],
+\]
+the induced maps on \(\pi_2(X)\) are different.
+
+Therefore
+\[
+f
+\]
+cannot be homotopic to the identity.
+
+\section*{Big picture}
+
+Problems 14 and 15 show two complementary facts.
+
+Problem 14 says that if a space has no low-dimensional homotopy, then it has no low-dimensional homology:
+\[
+\pi_i(Y)=0
+\qquad
+1\leq i\leq n
+\]
+forces
+\[
+H_i(Y)=0
+\qquad
+1\leq i\leq n.
+\]
+
+It also says that the first possible nonzero homology group is generated by spheres via the Hurewicz map.
+
+Problem 15 gives the opposite warning:
+\[
+\text{homology does not determine homotopy.}
+\]
+
+A space can have trivial reduced homology but still fail to be contractible because of its fundamental group.
+
+A map can induce the identity on homology but still fail to be homotopic to the identity because it acts differently on higher homotopy groups with fundamental group action.
+
+Therefore, the overall lesson is:
+\[
+\boxed{
+	\text{Homology is powerful, but it is weaker than homotopy.}
+}
+\]
+
+Problem 14 gives a condition under which homotopy controls homology.
+
+Problem 15 shows that homology alone cannot fully recover homotopy.
+
+
+% Required packages:
+% \usepackage{amsmath,amssymb}
+% \usepackage{array,booktabs}
+% \usepackage{xcolor}
+% \usepackage{tikz}
+% \usetikzlibrary{arrows.meta,positioning,calc,decorations.pathmorphing}
+
+\section{Examples, diagrams, and charts for Problems 14--15}
+
+\subsection{Examples for Problem 14}
+
+Problem 14 says that if
+\[
+\pi_i(Y,*)=0
+\qquad
+\text{for }0<i\leq n,
+\]
+then maps into \(Y\) can be modified so that they kill the \(n\)-skeleton of the source.
+
+In simple words:
+\[
+\text{if \(Y\) has no homotopy up to dimension \(n\), then maps into \(Y\) can ignore \(X_n\).}
+\]
+
+More precisely, for a map
+\[
+f:X\to Y,
+\]
+there exists a map
+\[
+\overline f:X/X_n\to Y
+\]
+such that
+\[
+\overline f\circ \pi\simeq f,
+\]
+where
+\[
+\pi:X\to X/X_n
+\]
+is the quotient map.
+
+\subsubsection*{Example 14.1. The sphere \(Y=S^{n+1}\)}
+
+Take
+\[
+Y=S^{n+1}.
+\]
+
+Then
+\[
+\pi_i(S^{n+1})=0
+\qquad
+\text{for }0<i<n+1.
+\]
+
+In particular,
+\[
+\pi_i(S^{n+1})=0
+\qquad
+\text{for }0<i\leq n.
+\]
+
+Therefore Problem 14 applies. If
+\[
+f:X\to S^{n+1},
+\]
+then \(f\) is homotopic to a map that factors through
+\[
+X/X_n.
+\]
+
+Thus we get a factorization up to homotopy:
+\[
+X
+\xrightarrow{\pi}
+X/X_n
+\xrightarrow{\overline f}
+S^{n+1}.
+\]
+
+This means that the map can be changed by homotopy so that the whole \(n\)-skeleton \(X_n\) is sent to the basepoint.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=1.7cm,
+		every node/.style={font=\small},
+		box/.style={draw, rounded corners, minimum width=2.2cm, minimum height=0.85cm, fill=blue!6}
+		]
+		\node[box] (X) {\(X\)};
+		\node[box, below=of X, fill=green!8] (Q) {\(X/X_n\)};
+		\node[box, below=of Q, fill=orange!10] (S) {\(S^{n+1}\)};
+		
+		\draw[->, thick] (X) -- node[right] {\(\pi\)} (Q);
+		\draw[->, thick] (Q) -- node[right] {\(\overline f\)} (S);
+		
+		\node[right=2.8cm of X, align=left] {
+			collapse the\\
+			\(n\)-skeleton \(X_n\)
+		};
+		
+		\node[right=2.8cm of Q, align=left] {
+			map only depends on\\
+			cells of dimension \(>n\)
+		};
+		
+		\node[right=2.8cm of S, align=left] {
+			target has no\\
+			homotopy in dimensions\\
+			\(1,\dots,n\)
+		};
+	\end{tikzpicture}
+	\caption{A map \(X\to S^{n+1}\) can be homotoped to factor through \(X/X_n\).}
+\end{figure}
+
+The reason this is natural is that \(S^{n+1}\) has no nontrivial homotopy in dimensions
+\[
+1,2,\ldots,n.
+\]
+
+So all lower-dimensional data in \(X_n\) can be killed.
+
+\subsubsection*{Example 14.2. Maps from a torus to \(S^2\)}
+
+Let
+\[
+X=T^2,
+\qquad
+Y=S^2,
+\qquad
+n=1.
+\]
+
+Since
+\[
+\pi_1(S^2)=0,
+\]
+Problem 14 applies with \(n=1\).
+
+The torus has a CW decomposition with:
+\[
+1\text{ zero-cell},
+\]
+\[
+2\text{ one-cells},
+\]
+and
+\[
+1\text{ two-cell}.
+\]
+
+The \(1\)-skeleton is
+\[
+X_1=S^1\vee S^1.
+\]
+
+Collapsing the \(1\)-skeleton gives
+\[
+T^2/X_1\cong S^2.
+\]
+
+Therefore every map
+\[
+f:T^2\to S^2
+\]
+is homotopic to a map that factors as
+\[
+T^2
+\longrightarrow
+T^2/X_1
+\cong
+S^2
+\longrightarrow
+S^2.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% left: fundamental polygon
+		\begin{scope}[shift={(0,0)}]
+			\draw[thick] (0,0) rectangle (2.8,2.8);
+			\draw[->, thick, blue] (0,0) -- node[left] {\(a\)} (0,2.8);
+			\draw[->, thick, blue] (2.8,0) -- node[right] {\(a\)} (2.8,2.8);
+			\draw[->, thick, red] (0,0) -- node[below] {\(b\)} (2.8,0);
+			\draw[->, thick, red] (0,2.8) -- node[above] {\(b\)} (2.8,2.8);
+			\node at (1.4,1.4) {\(2\)-cell};
+			\node at (1.4,-0.55) {\(T^2\) as one \(2\)-cell};
+			\node at (1.4,-0.95) {\(X_1=S^1\vee S^1\)};
+		\end{scope}
+		
+		% arrow
+		\draw[->, thick] (3.4,1.4) -- node[above] {collapse \(X_1\)} (5.0,1.4);
+		
+		% right: sphere symbolic
+		\begin{scope}[shift={(6.4,1.4)}]
+			\draw[thick, fill=orange!10] (0,0) circle (1.05);
+			\draw[thick, dashed] (-1.05,0) arc[start angle=180,end angle=360,x radius=1.05,y radius=0.25];
+			\draw[thick] (1.05,0) arc[start angle=0,end angle=180,x radius=1.05,y radius=0.25];
+			\node at (0,0) {\(S^2\)};
+			\node at (0,-1.55) {\(T^2/X_1\cong S^2\)};
+		\end{scope}
+	\end{tikzpicture}
+	\caption{Collapsing the \(1\)-skeleton of the standard CW structure on \(T^2\) gives a sphere.}
+\end{figure}
+
+Thus:
+\[
+\boxed{
+	\text{maps }T^2\to S^2\text{ are controlled by what happens on the top \(2\)-cell.}
+}
+\]
+
+The loop information in the \(1\)-skeleton can be killed because \(S^2\) is simply connected.
+
+\subsubsection*{Example 14.3. Maps from \(S^1\vee S^2\) to \(S^2\)}
+
+Let
+\[
+X=S^1\vee S^2,
+\qquad
+Y=S^2,
+\qquad
+n=1.
+\]
+
+Again,
+\[
+\pi_1(S^2)=0.
+\]
+
+The \(1\)-skeleton of \(X\) is the \(S^1\)-summand:
+\[
+X_1=S^1.
+\]
+
+Collapsing it gives
+\[
+X/X_1\cong S^2.
+\]
+
+Therefore every map
+\[
+f:S^1\vee S^2\to S^2
+\]
+is homotopic to a map that kills the \(S^1\)-summand and only depends on the \(S^2\)-summand.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% before
+		\begin{scope}[shift={(0,0)}]
+			\draw[thick, fill=orange!10] (0,1.2) circle (0.9);
+			\draw[thick] (0,1.2) ellipse (0.9 and 0.25);
+			\fill (0,0.2) circle (2pt);
+			\draw[thick, blue] (0,0.2) .. controls (-1.0,-0.4) and (-1.0,-1.2) .. (0,-1.2)
+			.. controls (1.0,-1.2) and (1.0,-0.4) .. (0,0.2);
+			\node at (0,-1.8) {before: \(S^1\vee S^2\)};
+			\node[blue] at (1.3,-0.7) {\(S^1=X_1\)};
+			\node at (1.35,1.2) {\(S^2\)};
+		\end{scope}
+		
+		\draw[->, thick] (2.0,0) -- node[above] {collapse \(S^1\)} (3.6,0);
+		
+		% after
+		\begin{scope}[shift={(5.0,0)}]
+			\draw[thick, fill=orange!10] (0,0.4) circle (0.95);
+			\draw[thick] (0,0.4) ellipse (0.95 and 0.25);
+			\fill (0,-0.55) circle (2pt);
+			\node at (0,-1.45) {after: \(S^2\)};
+		\end{scope}
+	\end{tikzpicture}
+	\caption{A map \(S^1\vee S^2\to S^2\) can be homotoped to kill the \(S^1\)-summand.}
+\end{figure}
+
+So:
+\[
+\boxed{
+	\text{because \(S^2\) has trivial \(\pi_1\), the circle part can be homotoped away.}
+}
+\]
+
+\subsubsection*{Example 14.4. Hurewicz surjectivity for \(S^2\)}
+
+Take
+\[
+Y=S^2,
+\qquad
+n=1.
+\]
+
+We have
+\[
+\pi_1(S^2)=0.
+\]
+
+Problem 14(b) says that the Hurewicz homomorphism
+\[
+\psi:\pi_2(S^2)\to H_2(S^2)
+\]
+is surjective.
+
+In fact, here it is an isomorphism:
+\[
+\pi_2(S^2)\cong \mathbb Z,
+\]
+and
+\[
+H_2(S^2)\cong \mathbb Z.
+\]
+
+The identity map
+\[
+\operatorname{id}_{S^2}:S^2\to S^2
+\]
+represents a generator of \(\pi_2(S^2)\). Its image under the Hurewicz homomorphism is the fundamental class of \(S^2\).
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{c|c}
+		\textbf{Object} & \textbf{Value}\\
+		\hline
+		\(\pi_1(S^2)\) & \(0\)\\
+		\(\pi_2(S^2)\) & \(\mathbb Z\)\\
+		\(H_1(S^2)\) & \(0\)\\
+		\(H_2(S^2)\) & \(\mathbb Z\)\\
+		\(\psi:\pi_2(S^2)\to H_2(S^2)\) & surjective, actually an isomorphism
+	\end{tabular}
+\end{center}
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		node distance=2.6cm,
+		every node/.style={font=\small},
+		box/.style={draw, rounded corners, minimum width=2.5cm, minimum height=0.8cm, fill=blue!6}
+		]
+		\node[box] (pi) {\(\pi_2(S^2)\cong \mathbb Z\)};
+		\node[box, right=of pi, fill=green!8] (H) {\(H_2(S^2)\cong \mathbb Z\)};
+		\draw[->, thick] (pi) -- node[above] {\(\psi\)} node[below] {Hurewicz} (H);
+		
+		\node[below=1.0cm of pi, align=center] {
+			generator represented by\\
+			\(\operatorname{id}_{S^2}\)
+		};
+		\node[below=1.0cm of H, align=center] {
+			fundamental class\\
+			\([S^2]\)
+		};
+	\end{tikzpicture}
+	\caption{For \(S^2\), the Hurewicz homomorphism \(\pi_2(S^2)\to H_2(S^2)\) is an isomorphism.}
+\end{figure}
+
+This is the simplest model of Problem 14(b).
+
+\subsubsection*{Example 14.5. Hurewicz surjectivity for \(S^3\)}
+
+Take
+\[
+Y=S^3,
+\qquad
+n=2.
+\]
+
+Then
+\[
+\pi_1(S^3)=0,
+\]
+and
+\[
+\pi_2(S^3)=0.
+\]
+
+Therefore Problem 14 applies. It gives:
+\[
+H_1(S^3)=0,
+\]
+\[
+H_2(S^3)=0,
+\]
+and the Hurewicz map
+\[
+\psi:\pi_3(S^3)\to H_3(S^3)
+\]
+is surjective.
+
+In fact,
+\[
+\pi_3(S^3)\cong \mathbb Z,
+\]
+and
+\[
+H_3(S^3)\cong \mathbb Z.
+\]
+
+Again the Hurewicz map is an isomorphism.
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{c|c|c|c}
+		\textbf{Space} & \textbf{Vanishing homotopy} & \textbf{Vanishing homology} & \textbf{First Hurewicz map}\\
+		\hline
+		\(S^2\) & \(\pi_1=0\) & \(H_1=0\) & \(\pi_2(S^2)\to H_2(S^2)\)\\
+		\(S^3\) & \(\pi_1=\pi_2=0\) & \(H_1=H_2=0\) & \(\pi_3(S^3)\to H_3(S^3)\)\\
+		\(S^{n+1}\) & \(\pi_i=0\) for \(i\leq n\) & \(H_i=0\) for \(i\leq n\) & \(\pi_{n+1}\to H_{n+1}\)
+	\end{tabular}
+\end{center}
+
+\subsubsection*{Example 14.6. What \(Y/Y_n\) looks like}
+
+Suppose \(Y\) has cells in dimensions \(0\), \(n+1\), and higher, but no positive-dimensional cells below \(n+1\) after collapsing \(Y_n\).
+
+Then the quotient
+\[
+Y/Y_n
+\]
+has no cells in dimensions
+\[
+1,\dots,n.
+\]
+
+The first positive-dimensional cells are \((n+1)\)-cells.
+
+Each \((n+1)\)-cell becomes a sphere because its boundary lies in \(Y_n\), and after collapsing \(Y_n\), the boundary becomes a point:
+\[
+D^{n+1}/S^n\cong S^{n+1}.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% before
+		\begin{scope}[shift={(0,0)}]
+			\draw[thick, fill=blue!8] (0,0) circle (1.1);
+			\draw[very thick, red] (0,0) circle (1.1);
+			\node at (0,0) {\(D^{n+1}\)};
+			\node[red] at (0,-1.45) {boundary \(S^n\subset Y_n\)};
+			\node at (0,1.55) {before collapse};
+		\end{scope}
+		
+		\draw[->, thick] (2.0,0) -- node[above] {collapse \(Y_n\)} (3.7,0);
+		
+		% after
+		\begin{scope}[shift={(5.2,0)}]
+			\draw[thick, fill=orange!12] (0,0) circle (1.1);
+			\fill[red] (0,-1.1) circle (2.2pt);
+			\node at (0,0) {\(S^{n+1}\)};
+			\node[red] at (0,-1.45) {collapsed boundary point};
+			\node at (0,1.55) {after collapse};
+		\end{scope}
+	\end{tikzpicture}
+	\caption{After collapsing \(Y_n\), each \((n+1)\)-cell becomes a sphere \(S^{n+1}\).}
+\end{figure}
+
+This explains why
+\[
+H_{n+1}(Y/Y_n)
+\]
+is generated by sphere classes, and hence why the Hurewicz map
+\[
+\pi_{n+1}(Y)\to H_{n+1}(Y)
+\]
+is surjective.
+
+\subsection{Examples for Problem 15(a)}
+
+Problem 15(a) asks for a connected finite cell complex \(X\) such that
+\[
+\widetilde H_*(X)=0,
+\]
+but \(X\) is not contractible.
+
+That means:
+\[
+X \text{ has the homology of a point,}
+\]
+but
+\[
+X \text{ does not have the homotopy type of a point.}
+\]
+
+\subsubsection*{Example 15.1. Acyclic but not contractible presentation complex}
+
+Use the group presentation
+\[
+G=
+\left\langle
+x,y,z
+\ \middle|\
+x^2=xyz,\quad
+y^3=xyz,\quad
+z^5=xyz
+\right\rangle.
+\]
+
+Build the presentation complex \(X\).
+
+It has:
+\[
+\text{one \(0\)-cell,}
+\]
+\[
+\text{three \(1\)-cells corresponding to }x,y,z,
+\]
+and
+\[
+\text{three \(2\)-cells attached by the three relators.}
+\]
+
+The fundamental group is
+\[
+\pi_1(X)\cong G.
+\]
+
+The cellular chain complex is
+\[
+0
+\longrightarrow
+\mathbb Z^3
+\xrightarrow{d_2}
+\mathbb Z^3
+\xrightarrow{0}
+\mathbb Z
+\longrightarrow
+0.
+\]
+
+The boundary matrix is
+\[
+d_2=
+\begin{pmatrix}
+	1 & -1 & -1\\
+	-1 & 2 & -1\\
+	-1 & -1 & 4
+\end{pmatrix}.
+\]
+
+Its determinant is
+\[
+\det(d_2)=-1.
+\]
+
+Therefore \(d_2\) is an isomorphism
+\[
+\mathbb Z^3\to \mathbb Z^3.
+\]
+
+Hence
+\[
+H_2(X)=0,
+\]
+and
+\[
+H_1(X)=0.
+\]
+
+Since \(X\) is connected,
+\[
+\widetilde H_0(X)=0.
+\]
+
+Therefore
+\[
+\widetilde H_*(X)=0.
+\]
+
+So \(X\) is acyclic.
+
+However,
+\[
+\pi_1(X)\cong G
+\]
+is nontrivial. Therefore \(X\) is not simply connected.
+
+Since every contractible space is simply connected, \(X\) is not contractible.
+
+Thus:
+\[
+\boxed{
+	X\text{ is acyclic but not contractible.}
+}
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		loop/.style={thick, ->}
+		]
+		\node[circle, fill=black, inner sep=2pt] (v) at (0,0) {};
+		\node[below=0.2cm of v] {one \(0\)-cell};
+		
+		% loops
+		\draw[loop, blue] (v) .. controls (-1.2,1.0) and (-1.2,-1.0) .. node[left] {\(x\)} (v);
+		\draw[loop, red] (v) .. controls (1.2,1.0) and (1.2,-1.0) .. node[right] {\(y\)} (v);
+		\draw[loop, green!60!black] (v) .. controls (-0.4,1.7) and (0.4,1.7) .. node[above] {\(z\)} (v);
+		
+		\node[align=center] at (0,-2.0) {
+			three loops \(x,y,z\), then attach three \(2\)-cells\\
+			using \(x^2=xyz,\ y^3=xyz,\ z^5=xyz\)
+		};
+	\end{tikzpicture}
+	\caption{The presentation complex has one vertex, three loops, and three \(2\)-cells attached by the relators.}
+\end{figure}
+
+\subsubsection*{Chart: why this example works}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{p{4.1cm}|p{4.1cm}|p{5.0cm}}
+		\textbf{Feature} & \textbf{Value} & \textbf{Consequence}\\
+		\hline
+		\(X\) has one \(0\)-cell & \(C_0\cong \mathbb Z\) & \(X\) is connected\\
+		\hline
+		\(X\) has three \(1\)-cells & \(C_1\cong \mathbb Z^3\) & possible nontrivial \(\pi_1\)\\
+		\hline
+		\(X\) has three \(2\)-cells & \(C_2\cong \mathbb Z^3\) & relations can kill homology\\
+		\hline
+		\(\det(d_2)=-1\) & \(d_2\) is an isomorphism & \(H_1=H_2=0\)\\
+		\hline
+		\(\pi_1(X)\neq 0\) & nontrivial perfect group & \(X\) is not contractible
+	\end{tabular}
+\end{center}
+
+The important point is:
+\[
+\text{the \(2\)-cells kill homology, but not the whole fundamental group.}
+\]
+
+So homology sees nothing, but \(\pi_1\) still sees something.
+
+\subsubsection*{Example 15.2. Geometric alternative: punctured Poincaré homology sphere}
+
+Another classical example comes from the Poincaré homology \(3\)-sphere.
+
+Let \(P\) be the Poincaré homology sphere. It has the same homology as \(S^3\):
+\[
+H_*(P)\cong H_*(S^3).
+\]
+
+Now remove the interior of a small \(3\)-ball:
+\[
+X=P\setminus \operatorname{int}(D^3).
+\]
+
+Then \(X\) is a compact finite CW complex with boundary
+\[
+\partial X=S^2.
+\]
+
+It is acyclic:
+\[
+\widetilde H_*(X)=0.
+\]
+
+But it is not contractible because its fundamental group is still nontrivial.
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		box/.style={draw, rounded corners, minimum width=2.7cm, minimum height=0.9cm}
+		]
+		\node[box, fill=blue!6] (P) at (0,0) {Poincaré sphere \(P\)};
+		\node[box, fill=orange!10, right=2.2cm of P] (X) {\(X=P-\operatorname{int}(D^3)\)};
+		
+		\draw[->, thick] (P) -- node[above] {remove open \(3\)-ball} (X);
+		
+		\node[below=0.7cm of P, align=center] {
+			same homology as \(S^3\)\\
+			but \(\pi_1(P)\neq 0\)
+		};
+		
+		\node[below=0.7cm of X, align=center] {
+			homology of a point\\
+			but still \(\pi_1(X)\neq 0\)
+		};
+	\end{tikzpicture}
+	\caption{Removing a \(3\)-ball from the Poincaré homology sphere gives an acyclic but non-contractible space.}
+\end{figure}
+
+Thus:
+\[
+\boxed{
+	\text{homology of a point does not imply contractibility.}
+}
+\]
+
+The presentation-complex example is algebraic and explicit, while the punctured Poincaré homology sphere is more geometric.
+
+\subsection{Examples for Problem 15(b)}
+
+Problem 15(b) asks for a map
+\[
+f:S^1\vee S^2\to S^1\vee S^2
+\]
+which induces the identity on homology but is not homotopic to the identity.
+
+The key point is that ordinary homology sees only one \(S^2\)-class, while homotopy sees all lifted spheres in the universal cover.
+
+\subsubsection*{Example 15.3. The space \(S^1\vee S^2\)}
+
+Let
+\[
+X=S^1\vee S^2.
+\]
+
+It is a circle and a \(2\)-sphere attached at one common basepoint.
+
+Its homology is:
+\[
+H_0(X)\cong \mathbb Z,
+\]
+\[
+H_1(X)\cong \mathbb Z,
+\]
+\[
+H_2(X)\cong \mathbb Z.
+\]
+
+The \(H_1\)-generator comes from the \(S^1\)-summand.
+
+The \(H_2\)-generator comes from the \(S^2\)-summand.
+
+A map inducing the identity on homology must preserve:
+\[
+[S^1]\in H_1(X),
+\]
+and
+\[
+[S^2]\in H_2(X).
+\]
+
+But it can still act nontrivially on \(\pi_2(X)\).
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% sphere
+		\draw[thick, fill=orange!10] (0,1.2) circle (0.9);
+		\draw[thick] (0,1.2) ellipse (0.9 and 0.25);
+		\node at (1.25,1.2) {\(S^2\)};
+		
+		% basepoint
+		\fill (0,0.25) circle (2pt);
+		\node[right] at (0.1,0.25) {\(*\)};
+		
+		% circle
+		\draw[thick, blue] (0,0.25) .. controls (-1.1,-0.35) and (-1.1,-1.25) .. (0,-1.25)
+		.. controls (1.1,-1.25) and (1.1,-0.35) .. (0,0.25);
+		\node[blue] at (1.35,-0.65) {\(S^1\)};
+		
+		\node at (0,-1.9) {\(X=S^1\vee S^2\)};
+	\end{tikzpicture}
+	\caption{The wedge \(S^1\vee S^2\): a circle and a sphere attached at one basepoint.}
+\end{figure}
+
+\subsubsection*{Example 15.4. Universal cover of \(S^1\vee S^2\)}
+
+The universal cover of
+\[
+X=S^1\vee S^2
+\]
+is an infinite line with a copy of \(S^2\) attached at each integer point.
+
+The generator of
+\[
+\pi_1(X)\cong \mathbb Z
+\]
+acts by shifting one step to the right.
+
+Call this shift
+\[
+t.
+\]
+
+If \(u\) is the class of the sphere over the vertex \(0\), then:
+\[
+u
+\]
+is the sphere at \(0\),
+\[
+tu
+\]
+is the sphere at \(1\),
+\[
+t^{-1}u
+\]
+is the sphere at \(-1\).
+
+Thus:
+\[
+\pi_2(X)\cong \mathbb Z[t,t^{-1}]u.
+\]
+
+A general element of \(\pi_2(X)\) looks like
+\[
+\sum_k a_k t^k u.
+\]
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% line
+		\draw[thick] (-5,0) -- (5,0);
+		
+		% vertices
+		\foreach \x/\lab in {-4/-2,-2/-1,0/0,2/1,4/2} {
+			\fill (\x,0) circle (2pt);
+			\node[below] at (\x,-0.05) {\(\lab\)};
+		}
+		
+		% spheres as circles above each vertex
+		\foreach \x in {-4,-2,0,2,4} {
+			\draw[thick, fill=orange!10] (\x,1.0) circle (0.45);
+			\draw[thick] (\x,1.0) ellipse (0.45 and 0.12);
+			\draw[thick] (\x,0) -- (\x,0.55);
+		}
+		
+		\node at (-4,1.75) {\(t^{-2}u\)};
+		\node at (-2,1.75) {\(t^{-1}u\)};
+		\node at (0,1.75) {\(u\)};
+		\node at (2,1.75) {\(tu\)};
+		\node at (4,1.75) {\(t^2u\)};
+		
+		\draw[->, thick, blue] (0,-0.75) -- node[below] {\(t\)} (2,-0.75);
+		
+		\node at (0,-1.35) {universal cover of \(S^1\vee S^2\)};
+	\end{tikzpicture}
+	\caption{The universal cover is an infinite line with a copy of \(S^2\) attached at each integer point.}
+\end{figure}
+
+\subsubsection*{Example 15.5. Ordinary homology forgets the lift position}
+
+In the universal cover, the elements
+\[
+u,
+\qquad
+tu,
+\qquad
+t^{-1}u
+\]
+are different elements of \(\pi_2(X)\).
+
+But in ordinary homology
+\[
+H_2(X)\cong \mathbb Z,
+\]
+they all represent the same \(S^2\)-class.
+
+Homology forgets which lift of the sphere we used.
+
+This forgetting is measured by the augmentation map
+\[
+\varepsilon:\mathbb Z[t,t^{-1}]\to \mathbb Z,
+\]
+defined by
+\[
+\varepsilon\left(\sum_k a_k t^k\right)=\sum_k a_k.
+\]
+
+Thus:
+\[
+\varepsilon(1)=1,
+\]
+\[
+\varepsilon(t)=1,
+\]
+\[
+\varepsilon(t^{-1})=1.
+\]
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{c|c|c}
+		\textbf{Element of \(\pi_2(X)\)} & \textbf{Augmentation} & \textbf{Homology effect}\\
+		\hline
+		\(u\) & \(1\) & identity on \(H_2\)\\
+		\(tu\) & \(1\) & identity on \(H_2\)\\
+		\((2-t)u\) & \(2-1=1\) & identity on \(H_2\)\\
+		\((3-2t)u\) & \(3-2=1\) & identity on \(H_2\)\\
+		\((1+t)u\) & \(2\) & multiplication by \(2\) on \(H_2\)\\
+		\((1-t)u\) & \(0\) & zero on \(H_2\)
+	\end{tabular}
+\end{center}
+
+So many different homotopy actions give the same homology action.
+
+\subsubsection*{Example 15.6. The required map \(f\)}
+
+Define
+\[
+f:X\to X,
+\qquad
+X=S^1\vee S^2,
+\]
+as follows.
+
+On the \(S^1\)-summand:
+\[
+f|_{S^1}=\operatorname{id}_{S^1}.
+\]
+
+On the \(S^2\)-summand, define \(f\) so that the generator
+\[
+u\in \pi_2(X)
+\]
+is sent to
+\[
+(2-t)u.
+\]
+
+Thus on \(\pi_2\):
+\[
+f_*(u)=(2-t)u.
+\]
+
+Now check homology.
+
+On \(H_1\), \(f\) is the identity because it is the identity on \(S^1\).
+
+On \(H_2\), apply augmentation:
+\[
+\varepsilon(2-t)=2-1=1.
+\]
+
+Therefore \(f\) is also the identity on \(H_2\).
+
+Hence:
+\[
+\boxed{
+	f_*=\operatorname{id}
+	\text{ on }H_*(S^1\vee S^2).
+}
+\]
+
+However, \(f\) is not homotopic to the identity, because on \(\pi_2\):
+\[
+\operatorname{id}_*(u)=u,
+\]
+whereas
+\[
+f_*(u)=(2-t)u.
+\]
+
+Since
+\[
+2-t\neq 1
+\]
+in
+\[
+\mathbb Z[t,t^{-1}],
+\]
+the maps are different on \(\pi_2\).
+
+Therefore:
+\[
+\boxed{
+	f\not\simeq \operatorname{id}.
+}
+\]
+
+\subsubsection*{Diagram of the map \(u\mapsto (2-t)u\)}
+
+In the universal cover, let \(u\) be the sphere over vertex \(0\), and let \(tu\) be the sphere over vertex \(1\).
+
+The map sends
+\[
+u
+\]
+to
+\[
+2u-tu.
+\]
+
+So in \(\pi_2(X)\):
+\[
+u\mapsto 2u-tu.
+\]
+
+But ordinary homology identifies \(u\) and \(tu\) as the same \(S^2\)-class. Therefore:
+\[
+2[u]-[u]=[u].
+\]
+
+Thus homology thinks the map is the identity, but homotopy remembers that one copy was shifted by \(t\).
+
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}[
+		>=Latex,
+		every node/.style={font=\small},
+		scale=1.0
+		]
+		% left side universal cover piece
+		\draw[thick] (-2.5,0) -- (2.5,0);
+		\fill (0,0) circle (2pt);
+		\fill (1.7,0) circle (2pt);
+		
+		\draw[thick, fill=orange!10] (0,1) circle (0.45);
+		\draw[thick] (0,1) ellipse (0.45 and 0.12);
+		\draw[thick] (0,0) -- (0,0.55);
+		
+		\draw[thick, fill=orange!10] (1.7,1) circle (0.45);
+		\draw[thick] (1.7,1) ellipse (0.45 and 0.12);
+		\draw[thick] (1.7,0) -- (1.7,0.55);
+		
+		\node at (0,1.75) {\(u\)};
+		\node at (1.7,1.75) {\(tu\)};
+		\node[below] at (0,0) {\(0\)};
+		\node[below] at (1.7,0) {\(1\)};
+		
+		% arrow to expression
+		\draw[->, thick] (3.0,0.8) -- (4.2,0.8);
+		
+		\node[align=center] at (5.8,0.8) {
+			\(u\mapsto 2u-tu\)\\[2mm]
+			\(\varepsilon(2-t)=1\)
+		};
+		
+		\node[align=center] at (2.7,-1.0) {
+			homotopy sees \(u\) and \(tu\) separately,\\
+			homology identifies their ordinary \(S^2\)-classes
+		};
+	\end{tikzpicture}
+	\caption{The map sends \(u\) to \(2u-tu\). Homology sees this as \(2[S^2]-[S^2]=[S^2]\).}
+\end{figure}
+
+\subsection{Summary chart for Problems 14--15}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{c|p{5.2cm}|p{6.6cm}}
+		\textbf{Problem} & \textbf{Example} & \textbf{What it shows}\\
+		\hline
+		14 & \(Y=S^{n+1}\) & Low homotopy vanishes, so low homology vanishes\\
+		\hline
+		14 & \(T^2\to S^2\) & Maps can kill the \(1\)-skeleton when \(\pi_1(Y)=0\)\\
+		\hline
+		14 & \(S^3\) & \(\pi_1=\pi_2=0\), so \(H_1=H_2=0\), and \(\pi_3\to H_3\) is onto\\
+		\hline
+		15(a) & Presentation complex with perfect \(\pi_1\) & Acyclic does not imply contractible\\
+		\hline
+		15(a) & Punctured Poincaré homology sphere & Geometric acyclic non-contractible example\\
+		\hline
+		15(b) & \(S^1\vee S^2\) and \(u\mapsto (2-t)u\) & Identity on homology does not imply homotopic to identity
+	\end{tabular}
+\end{center}
+
+\subsection*{Examples}
+
+Problem 14 shows:
+\[
+\text{vanishing homotopy}
+\Longrightarrow
+\text{vanishing homology}
+\]
+in low dimensions.
+
+Problem 15 shows:
+\[
+\text{vanishing homology}
+\not\Longrightarrow
+\text{vanishing homotopy}.
+\]
+
+Therefore the relationship is one-directional:
+\[
+\boxed{
+	\text{homotopy controls homology, but homology does not fully control homotopy.}
+}
+\]
+
+\end{document}
+
+

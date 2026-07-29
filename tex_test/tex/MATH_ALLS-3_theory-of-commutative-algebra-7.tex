@@ -1,0 +1,4184 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{bookmark}
+
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue!50!black,
+	urlcolor=blue!50!black,
+	citecolor=blue!50!black,
+	pdftitle={Theory of Commutative Algebra 7},
+	pdfauthor={},
+	pdfsubject={Solved problems and theory notes in commutative algebra},
+	pdfcreator={OpenAI}
+}
+
+\setlist[itemize]{topsep=4pt,itemsep=2pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0.55em}
+\setlength{\parindent}{0pt}
+
+\setcounter{secnumdepth}{2}
+
+
+\setcounter{tocdepth}{2}
+
+\pagestyle{fancy}
+
+
+\fancyhf{}
+\lhead{Theory of Commutative Algebra 7}
+\rhead{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\newtheoremstyle{notespace}{6pt}{6pt}{\normalfont}{} {\bfseries}{.}{0.5em}{}
+\theoremstyle{notespace}
+\newtheorem{definition}{Definition}[section]
+\newtheorem{remark}{Remark}[section]
+
+\DeclareMathOperator{\Spec}{Spec}
+\DeclareMathOperator{\Ass}{Ass}
+\DeclareMathOperator{\Ann}{Ann}
+\DeclareMathOperator{\Supp}{Supp}
+\DeclareMathOperator{\Hom}{Hom}
+\DeclareMathOperator{\Min}{Min}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Frac}{Frac}
+
+\DeclareMathOperator{\coker}{coker}
+\DeclareMathOperator{\im}{im}
+
+
+\title{\vspace{-1.5em}\bfseries Theory of Commutative Algebra 7}
+\author{}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	\thispagestyle{fancy}
+	
+		\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+	
+\section{Why do we take \(S=\{1,\bar x,\bar x^{2},\bar x^{3},\dots\}\)? A concrete explanation}
+
+Let
+\[
+A = k[x,y]/(xy),
+\]
+and let
+\[
+\bar x = x+(xy), \qquad \bar y = y+(xy)
+\]
+denote the residue classes of \(x\) and \(y\) in \(A\).
+
+We want to explain concretely why, when we say that we \emph{localize at \(\bar x\)}, we take
+\[
+S=\{1,\bar x,\bar x^2,\bar x^3,\dots\}.
+\]
+
+\subsection{1. General idea: localization makes chosen elements invertible}
+
+If \(A\) is a ring and \(S\subseteq A\) is a multiplicative set, then the localization \(S^{-1}A\) is the ring in which every element of \(S\) becomes invertible.
+
+Elements of \(S^{-1}A\) are fractions
+\[
+\frac{a}{s}, \qquad a\in A,\ s\in S.
+\]
+
+So if we want one specific element \(u\in A\) to become invertible, the standard choice is to take the smallest multiplicative set containing \(u\), namely
+\[
+S=\{1,u,u^2,u^3,\dots\}.
+\]
+
+Thus:
+
+\begin{itemize}
+	\item to invert \(2\) in \(\mathbb Z\), we take
+	\[
+	S=\{1,2,4,8,\dots\},
+	\]
+	and obtain
+	\[
+	S^{-1}\mathbb Z=\mathbb Z\!\left[\frac12\right];
+	\]
+	
+	\item to invert \(x\) in \(k[x]\), we take
+	\[
+	S=\{1,x,x^2,x^3,\dots\},
+	\]
+	and obtain
+	\[
+	S^{-1}k[x]=k[x,x^{-1}];
+	\]
+	
+	\item to invert \(\bar x\) in \(A=k[x,y]/(xy)\), we take
+	\[
+	S=\{1,\bar x,\bar x^2,\bar x^3,\dots\}.
+	\]
+\end{itemize}
+
+\subsection{2. Why not just \(\{\bar x\}\)?}
+
+Because localization requires \(S\) to be a \emph{multiplicative set}. This means:
+
+\begin{itemize}
+	\item \(1\in S\),
+	\item if \(s,t\in S\), then \(st\in S\),
+	\item usually one also requires \(0\notin S\).
+\end{itemize}
+
+Now:
+
+\begin{itemize}
+	\item \(\{\bar x\}\) is not enough, because it does not contain \(1\);
+	\item \(\{1,\bar x\}\) is still not enough, because
+	\[
+	\bar x\cdot \bar x=\bar x^2
+	\]
+	should also lie in \(S\);
+	\item similarly, once \(\bar x^2\) is in \(S\), then \(\bar x^3\), \(\bar x^4\), and so on must also be in \(S\).
+\end{itemize}
+
+Therefore the smallest possible multiplicative set containing \(\bar x\) is exactly
+\[
+S=\{1,\bar x,\bar x^2,\bar x^3,\dots\}.
+\]
+
+So when people say informally ``localize at \(\bar x\)'', this is what they mean.
+
+\subsection{3. Why do we write \(\bar x\) and not \(x\)?}
+
+In the ring
+\[
+A=k[x,y]/(xy),
+\]
+the elements are not the original polynomials \(x\) and \(y\), but their residue classes modulo \((xy)\).
+
+Thus the actual elements of \(A\) are
+\[
+\bar x=x+(xy), \qquad \bar y=y+(xy).
+\]
+
+So the multiplicative set must live inside \(A\), and therefore the correct notation is
+\[
+S=\{1,\bar x,\bar x^2,\bar x^3,\dots\}.
+\]
+
+In informal writing one often drops the bar and simply writes
+\[
+S=\{1,x,x^2,\dots\},
+\]
+but the precise version is with \(\bar x\).
+
+\subsection{4. What are the elements of \(A=k[x,y]/(xy)\) concretely?}
+
+Since \(xy=0\) in the quotient, every monomial containing both \(x\) and \(y\) vanishes. So every residue class can be represented by something of the form
+\[
+a_0 + f(x) + g(y),
+\]
+more precisely by an expression
+\[
+c + a_1x+a_2x^2+\cdots + b_1y+b_2y^2+\cdots
+\]
+with no mixed terms \(x^iy^j\) for \(i,j\ge 1\).
+
+Thus in \(A\) we have
+\[
+\bar x\,\bar y=0.
+\]
+
+This is the key relation.
+
+\subsection{5. What happens after localizing at \(S=\{1,\bar x,\bar x^2,\dots\}\)?}
+
+In \(S^{-1}A\), the element \(\bar x\) becomes invertible. But in \(A\) we already have
+\[
+\bar x\bar y=0.
+\]
+
+Since \(\bar x\) is invertible in the localization, we may multiply both sides by \(\bar x^{-1}\), obtaining
+\[
+\bar y=0
+\]
+in \(S^{-1}A\).
+
+So localizing at \(\bar x\) forces the whole \(y\)-part to disappear.
+
+Therefore the localized ring becomes
+\[
+S^{-1}A \cong k[\bar x,\bar x^{-1}],
+\]
+the Laurent polynomial ring in \(\bar x\).
+
+\subsection{6. Concrete fractions in the localization}
+
+An element of \(S^{-1}A\) looks like
+\[
+\frac{a}{\bar x^n}, \qquad a\in A.
+\]
+
+For example:
+\[
+\frac{\bar x^3+\bar x}{\bar x^2}
+= \bar x + \bar x^{-1}.
+\]
+
+Also,
+\[
+\frac{\bar y}{\bar x}
+\]
+is formally a fraction, but because \(\bar y=0\) in the localization, this fraction is actually \(0\).
+
+So after localization, everything is expressed only in terms of \(\bar x\) and its inverse.
+
+\subsection{7. Geometric intuition}
+
+The ring
+\[
+A=k[x,y]/(xy)
+\]
+is the coordinate ring of the algebraic set
+\[
+V(xy)=V(x)\cup V(y),
+\]
+that is, the union of the two coordinate axes in the plane.
+
+So geometrically we are looking at two lines crossing at the origin:
+\begin{itemize}
+	\item the \(x\)-axis, given by \(y=0\),
+	\item the \(y\)-axis, given by \(x=0\).
+\end{itemize}
+
+Now localizing at \(\bar x\) means: we restrict to the region where \(x\neq 0\). But on the \(y\)-axis we have \(x=0\), so that whole component disappears. Only the \(x\)-axis away from the origin remains.
+
+This matches the algebraic fact that \(\bar y\) becomes \(0\).
+
+\subsection{8. Why does localization remove primes that meet \(S\)?}
+
+A standard theorem says:
+\[
+\Spec(S^{-1}A)\cong
+\{\mathfrak p\in\Spec(A)\mid \mathfrak p\cap S=\varnothing\}.
+\]
+
+So a prime ideal survives after localization if and only if it contains none of the elements of \(S\).
+
+Since
+\[
+S=\{1,\bar x,\bar x^2,\bar x^3,\dots\},
+\]
+this means exactly that a prime survives if and only if it does not contain \(\bar x\).
+
+\subsection{9. Concrete prime ideals in this example}
+
+In
+\[
+A=k[x,y]/(xy),
+\]
+the main prime ideals to think about are
+\[
+(\bar x), \qquad (\bar y), \qquad (\bar x,\bar y).
+\]
+
+Now check whether they meet \(S\):
+
+\paragraph{The prime \((\bar x)\).}
+This ideal contains \(\bar x\), and \(\bar x\in S\). Hence
+\[
+(\bar x)\cap S\neq\varnothing.
+\]
+So \((\bar x)\) disappears after localization.
+
+\paragraph{The prime \((\bar x,\bar y)\).}
+This also contains \(\bar x\), so again
+\[
+(\bar x,\bar y)\cap S\neq\varnothing.
+\]
+Thus it also disappears.
+
+\paragraph{The prime \((\bar y)\).}
+This ideal does not contain \(\bar x\), nor any power of \(\bar x\). Hence
+\[
+(\bar y)\cap S=\varnothing.
+\]
+So \((\bar y)\) survives.
+
+Under the canonical correspondence
+\[
+\Spec(S^{-1}A)\cong
+\{\mathfrak p\in\Spec(A)\mid \mathfrak p\cap S=\varnothing\},
+\]
+the surviving prime is \((\bar y)\), and in the localized ring it becomes the zero ideal, because \(\bar y=0\) there.
+
+Indeed \(S^{-1}A\cong k[\bar x,\bar x^{-1}]\) is a domain, so its only prime corresponding to the generic point is
+\[
+(0).
+\]
+
+\subsection{10. Parallel example from \(\mathbb Z\)}
+
+Take
+\[
+A=\mathbb Z,
+\qquad
+S=\{1,2,4,8,\dots\}.
+\]
+
+Then
+\[
+S^{-1}\mathbb Z=\mathbb Z\!\left[\frac12\right].
+\]
+
+A prime ideal \((p)\subseteq\mathbb Z\) survives if and only if it does not meet \(S\).
+
+\begin{itemize}
+	\item \((2)\) meets \(S\), since \(2\in (2)\), so \((2)\) disappears;
+	\item \((3)\), \((5)\), \((7)\), etc.\ do not meet \(S\), so they survive.
+\end{itemize}
+
+This is exactly the same pattern as in the example with \(k[x,y]/(xy)\).
+
+\subsection{11. Final summary}
+
+To localize at \(\bar x\), we must choose a multiplicative set containing \(\bar x\). The smallest one is
+\[
+S=\{1,\bar x,\bar x^2,\bar x^3,\dots\}.
+\]
+
+This is why \(S\) has exactly that form.
+
+In the example
+\[
+A=k[x,y]/(xy),
+\]
+we have
+\[
+\bar x\bar y=0.
+\]
+After localizing at \(S\), the element \(\bar x\) becomes invertible, so necessarily
+\[
+\bar y=0.
+\]
+Hence
+\[
+S^{-1}A\cong k[\bar x,\bar x^{-1}],
+\]
+and on the level of spectra, localization removes all prime ideals containing \(\bar x\).
+
+So the slogan is:
+
+\[
+\boxed{\text{Localizing at }\bar x\text{ means inverting }\bar x,\text{ hence we use }
+	S=\{1,\bar x,\bar x^2,\dots\}.}
+\]	
+	
+	
+\section{The set \(D(A)\), the meaning of \(V(\Ann(a))\), and minimal primes --- concrete explanation}
+
+Recall the definition:
+\[
+D(A)=\{\mathfrak p\in \Spec(A)\;:\;\exists a\in A \text{ such that }
+\mathfrak p \text{ is minimal in } V(\Ann(a))\}.
+\]
+
+We now explain carefully what each part means, and then work through concrete examples.
+
+\subsection{1. The annihilator \(\Ann(a)\)}
+
+If \(A\) is a ring and \(a\in A\), then the annihilator of \(a\) is
+\[
+\Ann(a)=\{r\in A : ra=0\}.
+\]
+
+Thus \(\Ann(a)\) is the ideal of all elements of the ring that kill \(a\).
+
+\paragraph{Example.}
+In
+\[
+A=k[x,y]/(xy),
+\]
+let \(\bar x,\bar y\) denote the residue classes of \(x,y\). Since
+\[
+\bar y\bar x=0,
+\]
+we have
+\[
+\bar y\in \Ann(\bar x).
+\]
+In fact one can show
+\[
+\Ann(\bar x)=(\bar y).
+\]
+
+\subsection{2. The set \(V(I)\)}
+
+If \(I\subseteq A\) is an ideal, then
+\[
+V(I)=\{\mathfrak p\in \Spec(A): I\subseteq \mathfrak p\}.
+\]
+
+So \(V(I)\) is the set of all prime ideals that contain \(I\).
+
+In particular,
+\[
+V(\Ann(a))=\{\mathfrak p\in \Spec(A): \Ann(a)\subseteq \mathfrak p\}.
+\]
+
+Thus \(V(\Ann(a))\) is the set of all prime ideals containing the annihilator of \(a\).
+
+\paragraph{Geometric remark.}
+In algebraic geometry, \(V(I)\) is the closed subset of \(\Spec(A)\) defined by \(I\). Algebraically, it is simply the set of primes lying above \(I\).
+
+\subsection{3. What does ``minimal in \(V(\Ann(a))\)'' mean?}
+
+It means:
+
+\begin{itemize}
+	\item first, \(\mathfrak p\in V(\Ann(a))\), so
+	\[
+	\Ann(a)\subseteq \mathfrak p;
+	\]
+	\item second, there is no other prime \(\mathfrak q\in V(\Ann(a))\) such that
+	\[
+	\mathfrak q\subsetneq \mathfrak p.
+	\]
+\end{itemize}
+
+So \(\mathfrak p\) is \emph{minimal with respect to inclusion} among all prime ideals containing \(\Ann(a)\).
+
+Equivalently:
+
+\[
+\mathfrak p \text{ is minimal in } V(\Ann(a))
+\quad\Longleftrightarrow\quad
+\mathfrak p \text{ is a minimal prime over } \Ann(a).
+\]
+
+\paragraph{Important.}
+``Minimal'' does \emph{not} mean:
+\begin{itemize}
+	\item smallest number of generators,
+	\item smallest dimension,
+	\item smallest cardinality.
+\end{itemize}
+
+It means only: minimal in the partially ordered set of prime ideals, ordered by inclusion.
+
+\subsection{4. Example: \(A=k[x]\)}
+
+Let
+\[
+A=k[x],
+\qquad
+a=x.
+\]
+
+Since \(k[x]\) is an integral domain and \(x\neq 0\), no nonzero element kills \(x\). Hence
+\[
+\Ann(x)=(0).
+\]
+
+Therefore
+\[
+V(\Ann(x))=V(0)=\{\mathfrak p\in \Spec(k[x]): (0)\subseteq \mathfrak p\}.
+\]
+
+But every prime ideal contains \((0)\), so
+\[
+V(0)=\Spec(k[x]).
+\]
+
+Now in the domain \(k[x]\), the ideal \((0)\) is prime, and it is the smallest prime ideal by inclusion. Thus \((0)\) is minimal in \(V(\Ann(x))\).
+
+So in this example,
+\[
+(0)\in D(k[x]).
+\]
+
+\subsection{5. Example: \(A=k[x]/(x^2)\)}
+
+Let
+\[
+A=k[x]/(x^2),
+\]
+and let \(\bar x\) be the residue class of \(x\).
+
+Since
+\[
+\bar x^2=0,
+\]
+the element \(\bar x\) is nonzero but nilpotent.
+
+Now compute \(\Ann(\bar x)\). Let
+\[
+r=\alpha+\beta \bar x \in A.
+\]
+Then
+\[
+r\bar x=(\alpha+\beta \bar x)\bar x
+= \alpha \bar x+\beta \bar x^2
+= \alpha \bar x.
+\]
+This is \(0\) exactly when \(\alpha=0\). Hence
+\[
+\Ann(\bar x)=(\bar x).
+\]
+
+So
+\[
+V(\Ann(\bar x))=V((\bar x))
+=\{\mathfrak p\in \Spec(A): (\bar x)\subseteq \mathfrak p\}.
+\]
+
+But in \(k[x]/(x^2)\), the only prime ideal is \((\bar x)\). Therefore
+\[
+V((\bar x))=\{(\bar x)\}.
+\]
+
+Hence \((\bar x)\) is minimal in \(V(\Ann(\bar x))\), and so
+\[
+(\bar x)\in D(A).
+\]
+
+\subsection{6. Example: \(A=k[x,y]/(xy)\), with \(a=\bar x\)}
+
+Now let
+\[
+A=k[x,y]/(xy),
+\]
+with residue classes \(\bar x,\bar y\).
+
+Because
+\[
+\bar x\bar y=0,
+\]
+we know \(\bar y\in \Ann(\bar x)\). In fact:
+\[
+\Ann(\bar x)=(\bar y).
+\]
+
+Indeed, the elements that kill \(\bar x\) are precisely the multiples of \(\bar y\).
+
+Therefore
+\[
+V(\Ann(\bar x))=V((\bar y))
+=\{\mathfrak p\in \Spec(A): (\bar y)\subseteq \mathfrak p\}.
+\]
+
+So \(V((\bar y))\) consists of all prime ideals containing \((\bar y)\). The main ones are
+\[
+(\bar y), \qquad (\bar x,\bar y).
+\]
+
+Now compare them by inclusion:
+\[
+(\bar y)\subsetneq (\bar x,\bar y).
+\]
+
+Thus the minimal one is
+\[
+(\bar y).
+\]
+
+So \((\bar y)\) is minimal in \(V(\Ann(\bar x))\), hence
+\[
+(\bar y)\in D(A).
+\]
+
+\subsection{7. Same ring, but \(a=\bar y\)}
+
+Still in
+\[
+A=k[x,y]/(xy),
+\]
+take \(a=\bar y\).
+
+Since
+\[
+\bar x\bar y=0,
+\]
+we get
+\[
+\Ann(\bar y)=(\bar x).
+\]
+
+Hence
+\[
+V(\Ann(\bar y))=V((\bar x))
+=\{\mathfrak p\in \Spec(A): (\bar x)\subseteq \mathfrak p\}.
+\]
+
+The main prime ideals containing \((\bar x)\) are
+\[
+(\bar x), \qquad (\bar x,\bar y).
+\]
+
+Again,
+\[
+(\bar x)\subsetneq (\bar x,\bar y),
+\]
+so the minimal one is
+\[
+(\bar x).
+\]
+
+Thus \((\bar x)\) is minimal in \(V(\Ann(\bar y))\), and therefore
+\[
+(\bar x)\in D(A).
+\]
+
+\subsection{8. Why ``minimal'' means minimal by inclusion}
+
+Take again
+\[
+A=k[x,y]/(xy).
+\]
+
+Consider
+\[
+V((\bar y)).
+\]
+
+This contains at least
+\[
+(\bar y), \qquad (\bar x,\bar y).
+\]
+
+Since
+\[
+(\bar y)\subsetneq (\bar x,\bar y),
+\]
+the ideal \((\bar y)\) is the minimal element of this set.
+
+So when we say:
+
+\[
+(\bar y)\text{ is minimal in }V((\bar y)),
+\]
+
+we mean only that no strictly smaller prime ideal in that same set lies below it.
+
+This is purely an order-theoretic statement with respect to inclusion.
+
+\subsection{9. Another useful example: a domain}
+
+Suppose \(A\) is an integral domain, and let \(a\neq 0\).
+
+Then
+\[
+\Ann(a)=(0),
+\]
+because in a domain, if \(ra=0\) and \(a\neq 0\), then \(r=0\).
+
+So
+\[
+V(\Ann(a))=V(0).
+\]
+
+The minimal primes over \((0)\) are exactly the minimal prime ideals of the ring. In a domain, \((0)\) is prime, so the only minimal prime over \((0)\) is
+\[
+(0).
+\]
+
+Thus in a domain,
+\[
+(0)\in D(A).
+\]
+
+\subsection{10. Intuition behind the definition of \(D(A)\)}
+
+The set
+\[
+D(A)=\{\mathfrak p\in \Spec(A)\;:\;\exists a\in A \text{ such that }
+\mathfrak p \text{ is minimal in } V(\Ann(a))\}
+\]
+collects those prime ideals that arise as minimal primes over annihilators of elements.
+
+So to show that a prime \(\mathfrak p\) lies in \(D(A)\), one must find some element \(a\in A\) such that:
+
+\begin{enumerate}
+	\item \(\Ann(a)\subseteq \mathfrak p\),
+	\item \(\mathfrak p\) is minimal among all primes containing \(\Ann(a)\).
+\end{enumerate}
+
+That is, \(\mathfrak p\) lies directly above the annihilator of some element.
+
+\subsection{11. Compact summary}
+
+Recall:
+\[
+D(A)=\{\mathfrak p\in \Spec(A)\;:\;\exists a\in A \text{ such that }
+\mathfrak p \text{ is minimal in } V(\Ann(a))\}.
+\]
+
+Here:
+\[
+\Ann(a)=\{r\in A:ra=0\},
+\]
+and for any ideal \(I\subseteq A\),
+\[
+V(I)=\{\mathfrak p\in \Spec(A): I\subseteq \mathfrak p\}.
+\]
+
+So \(V(\Ann(a))\) is the set of prime ideals containing the annihilator of \(a\).
+
+To say that \(\mathfrak p\) is minimal in \(V(\Ann(a))\) means:
+\[
+\mathfrak p\in V(\Ann(a))
+\]
+and there is no \(\mathfrak q\in V(\Ann(a))\) such that
+\[
+\mathfrak q\subsetneq \mathfrak p.
+\]
+
+Equivalently, \(\mathfrak p\) is a minimal prime over \(\Ann(a)\).
+
+\subsection{12. Short list of the concrete examples}
+
+\paragraph{Example 1: \(A=k[x]\), \(a=x\).}
+\[
+\Ann(x)=(0), \qquad V(\Ann(x))=V(0)=\Spec(k[x]),
+\]
+and the minimal prime is
+\[
+(0).
+\]
+
+\paragraph{Example 2: \(A=k[x]/(x^2)\), \(a=\bar x\).}
+\[
+\Ann(\bar x)=(\bar x), \qquad V(\Ann(\bar x))=\{(\bar x)\},
+\]
+so the minimal prime is
+\[
+(\bar x).
+\]
+
+\paragraph{Example 3: \(A=k[x,y]/(xy)\), \(a=\bar x\).}
+\[
+\Ann(\bar x)=(\bar y), \qquad
+V(\Ann(\bar x))=V((\bar y)),
+\]
+and the minimal prime is
+\[
+(\bar y).
+\]
+
+\paragraph{Example 4: \(A=k[x,y]/(xy)\), \(a=\bar y\).}
+\[
+\Ann(\bar y)=(\bar x), \qquad
+V(\Ann(\bar y))=V((\bar x)),
+\]
+and the minimal prime is
+\[
+(\bar x).
+\]	
+	
+\section{The ideal \((x(x-1))\) and the quotient \(k[x]/(x(x-1))\)}
+
+Let \(k\) be a field. Consider the polynomial ring \(k[x]\).
+
+\subsection{1. The ideal \((x(x-1))\)}
+
+The notation
+\[
+(x(x-1))
+\]
+means the principal ideal generated by the polynomial \(x(x-1)\). Thus
+\[
+(x(x-1))
+=
+\{\,f(x)\,x(x-1)\;:\;f(x)\in k[x]\,\}.
+\]
+
+So \((x(x-1))\) is exactly the set of all polynomials divisible by \(x(x-1)\).
+
+\paragraph{Examples of elements in \((x(x-1))\).}
+\[
+x(x-1),\qquad x^2(x-1),\qquad (x+3)x(x-1),\qquad x(x-1)(x^2+1).
+\]
+
+\paragraph{Examples of polynomials not in \((x(x-1))\).}
+\[
+x,\qquad x-1,\qquad x^2,\qquad x^2-x+1.
+\]
+
+Indeed, these are not divisible by \(x(x-1)\).
+
+\subsection{2. Meaning of the quotient \(k[x]/(x(x-1))\)}
+
+The quotient ring
+\[
+k[x]/(x(x-1))
+\]
+is the ring in which we identify two polynomials if their difference is divisible by \(x(x-1)\).
+
+If \(\bar x\) denotes the residue class of \(x\) modulo \((x(x-1))\), then in the quotient we have
+\[
+\bar x(\bar x-1)=0.
+\]
+
+Equivalently,
+\[
+\bar x^2=\bar x.
+\]
+
+So \(\bar x\) is an idempotent element.
+
+\subsection{3. What do elements of \(k[x]/(x(x-1))\) look like?}
+
+Every class in \(k[x]/(x(x-1))\) has a unique representative of degree \(<2\). Therefore every element can be written uniquely in the form
+\[
+a+b\bar x,
+\qquad a,b\in k.
+\]
+
+This comes from polynomial division: for any \(f(x)\in k[x]\), there exist \(q(x),r(x)\in k[x]\) such that
+\[
+f(x)=q(x)\,x(x-1)+r(x),
+\qquad \deg r<2.
+\]
+So
+\[
+r(x)=a+bx
+\]
+for some \(a,b\in k\), hence
+\[
+f(x)+(x(x-1)) = a+b\bar x.
+\]
+
+\subsection{4. Multiplication in the quotient}
+
+Since
+\[
+\bar x^2=\bar x,
+\]
+we get
+\[
+(a+b\bar x)(c+d\bar x)
+=
+ac+(ad+bc)\bar x+bd\bar x^2
+=
+ac+(ad+bc+bd)\bar x.
+\]
+
+So multiplication is determined by the relation \(\bar x^2=\bar x\).
+
+\subsection{5. Interpretation by values at \(0\) and \(1\)}
+
+A very important fact is that
+\[
+k[x]/(x(x-1))\cong k\times k.
+\]
+
+Define
+\[
+\Phi:k[x]\longrightarrow k\times k,
+\qquad
+\Phi(f)=(f(0),f(1)).
+\]
+
+This is a ring homomorphism. Its kernel consists of those polynomials \(f\) such that
+\[
+f(0)=0
+\qquad\text{and}\qquad
+f(1)=0.
+\]
+
+This means that \(f\) is divisible by both \(x\) and \(x-1\), hence by \(x(x-1)\). Therefore
+\[
+\ker(\Phi)=(x(x-1)).
+\]
+
+Since \(\Phi\) is surjective, the First Isomorphism Theorem gives
+\[
+k[x]/(x(x-1))\cong k\times k.
+\]
+
+Explicitly, the isomorphism is
+\[
+f(x)+(x(x-1))
+\longmapsto
+(f(0),f(1)).
+\]
+
+\subsection{6. Images of some important elements}
+
+Under the isomorphism
+\[
+k[x]/(x(x-1))\cong k\times k,
+\]
+we have
+\[
+1\longmapsto (1,1),
+\qquad
+\bar x\longmapsto (0,1),
+\qquad
+1-\bar x\longmapsto (1,0).
+\]
+
+Hence
+\[
+\bar x^2=\bar x,
+\qquad
+(1-\bar x)^2=1-\bar x,
+\qquad
+\bar x(1-\bar x)=0.
+\]
+
+So \(\bar x\) and \(1-\bar x\) are complementary idempotents.
+
+\subsection{7. Chinese remainder theorem viewpoint}
+
+Since \(x\) and \(x-1\) are coprime in \(k[x]\), we have
+\[
+(x(x-1))=(x)\cap (x-1),
+\]
+and by the Chinese remainder theorem,
+\[
+k[x]/(x(x-1))
+\cong
+k[x]/(x)\times k[x]/(x-1).
+\]
+
+But
+\[
+k[x]/(x)\cong k,
+\qquad
+k[x]/(x-1)\cong k,
+\]
+so again
+\[
+k[x]/(x(x-1))\cong k\times k.
+\]
+
+\subsection{8. Is \(k[x]/(x(x-1))\) a domain?}
+
+No. In the quotient we have
+\[
+\bar x(\bar x-1)=0,
+\]
+but neither \(\bar x\) nor \(\bar x-1\) is zero.
+
+Indeed, under the identification with \(k\times k\),
+\[
+\bar x\mapsto (0,1)\neq (0,0),
+\qquad
+\bar x-1\mapsto (-1,0)\neq (0,0).
+\]
+
+Thus the quotient has zero divisors, so it is not an integral domain.
+
+\subsection{9. Prime and maximal ideals}
+
+Since
+\[
+k[x]/(x(x-1))\cong k\times k,
+\]
+its prime ideals correspond to the prime ideals of the two factors. Therefore the quotient has exactly two prime ideals:
+\[
+(x)/(x(x-1))
+\qquad\text{and}\qquad
+(x-1)/(x(x-1)).
+\]
+
+Both are maximal ideals.
+
+\subsection{10. Geometric meaning}
+
+The polynomial \(x(x-1)\) vanishes exactly at the two points
+\[
+0
+\qquad\text{and}\qquad
+1.
+\]
+
+So the quotient
+\[
+k[x]/(x(x-1))
+\]
+is the coordinate ring of the algebraic set
+\[
+\{0,1\}\subseteq \mathbb A_k^1.
+\]
+
+Because the two roots are distinct, the ring is reduced and splits as
+\[
+k\times k.
+\]
+
+\subsection{11. Comparison with \(k[x]/(x^2)\)}
+
+It is useful to compare:
+\[
+k[x]/(x^2)
+\qquad\text{and}\qquad
+k[x]/(x(x-1)).
+\]
+
+In \(k[x]/(x^2)\), the class \(\bar x\) satisfies
+\[
+\bar x^2=0,
+\]
+so \(\bar x\) is nilpotent.
+
+In \(k[x]/(x(x-1))\), the class \(\bar x\) satisfies
+\[
+\bar x^2=\bar x,
+\]
+so \(\bar x\) is idempotent.
+
+Thus:
+\begin{itemize}
+	\item \(k[x]/(x^2)\) describes one point with nilpotent thickening;
+	\item \(k[x]/(x(x-1))\) describes two distinct reduced points.
+\end{itemize}
+
+\subsection{12. Final summary}
+
+The ideal
+\[
+(x(x-1))
+=
+\{f(x)x(x-1):f(x)\in k[x]\}
+\]
+is the set of all polynomials divisible by \(x(x-1)\).
+
+The quotient ring
+\[
+k[x]/(x(x-1))
+\]
+is the ring in which
+\[
+\bar x(\bar x-1)=0,
+\qquad\text{equivalently}\qquad
+\bar x^2=\bar x.
+\]
+
+Every element has a unique form
+\[
+a+b\bar x,
+\qquad a,b\in k,
+\]
+and in fact
+\[
+k[x]/(x(x-1))\cong k\times k
+\]
+via
+\[
+f(x)+(x(x-1))
+\longmapsto
+(f(0),f(1)).
+\]
+
+So \(k[x]/(x(x-1))\) is the coordinate ring of the two points \(0\) and \(1\).
+
+\subsection{Why is \(\bar x\) the class of \(x\), not of \(x(x-1)\)?}
+
+Consider the quotient ring
+\[
+k[x]/(x(x-1)).
+\]
+
+Let
+\[
+I=(x(x-1)).
+\]
+Then by definition the elements of the quotient \(k[x]/I\) are cosets
+\[
+f(x)+I.
+\]
+
+So every element of the quotient is the class of some polynomial \(f(x)\), taken modulo the ideal \((x(x-1))\).
+
+\paragraph{The class of \(x\).}
+The notation
+\[
+\bar x
+\]
+means exactly
+\[
+\bar x = x+(x(x-1)).
+\]
+
+So \(\bar x\) is the residue class of the polynomial \(x\) modulo the ideal \((x(x-1))\).
+
+\paragraph{The class of \(x(x-1)\).}
+On the other hand, the class of the polynomial \(x(x-1)\) is
+\[
+x(x-1)+(x(x-1)).
+\]
+
+But this is just the zero element of the quotient, because in any quotient ring \(A/I\), every element of the ideal \(I\) becomes \(0\). Since
+\[
+x(x-1)\in (x(x-1)),
+\]
+we get
+\[
+x(x-1)+(x(x-1))=0.
+\]
+
+So:
+
+\[
+\bar x = x+(x(x-1))
+\qquad\text{but}\qquad
+x(x-1)+(x(x-1))=0.
+\]
+
+Thus \(\bar x\) is \emph{not} the class of \(x(x-1)\); it is the class of \(x\).
+
+\subsection{Why does this imply \(\bar x(\bar x-1)=0\)?}
+
+Since \(\bar x\) is the class of \(x\), we have
+\[
+\bar x-1=(x-1)+(x(x-1)).
+\]
+
+Therefore
+\[
+\bar x(\bar x-1)
+=
+x(x-1)+(x(x-1))
+=
+0.
+\]
+
+So in the quotient ring,
+\[
+\bar x(\bar x-1)=0.
+\]
+
+Equivalently,
+\[
+\bar x^2=\bar x.
+\]
+
+\subsection{Why does \(\bar x\mapsto (0,1)\)?}
+
+Under the isomorphism
+\[
+k[x]/(x(x-1))\longrightarrow k\times k,
+\qquad
+f(x)+(x(x-1))\longmapsto (f(0),f(1)),
+\]
+the class \(\bar x\) means the class of the polynomial \(x\). So we evaluate the polynomial \(x\) at \(0\) and \(1\):
+
+\[
+x(0)=0,
+\qquad
+x(1)=1.
+\]
+
+Hence
+\[
+\bar x \longmapsto (0,1).
+\]
+
+By contrast, the class of \(x(x-1)\) is the zero element in the quotient, so it maps to
+\[
+(0,0).
+\]
+
+\subsection{A useful analogy}
+
+This is exactly like the quotient
+\[
+\mathbb Z/6\mathbb Z.
+\]
+
+There:
+\[
+\bar 2 = 2+6\mathbb Z
+\]
+is the class of \(2\), while
+\[
+6+6\mathbb Z=0
+\]
+is the zero class.
+
+Similarly, in
+\[
+k[x]/(x(x-1)),
+\]
+the class of \(x\) is
+\[
+x+(x(x-1))=\bar x,
+\]
+whereas the class of the generator of the ideal is
+\[
+x(x-1)+(x(x-1))=0.
+\]
+
+\subsection{Final summary}
+
+In the quotient ring
+\[
+k[x]/(x(x-1)),
+\]
+we have
+\[
+\bar x = x+(x(x-1)),
+\]
+so \(\bar x\) is the residue class of the polynomial \(x\).
+
+The polynomial \(x(x-1)\) itself lies in the ideal \((x(x-1))\), so its class is
+\[
+x(x-1)+(x(x-1))=0.
+\]
+
+Therefore \(\bar x\) is the class of \(x\), not the class of \(x(x-1)\), and this is why
+\[
+\bar x(\bar x-1)=0
+\]
+holds in the quotient.
+
+\section{The ideal \(\bigl(x(x-1)(x-2)\bigr)\) and the quotient \(k[x]/\bigl(x(x-1)(x-2)\bigr)\)}
+
+Let \(k\) be a field, and consider the polynomial
+\[
+f(x)=x(x-1)(x-2).
+\]
+
+We now study the ideal
+\[
+\bigl(x(x-1)(x-2)\bigr)\subseteq k[x]
+\]
+and the quotient ring
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr).
+\]
+
+\subsection{1. The ideal \(\bigl(x(x-1)(x-2)\bigr)\)}
+
+The notation
+\[
+\bigl(x(x-1)(x-2)\bigr)
+\]
+means the principal ideal generated by the polynomial \(x(x-1)(x-2)\). Thus
+\[
+\bigl(x(x-1)(x-2)\bigr)
+=
+\{\,g(x)\,x(x-1)(x-2):g(x)\in k[x]\,\}.
+\]
+
+So this ideal consists exactly of all polynomials divisible by \(x(x-1)(x-2)\).
+
+\paragraph{Examples of elements in the ideal.}
+\[
+x(x-1)(x-2),\qquad x^2(x-1)(x-2),\qquad (x+5)x(x-1)(x-2).
+\]
+
+\paragraph{Examples of polynomials not in the ideal.}
+\[
+x,\qquad x(x-1),\qquad x^2,\qquad x^2-x,\qquad x^2-3x+2.
+\]
+
+Indeed, these are not divisible by \(x(x-1)(x-2)\).
+
+\subsection{2. The quotient ring}
+
+The quotient
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)
+\]
+is the ring in which two polynomials are identified whenever their difference is divisible by \(x(x-1)(x-2)\).
+
+If \(\bar x\) denotes the residue class of \(x\), then in the quotient we have
+\[
+\bar x(\bar x-1)(\bar x-2)=0.
+\]
+
+This is the fundamental relation in the quotient ring.
+
+\subsection{3. What do elements of the quotient look like?}
+
+Since the polynomial \(x(x-1)(x-2)\) has degree \(3\), every class in the quotient has a unique representative of degree \(<3\). Therefore every element of
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)
+\]
+can be written uniquely in the form
+\[
+a+b\bar x+c\bar x^2,
+\qquad a,b,c\in k.
+\]
+
+Indeed, by polynomial division, for every \(h(x)\in k[x]\) there exist \(q(x),r(x)\in k[x]\) such that
+\[
+h(x)=q(x)\,x(x-1)(x-2)+r(x),
+\qquad \deg r<3.
+\]
+Hence
+\[
+h(x)+\bigl(x(x-1)(x-2)\bigr)=a+b\bar x+c\bar x^2.
+\]
+
+So as a \(k\)-vector space, the quotient has basis
+\[
+1,\ \bar x,\ \bar x^2.
+\]
+
+\subsection{4. The relation satisfied by \(\bar x\)}
+
+Expand:
+\[
+x(x-1)(x-2)=x^3-3x^2+2x.
+\]
+
+Hence in the quotient,
+\[
+\bar x^3-3\bar x^2+2\bar x=0,
+\]
+that is,
+\[
+\bar x^3=3\bar x^2-2\bar x.
+\]
+
+So every higher power of \(\bar x\) can be reduced to an expression involving only
+\[
+1,\ \bar x,\ \bar x^2.
+\]
+
+\subsection{5. Geometric meaning}
+
+The polynomial
+\[
+x(x-1)(x-2)
+\]
+vanishes at the points
+\[
+0,\qquad 1,\qquad 2.
+\]
+
+So, when these are distinct in the field \(k\), the quotient ring
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)
+\]
+is the coordinate ring of the three-point algebraic set
+\[
+\{0,1,2\}\subseteq \mathbb A_k^1.
+\]
+
+Thus elements of the quotient may be thought of as polynomial functions restricted to the three points \(0,1,2\).
+
+\subsection{6. Evaluation map and the product ring \(k\times k\times k\)}
+
+Assume now that \(0,1,2\) are distinct in \(k\), equivalently
+\[
+\operatorname{char}(k)\neq 2.
+\]
+
+Define
+\[
+\Phi:k[x]\longrightarrow k\times k\times k,
+\qquad
+\Phi(h)=(h(0),h(1),h(2)).
+\]
+
+This is a ring homomorphism.
+
+Its kernel consists of those polynomials \(h(x)\) such that
+\[
+h(0)=0,\qquad h(1)=0,\qquad h(2)=0.
+\]
+
+That means \(h(x)\) is divisible by \(x\), by \(x-1\), and by \(x-2\). Since these factors are pairwise coprime, this is equivalent to divisibility by their product:
+\[
+h(x)\in \bigl(x(x-1)(x-2)\bigr).
+\]
+
+So
+\[
+\ker(\Phi)=\bigl(x(x-1)(x-2)\bigr).
+\]
+
+The map is also surjective, because for any triple
+\[
+(a,b,c)\in k\times k\times k
+\]
+there exists a polynomial of degree at most \(2\) taking these values at \(0,1,2\) (Lagrange interpolation).
+
+Therefore, by the First Isomorphism Theorem,
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)\cong k\times k\times k.
+\]
+
+The isomorphism is explicitly
+\[
+h(x)+\bigl(x(x-1)(x-2)\bigr)\longmapsto (h(0),h(1),h(2)).
+\]
+
+\subsection{7. Images of some important elements}
+
+Under the isomorphism
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)\cong k\times k\times k,
+\]
+we get:
+
+\paragraph{The class of \(1\).}
+Since
+\[
+1(0)=1,\qquad 1(1)=1,\qquad 1(2)=1,
+\]
+we have
+\[
+1\longmapsto (1,1,1).
+\]
+
+\paragraph{The class of \(x\).}
+Since
+\[
+x(0)=0,\qquad x(1)=1,\qquad x(2)=2,
+\]
+we get
+\[
+\bar x\longmapsto (0,1,2).
+\]
+
+\paragraph{The class of \(x-1\).}
+Since
+\[
+(x-1)(0)=-1,\qquad (x-1)(1)=0,\qquad (x-1)(2)=1,
+\]
+we get
+\[
+\bar x-1\longmapsto (-1,0,1).
+\]
+
+\paragraph{The class of \(x-2\).}
+Since
+\[
+(x-2)(0)=-2,\qquad (x-2)(1)=-1,\qquad (x-2)(2)=0,
+\]
+we get
+\[
+\bar x-2\longmapsto (-2,-1,0).
+\]
+
+\paragraph{The class of \(x(x-1)(x-2)\).}
+This polynomial lies in the ideal, so its class is zero:
+\[
+x(x-1)(x-2)+\bigl(x(x-1)(x-2)\bigr)=0,
+\]
+and under the product-ring description it maps to
+\[
+(0,0,0).
+\]
+
+\subsection{8. The Chinese remainder theorem viewpoint}
+
+Again assume \(\operatorname{char}(k)\neq 2\). Then the ideals
+\[
+(x),\qquad (x-1),\qquad (x-2)
+\]
+are pairwise comaximal, and
+\[
+\bigl(x(x-1)(x-2)\bigr)=(x)\cap(x-1)\cap(x-2).
+\]
+
+Therefore, by the Chinese remainder theorem,
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)
+\cong
+k[x]/(x)\times k[x]/(x-1)\times k[x]/(x-2).
+\]
+
+But
+\[
+k[x]/(x)\cong k,\qquad
+k[x]/(x-1)\cong k,\qquad
+k[x]/(x-2)\cong k,
+\]
+so
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)\cong k\times k\times k.
+\]
+
+\subsection{9. Idempotents corresponding to the three points}
+
+In \(k\times k\times k\), the standard idempotents are
+\[
+(1,0,0),\qquad (0,1,0),\qquad (0,0,1).
+\]
+
+These correspond to special elements of the quotient ring. Using Lagrange interpolation, define
+\[
+e_0=\frac{(x-1)(x-2)}{(0-1)(0-2)}=\frac{(x-1)(x-2)}{2},
+\]
+\[
+e_1=\frac{x(x-2)}{(1-0)(1-2)}=-x(x-2),
+\]
+\[
+e_2=\frac{x(x-1)}{(2-0)(2-1)}=\frac{x(x-1)}{2}.
+\]
+
+Then, in the quotient ring,
+\[
+e_0\longmapsto (1,0,0),\qquad
+e_1\longmapsto (0,1,0),\qquad
+e_2\longmapsto (0,0,1).
+\]
+
+Hence
+\[
+e_0^2=e_0,\qquad e_1^2=e_1,\qquad e_2^2=e_2,
+\]
+\[
+e_ie_j=0\quad (i\neq j),
+\qquad
+e_0+e_1+e_2=1.
+\]
+
+So the quotient ring splits into three orthogonal pieces, one for each point \(0,1,2\).
+
+\subsection{10. Is the quotient a domain?}
+
+No. Since
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)\cong k\times k\times k,
+\]
+it has many zero divisors.
+
+For example, in the quotient ring,
+\[
+\bar x(\bar x-1)(\bar x-2)=0,
+\]
+but none of the factors is zero.
+
+Indeed, under the isomorphism:
+\[
+\bar x\longmapsto (0,1,2)\neq (0,0,0),
+\]
+\[
+\bar x-1\longmapsto (-1,0,1)\neq (0,0,0),
+\]
+\[
+\bar x-2\longmapsto (-2,-1,0)\neq (0,0,0).
+\]
+
+So there are nonzero elements whose product is zero.
+
+\subsection{11. Prime and maximal ideals}
+
+When \(\operatorname{char}(k)\neq 2\), the quotient ring is isomorphic to
+\[
+k\times k\times k.
+\]
+
+Therefore its prime ideals are exactly the kernels of the three coordinate projections:
+\[
+k\times k\times k\to k.
+\]
+
+Correspondingly, the prime ideals of
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)
+\]
+are
+\[
+(x)\big/\bigl(x(x-1)(x-2)\bigr),
+\]
+\[
+(x-1)\big/\bigl(x(x-1)(x-2)\bigr),
+\]
+\[
+(x-2)\big/\bigl(x(x-1)(x-2)\bigr).
+\]
+
+Each is maximal.
+
+So geometrically the spectrum consists of three points.
+
+\subsection{12. Comparison with earlier quotients}
+
+\paragraph{Comparison with \(k[x]/(x^2)\).}
+In \(k[x]/(x^2)\), the class \(\bar x\) satisfies
+\[
+\bar x^2=0,
+\]
+so \(\bar x\) is nilpotent. This ring describes one nonreduced point.
+
+\paragraph{Comparison with \(k[x]/(x(x-1))\).}
+In \(k[x]/(x(x-1))\), the class \(\bar x\) satisfies
+\[
+\bar x(\bar x-1)=0,
+\]
+and the ring splits as
+\[
+k\times k,
+\]
+describing two reduced points.
+
+\paragraph{Now for \(k[x]/(x(x-1)(x-2))\).}
+We have
+\[
+\bar x(\bar x-1)(\bar x-2)=0,
+\]
+and the ring splits as
+\[
+k\times k\times k,
+\]
+describing three reduced points, provided the roots \(0,1,2\) are distinct.
+
+\subsection{13. Important characteristic-\(2\) remark}
+
+If \(\operatorname{char}(k)=2\), then \(2=0\), so
+\[
+x-2=x.
+\]
+
+Hence
+\[
+x(x-1)(x-2)=x(x-1)x=x^2(x-1).
+\]
+
+So in characteristic \(2\), the roots are not three distinct points. The quotient ring
+\[
+k[x]/(x^2(x-1))
+\]
+has a repeated factor and is no longer isomorphic to \(k\times k\times k\). Instead, it has a nonreduced component.
+
+Thus the decomposition
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)\cong k\times k\times k
+\]
+holds exactly when the three roots are distinct, i.e. when \(\operatorname{char}(k)\neq 2\).
+
+\subsection{14. Final summary}
+
+The ideal
+\[
+\bigl(x(x-1)(x-2)\bigr)
+\]
+consists of all polynomials divisible by \(x(x-1)(x-2)\).
+
+The quotient ring
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)
+\]
+is the ring in which
+\[
+\bar x(\bar x-1)(\bar x-2)=0.
+\]
+
+Every element has a unique form
+\[
+a+b\bar x+c\bar x^2.
+\]
+
+If \(0,1,2\) are distinct in \(k\) (equivalently \(\operatorname{char}(k)\neq 2\)), then
+\[
+k[x]/\bigl(x(x-1)(x-2)\bigr)\cong k\times k\times k
+\]
+via
+\[
+h(x)+\bigl(x(x-1)(x-2)\bigr)\longmapsto (h(0),h(1),h(2)).
+\]
+
+So this quotient ring is the coordinate ring of the three points
+\[
+0,\ 1,\ 2.
+\]	
+	
+	
+\section{Coordinate rings of the quotients \((x)\), \((x(x-1))\), \((x(x-1)(x-2))\)}
+
+Let \(k\) be a field. We work in the polynomial ring
+\[
+k[x].
+\]
+For an ideal \(I\subseteq k[x]\), the quotient ring
+\[
+k[x]/I
+\]
+is interpreted as the \emph{coordinate ring} of the algebraic set cut out by \(I\) in the affine line \(\mathbb A_k^1\).
+
+If \(I=(f)\), then the corresponding zero set is
+\[
+V(f)=\{a\in k : f(a)=0\}.
+\]
+
+\subsection{1. The case \(k[x]/(x)\)}
+
+Consider the ideal
+\[
+(x).
+\]
+It is generated by the polynomial \(x\), so its zero set is
+\[
+V(x)=\{0\}.
+\]
+
+There is a natural isomorphism
+\[
+k[x]/(x)\cong k,
+\]
+given by evaluation at \(x=0\):
+\[
+f(x)+(x)\longmapsto f(0).
+\]
+
+\paragraph{Interpretation.}
+In the quotient \(k[x]/(x)\), two polynomials are equal if and only if they have the same value at the point \(0\). Thus this quotient remembers only the value of a polynomial at one point.
+
+\paragraph{Geometric conclusion.}
+The ring
+\[
+k[x]/(x)
+\]
+is the coordinate ring of the single point \(\{0\}\subseteq \mathbb A_k^1\). This is a reduced point, since the ring has no nonzero nilpotent elements.
+
+\subsection{2. The case \(k[x]/(x(x-1))\)}
+
+Now consider the ideal
+\[
+(x(x-1)).
+\]
+The polynomial \(x(x-1)\) vanishes exactly at the points
+\[
+0 \quad\text{and}\quad 1.
+\]
+Hence
+\[
+V(x(x-1))=\{0,1\}.
+\]
+
+If \(0\neq 1\) in the field \(k\), then the factors \(x\) and \(x-1\) are coprime, so by the Chinese remainder theorem,
+\[
+k[x]/(x(x-1))
+\cong
+k[x]/(x)\times k[x]/(x-1)
+\cong
+k\times k.
+\]
+
+This isomorphism can be written explicitly as
+\[
+f(x)+(x(x-1))
+\longmapsto
+(f(0),f(1)).
+\]
+
+\paragraph{Interpretation.}
+An element of the quotient is therefore determined exactly by the pair of values of the polynomial at the points \(0\) and \(1\). So this ring is the ring of functions on the two-point set \(\{0,1\}\).
+
+\paragraph{Geometric conclusion.}
+The ring
+\[
+k[x]/(x(x-1))
+\]
+is the coordinate ring of the two points
+\[
+\{0,1\}\subseteq \mathbb A_k^1.
+\]
+These are two reduced and separated points.
+
+\subsection{3. The case \(k[x]/(x(x-1)(x-2))\)}
+
+Now consider the ideal
+\[
+(x(x-1)(x-2)).
+\]
+The polynomial
+\[
+x(x-1)(x-2)
+\]
+vanishes at the points
+\[
+0,\quad 1,\quad 2.
+\]
+So
+\[
+V(x(x-1)(x-2))=\{0,1,2\}.
+\]
+
+If the numbers \(0,1,2\) are distinct in the field \(k\), for example when \(\operatorname{char}(k)\neq 2\), then the factors
+\[
+x,\qquad x-1,\qquad x-2
+\]
+are pairwise coprime. Therefore, by the Chinese remainder theorem,
+\[
+k[x]/(x(x-1)(x-2))
+\cong
+k[x]/(x)\times k[x]/(x-1)\times k[x]/(x-2)
+\cong
+k\times k\times k.
+\]
+
+The explicit isomorphism is
+\[
+f(x)+(x(x-1)(x-2))
+\longmapsto
+(f(0),f(1),f(2)).
+\]
+
+\paragraph{Interpretation.}
+In this quotient, two polynomials are identified if and only if they have the same values at the points \(0,1,2\). Thus the ring
+\[
+k[x]/(x(x-1)(x-2))
+\]
+is the ring of functions on the three-point set \(\{0,1,2\}\).
+
+\paragraph{Geometric conclusion.}
+This is the coordinate ring of the three points
+\[
+\{0,1,2\}\subseteq \mathbb A_k^1,
+\]
+provided these points are distinct in the field \(k\).
+
+\subsection{4. The general pattern}
+
+If \(a_1,\dots,a_n\in k\) are pairwise distinct, then
+\[
+k[x]/\bigl((x-a_1)\cdots(x-a_n)\bigr)
+\cong
+k\times\cdots\times k
+\quad (n\text{ times}),
+\]
+so it is the coordinate ring of the finite set of points
+\[
+\{a_1,\dots,a_n\}\subseteq \mathbb A_k^1.
+\]
+
+Thus:
+\[
+k[x]/(x)
+\quad\leftrightarrow\quad
+\{0\},
+\]
+\[
+k[x]/(x(x-1))
+\quad\leftrightarrow\quad
+\{0,1\},
+\]
+\[
+k[x]/(x(x-1)(x-2))
+\quad\leftrightarrow\quad
+\{0,1,2\}.
+\]
+
+\subsection{5. Important remark: the set of points versus the ring structure}
+
+One must distinguish the zero set itself from the full coordinate ring.
+
+For example,
+\[
+k[x]/(x^2)
+\]
+has the same zero set as \(k[x]/(x)\), namely
+\[
+V(x^2)=V(x)=\{0\},
+\]
+but it is not the same ring. In \(k[x]/(x^2)\), the class \(\bar x\) satisfies
+\[
+\bar x^2=0,
+\]
+so it is a nonzero nilpotent element. This means that the quotient describes not an ordinary point, but a \emph{thickened point}.
+
+By contrast, in the cases
+\[
+k[x]/(x),\qquad k[x]/(x(x-1)),\qquad k[x]/(x(x-1)(x-2))
+\]
+with distinct roots, we obtain reduced rings, so they correspond to ordinary separate points.
+
+\subsection{6. Summary}
+
+\begin{itemize}
+	\item
+	\[
+	k[x]/(x)\cong k
+	\]
+	is the coordinate ring of the point \(\{0\}\).
+	
+	\item
+	\[
+	k[x]/(x(x-1))\cong k\times k
+	\]
+	is the coordinate ring of the two points \(\{0,1\}\).
+	
+	\item
+	\[
+	k[x]/(x(x-1)(x-2))\cong k\times k\times k
+	\]
+	is the coordinate ring of the three points \(\{0,1,2\}\), provided \(0,1,2\) are distinct in \(k\).
+\end{itemize}
+
+In other words, these quotient rings describe polynomial functions restricted respectively to one, two, or three points of the affine line.
+
+\section{Ideals, Quotients, Annihilators, Associated Primes, Minimal Primes, and \(D(f)\) for \(k[x]\) and \(k[x,y]\)}
+
+\textbf{Convention.}
+Throughout, \(k\) is a field, all rings are commutative with \(1\), and all modules are unital.
+When we write \(\Ass(A/I)\), we mean \(\Ass_A(A/I)\), the associated primes of the \(A\)-module \(A/I\).
+
+\subsection{1. Basic definitions}
+
+\textbf{Ideal.}
+An ideal \(I\subseteq A\) is a subset such that:
+\[
+0\in I,\qquad a,b\in I \Rightarrow a-b\in I,\qquad r\in A,\ a\in I \Rightarrow ra\in I.
+\]
+Examples in \(k[x,y]\):
+\[
+(x),\quad (y),\quad (xy),\quad (x^2),\quad (x,y),\quad (x^2,xy).
+\]
+
+\textbf{Quotient ring.}
+If \(I\subseteq A\) is an ideal, then
+\[
+A/I
+\]
+is the ring of residue classes \(a+I\), often written \(\overline a\).
+Two elements \(a,b\in A\) represent the same class iff
+\[
+a-b\in I.
+\]
+So in \(A/I\), every element of \(I\) becomes \(0\).
+
+\textbf{Annihilator of an element.}
+If \(M\) is an \(A\)-module and \(m\in M\), then
+\[
+\Ann_A(m)=\{a\in A:am=0\}.
+\]
+This is an ideal of \(A\).
+
+\textbf{Annihilator of a module.}
+\[
+\Ann_A(M)=\{a\in A:aM=0\}.
+\]
+In particular, for a quotient module \(A/I\),
+\[
+\Ann_A(A/I)=I.
+\]
+
+\textbf{Associated prime.}
+A prime ideal \(\mathfrak p\subseteq A\) is called an associated prime of \(M\) if there exists some \(m\in M\) such that
+\[
+\Ann_A(m)=\mathfrak p.
+\]
+The set of all associated primes is denoted
+\[
+\Ass_A(M).
+\]
+
+\textbf{Minimal primes over an ideal.}
+A prime ideal \(\mathfrak p\) is minimal over \(I\) if
+\[
+I\subseteq \mathfrak p
+\]
+and there is no smaller prime ideal containing \(I\).
+The set of minimal primes over \(I\) is denoted
+\[
+\Min(I)
+\]
+or, equivalently, \(\Min(A/I)\).
+
+\textbf{Support.}
+For an \(A\)-module \(M\),
+\[
+\Supp_A(M)=\{\mathfrak p\in \Spec(A):M_{\mathfrak p}\neq 0\}.
+\]
+For a quotient module \(A/I\),
+\[
+\Supp_A(A/I)=V(I)=\{\mathfrak p\in \Spec(A):I\subseteq \mathfrak p\}.
+\]
+
+\textbf{Distinguished open set \(D(f)\).}
+For \(f\in A\),
+\[
+D(f)=\{\mathfrak p\in \Spec(A):f\notin \mathfrak p\}.
+\]
+It is the complement of \(V(f)\):
+\[
+D(f)=\Spec(A)\setminus V(f).
+\]
+Also,
+\[
+D(fg)=D(f)\cap D(g).
+\]
+
+\subsection{2. The ring \(k[x]\)}
+
+\textbf{Ideals in \(k[x]\).}
+Since \(k[x]\) is a principal ideal domain, every ideal is of the form
+\[
+(f(x))
+\]
+for some polynomial \(f(x)\in k[x]\).
+
+Examples:
+\[
+(0),\quad (x),\quad (x^2),\quad (x(x-1)),\quad (x^3+1).
+\]
+
+\textbf{Prime ideals in \(k[x]\).}
+They are:
+\[
+(0)
+\]
+and
+\[
+(f)
+\]
+where \(f\) is irreducible.
+
+If \(k\) is algebraically closed, then irreducibles are linear, so prime ideals are
+\[
+(0),\qquad (x-a)\ \text{for } a\in k.
+\]
+
+\textbf{Minimal primes of \(k[x]\).}
+Because \(k[x]\) is a domain, its only minimal prime is
+\[
+(0).
+\]
+Thus
+\[
+\Min(k[x])=\{(0)\}.
+\]
+
+\textbf{Associated primes of \(k[x]\) as a module over itself.}
+Since
+\[
+\Ann_{k[x]}(1)=(0)
+\]
+and \((0)\) is prime, we get
+\[
+\Ass_{k[x]}(k[x])=\{(0)\}.
+\]
+
+\subsection{3. Example: \(k[x]/(x^2)\)}
+
+Let
+\[
+A=k[x],\qquad M=A/(x^2).
+\]
+
+\textbf{Elements of the quotient.}
+Modulo \((x^2)\), every polynomial is congruent to one of the form
+\[
+a+bx.
+\]
+So
+\[
+k[x]/(x^2)=\{a+b\overline x:a,b\in k,\ \overline x^2=0\}.
+\]
+Here \(\overline x\neq 0\), but \(\overline x^2=0\).
+
+\textbf{Annihilator of the module.}
+\[
+\Ann_A(M)=\Ann_A(A/(x^2))=(x^2).
+\]
+
+\textbf{Annihilator of \(\overline x\).}
+We compute
+\[
+\Ann_A(\overline x)=\{f(x)\in k[x]:f(x)\overline x=0\}.
+\]
+This means
+\[
+f(x)x\in (x^2),
+\]
+which happens exactly when \(f(x)\) is divisible by \(x\). Hence
+\[
+\Ann_A(\overline x)=(x).
+\]
+
+Therefore
+\[
+(x)\in \Ass_A(A/(x^2)).
+\]
+In fact,
+\[
+\Ass_A(A/(x^2))=\{(x)\}.
+\]
+
+\textbf{Minimal primes.}
+Since
+\[
+\sqrt{(x^2)}=(x),
+\]
+the only minimal prime over \((x^2)\) is
+\[
+(x).
+\]
+Thus
+\[
+\Min(A/(x^2))=\{(x)\}.
+\]
+
+So in this example,
+\[
+\Ass_A(A/(x^2))=\Min(A/(x^2))=\{(x)\}.
+\]
+
+\subsection{4. Example: \(k[x]/(x(x-1))\)}
+
+Let
+\[
+A=k[x],\qquad M=A/(x(x-1)).
+\]
+
+\textbf{Minimal primes.}
+Since
+\[
+(x(x-1))=(x)\cap (x-1)
+\]
+in \(k[x]\), the minimal primes are
+\[
+(x),\qquad (x-1).
+\]
+Therefore
+\[
+\Min(A/(x(x-1)))=\{(x),(x-1)\}.
+\]
+
+\textbf{Associated primes.}
+By the Chinese remainder theorem,
+\[
+k[x]/(x(x-1))\cong k[x]/(x)\times k[x]/(x-1)\cong k\times k.
+\]
+Hence the associated primes are exactly
+\[
+\Ass_A(A/(x(x-1)))=\{(x),(x-1)\}.
+\]
+
+\textbf{Concrete annihilators.}
+The class \(\overline x\) has annihilator
+\[
+\Ann_A(\overline x)=(x-1),
+\]
+and the class \(\overline{x-1}\) has annihilator
+\[
+\Ann_A(\overline{x-1})=(x).
+\]
+
+\subsection{5. The ring \(k[x,y]\)}
+
+Unlike \(k[x]\), not every ideal is principal.
+
+\textbf{Examples of ideals.}
+
+\emph{Principal ideals:}
+\[
+(x),\quad (y),\quad (xy),\quad (x^2),\quad (x^2+y^2).
+\]
+
+\emph{Two-generated ideals:}
+\[
+(x,y),\quad (x^2,xy),\quad (x,y^2),\quad (x^2,y).
+\]
+
+An element of \((x^2,xy)\) has the form
+\[
+f(x,y)x^2+g(x,y)xy.
+\]
+So
+\[
+(x^2,xy)=x(x,y).
+\]
+
+\subsection{6. Example: \(k[x,y]/(xy)\)}
+
+Let
+\[
+A=k[x,y],\qquad M=A/(xy).
+\]
+
+\textbf{Meaning of the quotient.}
+In this quotient,
+\[
+\overline x\,\overline y=0,
+\]
+but neither \(\overline x\) nor \(\overline y\) is zero.
+So the quotient has zero divisors.
+
+\textbf{Geometry.}
+The variety \(V(xy)\) is the union of the coordinate axes:
+\[
+V(xy)=V(x)\cup V(y).
+\]
+So \(k[x,y]/(xy)\) is the coordinate ring of two lines crossing at the origin.
+
+\textbf{Minimal primes.}
+Since \((xy)\subseteq (x)\) and \((xy)\subseteq (y)\), and both \((x)\) and \((y)\) are prime,
+\[
+\Min(A/(xy))=\{(x),(y)\}.
+\]
+Also,
+\[
+\sqrt{(xy)}=(x)\cap (y).
+\]
+
+\textbf{Associated primes.}
+Consider \(\overline x\in A/(xy)\). Then
+\[
+\Ann_A(\overline x)=\{f\in A:fx\in (xy)\}.
+\]
+This happens exactly when \(f\) is divisible by \(y\), so
+\[
+\Ann_A(\overline x)=(y).
+\]
+Similarly,
+\[
+\Ann_A(\overline y)=(x).
+\]
+Therefore
+\[
+\Ass_A(A/(xy))=\{(x),(y)\}.
+\]
+
+So here
+\[
+\Ass_A(A/(xy))=\Min(A/(xy)).
+\]
+
+\textbf{Support.}
+\[
+\Supp_A(A/(xy))=V(xy)=V(x)\cup V(y).
+\]
+
+\subsection{7. Example: \(k[x,y]/(x^2)\)}
+
+Let
+\[
+A=k[x,y],\qquad M=A/(x^2).
+\]
+
+\textbf{Geometry.}
+This is a nonreduced double line along \(x=0\).
+
+\textbf{Minimal primes.}
+Since
+\[
+\sqrt{(x^2)}=(x),
+\]
+we have
+\[
+\Min(A/(x^2))=\{(x)\}.
+\]
+
+\textbf{Associated primes.}
+The class \(\overline x\) satisfies
+\[
+x\cdot \overline x=0,
+\]
+and
+\[
+\Ann_A(\overline x)=\{f:fx\in (x^2)\}=(x).
+\]
+Therefore
+\[
+\Ass_A(A/(x^2))=\{(x)\}.
+\]
+
+Again,
+\[
+\Ass_A(A/(x^2))=\Min(A/(x^2)).
+\]
+
+\subsection{8. Example: \(k[x,y]/(x^2,xy)\)}
+
+Let
+\[
+A=k[x,y],\qquad I=(x^2,xy)=x(x,y),\qquad M=A/I.
+\]
+
+This is a standard example with an embedded associated prime.
+
+\textbf{Understanding the ideal.}
+Every element of \(I\) has the form
+\[
+f(x,y)x^2+g(x,y)xy.
+\]
+Equivalently,
+\[
+I=x(x,y).
+\]
+
+\textbf{Minimal primes.}
+Since every generator of \(I\) is divisible by \(x\), we have
+\[
+I\subseteq (x).
+\]
+Also,
+\[
+\sqrt{I}=(x).
+\]
+Hence
+\[
+\Min(A/I)=\{(x)\}.
+\]
+
+\textbf{Associated prime \((x)\).}
+Consider \(\overline y\in A/I\). Then
+\[
+\Ann_A(\overline y)=\{f:fy\in (x^2,xy)\}.
+\]
+This happens exactly when \(f\) is divisible by \(x\). So
+\[
+\Ann_A(\overline y)=(x).
+\]
+Therefore
+\[
+(x)\in \Ass_A(A/I).
+\]
+
+\textbf{Associated prime \((x,y)\).}
+Now consider \(\overline x\in A/I\). Since
+\[
+x^2\in I,\qquad xy\in I,
+\]
+we get
+\[
+x\cdot \overline x=0,\qquad y\cdot \overline x=0.
+\]
+So
+\[
+(x,y)\subseteq \Ann_A(\overline x).
+\]
+Conversely, if \(f\overline x=0\), then
+\[
+fx\in (x^2,xy)=x(x,y),
+\]
+hence
+\[
+f\in (x,y).
+\]
+Therefore
+\[
+\Ann_A(\overline x)=(x,y).
+\]
+So
+\[
+(x,y)\in \Ass_A(A/I).
+\]
+
+Thus
+\[
+\Ass_A(A/(x^2,xy))=\{(x),(x,y)\}.
+\]
+
+This is the important phenomenon:
+\[
+\Min(A/(x^2,xy))=\{(x)\},
+\]
+but
+\[
+\Ass_A(A/(x^2,xy))=\{(x),(x,y)\}.
+\]
+So \((x,y)\) is an \emph{embedded associated prime}.
+
+\subsection{9. Example: \(k[x,y]/(x,y)\)}
+
+Let
+\[
+A=k[x,y],\qquad M=A/(x,y).
+\]
+
+Since both \(x\) and \(y\) become zero, we have
+\[
+A/(x,y)\cong k.
+\]
+
+As an \(A\)-module,
+\[
+\Ann_A(M)=(x,y).
+\]
+Since \((x,y)\) is prime, it follows that
+\[
+\Ass_A(A/(x,y))=\{(x,y)\},
+\qquad
+\Min(A/(x,y))=\{(x,y)\}.
+\]
+
+Geometrically, this is the origin.
+
+\subsection{10. Distinguished open sets \(D(f)\) in \(\Spec(k[x,y])\)}
+
+\textbf{The open set \(D(x)\).}
+\[
+D(x)=\{\mathfrak p\in \Spec(k[x,y]):x\notin \mathfrak p\}.
+\]
+This is the complement of \(V(x)\), so it is the part of the spectrum where \(x\) does not vanish.
+
+\textbf{The open set \(D(y)\).}
+\[
+D(y)=\{\mathfrak p\in \Spec(k[x,y]):y\notin \mathfrak p\}.
+\]
+
+\textbf{The open set \(D(xy)\).}
+Since
+\[
+D(fg)=D(f)\cap D(g),
+\]
+we get
+\[
+D(xy)=D(x)\cap D(y).
+\]
+Equivalently,
+\[
+V(xy)=V(x)\cup V(y),
+\]
+so \(D(xy)\) is the complement of the union of the two coordinate axes.
+
+\subsection{11. Summary table}
+
+Let \(A=k[x,y]\) unless otherwise stated.
+
+\[
+\begin{array}{|c|c|c|c|}
+	\hline
+	\text{Ring or module} & \Ann & \Min & \Ass \\
+	\hline
+	k[x] & (0) & \{(0)\} & \{(0)\} \\
+	\hline
+	k[x]/(x^2) & (x^2) & \{(x)\} & \{(x)\} \\
+	\hline
+	k[x]/(x(x-1)) & (x(x-1)) & \{(x),(x-1)\} & \{(x),(x-1)\} \\
+	\hline
+	k[x,y] & (0) & \{(0)\} & \{(0)\} \\
+	\hline
+	k[x,y]/(xy) & (xy) & \{(x),(y)\} & \{(x),(y)\} \\
+	\hline
+	k[x,y]/(x^2) & (x^2) & \{(x)\} & \{(x)\} \\
+	\hline
+	k[x,y]/(x^2,xy) & (x^2,xy) & \{(x)\} & \{(x),(x,y)\} \\
+	\hline
+	k[x,y]/(x,y) & (x,y) & \{(x,y)\} & \{(x,y)\} \\
+	\hline
+\end{array}
+\]
+
+\subsection{12. Main relation between minimal and associated primes}
+
+For a finitely generated module \(M\) over a Noetherian ring \(A\), one has
+\[
+\Min(\Supp(M))\subseteq \Ass_A(M)\subseteq \Supp_A(M).
+\]
+For \(M=A/I\), this becomes
+\[
+\Min(A/I)\subseteq \Ass_A(A/I)\subseteq V(I).
+\]
+
+So:
+\begin{itemize}
+	\item every minimal prime is associated,
+	\item but there may be extra associated primes,
+	\item those extra ones are called embedded primes.
+\end{itemize}
+
+The quotient
+\[
+k[x,y]/(x^2,xy)
+\]
+is the standard example:
+\[
+\Min=\{(x)\},\qquad \Ass=\{(x),(x,y)\}.
+\]
+
+\subsection{13. Very concrete intuition}
+
+\textbf{For \(k[x,y]/(xy)\):}
+\[
+\overline x\neq 0,\qquad \overline y\neq 0,\qquad \overline x\,\overline y=0.
+\]
+So \(x\) and \(y\) kill each other:
+\[
+\Ann(\overline x)=(y),\qquad \Ann(\overline y)=(x).
+\]
+
+\textbf{For \(k[x,y]/(x^2)\):}
+\[
+\overline x\neq 0,\qquad \overline x^2=0.
+\]
+So \(\overline x\) is nilpotent, and
+\[
+\Ann(\overline x)=(x).
+\]
+
+\textbf{For \(k[x,y]/(x^2,xy)\):}
+\[
+x^2=0,\qquad xy=0
+\]
+in the quotient, so \(\overline x\) is killed by both \(x\) and \(y\):
+\[
+\Ann(\overline x)=(x,y).
+\]
+But \(\overline y\) is killed only by multiples of \(x\):
+\[
+\Ann(\overline y)=(x).
+\]
+That is why both
+\[
+(x)\quad \text{and}\quad (x,y)
+\]
+appear in \(\Ass\).
+
+\section{Primary decomposition, radicals, and explicit residue classes in quotient rings}
+
+\textbf{Convention.}
+Throughout, \(k\) is a field, all rings are commutative with \(1\), and all modules are unital.
+We continue the discussion for the rings
+\[
+k[x],\qquad k[x,y].
+\]
+
+\subsection{1. Radicals}
+
+\textbf{Definition.}
+If \(I\subseteq A\) is an ideal, its radical is
+\[
+\sqrt{I}=\{a\in A:\exists n\ge 1\text{ such that }a^n\in I\}.
+\]
+
+\textbf{Meaning.}
+An element lies in \(\sqrt I\) if some power of it already lies in \(I\).
+
+\textbf{Examples.}
+\[
+\sqrt{(x^2)}=(x),\qquad \sqrt{(xy)}=(x)\cap(y),\qquad \sqrt{(x^2,xy)}=(x).
+\]
+
+\textbf{Why \(\sqrt{(x^2)}=(x)\)?}
+If \(f^n\in (x^2)\), then in particular \(x\mid f^n\), hence \(x\mid f\), so \(f\in (x)\).
+Conversely, if \(f\in (x)\), then \(f=xg\), so
+\[
+f^2=x^2g^2\in (x^2),
+\]
+hence \(f\in \sqrt{(x^2)}\).
+
+\textbf{Why \(\sqrt{(xy)}=(x)\cap(y)\)?}
+In \(k[x,y]\), the ideals \((x)\) and \((y)\) are prime, and
+\[
+(xy)\subseteq (x)\cap(y).
+\]
+Also,
+\[
+(x)\cap(y)=(xy)
+\]
+in the UFD \(k[x,y]\), because a polynomial divisible by both \(x\) and \(y\) is divisible by \(xy\).
+Since \((xy)\) is already radical, we get
+\[
+\sqrt{(xy)}=(xy)=(x)\cap(y).
+\]
+
+\textbf{Why \(\sqrt{(x^2,xy)}=(x)\)?}
+We have
+\[
+(x^2,xy)=x(x,y)\subseteq (x),
+\]
+so \(\sqrt{(x^2,xy)}\subseteq (x)\).
+Conversely, \(x^2\in (x^2,xy)\), so \(x\in \sqrt{(x^2,xy)}\), hence every multiple of \(x\) lies in the radical.
+Thus
+\[
+\sqrt{(x^2,xy)}=(x).
+\]
+
+\subsection{2. Primary ideals}
+
+\textbf{Definition.}
+An ideal \(Q\subseteq A\) is called \emph{primary} if whenever
+\[
+ab\in Q,
+\]
+then either
+\[
+a\in Q
+\]
+or
+\[
+b^n\in Q\quad \text{for some }n\ge 1.
+\]
+
+\textbf{Equivalent viewpoint.}
+\(Q\) is primary if in \(A/Q\), every zero divisor is nilpotent.
+
+\textbf{Associated prime of a primary ideal.}
+If \(Q\) is primary, then \(\sqrt Q\) is a prime ideal.
+In that case one says that \(Q\) is \(\mathfrak p\)-primary, where
+\[
+\mathfrak p=\sqrt Q.
+\]
+
+\textbf{Examples.}
+\begin{itemize}
+	\item \((x^2)\subset k[x]\) is \((x)\)-primary.
+	\item \((x^2)\subset k[x,y]\) is \((x)\)-primary.
+	\item \((x,y)\subset k[x,y]\) is prime, hence also \((x,y)\)-primary.
+	\item \((x)\subset k[x,y]\) is prime, hence also \((x)\)-primary.
+	\item \((xy)\subset k[x,y]\) is \emph{not} primary, because
+	\[
+	xy\in (xy),\qquad x\notin (xy),\qquad y^n\notin (xy)\ \forall n\ge 1.
+	\]
+\end{itemize}
+
+\subsection{3. Primary decomposition}
+
+\textbf{Definition.}
+A \emph{primary decomposition} of an ideal \(I\) is an expression
+\[
+I=Q_1\cap \cdots \cap Q_r
+\]
+where each \(Q_i\) is primary.
+
+If the radicals
+\[
+\sqrt{Q_1},\dots,\sqrt{Q_r}
+\]
+are distinct and no \(Q_i\) can be omitted, one calls it an irredundant primary decomposition.
+
+\textbf{Important fact in Noetherian rings.}
+Every ideal in a Noetherian ring admits a primary decomposition.
+
+Since \(k[x]\) and \(k[x,y]\) are Noetherian, this applies to all our examples.
+
+\subsection{4. Explicit residue classes: general principle}
+
+If \(A=R/I\), then elements of \(A\) are equivalence classes
+\[
+f+I,\qquad f\in R.
+\]
+We usually write \(\overline f\) for the class of \(f\).
+
+Two polynomials \(f,g\in R\) define the same class iff
+\[
+f-g\in I.
+\]
+
+So to understand \(R/I\), we want a simple description of representatives of classes.
+
+\subsection{5. Example: \(k[x]/(x^2)\)}
+
+Let
+\[
+A=k[x]/(x^2).
+\]
+
+\textbf{Primary decomposition.}
+The ideal \((x^2)\) is already primary:
+\[
+(x^2)\ \text{is }(x)\text{-primary}.
+\]
+So the primary decomposition is just
+\[
+(x^2).
+\]
+
+\textbf{Radical.}
+\[
+\sqrt{(x^2)}=(x).
+\]
+
+\textbf{Explicit residue classes.}
+Every polynomial
+\[
+f(x)=a_0+a_1x+a_2x^2+\cdots
+\]
+is congruent modulo \((x^2)\) to
+\[
+a_0+a_1x.
+\]
+So every class has a unique representative of the form
+\[
+a+b x.
+\]
+Thus
+\[
+k[x]/(x^2)=\{a+b\overline x:a,b\in k,\ \overline x^2=0\}.
+\]
+
+\textbf{Multiplication rule.}
+\[
+(a+b\overline x)(c+d\overline x)=ac+(ad+bc)\overline x,
+\]
+because \(\overline x^2=0\).
+
+\textbf{Interpretation.}
+This is the ring of dual numbers over \(k\).
+
+\subsection{6. Example: \(k[x]/(x(x-1))\)}
+
+Let
+\[
+A=k[x]/(x(x-1)).
+\]
+
+\textbf{Primary decomposition.}
+Since \((x)\) and \((x-1)\) are distinct maximal ideals in \(k[x]\),
+\[
+(x(x-1))=(x)\cap(x-1).
+\]
+Each factor is prime, hence primary.
+So this is a primary decomposition.
+
+\textbf{Radical.}
+Because \((x)\cap(x-1)\) is already radical,
+\[
+\sqrt{(x(x-1))}=(x)\cap(x-1).
+\]
+
+\textbf{Explicit residue classes.}
+Modulo \(x(x-1)\), every polynomial class can be represented by a polynomial of degree at most \(1\):
+\[
+a+bx.
+\]
+Indeed, division by the degree-\(2\) polynomial \(x(x-1)\) gives such a remainder.
+
+So every class has a unique representative
+\[
+a+b\overline x.
+\]
+
+\textbf{Another description via Chinese remainder theorem.}
+\[
+k[x]/(x(x-1))\cong k[x]/(x)\times k[x]/(x-1)\cong k\times k.
+\]
+Under this isomorphism,
+\[
+f(x)\longmapsto (f(0),f(1)).
+\]
+
+So classes can also be described as pairs
+\[
+(a,b)\in k\times k.
+\]
+
+\textbf{How does \(a+bx\) correspond to a pair?}
+\[
+a+bx \longmapsto (a,a+b).
+\]
+
+\textbf{Special classes.}
+\[
+\overline x \longmapsto (0,1),\qquad \overline{x-1}\longmapsto (-1,0).
+\]
+
+\subsection{7. Example: \(k[x,y]/(xy)\)}
+
+Let
+\[
+A=k[x,y]/(xy).
+\]
+
+\textbf{Primary decomposition.}
+Since \((x)\) and \((y)\) are prime ideals and
+\[
+(x)\cap(y)=(xy),
+\]
+we get the primary decomposition
+\[
+(xy)=(x)\cap(y).
+\]
+
+\textbf{Radical.}
+Because \((xy)=(x)\cap(y)\) is radical,
+\[
+\sqrt{(xy)}=(xy)=(x)\cap(y).
+\]
+
+\textbf{Explicit residue classes.}
+Every polynomial can be written as
+\[
+f(x,y)=a + xg(x) + yh(y) + xy\,q(x,y),
+\]
+for suitable polynomials \(g,h,q\).
+Modulo \((xy)\), the last term vanishes, so every class can be written as
+\[
+a + xg(x) + yh(y).
+\]
+
+Equivalently, every class has a representative of the form
+\[
+a + p(x) + q(y),
+\]
+where \(p(0)=0\) and \(q(0)=0\).
+
+So the quotient can be described as
+\[
+k[x,y]/(xy)\cong \{a+p(x)+q(y):a\in k,\ p\in xk[x],\ q\in yk[y]\}.
+\]
+
+\textbf{Why this is natural.}
+All mixed terms
+\[
+x^iy^j \quad (i,j\ge 1)
+\]
+vanish in the quotient, because each is divisible by \(xy\).
+
+Thus only:
+\begin{itemize}
+	\item the constant term,
+	\item pure \(x\)-terms,
+	\item pure \(y\)-terms
+\end{itemize}
+survive.
+
+\textbf{Examples of classes.}
+\[
+\overline{x^2+y^3+5} = 5+\overline{x^2}+\overline{y^3},
+\]
+but
+\[
+\overline{x^2y+y^4+7} = 7+\overline{y^4},
+\]
+because \(x^2y\in (xy)\).
+
+\textbf{Multiplication.}
+Products of pure \(x\)-terms with pure \(y\)-terms are zero:
+\[
+\overline{x^m}\,\overline{y^n}=0 \qquad (m,n\ge 1).
+\]
+
+\subsection{8. Example: \(k[x,y]/(x^2)\)}
+
+Let
+\[
+A=k[x,y]/(x^2).
+\]
+
+\textbf{Primary decomposition.}
+The ideal \((x^2)\) is already \((x)\)-primary.
+So its primary decomposition is simply
+\[
+(x^2).
+\]
+
+\textbf{Radical.}
+\[
+\sqrt{(x^2)}=(x).
+\]
+
+\textbf{Explicit residue classes.}
+Every polynomial can be written uniquely in the form
+\[
+f(x,y)=g_0(y)+xg_1(y)+x^2g_2(x,y).
+\]
+Modulo \((x^2)\), the last term vanishes, so every class has a unique representative
+\[
+g_0(y)+xg_1(y),
+\]
+where \(g_0(y),g_1(y)\in k[y]\).
+
+Thus
+\[
+k[x,y]/(x^2)\cong k[y]\oplus xk[y]
+\]
+as a \(k[y]\)-module, with the relation
+\[
+\overline x^2=0.
+\]
+
+\textbf{Examples.}
+\[
+\overline{y^3+xy+7}=y^3+x y+7,
+\]
+while
+\[
+\overline{x^3+x^2y+y^2}=y^2,
+\]
+because \(x^3,x^2y\in (x^2)\).
+
+\textbf{Multiplication rule.}
+If
+\[
+a(y)+x b(y),\qquad c(y)+x d(y)
+\]
+are two classes, then
+\[
+(a(y)+x b(y))(c(y)+x d(y))
+=
+a(y)c(y)+x(a(y)d(y)+b(y)c(y)),
+\]
+because \(x^2=0\).
+
+\subsection{9. Example: \(k[x,y]/(x^2,xy)\)}
+
+Let
+\[
+A=k[x,y]/(x^2,xy).
+\]
+
+\textbf{First note.}
+The relations in the quotient are
+\[
+x^2=0,\qquad xy=0.
+\]
+
+\textbf{Primary decomposition.}
+A standard decomposition is
+\[
+(x^2,xy)=(x)\cap(x^2,y).
+\]
+
+We check it.
+
+First, if \(f\in (x)\cap(x^2,y)\), then
+\[
+f=xg
+\]
+for some \(g\), and also
+\[
+f=x^2a+yb
+\]
+for some \(a,b\).
+Since \(f\) is divisible by \(x\), the term \(yb\) must also be divisible by \(x\), hence \(b\in (x)\), say \(b=xc\).
+Thus
+\[
+f=x^2a+y(xc)=x^2a+xyc\in (x^2,xy).
+\]
+So
+\[
+(x)\cap(x^2,y)\subseteq (x^2,xy).
+\]
+The reverse inclusion is obvious, since both \(x^2\) and \(xy\) lie in both ideals.
+Hence
+\[
+(x^2,xy)=(x)\cap(x^2,y).
+\]
+
+\textbf{Why is this a primary decomposition?}
+\begin{itemize}
+	\item \((x)\) is prime, hence \((x)\)-primary.
+	\item \((x^2,y)\) is \((x,y)\)-primary, because
+	\[
+	\sqrt{(x^2,y)}=(x,y).
+	\]
+\end{itemize}
+
+So this is a primary decomposition.
+
+\textbf{Radical.}
+Since
+\[
+(x^2,xy)=x(x,y),
+\]
+all elements are multiples of \(x\), and \(x^2\in (x^2,xy)\), hence
+\[
+\sqrt{(x^2,xy)}=(x).
+\]
+
+\textbf{Explicit residue classes.}
+Because
+\[
+x^2=0,\qquad xy=0,
+\]
+every monomial containing \(x^2\) vanishes, and every monomial containing both \(x\) and \(y\) also vanishes.
+
+So only:
+\begin{itemize}
+	\item pure \(y\)-powers,
+	\item the linear \(x\)-term
+\end{itemize}
+survive.
+
+Thus every class has a unique representative of the form
+\[
+g(y)+ax,
+\]
+where \(g(y)\in k[y]\) and \(a\in k\).
+
+Indeed, higher terms \(xy,xy^2,\dots\) vanish, and \(x^2,x^2y,\dots\) vanish too.
+
+So
+\[
+k[x,y]/(x^2,xy)\cong k[y]\oplus kx
+\]
+as a \(k\)-vector space, with
+\[
+x^2=0,\qquad xy=0.
+\]
+
+\textbf{Examples.}
+\[
+\overline{y^4+3x+7}=y^4+3x+7,
+\]
+but
+\[
+\overline{x^2+xy+y^2}=y^2.
+\]
+
+\textbf{Multiplication rule.}
+If
+\[
+g(y)+ax,\qquad h(y)+bx
+\]
+are two classes, then
+\[
+(g(y)+ax)(h(y)+bx)=g(y)h(y)+a\,x\,h(0)+b\,x\,g(0),
+\]
+because
+\[
+x\cdot y=0,\qquad x^2=0.
+\]
+Equivalently, only the constant terms of \(g(y)\) and \(h(y)\) interact with \(x\).
+
+\subsection{10. Example: \(k[x,y]/(x,y)\)}
+
+Let
+\[
+A=k[x,y]/(x,y).
+\]
+
+\textbf{Primary decomposition.}
+Since \((x,y)\) is maximal, it is prime and therefore primary.
+So the primary decomposition is simply
+\[
+(x,y).
+\]
+
+\textbf{Radical.}
+\[
+\sqrt{(x,y)}=(x,y).
+\]
+
+\textbf{Explicit residue classes.}
+Both \(x\) and \(y\) vanish, so every polynomial is congruent to its constant term:
+\[
+f(x,y)\equiv f(0,0)\pmod{(x,y)}.
+\]
+Thus
+\[
+k[x,y]/(x,y)\cong k.
+\]
+
+\subsection{11. Summary table}
+
+\[
+\begin{array}{|c|c|c|c|}
+	\hline
+	\text{Ideal }I & \sqrt I & \text{Primary decomposition of }I & \text{Typical class in }A/I \\
+	\hline
+	(x^2)\subset k[x] & (x) & (x^2) & a+bx \\
+	\hline
+	(x(x-1))\subset k[x] & (x)\cap(x-1) & (x)\cap(x-1) & a+bx \\
+	\hline
+	(xy)\subset k[x,y] & (x)\cap(y) & (x)\cap(y) & a+p(x)+q(y) \\
+	\hline
+	(x^2)\subset k[x,y] & (x) & (x^2) & g_0(y)+xg_1(y) \\
+	\hline
+	(x^2,xy)\subset k[x,y] & (x) & (x)\cap(x^2,y) & g(y)+ax \\
+	\hline
+	(x,y)\subset k[x,y] & (x,y) & (x,y) & a \\
+	\hline
+\end{array}
+\]
+
+\subsection{12. Geometric meaning}
+
+\textbf{\(k[x]/(x^2)\).}
+This is a doubled point at \(x=0\): same underlying point, but with nilpotent structure.
+
+\textbf{\(k[x]/(x(x-1))\).}
+This is two reduced points, at \(0\) and \(1\).
+
+\textbf{\(k[x,y]/(xy)\).}
+This is the union of the two coordinate axes:
+\[
+V(x)\cup V(y).
+\]
+
+\textbf{\(k[x,y]/(x^2)\).}
+This is a doubled line along \(x=0\).
+
+\textbf{\(k[x,y]/(x^2,xy)\).}
+This has underlying set \(x=0\), but with extra embedded structure at the origin.
+
+\textbf{\(k[x,y]/(x,y)\).}
+This is the origin.
+
+\subsection{13. Final conceptual summary}
+
+\begin{itemize}
+	\item The \emph{radical} \(\sqrt I\) tells us the underlying geometric set.
+	\item The \emph{primary decomposition} separates an ideal into pieces corresponding to prime components and possible embedded components.
+	\item The \emph{explicit residue classes} tell us concretely what elements survive in the quotient ring.
+\end{itemize}
+
+The three key model examples are:
+
+\[
+k[x,y]/(xy),\qquad k[x,y]/(x^2),\qquad k[x,y]/(x^2,xy).
+\]
+
+They illustrate three different situations:
+
+\begin{itemize}
+	\item reduced reducible structure: \((xy)\),
+	\item nonreduced irreducible structure: \((x^2)\),
+	\item nonreduced structure with an embedded component: \((x^2,xy)\).
+\end{itemize}
+
+\section{Explicit computations of \(\Ann_A(\overline f)\), \(\Ass_A(A/I)\), and \(\Min(A/I)\)}
+
+\textbf{Convention.}
+In this section \(A\) denotes the ambient polynomial ring, \(I\subseteq A\) an ideal, and \(\overline f\) the class of \(f\in A\) in the quotient \(A/I\).
+
+\subsection{1. General formula: annihilator as a colon ideal}
+
+For any \(f\in A\), the annihilator of \(\overline f\in A/I\) is
+\[
+\Ann_A(\overline f)=\{a\in A:a\overline f=0\}
+=\{a\in A:af\in I\}
+=(I:f).
+\]
+
+So in practice one computes
+\[
+\Ann_A(\overline f)=(I:f).
+\]
+
+This is the most useful concrete rule.
+
+\medskip
+
+\textbf{Important remarks.}
+\begin{itemize}
+	\item \(\Ann_A(\overline 1)=I\).
+	\item Associated primes of \(A/I\) are precisely the prime ideals that occur as annihilators of some element \(\overline f\in A/I\).
+	\item Minimal primes of \(A/I\) are the minimal prime ideals containing \(I\), equivalently the minimal primes of \(\sqrt I\).
+\end{itemize}
+
+\subsection{2. The quotient \(k[x]/(x^2)\)}
+
+Let
+\[
+A=k[x],\qquad I=(x^2),\qquad M=A/I.
+\]
+
+We know
+\[
+\sqrt I=(x),
+\qquad
+\Min(A/I)=\{(x)\}.
+\]
+
+\textbf{Computation 1: \(\Ann_A(\overline 1)\).}
+\[
+\Ann_A(\overline 1)=(I:1)=I=(x^2).
+\]
+
+\textbf{Computation 2: \(\Ann_A(\overline x)\).}
+\[
+\Ann_A(\overline x)=(x^2:x).
+\]
+Now
+\[
+g(x)\in (x^2:x)
+\iff g(x)x\in (x^2)
+\iff x\mid g(x).
+\]
+Hence
+\[
+\Ann_A(\overline x)=(x).
+\]
+
+\textbf{Computation 3: \(\Ann_A(\overline{1+x})\).}
+Since \(1+x\) is relatively prime to \(x^2\), if
+\[
+g(x)(1+x)\in (x^2),
+\]
+then necessarily \(g(x)\in (x^2)\). Therefore
+\[
+\Ann_A(\overline{1+x})=(x^2).
+\]
+
+\textbf{Associated primes.}
+The annihilator \((x)\) is prime and occurs for the element \(\overline x\), so
+\[
+\Ass_A(A/I)=\{(x)\}.
+\]
+
+Thus
+\[
+\Ass_A(A/(x^2))=\Min(A/(x^2))=\{(x)\}.
+\]
+
+\subsection{3. The quotient \(k[x]/(x(x-1))\)}
+
+Let
+\[
+A=k[x],\qquad I=(x(x-1)),\qquad M=A/I.
+\]
+
+We know
+\[
+I=(x)\cap(x-1),
+\qquad
+\Min(A/I)=\{(x),(x-1)\}.
+\]
+
+\textbf{Computation 1: \(\Ann_A(\overline 1)\).}
+\[
+\Ann_A(\overline 1)=I=(x(x-1)).
+\]
+
+\textbf{Computation 2: \(\Ann_A(\overline x)\).}
+\[
+\Ann_A(\overline x)=(x(x-1):x).
+\]
+Now
+\[
+g(x)\in (x(x-1):x)
+\iff g(x)x\in (x(x-1))
+\iff x-1\mid g(x).
+\]
+So
+\[
+\Ann_A(\overline x)=(x-1).
+\]
+
+\textbf{Computation 3: \(\Ann_A(\overline{x-1})\).}
+Similarly,
+\[
+\Ann_A(\overline{x-1})=(x(x-1):x-1)=(x).
+\]
+
+\textbf{A convenient global description.}
+Under the Chinese remainder isomorphism
+\[
+k[x]/(x(x-1))\cong k\times k,
+\qquad
+\overline f\longmapsto (f(0),f(1)),
+\]
+the annihilator depends on which coordinates vanish:
+\[
+\Ann_A(\overline f)=
+\begin{cases}
+	(x(x-1)), & f(0)\neq 0,\ f(1)\neq 0,\\[1mm]
+	(x), & f(0)=0,\ f(1)\neq 0,\\[1mm]
+	(x-1), & f(0)\neq 0,\ f(1)=0,\\[1mm]
+	A, & f(0)=f(1)=0.
+\end{cases}
+\]
+
+\textbf{Associated primes.}
+Since \((x)\) and \((x-1)\) occur as annihilators, we get
+\[
+\Ass_A(A/I)=\{(x),(x-1)\}.
+\]
+
+Thus
+\[
+\Ass_A(A/(x(x-1)))=\Min(A/(x(x-1)))=\{(x),(x-1)\}.
+\]
+
+\subsection{4. The quotient \(k[x,y]/(xy)\)}
+
+Let
+\[
+A=k[x,y],\qquad I=(xy),\qquad M=A/I.
+\]
+
+We know
+\[
+I=(x)\cap(y),
+\qquad
+\sqrt I=(xy)=(x)\cap(y),
+\qquad
+\Min(A/I)=\{(x),(y)\}.
+\]
+
+\textbf{Computation 1: \(\Ann_A(\overline 1)\).}
+\[
+\Ann_A(\overline 1)=I=(xy).
+\]
+
+\textbf{Computation 2: \(\Ann_A(\overline x)\).}
+\[
+\Ann_A(\overline x)=(xy:x).
+\]
+Now
+\[
+g(x,y)\in (xy:x)
+\iff g(x,y)x\in (xy)
+\iff y\mid g(x,y).
+\]
+Hence
+\[
+\Ann_A(\overline x)=(y).
+\]
+
+\textbf{Computation 3: \(\Ann_A(\overline y)\).}
+Similarly,
+\[
+\Ann_A(\overline y)=(xy:y)=(x).
+\]
+
+\textbf{Computation 4: higher pure powers.}
+For every \(m\ge 1\),
+\[
+\Ann_A(\overline{x^m})=(y),
+\qquad
+\Ann_A(\overline{y^m})=(x).
+\]
+
+Indeed,
+\[
+g x^m\in (xy)\iff y\mid g,
+\qquad
+g y^m\in (xy)\iff x\mid g.
+\]
+
+\textbf{Associated primes.}
+Since \((x)\) and \((y)\) occur as annihilators,
+\[
+\Ass_A(A/I)=\{(x),(y)\}.
+\]
+
+Thus
+\[
+\Ass_A(A/(xy))=\Min(A/(xy))=\{(x),(y)\}.
+\]
+
+\subsection{5. The quotient \(k[x,y]/(x^2)\)}
+
+Let
+\[
+A=k[x,y],\qquad I=(x^2),\qquad M=A/I.
+\]
+
+We know
+\[
+\sqrt I=(x),
+\qquad
+\Min(A/I)=\{(x)\}.
+\]
+
+\textbf{Computation 1: \(\Ann_A(\overline 1)\).}
+\[
+\Ann_A(\overline 1)=I=(x^2).
+\]
+
+\textbf{Computation 2: \(\Ann_A(\overline x)\).}
+\[
+\Ann_A(\overline x)=(x^2:x)=(x).
+\]
+
+\textbf{Computation 3: \(\Ann_A(\overline y)\).}
+\[
+\Ann_A(\overline y)=(x^2:y).
+\]
+Now
+\[
+g(x,y)\in (x^2:y)
+\iff g(x,y)y\in (x^2).
+\]
+Since \(y\) is relatively prime to \(x^2\), this happens iff
+\[
+g(x,y)\in (x^2).
+\]
+So
+\[
+\Ann_A(\overline y)=(x^2).
+\]
+
+\textbf{Computation 4: elements of the form \(\overline{xg(y)}\).}
+If \(g(y)\neq 0\), then
+\[
+\Ann_A(\overline{xg(y)})=(x).
+\]
+Indeed,
+\[
+h(x,y)\cdot xg(y)\in (x^2)
+\iff x\mid h(x,y).
+\]
+
+\textbf{Associated primes.}
+The prime ideal \((x)\) occurs as \(\Ann_A(\overline x)\), hence
+\[
+\Ass_A(A/I)=\{(x)\}.
+\]
+
+Thus
+\[
+\Ass_A(A/(x^2))=\Min(A/(x^2))=\{(x)\}.
+\]
+
+\subsection{6. The quotient \(k[x,y]/(x^2,xy)\)}
+
+Let
+\[
+A=k[x,y],\qquad I=(x^2,xy),\qquad M=A/I.
+\]
+
+We know
+\[
+I=(x)\cap(x^2,y),
+\qquad
+\sqrt I=(x),
+\qquad
+\Min(A/I)=\{(x)\}.
+\]
+
+Also
+\[
+\Ass_A(A/I)=\{(x),(x,y)\},
+\]
+and now we compute these explicitly from concrete elements.
+
+\medskip
+
+\textbf{Normal form of elements.}
+Every class in \(A/I\) has a unique representative of the form
+\[
+g(y)+ax,
+\qquad g(y)\in k[y],\ a\in k,
+\]
+because
+\[
+x^2=0,\qquad xy=0
+\]
+in the quotient.
+
+\textbf{Computation 1: \(\Ann_A(\overline 1)\).}
+\[
+\Ann_A(\overline 1)=I=(x^2,xy).
+\]
+
+\textbf{Computation 2: \(\Ann_A(\overline x)\).}
+\[
+\Ann_A(\overline x)=(x^2,xy:x).
+\]
+Now
+\[
+g(x,y)\in (x^2,xy:x)
+\iff g(x,y)x\in (x^2,xy)=x(x,y)
+\iff g(x,y)\in (x,y).
+\]
+So
+\[
+\Ann_A(\overline x)=(x,y).
+\]
+
+\textbf{Computation 3: \(\Ann_A(\overline y)\).}
+\[
+\Ann_A(\overline y)=(x^2,xy:y).
+\]
+Now
+\[
+g(x,y)y\in (x^2,xy)
+\]
+forces \(g(x,y)\) to be divisible by \(x\), and every multiple of \(x\) works because
+\[
+x\cdot y=xy\in I.
+\]
+Hence
+\[
+\Ann_A(\overline y)=(x).
+\]
+
+\textbf{Computation 4: higher powers of \(y\).}
+For every \(m\ge 1\),
+\[
+\Ann_A(\overline{y^m})=(x).
+\]
+
+Indeed,
+\[
+g(x,y)y^m\in (x^2,xy)
+\iff x\mid g(x,y).
+\]
+
+\textbf{Computation 5: classification by the normal form \(g(y)+ax\).}
+
+Let
+\[
+z=\overline{g(y)+ax}\in A/I.
+\]
+Then there are four essentially different cases.
+
+\medskip
+
+\emph{Case 1: \(z=0\).}
+Then
+\[
+\Ann_A(z)=A.
+\]
+
+\medskip
+
+\emph{Case 2: \(g(y)=0\) and \(a\neq 0\), so \(z=\overline{ax}\).}
+Then
+\[
+\Ann_A(z)=(x,y).
+\]
+
+\medskip
+
+\emph{Case 3: \(g(y)\neq 0\) and \(g(0)=0\).}
+Then \(g(y)\in yk[y]\), and
+\[
+\Ann_A(z)=(x).
+\]
+Indeed, \(x\) kills every such element because
+\[
+xg(y)=0,\qquad x\cdot ax=0
+\]
+in the quotient, and nothing outside \((x)\) can kill a nonzero \(y\)-polynomial part.
+
+\medskip
+
+\emph{Case 4: \(g(0)\neq 0\).}
+Then
+\[
+\Ann_A(z)=I.
+\]
+Indeed, such an element has a nonzero constant term in its \(k[y]\)-part, so no nonzero class in \(A/I\) kills it.
+
+\medskip
+
+\textbf{Associated primes.}
+From the explicit annihilators we see:
+\[
+\Ann_A(\overline y)=(x),
+\qquad
+\Ann_A(\overline x)=(x,y).
+\]
+Therefore
+\[
+\Ass_A(A/I)=\{(x),(x,y)\}.
+\]
+
+This is the standard example where
+\[
+\Min(A/I)=\{(x)\}
+\]
+but
+\[
+\Ass_A(A/I)=\{(x),(x,y)\}.
+\]
+So \((x,y)\) is an embedded associated prime.
+
+\subsection{7. The quotient \(k[x,y]/(x,y)\)}
+
+Let
+\[
+A=k[x,y],\qquad I=(x,y),\qquad M=A/I.
+\]
+
+We know
+\[
+A/I\cong k,
+\qquad
+\Min(A/I)=\{(x,y)\}.
+\]
+
+\textbf{Computation 1: \(\Ann_A(\overline 1)\).}
+\[
+\Ann_A(\overline 1)=I=(x,y).
+\]
+
+\textbf{Computation 2: any nonzero class.}
+Every nonzero class in \(A/I\cong k\) is of the form \(\overline c\) with \(c\in k^\times\), and
+\[
+\Ann_A(\overline c)=(x,y),
+\]
+because multiplying by a nonzero scalar does not change the annihilator.
+
+\textbf{Computation 3: the zero class.}
+\[
+\Ann_A(\overline 0)=A.
+\]
+
+\textbf{Associated primes.}
+The only prime annihilator that occurs for a nonzero element is
+\[
+(x,y).
+\]
+Hence
+\[
+\Ass_A(A/I)=\{(x,y)\}.
+\]
+
+Thus
+\[
+\Ass_A(A/(x,y))=\Min(A/(x,y))=\{(x,y)\}.
+\]
+
+\subsection{8. Summary table of explicit annihilators}
+
+\[
+\begin{array}{|c|c|c|}
+	\hline
+	A/I & \text{element } \overline f & \Ann_A(\overline f) \\
+	\hline
+	k[x]/(x^2) & \overline 1 & (x^2) \\
+	\hline
+	k[x]/(x^2) & \overline x & (x) \\
+	\hline
+	k[x]/(x(x-1)) & \overline x & (x-1) \\
+	\hline
+	k[x]/(x(x-1)) & \overline{x-1} & (x) \\
+	\hline
+	k[x,y]/(xy) & \overline x & (y) \\
+	\hline
+	k[x,y]/(xy) & \overline y & (x) \\
+	\hline
+	k[x,y]/(x^2) & \overline x & (x) \\
+	\hline
+	k[x,y]/(x^2) & \overline y & (x^2) \\
+	\hline
+	k[x,y]/(x^2,xy) & \overline x & (x,y) \\
+	\hline
+	k[x,y]/(x^2,xy) & \overline y & (x) \\
+	\hline
+	k[x,y]/(x,y) & \overline 1 & (x,y) \\
+	\hline
+\end{array}
+\]
+
+\subsection{9. Summary table of \(\Ass\) and \(\Min\)}
+
+\[
+\begin{array}{|c|c|c|}
+	\hline
+	A/I & \Ass_A(A/I) & \Min(A/I) \\
+	\hline
+	k[x]/(x^2) & \{(x)\} & \{(x)\} \\
+	\hline
+	k[x]/(x(x-1)) & \{(x),(x-1)\} & \{(x),(x-1)\} \\
+	\hline
+	k[x,y]/(xy) & \{(x),(y)\} & \{(x),(y)\} \\
+	\hline
+	k[x,y]/(x^2) & \{(x)\} & \{(x)\} \\
+	\hline
+	k[x,y]/(x^2,xy) & \{(x),(x,y)\} & \{(x)\} \\
+	\hline
+	k[x,y]/(x,y) & \{(x,y)\} & \{(x,y)\} \\
+	\hline
+\end{array}
+\]
+
+\subsection{10. Final interpretation}
+
+These explicit computations show the following pattern:
+
+\begin{itemize}
+	\item \(\Min(A/I)\) describes the geometric irreducible components of the underlying set.
+	\item \(\Ass_A(A/I)\) detects not only minimal components, but also possible embedded components.
+	\item The concrete annihilators \(\Ann_A(\overline f)\) are the bridge between the module \(A/I\) and the prime ideals that appear in \(\Ass_A(A/I)\).
+\end{itemize}
+
+The most important example remains
+\[
+k[x,y]/(x^2,xy),
+\]
+because it shows explicitly how the two annihilators
+\[
+\Ann_A(\overline y)=(x),
+\qquad
+\Ann_A(\overline x)=(x,y)
+\]
+produce
+\[
+\Ass_A(A/(x^2,xy))=\{(x),(x,y)\},
+\]
+while the only minimal prime is
+\[
+\Min(A/(x^2,xy))=\{(x)\}.
+\]
+
+\section{Local rings, domination, valuation rings, value groups, and valuations}
+
+\textbf{Convention.}
+Throughout, all rings are commutative with \(1\). If \(A\) is a domain, its field of fractions is denoted \(\Frac(A)\). If \(K\) is a field and \(A\subseteq K\) is a subring, we view \(A\) as a domain inside \(K\).
+
+\subsection{1. Local rings}
+
+\textbf{Definition.}
+A ring \(A\) is called \emph{local} if it has exactly one maximal ideal. We usually denote it by
+\[
+\mathfrak m,
+\]
+and then write the local ring as
+\[
+(A,\mathfrak m).
+\]
+
+\textbf{Equivalent characterization.}
+A ring \(A\) is local if and only if the set of nonunits of \(A\) is an ideal. That ideal is then the unique maximal ideal \(\mathfrak m\). Thus
+\[
+A^\times = A\setminus \mathfrak m.
+\]
+
+So in a local ring every element is either:
+\begin{itemize}
+	\item a unit, or
+	\item an element of the unique maximal ideal.
+\end{itemize}
+
+\textbf{Example 1: a field.}
+Every field \(K\) is local. Its only maximal ideal is
+\[
+(0),
+\]
+because every nonzero element is invertible.
+
+\textbf{Example 2: \(k[x]_{(x)}\).}
+Let
+\[
+A=k[x]_{(x)}.
+\]
+This is the localization of \(k[x]\) at the prime ideal \((x)\). Its elements are fractions
+\[
+\frac{f(x)}{g(x)}
+\qquad \text{with } g(0)\neq 0.
+\]
+It is a local ring with maximal ideal
+\[
+\mathfrak m=(x)k[x]_{(x)}.
+\]
+An element \(\frac{f}{g}\) is a unit if and only if \(f(0)\neq 0\). So the nonunits are exactly those fractions divisible by \(x\).
+
+\textbf{Example 3: \(k[[t]]\).}
+The formal power series ring
+\[
+k[[t]]
+\]
+is local with maximal ideal
+\[
+(t).
+\]
+Indeed, a power series
+\[
+a_0+a_1t+a_2t^2+\cdots
+\]
+is a unit if and only if \(a_0\neq 0\). Thus the nonunits are exactly the series with zero constant term.
+
+\textbf{Example 4: \(\mathbb Z_{(p)}\).}
+The localization
+\[
+\mathbb Z_{(p)}=\left\{\frac ab : a,b\in \mathbb Z,\ p\nmid b\right\}
+\]
+is local with maximal ideal
+\[
+p\mathbb Z_{(p)}.
+\]
+A fraction \(\frac ab\) is a unit if and only if \(p\nmid a\).
+
+\subsection{2. Geometric meaning of local rings}
+
+A local ring is the algebraic model of looking at a space near one point.
+
+For example:
+\[
+k[x,y]_{(x,y)}
+\]
+means: study the affine plane near the origin. More generally, for an algebraic variety \(X\) and a point \(p\in X\), the local ring
+\[
+\mathcal O_{X,p}
+\]
+contains functions that are regular near \(p\).
+
+So global rings describe the whole space, while local rings describe behavior near one chosen point.
+
+\subsection{3. Domination of local rings}
+
+Let \((A,\mathfrak m)\) and \((B,\mathfrak n)\) be local rings.
+
+\textbf{Definition.}
+We say that \emph{\(B\) dominates \(A\)} if:
+\begin{itemize}
+	\item \(A\subseteq B\), and
+	\item \(\mathfrak m = A\cap \mathfrak n\).
+\end{itemize}
+
+Equivalently, one may say that the maximal ideal of \(A\) is the contraction of the maximal ideal of \(B\). Informally: \(B\) is a larger local ring, but it keeps the same notion of which elements of \(A\) are nonunits.
+
+\textbf{Example.}
+\[
+k[x]_{(x)} \subseteq k[[x]]
+\]
+and \(k[[x]]\) dominates \(k[x]_{(x)}\). Indeed:
+\begin{itemize}
+	\item both are local,
+	\item both have maximal ideal generated by \(x\),
+	\item and
+	\[
+	(x)k[[x]]\cap k[x]_{(x)}=(x)k[x]_{(x)}.
+	\]
+\end{itemize}
+
+\subsection{4. Valuation rings}
+
+Let \(K\) be a field and let \(A\subseteq K\) be a subring.
+
+\textbf{Definition.}
+The ring \(A\) is called a \emph{valuation ring} of \(K\) if for every nonzero \(x\in K\),
+\[
+x\in A \quad \text{or} \quad x^{-1}\in A.
+\]
+
+This means that for every element of the field, the ring decides that either the element itself is regular, or its inverse is regular.
+
+\textbf{Intuition.}
+A valuation ring measures whether an element has ``nonnegative order'' with respect to some notion of size, divisibility, or vanishing.
+
+\subsection{5. Basic examples of valuation rings}
+
+\textbf{Example 1: \(k[[t]]\subset k((t))\).}
+Let
+\[
+K=k((t)),
+\qquad
+A=k[[t]].
+\]
+Every nonzero Laurent series can be written uniquely as
+\[
+x=t^n u(t),
+\]
+where \(n\in \mathbb Z\) and \(u(t)\in k[[t]]^\times\) is a unit.
+
+If \(n\ge 0\), then \(x\in k[[t]]\). If \(n<0\), then
+\[
+x^{-1}=t^{-n}u(t)^{-1}\in k[[t]].
+\]
+So \(k[[t]]\) is a valuation ring of \(k((t))\).
+
+Its maximal ideal is
+\[
+(t),
+\]
+and this is the standard example of a discrete valuation ring.
+
+\textbf{Example 2: \(\mathbb Z_{(p)}\subset \mathbb Q\).}
+For any nonzero rational number \(x\in \mathbb Q\), either \(x\) has no extra factor of \(p\) in the denominator, in which case \(x\in \mathbb Z_{(p)}\), or else \(x^{-1}\in \mathbb Z_{(p)}\). So
+\[
+\mathbb Z_{(p)}
+\]
+is a valuation ring of \(\mathbb Q\).
+
+\textbf{Example 3: \(k[x]_{(x)}\subset k(x)\).}
+Let
+\[
+A=k[x]_{(x)} \subset k(x).
+\]
+A rational function either has no pole at \(x=0\), in which case it lies in \(A\), or else its inverse has no pole at \(0\). Hence \(A\) is a valuation ring of \(k(x)\).
+
+\subsection{6. A local ring which is not a valuation ring}
+
+The ring
+\[
+k[x,y]_{(x,y)}
+\]
+is local, but it is \emph{not} a valuation ring of \(k(x,y)\).
+
+Indeed, consider
+\[
+\frac{x}{y}\in k(x,y).
+\]
+Then neither \(\frac{x}{y}\) nor \(\frac{y}{x}\) lies in \(k[x,y]_{(x,y)}\), since each has a pole along one coordinate axis.
+
+So:
+\begin{itemize}
+	\item every valuation ring is local,
+	\item but not every local ring is a valuation ring.
+\end{itemize}
+
+\subsection{7. Why valuation rings are local}
+
+Let \(A\subseteq K\) be a valuation ring. Define
+\[
+\mathfrak m=\{a\in A : a^{-1}\notin A\}.
+\]
+This is exactly the set of nonunits of \(A\). One checks that \(\mathfrak m\) is an ideal, hence the unique maximal ideal of \(A\). Therefore every valuation ring is a local ring.
+
+\subsection{8. Equivalent characterizations of valuation rings}
+
+Let \(A\) be a domain with fraction field \(K=\Frac(A)\). Then the following are equivalent.
+
+\textbf{(1) Field comparability.}
+For every \(x\in K^\times\),
+\[
+x\in A \quad \text{or} \quad x^{-1}\in A.
+\]
+
+\textbf{(2) All ideals are totally ordered by inclusion.}
+For any two ideals \(I,J\subseteq A\),
+\[
+I\subseteq J \quad \text{or} \quad J\subseteq I.
+\]
+
+\textbf{(3) All principal ideals are totally ordered.}
+For all \(a,b\in A\),
+\[
+(a)\subseteq (b) \quad \text{or} \quad (b)\subseteq (a).
+\]
+
+\textbf{(4) Divisibility is total.}
+For all \(a,b\in A\), either
+\[
+a\mid b \quad \text{or} \quad b\mid a.
+\]
+
+This shows that valuation rings are precisely rings where divisibility is completely comparable.
+
+\subsection{9. Discrete valuation rings}
+
+A \emph{discrete valuation ring} (DVR) is a local PID with nonzero maximal ideal. Equivalently, it is a valuation ring whose value group is isomorphic to \(\mathbb Z\).
+
+\textbf{Examples.}
+\[
+k[[t]], \qquad \mathbb Z_{(p)}, \qquad k[x]_{(x)}.
+\]
+
+In a DVR every nonzero element can be written in the form
+\[
+u\pi^n,
+\]
+where
+\begin{itemize}
+	\item \(u\) is a unit,
+	\item \(\pi\) is a generator of the maximal ideal (a \emph{uniformizer}),
+	\item \(n\ge 0\) if the element lies in the ring.
+\end{itemize}
+
+Examples of uniformizers:
+\[
+t \text{ in } k[[t]], \qquad p \text{ in } \mathbb Z_{(p)}, \qquad x \text{ in } k[x]_{(x)}.
+\]
+
+\subsection{10. Maximal local subrings of a field}
+
+Let \(K\) be a field, and let \(\Sigma\) be the set of all local subrings of \(K\), ordered by domination.
+
+A fundamental fact is:
+
+\begin{quote}
+	A local subring \(A\subseteq K\) is maximal with respect to domination if and only if \(A\) is a valuation ring of \(K\).
+\end{quote}
+
+\textbf{Idea of the forward implication.}
+Suppose \(A\) is local and maximal for domination, but not a valuation ring. Then there exists \(x\in K^\times\) such that neither
+\[
+x\in A \quad \text{nor} \quad x^{-1}\in A.
+\]
+One can adjoin one of these elements and localize appropriately to obtain a strictly larger local subring of \(K\) dominating \(A\), contradicting maximality. So a maximal local subring must be a valuation ring.
+
+\textbf{Idea of the converse.}
+If \(A\) is a valuation ring, then its total comparability property is so strong that one cannot enlarge it inside \(K\) while preserving domination. Thus valuation rings are maximal local subrings of the field.
+
+\subsection{11. Units and the value group}
+
+Let \(A\) be a valuation ring of a field \(K\). Let
+\[
+U=A^\times
+\]
+be the group of units of \(A\). Since \(U\subseteq K^\times\), we may form the quotient group
+\[
+\Gamma = K^\times/U.
+\]
+
+This is called the \emph{value group}.
+
+Each \(x\in K^\times\) determines a class
+\[
+\overline{x}\in \Gamma.
+\]
+
+\textbf{Meaning.}
+Two elements \(x,y\in K^\times\) define the same class if and only if
+\[
+xy^{-1}\in U,
+\]
+that is, if they differ by a unit. Thus \(\Gamma\) forgets the unit part and remembers only the essential ``order'' or ``size'' of an element.
+
+\subsection{12. Ordering the value group}
+
+Define an order on \(\Gamma\) by
+\[
+\overline{x} \ge \overline{y}
+\quad \Longleftrightarrow \quad
+xy^{-1}\in A.
+\]
+
+Because \(A\) is a valuation ring, for any \(x,y\in K^\times\), either
+\[
+xy^{-1}\in A
+\quad \text{or} \quad
+yx^{-1}\in A.
+\]
+So this order is total.
+
+Moreover, it is compatible with the group structure. Thus \(\Gamma\) becomes a totally ordered abelian group.
+
+\textbf{Example: \(k((t))\).}
+If
+\[
+x=t^m u,
+\qquad
+y=t^n v,
+\]
+with \(u,v\in k[[t]]^\times\), then
+\[
+xy^{-1}=t^{m-n}(uv^{-1}).
+\]
+This lies in \(k[[t]]\) if and only if \(m-n\ge 0\). Hence
+\[
+\overline{x}\ge \overline{y}
+\iff m\ge n.
+\]
+So in this case
+\[
+\Gamma \cong \mathbb Z
+\]
+with its usual order.
+
+\subsection{13. The valuation map}
+
+Define
+\[
+v:K^\times \to \Gamma,
+\qquad
+v(x)=\overline{x}.
+\]
+This is the valuation map in multiplicative notation. Often one extends it by setting
+\[
+v(0)=\infty.
+\]
+
+If one writes the group law on \(\Gamma\) additively, then:
+\[
+v(xy)=v(x)+v(y).
+\]
+
+The key inequality is:
+\[
+v(x+y)\ge \min(v(x),v(y))
+\qquad \text{whenever } x,y\in K^\times,\ x+y\neq 0.
+\]
+
+\subsection{14. Proof idea of the valuation inequality}
+
+Assume
+\[
+v(x)\ge v(y).
+\]
+By definition this means
+\[
+xy^{-1}\in A.
+\]
+Then
+\[
+\frac{x+y}{y}=xy^{-1}+1\in A,
+\]
+since both \(xy^{-1}\) and \(1\) lie in \(A\). Therefore
+\[
+(x+y)y^{-1}\in A,
+\]
+which exactly means
+\[
+v(x+y)\ge v(y)=\min(v(x),v(y)).
+\]
+The case \(v(y)\ge v(x)\) is symmetric.
+
+\subsection{15. Geometric and arithmetic intuition}
+
+Valuations measure vanishing, poles, or divisibility.
+
+\textbf{Examples.}
+\begin{itemize}
+	\item In \(k(x)\), the \(x=0\) valuation measures order of zero or pole at \(0\).
+	\item In \(k((t))\), the valuation measures the first exponent of \(t\).
+	\item In number theory, the \(p\)-adic valuation measures divisibility by \(p\).
+\end{itemize}
+
+Thus:
+\begin{itemize}
+	\item the valuation ring consists of elements of nonnegative order,
+	\item its maximal ideal consists of elements of strictly positive order,
+	\item the units are exactly the elements of order \(0\).
+\end{itemize}
+
+\subsection{16. Comparison table}
+
+\textbf{Local ring.}
+A ring with exactly one maximal ideal.
+
+Example:
+\[
+k[x,y]_{(x,y)}.
+\]
+
+\textbf{Valuation ring.}
+A local subring \(A\subseteq K\) such that for every \(x\in K^\times\),
+\[
+x\in A \quad \text{or} \quad x^{-1}\in A.
+\]
+
+Example:
+\[
+k[[t]]\subset k((t)).
+\]
+
+\textbf{DVR.}
+A valuation ring whose value group is isomorphic to \(\mathbb Z\).
+
+Examples:
+\[
+k[[t]],\qquad \mathbb Z_{(p)},\qquad k[x]_{(x)}.
+\]
+
+\subsection{17. Most important examples to remember}
+
+\textbf{Example A: \(k[[t]]\subset k((t))\).}
+\begin{itemize}
+	\item valuation ring,
+	\item local,
+	\item maximal ideal \((t)\),
+	\item value group \(\mathbb Z\).
+\end{itemize}
+
+\textbf{Example B: \(\mathbb Z_{(p)}\subset \mathbb Q\).}
+\begin{itemize}
+	\item valuation ring,
+	\item local,
+	\item maximal ideal \(p\mathbb Z_{(p)}\),
+	\item value group \(\mathbb Z\).
+\end{itemize}
+
+\textbf{Example C: \(k[x,y]_{(x,y)}\subset k(x,y)\).}
+\begin{itemize}
+	\item local,
+	\item not a valuation ring.
+\end{itemize}
+
+This last example is the standard counterexample showing that local rings are more general than valuation rings.
+
+\subsection{18. Final summary}
+
+\begin{itemize}
+	\item A \emph{local ring} is a ring with one maximal ideal.
+	\item A \emph{valuation ring} is a local subring of a field such that every field element or its inverse lies in the ring.
+	\item Every valuation ring is local, but not every local ring is a valuation ring.
+	\item Valuation rings are exactly the maximal local subrings of a field under domination.
+	\item Their unit group \(U\) gives the value group
+	\[
+	\Gamma = K^\times/U,
+	\]
+	which is a totally ordered abelian group.
+	\item The valuation map
+	\[
+	v:K^\times\to \Gamma
+	\]
+	satisfies
+	\[
+	v(xy)=v(x)+v(y),
+	\qquad
+	v(x+y)\ge \min(v(x),v(y)).
+	\]
+\end{itemize}
+	
+\end{document}
+

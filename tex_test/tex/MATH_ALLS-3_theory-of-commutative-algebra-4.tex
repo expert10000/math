@@ -1,0 +1,3084 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{caption}      % optional but recommended
+\usepackage{subcaption} 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{tikz-cd}
+\usepackage{float}
+
+\usepackage{adjustbox}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+\usetikzlibrary{positioning}
+
+\usetikzlibrary{decorations.markings}
+
+\usetikzlibrary{backgrounds}
+
+\usepackage{booktabs}
+
+\usetikzlibrary{calc,arrows.meta,patterns,decorations.pathreplacing, intersections}
+\usepackage{tikz-3dplot}
+\usepackage{xcolor}
+
+\DeclareMathOperator{\ord}{ord}
+
+\DeclareMathOperator{\Log}{Log}
+
+
+\DeclareMathOperator{\Spec}{Spec}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newcommand{\II}{\mathrm{I\!I}}
+
+\newcommand{\C}{\mathbb{C}}
+
+% (optional) if you also want the first fundamental form:
+\newcommand{\I}{\mathrm{I}}
+
+\newcommand{\hyp}{\mathbb{H}}
+
+\DeclareMathOperator{\Tr}{Tr}
+\newcommand{\T}{\mathsf{T}} % transpose symbol
+
+
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\newcommand{\Mat}{\mathrm{Mat}}
+
+\newcommand{\n}{6}
+
+% --- codim operator (put in the preamble) ---
+\DeclareMathOperator{\codim}{codim}
+
+
+\newcommand{\Solution}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\Theory}{\par\medskip\noindent\textbf{Theory.}\ }
+\newcommand{\Proof}{\par\medskip\noindent\textbf{Proof.}\ }
+
+
+\DeclareMathOperator{\tr}{tr}
+
+% --- HEADER ---
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}{Definition}
+
+% Option A: as an operator (recommended)
+\DeclareMathOperator{\Span}{span}
+
+% or, shorter version
+
+% ---------- Styles ----------
+\tikzset{
+	axis/.style={->, line width=0.9pt},
+	thinaxis/.style={line width=0.8pt},
+	vec/.style={-{Stealth[length=3.2mm]}, line width=1.1pt},
+	dashedhelp/.style={dashed, line width=0.95pt},
+	point/.style={circle, fill=black, inner sep=1.2pt},
+	label/.style={font=\small},
+}
+
+\newcommand{\sph}{\mathrm{sph}}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+
+\theoremstyle{definition}      % bold heading, upright body
+\newtheorem{example}[theorem]{Exercise}
+
+
+\newtheorem*{Exercise}{Exercise}
+
+
+\tikzset{
+	pointAmber/.style={circle, fill=Amber500, inner sep=1.35pt}
+}
+
+\definecolor{Teal700}{HTML}{0F766E}
+\definecolor{Amber500}{HTML}{F59E0B}
+\definecolor{Blue600}{HTML}{2563EB}
+\definecolor{Violet600}{HTML}{7C3AED}
+\definecolor{Slate600}{HTML}{475569}
+\definecolor{Red600}{HTML}{DC2626}
+
+\captionsetup[figure]{font=small, labelfont=bf, skip=6pt}
+\setlength{\intextsep}{10pt}
+\setlength{\textfloatsep}{10pt}
+\setlength{\floatsep}{8pt}
+
+\tikzset{
+	axis/.style={->, line width=0.9pt, draw=Slate600},
+	thinaxis/.style={line width=0.85pt, draw=Slate600},
+	tri/.style={line width=1.1pt, draw=Slate600},
+	disk/.style={line width=1.15pt, draw=Teal700},
+	unitcircle/.style={line width=1.15pt, draw=Teal700},
+	dashedhelp/.style={dashed, line width=0.95pt, draw=Amber500},
+	altitude/.style={dashed, line width=1.0pt, draw=Violet600},
+	vec/.style={-{Stealth[length=3.2mm]}, line width=1.15pt, draw=Blue600},
+	vecTeal/.style={vec, draw=Teal700},
+	vecAmber/.style={vec, draw=Amber500},
+	vecViolet/.style={vec, draw=Violet600},
+	point/.style={circle, fill=Slate600, inner sep=1.25pt},
+	pointTeal/.style={circle, fill=Teal700, inner sep=1.35pt},
+	pointRed/.style={circle, fill=Red600, inner sep=1.35pt},
+	pointAmber/.style={circle, fill=Amber500, inner sep=1.35pt},
+	label/.style={font=\small, text=Slate600},
+	title/.style={font=\small, text=Slate600},
+}
+
+% Put the title above the actual drawing (consistent for all figures)
+\newcommand{\DiagTitle}[1]{%
+	\path (current bounding box.north)
+	node[title, anchor=south, yshift=2mm]{#1};%
+}
+
+% =========================================================
+% E2 + E3  (same style as E1)
+% =========================================================
+% TikZ helpers (Poincaré disk geodesic from boundary angles)
+% Requires: \usetikzlibrary{arrows.meta}
+% =========================================================
+
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Usage: \DiskGeodesic[<draw options>]{<a deg>}{<b deg>}
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+% Handles the diameter case (antipodal endpoints) where det=0.
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+% --- palette ---
+\definecolor{BBlue}{RGB}{0,92,184}
+\definecolor{GOrange}{RGB}{230,120,20}
+\definecolor{PGreen}{RGB}{0,140,90}
+\definecolor{RRed}{RGB}{200,40,60}
+\definecolor{LFill}{RGB}{240,245,255}
+
+% --- tikz styles ---
+\tikzset{
+	base/.style={thick, draw=black!65},
+	gamma/.style={very thick, draw=GOrange, -{Latex[length=2.2mm]}},
+	fiber/.style={thick, draw=BBlue},
+	section/.style={thick, draw=PGreen},
+	transport/.style={very thick, draw=RRed, -{Latex[length=2.2mm]}},
+	pt/.style={circle, fill=black, inner sep=1.3pt},
+	spt/.style={circle, fill=PGreen, inner sep=1.3pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1, inner sep=2pt, rounded corners=2pt}
+}
+
+
+\newtheorem{remark}[theorem]{Remark} 
+\tikzset{
+	>={Latex[length=2.6mm]},
+	axis/.style={black, thin, ->},
+	unitcircle/.style={black, very thin},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	removable/.style={black, thick},
+	essstar/.style={yellow!65!orange, star, star points=7, minimum size=6pt, draw=orange!80!black, fill=yellow!70!orange},
+	lattice/.style={blue!70!black, fill=blue!70!black},
+	note/.style={black!70, font=\scriptsize}
+}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+
+% --- colors and styles for the charts ---
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+% styles
+\definecolor{PoleRed}{RGB}{214,49,56}
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1  % <- force visible text
+	},
+}
+
+
+\tikzset{
+	->-/.style={
+		postaction={decorate},
+		decoration={
+			markings,
+			mark=at position 0.18 with {\arrow{Stealth[length=2.2mm]}}
+		}
+	},
+	% p10loop must NOT use "expanded"
+	p10loop/.style={thick}
+}
+
+% --- Colors (clean "learning notes" vibe) ---
+\usepackage{xcolor}
+\definecolor{Teal}{HTML}{0F766E}
+\definecolor{TealSoft}{HTML}{CCFBF1}
+\definecolor{Amber}{HTML}{F59E0B}
+\definecolor{Slate}{HTML}{0F172A}
+\definecolor{SlateSoft}{HTML}{94A3B8}
+\definecolor{Border}{HTML}{E2E8F0}
+
+% --- TikZ / PGFPlots ---
+
+\usetikzlibrary{arrows.meta,positioning,calc,decorations.pathreplacing,fit,backgrounds}
+
+\pgfplotsset{compat=1.18}
+
+% --- colors (define what you use) ---
+\definecolor{DiagBlue}{RGB}{0,92,184}
+\definecolor{DiagOrange}{RGB}{230,120,20}
+\definecolor{DiagGreen}{RGB}{0,140,90}
+\definecolor{DiagRed}{RGB}{200,40,60}
+\definecolor{DiagGray}{RGB}{80,80,80}
+\definecolor{DiagLight}{RGB}{240,245,255} % <-- this fixes \fill[DiagLight]...
+
+% --- tikz styles (define what you use in [ax], [base], [fib], [pt2], [lab], etc.) ---
+\tikzset{
+	ax/.style={-{Latex[length=2.2mm]}, thick, draw=DiagGray},
+	base/.style={thick, draw=DiagBlue},
+	fib/.style={thick, draw=DiagGray},
+	loop/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagOrange},
+	transport/.style={-{Latex[length=2.2mm]}, very thick, draw=DiagRed},
+	pt/.style={circle, fill=DiagRed, inner sep=1.2pt},
+	pt2/.style={circle, fill=DiagGreen, inner sep=1.2pt},
+	lab/.style={fill=white, fill opacity=1, text opacity=1,
+		inner sep=2.2pt, rounded corners=2pt}
+}
+
+\pagestyle{fancy}
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+\fancyhead[L]{\textit{Commutative Algebra 4}}
+\fancyhead[R]{\textit{Exercises}}
+
+\title{\bfseries Theory of Commutative Algebra 4 Theory Notes}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+
+\title{Commutative Algebra 4}
+\author{}
+\date{}
+
+
+
+
+\begin{document}
+	\maketitle
+	
+		
+	\pdfbookmark[1]{Contents}{contents}\tableofcontents
+	\clearpage
+	
+	\section*{Problem 10 --- Basic properties of the \(I\)-adic completion}
+	
+	\textbf{Exact statement.}
+	
+	Let \(A\) be Noetherian and \(\widehat A\) its \(I\)-adic completion. Show the following:
+	
+	\begin{enumerate}
+		\item[(a)]
+		\[
+		\widehat I = I^e \cong \widehat A \otimes_A I,
+		\]
+		where \(I^e\) is the extension of \(I\) under the canonical homomorphism
+		\[
+		A \to \widehat A.
+		\]
+		
+		\item[(b)]
+		\[
+		\widehat{I^n} = (\widehat I)^n.
+		\]
+		
+		\item[(c)]
+		\[
+		I^n/I^{n+1} \cong \widehat I^{\,n}/\widehat I^{\,n+1}.
+		\]
+		
+		\item[(d)]
+		\[
+		\widehat I
+		\]
+		is contained in the Jacobson radical of \(\widehat A\).
+	\end{enumerate}
+	
+	Use this to show that if \(A\) is a Noetherian local ring with maximal ideal \(m\) and \(m\)-adic completion \(\widehat A\), then \(\widehat A\) is a local ring with maximal ideal \(\widehat m\).
+	
+	\bigskip
+	\textbf{Solution.}
+	
+	We use the results from Problems 9(b) and 9(d).
+	
+	\medskip
+	\textbf{Part (a).}
+	
+	Consider the short exact sequence
+	\[
+	0 \to I \to A \to A/I \to 0.
+	\]
+	Since \(A\) is Noetherian and \(I\) is finitely generated, completion is exact on finitely generated modules. Therefore
+	\[
+	0 \to \widehat I \to \widehat A \to A/I \to 0,
+	\]
+	because \(A/I\) is already complete for the \(I\)-adic topology: indeed \(I(A/I)=0\), so
+	\[
+	(A/I)/I^r(A/I)=A/I
+	\]
+	for all \(r\).
+	
+	Hence \(\widehat I\) identifies with the kernel of
+	\[
+	\widehat A \to A/I.
+	\]
+	But this kernel is exactly the ideal generated by the image of \(I\), i.e. the extended ideal \(I^e\). Thus
+	\[
+	\widehat I \cong I^e \subseteq \widehat A.
+	\]
+	
+	Now apply Problem 9(d) with \(M=I\). Since \(I\) is finitely generated and \(A\) is Noetherian, the natural map
+	\[
+	\widehat A\otimes_A I \longrightarrow \widehat I
+	\]
+	is an isomorphism. Therefore
+	\[
+	\widehat I = I^e \cong \widehat A\otimes_A I.
+	\]
+	
+	\medskip
+	\textbf{Part (b).}
+	
+	Apply part (a) to the ideal \(I^n\). Since \(I^n\) is finitely generated,
+	\[
+	\widehat{I^n} = (I^n)^e.
+	\]
+	But extension commutes with powers:
+	\[
+	(I^n)^e = (I^e)^n.
+	\]
+	Using part (a) again, \(I^e=\widehat I\). Hence
+	\[
+	\widehat{I^n} = (\widehat I)^n.
+	\]
+	
+	\medskip
+	\textbf{Part (c).}
+	
+	Start from the short exact sequence
+	\[
+	0 \to I^{n+1} \to I^n \to I^n/I^{n+1} \to 0.
+	\]
+	Again completion is exact, so
+	\[
+	0 \to \widehat{I^{n+1}} \to \widehat{I^n} \to \widehat{\,I^n/I^{n+1}\,} \to 0.
+	\]
+	
+	Now \(I\) acts trivially on \(I^n/I^{n+1}\), because
+	\[
+	I\cdot I^n \subseteq I^{n+1}.
+	\]
+	So for the module \(I^n/I^{n+1}\), the \(I\)-adic filtration is already stationary:
+	\[
+	I(I^n/I^{n+1})=0.
+	\]
+	Therefore its completion is itself:
+	\[
+	\widehat{\,I^n/I^{n+1}\,}=I^n/I^{n+1}.
+	\]
+	
+	Using part (b),
+	\[
+	\widehat{I^n}=\widehat I^{\,n},
+	\qquad
+	\widehat{I^{n+1}}=\widehat I^{\,n+1}.
+	\]
+	So the exact sequence becomes
+	\[
+	0 \to \widehat I^{\,n+1} \to \widehat I^{\,n} \to I^n/I^{n+1} \to 0,
+	\]
+	hence
+	\[
+	I^n/I^{n+1} \cong \widehat I^{\,n}/\widehat I^{\,n+1}.
+	\]
+	
+	\medskip
+	\textbf{Part (d).}
+	
+	We show that every element of \(\widehat I\) is quasi-regular, i.e. \(1-u\) is invertible for every \(u\in \widehat I\).
+	
+	Take \(u\in \widehat I\). Consider the geometric series
+	\[
+	1+u+u^2+u^3+\cdots.
+	\]
+	Its partial sums are
+	\[
+	s_N = 1+u+\cdots+u^N.
+	\]
+	If \(M>N\), then
+	\[
+	s_M-s_N = u^{N+1}(1+u+\cdots+u^{M-N-1}).
+	\]
+	Since \(u\in \widehat I\), we have
+	\[
+	u^{N+1}\in (\widehat I)^{N+1}=\widehat{I^{N+1}}
+	\]
+	by part (b). Thus the difference \(s_M-s_N\) lies in arbitrarily deep neighborhoods of \(0\), so \((s_N)\) is Cauchy in the complete ring \(\widehat A\). Let
+	\[
+	s=\sum_{r\ge 0}u^r\in \widehat A.
+	\]
+	Then
+	\[
+	(1-u)s=1=s(1-u),
+	\]
+	so \(1-u\) is a unit.
+	
+	Therefore every element of \(\widehat I\) lies in the Jacobson radical:
+	\[
+	\widehat I \subseteq \operatorname{Jac}(\widehat A).
+	\]
+	
+	\medskip
+	\textbf{Locality of the completion.}
+	
+	Now assume \(A\) is local with maximal ideal \(m\), and let \(\widehat A\) be its \(m\)-adic completion.
+	
+	From part (a),
+	\[
+	\widehat A/\widehat m \cong A/m,
+	\]
+	and \(A/m\) is a field. Hence \(\widehat m\) is a maximal ideal of \(\widehat A\).
+	
+	From part (d),
+	\[
+	\widehat m \subseteq \operatorname{Jac}(\widehat A).
+	\]
+	But every maximal ideal contains the Jacobson radical, so every maximal ideal of \(\widehat A\) contains \(\widehat m\). Since \(\widehat m\) itself is maximal, it is the unique maximal ideal.
+	
+	Thus \(\widehat A\) is local, with maximal ideal \(\widehat m\).
+	
+	
+	
+	\section*{Problem 11 --- Hensel's lemma for a simple root}
+	
+	\textbf{Exact statement.}
+	
+	Let \(A\) be a local ring with maximal ideal \(m\), and \(\widehat A\) its completion. For any
+	\[
+	f(x)\in \widehat A[x],
+	\]
+	write
+	\[
+	\overline f(x)\in (A/m)[x]
+	\]
+	for its reduction. Suppose that \(f(x)\) is monic of degree \(n\), and suppose there exists
+	\[
+	\overline a\in A/m
+	\]
+	such that
+	\[
+	\overline f(\overline a)=0
+	\qquad\text{and}\qquad
+	\overline f'(\overline a)\neq 0.
+	\]
+	Show there exists
+	\[
+	a\in \widehat A
+	\]
+	with
+	\[
+	f(a)=0.
+	\]
+	This is known as Hensel's lemma.
+	
+	\bigskip
+	\textbf{Solution.}
+	
+	By Problem 10, \(\widehat A\) is a local ring with maximal ideal \(\widehat m\), and
+	\[
+	\widehat A/\widehat m \cong A/m.
+	\]
+	
+	We will construct inductively a sequence
+	\[
+	a_1,a_2,a_3,\dots \in \widehat A
+	\]
+	such that
+	\begin{enumerate}
+		\item \(a_1 \equiv \overline a \pmod{\widehat m}\),
+		\item \(a_{r+1}\equiv a_r \pmod{\widehat m^r}\),
+		\item \(f(a_r)\in \widehat m^r\).
+	\end{enumerate}
+	Then \((a_r)\) will be Cauchy and will converge to some \(a\in \widehat A\); continuity of polynomial evaluation will give \(f(a)=0\).
+	
+	\medskip
+	\textbf{Step 1: start the induction.}
+	
+	Choose any lift
+	\[
+	a_1\in \widehat A
+	\]
+	of \(\overline a\in A/m\cong \widehat A/\widehat m\).
+	
+	Then
+	\[
+	f(a_1)\equiv \overline f(\overline a)=0 \pmod{\widehat m},
+	\]
+	so
+	\[
+	f(a_1)\in \widehat m.
+	\]
+	
+	Also
+	\[
+	f'(a_1)\equiv \overline f'(\overline a)\neq 0 \pmod{\widehat m}.
+	\]
+	Since \(\widehat A\) is local, this means \(f'(a_1)\) is a unit.
+	
+	\medskip
+	\textbf{Step 2: induction step.}
+	
+	Assume \(a_r\) has been constructed with
+	\[
+	f(a_r)\in \widehat m^r.
+	\]
+	We seek
+	\[
+	a_{r+1}=a_r+t_r
+	\]
+	with
+	\[
+	t_r\in \widehat m^r
+	\]
+	such that
+	\[
+	f(a_{r+1})\in \widehat m^{r+1}.
+	\]
+	
+	Use Taylor expansion:
+	\[
+	f(a_r+t_r)=f(a_r)+t_r f'(a_r)+(\text{terms involving }t_r^2).
+	\]
+	Since \(t_r\in \widehat m^r\), we have
+	\[
+	t_r^2\in \widehat m^{2r}\subseteq \widehat m^{r+1}
+	\qquad (r\ge 1).
+	\]
+	So modulo \(\widehat m^{r+1}\),
+	\[
+	f(a_r+t_r)\equiv f(a_r)+t_r f'(a_r).
+	\]
+	
+	Thus we want
+	\[
+	f(a_r)+t_r f'(a_r)\equiv 0 \pmod{\widehat m^{r+1}}.
+	\]
+	Because \(f'(a_r)\) is a unit, multiplication by \(f'(a_r)\) is an automorphism of
+	\[
+	\widehat m^r/\widehat m^{r+1}.
+	\]
+	Hence there exists \(t_r\in \widehat m^r\) satisfying that congruence.
+	
+	Then
+	\[
+	a_{r+1}=a_r+t_r
+	\]
+	has the desired properties:
+	\[
+	a_{r+1}\equiv a_r \pmod{\widehat m^r},
+	\qquad
+	f(a_{r+1})\in \widehat m^{r+1}.
+	\]
+	
+	\medskip
+	\textbf{Step 3: pass to the limit.}
+	
+	Because
+	\[
+	a_{r+1}-a_r\in \widehat m^r,
+	\]
+	the sequence \((a_r)\) is Cauchy in the \(\widehat m\)-adic topology. Since \(\widehat A\) is complete, there exists
+	\[
+	a=\lim_{r\to\infty} a_r \in \widehat A.
+	\]
+	
+	Polynomial evaluation is continuous in the \(\widehat m\)-adic topology, so
+	\[
+	f(a)=\lim_{r\to\infty} f(a_r).
+	\]
+	But
+	\[
+	f(a_r)\in \widehat m^r
+	\]
+	for all \(r\), and
+	\[
+	\bigcap_{r\ge 1}\widehat m^r=0
+	\]
+	in the separated completion. Therefore
+	\[
+	f(a)=0.
+	\]
+	
+	So there exists \(a\in \widehat A\) such that
+	\[
+	f(a)=0.
+	\]
+	
+	
+	
+	\section*{Problem 12(a) --- A domain whose completion is not a domain}
+	
+	\textbf{Exact statement.}
+	
+	Show that
+	\[
+	k[x,y]/\bigl(y^2-x^2(1+x)\bigr)
+	\]
+	is an integral domain but that
+	\[
+	k[[x,y]]/\bigl(y^2-x^2(1+x)\bigr)
+	\]
+	is not.
+	
+	\bigskip
+	\textbf{Solution.}
+	
+	We use the standard argument assuming
+	\[
+	\operatorname{char}k\neq 2.
+	\]
+	This is the usual setting in which the second claim is proved.
+	
+	Let
+	\[
+	f=y^2-x^2(1+x).
+	\]
+	
+	\medskip
+	\textbf{Step 1: the polynomial quotient is a domain.}
+	
+	Work in the UFD \(k[x,y]\). It is enough to show that \(f\) is irreducible, because in a UFD irreducible elements are prime.
+	
+	View \(f\) as a polynomial in \(y\) over \(k[x]\):
+	\[
+	f(y)=y^2-x^2(1+x).
+	\]
+	By Gauss's lemma, it is enough to show \(f\) is irreducible in \(k(x)[y]\). Since it has degree \(2\) in \(y\), it would be reducible there if and only if \(x^2(1+x)\) were a square in \(k(x)\).
+	
+	But \(x^2\) is a square, so this would force \(1+x\) to be a square in \(k(x)\). That is impossible, because the valuation of \(1+x\) at the prime \(x+1\) is \(1\), which is odd, whereas squares have even valuation at every prime.
+	
+	Hence \(f\) is irreducible in \(k(x)[y]\), so also irreducible in \(k[x,y]\). Therefore \((f)\) is prime, and
+	\[
+	k[x,y]/(f)
+	\]
+	is an integral domain.
+	
+	\medskip
+	\textbf{Step 2: the formal power series quotient is not a domain.}
+	
+	Now work in \(k[[x,y]]\). Since \(1+x\) is a unit in \(k[[x]]\) with constant term \(1\), and \(\operatorname{char}k\neq 2\), it has a square root
+	\[
+	u=(1+x)^{1/2}\in k[[x]].
+	\]
+	Therefore
+	\[
+	f=y^2-x^2(1+x)
+	=y^2-(xu)^2
+	=(y-xu)(y+xu)
+	\]
+	in \(k[[x,y]]\).
+	
+	So in the quotient
+	\[
+	k[[x,y]]/(f),
+	\]
+	the classes of \(y-xu\) and \(y+xu\) multiply to zero.
+	
+	They are both nonzero in the quotient, because neither can be a multiple of \(f\): \(f\) has order \(2\), while each factor has order \(1\), so no factor can lie in the ideal \((f)\).
+	
+	Thus the quotient has nonzero zero-divisors, so it is not an integral domain.
+	
+	
+	
+	\section*{Problem 12(b) --- The associated graded ring need not be a domain}
+	
+	\textbf{Exact statement.}
+	
+	Let
+	\[
+	A=k[[x,y]]/(x^2-y^3),
+	\qquad
+	m=(x,y)
+	\]
+	the unique maximal ideal. Show that
+	\[
+	\operatorname{gr}_m(A)
+	\]
+	is not an integral domain.
+	
+	\[
+	\text{[}A\text{ is itself an integral domain, but you do not need to show this.]}
+	\]
+	
+	\bigskip
+	\textbf{Solution.}
+	
+	Recall
+	\[
+	\operatorname{gr}_m(A)=\bigoplus_{n\ge 0} m^n/m^{n+1}.
+	\]
+	
+	Let \(x^*\) and \(y^*\) denote the initial forms of \(x\) and \(y\) in
+	\[
+	m/m^2.
+	\]
+	
+	Since \(x,y\in m\) and clearly neither lies in \(m^2\), both \(x^*\) and \(y^*\) are nonzero.
+	
+	Now in \(A\) we have the relation
+	\[
+	x^2=y^3.
+	\]
+	Because \(y\in m\), we get
+	\[
+	y^3\in m^3.
+	\]
+	Hence
+	\[
+	x^2\in m^3.
+	\]
+	But \(x^2\in m^2\) automatically, so its class in
+	\[
+	m^2/m^3
+	\]
+	is zero.
+	
+	That means precisely that
+	\[
+	(x^*)^2=0
+	\]
+	in \(\operatorname{gr}_m(A)\).
+	
+	So \(\operatorname{gr}_m(A)\) contains a nonzero nilpotent element \(x^*\). Therefore it cannot be an integral domain.
+	
+	So
+	\[
+	\operatorname{gr}_m(A)
+	\]
+	is not a domain.
+	
+	
+	\section*{Deep theory pack for Problems 10--12}
+	
+	\subsection*{1. Global picture}
+	
+	Problems 10--12 continue the theory developed in Problems 6--9:
+	\[
+	\text{inverse systems}
+	\Longrightarrow
+	\text{inverse limits}
+	\Longrightarrow
+	\text{filtration topologies}
+	\Longrightarrow
+	\text{completions}
+	\Longrightarrow
+	I\text{-adic completions}.
+	\]
+	
+	The new theme is local algebra:
+	\[
+	\text{completed ideals}
+	\Longrightarrow
+	\text{locality of the completed ring}
+	\Longrightarrow
+	\text{Hensel lifting}
+	\Longrightarrow
+	\text{comparison with tangent cones and formal branches}.
+	\]
+	
+	So the questions are no longer only about existence of completion, but about how completion interacts with ideals, local rings, roots of polynomials, and singularities.
+	
+	\subsection*{2. Two meanings of ``completed ideal''}
+	
+	Let \(A\) be Noetherian, \(I\subseteq A\), and
+	\[
+	\widehat A=\varprojlim A/I^n.
+	\]
+	
+	There are two a priori different constructions attached to \(I\):
+	
+	\medskip
+	\textbf{(i) Completion of \(I\) as an \(A\)-module:}
+	\[
+	\widehat I=\varprojlim I/I^{n+1}.
+	\]
+	
+	\medskip
+	\textbf{(ii) Extension of \(I\) inside \(\widehat A\):}
+	\[
+	I^e:=\widehat A\cdot \operatorname{im}(I\to \widehat A).
+	\]
+	
+	The first is defined abstractly by inverse limit; the second is an ordinary ideal of the completed ring.
+	
+	Problem 10(a) identifies them:
+	\[
+	\widehat I = I^e \cong \widehat A\otimes_A I.
+	\]
+	
+	This is one of the key structural facts of Noetherian completion theory.
+	
+	\subsection*{3. Why \(\widehat I = I^e\) matters}
+	
+	The equality
+	\[
+	\widehat I=I^e
+	\]
+	means that the ideal \(I\) survives completion in the expected concrete form: it becomes exactly the ideal generated by its image in \(\widehat A\).
+	
+	Thus
+	\[
+	I\subseteq A
+	\quad\leadsto\quad
+	\widehat I=I^e\subseteq \widehat A.
+	\]
+	
+	As a consequence, one can do ordinary ideal-theoretic algebra inside \(\widehat A\), and completion becomes compatible with powers:
+	\[
+	\widehat{I^n}=(\widehat I)^n.
+	\]
+	
+	So completion preserves the whole \(I\)-adic filtration in a very strong sense.
+	
+	\subsection*{4. Preservation of graded pieces}
+	
+	Problem 10(c) states:
+	\[
+	I^n/I^{n+1}\cong \widehat I^{\,n}/\widehat I^{\,n+1}.
+	\]
+	
+	Therefore the associated graded ring is preserved:
+	\[
+	\operatorname{gr}_I(A)
+	=
+	\bigoplus_{n\ge0} I^n/I^{n+1}
+	\cong
+	\bigoplus_{n\ge0} \widehat I^{\,n}/\widehat I^{\,n+1}
+	=
+	\operatorname{gr}_{\widehat I}(\widehat A).
+	\]
+	
+	This is conceptually important: completion enlarges the ring by adding formal limits, but it does not change the graded infinitesimal layers of the \(I\)-adic filtration.
+	
+	A useful slogan is
+	\[
+	\boxed{\text{completion preserves the graded infinitesimal structure.}}
+	\]
+	
+	\subsection*{5. The Jacobson radical and small elements}
+	
+	Problem 10(d) shows
+	\[
+	\widehat I\subseteq \operatorname{Jac}(\widehat A).
+	\]
+	
+	The reason is that elements of \(\widehat I\) are topologically small. If \(u\in \widehat I\), then
+	\[
+	u^n\in \widehat I^{\,n},
+	\]
+	so the geometric series
+	\[
+	1+u+u^2+\cdots
+	\]
+	converges in the \(\widehat I\)-adic topology of the complete ring \(\widehat A\). Hence \(1-u\) is invertible.
+	
+	Thus every element of \(\widehat I\) is quasi-regular, which is exactly the defining behavior of the Jacobson radical.
+	
+	So \(\widehat I\) consists of infinitesimal elements in the completed local algebra.
+	
+	\subsection*{6. Why the completion of a local ring is local}
+	
+	Let \((A,m)\) be Noetherian local, and let \(\widehat A\) be its \(m\)-adic completion.
+	
+	From Problem 10(a),
+	\[
+	\widehat A/\widehat m \cong A/m.
+	\]
+	Since \(A/m\) is a field, \(\widehat m\) is maximal.
+	
+	From Problem 10(d),
+	\[
+	\widehat m\subseteq \operatorname{Jac}(\widehat A).
+	\]
+	Every maximal ideal contains the Jacobson radical, hence every maximal ideal of \(\widehat A\) contains \(\widehat m\). Since \(\widehat m\) itself is maximal, it is the unique maximal ideal.
+	
+	Therefore \(\widehat A\) is local with maximal ideal \(\widehat m\).
+	
+	So completion preserves locality:
+	\[
+	(A,m)\leadsto (\widehat A,\widehat m).
+	\]
+	
+	\subsection*{7. Hensel's lemma: general philosophy}
+	
+	Problem 11 is a basic form of Hensel's lemma.
+	
+	Suppose \(A\) is local with maximal ideal \(m\), \(\widehat A\) is its completion, and
+	\[
+	f(x)\in \widehat A[x].
+	\]
+	If \(\overline a\in A/m\) satisfies
+	\[
+	\overline f(\overline a)=0
+	\qquad\text{and}\qquad
+	\overline f'(\overline a)\neq 0,
+	\]
+	then there exists
+	\[
+	a\in \widehat A
+	\]
+	with
+	\[
+	f(a)=0.
+	\]
+	
+	In words: a simple root modulo the maximal ideal lifts to an actual root in the complete local ring.
+	
+	\subsection*{8. Why the derivative condition matters}
+	
+	The condition
+	\[
+	\overline f'(\overline a)\neq 0
+	\]
+	means that \(\overline a\) is a simple root modulo the residue field.
+	
+	This nonvanishing implies that the derivative becomes a unit during the lifting process, and this invertibility makes it possible to correct approximate roots step by step.
+	
+	So the derivative condition is the local algebraic analogue of nonsingularity. It is what makes the equation locally solvable and the lift stable.
+	
+	Without this condition, lifting may fail or may require stronger forms of Hensel's lemma.
+	
+	\subsection*{9. Newton iteration viewpoint}
+	
+	The proof of Hensel's lemma is an algebraic Newton method. Starting with an approximate root \(a_r\), one chooses
+	\[
+	a_{r+1}=a_r+t_r
+	\]
+	so that
+	\[
+	f(a_{r+1})\equiv 0 \pmod{m^{r+1}}.
+	\]
+	
+	Using Taylor expansion,
+	\[
+	f(a_r+t_r)\equiv f(a_r)+t_r f'(a_r) \pmod{m^{r+1}}.
+	\]
+	Since \(f'(a_r)\) is a unit, one can solve for \(t_r\).
+	
+	Thus each step improves the approximation by one power of the maximal ideal.
+	
+	A good slogan is
+	\[
+	\boxed{\text{Hensel lifting is Newton's method in the }m\text{-adic world.}}
+	\]
+	
+	\subsection*{10. Model example of Hensel lifting}
+	
+	Take
+	\[
+	f(x)=x^2-2\in \mathbf Z_7[x].
+	\]
+	Modulo \(7\), one has
+	\[
+	3^2=9\equiv 2 \pmod 7,
+	\]
+	so \(3\) is a root of \(\overline f\). Also
+	\[
+	f'(x)=2x,\qquad f'(3)=6\not\equiv 0\pmod 7.
+	\]
+	Hence Hensel's lemma gives a root
+	\[
+	a\in \mathbf Z_7
+	\]
+	such that
+	\[
+	a^2=2,\qquad a\equiv 3\pmod 7.
+	\]
+	
+	So a simple root in the residue field lifts to a genuine \(7\)-adic root.
+	
+	\subsection*{11. Completion can change factorization}
+	
+	Problem 12(a) shows that a domain may become non-domain after completion. The example is
+	\[
+	k[x,y]/(y^2-x^2(1+x)),
+	\]
+	which is a domain, whereas
+	\[
+	k[[x,y]]/(y^2-x^2(1+x))
+	\]
+	is not, in the standard proof when \(\operatorname{char}k\neq 2\).
+	
+	The reason is that in the formal power series ring the unit \(1+x\) has a square root:
+	\[
+	(1+x)^{1/2}\in k[[x]].
+	\]
+	Therefore
+	\[
+	y^2-x^2(1+x)
+	=
+	\bigl(y-x(1+x)^{1/2}\bigr)\bigl(y+x(1+x)^{1/2}\bigr).
+	\]
+	
+	So completion can reveal hidden formal factorization and separate local branches.
+	
+	\subsection*{12. Formal branches and local geometry}
+	
+	The preceding example is geometric in nature. Completion records all infinitesimal expansions near a point. Those expansions may split the local equation into several formal branches even if the original polynomial quotient is still irreducible.
+	
+	Thus completion often makes local geometry more transparent: it can distinguish formal branches that are not as visible in the original ring.
+	
+	\subsection*{13. Associated graded ring and tangent cone}
+	
+	Problem 12(b) concerns
+	\[
+	A=k[[x,y]]/(x^2-y^3),\qquad m=(x,y),
+	\]
+	and shows that
+	\[
+	\operatorname{gr}_m(A)
+	\]
+	is not a domain.
+	
+	Recall
+	\[
+	\operatorname{gr}_m(A)=\bigoplus_{n\ge0} m^n/m^{n+1}.
+	\]
+	If \(f\in m^n\setminus m^{n+1}\), its image in \(m^n/m^{n+1}\) is its initial form.
+	
+	Thus the associated graded ring keeps only the first nonzero homogeneous layer of each element.
+	
+	\subsection*{14. Why \(\operatorname{gr}_m(A)\) need not be a domain}
+	
+	In \(A\) one has
+	\[
+	x^2=y^3.
+	\]
+	Now \(x\in m\setminus m^2\), so its initial form \(x^*\) is nonzero in \(m/m^2\).
+	
+	But
+	\[
+	x^2=y^3\in m^3.
+	\]
+	Hence the class of \(x^2\) in \(m^2/m^3\) is zero. Therefore in the graded ring,
+	\[
+	(x^*)^2=0.
+	\]
+	
+	So \(\operatorname{gr}_m(A)\) has a nonzero nilpotent and hence is not a domain.
+	
+	This shows that even if the original local ring is a domain, its tangent-cone approximation may be nonreduced.
+	
+	\subsection*{15. Tangent cone intuition}
+	
+	The associated graded ring is the coordinate ring of the tangent cone. For the cusp
+	\[
+	x^2-y^3=0,
+	\]
+	the tangent cone sees only the lowest-order part of the equation, namely
+	\[
+	x^2.
+	\]
+	That is already nonreduced. So the tangent cone is more singular than the original cusp.
+	
+	A key warning is:
+	\[
+	\boxed{\text{passing to the associated graded ring can worsen singularities.}}
+	\]
+	
+	\subsection*{16. Completion versus associated graded}
+	
+	It is important to distinguish these two constructions.
+	
+	Completion:
+	\[
+	A\mapsto \widehat A
+	\]
+	keeps all orders simultaneously and adds formal limits.
+	
+	Associated graded:
+	\[
+	A\mapsto \operatorname{gr}_I(A)
+	\]
+	keeps only leading-order pieces and discards higher-order interactions.
+	
+	A useful summary is:
+	
+	\[
+	\begin{array}{|c|c|c|}
+		\hline
+		\text{Construction} & \text{Keeps} & \text{Loses} \\
+		\hline
+		\widehat A & \text{all }I\text{-adic orders at once} & \text{polynomial / finite nature} \\
+		\hline
+		\operatorname{gr}_I(A) & \text{leading-order data} & \text{higher-order interactions} \\
+		\hline
+	\end{array}
+	\]
+	
+	This explains the contrast in Problem 12:
+	completion can reveal formal factorization, whereas associated graded can create nilpotents by forgetting higher-order cancellation.
+	
+	\subsection*{17. Final summary of Problems 10--12}
+	
+	Problem 10 shows that completion respects ideals and preserves locality:
+	\[
+	\widehat I=I^e,\qquad
+	\widehat{I^n}=(\widehat I)^n,\qquad
+	\widehat A \text{ is local if }A\text{ is local}.
+	\]
+	
+	Problem 11 shows that complete local rings satisfy root lifting:
+	\[
+	\text{simple root mod }m
+	\Longrightarrow
+	\text{actual root in }\widehat A.
+	\]
+	
+	Problem 12 shows that local approximations can behave differently:
+	completion may split formal branches, while the associated graded ring may fail to remain a domain.
+	
+	So the central lesson is
+	\[
+	\boxed{\text{completion preserves and enriches local structure,}}
+	\]
+	whereas
+	\[
+	\boxed{\text{leading-order approximation may create extra singularity.}}
+	\]
+	
+	
+	\section*{Good examples of inverse systems and inverse limits}
+	
+	\subsection*{1. Constant inverse system}
+	
+	Let \(G\) be an abelian group and consider the inverse system
+	\[
+	G \xleftarrow{\mathrm{id}} G \xleftarrow{\mathrm{id}} G \xleftarrow{\mathrm{id}} \cdots
+	\]
+	where every transition map is the identity.
+	
+	An element of the inverse limit is a sequence
+	\[
+	(x_1,x_2,x_3,\dots)\in \prod_{n\ge 1} G
+	\]
+	such that
+	\[
+	x_1=x_2=x_3=\cdots.
+	\]
+	Thus every compatible sequence is constant, and therefore
+	\[
+	\varprojlim G \cong G.
+	\]
+	
+	\subsection*{2. The system \(\mathbf Z/2\mathbf Z \leftarrow \mathbf Z/4\mathbf Z \leftarrow \mathbf Z/8\mathbf Z \leftarrow \cdots\)}
+	
+	Consider the natural reduction maps
+	\[
+	\mathbf Z/2^{n+1}\mathbf Z \to \mathbf Z/2^n\mathbf Z.
+	\]
+	Then the inverse limit is
+	\[
+	\varprojlim \mathbf Z/2^n\mathbf Z = \mathbf Z_2,
+	\]
+	the ring of \(2\)-adic integers.
+	
+	An element is a compatible family
+	\[
+	(a_1,a_2,a_3,\dots),\qquad a_n\in \mathbf Z/2^n\mathbf Z,
+	\]
+	such that
+	\[
+	a_{n+1}\equiv a_n \pmod{2^n}.
+	\]
+	
+	For example,
+	\[
+	1 \bmod 2,\qquad
+	3 \bmod 4,\qquad
+	7 \bmod 8,\qquad
+	15 \bmod 16,\dots
+	\]
+	is a compatible family and defines the \(2\)-adic integer
+	\[
+	-1 = 1+2+2^2+2^3+\cdots
+	\]
+	in \(\mathbf Z_2\).
+	
+	\subsection*{3. The general \(p\)-adic system}
+	
+	More generally, for any prime \(p\),
+	\[
+	\mathbf Z/p\mathbf Z
+	\xleftarrow{}
+	\mathbf Z/p^2\mathbf Z
+	\xleftarrow{}
+	\mathbf Z/p^3\mathbf Z
+	\xleftarrow{}\cdots
+	\]
+	has inverse limit
+	\[
+	\varprojlim \mathbf Z/p^n\mathbf Z = \mathbf Z_p.
+	\]
+	
+	This is the completion of \(\mathbf Z\) with respect to the filtration
+	\[
+	\mathbf Z \supset p\mathbf Z \supset p^2\mathbf Z \supset \cdots.
+	\]
+	
+	\subsection*{4. Filtration example: completion of a group}
+	
+	Let \(G\) be an abelian group with a descending chain
+	\[
+	G \supset G_1 \supset G_2 \supset \cdots.
+	\]
+	Then there is an inverse system
+	\[
+	G/G_1 \xleftarrow{} G/G_2 \xleftarrow{} G/G_3 \xleftarrow{}\cdots
+	\]
+	coming from the natural quotient maps.
+	
+	Its inverse limit is
+	\[
+	\varprojlim G/G_n.
+	\]
+	
+	For example, if
+	\[
+	G=\mathbf Z,\qquad G_n=2^n\mathbf Z,
+	\]
+	then
+	\[
+	G/G_n=\mathbf Z/2^n\mathbf Z,
+	\]
+	so
+	\[
+	\varprojlim \mathbf Z/2^n\mathbf Z = \mathbf Z_2.
+	\]
+	
+	\subsection*{5. Polynomial truncations}
+	
+	Let
+	\[
+	A=k[x].
+	\]
+	Then the quotients
+	\[
+	A/(x^n)
+	\]
+	form an inverse system
+	\[
+	k[x]/(x) \xleftarrow{} k[x]/(x^2) \xleftarrow{} k[x]/(x^3) \xleftarrow{}\cdots
+	\]
+	under the natural maps
+	\[
+	k[x]/(x^{n+1}) \to k[x]/(x^n).
+	\]
+	
+	Its inverse limit is
+	\[
+	\varprojlim k[x]/(x^n)=k[[x]].
+	\]
+	
+	Indeed, an element of \(k[x]/(x^n)\) is a truncated polynomial
+	\[
+	a_0+a_1x+\cdots+a_{n-1}x^{n-1},
+	\]
+	and a compatible family of truncations is exactly a formal power series
+	\[
+	a_0+a_1x+a_2x^2+\cdots.
+	\]
+	
+	\subsection*{6. Multivariable formal power series}
+	
+	Let
+	\[
+	A=k[x_1,\dots,x_m],\qquad I=(x_1,\dots,x_m).
+	\]
+	Then
+	\[
+	A/I \xleftarrow{} A/I^2 \xleftarrow{} A/I^3 \xleftarrow{}\cdots
+	\]
+	is an inverse system, and
+	\[
+	\varprojlim A/I^n = k[[x_1,\dots,x_m]].
+	\]
+	
+	At each level \(A/I^n\), only monomials of total degree \(<n\) survive. The inverse limit therefore consists of all compatible truncations, i.e. all formal power series in \(x_1,\dots,x_m\).
+	
+	\subsection*{7. Example where the inverse limit is \(0\)}
+	
+	Consider the inverse system
+	\[
+	\mathbf Z \xleftarrow{\times 2} \mathbf Z \xleftarrow{\times 2} \mathbf Z \xleftarrow{\times 2}\cdots
+	\]
+	where every transition map is multiplication by \(2\).
+	
+	An element of the inverse limit is a sequence
+	\[
+	(x_1,x_2,x_3,\dots)\in \prod_{n\ge1}\mathbf Z
+	\]
+	such that
+	\[
+	x_1=2x_2,\qquad x_2=2x_3,\qquad x_3=2x_4,\ \dots
+	\]
+	Hence
+	\[
+	x_1=2^{n-1}x_n
+	\]
+	for every \(n\). Thus \(x_1\) is divisible by every power of \(2\), so \(x_1=0\). Then all \(x_n=0\).
+	
+	Therefore
+	\[
+	\varprojlim\bigl(\mathbf Z \xleftarrow{\times 2}\mathbf Z \xleftarrow{\times 2}\cdots\bigr)=0.
+	\]
+	
+	This example shows that compatibility conditions can force the entire inverse limit to vanish.
+	
+	\subsection*{8. Example with modules}
+	
+	Let \(A\) be a ring, \(I\subseteq A\) an ideal, and \(M\) an \(A\)-module. Then
+	\[
+	M/IM \xleftarrow{} M/I^2M \xleftarrow{} M/I^3M \xleftarrow{}\cdots
+	\]
+	is an inverse system, and its inverse limit is
+	\[
+	\widehat M=\varprojlim M/I^nM.
+	\]
+	
+	For example, take
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A/(x^2).
+	\]
+	Then for \(n\ge2\),
+	\[
+	I^nM=0,
+	\]
+	so the system stabilizes, and hence
+	\[
+	\widehat M\cong M.
+	\]
+	
+	\subsection*{9. Finite inverse systems}
+	
+	Even for a finite diagram
+	\[
+	G_1 \xleftarrow{\phi_1} G_2 \xleftarrow{\phi_2} G_3,
+	\]
+	the inverse limit is already meaningful:
+	\[
+	\varprojlim (G_1 \xleftarrow{} G_2 \xleftarrow{} G_3)
+	=
+	\{(x_1,x_2,x_3)\in G_1\times G_2\times G_3
+	\mid \phi_1(x_2)=x_1,\ \phi_2(x_3)=x_2\}.
+	\]
+	
+	Thus inverse limits are simply compatible tuples, even before passing to infinite systems.
+	
+	\subsection*{10. Summary of the main examples}
+	
+	The most important examples to remember are
+	\[
+	\varprojlim(G \xleftarrow{\mathrm{id}} G \xleftarrow{\mathrm{id}} \cdots)\cong G,
+	\]
+	\[
+	\varprojlim \mathbf Z/p^n\mathbf Z = \mathbf Z_p,
+	\]
+	\[
+	\varprojlim k[x]/(x^n)=k[[x]],
+	\]
+	\[
+	\varprojlim k[x_1,\dots,x_m]/(x_1,\dots,x_m)^n
+	=
+	k[[x_1,\dots,x_m]],
+	\]
+	\[
+	\varprojlim\bigl(\mathbf Z \xleftarrow{\times 2}\mathbf Z \xleftarrow{\times 2}\cdots\bigr)=0,
+	\]
+	and
+	\[
+	\varprojlim M/I^nM=\widehat M.
+	\]
+	
+	These examples illustrate constant systems, completion systems, quotient systems, and collapsing systems.
+	
+	\section*{Small diagram pack for inverse systems and inverse limits}
+	
+	\subsection*{1. Constant inverse system}
+	
+	\[
+	G \xleftarrow{\mathrm{id}} G \xleftarrow{\mathrm{id}} G \xleftarrow{\mathrm{id}} \cdots
+	\]
+	
+	A compatible element has the form
+	\[
+	(x,x,x,x,\dots).
+	\]
+	
+	So one may picture:
+	\[
+	\begin{array}{cccccc}
+		x & \leftarrow & x & \leftarrow & x & \leftarrow \cdots \\
+		\downarrow & & \downarrow & & \downarrow \\
+		G & \xleftarrow{\mathrm{id}} & G & \xleftarrow{\mathrm{id}} & G & \xleftarrow{\mathrm{id}} \cdots
+	\end{array}
+	\]
+	
+	Hence
+	\[
+	\varprojlim G \cong G.
+	\]
+	
+	\subsection*{2. The \(p\)-adic system}
+	
+	\[
+	\mathbf Z/p\mathbf Z
+	\xleftarrow{}
+	\mathbf Z/p^2\mathbf Z
+	\xleftarrow{}
+	\mathbf Z/p^3\mathbf Z
+	\xleftarrow{}\cdots
+	\]
+	
+	A compatible family is
+	\[
+	a_1 \leftarrow a_2 \leftarrow a_3 \leftarrow \cdots
+	\]
+	with
+	\[
+	a_{n+1}\equiv a_n \pmod{p^n}.
+	\]
+	
+	Diagrammatically:
+	\[
+	\begin{array}{cccccc}
+		a_1 & \leftarrow & a_2 & \leftarrow & a_3 & \leftarrow \cdots \\
+		\downarrow & & \downarrow & & \downarrow \\
+		\mathbf Z/p\mathbf Z & \xleftarrow{} & \mathbf Z/p^2\mathbf Z & \xleftarrow{} & \mathbf Z/p^3\mathbf Z & \xleftarrow{}\cdots
+	\end{array}
+	\]
+	
+	The inverse limit is
+	\[
+	\varprojlim \mathbf Z/p^n\mathbf Z = \mathbf Z_p.
+	\]
+	
+	\subsection*{3. Polynomial truncation system}
+	
+	\[
+	k[x]/(x)
+	\xleftarrow{}
+	k[x]/(x^2)
+	\xleftarrow{}
+	k[x]/(x^3)
+	\xleftarrow{}\cdots
+	\]
+	
+	At each level one keeps a longer truncation:
+	\[
+	a_0
+	\leftarrow
+	a_0+a_1x
+	\leftarrow
+	a_0+a_1x+a_2x^2
+	\leftarrow \cdots
+	\]
+	
+	So the picture is
+	\[
+	\begin{array}{cccccc}
+		a_0 & \leftarrow & a_0+a_1x & \leftarrow & a_0+a_1x+a_2x^2 & \leftarrow \cdots \\
+		\downarrow & & \downarrow & & \downarrow \\
+		k[x]/(x) & \xleftarrow{} & k[x]/(x^2) & \xleftarrow{} & k[x]/(x^3) & \xleftarrow{}\cdots
+	\end{array}
+	\]
+	
+	The inverse limit is
+	\[
+	\varprojlim k[x]/(x^n)=k[[x]].
+	\]
+	
+	\subsection*{4. Multivariable truncation system}
+	
+	Let
+	\[
+	A=k[x_1,\dots,x_m],\qquad I=(x_1,\dots,x_m).
+	\]
+	Then
+	\[
+	A/I \xleftarrow{} A/I^2 \xleftarrow{} A/I^3 \xleftarrow{}\cdots
+	\]
+	is an inverse system.
+	
+	At the first stage, only the constant term survives; at the second, linear terms also survive; at the third, quadratic terms also survive; and so on:
+	\[
+	a_0
+	\leftarrow
+	a_0+\text{linear terms}
+	\leftarrow
+	a_0+\text{linear}+\text{quadratic}
+	\leftarrow \cdots
+	\]
+	
+	Its inverse limit is
+	\[
+	\varprojlim A/I^n = k[[x_1,\dots,x_m]].
+	\]
+	
+	\subsection*{5. Filtration/completion diagram}
+	
+	Given a filtration
+	\[
+	G\supset G_1\supset G_2\supset \cdots,
+	\]
+	we get an inverse system
+	\[
+	G/G_1 \xleftarrow{} G/G_2 \xleftarrow{} G/G_3 \xleftarrow{}\cdots
+	\]
+	and
+	\[
+	\widehat G \cong \varprojlim G/G_n.
+	\]
+	
+	The canonical map is
+	\[
+	g\mapsto (g \bmod G_1,\ g \bmod G_2,\ g \bmod G_3,\dots).
+	\]
+	
+	So conceptually:
+	\[
+	\begin{array}{cccccc}
+		& & G \\
+		& \swarrow & \downarrow & \searrow \\
+		G/G_1 & \leftarrow & G/G_2 & \leftarrow \cdots
+	\end{array}
+	\]
+	
+	\subsection*{6. A system whose inverse limit is \(0\)}
+	
+	Consider
+	\[
+	\mathbf Z \xleftarrow{\times 2} \mathbf Z \xleftarrow{\times 2} \mathbf Z \xleftarrow{\times 2}\cdots.
+	\]
+	
+	A compatible sequence must satisfy
+	\[
+	x_1=2x_2,\qquad x_2=2x_3,\qquad x_3=2x_4,\dots
+	\]
+	
+	Thus
+	\[
+	x_1=2^{n-1}x_n
+	\]
+	for all \(n\), so \(x_1\) is divisible by every power of \(2\), hence \(x_1=0\). Therefore every \(x_n=0\).
+	
+	So
+	\[
+	\varprojlim\bigl(\mathbf Z \xleftarrow{\times2}\mathbf Z \xleftarrow{\times2}\cdots\bigr)=0.
+	\]
+	
+	Diagrammatically:
+	\[
+	\begin{array}{cccccc}
+		x_1 & \leftarrow & x_2 & \leftarrow & x_3 & \leftarrow \cdots \\
+		&           &      &           &      & \\
+		\mathbf Z & \xleftarrow{\times 2} & \mathbf Z & \xleftarrow{\times 2} & \mathbf Z & \xleftarrow{\times 2} \cdots
+	\end{array}
+	\]
+	
+	\subsection*{7. Module completion diagram}
+	
+	Let \(A\) be a ring, \(I\subseteq A\) an ideal, and \(M\) an \(A\)-module. Then
+	\[
+	M/IM \xleftarrow{} M/I^2M \xleftarrow{} M/I^3M \xleftarrow{}\cdots
+	\]
+	is an inverse system, and
+	\[
+	\widehat M=\varprojlim M/I^nM.
+	\]
+	
+	The canonical map is
+	\[
+	M \to \widehat M,
+	\qquad
+	m\mapsto (m \bmod IM,\ m \bmod I^2M,\ m \bmod I^3M,\dots).
+	\]
+	
+	Conceptually:
+	\[
+	\begin{array}{cccccc}
+		& & M \\
+		& \swarrow & \downarrow & \searrow \\
+		M/IM & \leftarrow & M/I^2M & \leftarrow \cdots
+	\end{array}
+	\]
+	
+	\subsection*{8. Big summary diagram}
+	
+	All the main examples fit the same pattern:
+	\[
+	\boxed{
+		\text{inverse limit}=
+		\text{all compatible approximations at every level}
+	}
+	\]
+	
+	Typical towers are:
+	\[
+	G \xleftarrow{\mathrm{id}} G \xleftarrow{\mathrm{id}} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim \cong G,
+	\]
+	\[
+	\mathbf Z/p\mathbf Z \xleftarrow{} \mathbf Z/p^2\mathbf Z \xleftarrow{} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim=\mathbf Z_p,
+	\]
+	\[
+	k[x]/(x) \xleftarrow{} k[x]/(x^2) \xleftarrow{} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim=k[[x]],
+	\]
+	\[
+	M/IM \xleftarrow{} M/I^2M \xleftarrow{} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim=\widehat M,
+	\]
+	\[
+	\mathbf Z \xleftarrow{\times2} \mathbf Z \xleftarrow{\times2} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim=0.
+	\]
+	
+	
+	\section*{Module examples and module completion}
+	
+	Let \(A\) be a ring, \(I\subseteq A\) an ideal, and \(M\) an \(A\)-module. Then the \(I\)-adic quotients
+	\[
+	M/IM \xleftarrow{} M/I^2M \xleftarrow{} M/I^3M \xleftarrow{}\cdots
+	\]
+	form an inverse system, and its inverse limit is the \(I\)-adic completion
+	\[
+	\widehat M=\varprojlim M/I^nM.
+	\]
+	
+	The canonical map is
+	\[
+	M\to \widehat M,\qquad
+	m\mapsto (m\bmod IM,\ m\bmod I^2M,\ m\bmod I^3M,\dots).
+	\]
+	
+	\subsection*{Example 1. \(M=A\): the ring as a module over itself}
+	
+	Take
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A.
+	\]
+	Then
+	\[
+	M/I^nM = k[x]/(x^n),
+	\]
+	so
+	\[
+	\widehat M=\varprojlim k[x]/(x^n)=k[[x]].
+	\]
+	
+	Thus when \(M=A\), module completion is just ring completion.
+	
+	\subsection*{Example 2. A quotient module \(M=A/(x^2)\)}
+	
+	Let
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A/(x^2).
+	\]
+	Then
+	\[
+	M=\{a+bx \mid a,b\in k,\ x^2=0\}.
+	\]
+	
+	Now
+	\[
+	IM=xM=(x)/(x^2),
+	\qquad
+	I^2M=x^2M=0.
+	\]
+	Hence for every \(n\ge 2\),
+	\[
+	M/I^nM=M.
+	\]
+	
+	So the inverse system stabilizes:
+	\[
+	M/IM \xleftarrow{} M \xleftarrow{\mathrm{id}} M \xleftarrow{\mathrm{id}} \cdots
+	\]
+	from some stage on. Therefore
+	\[
+	\widehat M\cong M.
+	\]
+	
+	\subsection*{Example 3. \(M=A/(x)\)}
+	
+	Let
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A/(x)\cong k.
+	\]
+	Since \(x\) acts trivially on \(M\),
+	\[
+	IM=0.
+	\]
+	So
+	\[
+	M/I^nM=M
+	\]
+	for all \(n\), and thus
+	\[
+	\widehat M=M\cong k.
+	\]
+	
+	\subsection*{Example 4. A free module \(M=A^r\)}
+	
+	Let
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A^r.
+	\]
+	Then
+	\[
+	M/I^nM \cong (A/I^n)^r \cong \bigl(k[x]/(x^n)\bigr)^r.
+	\]
+	Therefore
+	\[
+	\widehat M
+	\cong \varprojlim (A/I^n)^r
+	\cong \left(\varprojlim A/I^n\right)^r
+	\cong k[[x]]^r.
+	\]
+	
+	So completion of a finite free module is a finite free module over the completed ring.
+	
+	\subsection*{Example 5. A module over two variables}
+	
+	Let
+	\[
+	A=k[x,y],\qquad I=(x,y),\qquad M=A.
+	\]
+	Then
+	\[
+	\widehat M=\varprojlim A/I^n = k[[x,y]].
+	\]
+	
+	Now take instead
+	\[
+	M=A/(x^2,y).
+	\]
+	In this module,
+	\[
+	y=0,\qquad x^2=0,
+	\]
+	so every element has the form
+	\[
+	a+bx.
+	\]
+	Moreover,
+	\[
+	IM=(x,y)M=xM=kx,
+	\qquad
+	I^2M=0.
+	\]
+	So again the system stabilizes and
+	\[
+	\widehat M\cong M.
+	\]
+	
+	\subsection*{Example 6. Canonical map and kernel in practice}
+	
+	Let
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A.
+	\]
+	Then
+	\[
+	M\to \widehat M
+	\]
+	is
+	\[
+	k[x]\to k[[x]].
+	\]
+	Its kernel is
+	\[
+	\bigcap_{n\ge 0} x^n k[x]=0.
+	\]
+	So the map is injective.
+	
+	If instead one has a toy filtered module with
+	\[
+	I^nM=M \quad\text{for all }n,
+	\]
+	then
+	\[
+	\bigcap_{n\ge0} I^nM=M,
+	\]
+	and the canonical map collapses to zero.
+	
+	\subsection*{Conceptual summary}
+	
+	The module completion
+	\[
+	\widehat M=\varprojlim M/I^nM
+	\]
+	keeps all quotient-level approximations of a module at once.
+	
+	Typical patterns are:
+	\begin{itemize}
+		\item if \(M=A\), one gets ring completion;
+		\item if the filtration stabilizes, then \(\widehat M\cong M\);
+		\item if \(M\) is finite free, then completion gives a finite free module over \(\widehat A\);
+		\item if \(\bigcap I^nM=0\), then \(M\to \widehat M\) is injective.
+	\end{itemize}
+	
+	
+	
+	\section*{Inverse systems on concrete modules}
+	
+	An inverse system of \(A\)-modules is a tower
+	\[
+	M_1 \xleftarrow{\phi_1} M_2 \xleftarrow{\phi_2} M_3 \xleftarrow{}\cdots
+	\]
+	where each \(\phi_n:M_{n+1}\to M_n\) is \(A\)-linear.
+	
+	Its inverse limit is
+	\[
+	\varprojlim M_n
+	=
+	\left\{
+	(m_1,m_2,m_3,\dots)\in \prod_{n\ge1} M_n
+	\;\middle|\;
+	\phi_n(m_{n+1})=m_n \text{ for all }n
+	\right\}.
+	\]
+	
+	\subsection*{Example 1. Constant system of modules}
+	
+	Let \(M\) be an \(A\)-module. Consider
+	\[
+	M \xleftarrow{\mathrm{id}} M \xleftarrow{\mathrm{id}} M \xleftarrow{\mathrm{id}} \cdots.
+	\]
+	Then compatible sequences are constant:
+	\[
+	(m,m,m,\dots).
+	\]
+	Hence
+	\[
+	\varprojlim M \cong M.
+	\]
+	
+	\subsection*{Example 2. Quotient tower of a module}
+	
+	Let \(A\) be a ring, \(I\subseteq A\) an ideal, and \(M\) an \(A\)-module. Then
+	\[
+	M/IM \xleftarrow{} M/I^2M \xleftarrow{} M/I^3M \xleftarrow{}\cdots
+	\]
+	is an inverse system of \(A\)-modules.
+	
+	Its inverse limit is
+	\[
+	\widehat M=\varprojlim M/I^nM.
+	\]
+	
+	This is the most important concrete inverse system on modules.
+	
+	\subsection*{Example 3. Concrete quotient tower for \(M=A^2\)}
+	
+	Take
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A^2.
+	\]
+	Then
+	\[
+	M/I^nM \cong (k[x]/(x^n))^2.
+	\]
+	So the inverse system is
+	\[
+	(k[x]/(x))^2
+	\xleftarrow{}
+	(k[x]/(x^2))^2
+	\xleftarrow{}
+	(k[x]/(x^3))^2
+	\xleftarrow{}\cdots
+	\]
+	and its inverse limit is
+	\[
+	k[[x]]^2.
+	\]
+	
+	An element of the inverse limit is a pair of formal power series
+	\[
+	(f(x),g(x))\in k[[x]]^2.
+	\]
+	
+	\subsection*{Example 4. Stabilizing system}
+	
+	Take again
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A/(x^2).
+	\]
+	Then the inverse system
+	\[
+	M/IM \xleftarrow{} M/I^2M \xleftarrow{} M/I^3M \xleftarrow{}\cdots
+	\]
+	becomes
+	\[
+	k \xleftarrow{} M \xleftarrow{\mathrm{id}} M \xleftarrow{\mathrm{id}} \cdots
+	\]
+	from stage \(2\) onward.
+	
+	So the inverse limit is just
+	\[
+	M.
+	\]
+	
+	\subsection*{Example 5. A system given by multiplication}
+	
+	Let
+	\[
+	A=\mathbf Z,\qquad M_n=\mathbf Z,
+	\qquad \phi_n:\mathbf Z\to\mathbf Z,\quad \phi_n(m)=2m.
+	\]
+	Then
+	\[
+	\mathbf Z \xleftarrow{\times 2} \mathbf Z \xleftarrow{\times 2} \mathbf Z \xleftarrow{\times 2}\cdots
+	\]
+	is an inverse system of \(\mathbf Z\)-modules.
+	
+	A compatible sequence satisfies
+	\[
+	m_1=2m_2,\qquad m_2=2m_3,\qquad \dots
+	\]
+	so all entries must be \(0\). Hence
+	\[
+	\varprojlim M_n=0.
+	\]
+	
+	\subsection*{Example 6. A finite inverse system of modules}
+	
+	Suppose
+	\[
+	M_1 \xleftarrow{\phi_1} M_2 \xleftarrow{\phi_2} M_3.
+	\]
+	Then
+	\[
+	\varprojlim(M_1 \xleftarrow{} M_2 \xleftarrow{} M_3)
+	=
+	\{(m_1,m_2,m_3)\in M_1\times M_2\times M_3
+	\mid \phi_1(m_2)=m_1,\ \phi_2(m_3)=m_2\}.
+	\]
+	
+	Thus even for modules, the inverse limit is literally the module of compatible tuples.
+	
+	\subsection*{Example 7. Exact sequence of inverse systems}
+	
+	Suppose for each \(n\),
+	\[
+	0\to A_n\to B_n\to C_n\to 0
+	\]
+	is a short exact sequence of modules, and these fit together into inverse systems.
+	
+	Then
+	\[
+	0\to \varprojlim A_n \to \varprojlim B_n \to \varprojlim C_n
+	\]
+	is exact.
+	
+	A concrete example is
+	\[
+	0\to (x)/(x^n)\to k[x]/(x^n)\to k\to 0
+	\]
+	for each \(n\). Passing to inverse limits gives
+	\[
+	0\to xk[[x]]\to k[[x]]\to k.
+	\]
+	
+	\subsection*{Final summary}
+	
+	The most important module inverse systems are:
+	\[
+	M \xleftarrow{\mathrm{id}} M \xleftarrow{\mathrm{id}} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim \cong M,
+	\]
+	\[
+	M/IM \xleftarrow{} M/I^2M \xleftarrow{} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim=\widehat M,
+	\]
+	\[
+	(k[x]/(x^n))^r
+	\quad\Rightarrow\quad
+	\varprojlim = k[[x]]^r,
+	\]
+	\[
+	\mathbf Z \xleftarrow{\times2} \mathbf Z \xleftarrow{\times2} \cdots
+	\quad\Rightarrow\quad
+	\varprojlim=0.
+	\]
+	
+	So for modules,
+	\[
+	\boxed{
+		\text{inverse limit}=
+		\text{all compatible module approximations at once}.
+	}
+	\]
+	
+	\section*{Concrete examples of inverse limits and completion from a filtration}
+	
+	\subsection*{1. Definition of filtration}
+	
+	A \emph{filtration} on an abelian group \(G\) is a descending chain of subgroups
+	\[
+	G \supset G_1 \supset G_2 \supset G_3 \supset \cdots.
+	\]
+	
+	Similarly, a filtration on an \(A\)-module \(M\) is a descending chain of submodules
+	\[
+	M \supset M_1 \supset M_2 \supset M_3 \supset \cdots.
+	\]
+	
+	A very important special case is the \(I\)-adic filtration: if \(I\subseteq A\) is an ideal, then
+	\[
+	M \supset IM \supset I^2M \supset I^3M \supset \cdots.
+	\]
+	
+	For the ring \(A\) itself, this becomes
+	\[
+	A \supset I \supset I^2 \supset I^3 \supset \cdots.
+	\]
+	
+	The basic intuition is that the terms of the filtration represent smaller and smaller neighborhoods of \(0\), or finer and finer approximations.
+	
+	\subsection*{2. Concrete picture: inverse limit as compatible sequences}
+	
+	Suppose we have an inverse system
+	\[
+	G_1 \xleftarrow{\phi_1} G_2 \xleftarrow{\phi_2} G_3 \xleftarrow{\phi_3}\cdots.
+	\]
+	Then
+	\[
+	\varprojlim G_n
+	\]
+	consists of all sequences
+	\[
+	(x_1,x_2,x_3,\dots)\in \prod_{n\ge1} G_n
+	\]
+	such that
+	\[
+	\phi_1(x_2)=x_1,\qquad
+	\phi_2(x_3)=x_2,\qquad
+	\phi_3(x_4)=x_3,\dots
+	\]
+	
+	Thus the inverse limit is the set of all compatible approximations.
+	
+	\subsubsection*{Concrete example 1: \(2\)-adic integers}
+	
+	Take
+	\[
+	G_n=\mathbf Z/2^n\mathbf Z,
+	\]
+	with the natural reduction maps
+	\[
+	\mathbf Z/2^{n+1}\mathbf Z \to \mathbf Z/2^n\mathbf Z.
+	\]
+	
+	Then
+	\[
+	\varprojlim \mathbf Z/2^n\mathbf Z = \mathbf Z_2.
+	\]
+	
+	A compatible element looks like
+	\[
+	(1 \bmod 2,\ 3 \bmod 4,\ 7 \bmod 8,\ 15 \bmod 16,\dots),
+	\]
+	because
+	\[
+	3\equiv 1 \pmod 2,\qquad
+	7\equiv 3 \pmod 4,\qquad
+	15\equiv 7 \pmod 8,\dots
+	\]
+	
+	Diagrammatically:
+	\[
+	\begin{array}{cccccc}
+		1 \bmod 2 & \leftarrow & 3 \bmod 4 & \leftarrow & 7 \bmod 8 & \leftarrow \cdots \\
+		\downarrow & & \downarrow & & \downarrow \\
+		\mathbf Z/2\mathbf Z & \xleftarrow{} & \mathbf Z/4\mathbf Z & \xleftarrow{} & \mathbf Z/8\mathbf Z & \xleftarrow{}\cdots
+	\end{array}
+	\]
+	
+	\subsubsection*{Concrete example 2: formal power series}
+	
+	Take
+	\[
+	G_n=k[x]/(x^n),
+	\]
+	with the natural maps
+	\[
+	k[x]/(x^{n+1}) \to k[x]/(x^n).
+	\]
+	
+	Then
+	\[
+	\varprojlim k[x]/(x^n)=k[[x]].
+	\]
+	
+	A compatible element looks like
+	\[
+	(a_0,\ a_0+a_1x,\ a_0+a_1x+a_2x^2,\dots).
+	\]
+	
+	For example,
+	\[
+	1 \bmod (x),\qquad
+	1+x \bmod (x^2),\qquad
+	1+x+x^2 \bmod (x^3),\qquad \dots
+	\]
+	is compatible, and corresponds to the formal series
+	\[
+	1+x+x^2+x^3+\cdots.
+	\]
+	
+	\subsection*{3. Concrete picture: completion from a filtration}
+	
+	If
+	\[
+	G \supset G_1 \supset G_2 \supset G_3 \supset \cdots
+	\]
+	is a filtration, then there are natural quotient maps
+	\[
+	G/G_1 \xleftarrow{} G/G_2 \xleftarrow{} G/G_3 \xleftarrow{}\cdots.
+	\]
+	
+	This is an inverse system. Its inverse limit is
+	\[
+	\varprojlim G/G_n.
+	\]
+	
+	This inverse limit is the completion of \(G\) with respect to the filtration topology:
+	\[
+	\widehat G \cong \varprojlim G/G_n.
+	\]
+	
+	So the completion is obtained by remembering all compatible residue classes modulo the filtration terms.
+	
+	\subsubsection*{Concrete example 3: \(\mathbf Z\) with filtration \(2^n\mathbf Z\)}
+	
+	Take
+	\[
+	G=\mathbf Z,
+	\qquad
+	G_n=2^n\mathbf Z.
+	\]
+	Then
+	\[
+	\mathbf Z \supset 2\mathbf Z \supset 4\mathbf Z \supset 8\mathbf Z \supset \cdots.
+	\]
+	
+	The corresponding quotient system is
+	\[
+	\mathbf Z/2\mathbf Z
+	\xleftarrow{}
+	\mathbf Z/4\mathbf Z
+	\xleftarrow{}
+	\mathbf Z/8\mathbf Z
+	\xleftarrow{}\cdots.
+	\]
+	
+	Therefore
+	\[
+	\widehat{\mathbf Z} \cong \varprojlim \mathbf Z/2^n\mathbf Z = \mathbf Z_2.
+	\]
+	
+	\subsubsection*{Concrete example 4: \(k[x]\) with filtration \((x^n)\)}
+	
+	Take
+	\[
+	G=k[x],
+	\qquad
+	G_n=(x^n).
+	\]
+	Then
+	\[
+	k[x] \supset (x) \supset (x^2) \supset (x^3) \supset \cdots.
+	\]
+	
+	The quotient system is
+	\[
+	k[x]/(x)
+	\xleftarrow{}
+	k[x]/(x^2)
+	\xleftarrow{}
+	k[x]/(x^3)
+	\xleftarrow{}\cdots.
+	\]
+	
+	Hence
+	\[
+	\widehat{\,k[x]\,}\cong \varprojlim k[x]/(x^n)=k[[x]].
+	\]
+	
+	So formal power series are the completion of polynomials with respect to the \(x\)-adic filtration.
+	
+	\subsubsection*{Concrete example 5: module completion}
+	
+	Take
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A^2.
+	\]
+	Then the \(I\)-adic filtration on \(M\) is
+	\[
+	A^2 \supset xA^2 \supset x^2A^2 \supset x^3A^2 \supset \cdots.
+	\]
+	
+	The quotient system is
+	\[
+	A^2/xA^2 \xleftarrow{} A^2/x^2A^2 \xleftarrow{} A^2/x^3A^2 \xleftarrow{}\cdots.
+	\]
+	
+	Since
+	\[
+	A^2/x^nA^2 \cong (k[x]/(x^n))^2,
+	\]
+	the inverse limit is
+	\[
+	\widehat M \cong k[[x]]^2.
+	\]
+	
+	Thus completion of a free module gives a free module over the completed ring.
+	
+	\subsection*{4. One-line conceptual summary}
+	
+	A filtration gives a tower of quotients
+	\[
+	G/G_1,\qquad G/G_2,\qquad G/G_3,\dots
+	\]
+	and the inverse limit glues all these approximations together.
+	
+	So:
+	\[
+	\boxed{
+		\text{completion}=
+		\text{the object containing all compatible approximations at once}.
+	}
+	\]
+	
+	The standard concrete models are
+	\[
+	\mathbf Z_2=\varprojlim \mathbf Z/2^n\mathbf Z,
+	\qquad
+	k[[x]]=\varprojlim k[x]/(x^n),
+	\qquad
+	\widehat M=\varprojlim M/I^nM.
+	\]
+	
+	\section*{Exactness: definition, deep examples, and applications to inverse limits and completion}
+	
+	\subsection*{1. Definition of exactness}
+	
+	Let
+	\[
+	\cdots \longrightarrow A_{i-1}\xrightarrow{f_{i-1}} A_i \xrightarrow{f_i} A_{i+1}\longrightarrow \cdots
+	\]
+	be a sequence of groups, abelian groups, modules, or vector spaces.
+	
+	The sequence is \emph{exact at \(A_i\)} if
+	\[
+	\operatorname{Im}(f_{i-1})=\ker(f_i).
+	\]
+	
+	This means that everything coming from the left is exactly what dies on the right.
+	
+	\subsection*{2. Short exact sequences}
+	
+	A sequence
+	\[
+	0\to A\xrightarrow{u} B\xrightarrow{v} C\to 0
+	\]
+	is called \emph{short exact} if it is exact everywhere.
+	
+	This means:
+	\begin{itemize}
+		\item \(\ker(u)=0\), so \(u\) is injective;
+		\item \(\operatorname{Im}(u)=\ker(v)\);
+		\item \(\operatorname{Im}(v)=C\), so \(v\) is surjective.
+	\end{itemize}
+	
+	Thus \(A\) sits inside \(B\), and \(C\cong B/A\).
+	
+	\subsection*{3. Deep intuition}
+	
+	The equality
+	\[
+	\operatorname{Im}(f)=\ker(g)
+	\]
+	means that what enters at the middle object from the left is exactly what is annihilated when passing to the right. Exactness is therefore the algebraic condition of perfect information flow at the middle term.
+	
+	\subsection*{4. Number example: multiples and residue classes}
+	
+	Consider
+	\[
+	0\to 2\mathbf Z \xrightarrow{\iota} \mathbf Z \xrightarrow{\pi} \mathbf Z/2\mathbf Z \to 0,
+	\]
+	where \(\iota\) is inclusion and \(\pi(n)=n\bmod 2\).
+	
+	We have:
+	\[
+	\ker(\iota)=0,
+	\qquad
+	\operatorname{Im}(\iota)=2\mathbf Z,
+	\qquad
+	\ker(\pi)=2\mathbf Z,
+	\qquad
+	\operatorname{Im}(\pi)=\mathbf Z/2\mathbf Z.
+	\]
+	Hence the sequence is exact.
+	
+	\subsection*{5. Number example that is not exact}
+	
+	Consider
+	\[
+	0\to 4\mathbf Z \to \mathbf Z \to \mathbf Z/2\mathbf Z \to 0.
+	\]
+	At \(\mathbf Z\), the image of \(4\mathbf Z\to \mathbf Z\) is \(4\mathbf Z\), whereas the kernel of \(\mathbf Z\to \mathbf Z/2\mathbf Z\) is \(2\mathbf Z\). Since
+	\[
+	4\mathbf Z\neq 2\mathbf Z,
+	\]
+	the sequence is not exact.
+	
+	\subsection*{6. Polynomial example: evaluation at a point}
+	
+	Consider
+	\[
+	0\to (x)\to k[x]\xrightarrow{\operatorname{ev}_0} k\to 0,
+	\]
+	where \(\operatorname{ev}_0(f)=f(0)\).
+	
+	The kernel of evaluation at \(0\) is exactly
+	\[
+	\ker(\operatorname{ev}_0)=(x),
+	\]
+	and the map is surjective. Thus the sequence is exact.
+	
+	\subsection*{7. Polynomial example: quotient by \((x^n)\)}
+	
+	For every \(n\ge 1\),
+	\[
+	0\to (x^n)\to k[x]\to k[x]/(x^n)\to 0
+	\]
+	is exact.
+	
+	This says that modding out by \((x^n)\) means forgetting all terms of degree at least \(n\).
+	
+	\subsection*{8. Module example: quotient module}
+	
+	If \(N\subseteq M\) is a submodule, then
+	\[
+	0\to N\to M\to M/N\to 0
+	\]
+	is exact.
+	
+	This is the universal model of a short exact sequence of modules.
+	
+	\subsection*{9. Module example: multiplication by \(x\)}
+	
+	Let \(A=k[x]\). Then
+	\[
+	0\to A\xrightarrow{\cdot x} A\to A/(x)\to 0
+	\]
+	is exact.
+	
+	Indeed, multiplication by \(x\) is injective in the domain \(k[x]\), and its image is \((x)\), which is the kernel of the quotient map.
+	
+	\subsection*{10. Exact sequence of inverse systems}
+	
+	Suppose that for each \(n\) we have a short exact sequence
+	\[
+	0\to A_n\to B_n\to C_n\to 0
+	\]
+	and these fit together into inverse systems.
+	
+	Then one obtains
+	\[
+	0\to \varprojlim A_n \to \varprojlim B_n \to \varprojlim C_n.
+	\]
+	
+	A fundamental theorem says this sequence is always exact. This is called the \emph{left exactness of inverse limit}.
+	
+	\subsection*{11. Why inverse limit need not be fully exact}
+	
+	The problem is surjectivity on the right. If
+	\[
+	(c_n)\in \varprojlim C_n,
+	\]
+	each \(c_n\) has some lift \(b_n\in B_n\), but the lifts need not be compatible. Thus one may fail to obtain an element of \(\varprojlim B_n\).
+	
+	Hence
+	\[
+	\boxed{\varprojlim \text{ is left exact, but not always exact.}}
+	\]
+	
+	\subsection*{12. Exactness for polynomial truncations}
+	
+	For each \(n\),
+	\[
+	0\to (x)/(x^n)\to k[x]/(x^n)\to k\to 0
+	\]
+	is exact.
+	
+	Passing to inverse limits gives
+	\[
+	0\to xk[[x]]\to k[[x]]\to k.
+	\]
+	
+	This is the completed exact sequence associated with truncations of polynomials.
+	
+	\subsection*{13. Exactness for numbers: the \(p\)-adic example}
+	
+	For each \(n\),
+	\[
+	0\to p\mathbf Z/p^n\mathbf Z \to \mathbf Z/p^n\mathbf Z \to \mathbf Z/p\mathbf Z \to 0
+	\]
+	is exact.
+	
+	Passing to inverse limits gives
+	\[
+	0\to p\mathbf Z_p \to \mathbf Z_p \to \mathbf Z/p\mathbf Z \to 0.
+	\]
+	
+	This is the \(p\)-adic analogue of
+	\[
+	0\to xk[[x]]\to k[[x]]\to k\to 0.
+	\]
+	
+	\subsection*{14. Exactness for modules after completion}
+	
+	Let \(A\) be Noetherian and
+	\[
+	0\to M_1\to M_2\to M_3\to 0
+	\]
+	a short exact sequence of finitely generated \(A\)-modules.
+	
+	Then completion preserves exactness:
+	\[
+	0\to \widehat{M_1}\to \widehat{M_2}\to \widehat{M_3}\to 0.
+	\]
+	
+	This is one of the central facts of completion theory.
+	
+	\subsection*{15. Concrete module example in our context}
+	
+	Take
+	\[
+	A=k[x],\qquad I=(x),
+	\]
+	and the exact sequence
+	\[
+	0\to (x)\to A\to A/(x)\to 0.
+	\]
+	
+	After \(x\)-adic completion:
+	\[
+	\widehat A = k[[x]],
+	\qquad
+	\widehat{(x)} = xk[[x]],
+	\qquad
+	\widehat{A/(x)} = k.
+	\]
+	So the completed sequence is
+	\[
+	0\to xk[[x]]\to k[[x]]\to k\to 0.
+	\]
+	
+	\subsection*{16. Another concrete module example}
+	
+	Take
+	\[
+	A=k[x],\qquad I=(x),
+	\qquad
+	0\to A\xrightarrow{\cdot x} A\to A/(x)\to 0.
+	\]
+	
+	After completion one gets
+	\[
+	0\to k[[x]]\xrightarrow{\cdot x} k[[x]]\to k\to 0,
+	\]
+	which is again exact.
+	
+	\subsection*{17. Final conceptual summary}
+	
+	Exactness means
+	\[
+	\operatorname{Im}=\ker.
+	\]
+	
+	The most important concrete exact sequences are:
+	\[
+	0\to 2\mathbf Z\to \mathbf Z\to \mathbf Z/2\mathbf Z\to 0,
+	\]
+	\[
+	0\to (x)\to k[x]\to k\to 0,
+	\]
+	\[
+	0\to N\to M\to M/N\to 0,
+	\]
+	\[
+	0\to xk[[x]]\to k[[x]]\to k\to 0,
+	\]
+	and
+	\[
+	0\to p\mathbf Z_p\to \mathbf Z_p\to \mathbf Z/p\mathbf Z\to 0.
+	\]
+	
+	The key abstract principles are:
+	\[
+	\boxed{\varprojlim \text{ is left exact}}
+	\]
+	and, in the Noetherian completion setting,
+	\[
+	\boxed{0\to \widehat{M_1}\to \widehat{M_2}\to \widehat{M_3}\to 0.}
+	\]
+	
+	\section*{Completion: definition and examples}
+	
+	\subsection*{1. Basic idea}
+	
+	Completion means taking finer and finer approximations and then keeping all compatible approximations at once.
+	
+	Instead of working with just one quotient such as
+	\[
+	A/I^n,
+	\]
+	we keep the whole tower
+	\[
+	A/I \xleftarrow{} A/I^2 \xleftarrow{} A/I^3 \xleftarrow{}\cdots
+	\]
+	and define the completion as the inverse limit.
+	
+	\subsection*{2. Completion of a filtered group}
+	
+	Let \(G\) be an abelian group with a filtration
+	\[
+	G \supset G_1 \supset G_2 \supset G_3 \supset \cdots.
+	\]
+	
+	The corresponding completion is
+	\[
+	\widehat G := \varprojlim G/G_n.
+	\]
+	
+	Thus an element of \(\widehat G\) is a compatible family
+	\[
+	(x_1,x_2,x_3,\dots),
+	\qquad
+	x_n\in G/G_n,
+	\]
+	such that each \(x_{n+1}\) reduces to \(x_n\).
+	
+	There is a canonical map
+	\[
+	G\to \widehat G,
+	\qquad
+	g\mapsto (g \bmod G_1,\ g\bmod G_2,\ g\bmod G_3,\dots).
+	\]
+	
+	Its kernel is
+	\[
+	\ker(G\to \widehat G)=\bigcap_{n\ge1} G_n.
+	\]
+	
+	\subsection*{3. \(I\)-adic completion of a ring}
+	
+	Let \(A\) be a ring and \(I\subseteq A\) an ideal. Then the \(I\)-adic filtration is
+	\[
+	A \supset I \supset I^2 \supset I^3 \supset \cdots.
+	\]
+	
+	The \(I\)-adic completion of \(A\) is
+	\[
+	\widehat A := \varprojlim A/I^n.
+	\]
+	
+	An element of \(\widehat A\) is a compatible system
+	\[
+	(a_1,a_2,a_3,\dots),
+	\qquad
+	a_n\in A/I^n,
+	\]
+	such that \(a_{n+1}\) reduces to \(a_n\).
+	
+	There is a canonical homomorphism
+	\[
+	A\to \widehat A,
+	\qquad
+	a\mapsto (a\bmod I^n)_n,
+	\]
+	whose kernel is
+	\[
+	\bigcap_{n\ge0} I^n.
+	\]
+	
+	\subsection*{4. Completion of a module}
+	
+	Let \(M\) be an \(A\)-module and \(I\subseteq A\) an ideal. Then the \(I\)-adic filtration on \(M\) is
+	\[
+	M \supset IM \supset I^2M \supset I^3M \supset \cdots.
+	\]
+	
+	The completion of \(M\) is
+	\[
+	\widehat M := \varprojlim M/I^nM.
+	\]
+	
+	The canonical map is
+	\[
+	M\to \widehat M,
+	\qquad
+	m\mapsto (m\bmod I^nM)_n,
+	\]
+	with kernel
+	\[
+	\bigcap_{n\ge0} I^nM.
+	\]
+	
+	\subsection*{5. Example: \(\mathbf Z_p\)}
+	
+	Take
+	\[
+	A=\mathbf Z,\qquad I=(p).
+	\]
+	Then
+	\[
+	\widehat A=\varprojlim \mathbf Z/p^n\mathbf Z = \mathbf Z_p.
+	\]
+	
+	Thus \(\mathbf Z_p\) is the completion of \(\mathbf Z\) with respect to the powers of \(p\).
+	
+	Equivalently, elements of \(\mathbf Z_p\) can be written formally as
+	\[
+	a_0+a_1p+a_2p^2+\cdots,
+	\qquad a_i\in \{0,1,\dots,p-1\}.
+	\]
+	
+	\subsection*{6. Example: \(k[[x]]\)}
+	
+	Take
+	\[
+	A=k[x],\qquad I=(x).
+	\]
+	Then
+	\[
+	\widehat A=\varprojlim k[x]/(x^n)=k[[x]].
+	\]
+	
+	Each quotient \(k[x]/(x^n)\) remembers only a truncated polynomial
+	\[
+	a_0+a_1x+\cdots+a_{n-1}x^{n-1}.
+	\]
+	A compatible family of such truncations is exactly a formal power series
+	\[
+	a_0+a_1x+a_2x^2+\cdots.
+	\]
+	
+	\subsection*{7. Example: multivariable formal power series}
+	
+	Take
+	\[
+	A=k[x_1,\dots,x_m],\qquad I=(x_1,\dots,x_m).
+	\]
+	Then
+	\[
+	\widehat A=\varprojlim A/I^n = k[[x_1,\dots,x_m]].
+	\]
+	
+	At each stage \(A/I^n\), only monomials of total degree \(<n\) survive. Therefore the inverse limit consists of all compatible truncations, i.e. all formal power series in several variables.
+	
+	\subsection*{8. Example: module completion}
+	
+	Let
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A^2.
+	\]
+	Then
+	\[
+	M/I^nM \cong (k[x]/(x^n))^2,
+	\]
+	so
+	\[
+	\widehat M \cong \varprojlim (k[x]/(x^n))^2 \cong k[[x]]^2.
+	\]
+	
+	Thus completion of a free module gives a free module over the completed ring.
+	
+	\subsection*{9. Example: a module already complete}
+	
+	Let
+	\[
+	A=k[x],\qquad I=(x),\qquad M=A/(x^2).
+	\]
+	Then
+	\[
+	IM=xM,\qquad I^2M=0.
+	\]
+	So for every \(n\ge2\),
+	\[
+	M/I^nM=M.
+	\]
+	Hence the inverse system stabilizes and
+	\[
+	\widehat M\cong M.
+	\]
+	
+	\subsection*{10. Separated and complete}
+	
+	A module \(M\) is called:
+	\begin{itemize}
+		\item \emph{separated} if
+		\[
+		\bigcap_{n\ge0} I^nM=0;
+		\]
+		\item \emph{complete} if the canonical map
+		\[
+		M\to \widehat M
+		\]
+		is an isomorphism.
+	\end{itemize}
+	
+	So separated means no nonzero element becomes infinitely small, while complete means that every compatible approximation comes from an actual element.
+	
+	\subsection*{11. Final summary}
+	
+	The most important models are
+	\[
+	\widehat A=\varprojlim A/I^n,
+	\qquad
+	\widehat M=\varprojlim M/I^nM,
+	\]
+	with examples
+	\[
+	\mathbf Z_p=\varprojlim \mathbf Z/p^n\mathbf Z,
+	\qquad
+	k[[x]]=\varprojlim k[x]/(x^n),
+	\qquad
+	k[[x_1,\dots,x_m]]
+	=
+	\varprojlim k[x_1,\dots,x_m]/(x_1,\dots,x_m)^n.
+	\]
+	
+	Thus
+	\[
+	\boxed{
+		\text{completion}=
+		\text{all compatible finite-level approximations glued together}.
+	}
+	\]
+	
+	\section*{How to understand \(k[[x]]\)}
+	
+	\subsection*{1. First definition: infinite formal polynomials}
+	
+	The ring \(k[[x]]\) is the ring of all expressions
+	\[
+	a_0+a_1x+a_2x^2+a_3x^3+\cdots
+	\qquad (a_i\in k),
+	\]
+	where \(k\) is a field (or more generally a ring).
+	
+	Thus an element of \(k[[x]]\) is an infinite power series. The key word is \emph{formal}: we do not ask whether the series converges for any numerical value of \(x\). The symbol \(x\) is just an indeterminate.
+	
+	\subsection*{2. Why ``formal'' matters}
+	
+	In analysis, a series such as
+	\[
+	1+x+x^2+x^3+\cdots
+	\]
+	raises the question of convergence. In \(k[[x]]\), no convergence question is asked. The series is simply a valid element of the ring.
+	
+	Moreover, it satisfies
+	\[
+	(1-x)(1+x+x^2+x^3+\cdots)=1,
+	\]
+	so in \(k[[x]]\),
+	\[
+	\frac{1}{1-x}=1+x+x^2+x^3+\cdots.
+	\]
+	
+	This identity is understood purely formally.
+	
+	\subsection*{3. Addition and multiplication}
+	
+	If
+	\[
+	f(x)=\sum_{n\ge 0} a_nx^n,
+	\qquad
+	g(x)=\sum_{n\ge 0} b_nx^n,
+	\]
+	then addition is termwise:
+	\[
+	f(x)+g(x)=\sum_{n\ge 0}(a_n+b_n)x^n.
+	\]
+	
+	Multiplication is given by the Cauchy product:
+	\[
+	f(x)g(x)=\sum_{n\ge 0}\left(\sum_{i+j=n} a_ib_j\right)x^n.
+	\]
+	
+	This is well-defined because for each fixed \(n\), only finitely many pairs \((i,j)\) satisfy \(i+j=n\).
+	
+	\subsection*{4. Relation with \(k[x]\)}
+	
+	Every polynomial is also a formal power series:
+	\[
+	a_0+a_1x+\cdots+a_mx^m
+	=
+	a_0+a_1x+\cdots+a_mx^m+0x^{m+1}+0x^{m+2}+\cdots.
+	\]
+	So
+	\[
+	k[x]\subseteq k[[x]].
+	\]
+	
+	The difference is:
+	\begin{itemize}
+		\item in \(k[x]\), only finitely many coefficients are nonzero;
+		\item in \(k[[x]]\), infinitely many coefficients may be nonzero.
+	\end{itemize}
+	
+	\subsection*{5. \(k[[x]]\) as a completion}
+	
+	One of the most important viewpoints is
+	\[
+	k[[x]]=\varprojlim k[x]/(x^n).
+	\]
+	
+	Indeed, the quotients
+	\[
+	k[x]/(x),\qquad k[x]/(x^2),\qquad k[x]/(x^3),\dots
+	\]
+	record longer and longer truncations of a polynomial or formal series:
+	\begin{itemize}
+		\item modulo \((x)\): only the constant term survives;
+		\item modulo \((x^2)\): constant and linear terms survive;
+		\item modulo \((x^3)\): constant, linear, and quadratic terms survive;
+		\item etc.
+	\end{itemize}
+	
+	Thus a formal power series may be understood as a compatible family of all its truncations.
+	
+	For example,
+	\[
+	1,\qquad
+	1+x,\qquad
+	1+x+x^2,\qquad
+	1+x+x^2+x^3,\dots
+	\]
+	determines the formal series
+	\[
+	1+x+x^2+x^3+\cdots.
+	\]
+	
+	\subsection*{6. Local viewpoint}
+	
+	Another useful interpretation is that \(k[[x]]\) describes formal local behavior near the point \(x=0\).
+	
+	The ideal
+	\[
+	(x)
+	\]
+	consists of functions vanishing at \(0\), and the powers
+	\[
+	(x),\ (x^2),\ (x^3),\dots
+	\]
+	measure higher and higher order vanishing. Thus \(k[[x]]\) records all infinitesimal information near \(0\).
+	
+	So one may think of \(k[[x]]\) as the formal local ring at the origin.
+	
+	\subsection*{7. Order of a series}
+	
+	If
+	\[
+	f(x)=a_0+a_1x+a_2x^2+\cdots \neq 0,
+	\]
+	the \emph{order} of \(f\) is the smallest integer \(n\) such that \(a_n\neq 0\).
+	
+	For example:
+	\[
+	1+x+x^2+\cdots \text{ has order }0,
+	\]
+	\[
+	x+x^2+x^3+\cdots \text{ has order }1,
+	\]
+	\[
+	x^5+2x^9+\cdots \text{ has order }5.
+	\]
+	
+	Every nonzero series can be written uniquely as
+	\[
+	f(x)=x^m u(x),
+	\]
+	where \(m\ge 0\) and \(u(x)\) has nonzero constant term.
+	
+	\subsection*{8. Units in \(k[[x]]\)}
+	
+	A series
+	\[
+	f(x)=a_0+a_1x+a_2x^2+\cdots
+	\]
+	is invertible in \(k[[x]]\) if and only if
+	\[
+	a_0\neq 0.
+	\]
+	
+	Thus the nonunits are exactly the series divisible by \(x\), i.e. the ideal
+	\[
+	(x).
+	\]
+	So \(k[[x]]\) is a local ring with unique maximal ideal \((x)\).
+	
+	\subsection*{9. Comparison with other rings}
+	
+	It is useful to distinguish:
+	\[
+	k[x] \subset k[[x]],
+	\]
+	where \(k[x]\) consists of finite sums and \(k[[x]]\) allows infinite formal sums.
+	
+	This is different from:
+	\begin{itemize}
+		\item the rational function field \(k(x)\), consisting of fractions of polynomials;
+		\item convergent analytic power series, where one imposes numerical convergence.
+	\end{itemize}
+	
+	Formal power series belong to algebra, not analysis.
+	
+	\subsection*{10. Typical examples}
+	
+	Typical elements of \(k[[x]]\) include:
+	\[
+	1+x+x^2+x^3+\cdots,
+	\]
+	\[
+	1-x+x^2-x^3+\cdots,
+	\]
+	\[
+	x^3+7x^{10}+5x^{100}+\cdots.
+	\]
+	
+	When the coefficients make sense in \(k\), one may also form binomial expansions such as
+	\[
+	(1+x)^{1/2}=1+\frac12x-\frac18x^2+\frac1{16}x^3-\cdots.
+	\]
+	
+	\subsection*{11. Final summary}
+	
+	The best three ways to think about \(k[[x]]\) are:
+	
+	\begin{enumerate}
+		\item as the ring of infinite formal polynomials
+		\[
+		a_0+a_1x+a_2x^2+\cdots;
+		\]
+		
+		\item as the inverse limit
+		\[
+		k[[x]]=\varprojlim k[x]/(x^n),
+		\]
+		that is, the ring of compatible truncations;
+		
+		\item as the formal local ring at \(x=0\), recording all infinitesimal information near the origin.
+	\end{enumerate}
+	
+	So the central identity to remember is
+	\[
+	\boxed{
+		k[[x]]
+		=
+		\text{the ring of formal power series in }x
+		=
+		\varprojlim k[x]/(x^n).
+	}
+	\]
+	
+\end{document}
+

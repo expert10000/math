@@ -1,0 +1,443 @@
+\documentclass[11pt]{article}
+\usepackage[a4paper,margin=1.8cm]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{float}
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows.meta,angles,quotes,intersections}
+
+% ---------- Styles ----------
+\tikzset{
+  axis/.style={->, line width=0.9pt},
+  thinaxis/.style={line width=0.8pt},
+  vec/.style={-{Stealth[length=3.2mm]}, line width=1.1pt},
+  dashedhelp/.style={dashed, line width=0.95pt},
+  point/.style={circle, fill=black, inner sep=1.2pt},
+  label/.style={font=\small},
+}
+
+\begin{document}
+
+\section*{Vector diagrams for Problems 1--13 (TikZ)}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=0.95]
+  % axes
+  \draw[axis] (-1.1,0) -- (5.2,0) node[below right,label]{Re};
+  \draw[axis] (0,-2.2) -- (0,4.2) node[above left,label]{Im};
+
+  % key points
+  \coordinate (C) at (1,1);      % center 1+i
+  \coordinate (P3) at (3,0);     % point 3
+
+  % disk |z-(1+i)|<1
+  \draw[line width=1.05pt] (C) circle (1);
+  \node[point] at (C) {};
+  \node[label] at ($(C)+(0.65,0.35)$) {center $1+i$};
+
+  % annulus circles around 3 with radii sqrt(5)±1
+  \pgfmathsetmacro{\R}{sqrt(5)}
+  \draw[dashedhelp] (P3) circle ({\R-1});
+  \draw[dashedhelp] (P3) circle ({\R+1});
+
+  \node[point] at (P3) {};
+  \node[label] at ($(P3)+(0.25,0.28)$) {$3$};
+
+  % segment between centers
+  \draw[thinaxis] (C) -- (P3);
+  \node[label] at ($(C)!0.55!(P3)+(0,0.35)$) {$|3-(1+i)|=\sqrt{5}$};
+
+  % radius labels
+  \node[label] at ($(P3)+(\R+1,0.25)$) {$\sqrt{5}+1$};
+  \node[label] at ($(P3)+(\R-1,-0.35)$) {$\sqrt{5}-1$};
+
+  \node[label] at (2.1,3.7) {Problem 1: if $|z-(1+i)|<1$ then $\sqrt{5}-1<|z-3|<\sqrt{5}+1$.};
+\end{tikzpicture}
+\caption{Problem 1: disk and distance bounds shown as an annulus around $3$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.15]
+  % axes
+  \draw[axis] (-1.6,0) -- (2.55,0) node[below right,label]{Re};
+  \draw[axis] (0,-1.8) -- (0,1.85) node[above left,label]{Im};
+
+  % unit circle
+  \draw[line width=1.05pt] (0,0) circle (1);
+
+  % choose an illustrative angle theta = 60 degrees
+  \pgfmathsetmacro{\th}{60}
+  \coordinate (Z) at ({cos(\th)},{sin(\th)});
+  \coordinate (Zb) at ({cos(\th)},{-sin(\th)});
+  \coordinate (ONE) at (1,0);
+  \coordinate (PZ) at ($(ONE)+(Z)$);
+  \coordinate (MZB) at ($(ONE)-(Zb)$);
+
+  % points and vectors
+  \node[point] at (Z) {};
+  \node[label] at ($(Z)+(0.15,0.10)$) {$z$};
+  \node[point] at (Zb) {};
+  \node[label] at ($(Zb)+(0.15,-0.15)$) {$\bar z$};
+  \node[point] at (ONE) {};
+  \node[label] at ($(ONE)+(0.12,0.12)$) {$1$};
+
+  \node[point] at (PZ) {};
+  \node[label] at ($(PZ)+(0.12,0.12)$) {$1+z$};
+  \node[point] at (MZB) {};
+  \node[label] at ($(MZB)+(0.12,-0.18)$) {$1-\bar z$};
+
+  \draw[vec] (0,0) -- (Z);
+  \draw[vec] (0,0) -- (PZ);
+  \draw[vec] (0,0) -- (MZB);
+
+  % angle theta
+  \draw pic["$\theta$", draw, angle radius=10mm, angle eccentricity=1.25]
+    {angle = ONE--(0,0)--Z};
+
+  \node[label] at (1.35,1.55) {Problem 2(a): modulus-argument pictures for $1+z$ and $1-\bar z$.};
+\end{tikzpicture}
+\caption{Problem 2(a): unit-circle geometry for $z$, $1+z$, and $1-\bar z$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[axis] (-2.4,0) -- (2.45,0) node[below right,label]{$u=\Re(w)$};
+  \draw[axis] (0,-2.4) -- (0,2.45) node[above left,label]{$v=\Im(w)$};
+  \draw[line width=1.15pt] (-2.2,-2.2) -- (2.2,2.2);
+  \draw[line width=1.15pt] (-2.2,2.2) -- (2.2,-2.2);
+  \node[label] at (1.55,1.15) {$v=u$};
+  \node[label] at (1.55,-1.15) {$v=-u$};
+  \node[label] at (-2.25,2.05) {Problem 2(b): $w^2\in i\mathbb R\Rightarrow w$ lies on two lines.};
+\end{tikzpicture}
+\caption{Problem 2(b): locus of $w$ is the pair of lines $v=\pm u$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.1]
+  \draw[axis] (-0.9,0) -- (3.2,0) node[below right,label]{Re};
+  \draw[axis] (0,-0.7) -- (0,3.8) node[above left,label]{Im};
+
+  \coordinate (O) at (0,0);
+  \coordinate (Z1) at (2,1);
+  \coordinate (Z2) at (1.2,3);
+
+  \draw[line width=1.1pt] (O) -- (Z1) -- (Z2) -- cycle;
+
+  \node[point] at (O) {};  \node[label] at ($(O)+(0.12,0.12)$) {$0$};
+  \node[point] at (Z1) {}; \node[label] at ($(Z1)+(0.15,0.10)$) {$z_1$};
+  \node[point] at (Z2) {}; \node[label] at ($(Z2)+(0.15,0.10)$) {$z_2$};
+
+  \coordinate (M1) at ($(O)!0.5!(Z2)$);
+  \coordinate (M2) at ($(O)!0.5!(Z1)$);
+  \coordinate (M0) at ($(Z1)!0.5!(Z2)$);
+  \coordinate (G)  at ({(0+2+1.2)/3},{(0+1+3)/3}); % centroid
+
+  \draw[dashedhelp] (Z1) -- (M1);
+  \draw[dashedhelp] (Z2) -- (M2);
+  \draw[dashedhelp] (O)  -- (M0);
+
+  \node[point] at (G) {};
+  \node[label] at ($(G)+(0.15,0.15)$) {$G$};
+
+  \node[label] at (0.25,3.55) {Problem 3: medians concur at the centroid $G=(z_1+z_2)/3$.};
+\end{tikzpicture}
+\caption{Problem 3: medians and centroid for the triangle with vertices $0,z_1,z_2$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.6]
+  \draw[axis] (-1.35,0) -- (1.45,0) node[below right,label]{Re};
+  \draw[axis] (0,-1.35) -- (0,1.45) node[above left,label]{Im};
+  \draw[line width=1.05pt] (0,0) circle (1);
+
+  \foreach \k/\deg in {0/0,1/72,2/144,3/216,4/288}{
+    \coordinate (W\k) at ({cos(\deg)},{sin(\deg)});
+    \node[point] at (W\k) {};
+    \node[label] at ($(W\k)*1.12$) {\ifnum\k=0 $1$ \else $\omega^{\k}$ \fi};
+  }
+
+  \draw[dashedhelp] (W1) -- (W4);
+  \draw[dashedhelp] (W2) -- (W3);
+
+  \node[label] at (-1.25,-1.15) {Problem 4: conjugate pairs $(\omega,\omega^4)$ and $(\omega^2,\omega^3)$.};
+\end{tikzpicture}
+\caption{Problem 4: the 5th roots of unity on the unit circle, with conjugate pairings.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=0.9]
+  \draw[axis] (-1.2,0) -- (8.5,0) node[below right,label]{Re$(z)$};
+  \draw[axis] (0,-2.5) -- (0,2.5) node[above left,label]{Im$(z)$};
+
+  \pgfmathsetmacro{\y}{ln(2+sqrt(3))}
+  \draw[dashedhelp] (-1,\y) -- (8.2,\y);
+  \draw[dashedhelp] (-1,-\y) -- (8.2,-\y);
+  \node[label] at (8.25,\y) {$+\ln(2+\sqrt{3})$};
+  \node[label] at (8.25,-\y) {$-\ln(2+\sqrt{3})$};
+
+  % show two sample solutions within the window: n=0 and n=1
+  \pgfmathsetmacro{\xA}{pi/2}
+  \pgfmathsetmacro{\xB}{pi/2 + 2*pi}
+  \node[point] at (\xA,\y) {}; \node[point] at (\xA,-\y) {};
+  \node[point] at (\xB,\y) {}; \node[point] at (\xB,-\y) {};
+
+  \node[label] at (0.2,2.05) {Problem 5: $z=\frac{\pi}{2}+2\pi n \pm i\ln(2+\sqrt{3})$.};
+\end{tikzpicture}
+\caption{Problem 5: solutions of $\sin z=2$ lie on two horizontal lines in the complex plane.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=0.9]
+  \draw[axis] (-4.3,0) -- (2.8,0) node[below right,label]{Re};
+  \draw[axis] (0,-2.8) -- (0,2.8) node[above left,label]{Im};
+
+  % Example parameters: p=1, lambda=2, mu=0.6
+  \pgfmathsetmacro{\p}{1}
+  \pgfmathsetmacro{\lam}{2}
+  \pgfmathsetmacro{\mu}{0.6}
+  \pgfmathsetmacro{\cl}{\p*(1+\lam*\lam)/(1-\lam*\lam)}   % center (real)
+  \pgfmathsetmacro{\rl}{2*\lam*abs(\p)/abs(1-\lam*\lam)}  % radius
+  \pgfmathsetmacro{\rs}{sqrt(\p*\p+\mu*\mu)}              % radius S_mu
+
+  \coordinate (A) at (\p,0);
+  \coordinate (B) at (-\p,0);
+  \coordinate (C1) at (\cl,0);
+  \coordinate (C2) at (0,\mu);
+
+  \draw[line width=1.05pt] (C1) circle (\rl);
+  \draw[dashedhelp] (C2) circle (\rs);
+
+  \node[point] at (A) {}; \node[label] at ($(A)+(0.15,0.15)$) {$A=p$};
+  \node[point] at (B) {}; \node[label] at ($(B)+(-0.55,0.15)$) {$B=-p$};
+  \node[point] at (C1) {}; \node[label] at ($(C1)+(0.15,0.15)$) {$c_\lambda$};
+  \node[point] at (C2) {}; \node[label] at ($(C2)+(0.15,0.15)$) {$i\mu$};
+
+  \node[label] at (-4.15,2.45) {Problem 6: example $p=1$, $\lambda=2$, $\mu=0.6$ (circles meet orthogonally).};
+\end{tikzpicture}
+\caption{Problem 6: example of $C_\lambda$ and $S_\mu$ (orthogonal intersection).}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=0.95]
+  \draw[axis] (-1.8,0) -- (3.5,0) node[below right,label]{x};
+  \draw[axis] (0,-0.8) -- (0,3.7) node[above left,label]{y};
+
+  \coordinate (A) at (0.5,2.8);
+  \coordinate (B) at (-0.8,0.2);
+  \coordinate (C) at (2.4,0.4);
+
+  \draw[line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \node[point] at (A) {}; \node[label] at ($(A)+(0.12,0.12)$) {A};
+  \node[point] at (B) {}; \node[label] at ($(B)+(-0.22,-0.18)$) {B};
+  \node[point] at (C) {}; \node[label] at ($(C)+(0.12,-0.18)$) {C};
+
+  % Direction vectors (perpendiculars to opposite sides)
+  \coordinate (dA) at (-0.2,3.2);   % perp to BC (BC = (3.2,0.2))
+  \coordinate (dB) at (2.4,-1.9);   % perp to AC (AC = (1.9,-2.4))
+
+  % Name paths for intersection
+  \path[name path=altA] (A) -- ($(A)+1.4*(dA)$);
+  \path[name path=altB] (B) -- ($(B)+1.4*(dB)$);
+  \path[name intersections={of=altA and altB, by=H}];
+
+  \draw[dashedhelp] (A) -- ($(A)+1.4*(dA)$);
+  \draw[dashedhelp] (B) -- ($(B)+1.4*(dB)$);
+
+  % third altitude through C perpendicular to AB (AB=( -1.3,-2.6), perp=(2.6,-1.3))
+  \coordinate (dC) at (2.6,-1.3);
+  \draw[dashedhelp] (C) -- ($(C)+1.4*(dC)$);
+
+  \node[point] at (H) {};
+  \node[label] at ($(H)+(0.12,0.12)$) {H};
+
+  \node[label] at (-1.65,3.45) {Problem 7: altitudes concur at the orthocenter $H$.};
+\end{tikzpicture}
+\caption{Problem 7: triangle altitudes meeting at the orthocenter.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[axis] (-0.6,0) -- (4.6,0) node[below right,label]{x};
+  \draw[axis] (0,-0.6) -- (0,3.6) node[above left,label]{y};
+
+  \coordinate (O) at (0,0);
+  \coordinate (X) at (2.6,0.8);
+  \coordinate (Y) at (0.9,2.0);
+
+  % choose t (schematic)
+  \pgfmathsetmacro{\t}{0.65}
+  \coordinate (TY) at ({\t*0.9},{\t*2.0});
+  \coordinate (A) at ($(X)+(TY)$);
+
+  \draw[vec] (O) -- (X); \node[label] at ($(X)+(0.12,0.05)$) {$x$};
+  \draw[vec] (O) -- (Y); \node[label] at ($(Y)+(0.12,0.05)$) {$y$};
+  \draw[vec] (X) -- (A); \node[label] at ($(A)+(0.12,0.05)$) {$(x\cdot y)\,y$};
+  \draw[vec] (O) -- (A); \node[label] at ($(A)+(0.12,0.05)$) {$a$};
+
+  \node[label] at (0.15,3.35) {Problem 8: $a=x+(x\cdot y)\,y$ (schematic).};
+\end{tikzpicture}
+\caption{Problem 8: schematic vector addition for $a=x+(x\cdot y)\,y$.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[axis] (-0.9,0) -- (4.2,0) node[below right,label]{x};
+  \draw[axis] (0,-0.9) -- (0,3.6) node[above left,label]{y};
+
+  \coordinate (A) at (0,0);
+  \coordinate (B) at (3.2,0.5);
+  \coordinate (C) at (1.1,2.7);
+
+  \draw[line width=1.1pt] (A) -- (B) -- (C) -- cycle;
+  \node[point] at (A) {}; \node[label] at ($(A)+(-0.15,-0.18)$) {A};
+  \node[point] at (B) {}; \node[label] at ($(B)+(0.12,-0.18)$) {B};
+  \node[point] at (C) {}; \node[label] at ($(C)+(-0.15,0.12)$) {C};
+
+  \draw[vec] (A) -- (B); \node[label] at ($(A)!0.5!(B)+(0,0.25)$) {$u$};
+  \draw[vec] (B) -- (C); \node[label] at ($(B)!0.5!(C)+(0,0.25)$) {$v$};
+  \draw[vec] (C) -- (A); \node[label] at ($(C)!0.5!(A)+(-0.25,0)$) {$w$};
+
+  \node[label] at (-0.75,3.35) {Problem 9: $u\times v=v\times w=w\times u$ (same directed area).};
+\end{tikzpicture}
+\caption{Problem 9: triangle side vectors and the equal cross-product (area-vector) idea.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[axis] (-0.8,0) -- (5.0,0) node[below right,label]{x};
+  \draw[axis] (0,-0.8) -- (0,4.2) node[above left,label]{y};
+
+  \coordinate (A) at (0.6,0.6);
+  \coordinate (B) at (4.0,1.1);
+  \coordinate (C) at (1.6,3.4);
+
+  \draw[line width=1.1pt] (A) -- (B);
+  \node[point] at (A) {}; \node[label] at ($(A)+(-0.15,-0.18)$) {A};
+  \node[point] at (B) {}; \node[label] at ($(B)+(0.12,-0.18)$) {B};
+  \node[point] at (C) {}; \node[label] at ($(C)+(-0.15,0.12)$) {C};
+
+  % a point on AB
+  \coordinate (R1) at ($(A)!0.35!(B)$);
+  \node[point] at (R1) {};
+  \node[label] at ($(R1)+(0.12,0.12)$) {$r$ on $AB$};
+
+  % plane as a parallelogram outline spanned by AB and AC
+  \draw[dashedhelp] (A) -- (C);
+  \draw[dashedhelp] (B) -- ($(B)+(C)-(A)$);
+  \draw[dashedhelp] (C) -- ($(C)+(B)-(A)$);
+  \draw[dashedhelp] ($(B)+(C)-(A)$) -- ($(C)+(B)-(A)$);
+
+  % a point in plane
+  \coordinate (R2) at ($(A)+0.35*(B)-(0.35)*(A)+0.25*(C)-(0.25)*(A)$);
+  \node[point] at (R2) {};
+  \node[label] at ($(R2)+(0.12,-0.22)$) {$r$ in plane $ABC$};
+
+  \node[label] at (-0.65,4.0) {Problem 10: affine combinations describe the line $AB$ and plane $ABC$.};
+\end{tikzpicture}
+\caption{Problem 10: geometric meaning of affine combinations (line through $A,B$ and plane through $A,B,C$).}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[axis] (-0.8,0) -- (4.8,0) node[below right,label]{x};
+  \draw[axis] (0,-0.8) -- (0,4.0) node[above left,label]{y};
+
+  \coordinate (O) at (0,0);
+  \coordinate (a) at (3.0,0.7);
+  \coordinate (b) at (1.2,2.4);
+  \coordinate (c) at (2.2,1.8);
+
+  \draw[vec] (O) -- (a); \node[label] at ($(a)+(0.12,0.05)$) {$a$};
+  \draw[vec] (O) -- (b); \node[label] at ($(b)+(0.12,0.05)$) {$b$};
+
+  % parallelogram for area |a×b|
+  \draw[dashedhelp] (a) -- ($(a)+(b)$);
+  \draw[dashedhelp] (b) -- ($(a)+(b)$);
+  \node[label] at (0.2,3.6) {$|a\times b|=$ area};
+
+  % indicate c as "height direction" (schematic)
+  \coordinate (P) at ($(O)+0.6*(a)+0.6*(b)$);
+  \draw[vec] (P) -- ($(P)+0.5*(c)$);
+  \node[label] at ($(P)+0.5*(c)+(0.12,0.05)$) {$c$};
+
+  \node[label] at (0.2,3.2) {$|a\cdot(b\times c)|=$ volume};
+\end{tikzpicture}
+\caption{Problem 11: schematic for cross-product area and scalar triple-product volume.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.0]
+  \draw[axis] (-0.8,0) -- (5.0,0) node[below right,label]{x};
+  \draw[axis] (0,-0.8) -- (0,4.0) node[above left,label]{y};
+
+  % left schematic: r + (r×d) = c (d out of page)
+  \coordinate (O) at (0,0);
+  \coordinate (r) at (2.0,1.0);
+  \coordinate (rx) at (0.5, -1.0); % schematic 90-degree-like turn
+  \coordinate (c) at ($(r)+(rx)$);
+
+  \draw[vec] (O) -- (r);  \node[label] at ($(r)+(0.12,0.05)$) {$r$};
+  \draw[vec] (O) -- (rx); \node[label] at ($(rx)+(0.12,0.05)$) {$r\times d$};
+  \draw[vec] (O) -- (c);  \node[label] at ($(c)+(0.12,0.05)$) {$c$};
+
+  \node[label] at (0.2,3.7) {Left: $r+r\times d=c$ (schematic)};
+
+  % right schematic: r + (r·a) b = c
+  \coordinate (O2) at (2.8,0.2);
+  \coordinate (a) at ($(O2)+(1.6,0.25)$);
+  \coordinate (b) at ($(O2)+(0.35,2.2)$);
+
+  \draw[vec] (O2) -- (a); \node[label] at ($(a)+(0.12,0.05)$) {$a$};
+  \draw[vec] (O2) -- (b); \node[label] at ($(b)+(0.12,0.05)$) {$b$};
+
+  \node[label] at (2.75,3.2) {Right: $r+(r\cdot a)b=c$ (schematic)};
+\end{tikzpicture}
+\caption{Problem 12: schematics for the two vector equations.}
+\end{figure}
+
+% =====================================================
+\begin{figure}[H]\centering
+\begin{tikzpicture}[scale=1.25]
+  \draw[axis] (-1.7,0) -- (2.05,0) node[below right,label]{x};
+  \draw[axis] (0,-1.55) -- (0,1.75) node[above left,label]{y};
+
+  \draw[line width=1.05pt] (0,0) circle (1);
+
+  % choose illustrative angles
+  \pgfmathsetmacro{\theta}{50}
+  \pgfmathsetmacro{\phi}{30}
+
+  % 2D projection of the point (ignore z) for picture
+  \coordinate (P) at ({cos(\phi)*sin(\theta)},{sin(\phi)*sin(\theta)});
+  \node[point] at (P) {};
+  \node[label] at ($(P)+(0.12,0.12)$) {P};
+
+  % projected directions (schematic)
+  \coordinate (er) at ({cos(\phi)*sin(\theta)},{sin(\phi)*sin(\theta)});
+  \coordinate (ephi) at ({-sin(\phi)},{cos(\phi)});
+  \coordinate (etheta) at ({cos(\phi)*cos(\theta)},{sin(\phi)*cos(\theta)});
+
+  \draw[vec] (P) -- ($(P)+0.9*(er)$);     \node[label] at ($(P)+0.95*(er)+(0.08,0.05)$) {$e_r$};
+  \draw[vec] (P) -- ($(P)+0.9*(etheta)$); \node[label] at ($(P)+0.95*(etheta)+(0.08,0.05)$) {$e_\theta$};
+  \draw[vec] (P) -- ($(P)+0.9*(ephi)$);   \node[label] at ($(P)+0.95*(ephi)+(0.08,0.05)$) {$e_\phi$};
+
+  \node[label] at (-1.62,1.55) {Problem 13: orthonormal, right-handed frame.};
+  \node[label] at (-1.62,1.30) {$e_\theta\times e_\phi=e_r$.};
+\end{tikzpicture}
+\caption{Problem 13: spherical basis vectors (2D projection for illustration).}
+\end{figure}
+
+\end{document}
+

@@ -1,0 +1,4914 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{caption}      % optional but recommended
+\usepackage{subcaption} 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage{tikz-cd}
+\usepackage{float}
+
+\usetikzlibrary{positioning}
+
+
+
+\usetikzlibrary{calc,arrows.meta,patterns,decorations.pathreplacing}
+\usepackage{tikz-3dplot}
+\usepackage{xcolor}
+
+\DeclareMathOperator{\ord}{ord}
+
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newcommand{\II}{\mathrm{I\!I}}
+
+\newcommand{\C}{\mathbb{C}}
+
+% (optional) if you also want the first fundamental form:
+\newcommand{\I}{\mathrm{I}}
+
+\newcommand{\hyp}{\mathbb{H}}
+
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\newcommand{\n}{6}
+
+% --- codim operator (put in the preamble) ---
+\DeclareMathOperator{\codim}{codim}
+
+
+\newcommand{\Solution}{\par\medskip\noindent\textbf{Solution.}\ }
+\newcommand{\Theory}{\par\medskip\noindent\textbf{Theory.}\ }
+\newcommand{\Proof}{\par\medskip\noindent\textbf{Proof.}\ }
+
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+	\fancyhead[L]{\textit{Geometry 3}}
+\fancyhead[R]{\textit{Exercises}}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+
+% --- HEADER ---
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}{Definition}
+
+% Option A: as an operator (recommended)
+\DeclareMathOperator{\Span}{span}
+
+% or, shorter version
+
+
+
+\newcommand{\sph}{\mathrm{sph}}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+
+\theoremstyle{definition}      % bold heading, upright body
+\newtheorem{example}[theorem]{Example}
+
+
+\newtheorem*{Example}{Example}
+
+% =========================================================
+% E2 + E3  (same style as E1)
+% =========================================================
+% TikZ helpers (Poincaré disk geodesic from boundary angles)
+% Requires: \usetikzlibrary{arrows.meta}
+% =========================================================
+
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Usage: \DiskGeodesic[<draw options>]{<a deg>}{<b deg>}
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+% Handles the diameter case (antipodal endpoints) where det=0.
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+
+\newtheorem{remark}[theorem]{Remark} 
+\tikzset{
+	>={Latex[length=2.6mm]},
+	axis/.style={black, thin, ->},
+	unitcircle/.style={black, very thin},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	removable/.style={black, thick},
+	essstar/.style={yellow!65!orange, star, star points=7, minimum size=6pt, draw=orange!80!black, fill=yellow!70!orange},
+	lattice/.style={blue!70!black, fill=blue!70!black},
+	note/.style={black!70, font=\scriptsize}
+}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+
+% --- colors and styles for the charts ---
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+% styles
+\definecolor{PoleRed}{RGB}{214,49,56}
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1  % <- force visible text
+	},
+}
+
+
+
+\title{Geometry 3}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+
+\subsection*{From an arbitrary parameter $t$ to arc length $s$ (and curvature definitions)}
+
+\subsubsection*{1) Reparametrization by arc length}
+Let $\alpha:I\to\mathbb R^2$ be a regular planar curve
+\[
+\alpha(t)=(f(t),g(t)),\qquad \alpha'(t)\neq 0.
+\]
+Define the \emph{arc length function} (measured from a fixed $t_0\in I$) by
+\[
+s(t)=\int_{t_0}^{t}\|\alpha'(u)\|\,du
+=\int_{t_0}^{t}\sqrt{(f'(u))^2+(g'(u))^2}\,du.
+\]
+Then $s'(t)=\|\alpha'(t)\|>0$, so $s(t)$ is strictly increasing and has a local inverse $t=t(s)$.
+The \emph{unit-speed (arc-length) parametrization} is
+\[
+\beta(s)=\alpha(t(s)).
+\]
+It satisfies $\|\beta'(s)\|=1$.
+
+\subsubsection*{2) Curvature of the generating curve}
+For a unit-speed planar curve $\beta(s)=(x(s),y(s))$ the (signed) curvature is
+\[
+\kappa(s)=x'(s)y''(s)-y'(s)x''(s),
+\]
+and the (unsigned) curvature is $|\kappa(s)|=\|\beta''(s)\|$.
+
+If $\beta(s)=(f(s),g(s))$ is unit-speed, then
+\[
+\kappa(s)=f'(s)g''(s)-g'(s)f''(s).
+\]
+
+\subsubsection*{3) Curvatures on the surface (normal, principal, mean, Gaussian)}
+Let $S$ be a surface and $p\in S$ with unit normal $N$.
+The \emph{normal curvature} in a tangent direction $t\in T_pS$ is
+\[
+k_n(t)=\frac{\mathrm{II}(t,t)}{\mathrm{I}(t,t)}\quad (t\neq 0),
+\]
+and for $\|t\|=1$ simply $k_n(t)=\mathrm{II}(t,t)$.
+The \emph{principal directions} are the eigen-directions of the shape operator
+\[
+S_p(v)=-dN_p(v),
+\]
+and the corresponding eigenvalues $k_1,k_2$ are the \emph{principal curvatures}.
+The \emph{mean curvature} and \emph{Gaussian curvature} are
+\[
+H=\frac{k_1+k_2}{2},\qquad K=k_1k_2.
+\]
+In a principal orthonormal basis, Euler's formula gives
+\[
+k_n(\theta)=k_1\cos^2\theta+k_2\sin^2\theta.
+\]
+
+\subsubsection*{4) Link to Problem 8 (surface of revolution)}
+For the surface of revolution
+\[
+\phi(u,s)=\bigl(f(s)\cos u,\ f(s)\sin u,\ g(s)\bigr),
+\]
+where the generating curve $(f(s),g(s))$ is unit-speed, i.e.\ $(f')^2+(g')^2=1$,
+the first fundamental form satisfies $E=f^2$, $F=0$, $G=1$ and the principal curvatures are
+\[
+k_1=-\frac{g'}{f},\qquad k_2=f''g'-f'g''.
+\]
+Moreover, since for a unit-speed planar curve $\kappa=f'g''-g'f''$, we have
+\[
+k_2=-(f'g''-g'f'')=-\kappa,
+\]
+(up to sign depending on the chosen orientation of the surface normal).
+
+\subsubsection*{Example: a cone from a non-unit-speed generating curve}
+Take a straight line (not necessarily unit-speed)
+\[
+\alpha(t)=(at,bt),\qquad a>0,\ b\in\mathbb R,
+\]
+which, when revolved around the $z$-axis, generates a (right circular) cone (away from the apex).
+
+Its speed is constant:
+\[
+\|\alpha'(t)\|=\sqrt{a^2+b^2}.
+\]
+Hence the arc length is
+\[
+s(t)=\int_0^t \sqrt{a^2+b^2}\,du=t\sqrt{a^2+b^2},
+\qquad
+t=\frac{s}{\sqrt{a^2+b^2}}.
+\]
+So the unit-speed profile is
+\[
+f(s)=a\,\frac{s}{\sqrt{a^2+b^2}},\qquad
+g(s)=b\,\frac{s}{\sqrt{a^2+b^2}},
+\]
+and
+\[
+f'=\frac{a}{\sqrt{a^2+b^2}},\quad g'=\frac{b}{\sqrt{a^2+b^2}},\quad f''=g''=0.
+\]
+Therefore
+\[
+k_1=-\frac{g'}{f}=-\frac{\frac{b}{\sqrt{a^2+b^2}}}{\frac{a}{\sqrt{a^2+b^2}}\,s}
+=-\frac{b}{a}\,\frac{1}{s},
+\qquad
+k_2=f''g'-f'g''=0.
+\]
+So
+\[
+K=k_1k_2=0,\qquad
+H=\frac{k_1+k_2}{2}=-\frac{b}{2a}\,\frac{1}{s},
+\]
+(with the sign depending on the chosen orientation).  Geometrically, one principal curvature
+vanishes because a cone is \emph{developable} (it can be unrolled onto a plane).
+
+	
+	\subsubsection*{Invertibility of $s(t)$ and recovering the curve}
+	
+	Yes --- locally (and in many examples, globally) one can invert $s(t)$ and recover the curve as a
+	function of the arc-length parameter $s$, provided the curve is regular (i.e.\ $\|\alpha'(t)\|\neq 0$)
+	and $s(t)$ is defined in a monotone way.
+	
+	\paragraph{General fact.}
+	Let $\alpha:I\to\mathbb{R}^2$ be a regular curve. Define the arc length (from a fixed $t_0\in I$) by
+	\[
+	s(t)=\int_{t_0}^{t}\|\alpha'(u)\|\,du.
+	\]
+	Then
+	\[
+	s'(t)=\|\alpha'(t)\|>0,
+	\]
+	so $s(t)$ is strictly increasing and therefore has a local inverse $t=t(s)$.
+	The arc-length parametrization of the same geometric curve is then
+	\[
+	\beta(s)=\alpha\bigl(t(s)\bigr),
+	\]
+	and it satisfies $\|\beta'(s)\|=1$.
+	
+	\paragraph{Line example $\alpha(t)=(at,bt)$.}
+	Here
+	\[
+	\alpha'(t)=(a,b),\qquad \|\alpha'(t)\|=\sqrt{a^2+b^2},
+	\]
+	so (taking $t_0=0$)
+	\[
+	s(t)=\int_0^{t}\sqrt{a^2+b^2}\,du=t\sqrt{a^2+b^2}.
+	\]
+	This is invertible for all $t$ (global inverse), namely
+	\[
+	t(s)=\frac{s}{\sqrt{a^2+b^2}}.
+	\]
+	Hence the curve as a function of arc length is
+	\[
+	\beta(s)=\alpha\bigl(t(s)\bigr)
+	=\left(a\,\frac{s}{\sqrt{a^2+b^2}},\; b\,\frac{s}{\sqrt{a^2+b^2}}\right).
+	\]
+	
+	\paragraph{Small caveat.}
+	One does not usually recover the \emph{original} parameter $t$ uniquely if one allows shifts
+	(different choices of $t_0$) or reversed orientation, but one does recover the same geometric curve
+	together with an arc-length parametrization of it.
+	
+	% ==========================================================
+	% Problem 9
+	% ==========================================================
+	\subsection*{Problem 9. Gauss map: surjectivity, parity, and an elliptic point}
+	Let $S$ be a compact orientable surface in $\mathbb R^3$. Show that the Gauss map is surjective
+	and that it hits almost every unit vector the same number of times modulo $2$.
+	(You may use the Jordan--Brouwer separation theorem.) Show that $S$ always has an elliptic point.
+	
+	\subsubsection*{Theory}
+	For an oriented surface $S\subset\mathbb R^3$, the \emph{Gauss map} is
+	\[
+	N:S\to S^2,\qquad p\mapsto N(p),
+	\]
+	where $N(p)$ is the unit normal at $p$.
+	For $a\in S^2$, define the \emph{height function}
+	\[
+	h_a(p)=\langle p,a\rangle.
+	\]
+	Since $S$ is compact, $h_a$ attains a maximum and a minimum.
+	At a critical point $p$ of $h_a$, the tangential component of $a$ vanishes, hence $a$ is normal
+	to $S$ at $p$, i.e.\ $N(p)=\pm a$.
+	
+	By Sard's theorem, the set of regular values of $N$ has full measure in $S^2$; for a regular value
+	$y$, the preimage $N^{-1}(y)$ is finite.
+	For maps between compact $2$-manifolds, the parity $\#N^{-1}(y)\bmod 2$ is constant on the set
+	of regular values (the mod-$2$ degree).
+	
+	\subsubsection*{Solution}
+
+	\paragraph{(1) Surjectivity.}
+	Fix $a\in S^2$. The function $h_a(p)=\langle p,a\rangle$ attains a maximum at some $p_{\max}\in S$
+	and a minimum at some $p_{\min}\in S$.
+	At each extremum, $a$ is normal to $S$, hence
+	\[
+	N(p_{\max})=\pm a,\qquad N(p_{\min})=\mp a.
+	\]
+	Thus $a$ lies in the image of $N$, and since $a$ was arbitrary, $N$ is surjective.
+	
+	\paragraph{(2) Parity of the number of preimages.}
+	Let $y_0,y_1\in S^2$ be regular values of $N$. Choose a smooth path $\gamma:[0,1]\to S^2$
+	from $y_0$ to $y_1$ avoiding the critical values of $N$.
+	Then $M:=N^{-1}(\gamma([0,1]))$ is a compact $1$-manifold with boundary
+	\[
+	\partial M = N^{-1}(y_0)\,\cup\,N^{-1}(y_1).
+	\]
+	A compact $1$-manifold has an even number of boundary points, hence
+	\[
+	\#N^{-1}(y_0)\equiv \#N^{-1}(y_1)\pmod 2.
+	\]
+	Therefore, for almost every $y\in S^2$ (namely for every regular value) the number $\#N^{-1}(y)$
+	is constant modulo $2$.
+	
+	\paragraph{(3) Existence of an elliptic point.}
+	Choose $a\in S^2$ to be a regular value of $N$ (possible since regular values have full measure).
+	Let $p$ be a maximum point of $h_a$ on $S$. Then $N(p)=\pm a$.
+	Since $a$ is a regular value, $dN_p$ is invertible, so $\det(dN_p)\neq 0$.
+	At a (nondegenerate) maximum the second fundamental form is definite, hence the principal curvatures
+	have the same sign and are nonzero. Consequently $K(p)>0$, i.e.\ $p$ is an elliptic point.
+	
+	\subsubsection*{Examples and intuition}
+	\begin{itemize}
+		\item On a sphere, $N$ is (up to orientation) a diffeomorphism, so every direction is hit exactly once.
+		\item On a torus in $\mathbb R^3$, most directions are hit several times; nevertheless the parity
+		$\#N^{-1}(y)\bmod 2$ is constant for regular values $y$.
+		\item Elliptic points occur at strictly convex supporting points (e.g.\ the ``outermost'' points
+		for a generic height direction).
+	\end{itemize}
+	
+	% =========================
+	% Problem 9 diagram: height function + supporting planes
+	% =========================
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.15, line cap=round, line join=round, >=Latex]
+			
+			% --- Colors ---
+			\definecolor{SurfBlue}{RGB}{40,110,180}
+			\definecolor{DirRed}{RGB}{200,60,60}
+			\definecolor{PlaneGray}{RGB}{120,120,120}
+			\definecolor{ProjGreen}{RGB}{40,150,90}
+			
+			% Label box (opaque)
+			\tikzset{lbl/.style={fill=white, fill opacity=1, text opacity=1, inner sep=2pt, rounded corners=1.2pt}}
+			
+			% --- Direction a (unit vector) ---
+			% We'll use a direction roughly up-right
+			\coordinate (O) at (0,0);
+			\coordinate (aend) at (3.4,1.9);
+			
+			% --- A closed "surface cross-section" curve (schematic) ---
+			% Think of it as the intersection of S with a plane containing a.
+			\draw[very thick, SurfBlue]
+			(0,0) .. controls (1.6,1.4) and (3.4,1.1) .. (4.3,0.1)
+			.. controls (5.2,-1.0) and (4.0,-2.3) .. (2.1,-2.0)
+			.. controls (0.4,-1.8) and (-0.6,-0.9) .. (0,0);
+			
+			% --- Height direction arrow a ---
+			\draw[->, ultra thick, DirRed] (O) -- (aend);
+			\node[lbl] at (3.65,2.15) {$a$};
+			
+			% --- Orthogonal direction to a (for drawing supporting lines) ---
+			% We'll pick two support points and draw lines perpendicular to a through them.
+			% Choose approximate points on the curve:
+			\coordinate (pmax) at (3.9,0.9);
+			\coordinate (pmin) at (1.2,-1.65);
+			
+			\fill (pmax) circle (1.4pt);
+			\fill (pmin) circle (1.4pt);
+			
+			\node[lbl] at (4.55,1.15) {$p_{\max}$};
+			\node[lbl] at (0.55,-1.95) {$p_{\min}$};
+			
+			% Supporting lines: perpendicular to a (schematic).
+			% Vector perpendicular to aend-O is (-y, x): here use (-1.9,3.4) scaled.
+			\coordinate (n1) at (-1.9,3.4);
+			
+			% Line through pmax: pmax + t*n1
+			\draw[very thick, PlaneGray]
+			($(pmax)+(-3,5.37)$) -- ($(pmax)+(3,-5.37)$);
+			\node[lbl, text=PlaneGray] at ($(pmax)+(2.9,-0.25)$) {supporting plane};
+			
+			% Line through pmin
+			\draw[very thick, PlaneGray]
+			($(pmin)+(-3,5.37)$) -- ($(pmin)+(3,-5.37)$);
+			\node[lbl, text=PlaneGray] at ($(pmin)+(2.9,-0.25)$) {supporting plane};
+			
+			% --- Normals at extrema align with ±a ---
+			\draw[->, very thick, DirRed] (pmax) -- ($(pmax)+(0.95,0.53)$);
+			\node[lbl] at ($(pmax)+(1.25,0.85)$) {$N(p_{\max})=\pm a$};
+			
+			\draw[->, very thick, DirRed] (pmin) -- ($(pmin)+(-0.95,-0.53)$);
+			\node[lbl] at ($(pmin)+(-1.35,-0.75)$) {$N(p_{\min})=\mp a$};
+			
+			% --- Height function annotation ---
+			% Projection of points onto direction a (schematic)
+			\draw[->, very thick, ProjGreen] (0.4,0.2) -- (1.25,0.68);
+			\node[lbl, text=ProjGreen!60!black] at (1.65,0.88) {$h_a(p)=\langle p,a\rangle$};
+			
+			\node[lbl] at (2.6,-2.55) {\small maxima/minima of $h_a$ give normals parallel to $\pm a$};
+			
+		\end{tikzpicture}
+		\caption{Problem 9: For a fixed direction $a\in S^2$, the height function $h_a(p)=\langle p,a\rangle$ attains a maximum and minimum on compact $S$. At such supporting points the tangent plane is orthogonal to $a$, hence $N(p)=\pm a$. This gives surjectivity of the Gauss map.}
+	\end{figure}
+	
+	% Preamble:
+	% \usepackage{tikz}
+	% \usepackage{tikz-3dplot}
+	% \usetikzlibrary{calc}
+	
+	% =========================
+	% Problem 9 diagram (3D-looking): shaded surface + supporting planes
+	% =========================
+	\begin{figure}[H]
+		\centering
+		
+		% viewing angle
+		\tdplotsetmaincoords{70}{120}
+		
+		\begin{tikzpicture}[tdplot_main_coords, scale=1.15, line cap=round, line join=round, >=Latex]
+			
+			% --- Colors ---
+			\definecolor{SurfBlue}{RGB}{40,110,180}
+			\definecolor{PlanePurple}{RGB}{140,80,200}
+			\definecolor{DirRed}{RGB}{200,60,60}
+			\definecolor{PlaneGray}{RGB}{120,120,120}
+			
+			% Opaque label boxes
+			\tikzset{
+				lbl/.style={fill=white, fill opacity=1, text opacity=1, inner sep=2pt, rounded corners=1.2pt},
+			}
+			
+			% --- Direction a: take a = e_z for a clean "height" picture ---
+			\coordinate (O) at (0,0,0);
+			\draw[->, ultra thick, DirRed] (O) -- (0,0,2.8);
+			\node[lbl] at (0,0,3.05) {$a$};
+			
+			% --- A shaded "surface patch" (schematic compact surface piece) ---
+			% (just a blob-like patch with a bit of waviness)
+			\coordinate (S1) at (-2.4,-1.3, 0.25);
+			\coordinate (S2) at (-2.0, 0.9, 0.80);
+			\coordinate (S3) at (-0.6, 2.1, 1.10);
+			\coordinate (S4) at ( 1.2, 1.7, 0.85);
+			\coordinate (S5) at ( 2.5, 0.2, 0.45);
+			\coordinate (S6) at ( 2.0,-1.7, 0.15);
+			\coordinate (S7) at ( 0.2,-2.5, 0.55);
+			\coordinate (S8) at (-1.7,-2.2, 0.35);
+			
+			% fill first (so edges/lines are visible)
+			\fill[SurfBlue!12]
+			(S1) .. controls (-2.6,-0.3,0.55) and (-2.0,0.6,0.95) .. (S2)
+			.. controls (-1.3,1.6,1.20) and (-0.9,2.2,1.15) .. (S3)
+			.. controls (0.4,2.4,1.00) and (1.1,2.0,0.95) .. (S4)
+			.. controls (2.1,1.2,0.70) and (2.6,0.8,0.55) .. (S5)
+			.. controls (2.8,-0.6,0.35) and (2.4,-1.4,0.25) .. (S6)
+			.. controls (1.3,-2.4,0.05) and (0.7,-2.7,0.45) .. (S7)
+			.. controls (-0.7,-2.7,0.75) and (-1.2,-2.5,0.45) .. (S8)
+			.. controls (-2.2,-2.0,0.25) and (-2.5,-1.8,0.25) .. (S1);
+			
+			% outline
+			\draw[very thick, SurfBlue]
+			(S1) .. controls (-2.6,-0.3,0.55) and (-2.0,0.6,0.95) .. (S2)
+			.. controls (-1.3,1.6,1.20) and (-0.9,2.2,1.15) .. (S3)
+			.. controls (0.4,2.4,1.00) and (1.1,2.0,0.95) .. (S4)
+			.. controls (2.1,1.2,0.70) and (2.6,0.8,0.55) .. (S5)
+			.. controls (2.8,-0.6,0.35) and (2.4,-1.4,0.25) .. (S6)
+			.. controls (1.3,-2.4,0.05) and (0.7,-2.7,0.45) .. (S7)
+			.. controls (-0.7,-2.7,0.75) and (-1.2,-2.5,0.45) .. (S8)
+			.. controls (-2.2,-2.0,0.25) and (-2.5,-1.8,0.25) .. (S1);
+			
+			% a couple of "contour" strokes to suggest 3D curvature
+			\draw[thick, SurfBlue!70!black]
+			(-2.1,-0.6,0.55) .. controls (-1.2,0.3,0.95) and (0.6,0.8,0.85) .. (2.0,0.2,0.55);
+			\draw[thick, SurfBlue!70!black]
+			(-1.6,-1.7,0.35) .. controls (-0.6,-1.1,0.65) and (0.8,-0.7,0.55) .. (1.8,-1.6,0.25);
+			
+			% --- Mark p_max and p_min (schematic) ---
+			\coordinate (pmax) at (-0.2,0.4,1.55);
+			\coordinate (pmin) at ( 0.8,-0.9,-0.65);
+			
+			\fill (pmax) circle (1.6pt);
+			\fill (pmin) circle (1.6pt);
+			
+			\node[lbl] at ($ (pmax) + (0.7,0.25,0.25) $) {$p_{\max}$};
+			\node[lbl] at ($ (pmin) + (0.9,-0.2,0.15) $) {$p_{\min}$};
+			
+			% --- Supporting planes for height direction a=e_z : z = const ---
+			% Top supporting plane z = z_max
+			\begin{scope}
+				\fill[PlanePurple!14, opacity=0.35]
+				(-3.0,-2.5,1.55) -- (3.0,-2.5,1.55) -- (3.0,2.5,1.55) -- (-3.0,2.5,1.55) -- cycle;
+				\draw[very thick, dashed, PlanePurple]
+				(-3.0,-2.5,1.55) -- (3.0,-2.5,1.55) -- (3.0,2.5,1.55) -- (-3.0,2.5,1.55) -- cycle;
+				\node[lbl, text=PlanePurple!90!black] at (2.1,2.1,1.55) {\small supporting plane};
+			\end{scope}
+			
+			% Bottom supporting plane z = z_min
+			\begin{scope}
+				\fill[PlanePurple!14, opacity=0.35]
+				(-3.0,-2.5,-0.65) -- (3.0,-2.5,-0.65) -- (3.0,2.5,-0.65) -- (-3.0,2.5,-0.65) -- cycle;
+				\draw[very thick, dashed, PlanePurple]
+				(-3.0,-2.5,-0.65) -- (3.0,-2.5,-0.65) -- (3.0,2.5,-0.65) -- (-3.0,2.5,-0.65) -- cycle;
+				\node[lbl, text=PlanePurple!90!black] at (2.1,2.1,-0.65) {\small supporting plane};
+			\end{scope}
+			
+			% --- Normals at extrema align with ±a (schematic arrows) ---
+			\draw[->, very thick, DirRed] (pmax) -- ($ (pmax) + (0,0,0.8) $);
+			\node[lbl] at ($ (pmax) + (0.9,0.1,0.85) $) {$N(p_{\max})=a$};
+			
+			\draw[->, very thick, DirRed] (pmin) -- ($ (pmin) + (0,0,-0.8) $);
+			\node[lbl] at ($ (pmin) + (1.0,0.0,-0.85) $) {$N(p_{\min})=-a$};
+			
+			% --- Height function label ---
+			\node[lbl, text=PlaneGray] at (-2.8,2.6,0.4) {\small $h_a(p)=\langle p,a\rangle$};
+			
+		\end{tikzpicture}
+		
+		\caption{Problem 9 (3D schematic): for a fixed direction $a$ (drawn as $e_z$), the height function
+			$h_a(p)=\langle p,a\rangle$ has maxima/minima on compact $S$. The supporting planes $z=\text{const}$
+			touch $S$ at $p_{\max},p_{\min}$, where the normals align with $\pm a$.}
+	\end{figure}
+	
+
+	
+	% ==========================================================
+	% Problem 10
+	% ==========================================================
+	\subsection*{Problem 10. Totally umbilic compact surfaces are planes or spheres}
+	Show that if $S$ is a connected surface in $\mathbb R^3$ such that every point is umbilic, then
+	$S$ is contained in a plane or a sphere.
+	\emph{(Hint: Use that in a parametrization $\phi(u,v)$ one has $N_{uv}=N_{vu}$.}
+	
+	\subsubsection*{Theory}
+	A surface is \emph{totally umbilic} if at every point the shape operator is a scalar:
+	\[
+	S_p=\lambda(p)\,I.
+	\]
+	Equivalently, the principal curvatures satisfy $k_1=k_2=\lambda$, or $\mathrm{II}=\lambda\,\mathrm{I}$.
+	In local coordinates $\phi(u,v)$ with unit normal $N$, the Weingarten equations give
+	\[
+	N_u=-S(\phi_u),\qquad N_v=-S(\phi_v).
+	\]
+	
+	\subsubsection*{Solution}
+
+	Assume $S$ is totally umbilic, so $S=\lambda I$. Then
+	\[
+	N_u=-\lambda\,\phi_u,\qquad N_v=-\lambda\,\phi_v.
+	\]
+	Differentiate:
+	\[
+	N_{uv}=-(\lambda_v\phi_u+\lambda\phi_{uv}),\qquad
+	N_{vu}=-(\lambda_u\phi_v+\lambda\phi_{vu}).
+	\]
+	Since mixed partial derivatives commute, $N_{uv}=N_{vu}$ and $\phi_{uv}=\phi_{vu}$, hence
+	\[
+	\lambda_v\phi_u=\lambda_u\phi_v.
+	\]
+	Because $\phi_u$ and $\phi_v$ are linearly independent, it follows that
+	\[
+	\lambda_u=\lambda_v=0,
+	\]
+	so $\lambda$ is constant on each connected component; since $S$ is connected, $\lambda$ is constant.
+	
+	If $\lambda=0$, then $N_u=N_v=0$, so $N$ is constant and $S$ lies in a plane orthogonal to $N$.
+	
+	If $\lambda\neq 0$, define
+	\[
+	c=\phi+\frac{1}{\lambda}N.
+	\]
+	Then
+	\[
+	c_u=\phi_u+\frac{1}{\lambda}N_u=\phi_u-\phi_u=0,\qquad
+	c_v=\phi_v+\frac{1}{\lambda}N_v=\phi_v-\phi_v=0,
+	\]
+	so $c$ is constant. Therefore $\|\phi-c\|=1/|\lambda|$, i.e.\ $\phi$ lies on a sphere of radius
+	$1/|\lambda|$ centered at $c$.
+	
+	\subsubsection*{Examples}
+	\begin{itemize}
+		\item A plane has $k_1=k_2=0$ everywhere (totally umbilic).
+		\item A sphere of radius $R$ has $k_1=k_2=\pm 1/R$ everywhere (totally umbilic).
+	\end{itemize}
+	
+	
+
+		
+	% ==========================================================
+	% Problem 11
+	% ==========================================================
+	\subsection*{Problem 11. Gauss curvature as spherical area distortion}
+	Let $p$ be a point of a surface $S$ such that the Gaussian curvature $K(p)\neq 0$, and let $V$
+	be a small connected neighbourhood of $p$ where $K$ does not change sign.
+	Define the \emph{spherical area} $A_N(B)$ of a domain $B\subset V$ to be the area of $N(B)$ if
+	$K(p)>0$, or minus the area of $N(B)$ if $K(p)<0$ (where $N$ is the Gauss map).
+	Show that
+	\[
+	K(p)=\lim_{A(B)\to 0}\frac{A_N(B)}{A(B)},
+	\]
+	where $A(B)$ is the area of $B$ and the limit is taken through a sequence of domains $B_n$
+	converging to $p$ (eventually contained in every ball around $p$).
+	
+	\subsubsection*{Theory (area change under the Gauss map)}
+	For an oriented surface, the Gauss map $N:S\to S^2$ has differential $dN_p:T_pS\to T_{N(p)}S^2$.
+	Its Jacobian determinant equals the Gaussian curvature:
+	\[
+	\det(dN_p)=K(p).
+	\]
+	If $N$ is a local diffeomorphism on a region $B$ and $K$ has constant sign on $B$, then the area
+	formula for smooth maps between surfaces yields
+	\[
+	\operatorname{area}(N(B))=\int_B |\det(dN_q)|\,dA(q)=\int_B |K(q)|\,dA(q).
+	\]
+	The signed spherical area $A_N(B)$ is defined precisely so that the absolute value is removed when
+	$K$ has constant sign.
+	
+	\subsubsection*{Solution}
+	\textbf{Solution.}
+	Since $K(p)\neq 0$ and $K$ is continuous, after shrinking $V$ we may assume $K(q)\neq 0$ on $V$,
+	so $dN_q$ is invertible and hence $N$ is a local diffeomorphism on $V$.
+	Let $B\subset V$ be a domain. By the area formula,
+	\[
+	\operatorname{area}(N(B))=\int_B |K(q)|\,dA(q).
+	\]
+	Because $K$ does not change sign on $V$, the definition of $A_N(B)$ gives
+	\[
+	A_N(B)=\int_B K(q)\,dA(q).
+	\]
+	Therefore
+	\[
+	\frac{A_N(B)}{A(B)}=\frac{1}{A(B)}\int_B K(q)\,dA(q),
+	\]
+	which is the average value of $K$ over $B$.
+	Let $B_n\to p$ with $A(B_n)\to 0$. By continuity of $K$, the average value over $B_n$ tends to
+	$K(p)$, i.e.
+	\[
+	\lim_{n\to\infty}\frac{1}{A(B_n)}\int_{B_n}K\,dA = K(p).
+	\]
+	Hence
+	\[
+	K(p)=\lim_{A(B)\to 0}\frac{A_N(B)}{A(B)}.
+	\]
+	
+	\subsubsection*{Examples and intuition}
+	\begin{itemize}
+		\item \textbf{Sphere of radius $R$.} One has $K\equiv 1/R^2$ and small areas satisfy
+		$\operatorname{area}(N(B))\sim (1/R^2)\operatorname{area}(B)$, so the ratio tends to $1/R^2$.
+		\item \textbf{Plane.} The Gauss map is constant, so $\operatorname{area}(N(B))=0$ and the ratio
+		is $0$, consistent with $K\equiv 0$.
+		\item \textbf{Cylinder.} The Gauss map image is 1-dimensional (a circle), so spherical area is
+		$0$ and the ratio is $0$, consistent with $K\equiv 0$.
+	\end{itemize}
+	
+	% Preamble:
+	% \usepackage{tikz}
+	% \usepackage{tikz-3dplot}
+	% \usetikzlibrary{calc}
+	
+	% =========================
+	% Problem 11 diagram: patch B on S and its Gauss image N(B) on S^2
+	% =========================
+	\begin{figure}[H]
+		\centering
+		\tdplotsetmaincoords{70}{120}
+		
+		\begin{tikzpicture}[tdplot_main_coords, scale=1.10, line cap=round, line join=round, >=Latex]
+			
+			% --- Colors ---
+			\definecolor{SurfBlue}{RGB}{40,110,180}
+			\definecolor{PatchPurple}{RGB}{140,80,200}
+			\definecolor{DirRed}{RGB}{200,60,60}
+			\definecolor{Gray}{RGB}{110,110,110}
+			
+			% Opaque labels (prevents occlusion)
+			\tikzset{
+				lbl/.style={fill=white, fill opacity=1, text opacity=1, inner sep=2pt, rounded corners=1.2pt},
+				arr/.style={->, very thick},
+			}
+			
+			% ==========================================================
+			% LEFT: surface patch B ⊂ S
+			% ==========================================================
+			\begin{scope}[shift={(-4.8,0,0)}]
+				
+				% A schematic curved surface patch boundary
+				\coordinate (A) at (-1.8,-1.1, 0.25);
+				\coordinate (B) at ( 1.6,-1.0, 0.10);
+				\coordinate (C) at ( 1.9, 1.2, 0.55);
+				\coordinate (D) at (-1.5, 1.1, 0.75);
+				
+				% Fill patch (curvy quadrilateral)
+				\fill[SurfBlue!14]
+				(A) .. controls (-0.8,-1.2,0.35) and (0.8,-1.2,0.15) .. (B)
+				.. controls (2.2,-0.2,0.05) and (2.2,0.8,0.45) .. (C)
+				.. controls (0.7,1.55,0.75) and (-0.5,1.5,0.85) .. (D)
+				.. controls (-2.1,0.4,0.95) and (-2.2,-0.4,0.45) .. cycle;
+				
+				\draw[very thick, SurfBlue]
+				(A) .. controls (-0.8,-1.2,0.35) and (0.8,-1.2,0.15) .. (B)
+				.. controls (2.2,-0.2,0.05) and (2.2,0.8,0.45) .. (C)
+				.. controls (0.7,1.55,0.75) and (-0.5,1.5,0.85) .. (D)
+				.. controls (-2.1,0.4,0.95) and (-2.2,-0.4,0.45) .. cycle;
+				
+				% A few short normal arrows on the patch
+				\foreach \px/\py/\pz in {-0.9/-0.2/0.55, 0.3/0.1/0.45, 1.1/0.4/0.50} {
+					\coordinate (P) at (\px,\py,\pz);
+					\draw[arr, DirRed] (P) -- ++(0.0,0.0,0.85);
+				}
+				
+				% Labels
+				\node[lbl] at (0.0,1.55,1.10) {$S$};
+				\node[lbl] at (-0.2,0.0,0.95) {$B$};
+				\node[lbl, text=Gray] at (0.6,-1.65,0.05) {\small area $A(B)$};
+				
+			\end{scope}
+			
+			% ==========================================================
+			% MIDDLE: arrow representing Gauss map N
+			% ==========================================================
+			\draw[arr, Gray] (-1.6,0,0.7) -- (1.6,0,0.7);
+			\node[lbl, text=Gray] at (0,0.25,0.9) {Gauss map $N$};
+			
+			% ==========================================================
+			% RIGHT: sphere S^2 with patch N(B)
+			% ==========================================================
+			\begin{scope}[shift={(4.8,0,0)}]
+				
+				% Draw a unit sphere (schematic): a circle + "equator" ellipse to suggest 3D
+				% Sphere centered at (0,0,0)
+				\draw[very thick] (0,0,0) circle (2.0); % outer silhouette in this projection
+				
+				% An "equator" ellipse (visual cue)
+				\draw[thick, dashed] (0,0,0) ellipse (2.0 and 0.75);
+				
+				% A small spherical patch near the "upper right" of the sphere
+				\coordinate (P1) at (0.7,1.3,1.1);
+				\coordinate (P2) at (1.4,1.0,0.8);
+				\coordinate (P3) at (1.2,1.6,0.9);
+				\coordinate (P4) at (0.9,1.7,1.2);
+				
+				\fill[PatchPurple!18, opacity=0.55]
+				(P1) .. controls (1.0,1.25,1.0) and (1.25,1.05,0.85) .. (P2)
+				.. controls (1.55,1.25,0.75) and (1.45,1.45,0.85) .. (P3)
+				.. controls (1.15,1.85,0.95) and (1.0,1.85,1.15) .. (P4)
+				.. controls (0.75,1.65,1.25) and (0.65,1.45,1.20) .. cycle;
+				
+				\draw[very thick, PatchPurple]
+				(P1) .. controls (1.0,1.25,1.0) and (1.25,1.05,0.85) .. (P2)
+				.. controls (1.55,1.25,0.75) and (1.45,1.45,0.85) .. (P3)
+				.. controls (1.15,1.85,0.95) and (1.0,1.85,1.15) .. (P4)
+				.. controls (0.75,1.65,1.25) and (0.65,1.45,1.20) .. cycle;
+				
+				% Labels
+				\node[lbl] at (0.0,2.45,0.0) {$S^2$};
+				\node[lbl] at (1.35,1.85,1.25) {$N(B)$};
+				\node[lbl, text=Gray] at (0.0,-2.65,0.0) {\small signed area $A_N(B)$};
+				
+			\end{scope}
+			
+			% ==========================================================
+			% Bottom caption-like formula (inside figure)
+			% ==========================================================
+			\node[lbl, text=Gray] at (0,-3.05,0.0)
+			{\small $K(p)=\displaystyle\lim_{A(B)\to 0}\frac{A_N(B)}{A(B)}$};
+			
+		\end{tikzpicture}
+		
+		\caption{Problem 11: a small patch $B\subset S$ is mapped by the Gauss map $N$ to a patch $N(B)\subset S^2$.
+			The Gaussian curvature at $p$ is the infinitesimal ratio of signed spherical area to surface area.}
+	\end{figure}
+	
+	\subsubsection*{Why one may view $dN_p$ as a map $T_pS\to T_pS$}
+	
+	Formally, the Gauss map is
+	\[
+	N:S\to S^2,\qquad p\mapsto N(p),
+	\]
+	so its differential at $p$ is a linear map
+	\[
+	dN_p:T_pS\longrightarrow T_{N(p)}S^2.
+	\]
+	At first glance the domain and codomain are different tangent planes. However, for the Gauss map
+	there is a canonical identification of these two planes inside $\mathbb R^3$.
+	
+	\paragraph{Step 1: $dN_p(v)$ is tangent to the sphere.}
+	Since $\|N\|^2=\langle N,N\rangle=1$ on $S$, differentiating at $p$ in the direction $v\in T_pS$
+	gives
+	\[
+	0=d(\langle N,N\rangle)_p(v)=2\langle dN_p(v),N(p)\rangle.
+	\]
+	Hence
+	\[
+	\langle dN_p(v),N(p)\rangle=0,
+	\]
+	so $dN_p(v)$ is orthogonal to $N(p)$, i.e.
+	\[
+	dN_p(v)\in T_{N(p)}S^2=\{w\in\mathbb R^3:\langle w,N(p)\rangle=0\}.
+	\]
+	
+	\paragraph{Step 2: $T_pS$ and $T_{N(p)}S^2$ are the same $2$-plane in $\mathbb R^3$.}
+	Because $N(p)$ is also the unit normal to $S$ at $p$, the tangent plane to $S$ at $p$ is
+	\[
+	T_pS=\{w\in\mathbb R^3:\langle w,N(p)\rangle=0\}.
+	\]
+	But this is exactly the same description as the tangent plane to the unit sphere at $N(p)$:
+	\[
+	T_{N(p)}S^2=\{w\in\mathbb R^3:\langle w,N(p)\rangle=0\}.
+	\]
+	Therefore, as subspaces of $\mathbb R^3$,
+	\[
+	T_pS = T_{N(p)}S^2.
+	\]
+	With this identification, we may regard
+	\[
+	dN_p:T_pS\to T_pS.
+	\]
+	
+	\paragraph{Step 3: The shape operator.}
+	Using the above identification, one defines the \emph{shape operator} (Weingarten map) by
+	\[
+	S_p:=-\,dN_p:T_pS\to T_pS.
+	\]
+	Its eigenvectors are the \emph{principal directions}, its eigenvalues are the \emph{principal curvatures},
+	and one has
+	\[
+	K(p)=\det(S_p),\qquad 2H(p)=\operatorname{tr}(S_p),
+	\]
+	with the sign of $H$ depending on the chosen orientation of $N$, while $K$ does not.
+	
+	\subsubsection*{Geometric analogy (circle) and what the Gauss map does}
+	
+	It is helpful to first look at the $1$-dimensional analogue.
+	Let $\gamma:I\to\mathbb R^2$ be a unit-speed plane curve, with unit tangent $T(s)$ and unit normal $n(s)$.
+	Then $n(s)\in S^1$ for all $s$, so $n:I\to S^1$ is a ``Gauss map'' for the curve.
+	
+	\paragraph{Circle picture.}
+	For each point $q\in S^1$, the tangent line of the circle at $q$ is
+	\[
+	T_qS^1=\{w\in\mathbb R^2:\langle w,q\rangle=0\}.
+	\]
+	Now note that the normal $n(s)$ is a unit vector, hence it is a point on the unit circle $S^1$.
+	Differentiating $\langle n,n\rangle=1$ gives $\langle n'(s),n(s)\rangle=0$, so
+	\[
+	n'(s)\in T_{n(s)}S^1.
+	\]
+	Thus the derivative of the Gauss map of the curve sends the tangent direction $T(s)$ to a vector
+	lying in the tangent line to the circle at the point $n(s)$.
+	
+	\paragraph{Surface version.}
+	For an oriented surface $S\subset\mathbb R^3$, the Gauss map $N:S\to S^2$ assigns to each
+	$p\in S$ the unit normal vector $N(p)\in S^2$.
+	Exactly as above, differentiating $\langle N,N\rangle=1$ implies
+	\[
+	dN_p(v)\perp N(p)\quad\text{for all }v\in T_pS,
+	\]
+	so
+	\[
+	dN_p(v)\in T_{N(p)}S^2.
+	\]
+	But $T_{N(p)}S^2$ is the plane orthogonal to $N(p)$, and the surface tangent plane $T_pS$ is
+	also the plane orthogonal to the same vector $N(p)$. Hence
+	\[
+	T_pS = T_{N(p)}S^2 \subset \mathbb R^3,
+	\]
+	so we may view $dN_p$ as a linear map from the tangent plane of the surface to itself.
+	Up to a minus sign, this map is the shape operator $S_p=-dN_p$, which encodes the curvature.
+	\subsection*{Problem 12 — Gauss curvature via the map $fN$; curvature of an ellipsoid}
+	
+	\textbf{Problem.}
+	Let $S\subset\mathbb R^3$ be an oriented smooth surface with Gauss map (unit normal) $N$.
+	Let $V\subset S$ be open and let $f:V\to\mathbb R$ be smooth and nowhere zero.
+	Let $v_1,v_2$ be smooth tangent vector fields on $V$ such that at each point they are orthonormal and oriented,
+	i.e.\ $v_1\wedge v_2=N$ (equivalently $v_1\times v_2=N$).
+	
+	\begin{enumerate}
+		\item Prove that the Gaussian curvature $K$ on $V$ is
+		\[
+		K \;=\; \frac{\big\langle D(fN)(v_1)\wedge D(fN)(v_2),\, fN\big\rangle}{f^3}.
+		\]
+		\item Let $f$ be the restriction to the ellipsoid
+		\[
+		E:\qquad \frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2}=1
+		\]
+		of the function
+		\[
+		f(x,y,z)=\sqrt{\frac{x^2}{a^4}+\frac{y^2}{b^4}+\frac{z^2}{c^4}}.
+		\]
+		Show that the Gaussian curvature of $E$ is
+		\[
+		K=\frac{1}{a^2b^2c^2\, f^4}.
+		\]
+	\end{enumerate}
+	
+	\medskip
+	\textbf{Theory.}
+	For an oriented orthonormal basis $(v_1,v_2)$ of $T_pS$,
+	\[
+	K(p)=\det(S_p)=\big\langle dN_p(v_1)\times dN_p(v_2),\,N(p)\big\rangle,
+	\]
+	because $S=-dN$ and $\det(-S)=\det(S)$. Also $\langle N\times X,\,N\rangle=0$ for all $X$.
+	
+	\medskip
+	\textbf{Solution.}
+	
+	\textbf{(i)} Set $F=fN:V\to\mathbb R^3$. For any $v\in T_pS$,
+	\[
+	dF_p(v)=v(f)\,N(p)+f(p)\,dN_p(v).
+	\]
+	Hence
+	\[
+	dF(v_1)\times dF(v_2)
+	=
+	\big(v_1(f)N+f\,dN(v_1)\big)\times\big(v_2(f)N+f\,dN(v_2)\big)
+	\]
+	\[
+	= f^2\,dN(v_1)\times dN(v_2)
+	+ f\,v_1(f)\,N\times dN(v_2)
+	+ f\,v_2(f)\,dN(v_1)\times N.
+	\]
+	Taking the dot product with $fN$ kills the mixed terms since
+	$\langle N\times dN(v_2),N\rangle=0$ and $\langle dN(v_1)\times N,N\rangle=0$.
+	Thus
+	\[
+	\big\langle dF(v_1)\times dF(v_2),\,fN\big\rangle
+	=
+	f^3\,\big\langle dN(v_1)\times dN(v_2),\,N\big\rangle.
+	\]
+	But for an oriented orthonormal pair $(v_1,v_2)$, the Gauss curvature is
+	\[
+	K=\big\langle dN(v_1)\times dN(v_2),\,N\big\rangle.
+	\]
+	Therefore
+	\[
+	K=\frac{\big\langle dF(v_1)\times dF(v_2),\,fN\big\rangle}{f^3}
+	=
+	\frac{\big\langle D(fN)(v_1)\wedge D(fN)(v_2),\,fN\big\rangle}{f^3}.
+	\]
+	
+	\medskip
+	\textbf{(ii)} Let $\Phi(x,y,z)=\frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2}$, so $E=\{\Phi=1\}$ and
+	\[
+	\nabla\Phi=\left(\frac{2x}{a^2},\frac{2y}{b^2},\frac{2z}{c^2}\right),\qquad
+	\|\nabla\Phi\|=2\sqrt{\frac{x^2}{a^4}+\frac{y^2}{b^4}+\frac{z^2}{c^4}}=2f.
+	\]
+	Hence the unit normal is
+	\[
+	N=\frac{\nabla\Phi}{\|\nabla\Phi\|}=\frac1f\left(\frac{x}{a^2},\frac{y}{b^2},\frac{z}{c^2}\right),
+	\quad\text{so}\quad
+	fN=\left(\frac{x}{a^2},\frac{y}{b^2},\frac{z}{c^2}\right).
+	\]
+	Write $A=\mathrm{diag}\!\left(\frac1{a^2},\frac1{b^2},\frac1{c^2}\right)$. Then $fN=Ax$ and thus
+	\[
+	D(fN)(v)=Av.
+	\]
+	Applying (i),
+	\[
+	K=\frac{\langle (Av_1)\times(Av_2),\,fN\rangle}{f^3}.
+	\]
+	Use the identity $(Au)\times(Av)=\det(A)\,A^{-T}(u\times v)$. Since $A$ is diagonal, $A^{-T}=A^{-1}$, and
+	$v_1\times v_2=N$, we obtain
+	\[
+	(Av_1)\times(Av_2)=\det(A)\,A^{-1}N.
+	\]
+	Therefore
+	\[
+	\langle (Av_1)\times(Av_2),\,fN\rangle
+	=\det(A)\,\langle A^{-1}N,\,fN\rangle.
+	\]
+	But $N=\frac1f Ax$, hence $A^{-1}N=\frac1f x$, and $fN=Ax$, so
+	\[
+	\langle A^{-1}N,\,fN\rangle
+	=\left\langle \frac1f x,\,Ax\right\rangle
+	=\frac1f\left(\frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2}\right)
+	=\frac1f
+	\]
+	on $E$. Also $\det(A)=\frac1{a^2b^2c^2}$. Hence
+	\[
+	\langle (Av_1)\times(Av_2),\,fN\rangle=\frac{1}{a^2b^2c^2\,f},
+	\qquad
+	K=\frac{1}{a^2b^2c^2\,f^4}.
+	\]
+	
+	\medskip
+	\textbf{Example (sphere check).}
+	If $a=b=c=R$, then $f=1/R$ on $E$, so $K=\frac{1}{R^6(1/R^4)}=\frac1{R^2}$.
+	
+	
+	\subsection*{Problem 12 — Relation to the ``area'' definition of Gaussian curvature; meaning of $N$ and $fN$}
+	
+	\textbf{What is $N$?}
+	Let $S\subset\mathbb R^3$ be an oriented smooth surface.
+	At each point $p\in S$ there are exactly two unit normals; an \emph{orientation} chooses one of them smoothly.
+	The \emph{Gauss map} (or \emph{unit normal field}) is the smooth map
+	\[
+	N:S\to S^2,\qquad N(p)=\text{the chosen unit normal at }p.
+	\]
+	Thus $N(p)$ is a unit vector in $\mathbb R^3$ perpendicular to the tangent plane $T_pS$.
+	Equivalently, $N$ is a vector field along $S$ with values on the unit sphere $S^2$.
+	
+	\medskip
+	\textbf{How does $N$ give Gaussian curvature via area?}
+	For a small patch $B\subset S$ around $p$, the Gauss map sends it to a patch $N(B)\subset S^2$.
+	A classical interpretation of Gaussian curvature is that it is the infinitesimal \emph{area distortion} of the Gauss map:
+	\[
+	K(p)=\lim_{B\to p}\frac{\operatorname{Area}(N(B))}{\operatorname{Area}(B)}
+	\quad
+	(\text{with sign depending on orientation}).
+	\]
+	In differential form: if $(v_1,v_2)$ is an oriented orthonormal basis of $T_pS$, then
+	\[
+	K(p)=\big\langle dN_p(v_1)\times dN_p(v_2),\,N(p)\big\rangle.
+	\]
+	This is just the Jacobian determinant of $dN_p$ written as a triple product.
+	
+	\medskip
+	\textbf{What is $fN$?}
+	Let $f:V\to\mathbb R$ be a smooth function on an open set $V\subset S$ such that $f\neq 0$ everywhere.
+	Then
+	\[
+	F:=fN:V\to\mathbb R^3,\qquad F(p)=f(p)\,N(p),
+	\]
+	is the normal vector field $N$ \emph{scaled} by the factor $f$ at each point.
+	Geometrically, $fN(p)$ is a normal vector at $p$ whose length is $|f(p)|$ (instead of length $1$).
+	Unlike $N$, the map $fN$ does \emph{not} take values in $S^2$; it takes values in $\mathbb R^3\setminus\{0\}$
+	(on rays through the origin).
+	
+	\medskip
+	\textbf{Why does the formula in Problem 12 give the same curvature as the area definition?}
+	Set $F=fN$. For any tangent vector $v\in T_pS$,
+	\[
+	dF_p(v)=v(f)\,N(p)+f(p)\,dN_p(v).
+	\]
+	If $(v_1,v_2)$ is oriented orthonormal, expand the cross product and dot with $fN$:
+	\[
+	\big\langle dF(v_1)\times dF(v_2),\,fN\big\rangle
+	=
+	\big\langle (v_1(f)N+f\,dN(v_1))\times (v_2(f)N+f\,dN(v_2)),\,fN\big\rangle.
+	\]
+	All mixed terms vanish after dotting with $N$ because
+	$\langle N\times X,\,N\rangle=0$ for every $X$.
+	Hence only the $f^2(dN(v_1)\times dN(v_2))$ term survives, giving
+	\[
+	\big\langle dF(v_1)\times dF(v_2),\,fN\big\rangle
+	= f^3\,\big\langle dN(v_1)\times dN(v_2),\,N\big\rangle
+	= f^3\,K.
+	\]
+	Therefore
+	\[
+	K=\frac{\big\langle D(fN)(v_1)\wedge D(fN)(v_2),\,fN\big\rangle}{f^3},
+	\]
+	which is exactly the same Gaussian curvature $K$ as the ``area ratio'' definition (it is still $\det(dN_p)$);
+	the map $fN$ is merely a convenient re-packaging that cancels out to $K$ after dividing by $f^3$.
+	
+	\medskip
+	\textbf{Why is $fN$ useful for the ellipsoid?}
+	For the ellipsoid $\frac{x^2}{a^2}+\frac{y^2}{b^2}+\frac{z^2}{c^2}=1$, one chooses
+	\[
+	f(x,y,z)=\sqrt{\frac{x^2}{a^4}+\frac{y^2}{b^4}+\frac{z^2}{c^4}}
+	\]
+	so that
+	\[
+	fN=\left(\frac{x}{a^2},\frac{y}{b^2},\frac{z}{c^2}\right),
+	\]
+	which is the restriction of a \emph{linear map} $\mathbb R^3\to\mathbb R^3$.
+	Then $D(fN)$ is constant, and the curvature computation becomes algebraic.
+	
+	\subsection*{Problem 1 — Plane geodesics are principal directions}
+	
+	\textbf{Problem.}
+	Let $\alpha:I\to S$ be a geodesic on an oriented surface $S\subset\mathbb R^3$ with Gauss map (unit normal) $N$.
+	Assume that $\alpha$ is a plane curve and that $\ddot\alpha(t_0)\neq 0$ for some $t_0\in I$.
+	Show that $\dot\alpha(t_0)$ is an eigenvector of the differential of the Gauss map $dN_{\alpha(t_0)}$.
+	
+	\medskip
+	\textbf{Solution.}
+	Work locally with an arc-length parameter $s$ (reparametrize near $t_0$ if needed), so that
+	$T(s)=\alpha'(s)$ satisfies $\|T(s)\|=1$.
+	Then
+	\[
+	T'(s)=\alpha''(s)=\kappa(s)\,n(s),
+	\]
+	where $\kappa$ is the curvature and $n$ is the principal normal of $\alpha$ as a space curve.
+	Since $\ddot\alpha(t_0)\neq 0$, we have $\kappa(s_0)\neq 0$ at the corresponding $s_0$, hence $n(s_0)$ is defined.
+	
+	Because $\alpha$ is a geodesic, its geodesic curvature is zero, so the acceleration is purely normal to the surface:
+	\[
+	T'(s)\ \parallel\ N(\alpha(s)).
+	\]
+	Therefore, wherever $\kappa(s)\neq 0$,
+	\[
+	n(s)=\pm N(\alpha(s)).
+	\]
+	
+	Since $\alpha$ is a plane curve, its binormal
+	\[
+	b(s)=T(s)\times n(s)
+	\]
+	is constant (it equals the fixed unit normal to the plane), hence $b'(s)=0$.
+	On any interval where $\kappa\neq 0$ we have $n=\pm N$, so
+	\[
+	b(s)=T(s)\times n(s)=\pm\,T(s)\times N(\alpha(s)).
+	\]
+	Differentiate:
+	\[
+	0=b'(s)=\pm\big(T'(s)\times N + T\times N'(s)\big).
+	\]
+	But $T'(s)\parallel N$, so $T'(s)\times N=0$, and thus
+	\[
+	T(s)\times N'(s)=0,
+	\]
+	which implies $N'(s)$ is parallel to $T(s)$.
+	By the chain rule,
+	\[
+	N'(s)=dN_{\alpha(s)}(T(s)).
+	\]
+	Hence $dN_{\alpha(s)}(T(s))$ is a scalar multiple of $T(s)$, i.e.
+	\[
+	dN_{\alpha(s)}(T(s))=\lambda(s)\,T(s),
+	\]
+	so $T(s)=\dot\alpha(s)$ is an eigenvector of $dN_{\alpha(s)}$ (equivalently, a principal direction).
+	In particular, $\dot\alpha(t_0)$ is an eigenvector of $dN_{\alpha(t_0)}$.
+	
+	
+\subsection*{Problem 2: Planar geodesics imply plane or sphere}
+\textbf{Statement.} Show that if all geodesics of a connected surface $S\subset\mathbb{R}^3$ are plane curves, then
+$S$ is contained in a plane or a sphere.
+
+	
+	\bigskip
+	\textbf{Solution.}
+	Let $\alpha(s)$ be a unit-speed geodesic on $S$, with unit tangent $T=\alpha'(s)$ and unit normal field $n$ of the
+	surface along $\alpha$.
+	
+	Since $\alpha$ is a geodesic, its acceleration is purely normal to the surface:
+	\[
+	\alpha''(s)=\kappa_n(s)\,n(s).
+	\]
+	Hence the principal normal $N$ of the space curve $\alpha$ equals $\pm n$, and the binormal is
+	\[
+	B = T\times N = \pm\, T\times n.
+	\]
+	A unit-speed space curve is planar iff its torsion vanishes, equivalently iff $B$ is constant. Thus, for a planar
+	geodesic we have $B'\equiv 0$. Compute
+	\[
+	B' = (T\times n)' = T'\times n + T\times n'.
+	\]
+	Using $T'=\alpha''=\kappa_n n$, we get $T'\times n=0$, so
+	\[
+	B' = T\times n'.
+	\]
+	By the Weingarten equation, $n' = dn(T) = -A(T)$ where $A$ is the shape operator. Therefore
+	\[
+	B' = -\,T\times A(T).
+	\]
+	If $B'\equiv 0$ then $T\times A(T)=0$, hence $A(T)$ is parallel to $T$; i.e.\ the tangent direction of $\alpha$ is a
+	principal direction.
+	
+	Now fix $p\in S$ and any $v\in T_pS$. There exists a (local) geodesic $\alpha$ with $\alpha(0)=p$ and $\alpha'(0)=v$.
+	Applying the previous conclusion at $s=0$ yields $A_p(v)\parallel v$ for all $v\in T_pS$. Hence
+	\[
+	A_p = \lambda(p)\,I \quad\text{for every }p\in S,
+	\]
+	so $S$ is totally umbilic.
+	
+	For a totally umbilic surface, the Codazzi equations imply $\nabla \lambda = 0$, hence $\lambda$ is constant on the
+	connected surface $S$.
+	If $\lambda=0$, then $A=0$ and the normal is constant, so $S$ is contained in a plane.
+	If $\lambda\neq 0$, then $dn = -\lambda\,dX$ and therefore
+	\[
+	d(n+\lambda X)=dn+\lambda\,dX=0,
+	\]
+	so $n+\lambda X=c$ is constant. Hence
+	\[
+	X-\frac{c}{\lambda} = -\frac{1}{\lambda}n,
+	\]
+	and taking norms gives $\bigl\|X-\frac{c}{\lambda}\bigr\|=\frac{1}{|\lambda|}$, i.e.\ $S$ is contained in a sphere.
+	\qed
+	
+\subsection*{Problem 3: Isometries preserve parallel transport and geodesics}
+\textbf{Statement.}
+Let $f:S_1\to S_2$ be an isometry between two surfaces.
+\begin{enumerate}
+	\item
+	Let $\alpha:I\to S_1$ be a curve and $V$ a vector field along $\alpha$.
+	Let $\gamma:=f\circ \alpha$, and define a vector field along $\gamma$ by
+	\[
+	W(t):=D f_{\alpha(t)}\bigl(V(t)\bigr).
+	\]
+	Show that
+	\[
+	\frac{DW}{dt}=D f_{\alpha(t)}\!\left(\frac{DV}{dt}\right),
+	\]
+	and hence that $V$ parallel along $\alpha$ implies that $W$ is parallel along $\gamma$.
+	
+	\item
+	Deduce that $f$ maps geodesics to geodesics.
+\end{enumerate}
+	\begin{enumerate}
+		\item
+		\textbf{Statement.} Let $\alpha:I\to S_1$ be a curve and $V$ a vector field along $\alpha$.
+		Let $\gamma=f\circ\alpha$ and define $W(t)=Df_{\alpha(t)}(V(t))$, a vector field along $\gamma$.
+		Show that
+		\[
+		\frac{DW}{dt} = Df_{\alpha(t)}\!\left(\frac{DV}{dt}\right),
+		\]
+		and deduce that $V$ parallel along $\alpha$ implies $W$ parallel along $\gamma$.
+		
+		\bigskip
+		\textbf{Solution.}
+		Let $\nabla^{(1)}$ and $\nabla^{(2)}$ be the Levi--Civita connections on $S_1$ and $S_2$.
+		Define a connection $\widetilde{\nabla}$ on $S_1$ by
+		\[
+		\widetilde{\nabla}_X Y := Df^{-1}\!\Bigl(\nabla^{(2)}_{Df(X)}(Df(Y))\Bigr).
+		\]
+		Because $f$ is an isometry, $\widetilde{\nabla}$ is metric-compatible; and since $\nabla^{(2)}$ is torsion-free and
+		$Df$ preserves Lie brackets, $\widetilde{\nabla}$ is torsion-free. By uniqueness of the Levi--Civita connection,
+		$\widetilde{\nabla}=\nabla^{(1)}$, hence for all vector fields $X,Y$ on $S_1$,
+		\[
+		\nabla^{(2)}_{Df(X)}(Df(Y)) = Df\bigl(\nabla^{(1)}_X Y\bigr).
+		\]
+		Apply this along the curve $\alpha$ with $X=\alpha'(t)$ and $Y=V(t)$:
+		\[
+		\nabla^{(2)}_{\gamma'(t)}W(t) = Df_{\alpha(t)}\!\bigl(\nabla^{(1)}_{\alpha'(t)}V(t)\bigr).
+		\]
+		By definition, $\frac{DV}{dt}=\nabla^{(1)}_{\alpha'}V$ and $\frac{DW}{dt}=\nabla^{(2)}_{\gamma'}W$, so
+		\[
+		\frac{DW}{dt} = Df_{\alpha(t)}\!\left(\frac{DV}{dt}\right).
+		\]
+		In particular, if $\frac{DV}{dt}=0$ then $\frac{DW}{dt}=0$.
+		
+		\item
+		\textbf{Statement.} Deduce that $f$ maps geodesics to geodesics.
+		
+		\bigskip
+		\textbf{Solution.}
+		If $\alpha$ is a geodesic on $S_1$, then its tangent field $T=\alpha'$ is parallel:
+		\[
+		\nabla^{(1)}_{\alpha'}\alpha' = 0.
+		\]
+		Let $\gamma=f\circ\alpha$. Then $\gamma' = Df(\alpha')$. By part (i),
+		$\nabla^{(2)}_{\gamma'}\gamma' = 0$, hence $\gamma$ is a geodesic on $S_2$.
+		\qed
+	\end{enumerate}
+	
+	
+	\subsubsection*{Theory (Problem 3)}
+	
+	\begin{enumerate}
+		\item \textbf{Isometry and pushforward.}
+		An isometry $f:S_1\to S_2$ preserves the first fundamental form, i.e.\ for every $p\in S_1$ and all
+		$u,v\in T_pS_1$,
+		\[
+		\langle Df_p(u),Df_p(v)\rangle_{S_2}=\langle u,v\rangle_{S_1}.
+		\]
+		Hence $Df_p:T_pS_1\to T_{f(p)}S_2$ is an inner-product preserving linear map.
+		
+		\item \textbf{Isometries preserve the Levi--Civita connection.}
+		Let $\nabla^{(1)}$ and $\nabla^{(2)}$ be the Levi--Civita connections on $S_1$ and $S_2$.
+		Define a connection $\widetilde{\nabla}$ on $S_1$ by
+		\[
+		\widetilde{\nabla}_X Y := Df^{-1}\!\Bigl(\nabla^{(2)}_{Df(X)}(Df(Y))\Bigr).
+		\]
+		Because $f$ is an isometry, $\widetilde{\nabla}$ is metric-compatible; and since $\nabla^{(2)}$ is torsion-free and
+		$Df$ preserves Lie brackets, $\widetilde{\nabla}$ is torsion-free. By uniqueness of the Levi--Civita connection,
+		$\widetilde{\nabla}=\nabla^{(1)}$. Equivalently, for all vector fields $X,Y$ on $S_1$,
+		\[
+		\nabla^{(2)}_{Df(X)}(Df(Y)) \;=\; Df\bigl(\nabla^{(1)}_X Y\bigr).
+		\]
+		
+		\item \textbf{Parallel vector fields are mapped to parallel vector fields.}
+		Let $\alpha:I\to S_1$ be a curve and $V$ a vector field along $\alpha$.
+		Put $\gamma=f\circ\alpha$ and $W(t):=Df_{\alpha(t)}(V(t))$.
+		Using the identity in (2) with $X=\alpha'(t)$ and $Y=V(t)$, we obtain
+		\[
+		\frac{DW}{dt}
+		=\nabla^{(2)}_{\gamma'(t)}W(t)
+		= Df_{\alpha(t)}\!\left(\nabla^{(1)}_{\alpha'(t)}V(t)\right)
+		= Df_{\alpha(t)}\!\left(\frac{DV}{dt}\right).
+		\]
+		In particular, if $V$ is parallel along $\alpha$ (i.e.\ $\frac{DV}{dt}=0$), then $W$ is parallel along $\gamma$
+		(i.e.\ $\frac{DW}{dt}=0$).
+		
+		\item \textbf{Geodesics are mapped to geodesics.}
+		A curve $\alpha$ on $S_1$ is a geodesic iff its tangent field is parallel:
+		\[
+		\nabla^{(1)}_{\alpha'}\alpha' = 0.
+		\]
+		Let $\gamma=f\circ\alpha$. Since $\gamma'=Df(\alpha')$, applying (3) to $V=\alpha'$ yields
+		\[
+		\nabla^{(2)}_{\gamma'}\gamma' = 0,
+		\]
+		so $\gamma$ is a geodesic on $S_2$.
+	\end{enumerate}
+	
+	\[
+	\begin{tikzcd}[column sep=large, row sep=large]
+		T_{\alpha(t)}S_1 \arrow[r,"Df_{\alpha(t)}"] \arrow[d,"\nabla^{(1)}_{\alpha'(t)}"'] &
+		T_{\gamma(t)}S_2 \arrow[d,"\nabla^{(2)}_{\gamma'(t)}"] \\
+		T_{\alpha(t)}S_1 \arrow[r,"Df_{\alpha(t)}"'] &
+		T_{\gamma(t)}S_2
+	\end{tikzcd}
+	\]
+	
+	\[
+	\begin{tikzcd}[column sep=large, row sep=large]
+		V(t)\in T_{\alpha(t)}S_1 \arrow[r, "Df_{\alpha(t)}"] \arrow[d, "\frac{D}{dt}"'] &
+		W(t)\in T_{\gamma(t)}S_2 \arrow[d, "\frac{D}{dt}"] \\
+		\frac{DV}{dt}(t) \arrow[r, "Df_{\alpha(t)}"'] &
+		\frac{DW}{dt}(t)
+	\end{tikzcd}
+	\qquad
+	\text{where } W(t)=Df_{\alpha(t)}(V(t)),\ \gamma=f\circ\alpha.
+	\]
+	
+	\[
+	\begin{tikzcd}[column sep=huge]
+		\nabla^{(1)}_{\alpha'}\alpha' = 0 \arrow[r, "Df\ \text{and (i)}"] &
+		\nabla^{(2)}_{\gamma'}\gamma' = 0
+	\end{tikzcd}
+	\qquad(\gamma=f\circ\alpha)
+	\]
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=1.1, line cap=round, line join=round]
+		
+		% ---------- Left surface S1 ----------
+		\draw[thick]
+		(-4,0) .. controls (-5,1.6) and (-3.1,2.5) .. (-2.0,1.3)
+		.. controls (-1.1,0.2) and (-2.2,-1.4) .. (-3.6,-1.0)
+		.. controls (-4.8,-0.6) and (-4.9,-0.1) .. (-4,0);
+		\node at (-3.2,2.35) {$S_1$};
+		
+		% curve alpha on S1
+		\draw[thick]
+		(-4.55,0.65) .. controls (-3.9,0.95) and (-3.25,0.35) .. (-2.55,0.75);
+		
+		% label alpha
+		\node[font=\scriptsize, fill=white, inner sep=1.2pt]
+		at (-3.10,0.95) {$\alpha(t)$};
+		
+		% point and vector V on S1 (colored)
+		\fill (-3.45,0.58) circle (1.2pt);
+		\draw[->,thick,red] (-3.45,0.58) -- (-3.05,0.78);
+		
+		% label V (colored, off the curve)
+		\node[font=\scriptsize, fill=white, inner sep=1.2pt, anchor=west, text=red]
+		at (-2.90,0.78) {$V(t)\in T_{\alpha(t)}S_1$};
+		
+		% ---------- Map arrow f ----------
+		\draw[->,very thick] (-1.35,0.65) -- (1.35,0.65);
+		\node[above] at (0,0.65) {$f$};
+		
+		% ---------- Right surface S2 ----------
+		\draw[thick]
+		(4,0) .. controls (5,1.5) and (3.7,2.6) .. (2.35,1.45)
+		.. controls (1.55,0.55) and (2.2,-1.25) .. (3.65,-1.0)
+		.. controls (4.85,-0.65) and (4.95,-0.15) .. (4,0);
+		\node at (3.2,2.35) {$S_2$};
+		
+		% curve gamma on S2
+		\draw[thick]
+		(2.55,0.95) .. controls (3.15,0.40) and (3.85,1.10) .. (4.55,0.72);
+		
+		% gamma label
+		\node[font=\scriptsize, fill=white, inner sep=1.2pt]
+		at (3.25,1.10) {$\gamma(t)=f(\alpha(t))$};
+		
+		% point and vector W on S2 (colored)
+		\fill (3.45,0.78) circle (1.2pt);
+		\draw[->,thick,blue] (3.45,0.78) -- (3.95,0.98);
+		
+		% W label moved up + colored (key change: yshift)
+		\node[
+		font=\scriptsize,
+		fill=white,
+		inner sep=1.2pt,
+		anchor=west,
+		text=blue,
+		yshift=10pt
+		] at (3.95,0.98) {$W(t)=Df_{\alpha(t)}(V(t))$};
+		
+	\end{tikzpicture}
+	\caption{An isometry $f$ pushes forward a vector field $V$ along $\alpha$ to the vector field
+		$W(t)=Df_{\alpha(t)}(V(t))$ along $\gamma=f\circ\alpha$.}
+\end{figure}
+
+	\subsubsection*{Levi--Civita connection}
+	
+	Let $(M,g)$ be a Riemannian manifold (in particular, a regular surface with the first fundamental form).
+	A \emph{connection} on $TM$ is a map
+	\[
+	\nabla:\Gamma(TM)\times \Gamma(TM)\to \Gamma(TM),\qquad (X,Y)\mapsto \nabla_X Y,
+	\]
+	called the \emph{covariant derivative}, such that for all smooth functions $f$ and vector fields $X,Y,Z$:
+	\begin{enumerate}
+		\item $\nabla_{fX+Y}Z = f\nabla_X Z + \nabla_Y Z$,
+		\item $\nabla_X(Y+Z)=\nabla_XY+\nabla_XZ$,
+		\item $\nabla_X(fY)=X(f)\,Y + f\nabla_XY$.
+	\end{enumerate}
+	
+	\medskip
+	There exists a unique connection $\nabla$ satisfying:
+	\begin{enumerate}
+		\item \textbf{Metric compatibility} $(\nabla g=0)$:
+		\[
+		X\langle Y,Z\rangle = \langle \nabla_X Y, Z\rangle + \langle Y,\nabla_X Z\rangle,
+		\]
+		\item \textbf{Torsion-free}:
+		\[
+		\nabla_X Y - \nabla_Y X = [X,Y].
+		\]
+	\end{enumerate}
+	This unique connection is the \emph{Levi--Civita connection} of $(M,g)$.
+	
+	\medskip
+	If $S\subset\mathbb{R}^3$ is a surface with unit normal $n$ and $\bar\nabla$ denotes the usual derivative in
+	$\mathbb{R}^3$, then for tangent vector fields $X,Y$ on $S$ one has the decomposition
+	\[
+	\bar\nabla_X Y = \nabla_X Y + \mathrm{II}(X,Y)\,n,
+	\qquad
+	\mathrm{II}(X,Y)=\langle \bar\nabla_X Y, n\rangle,
+	\]
+	so $\nabla_XY$ is the tangential part of the ambient derivative.
+	
+	\medskip
+	For a curve $\alpha:I\to M$ and a vector field $V$ along $\alpha$, the covariant derivative along $\alpha$ is
+	\[
+	\frac{DV}{dt}:=\nabla_{\alpha'(t)}V.
+	\]
+	A field $V$ is \emph{parallel} along $\alpha$ if $\frac{DV}{dt}=0$, and $\alpha$ is a \emph{geodesic} if
+	\[
+	\frac{D\alpha'}{dt}=\nabla_{\alpha'}\alpha'=0.
+	\]
+	
+	\medskip
+	In local coordinates $(u^1,u^2)$ with $\partial_i=\frac{\partial}{\partial u^i}$ one writes
+	\[
+	\nabla_{\partial_i}\partial_j=\Gamma^{k}_{ij}\,\partial_k,
+	\qquad
+	\nabla_{\partial_i}(Y^j\partial_j)
+	=
+	\left(\frac{\partial Y^k}{\partial u^i}+\Gamma^{k}_{ij}Y^j\right)\partial_k.
+	\]
+	
+	\subsubsection*{Explanation of the notation}
+	
+	\begin{itemize}
+		\item \textbf{The tangent bundle and vector fields.}
+		For a smooth manifold (or surface) $M$, the \emph{tangent bundle} $TM$ is the union of all tangent spaces
+		$T_pM$ over $p\in M$.
+		The notation $\Gamma(TM)$ denotes the set of smooth sections of $TM$, i.e.\ the set of smooth \emph{vector fields}
+		on $M$:
+		\[
+		X\in\Gamma(TM)\quad\Longleftrightarrow\quad X(p)\in T_pM \text{ for all }p\in M,\ \text{smoothly in }p.
+		\]
+		
+		\item \textbf{A connection (covariant derivative).}
+		A (linear) connection on $TM$ is a map
+		\[
+		\nabla:\Gamma(TM)\times \Gamma(TM)\to \Gamma(TM),
+		\qquad
+		(X,Y)\mapsto \nabla_X Y,
+		\]
+		which should be thought of as ``differentiate the vector field $Y$ in the direction of the vector field $X$''.
+		It satisfies the usual linearity and Leibniz rules:
+		\[
+		\nabla_{fX+gX'}Y=f\nabla_XY+g\nabla_{X'}Y,\qquad
+		\nabla_X(Y+Y')=\nabla_XY+\nabla_XY',\qquad
+		\nabla_X(fY)=X(f)\,Y+f\nabla_XY.
+		\]
+		
+		\item \textbf{The curve $\gamma=f\circ\alpha$.}
+		If $\alpha:I\to S_1$ is a curve and $f:S_1\to S_2$ is a smooth map, then the \emph{image curve}
+		\[
+		\gamma:=f\circ\alpha:I\to S_2,\qquad \gamma(t)=f(\alpha(t)).
+		\]
+		By the chain rule, the tangent vectors satisfy
+		\[
+		\gamma'(t)=Df_{\alpha(t)}\bigl(\alpha'(t)\bigr),
+		\]
+		where $Df_{\alpha(t)}:T_{\alpha(t)}S_1\to T_{\gamma(t)}S_2$ is the differential (pushforward) of $f$ at $\alpha(t)$.
+	\end{itemize}
+	
+	A (smooth) vector field on $M$ means a smooth \emph{tangent} vector field, i.e.\ a section of the tangent bundle:
+	\[
+	X\in \Gamma(TM)\quad\Longleftrightarrow\quad X:M\to TM,\ \ X(p)\in T_pM\ \text{for all }p\in M.
+	\]
+	If $M\subset\mathbb{R}^3$ is embedded, an ambient vector field $Y:M\to\mathbb{R}^3$ need not be tangent; it splits as
+	$Y=Y^\top+Y^\perp$ into tangent and normal components.
+	
+	\paragraph{Example (sphere).}
+	Let $M=S^2\subset\mathbb{R}^3$ be the unit sphere. Its unit normal at $p\in S^2$ is $n(p)=p$.
+	Consider the ambient vector field $Y(p)=e_3=(0,0,1)$.
+	In general $Y$ is not tangent to $S^2$.
+	The normal component is the projection onto $n(p)$:
+	\[
+	Y^\perp(p)=\langle Y(p),n(p)\rangle n(p)=\langle e_3,p\rangle\,p=p_3\,p,
+	\]
+	and therefore the tangential component is
+	\[
+	Y^\top(p)=Y(p)-Y^\perp(p)=e_3-p_3\,p.
+	\]
+	One checks tangency by $\langle Y^\top(p),p\rangle=0$, hence $Y^\top(p)\in T_pS^2$.
+	
+	\paragraph{Example (plane).}
+	Let $M=\{(x,y,0)\}\subset\mathbb{R}^3$ with unit normal $n=e_3$.
+	For the ambient field $Y\equiv e_3$ we get
+	\[
+	Y^\perp=\langle e_3,n\rangle n=e_3,\qquad Y^\top=Y-Y^\perp=0,
+	\]
+	so $Y$ is purely normal to the plane.
+	
+	\paragraph{Example (graph surface).}
+	Let $M$ be the graph $X(x,y)=(x,y,f(x,y))$. Then $X_x=(1,0,f_x)$, $X_y=(0,1,f_y)$ and a normal is
+	$N=X_x\times X_y=(-f_x,-f_y,1)$.
+	For an ambient constant field $Y\equiv e_1=(1,0,0)$ one has the decomposition
+	\[
+	Y^\perp=\langle Y,n\rangle n,\qquad Y^\top=Y-\langle Y,n\rangle n,
+	\quad\text{where } n=\frac{N}{\|N\|}.
+	\]
+	Unless $f_x\equiv 0$, the field $Y$ is not tangent to $M$.
+	
+	A (tangent) vector field on $M$ is a smooth section of the tangent bundle because it assigns to each point
+	$p\in M$ a vector based at $p$ lying in the tangent space at $p$:
+	\[
+	X\in\Gamma(TM)\quad\Longleftrightarrow\quad X:M\to TM,\ \ X(p)\in T_pM\ \text{for all }p,
+	\ \text{and } \pi\circ X=\mathrm{id}_M,
+	\]
+	where $\pi:TM\to M$ is the bundle projection.
+	For a surface, $T_pM$ is the tangent plane at $p$.
+	
+	
+	$\Gamma(TM)$ denotes the set of smooth tangent vector fields on $M$, i.e.\ maps $X:M\to TM$ with
+	$X(p)\in T_pM$ for every $p\in M$.
+	
+	A connection is a map
+	\[
+	\nabla:\Gamma(TM)\times\Gamma(TM)\to\Gamma(TM),\qquad (X,Y)\mapsto \nabla_XY,
+	\]
+	so $\nabla_XY$ is again a tangent vector field. In particular, for each $p\in M$,
+	\[
+	(\nabla_XY)(p)\in T_pM.
+	\]
+	Heuristically, $(\nabla_XY_bt)(p)$ measures the variation of $Y$ at $p$ in the direction $X(p)$.
+	Along a curve $\alpha(t)$ and a field $V(t)\in T_{\alpha(t)}M$, one writes
+	\[
+	\frac{DV}{dt}:=\nabla_{\alpha'(t)}V\in T_{\alpha(t)}M.
+	\]
+	
+	The covariant derivative $\nabla_XY$ is the ``directional derivative'' of the vector field $Y$ in the direction $X$,
+	defined intrinsically on $M$. It is a vector field, so for each $p\in M$ one has
+	\[
+	(\nabla_XY)(p)\in T_pM.
+	\]
+	Geometrically, $(\nabla_XY)(p)$ measures how $Y$ changes when one moves away from $p$ in the direction $X(p)$,
+	using the connection to compare vectors in different tangent spaces.
+	
+	Equivalently, if $c(t)$ is any curve with $c(0)=p$ and $c'(0)=X(p)$ and $P_t:T_pM\to T_{c(t)}M$ denotes parallel
+	transport along $c$, then
+	\[
+	(\nabla_XY)(p)
+	=
+	\left.\frac{d}{dt}\right|_{t=0}\Bigl(P_t^{-1}(Y(c(t)))\Bigr).
+	\]
+	Along a curve $\alpha(t)$ and a field $V(t)\in T_{\alpha(t)}M$, one writes
+	\[
+	\frac{DV}{dt}:=\nabla_{\alpha'(t)}V,
+	\]
+	so $DV/dt=0$ means that $V$ is parallel along $\alpha$, and $\nabla_{\alpha'}\alpha'=0$ means that $\alpha$ is a
+	geodesic.
+	
+	\subsubsection*{Example on $S^2$: computing $\nabla_{\alpha'}V$ by projection}
+	
+	If $S\subset\mathbb{R}^3$ is a surface with unit normal $n$, then along a curve $\alpha(t)\subset S$ and a tangent
+	field $V(t)\in T_{\alpha(t)}S$ one can compute the Levi--Civita covariant derivative by
+	\[
+	\frac{DV}{dt}=\left(\frac{dV}{dt}\right)^\top
+	=
+	\frac{dV}{dt}-\left\langle \frac{dV}{dt},\,n(\alpha(t))\right\rangle n(\alpha(t)).
+	\]
+	For the unit sphere $S^2$, one has $n(p)=p$.
+	
+	\paragraph{(A) Great circle (equator) is a geodesic.}
+	Let $\alpha(s)=(\cos s,\sin s,0)$ (arc-length parametrization). Then
+	\[
+	T(s)=\alpha'(s)=(-\sin s,\cos s,0),\qquad \frac{dT}{ds}=(-\cos s,-\sin s,0).
+	\]
+	Since $n(\alpha(s))=\alpha(s)$,
+	\[
+	\left\langle \frac{dT}{ds},\,\alpha(s)\right\rangle
+	= (-\cos s,-\sin s,0)\cdot(\cos s,\sin s,0)=-1.
+	\]
+	Hence
+	\[
+	\frac{DT}{ds}
+	=
+	\frac{dT}{ds}-\left\langle \frac{dT}{ds},\alpha\right\rangle\alpha
+	=
+	(-\cos s,-\sin s,0)-(-1)\,(\cos s,\sin s,0)=0,
+	\]
+	so $\nabla_TT=0$ and the equator is a geodesic.
+	
+	\paragraph{(B) Latitude is not a geodesic (except the equator).}
+	Fix $\theta\in(0,\pi/2)$ and consider
+	\[
+	\alpha(\varphi)=\bigl(\cos\theta\cos\varphi,\ \cos\theta\sin\varphi,\ \sin\theta\bigr).
+	\]
+	Then $|\alpha'(\varphi)|=\cos\theta$, and the unit tangent is
+	\[
+	T(\varphi)=\frac{\alpha'(\varphi)}{|\alpha'(\varphi)|}=(-\sin\varphi,\cos\varphi,0).
+	\]
+	Differentiate:
+	\[
+	\frac{dT}{d\varphi}=(-\cos\varphi,-\sin\varphi,0),
+	\qquad
+	\left\langle \frac{dT}{d\varphi},\,\alpha(\varphi)\right\rangle=-\cos\theta.
+	\]
+	Therefore the tangential projection is
+	\[
+	\left(\frac{dT}{d\varphi}\right)^\top
+	=
+	\frac{dT}{d\varphi}-\left\langle \frac{dT}{d\varphi},\alpha\right\rangle\alpha
+	=
+	(-\cos\varphi,-\sin\varphi,0)+\cos\theta\,\alpha(\varphi)\neq 0
+	\quad(\theta\neq 0).
+	\]
+	Since $ds=\cos\theta\,d\varphi$, we have
+	\[
+	\frac{DT}{ds}=\frac{1}{\cos\theta}\left(\frac{dT}{d\varphi}\right)^\top\neq 0\quad(\theta\neq 0),
+	\]
+	so a latitude circle is not a geodesic, except when $\theta=0$ (the equator).
+	
+	\subsubsection*{How to understand a connection (Earth / sphere intuition)}
+	
+	Think of $M=S^2$ (Earth idealized as a sphere). A wind (velocity) field is a \emph{tangent} vector field
+	\[
+	Y\in \Gamma(TM),\qquad Y(p)\in T_pS^2\ \text{for each }p\in S^2,
+	\]
+	so at every point you have an arrow lying in the local tangent plane.
+	
+	\medskip
+	\noindent
+	\textbf{Why we need a connection.}
+	If $p$ and $q$ are two nearby points, then $T_pS^2$ and $T_qS^2$ are different tangent planes. Hence one cannot
+	directly form $Y(q)-Y(p)$, because these vectors live in different vector spaces.
+	
+	\medskip
+	\noindent
+	\textbf{Role of the connection.}
+	A connection $\nabla$ provides a rule to compare vectors in different tangent planes and therefore defines a
+	directional derivative of vector fields. Given a tangent direction $X(p)\in T_pS^2$, the covariant derivative
+	\[
+	(\nabla_XY)(p)\in T_pS^2
+	\]
+	measures how $Y$ changes at $p$ when one moves in the direction $X(p)$, after correcting for the curvature of the
+	surface.
+	
+	\medskip
+	\noindent
+	\textbf{Parallel transport interpretation.}
+	Let $c(t)$ be a curve on $S^2$ with $c(0)=p$ and $c'(0)=X(p)$, and let
+	$P_t:T_pS^2\to T_{c(t)}S^2$ denote parallel transport along $c$ (for the Levi--Civita connection).
+	Then
+	\[
+	(\nabla_XY)(p)
+	=
+	\left.\frac{d}{dt}\right|_{t=0}\Bigl(P_t^{-1}(Y(c(t)))\Bigr).
+	\]
+	Here $P_t^{-1}(Y(c(t)))$ is the vector $Y(c(t))$ moved back to the original tangent space $T_pS^2$, so the usual
+	difference quotient makes sense.
+	
+	\medskip
+	\noindent
+	\textbf{Geodesics.}
+	For a curve $c(t)$, its velocity $T=c'(t)$ is tangent. The curve is a geodesic iff
+	\[
+	\nabla_TT=0,
+	\]
+	meaning its tangent vector is parallel along the curve (``straightest possible motion on the surface'').
+	
+	\subsubsection*{How to understand a connection (Earth / sphere intuition)}
+	
+	Think of $M=S^2$ (Earth idealized as a sphere). A wind (velocity) field is a \emph{tangent} vector field
+	\[
+	Y\in \Gamma(TM),\qquad Y(p)\in T_pS^2\ \text{for each }p\in S^2,
+	\]
+	so at every point you have an arrow lying in the local tangent plane.
+	
+	\medskip
+	\noindent
+	\textbf{Why we need a connection.}
+	If $p$ and $q$ are two nearby points, then $T_pS^2$ and $T_qS^2$ are different tangent planes. Hence one cannot
+	directly form $Y(q)-Y(p)$, because these vectors live in different vector spaces.
+	
+	\medskip
+	\noindent
+	\textbf{Role of the connection.}
+	A connection $\nabla$ provides a rule to compare vectors in different tangent planes and therefore defines a
+	directional derivative of vector fields. Given a tangent direction $X(p)\in T_pS^2$, the covariant derivative
+	\[
+	(\nabla_XY)(p)\in T_pS^2
+	\]
+	measures how $Y$ changes at $p$ when one moves in the direction $X(p)$, after correcting for the curvature of the
+	surface.
+	
+	\medskip
+	\noindent
+	\textbf{Parallel transport interpretation.}
+	Let $c(t)$ be a curve on $S^2$ with $c(0)=p$ and $c'(0)=X(p)$, and let
+	$P_t:T_pS^2\to T_{c(t)}S^2$ denote parallel transport along $c$ (for the Levi--Civita connection).
+	Then
+	\[
+	(\nabla_XY)(p)
+	=
+	\left.\frac{d}{dt}\right|_{t=0}\Bigl(P_t^{-1}(Y(c(t)))\Bigr).
+	\]
+	Here $P_t^{-1}(Y(c(t)))$ is the vector $Y(c(t))$ moved back to the original tangent space $T_pS^2$, so the usual
+	difference quotient makes sense.
+	
+	\medskip
+	\noindent
+	\textbf{Geodesics.}
+	For a curve $c(t)$, its velocity $T=c'(t)$ is tangent. The curve is a geodesic iff
+	\[
+	\nabla_TT=0,
+	\]
+	meaning its tangent vector is parallel along the curve (``straightest possible motion on the surface'').
+	
+	\subsubsection*{What the connection gives you}
+	
+	A connection $\nabla$ provides a consistent way to:
+	\begin{enumerate}
+		\item \textbf{compare vectors in different tangent planes}, and therefore
+		\item \textbf{define a derivative} of a vector field.
+	\end{enumerate}
+	
+	\subsubsection*{``Derivative in a direction'' (the meaning of $\nabla_XY$)}
+	
+	Pick:
+	\begin{itemize}
+		\item a direction of motion $X(p)\in T_pS^2$ (for example: your walking direction),
+		\item and a tangent vector field $Y$ (for example: wind velocity).
+	\end{itemize}
+	Then $(\nabla_XY)(p)\in T_pS^2$ means:
+	\begin{quote}
+		Start at $p$, move a tiny bit in the direction $X(p)$.
+		Bring the vector $Y$ at the new point back to the original tangent plane (using the connection's
+		\emph{``keep direction as constant as possible''} rule).
+		The rate of change of the difference is $(\nabla_XY)(p)$.
+	\end{quote}
+	
+	\medskip
+	\noindent
+	\textbf{Parallel transport formula.}
+	Let $c(t)$ be a curve with $c(0)=p$ and $c'(0)=X(p)$, and let
+	$P_t:T_pS^2\to T_{c(t)}S^2$ denote parallel transport along $c$.
+	Then
+	\[
+	(\nabla_XY)(p)
+	=
+	\left.\frac{d}{dt}\right|_{t=0}\Bigl(P_t^{-1}(Y(c(t)))\Bigr).
+	\]
+	
+	% ------------------------------------------------------------
+	\subsubsection*{Chart 1: the spherical-triangle loop (holonomy picture)}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.15, line cap=round, line join=round, >=Latex]
+			
+			% Sphere boundary (schematic 2D projection)
+			\def\R{3.0}
+			\draw[thick] (0,0) circle (\R);
+			\node at (0,3.35) {$S^2$};
+			
+			% Key points: A, B on equator; N at "north pole"
+			\coordinate (A) at (\R,0);
+			\coordinate (B) at (-\R,0);
+			\coordinate (N) at (0,\R);
+			
+			\fill (A) circle (1.2pt) node[below right] {$A$};
+			\fill (B) circle (1.2pt) node[below left] {$B$};
+			\fill (N) circle (1.2pt) node[above] {$N$};
+			
+			% Equator (AB)
+			\draw[very thick] (B) -- (A);
+			\node[below] at (0,-0.15) {\scriptsize equator};
+			
+			% Meridian-like arcs (schematic curves inside the disk)
+			\draw[very thick]
+			(A) .. controls (1.7,1.2) and (0.9,2.2) .. (N);
+			\draw[very thick]
+			(N) .. controls (-0.9,2.2) and (-1.7,1.2) .. (B);
+			
+			\node[font=\scriptsize, fill=white, inner sep=1.2pt] at (1.25,1.95) {meridian};
+			\node[font=\scriptsize, fill=white, inner sep=1.2pt] at (-1.25,1.95) {meridian};
+			
+			% Direction of travel (arrows on edges)
+			\draw[->] ($(A)!0.55!(N)$) -- ($(A)!0.62!(N)$);
+			\draw[->] ($(N)!0.55!(B)$) -- ($(N)!0.62!(B)$);
+			\draw[->] ($(B)!0.55!(A)$) -- ($(B)!0.62!(A)$);
+			
+			% Vectors being transported (schematic)
+			% At A: point "north" (toward N)
+			\draw[->,thick,blue] (A) -- ($(A)+( -0.55,0.75)$);
+			\node[blue, font=\scriptsize, anchor=west] at ($(A)+(-0.55,0.75)$) {$V(A)$};
+			
+			% At B: show rotated vector (schematic)
+			\draw[->,thick,blue] (B) -- ($(B)+(0.75,0.45)$);
+			\node[blue, font=\scriptsize, anchor=east] at ($(B)+(0.75,0.45)$) {$V(B)$};
+			
+			% At A again: show "mismatch" after loop (schematic)
+			\draw[->,thick,blue!60!black] ($(A)+(0.0,-0.05)$) -- ($(A)+(0.75,0.25)$);
+			\node[blue!60!black, font=\scriptsize, anchor=west] at ($(A)+(0.75,0.25)$) {$V(A)$ after loop};
+			
+		\end{tikzpicture}
+		\caption{Schematic spherical triangle loop $A\to N\to B\to A$.
+			Parallel transport ($\nabla_{c'}V=0$ along each edge) can rotate the vector after returning to $A$
+			(\emph{holonomy}), reflecting curvature.}
+	\end{figure}
+	
+	% ------------------------------------------------------------
+	\subsubsection*{Chart 2: covariant derivative via parallel transport (diagram)}
+	
+\[
+\begin{tikzcd}[column sep=huge, row sep=large]
+	T_pM \arrow[r,"P_t"] & T_{c(t)}M \\
+	Y(p)\arrow[r,mapsto] \arrow[dr, phantom, "\text{compare in }T_pM" description] &
+	Y(c(t)) \arrow[d,"P_t^{-1}"] \\
+	& P_t^{-1}\!\bigl(Y(c(t))\bigr)\in T_pM
+\end{tikzcd}
+\]
+
+	\[
+	(\nabla_XY)(p)=\left.\frac{d}{dt}\right|_{t=0}\Bigl(P_t^{-1}(Y(c(t)))\Bigr),
+	\qquad c(0)=p,\ c'(0)=X(p).
+	\]
+	
+	
+	% Preamble needs:
+	% \usepackage{tikz}
+	% \usepackage{tikz-3dplot}
+	% \usetikzlibrary{calc}
+	
+	\begin{figure}[H]
+		\centering
+		
+		% viewing angles: adjust if you want more/less "tilt"
+		\tdplotsetmaincoords{70}{120}
+		
+		\begin{tikzpicture}[tdplot_main_coords, scale=1.15, line cap=round, line join=round, >=Latex]
+			
+			\def\R{2.8}
+			
+			% --- Sphere outline (schematic) ---
+			\shade[ball color=gray!15, opacity=0.35] (0,0,0) circle (\R);
+			\draw[thick] (0,0,0) circle (\R);
+			\node at (0,0,\R+0.45) {$S^2$};
+			
+			% --- A,B on equator; N at north pole ---
+			\coordinate (A) at (\R,0,0);      % lon 0 on equator
+			\coordinate (B) at (0,\R,0);      % lon 90 on equator
+			\coordinate (N) at (0,0,\R);      % north pole
+			
+			\fill (A) circle (1.2pt);
+			\fill (B) circle (1.2pt);
+			\fill (N) circle (1.2pt);
+			
+			\node[anchor=west] at ($(A)+(0.15,-0.10,0)$) {$A$};
+			\node[anchor=south] at ($(B)+(0,0.10,0)$) {$B$};
+			\node[anchor=south] at ($(N)+(0,0,0.12)$) {$N$};
+			
+			% --- Some faint meridians (optional, for 3D feel) ---
+			% great circle in x-z plane (y=0)
+			\draw[thin, gray!60] plot[domain=0:360, samples=120]
+			({\R*cos(\x)},{0},{\R*sin(\x)});
+			% great circle in y-z plane (x=0)
+			\draw[thin, gray!60] plot[domain=0:360, samples=120]
+			({0},{\R*cos(\x)},{\R*sin(\x)});
+			
+			% --- Spherical triangle edges ---
+			% A -> N (meridian in x-z plane, y=0)
+			\draw[very thick]
+			plot[domain=0:90, samples=80]
+			({\R*cos(\x)},{0},{\R*sin(\x)});
+			
+			% N -> B (meridian in y-z plane, x=0)
+			\draw[very thick]
+			plot[domain=90:0, samples=80]
+			({0},{\R*cos(\x)},{\R*sin(\x)});
+			
+			% B -> A (equator arc in z=0 plane, from lon 90 to lon 0)
+			\draw[very thick]
+			plot[domain=90:0, samples=80]
+			({\R*cos(\x)},{\R*sin(\x)},{0});
+			
+			% Direction arrows along edges
+			\draw[->] plot[domain=35:42, samples=2]
+			({\R*cos(\x)},{0},{\R*sin(\x)});
+			\draw[->] plot[domain=55:48, samples=2]
+			({0},{\R*cos(\x)},{\R*sin(\x)});
+			\draw[->] plot[domain=55:48, samples=2]
+			({\R*cos(\x)},{\R*sin(\x)},{0});
+			
+			% --- Vectors indicating parallel transport / holonomy (schematic) ---
+			% At A: initial vector V(A) (blue) in tangent plane at A (e.g. "east" direction ~ +y)
+			\draw[->, thick, blue] (A) -- ($(A)+(0,0.85,0)$);
+			\node[blue, font=\scriptsize, fill=white, inner sep=1.2pt, anchor=west]
+			at ($(A)+(0,0.85,0)$) {$V(A)$};
+			
+			% At B: transported vector (schematic)
+			\draw[->, thick, blue] (B) -- ($(B)+(-0.70,0,0.35)$);
+			\node[blue, font=\scriptsize, fill=white, inner sep=1.2pt, anchor=east]
+			at ($(B)+(-0.70,0,0.35)$) {$V(B)$};
+			
+			% At N: transported vector (schematic; tangent plane at N is horizontal)
+			\draw[->, thick, blue] (N) -- ($(N)+(0.75,-0.25,0)$);
+			\node[blue, font=\scriptsize, fill=white, inner sep=1.2pt, anchor=west]
+			at ($(N)+(0.75,-0.25,0)$) {$V(N)$};
+			
+			% Back at A: "after loop" vector (rotated) (blue!60!black) to show holonomy
+			\draw[->, thick, blue!60!black] (A) -- ($(A)+(0,0,0.85)$);
+			\node[blue!60!black, font=\scriptsize, fill=white, inner sep=1.2pt, anchor=west]
+			at ($(A)+(0,0,0.85)$) {$V(A)\ \text{after loop}$};
+			
+			% Small label
+			\node[font=\scriptsize, fill=white, inner sep=1.4pt]
+			at (0.15,0.25,1.55) {parallel transport around $A\to N\to B\to A$};
+			
+		\end{tikzpicture}
+		
+		\caption{A 3D-looking schematic of a spherical triangle loop. A tangent vector field transported with
+			$\nabla_{c'(t)}V=0$ along the loop can return rotated at $A$ (holonomy), reflecting curvature.}
+	\end{figure}
+
+
+\subsubsection*{Parallel transport and directional derivative of a tangent field}
+
+On a manifold (in particular on a surface) tangent vectors at different points live in
+different vector spaces. Thus, for a curve $c(t)$ with $c(0)=p$,
+the expression $Y(c(t)) - Y(p)$ does not make sense intrinsically because
+$Y(c(t))\in T_{c(t)}M$ while $Y(p)\in T_pM$.
+
+\medskip
+Let $P_t:T_pM\to T_{c(t)}M$ denote the (Levi--Civita) parallel transport along $c$
+from $0$ to $t$. Then $P_t^{-1}:T_{c(t)}M\to T_pM$ brings vectors back to $T_pM$,
+so that subtraction and differentiation become meaningful.
+
+\medskip
+\textbf{Definition (covariant derivative via parallel transport).}
+Let $X(p)=c'(0)\in T_pM$ and let $Y$ be a tangent vector field along $c$.
+The covariant derivative of $Y$ in the direction $X$ at $p$ is
+\[
+(\nabla_X Y)(p)
+:=\left.\frac{d}{dt}\right|_{t=0}\Bigl(P_t^{-1}(Y(c(t)))\Bigr).
+\]
+Equivalently: transport $Y(c(t))$ back to $T_pM$ without twisting (parallel transport),
+then differentiate in the fixed vector space $T_pM$.
+
+\medskip
+\textbf{Directional derivative: scalar vs.\ vector.}
+For a scalar field $f:M\to\mathbb{R}$, the directional derivative is
+\[
+X(f)(p)=\left.\frac{d}{dt}\right|_{t=0} f(c(t)).
+\]
+For a tangent vector field $Y$, the intrinsic directional derivative is $\nabla_X Y$,
+because one must compare vectors lying in different tangent planes.
+
+\medskip
+\textbf{Example (Earth as a sphere).}
+Let $M=S^2$ model the Earth.
+Let $X$ be a velocity field of motion on $S^2$ and let $Y$ be a wind field,
+so $X(p),Y(p)\in T_pS^2$ for each $p\in S^2$.
+Then $(\nabla_X Y)(p)$ measures the rate of change of the wind vector observed along the motion:
+move from $p$ in the direction $X(p)$, parallel-transport the wind vector back to $T_pS^2$,
+and differentiate.
+
+In particular, if $Y=X$, then $\nabla_X X$ is the intrinsic acceleration of the motion.
+A curve $c$ is a geodesic iff $\nabla_{c'}c'=0$, i.e.\ it has zero intrinsic acceleration.
+
+\subsubsection*{Example on the Earth sphere (equator): velocity field $X$ and wind field $Y$}
+
+Model the Earth as the unit sphere $S^2\subset\mathbb{R}^3$ with the induced (round) metric.
+Fix a point on the equator, for instance
+\[
+p=(1,0,0)\in S^2.
+\]
+Then the tangent plane at $p$ is
+\[
+T_pS^2=\{v\in\mathbb{R}^3:\ v\cdot p=0\}=\{(0,a,b):a,b\in\mathbb{R}\}.
+\]
+A convenient orthonormal basis of $T_pS^2$ is given by
+\[
+E(p)=(0,1,0)\qquad\text{(east, along the equator)},\qquad
+N(p)=(0,0,1)\qquad\text{(north, toward the north pole)}.
+\]
+
+\medskip
+\textbf{Equator curve and ``right/left'' approach.}
+Consider the equator (a great circle) through $p$:
+\[
+c(t)=(\cos t,\ \sin t,\ 0),\qquad c(0)=p,\qquad c'(0)=(0,1,0)=E(p).
+\]
+Approaching $p$ from $t>0$ versus $t<0$ corresponds to approaching from opposite sides along the
+equator (east vs.\ west). If $Y$ is a tangent vector field, then reversing direction flips the sign:
+\[
+(\nabla_{-E}Y)(p)=-(\nabla_EY)(p).
+\]
+
+\medskip
+\textbf{Why parallel transport is needed.}
+For $t\neq 0$ one has $Y(c(t))\in T_{c(t)}S^2$, while $Y(p)\in T_pS^2$, so the difference
+$Y(c(t))-Y(p)$ is not intrinsic. Let $P_t:T_pS^2\to T_{c(t)}S^2$ denote parallel transport along $c$.
+Then the covariant derivative (directional derivative of a tangent field) is
+\[
+(\nabla_{E}Y)(p)
+=\left.\frac{d}{dt}\right|_{t=0}\Bigl(P_t^{-1}\bigl(Y(c(t))\bigr)\Bigr)\in T_pS^2.
+\]
+Interpretation: bring the wind vector back to the fixed tangent plane $T_pS^2$ without twisting,
+then differentiate there.
+
+\medskip
+\textbf{Ambient formula on the sphere (projection of the Euclidean derivative).}
+Viewing $Y$ as a vector-valued function on $S^2$ with values in $\mathbb{R}^3$ and extending it
+smoothly to a neighbourhood in $\mathbb{R}^3$, one has on $S^2$:
+\[
+\nabla_X Y=\Pi_{T_pS^2}\bigl(D_X Y\bigr),
+\]
+where $D_XY$ is the usual directional derivative in $\mathbb{R}^3$ and
+\[
+\Pi_{T_pS^2}(v)=v-(v\cdot p)\,p
+\]
+is the orthogonal projection onto $T_pS^2$.
+
+\medskip
+\textbf{Two guiding interpretations.}
+\begin{itemize}
+	\item If $Y=X$, then $\nabla_XX$ is the \emph{intrinsic acceleration}. A curve $c$ is a geodesic iff
+	$\nabla_{c'}c'=0$. In particular, the equator is a great circle, hence a geodesic, so the velocity
+	field along it satisfies $\nabla_EE=0$.
+	\item If $Y$ represents a wind field (e.g.\ ``always pointing north'' along the equator), then
+	$\nabla_EY$ measures how that wind vector changes as you move east, after correcting for the
+	rotation of tangent planes by parallel transport.
+\end{itemize}
+
+\subsubsection*{Parallel transport as a section of the restricted tangent bundle}
+
+Let $M$ be a surface (e.g.\ $S^2$) and let $c:[0,T]\to M$ be a smooth curve.
+For each $t$ the tangent space $T_{c(t)}M$ is a different vector space. The collection of all
+these tangent spaces along the curve is the restriction (pullback) of the tangent bundle to $c$:
+\[
+c^{*}(TM)
+=\{(t,v): t\in[0,T],\ v\in T_{c(t)}M\}.
+\]
+One may think of $c^{*}(TM)$ as a ``slice'' of the tangent bundle $TM$ along the curve, i.e.\ the
+family of tangent planes $\{T_{c(t)}M\}_{t\in[0,T]}$ stacked over the interval $[0,T]$.
+
+\medskip
+A \textbf{vector field along $c$} is precisely a \textbf{section} of this restricted bundle:
+\[
+V:[0,T]\to TM,\qquad V(t)\in T_{c(t)}M \ \ \text{for all }t.
+\]
+
+\medskip
+Let $\nabla$ be the Levi--Civita connection on $M$.
+Given an initial vector $v\in T_{c(0)}M$, there exists a unique vector field $V(t)$ along $c$
+such that
+\[
+V(0)=v,\qquad \nabla_{c'(t)}V(t)=0\quad\text{for all }t,
+\]
+and this $V$ is called the \textbf{parallel vector field} along $c$ with initial value $v$.
+
+\medskip
+\textbf{Definition (parallel transport).}
+The parallel transport along $c$ from $0$ to $t$ is the linear isomorphism
+\[
+P_{0\to t}:T_{c(0)}M\longrightarrow T_{c(t)}M,\qquad
+P_{0\to t}(v):=V(t),
+\]
+where $V$ is the unique parallel vector field along $c$ satisfying $V(0)=v$.
+More generally, for $s,t\in[0,T]$ one writes $P_{s\to t}:T_{c(s)}M\to T_{c(t)}M$, with
+\[
+P_{t\to t}=\mathrm{Id},\qquad P_{s\to u}=P_{t\to u}\circ P_{s\to t}.
+\]
+
+	
+	% =========================
+	% Problems 4--7 (Solutions)
+	% =========================
+	
+\subsection*{Problem 4 (Geodesic equations in local coordinates)}
+
+	Show that the equations for geodesics on a smooth surface may be written locally in terms of coordinates
+	$(u(t),v(t))$ as
+	\[
+	\frac{d}{dt}\big(E\dot u + F\dot v\big)
+	=\frac12\big(E_u\dot u^{\,2}+2F_u\dot u\dot v+G_u\dot v^{\,2}\big),
+	\qquad
+	\frac{d}{dt}\big(F\dot u + G\dot v\big)
+	=\frac12\big(E_v\dot u^{\,2}+2F_v\dot u\dot v+G_v\dot v^{\,2}\big).
+	\]
+	
+	\medskip
+	\textbf{Solution.}
+	Let $x=x(u,v)$ be a local parametrisation and write the first fundamental form as
+	\[
+	ds^2 = E\,du^2+2F\,du\,dv+G\,dv^2,
+	\qquad
+	E=\langle x_u,x_u\rangle,\;F=\langle x_u,x_v\rangle,\;G=\langle x_v,x_v\rangle.
+	\]
+	For a curve $\gamma(t)=x(u(t),v(t))$ consider the energy functional
+	\[
+	\mathcal E=\frac12\int \big(E\dot u^{\,2}+2F\dot u\dot v+G\dot v^{\,2}\big)\,dt,
+	\]
+	with Lagrangian
+	\[
+	L(u,v,\dot u,\dot v)=\frac12\big(E\dot u^{\,2}+2F\dot u\dot v+G\dot v^{\,2}\big).
+	\]
+	The Euler--Lagrange equations are
+	\[
+	\frac{d}{dt}\Big(\frac{\partial L}{\partial \dot u}\Big)=\frac{\partial L}{\partial u},
+	\qquad
+	\frac{d}{dt}\Big(\frac{\partial L}{\partial \dot v}\Big)=\frac{\partial L}{\partial v}.
+	\]
+	Compute
+	\[
+	\frac{\partial L}{\partial \dot u}=E\dot u+F\dot v,
+	\qquad
+	\frac{\partial L}{\partial \dot v}=F\dot u+G\dot v,
+	\]
+	and
+	\[
+	\frac{\partial L}{\partial u}
+	=\frac12\big(E_u\dot u^{\,2}+2F_u\dot u\dot v+G_u\dot v^{\,2}\big),
+	\qquad
+	\frac{\partial L}{\partial v}
+	=\frac12\big(E_v\dot u^{\,2}+2F_v\dot u\dot v+G_v\dot v^{\,2}\big).
+	\]
+	Substituting into Euler--Lagrange gives exactly the required identities.
+	\qed
+	
+	
+\subsection*{Problem 5 (No compact minimal surfaces in $\mathbb{R}^3$)}
+	Show that there are no compact minimal surfaces in $\mathbb R^3$.
+	
+	\medskip
+	\textbf{Solution.}
+	Let $X:S\to\mathbb R^3$ be an immersion of a surface $S$ with unit normal $N$ and mean curvature $H$.
+	A standard identity is
+	\[
+	\Delta_S X = 2H\,N,
+	\]
+	where $\Delta_S$ is the Laplace--Beltrami operator on $S$.
+	If $S$ is minimal, then $H\equiv 0$, hence $\Delta_S X=0$.
+	Therefore each coordinate function $x_1,x_2,x_3$ of $X=(x_1,x_2,x_3)$ is harmonic on $S$.
+	
+	If $S$ is compact and without boundary, every harmonic function is constant (maximum principle, or
+	$\int_S |\nabla x_i|^2 = -\int_S x_i\Delta_S x_i = 0$).
+	Hence $x_1,x_2,x_3$ are constant on $S$, so $X(S)$ is a single point.
+	This contradicts that $X$ is an immersion. Therefore no compact minimal surface exists in $\mathbb R^3$.
+	\qed
+	
+	\subsubsection*{Minimal surfaces (quick theory)}
+	
+	Let $S\subset\mathbb{R}^3$ be a smooth oriented surface with unit normal $N$ and principal
+	curvatures $k_1,k_2$. The \emph{mean curvature} is
+	\[
+	H=\frac{k_1+k_2}{2}.
+	\]
+	The surface $S$ is called \emph{minimal} if
+	\[
+	H\equiv 0 \qquad (\text{equivalently } k_1+k_2=0).
+	\]
+	
+	\medskip
+	\textbf{Variational characterization.}
+	Let $X$ be a local parametrization of $S$ and consider a normal variation
+	\[
+	X_\varepsilon = X+\varepsilon\,\varphi N,
+	\]
+	where $\varphi$ is smooth with compact support in the interior.
+	Then the first variation of area satisfies
+	\[
+	\left.\frac{d}{d\varepsilon}\right|_{\varepsilon=0}\!\operatorname{Area}(S_\varepsilon)
+	= -2\int_S H\,\varphi\, dA.
+	\]
+	Hence $S$ is minimal ($H\equiv 0$) iff it is a critical point of the area functional for all such
+	variations.
+	
+	\medskip
+	\textbf{Graph form.}
+	If $S$ is given as a graph $z=u(x,y)$, then $S$ is minimal iff $u$ satisfies
+	\[
+	\operatorname{div}\!\left(\frac{\nabla u}{\sqrt{1+|\nabla u|^2}}\right)=0,
+	\]
+	equivalently
+	\[
+	(1+u_y^2)u_{xx}-2u_xu_yu_{xy}+(1+u_x^2)u_{yy}=0.
+	\]
+	
+	\medskip
+	\textbf{Examples.} Planes, the catenoid, the helicoid, and Enneper's surface.
+	
+	
+	\subsubsection*{Minimal surfaces (extended quick theory + examples/counterexamples)}
+	
+	Let $S\subset\mathbb{R}^3$ be a smooth oriented surface with unit normal $N$.
+	At each point, the shape operator has eigenvalues $k_1,k_2$ (principal curvatures).
+	The \emph{mean curvature} is
+	\[
+	H=\frac{k_1+k_2}{2}.
+	\]
+	The surface $S$ is called \emph{minimal} if
+	\[
+	H\equiv 0 \qquad (\text{equivalently } k_1+k_2=0).
+	\]
+	Geometrically: the normal curvature in one principal direction is the negative of the other.
+	
+	\medskip
+	\textbf{First variation of area (variational characterization).}
+	Let $X\colon U\to\mathbb{R}^3$ parametrize $S$ and consider a normal variation
+	\[
+	X_\varepsilon = X+\varepsilon\,\varphi N,
+	\]
+	where $\varphi$ is smooth and compactly supported in the interior.
+	Then
+	\[
+	\left.\frac{d}{d\varepsilon}\right|_{\varepsilon=0}\!\operatorname{Area}(S_\varepsilon)
+	= -2\int_S H\,\varphi\, dA.
+	\]
+	Hence $S$ is minimal iff it is a critical point of area for all such normal variations.
+	
+	\medskip
+	\textbf{Second variation (stability, optional but useful).}
+	If $S$ is minimal, then the second variation has the form
+	\[
+	\left.\frac{d^2}{d\varepsilon^2}\right|_{\varepsilon=0}\!\operatorname{Area}(S_\varepsilon)
+	= \int_S \Bigl(|\nabla \varphi|^2 - (|A|^2+\mathrm{Ric}(N,N))\varphi^2\Bigr)\,dA.
+	\]
+	In $\mathbb{R}^3$ we have $\mathrm{Ric}(N,N)=0$, so
+	\[
+	\delta^2 A(\varphi)=\int_S \left(|\nabla\varphi|^2-|A|^2\varphi^2\right)\,dA.
+	\]
+	A minimal surface is \emph{stable} if $\delta^2A(\varphi)\ge 0$ for all compactly supported $\varphi$.
+	
+	\medskip
+	\textbf{Graph form (minimal surface equation).}
+	If $S$ is given as a graph $z=u(x,y)$ (upward orientation), then
+	\[
+	2H=\operatorname{div}\!\left(\frac{\nabla u}{\sqrt{1+|\nabla u|^2}}\right).
+	\]
+	Thus $S$ is minimal iff
+	\[
+	\operatorname{div}\!\left(\frac{\nabla u}{\sqrt{1+|\nabla u|^2}}\right)=0,
+	\]
+	equivalently
+	\[
+	(1+u_y^2)u_{xx}-2u_xu_yu_{xy}+(1+u_x^2)u_{yy}=0.
+	\]
+	For \emph{small slopes} $|\nabla u|\ll 1$, the equation linearizes to $\Delta u \approx 0$,
+	so minimal graphs are a nonlinear analogue of harmonic functions.
+	
+	\medskip
+	\textbf{Harmonic coordinate functions (very handy fact).}
+	A surface $S$ is minimal iff each coordinate function of the immersion
+	$X=(x^1,x^2,x^3)$ is harmonic with respect to the induced metric, i.e.
+	\[
+	\Delta_S x^i = 0 \quad (i=1,2,3).
+	\]
+	Equivalently, the mean curvature vector satisfies $\vec H = HN \equiv 0$.
+	
+	\medskip
+	\textbf{Maximum principle (intuition).}
+	A minimal surface cannot have an \emph{interior} point where it lies strictly on one side of a tangent plane
+	(unless it is locally that plane). This is a strong rigidity tool for proving uniqueness and nonexistence.
+	
+	\medskip
+	\textbf{Examples (minimal, $H\equiv 0$).}
+	\begin{itemize}
+		\item \textbf{Planes:} $k_1=k_2=0$ hence $H=0$.
+		\item \textbf{Catenoid (surface of revolution):}
+		\[
+		X(u,v)=(\cosh v\cos u,\ \cosh v\sin u,\ v).
+		\]
+		It is minimal and is a classical soap-film shape between two circles.
+		\item \textbf{Helicoid (ruled surface):}
+		\[
+		X(u,v)=(v\cos u,\ v\sin u,\ au),
+		\]
+		minimal for any constant pitch $a\neq 0$.
+		\item \textbf{Enneper surface (minimal, self-intersecting):}
+		\[
+		X(u,v)=\left(u-\frac{u^3}{3}+uv^2,\ v-\frac{v^3}{3}+vu^2,\ u^2-v^2\right).
+		\]
+		\item \textbf{Scherk minimal graph (explicit PDE solution):}
+		\[
+		u(x,y)=\log\!\left(\frac{\cos y}{\cos x}\right)
+		\quad \text{(on a domain where $\cos x,\cos y>0$).}
+		\]
+	\end{itemize}
+	
+	\medskip
+	\textbf{Counterexamples (not minimal, $H\not\equiv 0$).}
+	\begin{itemize}
+		\item \textbf{Sphere of radius $R$:} $k_1=k_2=\frac1R$, so $H=\frac1R\neq 0$ (constant mean curvature).
+		\item \textbf{Circular cylinder of radius $R$:} $k_1=\frac1R,\ k_2=0$, so $H=\frac{1}{2R}\neq 0$.
+		\item \textbf{Paraboloid $z=x^2+y^2$:} a graph with strictly positive mean curvature (see the $H$-heatmap chart).
+		\item \textbf{Cone:} not smooth at the apex; away from the apex it is generally not minimal (and minimality is a smooth concept).
+	\end{itemize}
+	
+	\medskip
+	\textbf{Charts (included files).}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.48\textwidth]{figures/MATH-ALLS-2_minimal_plane.png}\hfill
+		\includegraphics[width=.48\textwidth]{figures/MATH-ALLS-2_minimal_catenoid.png}
+		
+		\medskip
+		\includegraphics[width=.48\textwidth]{figures/MATH-ALLS-2_minimal_helicoid.png}\hfill
+		\includegraphics[width=.48\textwidth]{figures/MATH-ALLS-2_minimal_enneper.png}
+		\caption{Classic minimal surfaces: plane, catenoid, helicoid, Enneper.}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=.48\textwidth]{figures/MATH-ALLS-2_counter_sphere.png}\hfill
+		\includegraphics[width=.48\textwidth]{figures/MATH-ALLS-2_H_paraboloid_counterexample.png}
+		
+		\medskip
+		\includegraphics[width=.60\textwidth]{figures/MATH-ALLS-2_H_scherk_minimal_graph.png}
+		\caption{Counterexamples vs example via mean curvature:
+			sphere has constant $H\neq 0$; paraboloid has $H>0$ varying; Scherk graph has $H\approx 0$ (numerically).}
+	\end{figure}
+	
+	
+\paragraph{Harmonic coordinate functions (what it means).}
+Let $X\colon U\to\mathbb{R}^3$ be a smooth immersion whose image is a surface $S=X(U)$.
+Write local coordinates $(u^1,u^2)$ on $U$ and denote
+\[
+X_i=\frac{\partial X}{\partial u^i}\qquad (i=1,2).
+\]
+The \emph{induced metric} (first fundamental form) on $S$ is the $2\times 2$ matrix
+\[
+g_{ij}=\langle X_i,X_j\rangle,\qquad g=\det(g_{ij}),\qquad (g^{ij})=(g_{ij})^{-1}.
+\]
+
+\medskip
+\textbf{Laplace--Beltrami operator.}
+For a smooth function $f\colon S\to\mathbb{R}$ (locally $f=f(u^1,u^2)$), the intrinsic Laplacian on $S$ is
+\[
+\Delta_S f
+=\frac{1}{\sqrt{g}}\frac{\partial}{\partial u^i}
+\left(\sqrt{g}\,g^{ij}\frac{\partial f}{\partial u^j}\right),
+\]
+(Einstein summation over $i,j=1,2$).  
+We say $f$ is \emph{harmonic on $S$} if $\Delta_S f=0$.
+
+\medskip
+\textbf{Coordinate functions.}
+Let $(x^1,x^2,x^3)$ be the standard coordinates on $\mathbb{R}^3$.
+Their restrictions to the surface are the functions
+\[
+x^k|_S = x^k\circ X,\qquad k=1,2,3.
+\]
+Saying ``each coordinate function is harmonic'' means
+\[
+\Delta_S (x^k\circ X)=0\qquad (k=1,2,3).
+\]
+
+\medskip
+\textbf{Vector form and mean curvature vector.}
+We can apply $\Delta_S$ componentwise to the immersion $X=(x^1\circ X,\;x^2\circ X,\;x^3\circ X)$ and define
+\[
+\Delta_S X := \bigl(\Delta_S(x^1\circ X),\ \Delta_S(x^2\circ X),\ \Delta_S(x^3\circ X)\bigr)\in\mathbb{R}^3.
+\]
+A fundamental identity (convention-dependent by a sign/factor) is
+\[
+\Delta_S X = -2H\,N,
+\]
+where $N$ is the unit normal and $H$ is the mean curvature used in the first variation formula
+$\left.\frac{d}{d\varepsilon}\right|_{0}\!\mathrm{Area}(S_\varepsilon)=-2\int_S H\varphi\,dA$.
+
+\medskip
+\textbf{Conclusion (equivalence).}
+From $\Delta_S X = -2H\,N$ we get
+\[
+\Delta_S(x^k\circ X)=0\ \forall k
+\quad\Longleftrightarrow\quad
+\Delta_S X=0
+\quad\Longleftrightarrow\quad
+H\equiv 0.
+\]
+Equivalently, the \emph{mean curvature vector} $\vec H$ (often defined as $\vec H := HN$ or $\vec H:=2HN$,
+depending on convention) vanishes:
+\[
+\vec H=0.
+\]
+
+\medskip
+\textbf{Interpretation.}
+Thus a minimal surface is exactly a surface whose inclusion map $X$ is a \emph{harmonic map}
+(with respect to the induced metric): its coordinate functions have no intrinsic ``source term'' on the surface.
+``Harmonic'' here is intrinsic (depends on the geometry of $S$), not the flat Laplacian in $\mathbb{R}^2$.
+
+\medskip
+\textbf{Quick check (example vs counterexample).}
+\begin{itemize}
+	\item Plane: in parameters $X(u,v)=(u,v,0)$ the induced metric is Euclidean, so $\Delta_S$ is the usual Laplacian
+	and $\Delta_S X=0$, hence $H=0$.
+	\item Sphere of radius $R$: one has $\Delta_S X = -\frac{2}{R^2}X\neq 0$, so the coordinate functions are not harmonic
+	and the sphere is not minimal (indeed $H=\frac{1}{R}$).
+\end{itemize}
+
+\paragraph{In plain words.}
+\begin{itemize}
+	\item $\Delta_S$ is the \emph{intrinsic} Laplacian on the surface (the Laplace--Beltrami operator).  
+	It measures how a function bends \emph{along the surface}, using the surface's metric.
+	
+	\item The functions $x,y,z$ (restricted to the surface) being \emph{harmonic} means:
+	\[
+	\Delta_S x=\Delta_S y=\Delta_S z=0.
+	\]
+	
+	\item The identity
+	\[
+	\Delta_S X=-2HN
+	\]
+	tells you that the ``intrinsic Laplacian of the position vector'' points in the normal direction,
+	and its size is controlled by the mean curvature.
+	
+	\item Therefore:
+	\[
+	S \text{ is minimal } \Longleftrightarrow H\equiv 0
+	\Longleftrightarrow \Delta_S X=0
+	\Longleftrightarrow \Delta_S x=\Delta_S y=\Delta_S z=0.
+	\]
+\end{itemize}
+
+\paragraph{Derivation sketch of $\Delta_S X=-2HN$ (few lines).}
+Let $X\colon U\to\mathbb{R}^3$ be a local parametrization with coordinates $(u^1,u^2)$,
+tangent vectors $X_i=\partial_i X$, induced metric $g_{ij}=\langle X_i,X_j\rangle$,
+and Laplace--Beltrami operator
+\[
+\Delta_S f=\frac{1}{\sqrt{g}}\partial_i\!\left(\sqrt{g}\,g^{ij}\partial_j f\right).
+\]
+Apply $\Delta_S$ componentwise to $X$:
+\[
+\Delta_S X=\frac{1}{\sqrt{g}}\partial_i\!\left(\sqrt{g}\,g^{ij}X_j\right)
+= g^{ij}\bigl(\partial_i X_j-\Gamma^k_{ij}X_k\bigr).
+\]
+By the Gauss formula (decomposition of second derivatives),
+\[
+\partial_i X_j=\Gamma^k_{ij}X_k + b_{ij}N,
+\]
+so
+\[
+\Delta_S X=g^{ij}b_{ij}\,N.
+\]
+Since $H=\tfrac12\,\mathrm{tr}_g(b)=\tfrac12 g^{ij}b_{ij}$, we obtain
+\[
+\Delta_S X = (2H)\,N.
+\]
+\textbf{Convention note.} Many texts define $b_{ij}$ (or $H$) with the opposite sign (depending on whether
+$b_{ij}=\langle \partial_i X_j,N\rangle$ or $b_{ij}=-\langle \partial_i X_j,N\rangle$, and on the orientation of $N$).
+With the convention used in the first-variation formula
+$\left.\tfrac{d}{d\varepsilon}\right|_0\!\mathrm{Area}(S_\varepsilon)=-2\int_S H\varphi\,dA$,
+this identity is written as
+\[
+\Delta_S X = -2HN.
+\]
+
+\bigskip
+\paragraph{Concrete calculations (2 examples).}
+
+\subparagraph{Example 1 (minimal): plane.}
+Parametrize the plane by
+\[
+X(u,v)=(u,v,0).
+\]
+Then $X_u=(1,0,0)$, $X_v=(0,1,0)$, hence $g_{ij}=\delta_{ij}$, $\sqrt{g}=1$, and
+\[
+\Delta_S=\partial_{uu}+\partial_{vv}.
+\]
+Therefore
+\[
+\Delta_S X = (\Delta_S u,\ \Delta_S v,\ \Delta_S 0)=(0,0,0).
+\]
+So $\Delta_S X=0$, hence $H=0$: the plane is minimal.
+
+\subparagraph{Example 2 (not minimal): sphere of radius $R$.}
+Use spherical coordinates $(\theta,\varphi)$:
+\[
+X(\theta,\varphi)=\bigl(R\sin\theta\cos\varphi,\ R\sin\theta\sin\varphi,\ R\cos\theta\bigr).
+\]
+The induced metric is
+\[
+(g_{ij})=\begin{pmatrix}R^2&0\\[2pt]0&R^2\sin^2\theta\end{pmatrix},
+\]
+so the Laplace--Beltrami operator on $S_R^2$ is
+\[
+\Delta_S f=\frac{1}{R^2}\left(\frac{1}{\sin\theta}\partial_\theta(\sin\theta\,\partial_\theta f)
++\frac{1}{\sin^2\theta}\partial_{\varphi\varphi} f\right).
+\]
+Let $x(\theta,\varphi)=R\sin\theta\cos\varphi$ (the first coordinate). Then
+\[
+\partial_\theta x=R\cos\theta\cos\varphi,\qquad
+\partial_\varphi x=-R\sin\theta\sin\varphi,
+\]
+\[
+\partial_{\varphi\varphi}x=-R\sin\theta\cos\varphi=-x,
+\]
+and
+\[
+\frac{1}{\sin\theta}\partial_\theta(\sin\theta\,\partial_\theta x)
+=\frac{1}{\sin\theta}\partial_\theta\bigl(R\sin\theta\cos\theta\cos\varphi\bigr)
+=\frac{R(\cos^2\theta-\sin^2\theta)\cos\varphi}{\sin\theta}.
+\]
+Putting this together,
+\[
+\Delta_S x
+=\frac{1}{R^2}\left(\frac{R(\cos^2\theta-\sin^2\theta)\cos\varphi}{\sin\theta}
++\frac{1}{\sin^2\theta}(-x)\right)
+=-\frac{2}{R^2}\,x.
+\]
+Similarly,
+\[
+\Delta_S y=-\frac{2}{R^2}\,y,\qquad \Delta_S z=-\frac{2}{R^2}\,z,
+\]
+hence (vectorially)
+\[
+\Delta_S X=-\frac{2}{R^2}X\neq 0.
+\]
+Now $N=\frac{1}{R}X$ (outward unit normal) and the sphere has $H=\frac{1}{R}$, so
+\[
+-2HN=-2\cdot\frac{1}{R}\cdot \frac{1}{R}X=-\frac{2}{R^2}X,
+\]
+which matches the computed $\Delta_S X$. Therefore the sphere is \emph{not} minimal.
+
+\medskip
+\textbf{Takeaway:} on the plane, the restricted coordinates are harmonic; on the sphere they are eigenfunctions
+with eigenvalue $-2/R^2$, so they are not harmonic and $H\neq 0$.
+
+\subparagraph{Continuing the sphere example: the 2nd and 3rd coordinates.}
+For the sphere parametrization
+\[
+X(\theta,\varphi)=\bigl(R\sin\theta\cos\varphi,\ R\sin\theta\sin\varphi,\ R\cos\theta\bigr),
+\]
+we already computed for the first coordinate $x(\theta,\varphi)=R\sin\theta\cos\varphi$ that
+\[
+\Delta_S x=-\frac{2}{R^2}\,x.
+\]
+The same should be done for the other two coordinate functions.
+
+\medskip
+\textbf{Second coordinate.}
+Let $y(\theta,\varphi)=R\sin\theta\sin\varphi$. Then
+\[
+\partial_\theta y=R\cos\theta\sin\varphi,\qquad
+\partial_{\varphi\varphi}y=-R\sin\theta\sin\varphi=-y,
+\]
+and
+\[
+\frac{1}{\sin\theta}\partial_\theta\bigl(\sin\theta\,\partial_\theta y\bigr)
+=\frac{1}{\sin\theta}\partial_\theta\bigl(R\sin\theta\cos\theta\sin\varphi\bigr)
+=\frac{R(\cos^2\theta-\sin^2\theta)\sin\varphi}{\sin\theta}.
+\]
+Substituting into
+\[
+\Delta_S f=\frac{1}{R^2}\left(\frac{1}{\sin\theta}\partial_\theta(\sin\theta\,\partial_\theta f)
++\frac{1}{\sin^2\theta}\partial_{\varphi\varphi} f\right),
+\]
+we obtain
+\[
+\Delta_S y
+=\frac{1}{R^2}\left(\frac{R(\cos^2\theta-\sin^2\theta)\sin\varphi}{\sin\theta}
++\frac{1}{\sin^2\theta}(-y)\right)
+=-\frac{2}{R^2}\,y.
+\]
+
+\medskip
+\textbf{Third coordinate.}
+Let $z(\theta,\varphi)=R\cos\theta$. Then $\partial_\varphi z=0$ and
+\[
+\partial_\theta z=-R\sin\theta,\qquad
+\sin\theta\,\partial_\theta z=-R\sin^2\theta,\qquad
+\partial_\theta(\sin\theta\,\partial_\theta z)=-2R\sin\theta\cos\theta.
+\]
+Hence
+\[
+\frac{1}{\sin\theta}\partial_\theta(\sin\theta\,\partial_\theta z)=-2R\cos\theta=-2z,
+\]
+and therefore
+\[
+\Delta_S z
+=\frac{1}{R^2}\left(-2z+0\right)
+=-\frac{2}{R^2}\,z.
+\]
+
+\medskip
+\textbf{Vector form.}
+Since $X=(x,y,z)$, applying $\Delta_S$ componentwise gives
+\[
+\Delta_S X=\bigl(\Delta_S x,\Delta_S y,\Delta_S z\bigr)
+=-\frac{2}{R^2}(x,y,z)
+=-\frac{2}{R^2}X\neq 0.
+\]
+Thus the coordinate functions are \emph{not} harmonic on the sphere, and $H\neq 0$
+(in fact $H=\frac{1}{R}$ with outward normal $N=\frac{1}{R}X$, so $\Delta_S X=-2HN$).
+
+\paragraph{Variational meaning of minimal surfaces.}
+Let $S\subset\mathbb{R}^3$ be a smooth oriented surface with unit normal field $N$ and mean curvature $H$.
+Fix the boundary (if present) and consider normal variations supported in the interior:
+\[
+X_\varepsilon = X+\varepsilon\,\varphi N,\qquad \varphi\in C_c^\infty(\mathrm{int}\,S).
+\]
+Being a \emph{critical point} of the area functional means
+\[
+\left.\frac{d}{d\varepsilon}\right|_{\varepsilon=0}\mathrm{Area}(S_\varepsilon)=0
+\quad \text{for all such }\varphi.
+\]
+The first variation formula states
+\[
+\left.\frac{d}{d\varepsilon}\right|_{\varepsilon=0}\mathrm{Area}(S_\varepsilon)
+= -2\int_S H\,\varphi\,dA.
+\]
+Hence the critical point condition for all test functions $\varphi$ is equivalent to
+\[
+H\equiv 0.
+\]
+Therefore:
+\[
+S \text{ is minimal } \quad\Longleftrightarrow\quad S \text{ is a critical point of the area functional.}
+\]
+
+\medskip
+\paragraph{Example: the catenoid as a minimal surface.}
+A standard parametrization of the catenoid is
+\[
+X(u,v)=\bigl(a\cosh(v/a)\cos u,\ a\cosh(v/a)\sin u,\ v\bigr),
+\qquad u\in[0,2\pi),\ v\in\mathbb{R},
+\]
+where $a>0$ is a constant. This surface satisfies $H\equiv 0$ everywhere, hence it is minimal.
+
+\medskip
+\paragraph{Remark (critical point vs minimum).}
+The condition $H\equiv 0$ guarantees only that the first variation vanishes (critical point).
+Whether the surface is a \emph{local minimum} depends on the second variation (stability), and a minimal surface
+need not be globally area-minimizing.
+
+
+
+\paragraph{What are ``restricted coordinates''?}
+Let $(x^1,x^2,x^3)$ be the standard coordinate functions on $\mathbb{R}^3$:
+\[
+x^1(x,y,z)=x,\qquad x^2(x,y,z)=y,\qquad x^3(x,y,z)=z.
+\]
+If $S\subset\mathbb{R}^3$ is a surface and $i:S\hookrightarrow \mathbb{R}^3$ is the inclusion,
+then the \emph{restricted coordinate functions} on $S$ are
+\[
+x^k|_S := x^k\circ i \;:\; S\to\mathbb{R}\qquad (k=1,2,3).
+\]
+Equivalently, if $X:U\to S$ is a parametrization with
+$X(u,v)=(X^1(u,v),X^2(u,v),X^3(u,v))$, then
+\[
+x^k|_S \circ X = x^k\circ X = X^k(u,v),
+\]
+so the restricted coordinates are exactly the component functions of the immersion $X$.
+	
+	
+\subsection*{Problem 6 (Minimal surfaces and conformality of the Gauss map)}
+	Let $S$ be a regular surface without umbilical points. Prove that $S$ is minimal iff the Gauss map
+	$N:S\to S^2$ satisfies
+	\[
+	\langle dN_p(v_1), dN_p(v_2)\rangle = \lambda(p)\,\langle v_1,v_2\rangle
+	\]
+	for all $p\in S$ and all $v_1,v_2\in T_pS$, where $\lambda(p)\neq 0$ depends only on $p$.
+	By considering stereographic projection deduce that isothermal coordinates exist around a nonplanar point
+	in a minimal surface.
+	
+	\medskip
+	\textbf{Solution.}
+	Let $S_p:T_pS\to T_pS$ be the shape operator. The Weingarten relation is
+	\[
+	dN_p(v)=-S_p(v).
+	\]
+	Thus the condition becomes
+	\[
+	\langle S_p(v_1), S_p(v_2)\rangle = \lambda(p)\,\langle v_1,v_2\rangle
+	\qquad(\lambda(p)\neq 0).
+	\]
+	Choose an orthonormal principal basis $(e_1,e_2)$ at $p$, so $S_p(e_i)=k_i e_i$ where $k_1,k_2$ are the
+	principal curvatures. Writing $v=a_1e_1+a_2e_2$ and $w=b_1e_1+b_2e_2$,
+	\[
+	\langle S_p(v),S_p(w)\rangle = k_1^2 a_1b_1 + k_2^2 a_2b_2,\qquad
+	\langle v,w\rangle = a_1b_1+a_2b_2.
+	\]
+	Since the identity holds for all $v,w$, it follows that $k_1^2=k_2^2=\lambda(p)$.
+	Because $S$ has no umbilics we have $k_1\neq k_2$, hence $k_2=-k_1\neq 0$.
+	Therefore
+	\[
+	H(p)=\frac{k_1+k_2}{2}=0,
+	\]
+	so $S$ is minimal.
+	
+	Conversely, if $S$ is minimal and has no umbilics, then $k_2=-k_1\neq 0$, hence $k_1^2=k_2^2$ and the
+	identity holds with $\lambda(p)=k_1(p)^2=-K(p)>0$.
+	
+	\medskip
+	For the isothermal coordinates: on a minimal surface (without umbilics at the point considered) the Gauss map
+	$N$ is conformal, and at a nonplanar point $p$ we have $dN_p\neq 0$.
+	Stereographic projection $\pi:S^2\setminus\{\text{north pole}\}\to\mathbb C$ is conformal, hence
+	$g=\pi\circ N$ is conformal. Since $dN_p\neq 0$, $g$ is a local diffeomorphism near $p$.
+	Writing $g=u+iv$, the coordinates $(u,v)$ are isothermal, i.e.
+	\[
+	ds^2 = \rho(u,v)^2(du^2+dv^2)
+	\]
+	for some positive function $\rho$.
+	\qed
+	
+	
+	\paragraph{Where does $dN_p$ come from?}
+	The Gauss map is $N:S\to S^2$, $N(p)=\text{unit normal at }p$.
+	Its differential at $p$ is the linear map
+	\[
+	dN_p:T_pS\to T_{N(p)}S^2,
+	\]
+	defined by: for $v\in T_pS$, choose a smooth curve $\gamma(t)\subset S$ with
+	$\gamma(0)=p$ and $\gamma'(0)=v$, and set
+	\[
+	dN_p(v)=\left.\frac{d}{dt}\right|_{0}N(\gamma(t)).
+	\]
+	Since $\|N(\gamma(t))\|^2=1$, differentiating gives
+	$\langle N(p),dN_p(v)\rangle=0$, hence $dN_p(v)\in T_{N(p)}S^2$.
+	Moreover, the shape operator is $S_p=-dN_p$ (via the natural identification of tangent planes in $\mathbb{R}^3$),
+	so $dN_p$ encodes the principal curvatures.
+	
+	\paragraph{Two normals and orientability.}
+	At each $p\in S\subset\mathbb{R}^3$ the normal line is 1-dimensional, hence there are exactly two unit normals:
+	$N(p)$ and $-N(p)$. A \emph{Gauss map} is a choice of one of these at every point,
+	i.e.\ a map $N:S\to S^2$ with $N(p)\perp T_pS$.
+	
+	A surface is \emph{orientable} iff one can choose the unit normal \emph{continuously} (equivalently smoothly) on all of $S$,
+	i.e.\ iff there exists a global smooth Gauss map $N:S\to S^2$.
+	Non-orientability means that local choices of normal exist on charts but necessarily flip sign on some overlaps/loops.
+	
+	If $X(u,v)$ is a local parametrization, a local unit normal is
+	\[
+	N=\frac{X_u\times X_v}{\|X_u\times X_v\|}.
+	\]
+	On an overlap of two charts, the corresponding normals differ by a sign given by the Jacobian of the coordinate change:
+	the normal flips when the change of coordinates reverses orientation.
+	
+	Finally, choosing the opposite normal replaces $N$ by $-N$ and $dN_p$ by $-dN_p$, but
+	\[
+	\langle dN_p(v_1),dN_p(v_2)\rangle
+	\]
+	is unchanged, so conformality statements are independent of the sign choice.
+	
+	
+	
+\subsection*{Problem 7: Weierstrass data: immersion criterion}
+	Let $D\subset\mathbb C$, and $f$ and $g$ be functions on $D$ giving a Weierstrass representation of a
+	parametrisation $\phi$. Show that $\phi$ is an immersion iff $f$ vanishes only at the poles of $g$ and the
+	order of its zero at such a point is \emph{exactly twice} the order of the pole of $g$.
+	
+	\medskip
+	\textbf{Solution.}
+	In Weierstrass form one may write (up to an overall constant depending on convention)
+	\[
+	\phi_z = \big((1-g^2)f,\; i(1+g^2)f,\; 2gf\big),
+	\]
+	a holomorphic $\mathbb C^3$-valued 1-form. The map is an immersion iff $\phi_z\neq 0$ everywhere.
+	
+	If $g$ is holomorphic at $p$ and $f(p)=0$, then all components of $\phi_z$ vanish at $p$, so $\phi$ is not an
+	immersion. Hence $f$ may vanish only at poles of $g$.
+	
+	Now let $p$ be a pole of $g$ of order $m$. Choose a local coordinate $z$ with $z(p)=0$ and write
+	\[
+	g(z)=a z^{-m}+\cdots,\quad a\neq 0;\qquad f(z)=b z^{n}+\cdots,\quad b\neq 0.
+	\]
+	Then
+	\[
+	(1-g^2)f \sim (-a^2)b\,z^{n-2m},\qquad (1+g^2)f\sim (a^2)b\,z^{n-2m},\qquad 2gf\sim 2ab\,z^{n-m}.
+	\]
+	For $\phi_z$ to be holomorphic at $p$ we need $n-2m\ge 0$, i.e. $n\ge 2m$.
+	If $n>2m$, then each component vanishes at $z=0$, hence $\phi_z(p)=0$ and $\phi$ fails to be an immersion.
+	Thus we must have $n=2m$, and in that case $(1-g^2)f$ has a nonzero constant term, so $\phi_z(p)\neq 0$.
+	Therefore $\phi$ is an immersion iff $f$ vanishes only at poles of $g$ and $\ord_p(f)=2\,\ord_p(\text{pole of }g)$.
+	\qed
+	
+	\subsubsection*{Weierstrass--Enneper representation (parametrization of minimal surfaces)}
+	
+	\textbf{Goal.} Describe all (simply connected) minimal surfaces in $\mathbb{R}^3$ using holomorphic data.
+	
+	\medskip
+	\textbf{Setup.}
+	Let $\Omega\subset\mathbb{C}$ be simply connected with complex coordinate $z=u+iv$.
+	A map $X:\Omega\to\mathbb{R}^3$ is called a \emph{conformal parametrization} if the induced metric has the form
+	\[
+	ds^2 = e^{2\omega}(du^2+dv^2)
+	\quad\text{(equivalently } \langle X_u,X_v\rangle=0,\; |X_u|=|X_v|\text{)}.
+	\]
+	For conformal parametrizations, the minimality condition $H\equiv 0$ becomes equivalent to harmonicity of $X$:
+	\[
+	H\equiv 0 \quad\Longleftrightarrow\quad X_{uu}+X_{vv}=0
+	\quad\Longleftrightarrow\quad X \text{ is harmonic componentwise.}
+	\]
+	
+	\medskip
+	\textbf{Weierstrass data.}
+	Choose
+	\[
+	g:\Omega\to\widehat{\mathbb{C}} \quad\text{(meromorphic)},\qquad
+	\eta = h(z)\,dz \quad\text{(holomorphic 1-form)},
+	\]
+	such that zeros of $\eta$ cancel poles/zeros of $g$ so that the expressions below are holomorphic.
+	
+	Define holomorphic 1-forms
+	\[
+	\phi_1=\frac12\left(\frac{1}{g}-g\right)\eta,\qquad
+	\phi_2=\frac{i}{2}\left(\frac{1}{g}+g\right)\eta,\qquad
+	\phi_3=\eta.
+	\]
+	They satisfy the key identity
+	\[
+	\phi_1^2+\phi_2^2+\phi_3^2=0.
+	\]
+	
+	\medskip
+	\textbf{Representation theorem.}
+	Define
+	\[
+	X(z)=\Re\int^z (\phi_1,\phi_2,\phi_3).
+	\]
+	Then $X:\Omega\to\mathbb{R}^3$ is a \emph{conformal minimal immersion} (away from points where all $\phi_k$ vanish).
+	Conversely, every conformal minimal immersion on a simply connected domain arises this way.
+	
+	\medskip
+	\textbf{Meaning of $g$ and $\eta$.}
+	\begin{itemize}
+		\item $g$ is the \emph{stereographic projection of the Gauss map}:
+		if $N:\Omega\to S^2$ is the unit normal, then $g=\mathrm{stereo}(N)$.
+		\item $\eta$ controls the conformal factor (size) of the metric.
+	\end{itemize}
+	
+	\medskip
+	\textbf{Induced metric (useful formula).}
+	The first fundamental form becomes
+	\[
+	ds^2 = \left(|\phi_1|^2+|\phi_2|^2+|\phi_3|^2\right)
+	= \frac{(1+|g|^2)^2}{4|g|^2}\,|\eta|^2,
+	\]
+	so the parametrization is conformal by construction.
+	
+	\medskip
+	\textbf{Associate family (catenoid $\leftrightarrow$ helicoid).}
+	If $(g,\eta)$ gives a minimal surface, then for any $\alpha\in\mathbb{R}$,
+	\[
+	(g,\ e^{i\alpha}\eta)
+	\]
+	gives another minimal surface with the \emph{same metric}; this produces the classical associate family.
+	
+	\bigskip
+	\paragraph{Example 1: Enneper surface.}
+	Take
+	\[
+	g(z)=z,\qquad \eta = dz.
+	\]
+	Then
+	\[
+	X(z)=\Re\int \left(\frac12\left(\frac{1}{z}-z\right),\ \frac{i}{2}\left(\frac{1}{z}+z\right),\ 1\right)\,dz,
+	\]
+	which yields (after integration and taking real parts) the standard Enneper parametrization.
+	
+	\bigskip
+	\paragraph{Example 2: Catenoid and helicoid (associate surfaces).}
+	Let
+	\[
+	g(z)=e^{z},\qquad \eta=dz.
+	\]
+	Then
+	\[
+	\phi_1=\frac12(e^{-z}-e^{z})dz=-\sinh(z)\,dz,\qquad
+	\phi_2=\frac{i}{2}(e^{-z}+e^{z})dz=i\cosh(z)\,dz,\qquad
+	\phi_3=dz.
+	\]
+	Integrating and taking real parts gives
+	\[
+	X(z)=\Re\bigl(-\cosh z,\ i\sinh z,\ z\bigr).
+	\]
+	Writing $z=u+iv$,
+	\[
+	X(u,v)=\bigl(-\cosh u\cos v,\ -\cosh u\sin v,\ u\bigr),
+	\]
+	which is a catenoid (up to a rigid motion/sign change).
+	
+	If instead we replace $\eta$ by $i\,dz$ (i.e.\ $\alpha=\pi/2$ in the associate family),
+	we obtain the helicoid (again up to rigid motion). This illustrates that catenoid and helicoid have the same
+	intrinsic metric but differ extrinsically.
+	
+	
+	\subsection*{Problem 8 (Weierstrass data for catenoid and helicoid)}
+	We use the Weierstrass representation in the $(f,g)$-form:
+	\[
+	X(z)=\Re\int^z \Big(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Big)\,dz,
+	\]
+	where $g$ is meromorphic, $f$ is holomorphic, and the resulting parametrization is conformal and minimal.
+	
+	\medskip
+	\textbf{Choice of complex parameter.}
+	For the given real parameters $(u,v)$, the catenoid/helicoid are conformal in $(u,v)$, and it is convenient to set
+	\[
+	z=v+iu.
+	\]
+	Thus a suitable domain is the strip
+	\[
+	D=\{z=v+iu\in\mathbb{C}:\ v\in\mathbb{R},\ 0<u<2\pi\}.
+	\]
+	
+	\medskip
+	\textbf{Catenoid.}
+	Take
+	\[
+	g(z)=e^{z},\qquad f(z)=a e^{-z}.
+	\]
+	Then
+	\[
+	\tfrac12 f(1-g^2)=\frac{a}{2}(e^{-z}-e^{z})=-a\sinh z,\qquad
+	\tfrac{i}{2}f(1+g^2)=\frac{ia}{2}(e^{-z}+e^{z})=i a\cosh z,
+	\]
+	and $fg=a$. Hence
+	\[
+	X(z)=\Re\bigl(-a\cosh z,\ i a\sinh z,\ a z\bigr).
+	\]
+	With $z=v+iu$ this becomes (up to a rigid motion in the $xy$-plane)
+	\[
+	X(u,v)=\bigl(a\cosh v\cos u,\ a\cosh v\sin u,\ a v\bigr),
+	\]
+	which is exactly the given catenoid parametrization (possibly after rotating by $\pi$ about the $z$-axis).
+	
+	\medskip
+	\textbf{Helicoid.}
+	Keep the same $g(z)=e^{z}$ but replace $f$ by $if$:
+	\[
+	g(z)=e^{z},\qquad f(z)= i a e^{-z}.
+	\]
+	This is the classical associate surface construction. Substituting yields a parametrization which, after a rigid motion
+	and a harmless shift of $u$, is the given helicoid
+	\[
+	\phi(u,v)=\bigl(a\sinh v\cos u,\ a\sinh v\sin u,\ a u\bigr).
+	\]
+	(Geometrically: multiplying $f$ by $i$ rotates the Weierstrass integrand by $90^\circ$ in the associate family.)
+	
+	\bigskip
+	\subsection*{Problem 9 (Gaussian curvature formula and isolated zeros)}
+	Let a minimal surface be given by Weierstrass data $(f,g)$ as in Problem 8:
+	\[
+	X(z)=\Re\int^z \Big(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Big)\,dz.
+	\]
+	
+	\medskip
+	\textbf{Step 1: induced metric.}
+	In the parameter $z=u+iv$ the parametrization is conformal and one has
+	\[
+	ds^2=\lambda^2|dz|^2,\qquad 
+	\lambda=\frac{|f|(1+|g|^2)}{2},
+	\]
+	equivalently
+	\[
+	E=G=\lambda^2=\frac{|f|^2(1+|g|^2)^2}{4},\qquad F=0.
+	\]
+	
+	\medskip
+	\textbf{Step 2: Gauss map and stereographic projection.}
+	For a minimal surface, the Gauss map $N:S\to S^2$ is conformal in conformal coordinates, and its stereographic
+	coordinate is precisely $g$. The round metric on $S^2$ written in the stereographic coordinate $g$ is
+	\[
+	ds^2_{S^2}=\frac{4}{(1+|g|^2)^2}|dg|^2,
+	\]
+	so the pullback satisfies
+	\[
+	|N_u|^2+|N_v|^2=\frac{4}{(1+|g|^2)^2}\bigl(|g_u|^2+|g_v|^2\bigr).
+	\]
+	Since $g$ is holomorphic (meromorphic), $g_u=g'(z)$ and $g_v=i g'(z)$, hence
+	\[
+	|g_u|^2+|g_v|^2=2|g'(z)|^2,
+	\]
+	and therefore
+	\[
+	|N_u|^2+|N_v|^2=\frac{8|g'|^2}{(1+|g|^2)^2}.
+	\]
+	
+	\medskip
+	\textbf{Step 3: relate $K$ to $dN$ for minimal surfaces.}
+	In an orthonormal basis of $T_pS$, the eigenvalues of $dN_p$ are $-k_1,-k_2$.
+	For a minimal surface $k_2=-k_1$, so $K=k_1k_2=-k_1^2\le 0$ and
+	\[
+	\|dN\|^2=k_1^2+k_2^2=2k_1^2=-2K,
+	\qquad\text{hence}\qquad
+	K=-\frac12\|dN\|^2.
+	\]
+	In conformal coordinates, an orthonormal basis is $e_1=X_u/\lambda$, $e_2=X_v/\lambda$, so
+	\[
+	\|dN\|^2=\frac{|N_u|^2+|N_v|^2}{\lambda^2}.
+	\]
+	Thus
+	\[
+	K=-\frac12\frac{|N_u|^2+|N_v|^2}{\lambda^2}
+	=-\frac12\frac{\frac{8|g'|^2}{(1+|g|^2)^2}}{\frac{|f|^2(1+|g|^2)^2}{4}}
+	=-\frac{16|g'|^2}{|f|^2(1+|g|^2)^4}.
+	\]
+	Equivalently,
+	\[
+	K=-\left(\frac{4|g'|}{|f|(1+|g|^2)^2}\right)^2.
+	\]
+	
+	\medskip
+	\textbf{Zeros of $K$.}
+	Assume the surface is regular (no branch points), so $f\neq 0$.
+	Then $K(p)=0$ iff $g'(p)=0$.
+	But $g'$ is holomorphic wherever $g$ is holomorphic, hence either $g'\equiv 0$ or its zeros are isolated.
+	If $g'\equiv 0$, then $g$ is constant, the Gauss map is constant, and the surface is a plane, so $K\equiv 0$.
+	Otherwise, the zeros of $g'$ (hence of $K$) are isolated.
+	
+\subsection*{Problem 10. Associated family in Weierstrass data (local isometry)}
+
+\paragraph{\textbf{Problem statement.}}
+The Weierstrass representation is not unique: if $\phi_{(f,g)}:D\to\mathbb{R}^3$ is the associated parametrization and
+$\alpha:W\to D$ is a bijective holomorphic map, then $\phi_{(f,g)}\circ\alpha$ is another representation of the same minimal
+surface and it must have the same form with different $f$ and $g$ (which should be specified).
+By choosing $\alpha(z)=g^{-1}(z)$, show that, locally around regular points of $g$ (where $g'\neq 0$), we can assume
+that our pair $(f,g)$ is of the form $(F,\mathrm{id})$, for some local holomorphic function $F$. We denote such a
+representation by $\phi_F$. Show that the minimal surfaces given by $\phi_{e^{-i\theta}F}$ for $\theta\in\mathbb{R}$
+are all locally isometric.
+
+\medskip
+
+\subsubsection*{Theory / setup}
+We use the Weierstrass data $(f,g)$ (holomorphic on $D$, with $g$ meromorphic in general) in the form
+\[
+\phi_{(f,g)}(z)
+=
+\Re\int^z
+\Bigl(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Bigr)\,dz.
+\]
+Its induced metric is
+\[
+ds^2
+=
+\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
+\]
+
+\medskip
+
+\subsubsection*{Solution (core argument)}
+Let $\alpha:W\to D$ be biholomorphic and consider $\phi_{(f,g)}\circ\alpha$. Writing $z=\alpha(w)$, we have
+$dz=\alpha'(w)\,dw$, hence
+\[
+\phi_{(f,g)}(\alpha(w))
+=
+\Re\int^w
+\Bigl(\tfrac12 f(\alpha(\xi))(1-g(\alpha(\xi))^2),\ \tfrac{i}{2}f(\alpha(\xi))(1+g(\alpha(\xi))^2),\ f(\alpha(\xi))g(\alpha(\xi))\Bigr)
+\,\alpha'(\xi)\,d\xi.
+\]
+Therefore $\phi_{(f,g)}\circ\alpha$ is again a Weierstrass representation with new data
+\[
+\tilde g(w)=g(\alpha(w)),\qquad
+\tilde f(w)=f(\alpha(w))\,\alpha'(w).
+\]
+
+Now assume $g'(z_0)\neq 0$. By the holomorphic inverse function theorem, there is a neighborhood on which $g$ admits a
+holomorphic inverse $g^{-1}$. Choose $\alpha=g^{-1}$. Then locally
+\[
+\tilde g(w)=g(g^{-1}(w))=w=\mathrm{id}(w),
+\qquad
+\tilde f(w)= f(g^{-1}(w))\,(g^{-1})'(w)=:F(w),
+\]
+so the pair has the form $(F,\mathrm{id})$. We denote the corresponding immersion by $\phi_F$.
+
+Finally, for $g(z)=z$ the induced metric becomes
+\[
+ds^2=\frac{|F(z)|^2(1+|z|^2)^2}{4}\,|dz|^2.
+\]
+Replacing $F$ by $e^{-i\theta}F$ does not change $|F|$, hence produces the same metric. Thus the identity map on the
+parameter domain is a local isometry between $\phi_F$ and $\phi_{e^{-i\theta}F}$. Therefore the family
+$\{\phi_{e^{-i\theta}F}\}_{\theta\in\mathbb{R}}$ consists of locally isometric minimal surfaces.
+
+\medskip
+
+\subsubsection*{Examples}
+\begin{enumerate}
+	\item \textbf{Catenoid--helicoid associated family (classical).}
+	Take $g(z)=z$ and $f(z)=1/z^2$ (on a punctured domain). Then $f_\theta(z)=e^{-i\theta}/z^2$ yields the associated family.
+	In particular, $\theta=0$ gives (a parametrization of) the catenoid and $\theta=\pi/2$ gives (a parametrization of) the
+	helicoid, and they are locally isometric since the induced metric depends only on $|f_\theta|=|f|$.
+	
+	\item \textbf{Enneper associated family.}
+	Take $g(z)=z$ and $f(z)=1$ (on a simply connected domain). Then $f_\theta=e^{-i\theta}$ produces the associated Enneper
+	family, all locally isometric for the same reason.
+\end{enumerate}
+
+\medskip
+
+\subsubsection*{Theory: Weierstrass data, metric, and reparametrization}
+Let $D\subset\mathbb C$ be simply connected and let $(f,g)$ be holomorphic data (with $g$ meromorphic in general).
+Define the $\mathbb C^3$-valued holomorphic $1$-form
+\[
+\Phi_{(f,g)}(z)\,dz
+=
+\Bigl(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Bigr)\,dz.
+\]
+The associated minimal immersion is given by
+\[
+\phi_{(f,g)}(z)=\Re\int^z \Phi_{(f,g)}(\zeta)\,d\zeta.
+\]
+The choice of $\Phi_{(f,g)}$ ensures $\Phi_{(f,g)}\cdot\Phi_{(f,g)}=0$ (complex bilinear dot product), so the parametrization is
+conformal, and holomorphicity implies the coordinate functions are harmonic; hence $\phi_{(f,g)}$ is minimal.
+
+\smallskip
+The induced metric (first fundamental form) of $\phi_{(f,g)}$ is conformal:
+\[
+ds^2
+=
+2\langle \phi_z,\phi_{\bar z}\rangle\,|dz|^2
+=
+\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
+\]
+In particular, the metric depends only on $|f|$ and $|g|$. Thus multiplying $f$ by a unimodular constant
+$e^{-i\theta}$ leaves $ds^2$ unchanged.
+
+\smallskip
+Non-uniqueness arises from holomorphic reparametrization.
+If $\alpha:W\to D$ is biholomorphic and we reparametrize by $z=\alpha(w)$, then $dz=\alpha'(w)\,dw$ and
+$\phi_{(f,g)}\circ\alpha$ is again a Weierstrass immersion with new data
+\[
+\tilde g(w)=g(\alpha(w)),
+\qquad
+\tilde f(w)=f(\alpha(w))\,\alpha'(w).
+\]
+At points where $g'(z_0)\neq 0$, the holomorphic inverse function theorem gives a local inverse $g^{-1}$.
+Choosing $\alpha=g^{-1}$ yields $\tilde g=\mathrm{id}$ and $\tilde f=:F$ holomorphic, so locally one may normalize the data to
+$(F,\mathrm{id})$ and write the immersion as $\phi_F$.
+The family $\phi_{e^{-i\theta}F}$ ($\theta\in\mathbb R$) is called the associated family; since $|e^{-i\theta}F|=|F|$, all
+members have the same induced metric and are therefore locally isometric.
+
+\medskip
+
+\subsubsection*{Geometric interpretation}
+The Weierstrass data $(f,g)$ encode two geometric ingredients.
+
+\smallskip
+\emph{(1) The Gauss map.}
+For a conformal minimal immersion $X=\phi_{(f,g)}$, let $N$ be the unit normal field.
+The Gauss map is $N:D\to\mathbb S^2$. Composing with stereographic projection
+$\sigma:\mathbb S^2\setminus\{(0,0,1)\}\to\mathbb C$ gives a (locally) meromorphic function
+\[
+g=\sigma\circ N.
+\]
+Thus $g(z)$ is the normal direction written in a complex coordinate. In particular, constant $g$ means constant normal,
+hence $X$ is a plane; nonconstant $g$ corresponds to bending of the surface.
+
+\smallskip
+\emph{(2) The holomorphic $1$-form $f\,dz$.}
+The differential $f(z)\,dz$ controls the conformal scale of the parametrization. The induced metric is
+\[
+ds^2=\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2,
+\]
+so $|f|$ (together with $|g|$) determines local lengths on the surface, while the argument of $f$ represents a constant
+``phase'' in the complex differential.
+
+\smallskip
+\emph{(3) Conformality and minimality.}
+The $\mathbb C^3$-valued $1$-form
+\[
+\Phi_{(f,g)}\,dz
+=
+\Bigl(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Bigr)\,dz
+\]
+is arranged so that the complex derivative satisfies $X_z\cdot X_z=0$, which is the isotropy condition ensuring the
+parametrization is conformal. Moreover each coordinate function of $X=\Re\int \Phi$ is harmonic (real part of a holomorphic
+function), hence $X$ is minimal.
+
+\smallskip
+\emph{(4) Associated family.}
+Multiplying $f$ by a unimodular constant $e^{-i\theta}$ rotates the holomorphic differential by a constant phase.
+This generally changes the immersion in $\mathbb R^3$, but does not change the metric since $|e^{-i\theta}f|=|f|$.
+Therefore $\phi_{e^{-i\theta}F}$ all share the same first fundamental form and are locally isometric.
+
+\medskip
+
+\subsubsection*{Theory (definitions and detailed metric computation)}
+
+\smallskip
+\textbf{Complex coordinate and derivatives.}
+Let $z=x+iy$ on a domain $D\subset\mathbb C$. Then $|dz|^2:=dx^2+dy^2$.
+We use $\partial_z=\tfrac12(\partial_x-i\partial_y)$ and $\partial_{\bar z}=\tfrac12(\partial_x+i\partial_y)$.
+
+\smallskip
+\textbf{Weierstrass $1$-form and immersion.}
+Given holomorphic data $(f,g)$ (with $g$ meromorphic in general), define the $\mathbb C^3$-valued holomorphic $1$-form
+\[
+\Phi_{(f,g)}(z)\,dz
+=
+\Bigl(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Bigr)\,dz.
+\]
+On simply connected $D$, set $\Psi(z):=\int^z \Phi_{(f,g)}(\zeta)\,d\zeta\in\mathbb C^3$ and define the immersion
+\[
+\phi_{(f,g)}(z)=\Re \Psi(z)\in\mathbb R^3.
+\]
+We distinguish the \emph{complex bilinear} dot product $a\cdot b=\sum_{j=1}^3 a_j b_j$ from the Hermitian product
+$\langle a,b\rangle=\sum_{j=1}^3 a_j\overline{b_j}$.
+
+\smallskip
+\textbf{Isotropy $\Phi\cdot\Phi=0$ (conformality).}
+Write
+\[
+\Phi_1=\tfrac12 f(1-g^2),\qquad
+\Phi_2=\tfrac{i}{2}f(1+g^2),\qquad
+\Phi_3=fg.
+\]
+Then, using the complex bilinear dot product,
+\[
+\Phi\cdot\Phi=\Phi_1^2+\Phi_2^2+\Phi_3^2
+=
+\frac{f^2}{4}(1-g^2)^2-\frac{f^2}{4}(1+g^2)^2+f^2g^2.
+\]
+Since $(1-g^2)^2-(1+g^2)^2=-4g^2$, it follows that $\Phi\cdot\Phi=0$.
+Moreover, $\Psi$ is holomorphic with $\Psi'(z)=\Phi(z)$, hence
+\[
+\phi_z=\partial_z\Re\Psi=\frac12\Psi'(z)=\frac12\Phi(z),\qquad
+\phi_{\bar z}=\frac12\overline{\Phi(z)}.
+\]
+Therefore $\phi_z\cdot\phi_z=\tfrac14(\Phi\cdot\Phi)=0$, which is the conformality condition.
+
+\smallskip
+\textbf{Induced metric.}
+In complex notation, the first fundamental form of a conformal immersion is
+\[
+ds^2 = 2\langle \phi_z,\phi_{\bar z}\rangle\,|dz|^2.
+\]
+Using $\phi_z=\tfrac12\Phi$ we get
+\[
+\langle \phi_z,\phi_{\bar z}\rangle
+=
+\left\langle \tfrac12\Phi,\tfrac12\overline{\Phi}\right\rangle
+=
+\frac14 \langle \Phi,\overline{\Phi}\rangle
+=
+\frac14|\Phi|^2,
+\]
+hence $ds^2=\frac{|\Phi|^2}{2}|dz|^2$, where $|\Phi|^2:=|\Phi_1|^2+|\Phi_2|^2+|\Phi_3|^2$.
+Now
+\[
+|\Phi_1|^2=\frac{|f|^2}{4}|1-g^2|^2,\quad
+|\Phi_2|^2=\frac{|f|^2}{4}|1+g^2|^2,\quad
+|\Phi_3|^2=|f|^2|g|^2,
+\]
+so
+\[
+|\Phi|^2
+=
+\frac{|f|^2}{4}\Bigl(|1-g^2|^2+|1+g^2|^2+4|g|^2\Bigr).
+\]
+Expanding gives
+\[
+|1-g^2|^2+|1+g^2|^2 = 2(1+|g|^4),
+\]
+hence the bracket equals
+\[
+2(1+|g|^4)+4|g|^2=2(1+2|g|^2+|g|^4)=2(1+|g|^2)^2.
+\]
+Therefore
+\[
+|\Phi|^2=\frac{|f|^2}{2}(1+|g|^2)^2,
+\qquad
+ds^2=\frac{|\Phi|^2}{2}|dz|^2
+=\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
+\]
+
+\smallskip
+\textbf{Why minimal.}
+Each component $\Psi_k$ is holomorphic and $\phi_k=\Re\Psi_k$ is harmonic, so $\Delta\phi=0$.
+For a conformal immersion, $\Delta\phi=2\lambda^2 H$ where $H$ is the mean curvature vector.
+Thus $\Delta\phi=0$ implies $H=0$, i.e.\ $\phi$ is minimal.
+
+\medskip
+
+\subsubsection*{Lemma (metric in complex notation)}
+Let $\phi=\phi(x,y)$ be a smooth map into $\mathbb R^3$ and set
+\[
+E=\langle \phi_x,\phi_x\rangle,\qquad
+F=\langle \phi_x,\phi_y\rangle,\qquad
+G=\langle \phi_y,\phi_y\rangle,
+\]
+so that the first fundamental form is
+\[
+ds^2=E\,dx^2+2F\,dx\,dy+G\,dy^2.
+\]
+Define complex derivatives
+\[
+\phi_z=\tfrac12(\phi_x-i\phi_y),\qquad
+\phi_{\bar z}=\tfrac12(\phi_x+i\phi_y).
+\]
+Then
+\[
+\langle \phi_z,\phi_{\bar z}\rangle
+=
+\left\langle \tfrac12(\phi_x-i\phi_y),\tfrac12(\phi_x+i\phi_y)\right\rangle
+=
+\frac14\bigl(\langle \phi_x,\phi_x\rangle+\langle \phi_y,\phi_y\rangle\bigr)
+=
+\frac{E+G}{4}.
+\]
+In particular, if $\phi$ is conformal, then $F=0$ and $E=G=\lambda^2$, hence
+\[
+\langle \phi_z,\phi_{\bar z}\rangle=\frac{\lambda^2}{2},
+\qquad\text{and therefore}\qquad
+ds^2=\lambda^2(dx^2+dy^2)=\lambda^2|dz|^2
+=
+2\langle \phi_z,\phi_{\bar z}\rangle\,|dz|^2.
+\]
+
+\medskip
+
+\subsubsection*{Companion identity (conformality test)}
+With $\phi_z=\tfrac12(\phi_x-i\phi_y)$ we compute
+\[
+\langle \phi_z,\phi_z\rangle
+=
+\left\langle \tfrac12(\phi_x-i\phi_y),\tfrac12(\phi_x-i\phi_y)\right\rangle
+=
+\frac14\Bigl(\langle \phi_x,\phi_x\rangle-\langle \phi_y,\phi_y\rangle-2i\langle \phi_x,\phi_y\rangle\Bigr)
+=
+\frac{E-G-2iF}{4}.
+\]
+Hence $\langle \phi_z,\phi_z\rangle=0$ if and only if $E=G$ and $F=0$, i.e.\ if and only if the parametrization is conformal.
+
+\medskip
+
+\subsubsection*{Step-by-step origin of the Weierstrass data $(f,g)$}
+
+We want a systematic way to write all conformal minimal immersions
+$\phi : D \subset \mathbb{C} \to \mathbb{R}^3$ using holomorphic data.
+The Weierstrass representation gives exactly that: two complex functions $(f,g)$ generate the surface.
+
+\medskip
+\textbf{1) Start from a minimal immersion and use complex coordinates.}
+
+Let $z = x + iy$ be a complex parameter on $D$. For a smooth map $\phi(x,y) \in \mathbb{R}^3$, define
+\[
+\phi_z = \frac{1}{2}(\phi_x - i\phi_y),
+\qquad
+\phi_{\bar z} = \frac{1}{2}(\phi_x + i\phi_y).
+\]
+
+A parametrization is \textbf{conformal} if and only if
+\[
+\langle \phi_x,\phi_x\rangle = \langle \phi_y,\phi_y\rangle,
+\qquad
+\langle \phi_x,\phi_y\rangle = 0.
+\]
+Equivalently, in complex form,
+\[
+\phi_z \cdot \phi_z = 0
+\qquad
+\text{(complex bilinear dot product).}
+\]
+
+A surface is \textbf{minimal} if its coordinate functions are harmonic in conformal parameters, i.e.
+\[
+\Delta \phi = 0.
+\]
+In complex notation, $\Delta = 4\,\partial_z \partial_{\bar z}$, so $\Delta \phi = 0$ means
+\[
+\partial_{\bar z}\phi_z = 0,
+\]
+i.e.\ $\phi_z$ is holomorphic as a $\mathbb{C}^3$-valued function.
+
+\medskip
+So:
+\[
+\boxed{\text{Minimal + conformal} \ \Longrightarrow\  \phi_z \text{ is a holomorphic } \mathbb{C}^3\text{-valued function satisfying } \phi_z\cdot\phi_z = 0.}
+\]
+
+\smallskip
+\textbf{2) The holomorphic $1$-form.}
+Set
+\[
+\Phi(z):=2\phi_z(z)\in\mathbb C^3.
+\]
+Then $\Phi$ is holomorphic and satisfies $\Phi\cdot\Phi=0$.
+Since $D$ is simply connected, the integral
+\[
+\Psi(z)=\int^z \Phi(\zeta)\,d\zeta\in\mathbb C^3
+\]
+is well-defined (up to an additive constant), and the immersion is recovered by
+\[
+\phi(z)=\Re\Psi(z)=\Re\int^z \Phi(\zeta)\,d\zeta.
+\]
+
+\smallskip
+\textbf{3) Introducing $(f,g)$ from $\Phi\cdot\Phi=0$.}
+Write $\Phi=(\Phi_1,\Phi_2,\Phi_3)$ with $\Phi_1^2+\Phi_2^2+\Phi_3^2=0$.
+On the set where $\Phi_1-i\Phi_2\neq 0$, define
+\[
+f:=\Phi_1-i\Phi_2,\qquad g:=\frac{\Phi_3}{\Phi_1-i\Phi_2}=\frac{\Phi_3}{f}.
+\]
+Then $\Phi_3=fg$ and
+\[
+(\Phi_1-i\Phi_2)(\Phi_1+i\Phi_2)+\Phi_3^2=0
+\quad\Longrightarrow\quad
+f(\Phi_1+i\Phi_2)+(fg)^2=0
+\quad\Longrightarrow\quad
+\Phi_1+i\Phi_2=-fg^2.
+\]
+Hence
+\[
+\Phi_1=\tfrac12\bigl((\Phi_1-i\Phi_2)+(\Phi_1+i\Phi_2)\bigr)=\tfrac12 f(1-g^2),
+\]
+\[
+\Phi_2=\tfrac{1}{2i}\bigl((\Phi_1+i\Phi_2)-(\Phi_1-i\Phi_2)\bigr)=\tfrac{i}{2} f(1+g^2),
+\]
+\[
+\Phi_3=fg.
+\]
+Therefore
+\[
+\Phi_{(f,g)}(z)\,dz
+=
+\Bigl(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Bigr)\,dz,
+\qquad
+\phi_{(f,g)}(z)=\Re\int^z \Phi_{(f,g)}(\zeta)\,d\zeta.
+\]
+Geometrically, $g$ is the stereographic coordinate of the Gauss map (normal direction), and $f\,dz$
+is the holomorphic differential controlling the conformal scale.
+
+\smallskip
+\textbf{4) Metric and associated family.}
+The induced metric is conformal and equals
+\[
+ds^2=\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
+\]
+In particular $ds^2$ depends only on $|f|$ and $|g|$, so replacing $f$ by $e^{-i\theta}f$ leaves $ds^2$ unchanged.
+
+\smallskip
+\textbf{5) Reparametrization.}
+If $\alpha:W\to D$ is biholomorphic and $z=\alpha(w)$, then $dz=\alpha'(w)\,dw$ and the pullback gives
+new Weierstrass data
+\[
+\tilde g(w)=g(\alpha(w)),\qquad \tilde f(w)=f(\alpha(w))\,\alpha'(w).
+\]
+
+\medskip
+
+\subsubsection*{What are $f$ and $g$? How $\mathbb C^3$ appears, and why the surface is in $\mathbb R^3$.}
+
+\smallskip
+\textbf{Complex derivative of a conformal minimal immersion.}
+Start with a (conformal) minimal immersion
+\[
+\phi : D \subset \mathbb{C} \longrightarrow \mathbb{R}^3.
+\]
+Write $z=x+iy$ and define the complex derivatives
+\[
+\phi_z=\frac12(\phi_x-i\phi_y)\in\mathbb C^3,
+\qquad
+\phi_{\bar z}=\frac12(\phi_x+i\phi_y)\in\mathbb C^3.
+\]
+For a conformal minimal immersion, $\phi_z$ has two key properties:
+\begin{itemize}
+	\item \textbf{Holomorphic:} minimality implies $\Delta\phi=0$, and since $\Delta=4\,\partial_z\partial_{\bar z}$ we obtain
+	\[
+	\partial_{\bar z}\phi_z=0,
+	\]
+	so $\phi_z$ is holomorphic as a $\mathbb C^3$-valued function.
+	\item \textbf{Isotropic:} conformality is equivalent to
+	\[
+	\phi_z\cdot \phi_z = 0
+	\qquad\text{(complex bilinear dot product).}
+	\]
+\end{itemize}
+
+\smallskip
+\textbf{The holomorphic $\mathbb C^3$-valued $1$-form.}
+Now set
+\[
+\Phi := 2\phi_z \in \mathbb C^3.
+\]
+Then $\Phi$ is a holomorphic map into $\mathbb C^3$ satisfying $\Phi\cdot \Phi=0$.
+The $1$-form $\Phi\,dz$ is the holomorphic $\mathbb C^3$-valued form that one integrates to recover $\phi$:
+\[
+\Psi(z)=\int^z \Phi(\zeta)\,d\zeta \in \mathbb C^3,
+\qquad
+\phi(z)=\Re \Psi(z)\in \mathbb R^3.
+\]
+
+\smallskip
+\textbf{Geometric meaning.}
+The function $g$ is (up to stereographic projection) the Gauss map: it encodes the unit normal direction
+$N\in\mathbb S^2$. Concretely,
+\[
+N
+=
+\frac{1}{1+|g|^2}\,\bigl(2\Re g,\ 2\Im g,\ |g|^2-1\bigr),
+\]
+which is inverse stereographic projection from $g\in\mathbb C$ to $N\in\mathbb S^2$.
+The holomorphic $1$-form $f\,dz$ controls the conformal scale; the induced metric is
+\[
+ds^2
+=
+\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
+\]
+Thus $|f|$ (together with $|g|$) determines local lengths; multiplying $f$ by $e^{-i\theta}$ rotates the differential but
+does not change the metric.
+
+\smallskip
+\textbf{Clarifying the target spaces ($\mathbb C^3$ vs.\ $\mathbb R^3$ vs.\ $\mathbb C^2$).}
+\begin{enumerate}
+	\item The surface itself is in $\mathbb R^3$: $\phi(D)\subset\mathbb R^3$.
+	\item The space $\mathbb C^3$ appears because the complex derivative $\phi_z$ is naturally complex-valued, so
+	$\phi_z\in\mathbb C^3$ and hence $\Phi=2\phi_z\in\mathbb C^3$.
+	We integrate in $\mathbb C^3$ and then take the real part:
+	\[
+	\Psi(z)=\int^z \Phi(\zeta)\,d\zeta\in\mathbb C^3,
+	\qquad
+	\phi(z)=\Re\Psi(z)\in\mathbb R^3.
+	\]
+	\item The data $(f,g)$ are two complex functions, hence define a map $(f,g):D\to\mathbb C^2$,
+	but $(f,g)$ is \emph{not} the surface. It is the holomorphic data used to build $\Phi$ and then $\phi$.
+\end{enumerate}
+
+\medskip
+\textbf{One-sentence summary.}
+The surface is $\phi:D\subset\mathbb C\to\mathbb R^3$; the complex derivative produces $\Phi=2\phi_z\in\mathbb C^3$ with
+$\Phi\cdot\Phi=0$; and the functions $f=\Phi_1-i\Phi_2$ and $g=\Phi_3/f$ encode $\Phi$, with $g$ representing the Gauss map
+(stereographic coordinate) and $f\,dz$ controlling the conformal scale.
+
+\medskip
+
+\subsubsection*{Where do $\phi_x$ and $\phi_y$ come from?}
+A parametrized surface patch is a smooth map
+\[
+\phi : D \subset \mathbb R^2 \to \mathbb R^3,\qquad (x,y)\mapsto \phi(x,y).
+\]
+Hence it has the usual partial derivatives with respect to the two real parameters:
+\[
+\phi_x(x,y)=\frac{\partial \phi}{\partial x}(x,y),\qquad
+\phi_y(x,y)=\frac{\partial \phi}{\partial y}(x,y).
+\]
+Writing $\phi=(\phi^1,\phi^2,\phi^3)$, these are
+\[
+\phi_x=\big(\partial_x\phi^1,\partial_x\phi^2,\partial_x\phi^3\big)\in\mathbb R^3,
+\qquad
+\phi_y=\big(\partial_y\phi^1,\partial_y\phi^2,\partial_y\phi^3\big)\in\mathbb R^3.
+\]
+If we identify $(x,y)$ with the complex coordinate $z=x+iy$, we often write $\phi(z)$ instead of $\phi(x,y)$; this is only
+a change of notation.
+The complex derivatives are defined by the linear combinations
+\[
+\phi_z=\tfrac12(\phi_x-i\phi_y),\qquad
+\phi_{\bar z}=\tfrac12(\phi_x+i\phi_y),
+\]
+which package the two real tangent vectors $\phi_x,\phi_y$ into complex form.
+
+\medskip
+
+\subsubsection*{Why minimality implies $\Delta\phi=0$ (in conformal parameters)}
+A surface is \emph{minimal} if and only if its mean curvature satisfies $H\equiv 0$.
+For an immersion $\phi:D\subset\mathbb R^2\to\mathbb R^3$ there is the fundamental identity
+\[
+\Delta_g \phi = 2H\,N,
+\]
+where $\Delta_g$ is the Laplace--Beltrami operator of the induced metric $g$ and $N$ is the unit normal.
+Thus $H=0$ is equivalent to $\Delta_g\phi=0$.
+
+If $(x,y)$ are \emph{conformal} (isothermal) coordinates, then
+\[
+g=\lambda^2(dx^2+dy^2)\qquad (E=G=\lambda^2,\;F=0),
+\]
+and the Laplace--Beltrami operator simplifies to
+\[
+\Delta_g = \frac{1}{\lambda^2}\Delta,
+\qquad
+\Delta=\partial_x^2+\partial_y^2.
+\]
+Substituting into $\Delta_g\phi=2H N$ yields
+\[
+\frac{1}{\lambda^2}\Delta\phi = 2H N
+\quad\Longrightarrow\quad
+\Delta\phi = 2\lambda^2 H N.
+\]
+Hence, for a minimal surface ($H=0$), we obtain $\Delta\phi=0$.
+
+Finally, since $\Delta = 4\,\partial_z\partial_{\bar z}$, the equation $\Delta\phi=0$ implies
+\[
+\partial_{\bar z}\phi_z=\partial_{\bar z}(\partial_z\phi)=0,
+\]
+so $\phi_z$ is holomorphic as a $\mathbb C^3$-valued function.
+
+\medskip
+
+\subsubsection*{Why $\phi_z$ is $\mathbb C^3$-valued although $\phi$ is $\mathbb R^3$-valued}
+Write the immersion as
+\[
+\phi(x,y)=(\phi^1(x,y),\phi^2(x,y),\phi^3(x,y))\in\mathbb R^3.
+\]
+Then
+\[
+\phi_x=(\partial_x\phi^1,\partial_x\phi^2,\partial_x\phi^3)\in\mathbb R^3,
+\qquad
+\phi_y=(\partial_y\phi^1,\partial_y\phi^2,\partial_y\phi^3)\in\mathbb R^3.
+\]
+By definition,
+\[
+\phi_z=\tfrac12(\phi_x-i\phi_y),
+\]
+so each component is a complex number:
+\[
+\phi_z=
+\left(
+\tfrac12(\partial_x\phi^1-i\partial_y\phi^1),\
+\tfrac12(\partial_x\phi^2-i\partial_y\phi^2),\
+\tfrac12(\partial_x\phi^3-i\partial_y\phi^3)
+\right)\in\mathbb C^3.
+\]
+Thus $\phi$ takes values in $\mathbb R^3$, but its complex derivative $\phi_z$ is a complex linear combination of real
+tangent vectors and naturally lives in the complexified space $\mathbb C^3$.
+
+Moreover, saying that $\phi_z$ is \emph{holomorphic as a $\mathbb C^3$-valued function} means
+\[
+\partial_{\bar z}\phi_z=0,
+\]
+equivalently $\partial_{\bar z}(\phi_z^k)=0$ for each component $k=1,2,3$.
+
+\medskip
+
+\subsubsection*{Returning to $\mathbb R^3$ after working in $\mathbb C^3$}
+Although $\phi:D\to\mathbb R^3$ is real-valued, its complex derivative
+\[
+\phi_z=\tfrac12(\phi_x-i\phi_y)
+\]
+is $\mathbb C^3$-valued. Set
+\[
+\Phi:=2\phi_z \in \mathbb C^3.
+\]
+Since $\Phi$ is holomorphic, we can integrate componentwise to obtain a holomorphic map
+\[
+\Psi(z)=\int^z \Phi(\zeta)\,d\zeta \in \mathbb C^3
+\]
+(well-defined on simply connected domains, up to an additive constant). The original immersion is then recovered by taking
+the real part componentwise:
+\[
+\phi(z)=\Re \Psi(z)=\Re\int^z \Phi(\zeta)\,d\zeta \in \mathbb R^3.
+\]
+Thus we \emph{temporarily} work in the complexified space $\mathbb C^3$ to exploit holomorphicity, and then take $\Re$ to
+return to a surface in $\mathbb R^3$.
+
+	
+	\medskip
+	\textbf{Why $g$ is the Gauss map, but $f$ is not.}
+	
+	Let $X=\phi_{(f,g)}:D\subset\mathbb C\to\mathbb R^3$ be a conformal minimal immersion given by the Weierstrass data $(f,g)$:
+	\[
+	X(z)=\Re\int^z \Phi_{(f,g)}(\zeta)\,d\zeta,
+	\qquad
+	\Phi_{(f,g)}(z)
+	=
+	\Bigl(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Bigr).
+	\]
+	The induced metric is
+	\[
+	ds^2=\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
+	\]
+	
+	\smallskip
+	\textbf{1) The Gauss map and the role of $g$.}
+	The \emph{Gauss map} of $X$ is the unit normal field
+	\[
+	N:D\to \mathbb S^2.
+	\]
+	Let $\sigma:\mathbb S^2\setminus\{(0,0,1)\}\to\mathbb C$ be stereographic projection. A fundamental fact of the Weierstrass
+	representation is that
+	\[
+	g=\sigma\circ N,
+	\]
+	so $g$ is (locally) the complex coordinate of the normal direction. Equivalently, $N$ can be recovered from $g$ by inverse
+	stereographic projection:
+	\[
+	N
+	=
+	\frac{1}{1+|g|^2}\,\bigl(2\Re g,\ 2\Im g,\ |g|^2-1\bigr).
+	\]
+	Thus \emph{$g$ encodes the direction of the unit normal}, i.e.\ the Gauss map.
+	
+	\smallskip
+	\textbf{2) The role of $f$ (conformal scale, not normals).}
+	The function $f$ is \emph{not} a Gauss map. It controls the conformal scale of the parametrization via the metric:
+	\[
+	ds^2=\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
+	\]
+	In particular, $|f|$ determines local lengths in the parameter domain (together with $|g|$), while the argument of $f$ is a
+	constant ``phase'' in the holomorphic differential. There is no formula expressing $N$ purely in terms of $f$.
+	
+	\smallskip
+	\textbf{3) Why it may look like ``both are Gauss maps'' after a reparametrization.}
+	Non-uniqueness comes from biholomorphic reparametrization. If $\alpha:W\to D$ is biholomorphic, then
+	$X\circ\alpha$ is again a Weierstrass immersion with new data
+	\[
+	\tilde g(w)=g(\alpha(w)),
+	\qquad
+	\tilde f(w)=f(\alpha(w))\,\alpha'(w).
+	\]
+	If $g'(z_0)\neq 0$, then $g$ has a local holomorphic inverse $g^{-1}$ near $z_0$. Choosing $\alpha=g^{-1}$ gives
+	\[
+	\tilde g(w)=g(g^{-1}(w))=w=\mathrm{id}(w),
+	\qquad
+	\tilde f(w)=f(g^{-1}(w))\,(g^{-1})'(w)=:F(w).
+	\]
+	So locally we may normalize the data to $(F,\mathrm{id})$. This does \emph{not} mean that $F$ is a Gauss map; it only means we
+	chose coordinates so that the Gauss-map coordinate becomes the parameter $w$ itself.
+	
+	\smallskip
+	\textbf{Summary.}
+	\[
+	\boxed{\text{$g$ is (stereographic) Gauss map data, while $f\,dz$ controls the conformal scale of the immersion.}}
+	\]
+	
+	
+	
+	
+	
+	
+	% --- FIGURE A (no tikzcd): Reparametrization of Weierstrass data ---
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.05]
+			% Left blob: W
+			\draw[thick] (-4.2,0) ellipse (1.6 and 1.0);
+			\node at (-4.2,1.35) {$W\subset\mathbb C_w$};
+			\fill (-4.5,0.1) circle (1.6pt) node[left] {$w$};
+			
+			% Right blob: D
+			\draw[thick] (0,0) ellipse (1.6 and 1.0);
+			\node at (0,1.35) {$D\subset\mathbb C_z$};
+			\fill (-0.3,0.15) circle (1.6pt) node[right] {$z=\alpha(w)$};
+			
+			% Arrow alpha
+			\draw[->,thick] (-2.6,0.25) -- (-1.6,0.25) node[midway,above] {$\alpha$ (biholomorphic)};
+			\draw[->,thick] (-1.6,0.25) -- (-0.6,0.25);
+			
+			% Down arrow to data (f,g)
+			\draw[->,thick] (0,-1.1) -- (0,-2.35) node[midway,right] {Weierstrass data $(f,g)$};
+			
+			% Left down arrow to tilde data
+			\draw[->,thick] (-4.2,-1.1) -- (-4.2,-2.35) node[midway,left] {new data $(\tilde f,\tilde g)$};
+			
+			% Connecting statement
+			\node at (-2.1,-3.05) {$\tilde g(w)=g(\alpha(w)),\qquad \tilde f(w)=f(\alpha(w))\,\alpha'(w).$};
+			
+			% Hint that immersion is unchanged
+			\node at (-2.1,-3.85) {$\phi_{(f,g)}\circ\alpha=\phi_{(\tilde f,\tilde g)}\quad\text{(same surface, new data).}$};
+		\end{tikzpicture}
+		\caption{Holomorphic reparametrization: pull back the Weierstrass data by $z=\alpha(w)$.}
+	\end{figure}
+	
+	% --- FIGURE B: Local normalization g = id using alpha = g^{-1} ---
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.05]
+			% Domain D in z-plane
+			\draw[thick] (-2.2,0) ellipse (2.0 and 1.2);
+			\node at (-2.2,1.5) {$D\subset\mathbb C_z$};
+			
+			% small neighborhood around z0
+			\fill (-1.0,0.2) circle (1.6pt) node[above left] {$z_0$};
+			\draw[thick,dashed] (-1.0,0.2) circle (0.45);
+			
+			% image neighborhood in w-plane
+			\begin{scope}[xshift=6.0cm]
+				\draw[thick] (0,0) ellipse (2.0 and 1.2);
+				\node at (0,1.5) {$W\subset\mathbb C_w$};
+				
+				% center point w0 = g(z0)
+				\fill (0.8,0.15) circle (1.6pt) node[above right] {$w_0=g(z_0)$};
+				\draw[thick,dashed] (0.8,0.15) circle (0.45);
+			\end{scope}
+			
+			% arrows
+			\draw[->,thick] (-0.2,0.45) .. controls (1.4,1.6) and (3.2,1.6) .. (5.2,0.45)
+			node[midway,above] {$g\ \ (\text{local biholomorphism if }g'(z_0)\neq 0)$};
+			\draw[->,thick] (5.2,-0.15) .. controls (3.2,-1.4) and (1.4,-1.4) .. (-0.2,-0.15)
+			node[midway,below] {$\alpha=g^{-1}$};
+			
+			% text
+			\node at (2.9,-2.0) {$\tilde g(w)=g(\alpha(w))=w=\mathrm{id}(w)\ \text{locally.}$};
+		\end{tikzpicture}
+		\caption{Local normalization near a regular point: if $g'(z_0)\neq 0$, choose $\alpha=g^{-1}$ so that $\tilde g=\mathrm{id}$.}
+	\end{figure}
+	
+	% --- FIGURE C: Gauss map and stereographic projection g = sigma \circ N ---
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.0]
+			% sphere
+			\draw[thick] (0,0) circle (1.8);
+			\node at (0,2.25) {$\mathbb S^2$};
+			
+			% north pole
+			\fill (0,1.8) circle (1.6pt) node[above] {$N_0=(0,0,1)$};
+			
+			% equatorial plane line
+			\draw[thick] (-3.0,-1.8) -- (3.0,-1.8);
+			\node at (3.2,-1.8) {$\mathbb C\cong \{z=0\}$};
+			
+			% a point on sphere
+			\fill (1.0,0.9) circle (1.6pt) node[above right] {$N(p)$};
+			
+			% stereographic line from north pole to plane
+			\draw[thick,->] (0,1.8) -- (1.9,-1.8);
+			\fill (1.9,-1.8) circle (1.6pt) node[below right] {$g(p)=\sigma(N(p))$};
+			
+			% map labels
+			\node at (-2.5,0.8) {$N:S\to \mathbb S^2$ (Gauss map)};
+			\node at (-2.7,-0.2) {$g=\sigma\circ N$};
+		\end{tikzpicture}
+		\caption{Geometric meaning of $g$: it is the Gauss map written in complex coordinates via stereographic projection.}
+	\end{figure}
+	
+	% --- FIGURE D: Associated family as phase rotation of the differential ---
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.05]
+			% complex plane axes
+			\draw[->,thick] (-2.8,0) -- (2.8,0) node[below right] {$\Re$};
+			\draw[->,thick] (0,-2.2) -- (0,2.2) node[above left] {$\Im$};
+			
+			% a vector representing f dz at a point
+			\draw[thick,->] (0,0) -- (2.0,0.6) node[above right] {$f\,dz$};
+			
+			% rotated vector
+			\draw[thick,->] (0,0) -- (1.0,1.8) node[above right] {$e^{-i\theta}f\,dz$};
+			
+			% angle arc
+			\draw[thick] (0.55,0.17) arc (17:61:0.58);
+			\node at (0.95,0.55) {$\theta$};
+			
+			% note
+			\node at (0,-1.6) {$|e^{-i\theta}f|=|f|\ \Rightarrow\ ds^2\ \text{unchanged}$};
+		\end{tikzpicture}
+		\caption{Associated family: multiply $f$ by $e^{-i\theta}$ (constant phase). The metric depends on $|f|$, hence is unchanged.}
+	\end{figure}
+	
+	% --- FIGURE E: Catenoid-helicoid as the classical associated family (schematic) ---
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.0]
+			% Left: catenoid schematic
+			\begin{scope}
+				\node at (0,2.4) {\small $\theta=0$ (catenoid)};
+				% waist
+				\draw[thick] (0,0) ellipse (0.55 and 0.18);
+				% top/bottom rims
+				\draw[thick] (0,1.7) ellipse (1.2 and 0.35);
+				\draw[thick] (0,-1.7) ellipse (1.2 and 0.35);
+				% side curves
+				\draw[thick] (-1.2,1.7) .. controls (-0.75,0.9) and (-0.75,-0.9) .. (-1.2,-1.7);
+				\draw[thick] ( 1.2,1.7) .. controls ( 0.75,0.9) and ( 0.75,-0.9) .. ( 1.2,-1.7);
+				% axis
+				\draw[thick,dashed] (0,1.95) -- (0,-1.95);
+			\end{scope}
+			
+			% Arrow to helicoid
+			\draw[->,very thick] (3.0,0) -- (4.4,0) node[midway,above] {\small vary $\theta$};
+			
+			% Right: helicoid schematic
+			\begin{scope}[xshift=7.0cm]
+				\node at (0,2.4) {\small $\theta=\pi/2$ (helicoid)};
+				% axis
+				\draw[thick,dashed] (0,2.0) -- (0,-2.0);
+				% helical strips (cartoon)
+				\draw[thick] (-1.6,1.6) .. controls (-0.6,1.2) and (0.6,0.8) .. (1.6,0.4);
+				\draw[thick] (-1.6,0.6) .. controls (-0.6,0.2) and (0.6,-0.2) .. (1.6,-0.6);
+				\draw[thick] (-1.6,-0.4) .. controls (-0.6,-0.8) and (0.6,-1.2) .. (1.6,-1.6);
+			\end{scope}
+			
+			\node at (3.5,-2.55) {\small Same induced metric locally: depends on $|f_\theta|=|f|$.};
+		\end{tikzpicture}
+		\caption{Classical picture: the associated family interpolates between catenoid and helicoid while preserving the local metric.}
+	\end{figure}
+	
+	\medskip
+	\noindent
+	\textbf{Idea (one picture).}
+	The Weierstrass pair $(f,g)$ is not unique because we may reparametrize the domain by any biholomorphic map
+	$\alpha:W\to D$ (change of complex coordinate). Under $z=\alpha(w)$, the same minimal immersion can be written again in
+	Weierstrass form with new data
+	\[
+	\tilde g(w)=g(\alpha(w)),\qquad \tilde f(w)=f(\alpha(w))\,\alpha'(w).
+	\]
+	At a regular point $z_0$ of $g$ (where $g'(z_0)\neq 0$), the holomorphic inverse function theorem allows us to choose
+	$\alpha=g^{-1}$ locally, which normalizes the Gauss-map coordinate to $\tilde g=\mathrm{id}$ and leaves only one holomorphic
+	function $F:=\tilde f$. In this normalized form $(F,\mathrm{id})$, multiplying $F$ by a unimodular constant
+	$e^{-i\theta}$ rotates the complex differential by a constant phase but does not change its modulus; hence the induced metric
+	\[
+	ds^2=\frac{|F|^2(1+|z|^2)^2}{4}\,|dz|^2
+	\]
+	is unchanged. Therefore the associated family $\{\phi_{e^{-i\theta}F}\}_{\theta\in\mathbb R}$ consists of locally isometric
+	minimal surfaces.
+	\medskip
+	% Needs: \usetikzlibrary{positioning}
+\begin{figure}[H]
+	\centering
+	\resizebox{\textwidth}{!}{%
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round,
+			node distance=22mm and 26mm]
+			
+			% Colors (soft + readable)
+			\definecolor{mapblue}{RGB}{36,99,181}
+			\definecolor{datagreen}{RGB}{34,139,34}
+			\definecolor{phasered}{RGB}{176,54,54}
+			\definecolor{boxfill}{RGB}{248,248,248}
+			
+			\tikzset{
+				tbox/.style={rounded corners=6pt, draw=black, thick, fill=boxfill,
+					inner sep=8pt, align=left},
+				arrowB/.style={->, thick, draw=mapblue},
+				arrowG/.style={->, thick, draw=datagreen},
+				arrowR/.style={->, thick, draw=phasered},
+			}
+			
+			% ---------------- TOP ROW ----------------
+			\node[tbox, minimum width=40mm] (W) {\textbf{$W\subset\mathbb C_w$}\\[2pt]
+				\textcolor{mapblue}{parameter $w$}};
+			
+			\node[tbox, right=of W, minimum width=40mm] (D) {\textbf{$D\subset\mathbb C_z$}\\[2pt]
+				\textcolor{mapblue}{parameter $z$}};
+			
+			\node[tbox, right=of D, minimum width=62mm] (Norm) {\textbf{Local normalization}\\[2pt]
+				Assume $g'(z_0)\neq 0$\\
+				Choose \textcolor{mapblue}{$\alpha=g^{-1}$} locally\\[4pt]
+				\textcolor{datagreen}{$\tilde g(w)=w=\mathrm{id}(w)$}};
+			
+			% Top arrows (keep labels away from text)
+			\draw[arrowB] (W.east) -- (D.west)
+			node[midway, above=2.5mm] {\small \textcolor{mapblue}{$\alpha$ biholomorphic}};
+			
+			\draw[arrowB] (D.east) -- (Norm.west)
+			node[midway, above=2.5mm] {\small \textcolor{mapblue}{if $g'(z_0)\neq 0$}};
+			
+			% ---------------- SECOND ROW ----------------
+			\node[tbox, below=24mm of D, minimum width=66mm] (data) {\textbf{Data on $D$}\\[2pt]
+				\textcolor{datagreen}{$(f,g)$}\\[6pt]
+				{\small $\displaystyle
+					\phi_{(f,g)}(z)=\Re\!\int^z\!\Bigl(\tfrac12 f(1-g^2),\tfrac{i}{2}f(1+g^2),fg\Bigr)\,dz
+					$}};
+			
+			\node[tbox, below=24mm of Norm, minimum width=78mm] (assoc) {\textbf{Associated family (phase rotation)}\\[2pt]
+				\textcolor{phasered}{$F_\theta=e^{-i\theta}F$}\\[6pt]
+				$\displaystyle ds^2=\frac{|F|^2(1+|z|^2)^2}{4}\,|dz|^2$\\[4pt]
+				\textcolor{phasered}{$|F_\theta|=|F|$} $\Rightarrow$ same metric\\[2pt]
+				$\Rightarrow$ \textbf{locally isometric}};
+			
+			% ---------------- THIRD ROW (moved down) ----------------
+			\node[tbox, below=16mm of data, xshift=-52mm, minimum width=66mm] (tdata) {\textbf{Pulled-back data on $W$}\\[2pt]
+				\textcolor{datagreen}{$(\tilde f,\tilde g)$}\\[6pt]
+				$\tilde g(w)=g(\alpha(w))$\\
+				$\tilde f(w)=f(\alpha(w))\,\alpha'(w)$};
+			
+			% Vertical "choose/get" arrows (kept clean)
+			\draw[arrowG] (D.south) -- (data.north)
+			node[midway, right=2mm] {\small \textcolor{datagreen}{choose $(f,g)$}};
+			
+			\draw[arrowG] (W.south) -- (tdata.north)
+			node[midway, left=2mm] {\small \textcolor{datagreen}{get $(\tilde f,\tilde g)$}};
+			
+			% Same immersion note (now diagonal, but with more breathing room)
+			\draw[arrowB] (tdata.east) -- (data.west)
+			node[midway, above=2.5mm] {\small \textcolor{mapblue}{$\phi_{(f,g)}\circ\alpha=\phi_{(\tilde f,\tilde g)}$}};
+			
+			% Phase step arrow (don’t overlap title)
+			\draw[arrowR] (Norm.south) -- (assoc.north)
+			node[midway, right=2mm] {\small \textcolor{phasered}{multiply by $e^{-i\theta}$}};
+			
+		\end{tikzpicture}%
+	}
+	\caption{Problem 10 overview: holomorphic reparametrization changes $(f,g)$, local inversion normalizes $g=\mathrm{id}$, and phase rotation $F\mapsto e^{-i\theta}F$ produces the associated family with the same induced metric.}
+\end{figure}
+
+
+	
+	\medskip
+	\noindent
+	\textbf{Geometric meaning of $g$ (Gauss map in complex coordinates).}
+	For a conformal minimal immersion $\phi:D\to\mathbb R^3$, let $N:D\to\mathbb S^2$ be the unit normal (Gauss map).
+	Stereographic projection $\sigma:\mathbb S^2\setminus\{N_0\}\to\mathbb C$ (from the north pole $N_0=(0,0,1)$) identifies
+	$\mathbb S^2$ (minus one point) with the complex plane. The Weierstrass function $g$ is precisely this normal direction
+	written as a complex number:
+	\[
+	g=\sigma\circ N.
+	\]
+	Thus $g$ encodes how the surface bends (how the normal changes), while $f\,dz$ controls the conformal scale; the induced
+	metric is
+	\[
+	ds^2=\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2,
+	\]
+	so the modulus $|f|$ matters for lengths, whereas a constant phase factor $e^{-i\theta}$ does not change $ds^2$.
+	\medskip
+	
+	% --- Colored mini-chart: Gauss map and stereographic projection (pure TikZ) ---
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.05]
+			
+			% Colors matching the previous chart
+			\definecolor{mapblue}{RGB}{36,99,181}      % blue for maps/arrows
+			\definecolor{datagreen}{RGB}{34,139,34}    % green for g-value
+			\definecolor{phasered}{RGB}{176,54,54}     % (not essential here)
+			\definecolor{sphgray}{RGB}{245,245,245}
+			
+			% Sphere
+			\fill[sphgray] (0,0) circle (1.8);
+			\draw[thick] (0,0) circle (1.8);
+			\node at (0,2.35) {\small $\mathbb S^2$};
+			
+			% North pole
+			\fill[mapblue] (0,1.8) circle (1.8pt);
+			\node[above] at (0,1.8) {\small $N_0$};
+			
+			% Equatorial plane (identified with C)
+			\draw[thick] (-3.2,-1.9) -- (3.2,-1.9);
+			\node[below right] at (3.2,-1.9) {\small $\mathbb C$ (stereographic plane)};
+			
+			% A point on the sphere = normal vector N(p)
+			\fill[mapblue] (1.0,0.9) circle (1.8pt);
+			\node[above right] at (1.0,0.9) {\small $N(p)$};
+			
+			% Stereographic line from N0 through N(p) to plane
+			\draw[->, very thick, mapblue] (0,1.8) -- (1.9,-1.9);
+			
+			% Image point g(p) in complex plane
+			\fill[datagreen] (1.9,-1.9) circle (1.8pt);
+			\node[below right] at (1.9,-1.9) {\small $g(p)=\sigma(N(p))$};
+			
+			% Labels for maps
+			\node[align=left] at (-3.3,0.9) {\small \textcolor{mapblue}{$N:\text{(surface)}\to\mathbb S^2$}\\[-1pt]
+				\small \textcolor{mapblue}{Gauss map}};
+			\node[align=left] at (-3.6,0.1) {\small \textcolor{mapblue}{$\sigma:\mathbb S^2\setminus\{N_0\}\to\mathbb C$}\\[-1pt]
+				\small \textcolor{mapblue}{stereographic projection}};
+			\node[align=left] at (-3.15,-0.85) {\small \textcolor{datagreen}{$g=\sigma\circ N$}\\[-1pt]
+				\small \textcolor{datagreen}{normal direction as a complex number}};
+			
+		\end{tikzpicture}
+		\caption{The Weierstrass function $g$ is the Gauss map written in complex coordinates: $g=\sigma\circ N$.}
+	\end{figure}
+	
+	\medskip
+	\noindent
+	\textbf{Bidirectional view: $g$ encodes the unit normal.}
+	Stereographic projection $\sigma:\mathbb S^2\setminus\{N_0\}\to\mathbb C$ identifies (almost all of) the unit sphere with
+	the complex plane. For a conformal immersion $\phi$, the Gauss map $N:D\to\mathbb S^2$ gives the unit normal, and
+	\[
+	g=\sigma\circ N
+	\]
+	is exactly that normal direction written as a complex number. Conversely, $g$ determines the unit normal by inverse
+	stereographic projection:
+	\[
+	N=\sigma^{-1}(g)=\frac{1}{1+|g|^2}\bigl(2\Re g,\ 2\Im g,\ |g|^2-1\bigr)\in\mathbb S^2.
+	\]
+	\medskip
+	
+	% --- Colored bidirectional chart: sigma and sigma^{-1} ---
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[>=Latex, line cap=round, line join=round, scale=1.05]
+			
+			% Colors
+			\definecolor{mapblue}{RGB}{36,99,181}      % arrows / maps
+			\definecolor{datagreen}{RGB}{34,139,34}    % g-values
+			\definecolor{sphgray}{RGB}{245,245,245}
+			\definecolor{planegray}{RGB}{252,252,252}
+			
+			% Sphere (left)
+			\fill[sphgray] (-3.2,0) circle (1.65);
+			\draw[thick] (-3.2,0) circle (1.65);
+			\node at (-3.2,2.15) {\small $\mathbb S^2$};
+			
+			% North pole
+			\fill[mapblue] (-3.2,1.65) circle (1.8pt);
+			\node[above] at (-3.2,1.65) {\small $N_0$};
+			
+			% A point on sphere
+			\fill[mapblue] (-2.55,0.85) circle (1.8pt);
+			\node[above right] at (-2.55,0.85) {\small $N$};
+			
+			% Complex plane (right)
+			\fill[planegray] (2.9,-1.35) rectangle (6.0,1.35);
+			\draw[thick] (2.9,-1.35) rectangle (6.0,1.35);
+			\node at (4.45,1.85) {\small $\mathbb C$};
+			
+			% Axes in the complex plane
+			\draw[->,thick] (3.2,0) -- (5.8,0) node[below right] {\small $\Re$};
+			\draw[->,thick] (4.45,-1.15) -- (4.45,1.15) node[above left] {\small $\Im$};
+			
+			% A point g in C
+			\fill[datagreen] (5.35,0.55) circle (1.8pt);
+			\node[above right] at (5.35,0.55) {\small $g$};
+			
+			% Forward arrow sigma
+			\draw[->,very thick,mapblue] (-1.35,0.45) -- (2.55,0.45)
+			node[midway,above] {\small $\sigma:\ \mathbb S^2\setminus\{N_0\}\to\mathbb C$};
+			
+			% Backward arrow sigma^{-1}
+			\draw[->,very thick,mapblue] (2.55,-0.45) -- (-1.35,-0.45)
+			node[midway,below] {\small $\sigma^{-1}:\ \mathbb C\to\mathbb S^2\setminus\{N_0\}$};
+			
+			% Formula box for inverse stereographic
+			\node[draw=black, thick, rounded corners=6pt, fill=white, inner sep=6pt, align=left] at (4.45,-2.35)
+			{\small $\displaystyle \sigma^{-1}(g)=\frac{1}{1+|g|^2}\bigl(2\Re g,\ 2\Im g,\ |g|^2-1\bigr)$};
+			
+			% Note about Gauss map
+			\node[align=center] at (0.6,1.55) {\small \textcolor{mapblue}{In Weierstrass:}\\[-2pt]
+				\small \textcolor{datagreen}{$g=\sigma\circ N$}};
+			
+		\end{tikzpicture}
+		\caption{Stereographic projection and its inverse: a complex number $g$ corresponds to a unit normal direction on $\mathbb S^2$.}
+	\end{figure}
+	
+	\clearpage
+	
+		\subsection*{Problem 11. Curvature, geodesics, and local isometry}
+	
+	\textbf{Problem statement.}
+	Let $S_1$ and $S_2$ be surfaces with Gauss curvature $K_{S_1}, K_{S_2}$ respectively.
+	\begin{enumerate}
+		\item Suppose $f:S_1\to S_2$ is a diffeomorphism with $K_{S_2}(f(x))=K_{S_1}(x)$. Must $f$ be an isometry?
+		\item Suppose that for any geodesic $\gamma:I\to S_1$ parametrised by arc-length, $f\circ\gamma:I\to S_2$ is also a geodesic
+		parametrised by arc-length. Must $f$ be an isometry?
+		\item Let $p_1\in S_1, p_2\in S_2$. Suppose $S_1$ and $S_2$ are locally isometric around $p_1$ and $p_2$.
+		Show that there exists a geodesic $\gamma_1(t)$ emanating from $p_1$ and $\gamma_2(t)$ emanating from $p_2$ such that
+		$K_{S_1}(\gamma_1(t))=K_{S_2}(\gamma_2(t))$, and such that if $\alpha_i(t)$ is a geodesic emanating from $p_i$ and making an
+		angle $\theta$ from $\gamma_i$ (for fixed $\theta$), then $K_{S_1}(\alpha_1(t))=K_{S_2}(\alpha_2(t))$.
+		Here all geodesics are parametrised by arc-length.
+		\item Show conversely that if the above property is satisfied, then the $S_i$ are locally isometric near the $p_i$.
+		Deduce that if $S_1$ and $S_2$ have constant curvature $K_{S_1}=K_{S_2}$, then $S_1$ and $S_2$ are locally isometric.
+	\end{enumerate}
+	\hfill\textit{Hint: Consider geodesic polar coordinates and solve an ODE for $G$.}
+	
+	\medskip
+	\textbf{Solution.}
+	\begin{enumerate}
+		\item \textbf{Not necessarily.}
+		Take $S_1=S_2=\mathbb{S}^2$ (unit sphere). Then $K\equiv 1$, so $K_{S_2}(f(x))=K_{S_1}(x)$ holds for every diffeomorphism
+		$f:\mathbb{S}^2\to\mathbb{S}^2$. Most diffeomorphisms are not isometries (they distort lengths/areas), hence the condition on
+		curvature alone does not force $f$ to be an isometry.
+		
+		\item \textbf{Yes.}
+		Fix $p\in S_1$ and let $v\in T_pS_1$ be a unit tangent vector. Let $\gamma_v$ be the unit-speed geodesic with
+		$\gamma_v(0)=p$ and $\gamma_v'(0)=v$. By hypothesis, $f\circ\gamma_v$ is also unit-speed, hence
+		\[
+		\|df_p(v)\|_{S_2}
+		=
+		\|(f\circ\gamma_v)'(0)\|_{S_2}
+		=
+		1.
+		\]
+		Thus $df_p$ maps the unit sphere in $T_pS_1$ into the unit sphere in $T_{f(p)}S_2$, so it preserves norms.
+		By linearity and scaling, $\|df_p(w)\|_{S_2}=\|w\|_{S_1}$ for all $w\in T_pS_1$. Therefore for all $u,v\in T_pS_1$,
+		polarization gives
+		\[
+		\langle df_p(u),df_p(v)\rangle_{S_2}
+		=
+		\frac{\|df_p(u+v)\|^2-\|df_p(u)\|^2-\|df_p(v)\|^2}{2}
+		=
+		\frac{\|u+v\|^2-\|u\|^2-\|v\|^2}{2}
+		=
+		\langle u,v\rangle_{S_1}.
+		\]
+		Hence $df_p$ is an isometry on tangent spaces for every $p$, so $f$ is a local isometry, and since it is a diffeomorphism,
+		$f$ is an isometry.
+		
+		\item \textbf{Property (iii) from a local isometry.}
+		Assume $S_1$ and $S_2$ are locally isometric near $p_1,p_2$.
+		Let $F:U_1\to U_2$ be a local isometry with $F(p_1)=p_2$.
+		Choose any unit-speed geodesic $\gamma_1$ emanating from $p_1$ and define $\gamma_2:=F\circ\gamma_1$.
+		Local isometries preserve arc-length and send geodesics to geodesics, so $\gamma_2$ is a unit-speed geodesic from $p_2$.
+		Moreover Gauss curvature is intrinsic, so $K_{S_2}(F(x))=K_{S_1}(x)$ on $U_1$, hence
+		\[
+		K_{S_2}(\gamma_2(t))=K_{S_1}(\gamma_1(t)).
+		\]
+		If $\alpha_1$ is any unit-speed geodesic from $p_1$ making angle $\theta$ with $\gamma_1$, define $\alpha_2:=F\circ\alpha_1$.
+		Angles are preserved by a local isometry, so $\alpha_2$ makes the same angle $\theta$ with $\gamma_2$, and again
+		\[
+		K_{S_2}(\alpha_2(t))=K_{S_1}(\alpha_1(t)).
+		\]
+		
+		\item \textbf{Conversely, curvature data in polar coordinates determines the metric.}
+		Fix $p\in S$ and introduce geodesic polar coordinates $(r,\theta)$ around $p$ (for $r$ small).
+		In these coordinates the metric takes the form
+		\[
+		ds^2 = dr^2 + G(r,\theta)^2\,d\theta^2,
+		\qquad
+		G(0,\theta)=0,\quad G_r(0,\theta)=1.
+		\]
+		A standard computation (using the Levi-Civita connection in these coordinates) yields the ODE
+		\[
+		G_{rr}(r,\theta)+K(r,\theta)\,G(r,\theta)=0,
+		\]
+		where $K(r,\theta)$ is the Gauss curvature in the same polar coordinates.
+		
+		Assume the property from (iii): for each fixed direction $\theta$, the curvature functions along the corresponding radial
+		geodesics agree between $S_1$ and $S_2$. Then the functions $G_1(r,\theta)$ and $G_2(r,\theta)$ satisfy the same ODE in $r$
+		with the same initial conditions, hence
+		\[
+		G_1(r,\theta)=G_2(r,\theta)
+		\]
+		for $r$ small. Therefore the metrics coincide in these polar coordinates, so identifying points with the same $(r,\theta)$
+		defines a local isometry near $p_1$ and $p_2$.
+		
+		In particular, if $K_{S_1}=K_{S_2}$ is constant, then $G$ is determined (locally) solely by this constant, so any two
+		surfaces of the same constant Gauss curvature are locally isometric.
+	\end{enumerate}
+	
+	\medskip
+	\textbf{Examples.}
+	\begin{enumerate}
+		\item \textbf{Flat case.} The plane and the cylinder both have $K\equiv 0$ and are locally isometric (unwrap the cylinder).
+		\item \textbf{Positive curvature.} Any surface with $K\equiv K_0>0$ is locally isometric to the sphere of radius
+		$1/\sqrt{K_0}$.
+		\item \textbf{Negative curvature.} Any surface with constant $K_0<0$ is locally isometric to the hyperbolic plane of
+		curvature $K_0$.
+	\end{enumerate}
+	
+	\subsection*{Problem 12. Intrinsic distance on a surface; Hopf--Rinow consequences}
+	
+	\textbf{Problem statement.}
+	Let $S\subset\mathbb R^3$ be a smooth embedded surface. For $p,q\in S$ define the \emph{intrinsic distance}
+	\[
+	d(p,q):=\inf_{\alpha\in\Omega(p,q)} \ell(\alpha),
+	\]
+	where $\Omega(p,q)$ is the set of piecewise $C^1$ curves $\alpha:[a,b]\to S$ with $\alpha(a)=p$, $\alpha(b)=q$, and
+	$\ell(\alpha)$ is the length computed with the induced Riemannian metric on $S$.
+	\begin{enumerate}
+		\item Show that $d$ is a metric on $S$, compatible with the topology of $S$.
+		If $S$ is complete (and without boundary), Hopf--Rinow implies that for any $p,q$ there is a minimizing geodesic
+		$\gamma$ joining them with $d(p,q)=\ell(\gamma)$ and geodesics exist for all $t\in\mathbb R$.
+		\item[(i)] If $f:S_1\to S_2$ is an isometry, show that $d_2(f(p),f(q))=d_1(p,q)$ for all $p,q\in S_1$.
+		\item[(ii)] A geodesic $\gamma:[0,\infty)\to S$ is a \emph{ray leaving from $p$} if $\gamma(0)=p$ and
+		$d(\gamma(0),\gamma(s))=\ell(\gamma|_{[0,s]})=s$ for all $s\ge 0$. Let $p$ be a point in a complete, noncompact surface $S$.
+		Show that $S$ contains a ray leaving from $p$. (You may assume geodesics depend smoothly, hence continuously, on their initial data.)
+		\item[(iii)] Let $S$ be connected and let $p\in S$ be such that \emph{all geodesics through $p$ are closed}, i.e.\ each geodesic
+		$\gamma$ with $\gamma(0)=p$ extends to a smooth periodic map $\gamma:S^1\to S$. Show that $S$ is compact.
+	\end{enumerate}
+	
+	\medskip
+	\textbf{Solution.}
+	
+	\smallskip
+	\textbf{(a) $d$ is a metric and induces the topology.}
+	
+	\emph{Nonnegativity and symmetry.}
+	Lengths satisfy $\ell(\alpha)\ge 0$ and $\ell(\alpha)=\ell(\alpha^{-1})$ where $\alpha^{-1}(t)=\alpha(a+b-t)$, hence
+	$d(p,q)\ge 0$ and $d(p,q)=d(q,p)$.
+	
+	\emph{Triangle inequality.}
+	If $\alpha\in\Omega(p,q)$ and $\beta\in\Omega(q,r)$ then the concatenation $\alpha*\beta\in\Omega(p,r)$ satisfies
+	$\ell(\alpha*\beta)=\ell(\alpha)+\ell(\beta)$, hence
+	\[
+	d(p,r)\le \ell(\alpha*\beta)=\ell(\alpha)+\ell(\beta).
+	\]
+	Taking infima over $\alpha,\beta$ gives $d(p,r)\le d(p,q)+d(q,r)$.
+	
+	\emph{Definiteness.}
+	Clearly $d(p,p)=0$. If $p\neq q$, choose a coordinate chart $\varphi:U\to\mathbb R^2$ with $p,q\in U$.
+	Because the induced metric tensor is smooth and positive definite, on a sufficiently small compact neighborhood $K\subset U$
+	there exist constants $0<c\le C$ such that for all $x\in K$ and all $v\in\mathbb R^2$,
+	\[
+	c\,|v| \le \sqrt{g_x(v,v)} \le C\,|v|.
+	\]
+	Let $\alpha$ be any curve in $K$ joining $p$ to $q$. Writing $\tilde\alpha=\varphi\circ\alpha$,
+	\[
+	\ell(\alpha)=\int \sqrt{g_{\tilde\alpha(t)}(\tilde\alpha'(t),\tilde\alpha'(t))}\,dt
+	\ \ge\ c\int |\tilde\alpha'(t)|\,dt \ \ge\ c\,|\tilde p-\tilde q|,
+	\]
+	where $\tilde p=\varphi(p)$, $\tilde q=\varphi(q)$. Since $\tilde p\neq\tilde q$, this yields $\ell(\alpha)\ge c|\tilde p-\tilde q|>0$,
+	hence $d(p,q)>0$. Therefore $d(p,q)=0$ implies $p=q$.
+	
+	\emph{Compatibility with the topology.}
+	Using the same local comparison, for $p,q$ sufficiently close in a chart one has two-sided estimates
+	\[
+	c\,|\varphi(p)-\varphi(q)| \ \le\ d(p,q) \ \le\ C\,|\varphi(p)-\varphi(q)|.
+	\]
+	The right inequality follows by taking the curve to be the coordinate straight segment in $\mathbb R^2$ pulled back to $S$.
+	These inequalities show that $d$-balls and Euclidean balls in coordinates contain each other locally, hence $d$ induces the same
+	open sets as the submanifold topology on $S$.
+	
+	\smallskip
+	\textbf{(i) Isometries preserve intrinsic distances.}
+	Let $f:S_1\to S_2$ be an isometry. By definition, it preserves lengths of curves:
+	for any piecewise $C^1$ curve $\alpha$ in $S_1$,
+	\[
+	\ell_{S_2}(f\circ \alpha)=\ell_{S_1}(\alpha).
+	\]
+	Therefore
+	\[
+	d_2(f(p),f(q))
+	=
+	\inf_{\beta\in\Omega(f(p),f(q))}\ell_{S_2}(\beta)
+	\ \le\
+	\inf_{\alpha\in\Omega(p,q)} \ell_{S_2}(f\circ\alpha)
+	=
+	\inf_{\alpha\in\Omega(p,q)} \ell_{S_1}(\alpha)
+	=
+	d_1(p,q).
+	\]
+	Applying the same argument to the inverse isometry $f^{-1}$ gives the reverse inequality, hence
+	$d_2(f(p),f(q))=d_1(p,q)$.
+	
+	\smallskip
+	\textbf{(ii) Existence of a ray from $p$ on a complete noncompact surface.}
+	Because $S$ is complete and noncompact, the distance balls $\overline B(p,R)$ cannot exhaust $S$ with $R$ bounded.
+	Choose a sequence $q_n\in S$ such that
+	\[
+	d(p,q_n)\xrightarrow[n\to\infty]{}\infty.
+	\]
+	By Hopf--Rinow, for each $n$ there exists a minimizing geodesic $\gamma_n:[0,L_n]\to S$ joining $p$ to $q_n$, parametrized by arc length,
+	with $L_n=d(p,q_n)$ and $\gamma_n(0)=p$.
+	
+	Let $v_n=\gamma_n'(0)\in T_pS$; then $|v_n|=1$. The unit circle in $T_pS$ is compact, so passing to a subsequence we may assume
+	$v_n\to v$ with $|v|=1$.
+	Let $\gamma:[0,\infty)\to S$ be the (unit-speed) geodesic with initial data $\gamma(0)=p$, $\gamma'(0)=v$.
+	By the assumed continuous dependence on initial conditions, for each fixed $s>0$,
+	\[
+	\gamma_n(s)\to \gamma(s)\qquad\text{as }n\to\infty
+	\]
+	for all large $n$ (since $L_n\to\infty$ ensures $\gamma_n(s)$ is defined).
+	
+	For each such $n$, the minimizing property of $\gamma_n$ gives
+	\[
+	d\bigl(p,\gamma_n(s)\bigr)=s.
+	\]
+	Passing to the limit and using continuity of $d$ with respect to the manifold topology (from part (a)) yields
+	\[
+	d\bigl(p,\gamma(s)\bigr)=s\qquad\forall s\ge 0.
+	\]
+	Similarly, for $0\le s\le t$,
+	\[
+	d\bigl(\gamma_n(s),\gamma_n(t)\bigr)=t-s
+	\]
+	(since the restriction of a minimizing geodesic is minimizing). Passing to the limit gives
+	\[
+	d\bigl(\gamma(s),\gamma(t)\bigr)=t-s\qquad\forall\,0\le s\le t.
+	\]
+	Thus $\gamma$ realizes distance on every subinterval and is a ray leaving from $p$.
+	
+	\smallskip
+	\textbf{(iii) If all geodesics through $p$ are closed, then $S$ is compact.}
+	For each unit vector $v\in T_pS$ let $\gamma_v:\mathbb R\to S$ be the unit-speed geodesic with $\gamma_v(0)=p$, $\gamma_v'(0)=v$.
+	By hypothesis, $\gamma_v$ is periodic: there exists $T(v)>0$ such that $\gamma_v(t+T(v))=\gamma_v(t)$ for all $t$.
+	Using smooth dependence of $\gamma_v$ on $v$, one may choose $T(v)$ continuously on the unit circle $S^1\subset T_pS$.
+	Since $S^1$ is compact, there is a finite maximum
+	\[
+	T_{\max}:=\max_{|v|=1} T(v)<\infty.
+	\]
+	
+	Fix $v$ and consider any point $\gamma_v(t)$ on the closed geodesic. Since $\gamma_v$ returns to $p$ after time $T(v)$,
+	the shorter of the two arcs from $p$ to $\gamma_v(t)$ along the loop has length at most $T(v)/2$. Therefore
+	\[
+	d\bigl(p,\gamma_v(t)\bigr)\le \frac{T(v)}{2}\le \frac{T_{\max}}{2}.
+	\]
+	Hence every geodesic through $p$ is contained in the closed ball $\overline B\!\left(p,\tfrac{T_{\max}}{2}\right)$.
+	
+	Finally, in a connected surface, every point $q\in S$ can be joined to $p$ by a minimizing geodesic segment (this is ensured, for instance,
+	when $S$ is complete; and the present hypothesis that \emph{all} geodesics from $p$ exist for all time implies geodesic completeness at $p$,
+	which is the key input to apply the usual minimizing argument). Thus every $q\in S$ lies on some geodesic through $p$, and the estimate above gives
+	\[
+	S \subset \overline B\!\left(p,\tfrac{T_{\max}}{2}\right).
+	\]
+	In a complete Riemannian surface, closed and bounded sets are compact (Hopf--Rinow), so the closed ball on the right is compact.
+	Therefore $S$ is a closed subset of a compact set, hence compact.
+	
+	\medskip
+	\textbf{Examples.}
+	\begin{enumerate}
+		\item \textbf{Plane.} For $S=\mathbb R^2$ with the standard metric, $d(p,q)=|p-q|$ and rays are straight half-lines.
+		\item \textbf{Sphere.} For $S=\mathbb S^2$, $d(p,q)$ is the great-circle distance. All geodesics are closed, and $S$ is compact.
+		\item \textbf{Hyperbolic plane.} Complete and noncompact; from any $p$ there exist many rays.
+	\end{enumerate}
+	
+	\subsection*{Problem 12. Intrinsic distance on a surface; Hopf--Rinow consequences}
+	
+	\textbf{Problem statement.}
+	Let $S\subset\mathbb R^3$ be a smooth embedded surface with the induced Riemannian metric.
+	For $p,q\in S$ define the intrinsic distance
+	\[
+	d(p,q)=\inf_{\alpha\in\Omega(p,q)}\ell(\alpha),
+	\]
+	where $\Omega(p,q)$ is the set of piecewise $C^1$ curves $\alpha:[a,b]\to S$ with $\alpha(a)=p$, $\alpha(b)=q$,
+	and $\ell(\alpha)$ is the (Riemannian) length of $\alpha$.
+	Show that $d$ is a metric compatible with the topology of $S$.
+	If $S$ is complete (and without boundary), Hopf--Rinow implies that for any $p,q\in S$ there exists a minimizing geodesic
+	$\gamma$ with $d(p,q)=\ell(\gamma)$ and $\gamma$ defined for all $t\in\mathbb R$.
+	
+	\begin{enumerate}
+		\item[(i)] If $f:S_1\to S_2$ is an isometry, show $d_2(f(p),f(q))=d_1(p,q)$.
+		\item[(ii)] A geodesic $\gamma:[0,\infty)\to S$ is a \emph{ray from $p$} if $\gamma(0)=p$ and
+		$d(\gamma(0),\gamma(s))=s$ for all $s\ge 0$. If $S$ is complete and noncompact, show $S$ contains a ray from any $p$.
+		\item[(iii)] If $S$ is connected and there exists $p\in S$ such that \emph{all geodesics through $p$ are closed},
+		show that $S$ is compact.
+	\end{enumerate}
+	
+	\medskip
+	\textbf{Theory / setup.}
+	
+	\smallskip
+	\textbf{1) Induced Riemannian metric and curve length.}
+	The Euclidean inner product on $\mathbb R^3$ induces a Riemannian metric on $S$ by restriction to tangent planes:
+	for $v,w\in T_xS$,
+	\[
+	g_x(v,w)=\langle v,w\rangle_{\mathbb R^3}.
+	\]
+	If $\alpha:[a,b]\to S$ is piecewise $C^1$, its length is
+	\[
+	\ell(\alpha)=\int_a^b \|\alpha'(t)\|\,dt,
+	\qquad \|\alpha'(t)\|:=\sqrt{g_{\alpha(t)}(\alpha'(t),\alpha'(t))}.
+	\]
+	In a local parametrization $X:U\subset\mathbb R^2\to S$ with coordinates $(u^1,u^2)$,
+	the metric has coefficients $g_{ij}=\langle X_{u^i},X_{u^j}\rangle$, and
+	\[
+	\|\alpha'(t)\|^2=g_{ij}(u(t))\,\dot u^i(t)\,\dot u^j(t).
+	\]
+	
+	\smallskip
+	\textbf{2) Intrinsic distance and why it is a metric.}
+	Define
+	\[
+	d(p,q)=\inf\{\ell(\alpha):\alpha\in\Omega(p,q)\}.
+	\]
+	Then:
+	\begin{itemize}
+		\item $d(p,q)\ge 0$ and $d(p,q)=d(q,p)$ because length is nonnegative and invariant under reversing the curve.
+		\item Triangle inequality holds because concatenation satisfies $\ell(\alpha*\beta)=\ell(\alpha)+\ell(\beta)$.
+		\item Definiteness ($d(p,q)=0\Rightarrow p=q$) follows from local comparison with Euclidean distance in a chart:
+		since $g_{ij}$ is continuous and positive definite, on a sufficiently small coordinate neighborhood there exist constants
+		$0<c\le C$ such that
+		\[
+		c\,|v|^2 \le g_{ij}(u)v^iv^j \le C\,|v|^2,
+		\]
+		hence for any curve $\alpha$ inside that neighborhood,
+		\[
+		\ell(\alpha)\ge \sqrt{c}\,\ell_{\text{Euc}}(\alpha)\ \ge\ \sqrt{c}\,|u(p)-u(q)|.
+		\]
+		So if $p\neq q$ then $d(p,q)>0$.
+	\end{itemize}
+	
+	\smallskip
+	\textbf{3) Compatibility with the manifold topology.}
+	The same local inequalities imply that, in a coordinate chart, intrinsic balls are comparable to Euclidean balls:
+	for $q$ close to $p$,
+	\[
+	\sqrt{c}\,|u(p)-u(q)| \ \le\ d(p,q)\ \le\ \sqrt{C}\,|u(p)-u(q)|.
+	\]
+	Thus the metric topology induced by $d$ coincides with the usual surface topology.
+	
+	\smallskip
+	\textbf{4) Geodesics and minimizing geodesics.}
+	A smooth curve $\gamma$ is a geodesic if $\nabla_{\dot\gamma}\dot\gamma=0$ (Levi--Civita connection), i.e.\ locally it solves
+	the geodesic ODE. If $\gamma$ is parametrized by arc length, then $\|\dot\gamma\|\equiv 1$ and
+	\[
+	\ell(\gamma|_{[s_0,s_1]})=s_1-s_0.
+	\]
+	A \emph{minimizing geodesic segment} from $p$ to $q$ is a geodesic $\gamma:[0,L]\to S$ with $\gamma(0)=p$, $\gamma(L)=q$ and
+	\[
+	d(p,q)=\ell(\gamma)=L.
+	\]
+	Geodesics are always \emph{locally} minimizing for sufficiently small subintervals, but not necessarily globally minimizing.
+	
+	\smallskip
+	\textbf{5) Completeness notions.}
+	Let $(S,d)$ be the metric space from intrinsic distance, and let $(S,g)$ be the Riemannian surface.
+	\begin{itemize}
+		\item \emph{Metric completeness}: every Cauchy sequence in $(S,d)$ converges in $S$.
+		\item \emph{Geodesic completeness}: every geodesic $\gamma$ extends to a solution defined for all $t\in\mathbb R$.
+	\end{itemize}
+	
+	\smallskip
+	\textbf{6) Hopf--Rinow theorem (what you use here).}
+	For a connected Riemannian manifold $(M,g)$, the following are equivalent:
+	\begin{enumerate}
+		\item[(HR1)] $(M,d)$ is complete as a metric space.
+		\item[(HR2)] Every closed and bounded set is compact; equivalently, closed metric balls $\overline{B}(p,R)$ are compact.
+		\item[(HR3)] Any two points $p,q\in M$ can be joined by a minimizing geodesic segment.
+		\item[(HR4)] $M$ is geodesically complete (all geodesics exist for all $t\in\mathbb R$).
+	\end{enumerate}
+	In Problem 12 one typically uses (HR1)$\Rightarrow$(HR3) and (HR1)$\Rightarrow$(HR2).
+	
+	\smallskip
+	\textbf{7) Isometries preserve intrinsic distance (tool for (i)).}
+	If $f:(S_1,g_1)\to(S_2,g_2)$ is an isometry, then for any piecewise $C^1$ curve $\alpha$ in $S_1$,
+	\[
+	\ell_{2}(f\circ\alpha)=\ell_{1}(\alpha),
+	\]
+	so taking infima over all curves joining $p$ to $q$ yields
+	\[
+	d_2(f(p),f(q))=d_1(p,q).
+	\]
+	
+	\smallskip
+	\textbf{8) Rays and why completeness + noncompactness forces them (tool for (ii)).}
+	Fix $p\in S$. Noncompactness implies there exist points $q_n$ with $d(p,q_n)\to\infty$.
+	By Hopf--Rinow, for each $n$ there is a minimizing unit-speed geodesic segment
+	\[
+	\gamma_n:[0,L_n]\to S,\qquad L_n=d(p,q_n)\to\infty,\qquad \gamma_n(0)=p,\ \gamma_n(L_n)=q_n.
+	\]
+	Choose a convergent subsequence of initial unit tangents $\gamma_n'(0)\in T_pS$.
+	Using continuous dependence of geodesics on initial data, one obtains a limiting geodesic
+	$\gamma:[0,\infty)\to S$ such that every initial segment $\gamma|_{[0,T]}$ is a limit of minimizing segments,
+	hence remains minimizing:
+	\[
+	d(p,\gamma(s))=s\qquad\forall s\ge 0.
+	\]
+	This $\gamma$ is a \emph{ray} from $p$.
+	
+	\smallskip
+	\textbf{9) Closed geodesics through one point force compactness (tool for (iii)).}
+	Assume every geodesic through $p$ is closed. For each unit vector $v\in T_pS$ let $\gamma_v$ be the unit-speed geodesic with
+	$\gamma_v(0)=p$, $\gamma_v'(0)=v$, and let $T(v)>0$ be a period (so $\gamma_v(T(v))=p$).
+	If one assumes (as in the problem hint) smooth/continuous dependence on initial data, one may choose $T(v)$ continuously in $v$
+	(or at least show that the set of periods is locally bounded), and since the unit circle in $T_pS$ is compact, obtain a uniform bound
+	\[
+	T(v)\le T_{\max}<\infty\qquad\text{for all unit }v.
+	\]
+	Then any point on any such closed geodesic is at intrinsic distance $\le T_{\max}/2$ from $p$
+	(go along the shorter arc of the loop). Hence the union of all geodesics from $p$ is contained in the closed ball
+	$\overline{B}(p,T_{\max}/2)$.
+	Finally, by Hopf--Rinow, every point $q\in S$ is joined to $p$ by a minimizing geodesic segment, so $q$ lies on some geodesic
+	through $p$. Thus
+	\[
+	S\subset \overline{B}\!\left(p,\frac{T_{\max}}{2}\right),
+	\]
+	and the right-hand side is compact (Hopf--Rinow), implying $S$ is compact.
+	
+	\medskip
+	\textbf{Schematic charts (optional).}
+	The following figures are schematic (topological cartoons), but are useful to remember what each part says.
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.05, line cap=round, line join=round]
+			% surface patch (cartoon)
+			\draw[thick] (-2,0) .. controls (-1,1.2) and (1,1.2) .. (2,0)
+			.. controls (1,-1.1) and (-1,-1.1) .. cycle;
+			% points
+			\fill (-0.9,0.3) circle (1.5pt) node[above left] {$p$};
+			\fill ( 1.0,0.2) circle (1.5pt) node[above right] {$q$};
+			% two curves
+			\draw[thick] (-0.9,0.3) .. controls (-0.2,0.9) and (0.4,0.9) .. (1.0,0.2)
+			node[midway,above] {$\alpha$};
+			\draw[thick,dashed] (-0.9,0.3) .. controls (-0.4,-0.2) and (0.4,-0.4) .. (1.0,0.2)
+			node[midway,below] {$\beta$};
+			\node at (0,-1.55) {$d(p,q)=\inf\{\ell(\alpha):\alpha\in\Omega(p,q)\}$.};
+		\end{tikzpicture}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.05, line cap=round, line join=round]
+			% surface patch (cartoon)
+			\draw[thick] (-2,0) .. controls (-1,1.2) and (1,1.2) .. (2,0)
+			.. controls (1,-1.1) and (-1,-1.1) .. cycle;
+			% point p
+			\fill (-1.2,-0.1) circle (1.5pt) node[left] {$p$};
+			% ray
+			\draw[thick,->] (-1.2,-0.1) .. controls (-0.2,0.8) and (0.8,0.9) .. (1.6,0.2)
+			node[above right] {$\gamma$};
+			\node at (0,-1.55) {$\gamma$ is a ray if $d(p,\gamma(s))=s$ for all $s\ge 0$.};
+		\end{tikzpicture}
+	\end{figure}
+	
+	\begin{figure}[H]
+		\centering
+		\begin{tikzpicture}[scale=1.05, line cap=round, line join=round]
+			% ball around p
+			\draw[thick] (0,0) circle (1.9);
+			\fill (0,0) circle (1.6pt) node[below left] {$p$};
+			\node at (0,2.15) {$\overline{B}(p,R)$};
+			% closed geodesics through p (cartoon loops)
+			\draw[thick] (0,0) .. controls (1.4,0.2) and (1.2,1.0) .. (0.2,0.9)
+			.. controls (-0.8,0.8) and (-0.9,0.1) .. cycle;
+			\draw[thick] (0,0) .. controls (0.7,-1.1) and (-0.7,-1.2) .. (0,0);
+			\draw[thick] (0,0) .. controls (1.2,-0.2) and (0.9,0.8) .. (0,0);
+			\node at (0,-2.35) {If all geodesics through $p$ are closed and uniformly bounded, then $S\subset\overline{B}(p,R)$, hence compact.};
+		\end{tikzpicture}
+	\end{figure}
+	
+	
+	\subsection*{Problem 13. Geodesics on the paraboloid $z=x^2+y^2$ self-intersect infinitely often}
+	
+	\textbf{Problem statement.}
+	Show that any geodesic of the paraboloid of revolution
+	\[
+	z=x^2+y^2
+	\]
+	which is not a meridian intersects itself an infinite number of times.
+	(\emph{Hint: use Clairaut's relation. You may assume that no geodesic of a surface of revolution can be asymptotic to a parallel
+		which is not itself a geodesic.})
+	
+	\medskip
+	\textbf{Solution.}
+	
+	\smallskip
+	\textbf{1) Parametrization and metric.}
+	Use coordinates $(r,\theta)$, $r\ge 0$, $\theta\in\mathbb R/2\pi\mathbb Z$:
+	\[
+	X(r,\theta)=(r\cos\theta,\ r\sin\theta,\ r^2).
+	\]
+	Then
+	\[
+	X_r=(\cos\theta,\ \sin\theta,\ 2r),\qquad X_\theta=(-r\sin\theta,\ r\cos\theta,\ 0),
+	\]
+	so the first fundamental form is
+	\[
+	ds^2 = E(r)\,dr^2 + G(r)\,d\theta^2,
+	\qquad
+	E(r)=\langle X_r,X_r\rangle = 1+4r^2,\quad
+	G(r)=\langle X_\theta,X_\theta\rangle = r^2.
+	\]
+	
+	\smallskip
+	\textbf{2) Clairaut's relation (conserved ``angular momentum'').}
+	Let $\gamma(s)=(r(s),\theta(s))$ be a unit-speed geodesic ($s$ is arc length). For any surface of revolution with metric
+	$E(r)\,dr^2+G(r)\,d\theta^2$, the coordinate $\theta$ is cyclic, so the quantity
+	\[
+	G(r)\,\theta'(s)=\text{constant}
+	\]
+	is conserved along geodesics. Here $G(r)=r^2$, hence
+	\[
+	r(s)^2\,\theta'(s)=c
+	\]
+	for some constant $c\in\mathbb R$.
+	
+	If $\gamma$ is a meridian, then $\theta\equiv\theta_0$ and thus $c=0$.
+	Conversely, a \emph{non-meridian} geodesic has $c\neq 0$.
+	
+	\smallskip
+	\textbf{3) The radial equation and existence of a unique turning point.}
+	Unit speed means
+	\[
+	1 = E(r)\,r'(s)^2 + r(s)^2\,\theta'(s)^2
+	= (1+4r^2)\,r'(s)^2 + \frac{c^2}{r^2}.
+	\]
+	Therefore
+	\[
+	r'(s)^2
+	=
+	\frac{1-\frac{c^2}{r^2}}{1+4r^2}.
+	\]
+	In particular, $r(s)\ge |c|$ for all $s$, and $r'(s)=0$ precisely at $r=|c|$.
+	Thus a non-meridian geodesic reaches a minimal distance $r_{\min}=|c|>0$ from the axis and then turns back outward.
+	After reparametrization we may assume the turning point occurs at $s=0$, so
+	\[
+	r(0)=|c|,\qquad r(s)\ \text{decreases on }(-\infty,0]\ \text{and increases on }[0,\infty).
+	\]
+	
+	\smallskip
+	\textbf{4) The angular change is infinite (logarithmic divergence).}
+	From $r^2\theta'=c$ and the formula for $r'$, we obtain
+	\[
+	\frac{d\theta}{dr}
+	=
+	\frac{\theta'}{r'}
+	=
+	\pm\frac{c}{r^2}\,\frac{\sqrt{1+4r^2}}{\sqrt{1-\frac{c^2}{r^2}}}.
+	\]
+	Define for $R>|c|$ the (positive) function
+	\[
+	\Theta(R)
+	:=
+	\int_{|c|}^{R}
+	\frac{|c|}{r^2}\,\frac{\sqrt{1+4r^2}}{\sqrt{1-\frac{c^2}{r^2}}}\,dr.
+	\]
+	Then along the two branches (incoming $s<0$ and outgoing $s>0$) one has, up to an additive constant $\theta(0)$,
+	\[
+	\theta_{\text{out}}(R)=\theta(0)+\Theta(R),\qquad
+	\theta_{\text{in}}(R)=\theta(0)-\Theta(R),
+	\]
+	whenever $r(s)=R$ on the corresponding branch.
+	
+	For large $r$, we have $\sqrt{1+4r^2}\sim 2r$ and $\sqrt{1-\frac{c^2}{r^2}}\to 1$, so the integrand satisfies
+	\[
+	\frac{|c|}{r^2}\,\frac{\sqrt{1+4r^2}}{\sqrt{1-\frac{c^2}{r^2}}}
+	\sim
+	\frac{|c|}{r^2}\cdot 2r
+	=
+	\frac{2|c|}{r}.
+	\]
+	Hence
+	\[
+	\Theta(R)\sim 2|c|\int^{R}\frac{dr}{r}=2|c|\log R \xrightarrow[R\to\infty]{}\infty.
+	\]
+	So as $R\to\infty$, both branches wind around the axis through arbitrarily large angles.
+	
+	\smallskip
+	\textbf{5) Infinitely many self-intersections.}
+	Consider points on the incoming and outgoing branches with the \emph{same} radius $R$:
+	they have polar angles differing by
+	\[
+	\theta_{\text{out}}(R)-\theta_{\text{in}}(R)=2\Theta(R).
+	\]
+	Since $\Theta(R)\to\infty$ continuously with $R$, for every integer $k\ge 1$ there exists $R_k$ such that
+	\[
+	2\Theta(R_k)=2\pi k.
+	\]
+	At this radius, the incoming and outgoing points satisfy
+	\[
+	r_{\text{out}}=r_{\text{in}}=R_k,
+	\qquad
+	\theta_{\text{out}}=\theta_{\text{in}}+2\pi k,
+	\]
+	hence they represent the \emph{same point} on the surface. This gives a self-intersection for each $k$.
+	Therefore the non-meridian geodesic intersects itself infinitely many times.
+	
+	\medskip
+	\textbf{Examples.}
+	\begin{enumerate}
+		\item \textbf{Meridians.} $\theta\equiv\theta_0$ are geodesics with no self-intersections (they are excluded by the statement).
+		\item \textbf{A typical non-meridian.} Fix $c\neq 0$. Then $r_{\min}=|c|$ and the geodesic spirals in to $r_{\min}$ and spirals back out,
+		while accumulating unbounded angle; the two spiral branches cross each other infinitely often, producing infinitely many self-intersections.
+	\end{enumerate}
+	
+	\subsection*{Problem 13. Geodesics on the paraboloid $z=x^2+y^2$ and Clairaut's relation}
+	
+	\textbf{Surface of revolution and the induced metric.}
+	Parametrize the paraboloid by polar coordinates:
+	\[
+	X(r,\theta)=(r\cos\theta,\ r\sin\theta,\ r^2),\qquad r>0,\ \theta\in\mathbb R.
+	\]
+	Compute the tangent vectors:
+	\[
+	X_r=(\cos\theta,\ \sin\theta,\ 2r),\qquad
+	X_\theta=(-r\sin\theta,\ r\cos\theta,\ 0).
+	\]
+	Hence the first fundamental form coefficients are
+	\[
+	E=\langle X_r,X_r\rangle=1+4r^2,\qquad
+	F=\langle X_r,X_\theta\rangle=0,\qquad
+	G=\langle X_\theta,X_\theta\rangle=r^2.
+	\]
+	Therefore the induced metric (``$ds^2$'', i.e.\ the squared infinitesimal distance) is
+	\[
+	ds^2=(1+4r^2)\,dr^2+r^2\,d\theta^2.
+	\]
+	
+	\medskip
+	\textbf{Geodesic Lagrangian and Clairaut's relation.}
+	For a curve $\gamma(s)=(r(s),\theta(s))$ on the surface, its speed squared is
+	\[
+	|\gamma'(s)|^2=(1+4r^2)\,(r')^2+r^2(\theta')^2,
+	\]
+	so we may take the energy Lagrangian
+	\[
+	L(r,\theta,r',\theta')=\frac12\Bigl((1+4r^2)(r')^2+r^2(\theta')^2\Bigr).
+	\]
+	Since $L$ does not depend on $\theta$ (the surface is rotationally symmetric), the Euler--Lagrange equation for $\theta$
+	gives a conserved quantity (``angular momentum''):
+	\[
+	\frac{d}{ds}\Bigl(\frac{\partial L}{\partial \theta'}\Bigr)=0
+	\quad\Longrightarrow\quad
+	\frac{\partial L}{\partial \theta'}=r^2\theta'=\text{const}=:c.
+	\]
+	This is Clairaut's relation in $(r,\theta)$-form.
+	
+	\medskip
+	\textbf{Geometric form of Clairaut.}
+	Let $\psi(s)$ be the angle between the unit-speed geodesic $\gamma$ and the meridian direction $X_r$
+	(i.e.\ $\psi=0$ means ``moving along a meridian''). Then one has the equivalent form
+	\[
+	r(s)\,\sin\psi(s)=\text{const}.
+	\]
+	Indeed, for unit speed,
+	\[
+	1=(1+4r^2)(r')^2+r^2(\theta')^2,
+	\]
+	and the component of velocity in the parallel direction is
+	\[
+	\sin\psi = \frac{\text{(speed along parallels)}}{\text{total speed}}
+	= \frac{\sqrt{G}\,|\theta'|}{1} = r|\theta'|.
+	\]
+	Thus $r\sin\psi = r(r|\theta'|)=r^2|\theta'|$, so constancy of $r^2\theta'$ is equivalent to constancy of $r\sin\psi$.
+	
+	\medskip
+	\textbf{Meridians vs.\ non-meridians.}
+	A meridian has $\theta'\equiv 0$, hence $c=0$.
+	A non-meridian geodesic has $c\neq 0$, so $\theta'$ never vanishes and the geodesic winds around the axis.
+	
+	
+	\subsection*{Problem 14. Visual exploration of minimal surfaces}
+	
+	\textbf{Problem statement.}
+	Take a good look at pictures of minimal surfaces. If you have access to Mathematica (or another CAS/plotter), experiment with
+	visualizing examples; alternatively, physical soap films can be used as intuition.
+	
+	\medskip
+	\textbf{Solution.}
+	This is an exploratory problem rather than a proof problem. A good ``solution'' is to identify several distinct families of
+	minimal surfaces, understand (qualitatively) what boundary conditions or symmetries produce them, and connect pictures to the theory:
+	\begin{itemize}
+		\item Minimal surfaces are critical points of the area functional (equivalently mean curvature $H\equiv 0$).
+		\item Many classical examples admit Weierstrass representations and come in \emph{associated families}
+		(which preserve the induced metric while changing the embedding in $\mathbb R^3$).
+		\item For surfaces produced as soap films, the boundary wire frame prescribes (approximately) a Plateau problem:
+		the film is (ideally) a minimal surface spanning the given boundary.
+	\end{itemize}
+	
+	\medskip
+	\textbf{Examples (minimal surfaces worth visualizing).}
+	\begin{enumerate}
+		\item \textbf{Plane.} Trivial minimal surface ($H\equiv 0$).
+		\item \textbf{Catenoid.} Surface of revolution; classical soap film between two coaxial circles.
+		\item \textbf{Helicoid.} Ruled minimal surface; can be seen as an associated surface to the catenoid.
+		\item \textbf{Enneper surface.} Complete immersed minimal surface with self-intersections; simplest polynomial Weierstrass data.
+		\item \textbf{Scherk surfaces.} Doubly periodic examples; arise from boundary conditions resembling grids/planes.
+		\item \textbf{Costa surface.} A famous embedded example of finite total curvature with handles (genus).
+	\end{enumerate}
+	
+	
+
+	
+	
+	
+	\end{document}
+

@@ -1,0 +1,4577 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{geometry}
+\geometry{margin=1in}
+\usepackage{microtype}
+\usepackage{caption}      % optional but recommended
+\usepackage{subcaption} 
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{angles,quotes}
+\usepackage{enumitem}
+\usepackage{float}
+\usepackage{hyperref}
+
+\usepackage{xcolor}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+\newcommand{\II}{\mathrm{I\!I}}
+
+\newcommand{\C}{\mathbb{C}}
+
+% (optional) if you also want the first fundamental form:
+\newcommand{\I}{\mathrm{I}}
+
+\newcommand{\hyp}{\mathbb{H}}
+
+\newcommand{\R}{\mathbb{R}}
+\DeclareMathOperator{\PSL}{PSL}
+
+\DeclareMathOperator{\Area}{Area}
+\DeclareMathOperator{\Isom}{Isom}
+\newcommand{\HH}{\mathbb{H}}
+
+\newcommand{\DD}{\mathbb{D}}
+
+\newcommand{\n}{6}
+
+
+\fancyhf{}
+
+\fancyfoot[C]{\thepage}
+
+	\fancyhead[L]{\textit{Geometry IV}}
+\fancyhead[R]{\textit{Exercises}}
+
+\DeclareMathOperator{\arsinh}{arsinh}
+
+% --- HEADER ---
+
+\usepackage{amsthm}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+
+\newtheorem{definition}{Definition}
+
+% Option A: as an operator (recommended)
+\DeclareMathOperator{\Span}{span}
+
+% or, shorter version
+
+
+
+\newcommand{\sph}{\mathrm{sph}}
+
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+
+\theoremstyle{definition}      % bold heading, upright body
+\newtheorem{example}[theorem]{Example}
+
+
+\newtheorem*{Example}{Example}
+
+% =========================================================
+% E2 + E3  (same style as E1)
+% =========================================================
+% TikZ helpers (Poincaré disk geodesic from boundary angles)
+% Requires: \usetikzlibrary{arrows.meta}
+% =========================================================
+
+% Draw a Poincaré disk geodesic between boundary angles a,b (degrees).
+% The geodesic is the unique circle arc orthogonal to the unit circle.
+% Usage: \DiskGeodesic[<draw options>]{<a deg>}{<b deg>}
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+% Handles the diameter case (antipodal endpoints) where det=0.
+% Robust Poincaré disk geodesic between boundary angles a,b (degrees).
+\newcommand{\DiskGeodesic}[3][]{%
+	\pgfmathsetmacro{\ax}{cos(#2)}%
+	\pgfmathsetmacro{\ay}{sin(#2)}%
+	\pgfmathsetmacro{\bx}{cos(#3)}%
+	\pgfmathsetmacro{\by}{sin(#3)}%
+	
+	% det = ax*by - ay*bx
+	\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}%
+	\pgfmathsetmacro{\detabs}{abs(\det)}%
+	
+	% diameter / antipodal case: det ~ 0
+	\ifdim \detabs pt < 0.000001pt
+	\draw[#1] (\ax,\ay) -- (\bx,\by);
+	\else
+	\pgfmathsetmacro{\h}{(\by-\ay)/\det}%
+	\pgfmathsetmacro{\k}{(\ax-\bx)/\det}%
+	\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}%
+	\pgfmathsetmacro{\tA}{atan2(\ay-\k,\ax-\h)}%
+	\pgfmathsetmacro{\tB}{atan2(\by-\k,\bx-\h)}%
+	\pgfmathsetmacro{\dAB}{\tB-\tA}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB>180,\dAB-360,\dAB)}%
+	\pgfmathsetmacro{\dAB}{ifthenelse(\dAB<-180,\dAB+360,\dAB)}%
+	\pgfmathsetmacro{\tEnd}{\tA+\dAB}%
+	\draw[#1] (\h,\k) ++(\tA:\Rgeo)
+	arc[start angle=\tA, end angle=\tEnd, radius=\Rgeo];
+	\fi
+}
+
+
+\newtheorem{remark}[theorem]{Remark} 
+\tikzset{
+	>={Latex[length=2.6mm]},
+	axis/.style={black, thin, ->},
+	unitcircle/.style={black, very thin},
+	pole/.style={red!70!black, fill=red!70!black},
+	polemark/.style={red!70!black, thick},
+	removable/.style={black, thick},
+	essstar/.style={yellow!65!orange, star, star points=7, minimum size=6pt, draw=orange!80!black, fill=yellow!70!orange},
+	lattice/.style={blue!70!black, fill=blue!70!black},
+	note/.style={black!70, font=\scriptsize}
+}
+\usetikzlibrary{arrows.meta,shapes.geometric}
+
+% --- colors and styles for the charts ---
+\definecolor{PoleRed}{RGB}{214,49,56}
+\definecolor{SimpleBlue}{RGB}{31,119,180}
+\definecolor{Gold}{RGB}{247,183,51}
+
+% styles
+\definecolor{PoleRed}{RGB}{214,49,56}
+\tikzset{
+	>={Latex[length=3.4mm]},
+	axis/.style={black, line width=1.0pt, ->},
+	pole2/.style={PoleRed, line width=1.8pt},
+	removable/.style={black, line width=1.6pt},
+	leader/.style={black!70, line width=0.9pt},
+	labelfunc/.style={font=\large},
+	labeltext/.style={black!85, font=\normalsize},
+	callout/.style={
+		draw=black!40, fill=white, rounded corners=3pt,
+		inner sep=5pt, outer sep=5pt,
+		text=black, opacity=1, text opacity=1  % <- force visible text
+	},
+}
+
+
+
+\title{Geometry IV}
+\author{}
+\date{}
+
+\begin{document}
+	\maketitle
+	
+
+\subsection*{Key definitions}
+
+\section*{The groups $\mathrm{PSL}(2,\mathbb{C})$ and $\mathrm{PSL}(2,\mathbb{R})$}
+
+In this section we collect some basic and slightly deeper facts about the
+projective special linear groups $\mathrm{PSL}(2,\mathbb{C})$ and
+$\mathrm{PSL}(2,\mathbb{R})$, viewed both algebraically and geometrically.
+
+\subsection*{1. Definitions and basic structure}
+
+Let
+\[
+\mathrm{SL}(2,\Bbbk)
+= \left\{
+A\in M_{2\times 2}(\Bbbk) : \det A = 1
+\right\},
+\qquad
+\Bbbk\in\{\mathbb{R},\mathbb{C}\}.
+\]
+This is a Lie group (a smooth manifold with a compatible group structure).
+Its centre is
+\[
+Z(\mathrm{SL}(2,\Bbbk))
+= \{\pm I\}
+= \left\{
+\begin{pmatrix}
+	1 & 0\\ 0 & 1
+\end{pmatrix},
+\begin{pmatrix}
+	-1 & 0\\ 0 & -1
+\end{pmatrix}
+\right\}.
+\]
+The projective special linear group is the quotient
+\[
+\mathrm{PSL}(2,\Bbbk)
+:= \mathrm{SL}(2,\Bbbk)/\{\pm I\}.
+\]
+An element of $\mathrm{PSL}(2,\Bbbk)$ is thus an equivalence class
+$[A] = \{\pm A\}$ with $A\in\mathrm{SL}(2,\Bbbk)$; the group law is
+$[A]\cdot[B] = [AB]$.
+
+\begin{itemize}
+	\item $\mathrm{PSL}(2,\mathbb{C})$ is a connected complex Lie group of
+	complex dimension $3$ (real dimension $6$).
+	\item $\mathrm{PSL}(2,\mathbb{R})$ is a connected real Lie group of real
+	dimension $3$.
+	\item The covering map
+	$\mathrm{SL}(2,\Bbbk)\to\mathrm{PSL}(2,\Bbbk)$ is a double covering
+	and a local isomorphism of Lie groups.
+\end{itemize}
+
+\subsection*{2. Projective lines and the Möbius action}
+
+The projective line over $\Bbbk$ is the set of $1$–dimensional subspaces of
+$\Bbbk^{2}$:
+\[
+\mathbb{P}^{1}(\Bbbk)
+= \{ \Bbbk\cdot (z_{0},z_{1}) : (z_{0},z_{1})\neq (0,0)\}.
+\]
+Each nonzero vector $(z_{0},z_{1})$ represents a point $[z_{0}:z_{1}]$ in
+$\mathbb{P}^{1}(\Bbbk)$, and
+\[
+[z_{0}:z_{1}] = [\lambda z_{0}:\lambda z_{1}],\qquad \lambda\in\Bbbk^\times.
+\]
+
+The group $\mathrm{SL}(2,\Bbbk)$ acts linearly on $\Bbbk^2$, and this action
+descends to a projective action on $\mathbb{P}^{1}(\Bbbk)$:
+\[
+A\cdot[z_{0}:z_{1}] := [A(z_{0},z_{1})].
+\]
+If $A$ is replaced by $-A$, the image subspace is the same, so the action
+factors through the quotient and we obtain a faithful action
+\[
+\mathrm{PSL}(2,\Bbbk)
+\longrightarrow
+\mathrm{Diff}\bigl(\mathbb{P}^{1}(\Bbbk)\bigr).
+\]
+
+\paragraph{Complex case.}
+For $\Bbbk=\mathbb{C}$ we can identify
+\[
+\mathbb{P}^{1}(\mathbb{C})
+\cong \widehat{\mathbb{C}} = \mathbb{C}\cup\{\infty\}
+\]
+by sending $[z:1]\mapsto z$ and $[1:0]\mapsto\infty$.  If
+\[
+A =
+\begin{pmatrix}
+	a & b\\
+	c & d
+\end{pmatrix},
+\]
+then
+\[
+A\cdot[z:1] = [az+b:cz+d]
+\]
+corresponds exactly to the Möbius transformation
+\[
+f_A(z) = \frac{az+b}{cz+d}.
+\]
+Thus we have an isomorphism of groups
+\[
+\mathrm{PSL}(2,\mathbb{C})
+\;\cong\;
+\{\text{Möbius transformations on }\widehat{\mathbb{C}}\}.
+\]
+
+\paragraph{Real case.}
+For $\Bbbk=\mathbb{R}$ we obtain the real projective line
+$\mathbb{P}^{1}(\mathbb{R})$.  The map
+\[
+\mathbb{R}\cup\{\infty\} \longrightarrow \mathbb{P}^{1}(\mathbb{R}),
+\qquad
+x\mapsto [x:1],\quad \infty\mapsto[1:0],
+\]
+identifies $\mathbb{P}^{1}(\mathbb{R})$ with the extended real line
+$\mathbb{R}\cup\{\infty\}$.  The action of $\mathrm{PSL}(2,\mathbb{R})$ is
+given again by real Möbius transformations
+\[
+z\longmapsto \frac{az+b}{cz+d},
+\qquad a,b,c,d\in\mathbb{R},\quad ad-bc=1.
+\]
+
+\subsection*{3. Geometric meaning of $\mathrm{PSL}(2,\mathbb{C})$}
+
+The Riemann sphere $\widehat{\mathbb{C}}$ can be identified with the unit
+sphere $S^{2}\subset\mathbb{R}^{3}$ via stereographic projection.  Equipped
+with its standard complex structure, $\widehat{\mathbb{C}}$ is denoted
+$\mathbb{CP}^{1}$.
+
+\begin{itemize}
+	\item Every Möbius transformation $f_A$ is a biholomorphism of
+	$\mathbb{CP}^{1}$.
+	\item Conversely, every biholomorphic self-map of $\mathbb{CP}^{1}$ is a
+	Möbius transformation.
+\end{itemize}
+
+Thus
+\[
+\mathrm{PSL}(2,\mathbb{C})
+\cong \mathrm{Aut}_{\mathrm{hol}}(\mathbb{CP}^{1}),
+\]
+the group of holomorphic automorphisms of the Riemann sphere.
+
+If we equip $S^{2}$ with the standard round metric (of constant Gauss
+curvature $K=1$), then every Möbius transformation is, up to a conformal
+factor, an angle-preserving map of $S^{2}$.  The subgroup of Möbius
+transformations that actually preserve the round metric (i.e.\ are genuine
+isometries of $S^{2}$) is the compact real form
+\[
+\mathrm{PSU}(2) \subset \mathrm{PSL}(2,\mathbb{C}),
+\]
+which is isomorphic to $\mathrm{SO}(3)$.
+
+A deeper fact from hyperbolic geometry is that:
+
+\begin{itemize}
+	\item $\mathrm{PSL}(2,\mathbb{C})$ is isomorphic to the group of
+	orientation–preserving isometries of hyperbolic $3$–space
+	$\mathbb{H}^{3}$ (in the upper half--space or ball model), acting
+	by conformal transformations on the sphere at infinity
+	$\partial\mathbb{H}^{3} \cong S^{2} \cong \widehat{\mathbb{C}}$.
+\end{itemize}
+
+In this sense, $\mathrm{PSL}(2,\mathbb{C})$ simultaneously encodes the
+complex-analytic symmetries of the Riemann sphere and the metric symmetries
+of hyperbolic $3$--space.
+
+\subsection*{4. Geometric meaning of $\mathrm{PSL}(2,\mathbb{R})$}
+
+Consider the upper half–plane
+\[
+\mathbb{H}
+= \{ z\in\mathbb{C} : \Im z > 0\}
+\]
+equipped with the Poincaré metric
+\[
+ds^{2} = \frac{dx^{2} + dy^{2}}{y^{2}},
+\qquad z=x+iy.
+\]
+This is a complete Riemannian metric of constant negative curvature
+$K=-1$, giving $\mathbb{H}$ the structure of the hyperbolic plane.
+
+The group $\mathrm{PSL}(2,\mathbb{R})$ acts on $\mathbb{H}$ by real Möbius
+transformations:
+\[
+[A]\cdot z = \frac{az+b}{cz+d},
+\qquad
+A=
+\begin{pmatrix}
+	a & b\\ c & d
+\end{pmatrix}
+\in \mathrm{SL}(2,\mathbb{R}).
+\]
+One verifies directly that this action preserves the Poincaré metric and
+orientation, and any orientation–preserving isometry of $(\mathbb{H},ds^{2})$
+arises in this way.  Thus
+\[
+\mathrm{PSL}(2,\mathbb{R})
+\cong \mathrm{Isom}^{+}(\mathbb{H}),
+\]
+the full group of orientation–preserving isometries of the hyperbolic plane.
+
+The boundary of $\mathbb{H}$ in the conformal compactification
+$\mathbb{H}\cup\mathbb{R}\cup\{\infty\}$ is the extended real line
+$\mathbb{R}\cup\{\infty\}\cong\mathbb{P}^{1}(\mathbb{R})$, and
+$\mathrm{PSL}(2,\mathbb{R})$ acts on this boundary by real Möbius
+transformations as well.
+
+\subsection*{5. Classification of elements via the trace}
+
+Let $A\in\mathrm{SL}(2,\mathbb{C})$ and denote by $[A]$ its class in
+$\mathrm{PSL}(2,\mathbb{C})$.  The trace $\mathrm{tr}(A)$ is invariant under
+conjugation, and for real matrices also under $A\mapsto -A$, so it gives an
+invariant of conjugacy classes in $\mathrm{PSL}(2,\mathbb{R})$.
+
+For $\mathrm{PSL}(2,\mathbb{R})$ one has the classical classification:
+
+\begin{itemize}
+	\item \textbf{Elliptic:}
+	$|\mathrm{tr}(A)|<2$.  The corresponding Möbius transformation has two
+	complex conjugate fixed points and acts as a rotation in hyperbolic
+	geometry.
+	\item \textbf{Parabolic:}
+	$|\mathrm{tr}(A)|=2$.  There is exactly one fixed point on the boundary
+	of $\mathbb{H}$, and the transformation acts as a parabolic isometry
+	(e.g.\ a translation).
+	\item \textbf{Hyperbolic:}
+	$|\mathrm{tr}(A)|>2$.  There are two distinct fixed points on the
+	boundary, and the transformation acts as a hyperbolic translation along
+	a geodesic in $\mathbb{H}$.
+\end{itemize}
+
+In $\mathrm{PSL}(2,\mathbb{C})$ one has a similar classification into
+elliptic, parabolic and loxodromic elements, now using the complex trace.
+The fixed point picture generalizes to the action on the Riemann sphere and
+on hyperbolic $3$--space.
+
+\subsection*{6. Discrete subgroups: Fuchsian and Kleinian groups}
+
+Discrete subgroups of $\mathrm{PSL}(2,\mathbb{R})$ and
+$\mathrm{PSL}(2,\mathbb{C})$ play a central role in geometry.
+
+\begin{itemize}
+	\item A \emph{Fuchsian group} is a discrete subgroup
+	$\Gamma\subset\mathrm{PSL}(2,\mathbb{R})$.  The quotient
+	$\mathbb{H}/\Gamma$ carries a natural hyperbolic metric and often
+	has the structure of a Riemann surface of finite type.
+	\item A \emph{Kleinian group} is a discrete subgroup
+	$\Gamma\subset\mathrm{PSL}(2,\mathbb{C})$.  Such a group acts on
+	$\mathbb{H}^{3}$ by hyperbolic isometries and on the Riemann sphere
+	by Möbius transformations; the quotient geometry
+	$\mathbb{H}^{3}/\Gamma$ and the induced action on the limit set on
+	the sphere at infinity are fundamental objects in $3$--dimensional
+	hyperbolic geometry and complex dynamics.
+\end{itemize}
+
+\subsection*{7. Summary}
+
+\begin{itemize}
+	\item Algebraically, $\mathrm{PSL}(2,\Bbbk)$ is the quotient of
+	$\mathrm{SL}(2,\Bbbk)$ by its centre $\{\pm I\}$.
+	\item Geometrically, $\mathrm{PSL}(2,\mathbb{C})$ is the group of Möbius
+	transformations of the Riemann sphere $\widehat{\mathbb{C}}$ and
+	the group of orientation–preserving isometries of hyperbolic
+	$3$--space $\mathbb{H}^{3}$.
+	\item $\mathrm{PSL}(2,\mathbb{R})$ is the group of real Möbius
+	transformations of the extended real line and the group of
+	orientation–preserving isometries of the hyperbolic plane
+	$(\mathbb{H},ds^{2})$.
+	\item The trace of a matrix in $\mathrm{SL}(2,\mathbb{R})$ (or
+	$\mathrm{SL}(2,\mathbb{C})$) controls the qualitative dynamical
+	behaviour of the corresponding Möbius transformation (elliptic,
+	parabolic, hyperbolic/loxodromic).
+\end{itemize}
+
+These groups form the basic symmetry groups in low–dimensional geometry:
+they sit at the intersection of complex analysis, hyperbolic geometry,
+Riemann surface theory, and geometric group theory.
+
+\subsection*{Examples for the Poincaré metric on the upper half--plane}
+
+We work on the upper half--plane
+\[
+\mathbb H = \{ z=x+iy \in \mathbb C : y>0\}
+\]
+equipped with the Poincaré metric
+\[
+ds^{2} = \frac{dx^{2} + dy^{2}}{y^{2}},
+\qquad z = x + i y.
+\]
+
+\subsubsection*{1. Distances along a vertical geodesic}
+
+Consider two points lying on the same vertical line,
+\[
+z_{1} = x_{0} + i y_{1}, \qquad
+z_{2} = x_{0} + i y_{2}, \qquad
+0 < y_{1} < y_{2}.
+\]
+Parametrise the vertical segment between them by
+\[
+\gamma(t) = x_{0} + i t, \qquad t\in[y_{1},y_{2}].
+\]
+Along this curve we have
+\[
+dx = 0, \qquad dy = dt, \qquad y = t,
+\]
+so the metric becomes
+\[
+ds^{2} = \frac{0 + dt^{2}}{t^{2}} = \frac{dt^{2}}{t^{2}},
+\qquad ds = \frac{dt}{t}.
+\]
+The hyperbolic length of the vertical segment is therefore
+\[
+L(\gamma)
+= \int_{y_{1}}^{y_{2}} \frac{dt}{t}
+= \log\frac{y_{2}}{y_{1}}.
+\]
+Vertical lines are geodesics for the Poincaré metric, so this gives the
+hyperbolic distance between $z_{1}$ and $z_{2}$:
+\[
+d_{\mathbb H}(z_{1},z_{2}) = \log\frac{y_{2}}{y_{1}}.
+\]
+
+\paragraph{Example A: from $i$ to $2i$.}
+Here $x_{0}=0$, $y_{1}=1$, $y_{2}=2$, hence
+\[
+d_{\mathbb H}(i,2i) = \log\frac{2}{1} = \log 2.
+\]
+
+\paragraph{Example B: from $1+i$ to $1+3i$.}
+Here $x_{0}=1$, $y_{1}=1$, $y_{2}=3$, so
+\[
+d_{\mathbb H}(1+i,1+3i) = \log\frac{3}{1} = \log 3.
+\]
+
+\subsubsection*{2. Length of a horizontal segment}
+
+Consider the horizontal segment from $z_{1} = 0 + i$ to $z_{2} = 1 + i$.
+Parametrise it by
+\[
+\gamma(t) = t + i,\qquad t\in[0,1].
+\]
+Then
+\[
+dx = dt,\qquad dy = 0,\qquad y = 1,
+\]
+so along $\gamma$ the metric reduces to
+\[
+ds^{2} = \frac{dt^{2} + 0}{1^{2}} = dt^{2},
+\qquad ds = dt.
+\]
+Thus the hyperbolic length of this horizontal segment is
+\[
+L(\gamma) = \int_{0}^{1} dt = 1.
+\]
+This curve is not a geodesic (geodesics are vertical lines or semicircles
+orthogonal to the real axis), but it illustrates directly how to compute
+lengths from the metric.
+
+\subsubsection*{3. General distance formula between two points}
+
+There is a useful closed formula for the hyperbolic distance between two
+points $z_{1},z_{2}\in\mathbb H$:
+\[
+d_{\mathbb H}(z_{1},z_{2})
+= \operatorname{arcosh}\!\left(
+1 + \frac{|z_{1}-z_{2}|^{2}}{2\,\Im z_{1}\,\Im z_{2}}
+\right),
+\]
+where $\Im z$ denotes the imaginary part of $z$ and
+$\operatorname{arcosh}$ is the inverse hyperbolic cosine.
+
+\paragraph{Example C: distance between $i$ and $1+i$.}
+Take
+\[
+z_{1} = i, \qquad z_{2} = 1+i.
+\]
+Then
+\[
+\Im z_{1} = \Im z_{2} = 1,
+\qquad
+|z_{1}-z_{2}|^{2}
+= |\,i - (1+i)\,|^{2}
+= |-1|^{2}
+= 1.
+\]
+Hence
+\[
+d_{\mathbb H}(i,1+i)
+= \operatorname{arcosh}\!\left(
+1 + \frac{1}{2\cdot 1\cdot 1}
+\right)
+= \operatorname{arcosh}\!\left(\frac{3}{2}\right).
+\]
+
+These examples illustrate how the Poincaré metric is used in practice:
+one parametrises a curve, substitutes $dx$ and $dy$ into
+$ds^{2}=(dx^{2}+dy^{2})/y^{2}$, takes $ds$, and integrates to obtain
+hyperbolic lengths and distances.
+
+\subsection*{Why we cannot use $z_{2}-z_{1}$ directly in the Poincaré metric}
+
+Recall that on the upper half--plane
+\[
+\mathbb H = \{ z = x+iy \in \mathbb C : y>0\}
+\]
+the Poincaré metric is
+\[
+ds^{2} = \frac{dx^{2} + dy^{2}}{y^{2}}.
+\]
+Here $dx$ and $dy$ are \emph{infinitesimal} changes along a curve, not
+finite differences between two fixed points.
+
+\subsubsection*{1. Metric as a local length formula}
+
+Let $\gamma:[a,b]\to\mathbb H$ be a smooth curve,
+\[
+\gamma(t) = (x(t),y(t)),\qquad y(t)>0.
+\]
+Along $\gamma$ one has
+\[
+dx = x'(t)\,dt,
+\qquad
+dy = y'(t)\,dt,
+\]
+so the metric gives
+\[
+ds^{2}
+= \frac{x'(t)^{2} + y'(t)^{2}}{y(t)^{2}}\,dt^{2},
+\qquad
+ds = \frac{\sqrt{x'(t)^{2} + y'(t)^{2}}}{y(t)}\,dt.
+\]
+Hence the hyperbolic length of $\gamma$ is
+\[
+L(\gamma)
+= \int_{a}^{b} \frac{\sqrt{x'(t)^{2} + y'(t)^{2}}}{y(t)}\,dt.
+\]
+This shows that $dx,dy$ in the metric are \emph{differentials along the
+	curve}, i.e.\ they depend on the choice of parametrisation
+$\gamma(t)$ and on the point $t$.
+
+\subsubsection*{2. Why finite differences $z_{2}-z_{1}$ do not belong in $ds^{2}$}
+
+Given two points $z_{1},z_{2}\in\mathbb H$, we can form the finite
+differences
+\[
+\Delta x = \Re(z_{2}-z_{1}),
+\qquad
+\Delta y = \Im(z_{2}-z_{1}),
+\]
+but these are \emph{global} quantities: they only record the overall
+horizontal and vertical displacement between the endpoints.
+
+Different curves $\gamma$ from $z_{1}$ to $z_{2}$ can have the same
+endpoints and hence the same $(\Delta x,\Delta y)$, but very different
+functions $x(t),y(t)$ and derivatives $x'(t),y'(t)$, so their lengths
+\[
+L(\gamma) = \int \frac{\sqrt{x'(t)^{2}+y'(t)^{2}}}{y(t)}\,dt
+\]
+may be completely different.  The Poincaré metric is position--dependent
+because of the factor $1/y^{2}$; what matters is the value of $y(t)$
+\emph{along the curve}, not merely at the endpoints.
+
+If one naively tried to ``plug in'' the finite differences into the metric,
+for example
+\[
+ds^{2} \stackrel{\text{wrong}}{\approx}
+\frac{(\Delta x)^{2} + (\Delta y)^{2}}{y^{2}},
+\]
+one would implicitly be treating the entire path as a single infinitesimal
+step taken at some fixed height $y$, which is not what the Riemannian
+metric means and would ignore the curvature encoded in the $1/y^{2}$ factor.
+
+\subsubsection*{3. A concrete example}
+
+Consider the vertical segment from $z_{1}=i$ to $z_{2}=2i$.
+
+\paragraph{Correct computation.}
+Parametrise
+\[
+\gamma(t) = it, \qquad t\in[1,2].
+\]
+Then $x(t)=0$, $y(t)=t$, $x'(t)=0$, $y'(t)=1$, so
+\[
+ds = \frac{1}{t}\,dt, \qquad
+L(\gamma) = \int_{1}^{2} \frac{1}{t}\,dt = \log 2.
+\]
+
+\paragraph{Incorrect ``finite difference'' intuition.}
+The finite differences are
+\[
+\Delta x = 0,\qquad \Delta y = 1.
+\]
+If one tried to interpret $dx=\Delta x$, $dy=\Delta y$ and plug some
+``average height'' $y_{\text{avg}}$ into the metric, one might write
+\[
+L \stackrel{\text{wrong}}{\approx}
+\frac{\sqrt{0^{2}+1^{2}}}{y_{\text{avg}}}
+= \frac{1}{y_{\text{avg}}},
+\]
+which depends arbitrarily on the choice of $y_{\text{avg}}$ and certainly
+does not give $\log 2$.  This illustrates that finite endpoint differences
+cannot replace the integral of $ds$ along the curve.
+
+\subsubsection*{4. When endpoint differences do work (flat case)}
+
+In Euclidean space with the flat metric
+\[
+ds^{2} = dx^{2} + dy^{2},
+\]
+the coefficients of the metric are constant, so the length of a straight
+segment depends only on the endpoints:
+\[
+L = \sqrt{(x_{2}-x_{1})^{2} + (y_{2}-y_{1})^{2}}.
+\]
+Here one \emph{can} express the distance using only finite differences,
+because integrating a constant metric along the straight segment yields
+exactly this formula.
+
+In the Poincaré metric, however, the coefficients depend on $y$, and
+therefore the length of a curve depends on how it moves through regions of
+different height.  This is why, given two points $z_{1},z_{2}\in\mathbb H$,
+we compute distances by integrating along a path (typically a geodesic), or
+by using a closed formula derived from such an integral, rather than by
+substituting $z_{2}-z_{1}$ directly into $ds^{2}$.
+
+\subsection*{E3. The product torus $S^{1}\times S^{1}$ and its geodesics}
+
+\subsubsection*{Problem statement}
+
+The first fundamental form makes sense for a surface $\Sigma\subset\mathbb{R}^{n}$
+for any $n$.  Let $S^{1}\subset\mathbb{C}$ be the unit circle and let
+\[
+T := S^{1}\times S^{1} \subset \mathbb{C}\times\mathbb{C} = \mathbb{R}^{4}
+\]
+be the \emph{product torus}.
+
+\begin{enumerate}
+	\item Show that the induced Riemannian metric on $T$ is locally Euclidean
+	and hence flat.
+	\item Show that through any point $p\in T$ there are infinitely many closed
+	geodesics and also infinitely many non--closed geodesics (defined for
+	all $t\in\mathbb{R}$).  (A closed geodesic is a geodesic
+	$\sigma:\mathbb{R}\to T$ which is periodic, i.e.\ for some $L>0$,
+	$\sigma(t+L)=\sigma(t)$ for every $t\in\mathbb{R}$.)
+\end{enumerate}
+
+\subsubsection*{Theory: first fundamental form in $\mathbb{R}^{n}$}
+
+Let $\Sigma\subset\mathbb{R}^{n}$ be a smooth surface and let
+$\langle\cdot,\cdot\rangle$ denote the Euclidean inner product on
+$\mathbb{R}^{n}$.  For $p\in\Sigma$, the tangent space $T_{p}\Sigma$ is a
+$2$--dimensional subspace of $\mathbb{R}^{n}$, and the \emph{first fundamental
+	form} at $p$ is the bilinear form
+\[
+g_{p}(u,v) := \langle u,v\rangle_{\mathbb{R}^{n}},
+\qquad u,v\in T_{p}\Sigma.
+\]
+This defines a Riemannian metric $g$ on $\Sigma$, obtained simply by
+restricting the ambient Euclidean inner product.
+
+In local coordinates, if $\sigma:U\subset\mathbb{R}^{2}\to\Sigma$ is a
+parametrisation, then the coordinate vector fields
+$\sigma_{u},\sigma_{v} \in T_{\sigma(u,v)}\Sigma$ satisfy
+\[
+E = \sigma_{u}\cdot\sigma_{u},\qquad
+F = \sigma_{u}\cdot\sigma_{v},\qquad
+G = \sigma_{v}\cdot\sigma_{v},
+\]
+and the metric is written as
+\[
+I = E\,du^{2} + 2F\,du\,dv + G\,dv^{2}.
+\]
+This is completely analogous to the case $n=3$; the only difference is that
+the dot product is taken in $\mathbb{R}^{n}$ rather than $\mathbb{R}^{3}$.
+
+\subsubsection*{Solution (1): the induced metric on the product torus}
+
+Identify $S^{1}$ with the unit circle in $\mathbb{C}$ via
+\[
+e^{i\theta} = (\cos\theta,\sin\theta)\in\mathbb{R}^{2}.
+\]
+Define
+\[
+F : \mathbb{R}^{2} \longrightarrow T = S^{1}\times S^{1},\qquad
+F(\theta,\phi) = \bigl(e^{i\theta},e^{i\phi}\bigr)
+= (\cos\theta,\sin\theta,\cos\phi,\sin\phi)
+\in \mathbb{R}^{4}.
+\]
+The map $F$ is $2\pi$--periodic in each variable:
+\[
+F(\theta+2\pi,\phi) = F(\theta,\phi),
+\qquad
+F(\theta,\phi+2\pi) = F(\theta,\phi),
+\]
+so it descends to a smooth map
+\[
+\bar F : \mathbb{R}^{2} / (2\pi\mathbb{Z})^{2} \longrightarrow T,
+\]
+which is in fact a diffeomorphism.  Thus we may regard $T$ as the quotient
+torus $\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}$ with the metric induced by $F$.
+
+Compute the partial derivatives:
+\[
+F_{\theta}
+= \frac{\partial F}{\partial\theta}
+= (-\sin\theta,\cos\theta,0,0),
+\]
+\[
+F_{\phi}
+= \frac{\partial F}{\partial\phi}
+= (0,0,-\sin\phi,\cos\phi).
+\]
+Their Euclidean dot products in $\mathbb{R}^{4}$ are
+\[
+E := F_{\theta}\cdot F_{\theta}
+= \sin^{2}\theta + \cos^{2}\theta = 1,
+\]
+\[
+G := F_{\phi}\cdot F_{\phi}
+= \sin^{2}\phi + \cos^{2}\phi = 1,
+\]
+\[
+F := F_{\theta}\cdot F_{\phi}
+= 0.
+\]
+Therefore, in the coordinates $(\theta,\phi)$, the first fundamental form
+on $T$ is
+\[
+I = d\theta^{2} + d\phi^{2}.
+\]
+
+This is exactly the standard Euclidean metric on $\mathbb{R}^{2}$, and it
+does not depend on the point $(\theta,\phi)$.  Hence $F$ is a local
+isometry from $(\mathbb{R}^{2},d\theta^{2}+d\phi^{2})$ onto $(T,g)$, and the
+Riemannian surface $(T,g)$ is \emph{flat} (its Gauss curvature is zero).
+
+\subsubsection*{Solution (2): geodesics via straight lines in the covering plane}
+
+Geodesics on $(\mathbb{R}^{2},d\theta^{2}+d\phi^{2})$ are precisely straight
+lines.  Thus any geodesic in the covering space has the form
+\[
+\gamma(t) = (\theta(t),\phi(t))
+= (\theta_{0},\phi_{0}) + t\,(a,b),
+\]
+where $(\theta_{0},\phi_{0})\in\mathbb{R}^{2}$ and $(a,b)\in\mathbb{R}^{2}$,
+$(a,b)\neq (0,0)$, are constants.
+
+Because $F$ is a local isometry and factors through the quotient by the
+lattice $(2\pi\mathbb{Z})^{2}$, the geodesics on $T$ are exactly the
+projections of such straight lines:
+\[
+\sigma(t)
+= \bar F\bigl(\theta_{0}+ta,\ \phi_{0}+tb\bigr)
+\in T,
+\]
+where $\bar F:\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}\to T$ is the induced
+diffeomorphism.
+
+\subsubsection*{Closed vs non--closed geodesics}
+
+Fix a point $p\in T$ and choose a lift $(\theta_{0},\phi_{0})\in\mathbb{R}^{2}$
+with $\bar F(\theta_{0},\phi_{0})=p$.  For each nonzero direction
+$(a,b)\in\mathbb{R}^{2}$ we obtain a geodesic
+\[
+\sigma_{a,b}(t) = \bar F\bigl(\theta_{0}+ta,\ \phi_{0}+tb\bigr).
+\]
+
+The geodesic $\sigma_{a,b}$ is \emph{closed} if and only if there exists
+$T>0$ such that
+\[
+(\theta_{0}+Ta,\ \phi_{0}+Tb)
+\equiv
+(\theta_{0},\phi_{0})
+\pmod{(2\pi\mathbb{Z})^{2}},
+\]
+that is,
+\[
+Ta = 2\pi m,\qquad
+Tb = 2\pi n
+\]
+for some integers $m,n\in\mathbb{Z}$.  This is possible exactly when the
+slope $a/b$ is rational (understanding separately the case $b=0$, which
+corresponds to a purely ``horizontal'' closed circle).  Thus:
+
+\begin{itemize}
+	\item If $\dfrac{a}{b}\in\mathbb{Q}$, then $\sigma_{a,b}$ is a closed
+	geodesic.  There are infinitely many rational slopes, so there are
+	infinitely many closed geodesics through $p$.
+	\item If $\dfrac{a}{b}\notin\mathbb{Q}$, then there is no nonzero $T$
+	with $(Ta,Tb)\in (2\pi\mathbb{Z})^{2}$, so $\sigma_{a,b}$ is not
+	periodic: it is a non--closed geodesic defined for all
+	$t\in\mathbb{R}$ (indeed, its image is dense in $T$).  There are
+	infinitely many irrational slopes, hence infinitely many such
+	non--closed geodesics through $p$.
+\end{itemize}
+
+Therefore, for each point $p\in S^{1}\times S^{1}$ the flat product torus
+contains infinitely many closed geodesics and infinitely many non--closed
+geodesics (defined on the whole of $\mathbb{R}$) passing through $p$.
+
+
+\subsection*{Understanding the quotient $\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}$}
+
+\subsubsection*{1. Warm--up: the quotient $\mathbb{R}/2\pi\mathbb{Z}$}
+
+Consider the real line $\mathbb{R}$ and the subgroup
+\[
+2\pi\mathbb{Z} = \{ 2\pi k : k\in\mathbb{Z}\}.
+\]
+Define an equivalence relation on $\mathbb{R}$ by
+\[
+x \sim y
+\quad\Longleftrightarrow\quad
+x-y \in 2\pi\mathbb{Z}.
+\]
+Thus $x$ and $y$ are equivalent exactly when they differ by an integer
+multiple of $2\pi$.  The quotient
+\[
+\mathbb{R}/2\pi\mathbb{Z}
+\]
+is the set of all equivalence classes
+\[
+[x] = \{ x + 2\pi k : k\in\mathbb{Z}\}.
+\]
+Geometrically, we ``wrap'' the line $\mathbb{R}$ around a circle of
+circumference $2\pi$: all points whose coordinates differ by $2\pi k$
+collapse to a single point.  We can represent $\mathbb{R}/2\pi\mathbb{Z}$
+by the interval $[0,2\pi)$ with endpoints glued together.  This space is
+canonically diffeomorphic to the unit circle $S^{1}$ via
+\[
+[\theta] \longmapsto e^{i\theta}.
+\]
+
+\subsubsection*{2. The lattice $(2\pi\mathbb{Z})^{2}$ in $\mathbb{R}^{2}$}
+
+Now pass to $\mathbb{R}^{2}$ and consider the lattice
+\[
+(2\pi\mathbb{Z})^{2}
+= \{ (2\pi m,\,2\pi n) : m,n\in\mathbb{Z}\}.
+\]
+This is an additive subgroup of $\mathbb{R}^{2}$.  We define an
+equivalence relation on $\mathbb{R}^{2}$ by
+\[
+(\theta,\phi) \sim (\theta',\phi')
+\quad\Longleftrightarrow\quad
+(\theta'-\theta,\ \phi'-\phi) \in (2\pi\mathbb{Z})^{2},
+\]
+that is,
+\[
+(\theta',\phi') \sim (\theta,\phi)
+\quad\Longleftrightarrow\quad
+\theta' = \theta + 2\pi m,\ \ \phi' = \phi + 2\pi n
+\]
+for some integers $m,n\in\mathbb{Z}$.
+
+The quotient
+\[
+\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}
+\]
+is then the set of equivalence classes
+\[
+[(\theta,\phi)]
+= \{ (\theta+2\pi m,\ \phi+2\pi n) : m,n\in\mathbb{Z}\}.
+\]
+
+\subsubsection*{3. Geometric picture: from a square to a torus}
+
+Geometrically, the lattice $(2\pi\mathbb{Z})^{2}$ defines a grid of
+congruent squares of side length $2\pi$ in the $(\theta,\phi)$--plane.
+A convenient \emph{fundamental domain} is the square
+\[
+Q = [0,2\pi) \times [0,2\pi).
+\]
+Every equivalence class $[(\theta,\phi)]$ contains exactly one point of
+$Q$, so the quotient $\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}$ can be
+represented by the square $Q$ with the following identifications:
+\begin{itemize}
+	\item the left edge $\{\theta=0\}$ is identified with the right edge
+	$\{\theta=2\pi\}$ (points with the same $\phi$ coordinate),
+	\item the bottom edge $\{\phi=0\}$ is identified with the top edge
+	$\{\phi=2\pi\}$ (points with the same $\theta$ coordinate).
+\end{itemize}
+Gluing opposite edges of the square in this way produces a torus.  Thus
+\[
+\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}
+\]
+is precisely the \emph{flat square torus}.
+
+\subsubsection*{4. Identification with $S^{1}\times S^{1}$}
+
+Define
+\[
+F : \mathbb{R}^{2} \longrightarrow S^{1}\times S^{1},\qquad
+F(\theta,\phi) = (e^{i\theta},e^{i\phi}).
+\]
+Observe that
+\[
+F(\theta+2\pi,\phi) = F(\theta,\phi),
+\qquad
+F(\theta,\phi+2\pi) = F(\theta,\phi),
+\]
+so $F$ is constant on equivalence classes modulo $(2\pi\mathbb{Z})^{2}$.
+Therefore it induces a well--defined smooth map
+\[
+\bar F : \mathbb{R}^{2}/(2\pi\mathbb{Z})^{2} \longrightarrow S^{1}\times S^{1},
+\qquad
+\bar F\bigl([\theta,\phi]\bigr) = (e^{i\theta},e^{i\phi}).
+\]
+This map is bijective and a diffeomorphism, so we obtain a canonical
+identification
+\[
+\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2} \;\cong\; S^{1}\times S^{1}.
+\]
+
+In summary, the quotient $\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}$ is the
+plane modulo integer translations by $(2\pi,0)$ and $(0,2\pi)$; it is
+geometrically represented by a $2\pi\times 2\pi$ square with opposite
+edges glued together, and it is naturally diffeomorphic to the product
+torus $S^{1}\times S^{1}$.
+
+
+\subsection*{Flat, locally Euclidean, and Euclidean metrics}
+
+In Riemannian geometry several related but distinct notions appear:
+\emph{locally Euclidean}, \emph{flat}, and (globally) \emph{Euclidean}.
+We explain the differences and relate them to the product torus
+$T = S^{1}\times S^{1}$.
+
+\subsubsection*{1. Locally Euclidean}
+
+A Riemannian metric $g$ on a smooth manifold $M$ is called
+\emph{locally Euclidean} if around every point $p\in M$ there exists
+a coordinate chart $(U;x^{1},\dots,x^{n})$ with $p\in U$ such that,
+in these coordinates,
+\[
+g_{ij}(p) = \delta_{ij}
+\quad\text{and}\quad
+\frac{\partial g_{ij}}{\partial x^{k}}(p) = 0.
+\]
+In such a chart, infinitesimally near $p$, lengths and angles are the
+same as in the Euclidean space $\mathbb{R}^{n}$.  These are the so--called
+\emph{normal coordinates} at $p$.
+
+Every smooth Riemannian manifold is locally Euclidean in this sense:
+around each point one can choose normal coordinates so that $g_{ij}(p)
+= \delta_{ij}$ and first derivatives vanish.
+
+In our product torus $T = S^{1}\times S^{1}$, using covering coordinates
+$(\theta,\phi)\in\mathbb{R}^{2}$ with
+\[
+F(\theta,\phi) = (e^{i\theta},e^{i\phi}),
+\]
+we found that the induced metric is
+\[
+g = d\theta^{2} + d\phi^{2}.
+\]
+Thus in the $(\theta,\phi)$ coordinates the metric is exactly the
+standard Euclidean metric on $\mathbb{R}^{2}$, not only at a point but
+on all of $\mathbb{R}^{2}$.  In particular, it is locally Euclidean.
+
+\subsubsection*{2. Flat metrics}
+
+A Riemannian metric $g$ on $M$ is called \emph{flat} if its curvature
+tensor vanishes identically.  In dimension $2$ this means that the Gauss
+curvature $K$ satisfies
+\[
+K(p) = 0
+\quad\text{for all } p\in M,
+\]
+and in any dimension it means that the Riemann curvature tensor
+$R_{ijkl}$ is zero everywhere.
+
+Flatness is a \emph{curvature} condition; it does not directly say
+anything about the global topology of $M$.  Important examples include:
+\begin{itemize}
+	\item $\mathbb{R}^{n}$ with the standard Euclidean metric,
+	\item quotient spaces such as flat tori
+	$\mathbb{R}^{n}/\Lambda$ for a lattice $\Lambda$.
+\end{itemize}
+
+In the case of the product torus $T = S^{1}\times S^{1}$, we have
+identified $T$ with the quotient
+\[
+\mathbb{R}^{2}/(2\pi\mathbb{Z})^{2}
+\]
+and shown that, in the covering space, the metric is
+\[
+g = d\theta^{2} + d\phi^{2},
+\]
+which is the standard flat metric on $\mathbb{R}^{2}$.  Passing to the
+quotient by a group of isometries preserves the local curvature
+properties, so the resulting torus is a \emph{flat} Riemannian manifold
+(of dimension $2$, with $K\equiv 0$).
+
+Thus the product torus is both locally Euclidean and flat.
+
+\subsubsection*{3. Euclidean (globally)}
+
+The phrase \emph{Euclidean} is often used in two, related senses:
+
+\begin{enumerate}
+	\item As a metric: the \emph{Euclidean metric} on $\mathbb{R}^{n}$ is
+	the standard inner product metric
+	\[
+	ds^{2} = dx_{1}^{2} + \cdots + dx_{n}^{2}.
+	\]
+	\item As a global geometry: a Riemannian manifold $(M,g)$ is sometimes
+	called \emph{Euclidean} if it is globally isometric to
+	$(\mathbb{R}^{n},\text{standard metric})$, i.e.\ if there exists
+	a distance--preserving diffeomorphism
+	\[
+	\Phi : (M,g) \longrightarrow (\mathbb{R}^{n},dx_{1}^{2}+\cdots+dx_{n}^{2}).
+	\]
+\end{enumerate}
+
+This second meaning is stronger than being flat.  A flat manifold has
+zero curvature, but may have nontrivial topology and thus be \emph{not}
+isometric to $\mathbb{R}^{n}$.
+
+For example:
+\begin{itemize}
+	\item $(\mathbb{R}^{2},dx^{2}+dy^{2})$ is flat, locally Euclidean, and
+	globally Euclidean (it is literally the Euclidean plane).
+	\item The product torus $T = S^{1}\times S^{1}$ with metric
+	$g = d\theta^{2} + d\phi^{2}$ (modulo $(2\pi\mathbb{Z})^{2}$) is
+	flat and locally Euclidean, but \emph{not} globally Euclidean,
+	because its topology is that of a torus, not of $\mathbb{R}^{2}$.
+	It has nontrivial closed loops and nonzero fundamental group
+	$\pi_{1}(T)\cong\mathbb{Z}^{2}$.
+\end{itemize}
+
+\subsubsection*{4. Summary for the product torus}
+
+For the product torus $T = S^{1}\times S^{1}$ with induced metric from
+$\mathbb{R}^{4}$:
+
+\begin{itemize}
+	\item In covering coordinates $(\theta,\phi)\in\mathbb{R}^{2}$ the metric
+	is exactly the Euclidean metric $g = d\theta^{2}+d\phi^{2}$,
+	hence $T$ is \emph{locally Euclidean}.
+	\item The curvature of this metric is zero everywhere, so $T$ is a
+	\emph{flat} Riemannian surface.
+	\item Nevertheless, $T$ is not globally isometric to $\mathbb{R}^{2}$
+	(its topology is different), so it is not globally Euclidean as a
+	space, even though its metric is flat.
+\end{itemize}
+
+Thus the phrases ``locally Euclidean'', ``flat'', and ``Euclidean'' are
+closely related but not synonymous: the product torus is a standard
+example of a flat, locally Euclidean manifold that is not globally
+Euclidean.
+
+\subsection*{Problem 1: Fixed points and dynamics of a M\"obius map}
+
+Let $T$ be a non–identity M\"obius transformation on the Riemann sphere
+$\widehat{\mathbb{C}} = \mathbb{C}\cup\{\infty\}$.
+
+\begin{enumerate}
+	\item Show that $T$ has exactly one or two fixed points in
+	$\widehat{\mathbb{C}}$.
+	\item Suppose that $T$ corresponds, under stereographic projection, to a
+	rotation of the round sphere $S^{2}\subset\mathbb{R}^{3}$.  Show that
+	$T$ has two fixed points $z_{1},z_{2}\in\widehat{\mathbb{C}}$ which
+	satisfy
+	\[
+	z_{2} = -\frac{1}{\overline{z_{1}}}.
+	\]
+	\item Conversely, assume that $T$ has two fixed points $z_{1},z_{2}$ with
+	$z_{2} = -1/\overline{z_{1}}$.  Prove that either
+	\begin{itemize}
+		\item $T$ corresponds to a rotation of $S^{2}$, or
+		\item one of the fixed points (say $z_{1}$) is attractive, i.e.
+		$T^{n}(z)\to z_{1}$ as $n\to\infty$ for all
+		$z\neq z_{2}$.
+	\end{itemize}
+\end{enumerate}
+
+\subsubsection*{Theory: fixed points of a M\"obius map}
+
+A M\"obius transformation has the form
+\[
+T(z) = \frac{az+b}{cz+d}, \qquad ad-bc\neq 0.
+\]
+Finite fixed points satisfy $T(z)=z$, i.e.
+\[
+\frac{az+b}{cz+d} = z
+\quad\Longleftrightarrow\quad
+az+b = z(cz+d)
+\quad\Longleftrightarrow\quad
+cz^{2} + (d-a)z - b = 0.
+\]
+Thus finite fixed points are roots of a quadratic polynomial, so there are
+either two distinct finite fixed points or one double root.
+
+The point at infinity behaves as follows:
+
+\begin{itemize}
+	\item If $c\neq 0$, then $T(\infty)=a/c\neq\infty$, so $\infty$ is not fixed.
+	\item If $c=0$, then $T(z) = \dfrac{az+b}{d}$ and $T(\infty)=\infty$, so
+	$\infty$ is a fixed point.  The equation $T(z)=z$ then reduces to
+	$(a-d)z + b = 0$, which has exactly one finite solution unless
+	$a=d$ and $b=0$, in which case $T$ is the identity.
+\end{itemize}
+
+Hence a non–identity M\"obius map can have at most two fixed points in
+$\widehat{\mathbb{C}}$.  If it had three distinct fixed points, the
+quadratic $cz^{2}+(d-a)z-b$ would have three distinct roots, forcing all its
+coefficients to vanish and thus $T$ to be the identity.  Therefore a
+non–identity M\"obius transformation has \emph{exactly} one or two fixed
+points.
+
+\subsubsection*{Theory: rotations and antipodal points}
+
+Let $\Phi:S^{2}\to\widehat{\mathbb{C}}$ denote stereographic projection
+from the north pole.  A rotation $R\in\mathrm{SO}(3)$ acts on $S^{2}$ by
+isometries.  Its axis of rotation is a line through the origin, meeting
+$S^{2}$ in two antipodal points $p$ and $-p$, which are precisely the fixed
+points of $R$ on $S^{2}$.
+
+On the level of the Riemann sphere, the corresponding M\"obius
+transformation is
+\[
+T = \Phi\circ R\circ\Phi^{-1}.
+\]
+If $z_{1}=\Phi(p)$ and $z_{2}=\Phi(-p)$, then $z_{1},z_{2}$ are the fixed
+points of $T$.  A standard computation with the explicit formula for
+stereographic projection shows that antipodal points $p,-p$ correspond to
+complex numbers related by
+\[
+z_{2} = -\frac{1}{\overline{z_{1}}}.
+\]
+Thus a rotation of $S^{2}$ gives a M\"obius map whose fixed points in
+$\widehat{\mathbb{C}}$ are of the form $z_{1}$ and
+$z_{2} = -1/\overline{z_{1}}$.
+
+\subsubsection*{Theory: conjugation and normal form}
+
+Suppose a M\"obius map $T$ has two distinct fixed points $z_{1},z_{2}$.  Then
+there exists a M\"obius map $\phi$ such that
+\[
+\phi(z_{1})=0,\qquad \phi(z_{2})=\infty.
+\]
+Conjugate $T$ by $\phi$:
+\[
+S := \phi\circ T\circ\phi^{-1}.
+\]
+Then $S$ has fixed points $0$ and $\infty$:
+\[
+S(0)=0,\qquad S(\infty)=\infty.
+\]
+A M\"obius map fixing $0$ and $\infty$ must be of the form
+\[
+S(w) = \lambda w,\qquad \lambda\in\mathbb{C}^{\times},
+\]
+since imposing $S(0)=0$ and $S(\infty)=\infty$ on
+$\frac{aw+b}{cw+d}$ forces $b=c=0$ and hence $S(w)=\frac{a}{d}w=\lambda w$.
+
+The iterates of $S$ are
+\[
+S^{n}(w) = \lambda^{n}w.
+\]
+Therefore:
+\begin{itemize}
+	\item If $|\lambda|=1$, $S$ is a rotation of the plane and, interpreted on
+	$\widehat{\mathbb{C}}$, corresponds to a rotation of the round
+	sphere about the vertical axis.
+	\item If $|\lambda|<1$, then $S^{n}(w)\to 0$ as $n\to\infty$ for all
+	$w\neq\infty$, so $0$ is an \emph{attractive} fixed point and
+	$\infty$ is \emph{repulsive}.
+	\item If $|\lambda|>1$, then $S^{n}(w)\to\infty$ as $n\to\infty$ for all
+	$w\neq 0$, so $\infty$ is attractive and $0$ is repulsive.
+\end{itemize}
+Conjugating back by $\phi^{-1}$ transfers this dynamical picture to the
+original fixed points $z_{1},z_{2}$ of $T$.
+
+\subsubsection*{Solution to (1)}
+
+The argument in the first theory subsection shows that for a non–identity
+M\"obius map $T$ the equation $T(z)=z$ is equivalent to a quadratic
+equation in $z$, which has one (double) or two distinct roots, possibly
+together with $\infty$ in the case $c=0$.  The possibility of three
+distinct fixed points leads to a contradiction unless $T$ is the identity.
+Hence a non–identity M\"obius transformation has exactly one or two fixed
+points in $\widehat{\mathbb{C}}$.
+
+\subsubsection*{Solution to (2)}
+
+Let $T$ correspond to a rotation $R$ of $S^{2}$:
+\[
+T = \Phi\circ R\circ\Phi^{-1}.
+\]
+Let $p\in S^{2}$ be a point on the rotation axis, and $-p$ its antipodal
+point.  Then $R(p)=p$ and $R(-p)=-p$, so the points
+\[
+z_{1}=\Phi(p),\qquad z_{2}=\Phi(-p)
+\]
+are fixed by $T$.  Since $p$ and $-p$ are antipodal, the stereographic
+projection formulas give
+\[
+z_{2} = -\frac{1}{\overline{z_{1}}}.
+\]
+Thus $T$ has two fixed points related by $z_{2}=-1/\overline{z_{1}}$.
+
+\subsubsection*{Solution to (3)}
+
+Now assume conversely that $T$ has two fixed points $z_{1},z_{2}$ satisfying
+\[
+z_{2} = -\frac{1}{\overline{z_{1}}}.
+\]
+The relation $z_{2}=-1/\overline{z_{1}}$ means that $(z_{1},z_{2})$ is an
+antipodal pair for the round metric on $S^{2}$ (under stereographic
+projection).  In particular, one can choose a M\"obius transformation
+$\phi$ which maps $z_{1}\mapsto 0$, $z_{2}\mapsto\infty$, and preserves the
+unit circle $\{|z|=1\}$ (for instance, $\phi$ can be chosen as a suitable
+Blaschke factor).
+
+Define $S = \phi\circ T\circ\phi^{-1}$.  Then $S$ fixes $0$ and $\infty$,
+so $S(w)=\lambda w$ for some $\lambda\in\mathbb{C}^{\times}$.  The dynamics
+of $T$ are obtained from those of $S$ by conjugation:
+
+\begin{itemize}
+	\item If $|\lambda|=1$, then $S$ is a rotation $w\mapsto e^{i\theta}w$,
+	whose extension to $\widehat{\mathbb{C}}$ is a rotation of the
+	round sphere.  Since $\phi$ preserves the unit circle and sends the
+	antipodal pair $\{z_{1},z_{2}\}$ to $\{0,\infty\}$, the map $T$ is
+	conjugate to a rotation and therefore corresponds to a rotation of
+	$S^{2}$.
+	\item If $|\lambda|<1$, then $S^{n}(w)\to 0$ for all $w\neq\infty$.  Hence
+	$0$ is an attractive fixed point of $S$.  Conjugating back,
+	$z_{1}=\phi^{-1}(0)$ is an attractive fixed point of $T$, and
+	$z_{2}=\phi^{-1}(\infty)$ is repulsive.  In this case
+	$T^{n}(z)\to z_{1}$ as $n\to\infty$ for all $z\neq z_{2}$.
+	\item If $|\lambda|>1$, then $S^{n}(w)\to\infty$ for all $w\neq 0$, so
+	$\infty$ is attractive and $0$ is repulsive.  Conjugating back,
+	$z_{2}$ is attractive and $z_{1}$ is repulsive; after relabelling
+	the fixed points, this again yields the statement that one fixed
+	point is attractive.
+\end{itemize}
+
+
+Let
+\[
+T(z) = \frac{az+b}{cz+d}, \qquad ad-bc \neq 0,
+\]
+be a M\"obius transformation on the extended complex plane
+\(\widehat{\mathbb{C}} = \mathbb{C}\cup\{\infty\}\).
+
+\begin{itemize}
+	\item If \(c \neq 0\), then
+	\[
+	T(\infty)
+	= \lim_{z\to\infty} \frac{az+b}{cz+d}
+	= \frac{a}{c}.
+	\]
+	In this case the point
+	\[
+	z_{0} = -\frac{d}{c}
+	\]
+	satisfies \(cz_{0}+d=0\) and hence
+	\[
+	T(z_{0}) = \infty.
+	\]
+	
+	\item If \(c = 0\), then
+	\[
+	T(z) = \frac{az+b}{d}
+	\]
+	is an affine transformation, and we define
+	\[
+	T(\infty) = \infty.
+	\]
+\end{itemize}
+
+
+Thus, under the assumption $z_{2}=-1/\overline{z_{1}}$, either $T$ is
+conjugate to a rotation (when $|\lambda|=1$) and hence corresponds to a
+rotation of $S^{2}$, or one of its fixed points is attractive, with
+$T^{n}(z)$ converging to that point for all $z$ different from the other
+fixed point.
+
+
+% =========================================================
+% Exercise 2. Inversion in a circle; Möbius maps via inversions
+% =========================================================
+
+\subsection*{\textbf{Exercise 2. Inversion in the circle $\{|z-a|=r\}$ and Möbius maps}}
+
+\paragraph{\textbf{Problem.}}
+\begin{enumerate}
+	\item Show that inversion in the circle $\{|z-a|=r\}$ is given by
+	\[
+	z \longmapsto a+\frac{r^{2}}{\overline{z-a}}.
+	\]
+	\item Show that every Möbius map is a composition of inversions.
+\end{enumerate}
+
+\paragraph{\textbf{Solution.}}
+
+\paragraph{\textbf{(i) Formula for inversion.}}
+Let $C=\{\,|z-a|=r\,\}$ and let $z\neq a$. By definition, inversion in $C$ sends $z$ to the unique point $z^{*}$ such that
+\[
+a,z,z^{*} \text{ are collinear},\qquad |z^{*}-a|\,|z-a|=r^2,
+\qquad \arg(z^{*}-a)=\arg(z-a).
+\]
+Set $w=z-a$. Then $C$ becomes the circle $\{|w|=r\}$ centered at $0$, and inversion must send $w\neq 0$ to $w^{*}$ with
+\[
+|w^{*}|\,|w|=r^2,\qquad \arg w^{*}=\arg w.
+\]
+Write $w=\rho e^{i\theta}$ with $\rho>0$. Then necessarily
+\[
+w^{*}=\frac{r^2}{\rho}e^{i\theta}.
+\]
+But $\overline{w}=\rho e^{-i\theta}$, hence
+\[
+\frac{r^2}{\overline{w}}=\frac{r^2}{\rho}e^{i\theta}=w^{*}.
+\]
+Therefore $w^{*}=\dfrac{r^2}{\overline{w}}$, and translating back,
+\[
+z^{*} \;=\; a+w^{*} \;=\; a+\frac{r^2}{\overline{z-a}}.
+\]
+In particular,
+\[
+|z^{*}-a|=\left|\frac{r^2}{\overline{z-a}}\right|=\frac{r^2}{|z-a|},
+\quad\text{so}\quad
+|z^{*}-a|\,|z-a|=r^2.
+\]
+
+\paragraph{\textbf{(ii) Every Möbius map is a composition of inversions.}}
+We use:
+\begin{enumerate}
+	\item Inversion in a circle is \emph{anti-conformal} (it involves complex conjugation), and the composition of two inversions is conformal; in particular, any composition of an \emph{even} number of inversions is holomorphic (hence Möbius on $\widehat{\mathbb C}$).
+	\item The Möbius group is generated by translations, similarities $z\mapsto \lambda z$ ($\lambda\neq 0$), and the reciprocal map $z\mapsto 1/z$.
+\end{enumerate}
+
+\paragraph{\textbf{Step A: Factor a general Möbius map into generators.}}
+Let
+\[
+f(z)=\frac{az+b}{cz+d},\qquad ad-bc\neq 0.
+\]
+If $c=0$, then $f(z)=\alpha z+\beta$ is a similarity plus translation.
+
+If $c\neq 0$, divide numerator and denominator by $c$ and set
+\[
+\alpha=\frac ac,\qquad \beta=\frac bc,\qquad \delta=\frac dc.
+\]
+Then
+\[
+f(z)=\frac{\alpha z+\beta}{z+\delta}
+=\alpha+\frac{\beta-\alpha\delta}{z+\delta}.
+\]
+Hence, writing $T_\delta(z)=z+\delta$, $J(z)=1/z$, and $S_\lambda(z)=\lambda z$, we obtain
+\[
+f \;=\; T_\alpha \circ S_{\beta-\alpha\delta}\circ J \circ T_\delta.
+\]
+
+\paragraph{\textbf{Step B: Each generator is a composition of inversions.}}
+We allow \emph{line inversions}, i.e.\ reflections in straight lines (circles through $\infty$).
+
+\begin{itemize}
+	\item \textbf{Translations are compositions of two line inversions.}
+	For translation by a real $t$ one may use reflections in the parallel vertical lines $x=0$ and $x=t/2$:
+	\[
+	(z\mapsto t-\overline{z})\circ(z\mapsto -\overline{z}) = z+t.
+	\]
+	
+	\item \textbf{Dilations are compositions of two circle inversions.}
+	Let $I_{0,r}(z)=\dfrac{r^2}{\overline{z}}$ be inversion in $|z|=r$. Then
+	\[
+	I_{0,r_2}\circ I_{0,r_1}(z)
+	=\frac{r_2^2}{\overline{\,r_1^2/\overline{z}\,}}
+	=\frac{r_2^2}{r_1^2}\,z,
+	\]
+	so a positive scaling is a composition of two inversions. Together with rotations this yields arbitrary complex scaling.
+	
+	\item \textbf{Rotations are compositions of two line inversions.}
+	The composition of reflections in two lines through the origin meeting at angle $\theta/2$ is rotation by $\theta$.
+	
+	\item \textbf{The reciprocal map $J(z)=1/z$ is a composition of two inversions.}
+	Inversion in the unit circle is $z\mapsto 1/\overline{z}$, and reflection in the real axis is $z\mapsto \overline{z}$. Hence
+	\[
+	(z\mapsto \overline{z})\circ(z\mapsto 1/\overline{z})=\frac{1}{z}.
+	\]
+\end{itemize}
+
+\paragraph{\textbf{Step C: Conclusion.}}
+Since any Möbius map factors into translations, a similarity, and $z\mapsto 1/z$, and each of these factors is a composition of inversions, it follows that every Möbius map is a composition of inversions.
+
+
+% =========================================================
+% Exercise 3. Vertical segments minimize length in the hyperbolic upper half-plane
+% =========================================================
+
+\subsection*{\textbf{Exercise 3. Vertical lines are length-minimizing in the upper half-plane model}}
+
+\paragraph{\textbf{Problem.}}
+Show from first principles that a vertical line segment is length-minimizing and hence defines a geodesic in the hyperbolic upper half-plane
+\[
+\mathbb H=\{x+iy:\;y>0\},\qquad
+ds^2=\frac{dx^2+dy^2}{y^2}.
+\]
+
+\paragraph{\textbf{Solution.}}
+Let $\gamma:[t_0,t_1]\to\mathbb H$ be a piecewise $C^1$ curve written as $\gamma(t)=(x(t),y(t))$ with $y(t)>0$. Its hyperbolic length is
+\[
+L(\gamma)=\int_{t_0}^{t_1}\frac{\sqrt{x'(t)^2+y'(t)^2}}{y(t)}\,dt.
+\]
+Fix endpoints on the same vertical line:
+\[
+x(t_0)=x(t_1)=x_0,\qquad y(t_0)=y_0,\qquad y(t_1)=y_1.
+\]
+
+\paragraph{\textbf{Lower bound for all curves.}}
+Pointwise, $\sqrt{x'^2+y'^2}\ge |y'|$, hence
+\[
+L(\gamma)\ge \int_{t_0}^{t_1}\frac{|y'(t)|}{y(t)}\,dt
+\ge \left|\int_{t_0}^{t_1}\frac{y'(t)}{y(t)}\,dt\right|
+= \left|\log y(t)\right|_{t_0}^{t_1}
+= \left|\log\frac{y_1}{y_0}\right|.
+\]
+
+\paragraph{\textbf{A vertical segment achieves the bound.}}
+For the vertical curve $\gamma_v(t)=(x_0,y(t))$ with $y(t)$ monotone from $y_0$ to $y_1$ we have $x'(t)\equiv 0$, so
+\[
+L(\gamma_v)=\int_{t_0}^{t_1}\frac{|y'(t)|}{y(t)}\,dt
+=\left|\log\frac{y_1}{y_0}\right|.
+\]
+Thus $\gamma_v$ attains the universal lower bound and is globally length-minimizing. Hence it is (in particular) locally length-minimizing, i.e.\ a geodesic. Moreover,
+\[
+d_{\mathbb H}\big((x_0,y_0),(x_0,y_1)\big)=\left|\log\frac{y_1}{y_0}\right|.
+\]
+
+\medskip
+\begin{center}
+	\begin{tikzpicture}[scale=1.0]
+		\draw[->] (-0.2,0) -- (5.2,0) node[right] {$x$};
+		\draw[->] (0,-0.2) -- (0,3.2) node[above] {$y$};
+		\draw (0,0) -- (5,0);
+		\draw[thick] (2.5,0.6) -- (2.5,2.7);
+		\fill (2.5,0.6) circle (1.3pt) node[right] {$(x_0,y_0)$};
+		\fill (2.5,2.7) circle (1.3pt) node[right] {$(x_0,y_1)$};
+		\node at (3.65,1.65) {vertical geodesic};
+	\end{tikzpicture}
+\end{center}
+
+% =========================================================
+% Add-on: Concrete examples for Step A / Step B + inversion chart
+% =========================================================
+
+\subsection*{\textbf{Concrete examples for Step A and Step B (Möbius = composition of inversions)}}
+
+\paragraph{\textbf{Step A (example): explicit factorization of a Möbius map.}}
+Take
+\[
+f(z)=\frac{2z+3}{z+1}.
+\]
+Here $a=2,\ b=3,\ c=1,\ d=1$, so $ad-bc=2-3=-1\neq 0$. Since $c\neq 0$, set
+\[
+\alpha=\frac ac=2,\qquad \beta=\frac bc=3,\qquad \delta=\frac dc=1.
+\]
+Then the standard rearrangement gives
+\[
+f(z)=\alpha+\frac{\beta-\alpha\delta}{z+\delta}
+=2+\frac{3-2\cdot 1}{z+1}
+=2+\frac{1}{z+1}.
+\]
+So as a composition of generators,
+\[
+f = T_{2}\circ J \circ T_{1},
+\qquad
+T_{t}(z)=z+t,\quad J(z)=\frac1z.
+\]
+This is the cleanest kind of Step A: any nontrivial Möbius map reduces to “translate, invert, translate, then maybe scale”.
+
+\medskip
+\paragraph{\textbf{Step B (examples): write each generator as a composition of inversions.}}
+
+\paragraph{\textbf{(B1) Translation as two line inversions (reflections).}}
+Let $R_{x=c}$ be reflection in the vertical line $x=c$. In complex form,
+\[
+R_{x=c}(z)=2c-\overline{z}.
+\]
+Then for real $t$,
+\[
+R_{x=t/2}\circ R_{x=0}(z) = R_{x=t/2}(-\overline{z}) = t-\overline{(-\overline{z})}=z+t.
+\]
+So $T_t$ is a composition of two inversions in lines.
+
+\paragraph{\textbf{(B2) Positive dilation as two circle inversions with the same center.}}
+Let $I_{0,r}$ be inversion in the circle $|z|=r$:
+\[
+I_{0,r}(z)=\frac{r^{2}}{\overline{z}}.
+\]
+Then
+\[
+I_{0,r_2}\circ I_{0,r_1}(z)
+=\frac{r_2^2}{\overline{\,r_1^2/\overline{z}\,}}
+=\frac{r_2^2}{r_1^2}\,z.
+\]
+So scaling by $\lambda>0$ is achieved by taking $r_2/r_1=\sqrt{\lambda}$.
+
+\paragraph{\textbf{(B3) Rotation as two line inversions (reflections through lines through the origin).}}
+Let $R_{\theta}$ denote reflection in the line through $0$ making angle $\theta$ with the real axis. Then
+\[
+R_{\theta/2}\circ R_{0}
+\]
+is rotation by angle $\theta$. (Classical Euclidean fact: the composition of two reflections in lines meeting at angle $\theta/2$ is the rotation by $\theta$.)
+
+\paragraph{\textbf{(B4) Reciprocal map $J(z)=1/z$ as two inversions.}}
+Inversion in the unit circle is $I_{0,1}(z)=1/\overline{z}$.
+Reflection in the real axis is $R_{\mathbb R}(z)=\overline{z}$ (a line inversion).
+Hence
+\[
+R_{\mathbb R}\circ I_{0,1}(z)=\overline{\left(\frac{1}{\overline{z}}\right)}=\frac{1}{z}.
+\]
+
+\paragraph{\textbf{(B5) Concrete Möbius example built from inversions.}}
+For the earlier example $f(z)=2+\frac{1}{z+1}$ we have
+\[
+f = T_{2}\circ J \circ T_{1}.
+\]
+Now insert the explicit inversion decompositions:
+\[
+T_{1}=R_{x=1/2}\circ R_{x=0},
+\qquad
+J=R_{\mathbb R}\circ I_{0,1},
+\qquad
+T_{2}=R_{x=1}\circ R_{x=0}.
+\]
+Therefore one concrete “all-inversions” factorization is
+\[
+f
+=
+\bigl(R_{x=1}\circ R_{x=0}\bigr)
+\circ
+\bigl(R_{\mathbb R}\circ I_{0,1}\bigr)
+\circ
+\bigl(R_{x=1/2}\circ R_{x=0}\bigr),
+\]
+a composition of line inversions and one circle inversion.
+
+% ---------------------------------------------------------
+% Inversion chart: circle, center a, point z, image z^{*}
+% ---------------------------------------------------------
+
+\subsection*{\textbf{Inversion chart (relative to the circle $|z-a|=r$)}}
+
+\paragraph{\textbf{Geometric meaning.}}
+If $z\neq a$, the inversion point $z^{*}$ is on the same ray from $a$ as $z$ and satisfies
+\[
+|z-a|\cdot|z^{*}-a|=r^{2}.
+\]
+
+\paragraph{\textbf{TikZ diagram.}}
+\begin{center}
+	\begin{tikzpicture}[scale=1.0]
+		% parameters (drawn by hand): center a, radius r
+		\coordinate (A) at (0,0);
+		\def\r{2.0}
+		
+		% choose a point z outside the circle along the ray
+		\coordinate (Z) at (4.0,0.8);
+		
+		% compute z* approximately along the ray (manual numeric here for the picture)
+		% (this is only for the sketch; the math is in the text)
+		\coordinate (Zs) at (1.0,0.2);
+		
+		% circle
+		\draw[thick] (A) circle (\r);
+		
+		% ray and points
+		\draw[dashed] (A) -- (Z);
+		\fill (A) circle (1.3pt) node[below left] {$a$};
+		\fill (Z) circle (1.3pt) node[right] {$z$};
+		\fill (Zs) circle (1.3pt) node[below right] {$z^{*}$};
+		
+		% mark radius line segment to indicate r
+		\coordinate (P) at (\r,0);
+		\draw (A) -- (P);
+		\node at (1.0,-0.25) {$r$};
+		
+		% labels for distances (schematic)
+		\node at (2.5,0.55) {$|z-a|$};
+		\node at (0.55,0.15) {$|z^{*}-a|$};
+		
+		% caption inside
+		\node at (0,-2.6) {$|z-a|\cdot|z^{*}-a|=r^{2}$ and $a,z,z^{*}$ collinear};
+	\end{tikzpicture}
+\end{center}
+
+\paragraph{\textbf{Optional: show the formula on the same figure (caption-style).}}
+For $C=\{|z-a|=r\}$,
+\[
+z^{*}=a+\frac{r^{2}}{\overline{z-a}}.
+\]
+
+% ---------------------------------------------------------
+% Extra inversion chart: inside/outside swap + points on the circle are fixed
+% ---------------------------------------------------------
+
+\subsection*{\textbf{Inversion chart: inside/outside swap and fixed circle}}
+
+\paragraph{\textbf{Facts (to read directly from the picture).}}
+For inversion in $C=\{|z-a|=r\}$:
+\begin{itemize}
+	\item Points on the circle are fixed: if $|z-a|=r$, then $z^{*}=z$.
+	\item Inside/outside swap: if $|z-a|<r$ then $|z^{*}-a|>r$, and if $|z-a|>r$ then $|z^{*}-a|<r$.
+	\item Always: $a,z,z^{*}$ are collinear and $|z-a|\cdot|z^{*}-a|=r^2$.
+\end{itemize}
+
+\paragraph{\textbf{TikZ diagram (schematic).}}
+\begin{center}
+	\begin{tikzpicture}[scale=1.0]
+		\coordinate (A) at (0,0);
+		\def\r{2.2}
+		
+		% circle
+		\draw[thick] (A) circle (\r);
+		\fill (A) circle (1.3pt) node[below left] {$a$};
+		
+		% point on circle (fixed)
+		\coordinate (Q) at (\r,0);
+		\fill (Q) circle (1.3pt) node[below] {$q$};
+		\node at (\r,0.35) {\footnotesize $q^{*}=q$};
+		
+		% choose a ray direction
+		\coordinate (Dir) at (4.2,1.0);
+		\draw[dashed] (A) -- (Dir);
+		
+		% inside point p and its image p*
+		\coordinate (P)  at (1.1,0.26);   % inside
+		\coordinate (Ps) at (3.6,0.86);   % outside (schematic position)
+		\fill (P)  circle (1.3pt) node[below right] {$p$};
+		\fill (Ps) circle (1.3pt) node[right] {$p^{*}$};
+		\draw[->,thick] (P) -- (Ps);
+		
+		% outside point z and its image z*
+		\coordinate (Z)  at (4.0,0.95);   % outside
+		\coordinate (Zs) at (0.95,0.23);  % inside (schematic position)
+		\fill (Z)  circle (1.3pt) node[above right] {$z$};
+		\fill (Zs) circle (1.3pt) node[left] {$z^{*}$};
+		\draw[->,thick] (Z) -- (Zs);
+		
+		% labels
+		\node at (0,-2.85) {\footnotesize $|w-a|\cdot|w^{*}-a|=r^{2}$ \quad and \quad $a,w,w^{*}$ collinear};
+		\node at (-2.6,1.9) {\footnotesize inside};
+		\node at ( 3.0,2.2) {\footnotesize outside};
+	\end{tikzpicture}
+\end{center}
+
+% =========================================================
+% Inversion: geometric (circle inversion) vs holomorphic (Möbius) inversion
+% =========================================================
+
+\subsection*{\textbf{Geometric inversion vs holomorphic inversion (modulus inverted; angle preserved vs negated)}}
+
+\paragraph{\textbf{Two maps that are both called “inversion”.}}
+Fix a circle $C=\{|z-a|=r\}$.
+
+\begin{itemize}
+	\item \textbf{Geometric (circle) inversion} in $C$:
+	\[
+	I_{a,r}(z)\;=\;a+\frac{r^{2}}{\overline{z-a}}
+	\qquad (z\neq a).
+	\]
+	This is the Euclidean inversion used in classical geometry (it is \emph{anti-holomorphic} because of $\overline{\phantom{z}}$).
+	
+	\item \textbf{Holomorphic (Möbius) “inversion”} about $a$ with radius $r$:
+	\[
+	J_{a,r}(z)\;=\;a+\frac{r^{2}}{z-a}
+	\qquad (z\neq a).
+	\]
+	This is a Möbius transformation (holomorphic on $\C\setminus\{a\}$).
+\end{itemize}
+
+\paragraph{\textbf{Polar form: what happens to modulus and argument.}}
+Write
+\[
+z-a=\rho e^{i\theta}\qquad(\rho>0).
+\]
+Then
+
+\begin{itemize}
+	\item For \textbf{geometric inversion}:
+	\[
+	I_{a,r}(z)-a=\frac{r^{2}}{\overline{\rho e^{i\theta}}}
+	=\frac{r^{2}}{\rho e^{-i\theta}}
+	=\frac{r^{2}}{\rho}\,e^{i\theta}.
+	\]
+	Hence
+	\[
+	|I_{a,r}(z)-a|=\frac{r^{2}}{|z-a|},\qquad
+	\arg\bigl(I_{a,r}(z)-a\bigr)=\arg(z-a)=\theta.
+	\]
+	So the \textbf{modulus is inverted} but the \textbf{argument is preserved}.
+	
+	\item For \textbf{holomorphic inversion}:
+	\[
+	J_{a,r}(z)-a=\frac{r^{2}}{\rho e^{i\theta}}
+	=\frac{r^{2}}{\rho}\,e^{-i\theta}.
+	\]
+	Hence
+	\[
+	|J_{a,r}(z)-a|=\frac{r^{2}}{|z-a|},\qquad
+	\arg\bigl(J_{a,r}(z)-a\bigr)=-\arg(z-a)=-\theta.
+	\]
+	So the \textbf{modulus is inverted} and the \textbf{argument is negated}.
+\end{itemize}
+
+\paragraph{\textbf{Relation between them: “reflection + geometric inversion”.}}
+Define reflection across the line through $a$ parallel to the real axis:
+\[
+R_a(z)=a+\overline{z-a}.
+\]
+Then
+\[
+J_{a,r}=R_a\circ I_{a,r}.
+\]
+Indeed, for $z\neq a$,
+\[
+(R_a\circ I_{a,r})(z)
+=a+\overline{\,I_{a,r}(z)-a\,}
+=a+\overline{\frac{r^{2}}{\overline{z-a}}}
+=a+\frac{r^{2}}{z-a}
+=J_{a,r}(z).
+\]
+
+% ---------------------------------------------------------
+% Chart: show angle preserved vs negated (drawn for a=0 for clarity)
+% ---------------------------------------------------------
+
+\subsection*{\textbf{Chart: angle preserved vs negated (picture for $a=0$, $r=1$)}}
+
+\paragraph{\textbf{Setup.}}
+For the diagram we take $a=0$, $r=1$. (The general case is obtained by translating by $a$ and scaling by $r$.)
+
+\paragraph{\textbf{Interpretation.}}
+If $z=\rho e^{i\theta}$:
+\[
+I_{0,1}(z)=\frac{1}{\overline{z}}=\frac{1}{\rho}e^{i\theta}
+\quad\text{(same ray, angle $\theta$),}\qquad
+J_{0,1}(z)=\frac{1}{z}=\frac{1}{\rho}e^{-i\theta}
+\quad\text{(reflected ray, angle $-\theta$).}
+\]
+
+\begin{center}
+	\begin{tikzpicture}[scale=1.2]
+		% axes
+		\draw[->] (-3.2,0) -- (3.2,0) node[right] {$\Re$};
+		\draw[->] (0,-2.4) -- (0,2.6) node[above] {$\Im$};
+		
+		% unit circle
+		\draw[thick] (0,0) circle (1.0);
+		\node at (1.25,1.05) {\footnotesize $|z|=1$};
+		
+		% choose a point z outside circle at angle theta
+		\coordinate (Z)  at (2.6,1.1);      % z = rho e^{i theta}
+		\coordinate (I)  at (0.85,0.36);    % I(z) = 1/conj(z) (same angle)
+		\coordinate (J)  at (0.85,-0.36);   % J(z) = 1/z (angle negated)
+		
+		% rays
+		\draw[dashed] (0,0) -- (Z);
+		\draw[dashed] (0,0) -- (J);
+		
+		% points
+		\fill (Z) circle (1.2pt) node[right] {$z=\rho e^{i\theta}$};
+		\fill (I) circle (1.2pt) node[above right] {$I_{0,1}(z)=\frac{1}{\overline{z}}=\frac{1}{\rho}e^{i\theta}$};
+		\fill (J) circle (1.2pt) node[below right] {$J_{0,1}(z)=\frac{1}{z}=\frac{1}{\rho}e^{-i\theta}$};
+		
+		% arrows showing mapping
+		\draw[->,thick] (Z) to[bend left=18] (I);
+		\draw[->,thick] (Z) to[bend right=18] (J);
+		
+		% small angle marks (schematic)
+		\draw (0.6,0) arc[start angle=0,end angle=23,radius=0.6];
+		\node at (0.8,0.18) {\footnotesize $\theta$};
+		
+		\draw (0.6,0) arc[start angle=0,end angle=-23,radius=0.6];
+		\node at (0.82,-0.22) {\footnotesize $-\theta$};
+		
+		% caption
+		\node at (0,-2.05) {\footnotesize geometric inversion keeps the ray; holomorphic inversion reflects the ray};
+	\end{tikzpicture}
+\end{center}
+
+% =========================================================
+% Three “inversion” maps: 1/z, geometric circle inversion, holomorphic circle inversion
+% =========================================================
+
+\subsection*{\textbf{Three common “inversions” in complex analysis and geometry}}
+
+\paragraph{\textbf{(A) The basic Möbius inversion (unit-circle inversion).}}
+\[
+J(z)=\frac{1}{z}\qquad (z\neq 0).
+\]
+If $z=\rho e^{i\theta}$, then
+\[
+J(z)=\frac{1}{\rho}e^{-i\theta},
+\qquad
+|J(z)|=\frac{1}{|z|},\qquad \arg J(z)=-\arg z.
+\]
+It fixes the unit circle: if $|z|=1$ then $|J(z)|=1$.
+
+\paragraph{\textbf{(B) Geometric inversion in the circle $|z-a|=r$ (anti-holomorphic).}}
+\[
+I_{a,r}(z)=a+\frac{r^{2}}{\overline{z-a}}\qquad (z\neq a).
+\]
+Write $z-a=\rho e^{i\theta}$, then
+\[
+I_{a,r}(z)-a=\frac{r^{2}}{\rho}e^{i\theta},
+\qquad
+|I_{a,r}(z)-a|=\frac{r^{2}}{|z-a|},\qquad
+\arg\bigl(I_{a,r}(z)-a\bigr)=\arg(z-a).
+\]
+Thus it inverts the radius but \emph{preserves} the argument (same ray from $a$). It fixes the circle $|z-a|=r$ pointwise.
+
+\paragraph{\textbf{(C) Holomorphic “circle inversion” (a Möbius map).}}
+\[
+H_{a,r}(z)=a+\frac{r^{2}}{z-a}\qquad (z\neq a).
+\]
+Write $z-a=\rho e^{i\theta}$, then
+\[
+H_{a,r}(z)-a=\frac{r^{2}}{\rho}e^{-i\theta},
+\qquad
+|H_{a,r}(z)-a|=\frac{r^{2}}{|z-a|},\qquad
+\arg\bigl(H_{a,r}(z)-a\bigr)=-\arg(z-a).
+\]
+Thus it inverts the radius and \emph{negates} the argument (reflection of the ray). It preserves the circle $|z-a|=r$ as a set (not pointwise).
+
+\paragraph{\textbf{Relationship between (B) and (C).}}
+Let
+\[
+R_a(z)=a+\overline{z-a}
+\]
+be reflection across the horizontal line through $a$. Then
+\[
+H_{a,r}=R_a\circ I_{a,r}.
+\]
+
+% ---------------------------------------------------------
+% Table summary
+% ---------------------------------------------------------
+
+\subsection*{\textbf{Summary table}}
+
+\begin{center}
+	\renewcommand{\arraystretch}{1.25}
+	\begin{tabular}{|l|l|l|l|}
+		\hline
+		\textbf{Name} & \textbf{Formula} & \textbf{Modulus rule} & \textbf{Angle rule} \\
+		\hline
+		Unit Möbius inversion & $J(z)=\dfrac1z$ &
+		$\left|J(z)\right|=\dfrac{1}{|z|}$ &
+		$\arg J(z)= -\arg z$ \\
+		\hline
+		Geometric circle inversion & $I_{a,r}(z)=a+\dfrac{r^2}{\overline{z-a}}$ &
+		$\left|I_{a,r}(z)-a\right|=\dfrac{r^2}{|z-a|}$ &
+		$\arg(I_{a,r}(z)-a)=\arg(z-a)$ \\
+		\hline
+		Holomorphic circle inversion & $H_{a,r}(z)=a+\dfrac{r^2}{z-a}$ &
+		$\left|H_{a,r}(z)-a\right|=\dfrac{r^2}{|z-a|}$ &
+		$\arg(H_{a,r}(z)-a)= -\arg(z-a)$ \\
+		\hline
+	\end{tabular}
+\end{center}
+
+	% =========================================================
+	% Inversion inside Möbius maps: 1/z, r^2/z, a+r^2/(z-a), and the geometric circle inversion
+	% =========================================================
+	
+	\subsection*{\textbf{Inversion as a Möbius transformation (and its geometric cousin)}}
+	
+	\paragraph{\textbf{Möbius transformations.}}
+	A Möbius map is
+	\[
+	f(z)=\frac{Az+B}{Cz+D},\qquad AD-BC\neq 0,
+	\]
+	and it is represented (projectively) by the matrix
+	\[
+	\begin{pmatrix}A & B\\ C & D\end{pmatrix}
+	\quad\text{in } PSL(2,\C).
+	\]
+	
+	\subsection*{\textbf{1) Where is the simple inversion $1/z$ in Möbius form?}}
+	Take
+	\[
+	f(z)=\frac{0\cdot z+1}{1\cdot z+0}=\frac{1}{z}.
+	\]
+	So $1/z$ corresponds to the matrix
+	\[
+	\begin{pmatrix}0 & 1\\ 1 & 0\end{pmatrix}
+	\quad\text{(in } PSL(2,\C)\text{).}
+	\]
+	
+	\subsection*{\textbf{2) Where is the “radius-$r$” holomorphic inversion $r^{2}/z$?}}
+	Just scale:
+	\[
+	f(z)=\frac{0\cdot z+r^{2}}{1\cdot z+0}=\frac{r^{2}}{z},
+	\qquad
+	\begin{pmatrix}0 & r^{2}\\ 1 & 0\end{pmatrix}.
+	\]
+	
+	\subsection*{\textbf{3) Where is the shifted version $a+\dfrac{r^{2}}{z-a}$?}}
+	
+	\paragraph{\textbf{Conjugation by translations.}}
+	Let $T_a(z)=z+a$. Starting from $r^{2}/z$ we obtain
+	\[
+	H_{a,r}(z)=a+\frac{r^{2}}{z-a}
+	= T_a\circ\left(\frac{r^{2}}{z}\right)\circ T_{-a}(z).
+	\]
+	
+	\paragraph{\textbf{As an explicit fraction $(Az+B)/(Cz+D)$.}}
+	Compute:
+	\[
+	H_{a,r}(z)=a+\frac{r^{2}}{z-a}
+	=\frac{a(z-a)+r^{2}}{z-a}
+	=\frac{az+(r^{2}-a^{2})}{z-a}.
+	\]
+	Therefore, matching with $\dfrac{Az+B}{Cz+D}$, we read off
+	\[
+	A=a,\qquad B=r^{2}-a^{2},\qquad C=1,\qquad D=-a,
+	\]
+	and hence
+	\[
+	H_{a,r}(z)\ \longleftrightarrow\
+	\begin{pmatrix}
+		a & r^{2}-a^{2}\\[2pt]
+		1 & -a
+	\end{pmatrix},
+	\qquad
+	\det=
+	a(-a)-(r^{2}-a^{2})\cdot 1=-r^{2}\neq 0.
+	\]
+	
+	\subsection*{\textbf{4) What about geometric circle inversion $a+\dfrac{r^{2}}{\overline{z-a}}$?}}
+	
+	\paragraph{\textbf{Not Möbius (anti-holomorphic).}}
+	The geometric circle inversion is
+	\[
+	I_{a,r}(z)=a+\frac{r^{2}}{\overline{z-a}},
+	\]
+	and it is \emph{not} Möbius because it depends on $\overline{z}$ (it is anti-holomorphic).
+	
+	\paragraph{\textbf{But it becomes Möbius after composing with a reflection.}}
+	Let
+	\[
+	R_a(z)=a+\overline{z-a}
+	\]
+	(reflection across the horizontal line through $a$). Then
+	\[
+	H_{a,r}=R_a\circ I_{a,r}.
+	\]
+	
+	% =========================================================
+	% Opposite direction: from (A,B,C,D) to factorization and to H_{a,r}-form
+	% =========================================================
+	
+	\subsection*{\textbf{Opposite direction: starting from $(A,B,C,D)$}}
+	
+	\paragraph{\textbf{(I) Universal factorization when $C\neq 0$.}}
+	Assume $C\neq 0$. Define
+	\[
+	\alpha=\frac{A}{C},\qquad
+	\delta=\frac{D}{C},\qquad
+	\beta=\frac{BC-AD}{C^{2}}.
+	\]
+	Then the identity
+	\[
+	\frac{Az+B}{Cz+D}=\alpha+\frac{\beta}{z+\delta}
+	\]
+	holds. Consequently,
+	\[
+	f=T_{\alpha}\circ S_{\beta}\circ J\circ T_{\delta},
+	\qquad
+	T_t(z)=z+t,\quad S_\lambda(z)=\lambda z,\quad J(z)=\frac{1}{z}.
+	\]
+	
+	\paragraph{\textbf{(II) The affine case $C=0$.}}
+	If $C=0$, then
+	\[
+	f(z)=\frac{Az+B}{D}=\left(\frac{A}{D}\right)z+\left(\frac{B}{D}\right),
+	\]
+	so $f$ is just a similarity plus a translation.
+	
+	\paragraph{\textbf{(III) When is $f$ of the special form $H_{a,r}(z)=a+\dfrac{r^{2}}{z-a}$?}}
+	Assume $C\neq 0$. The map $f(z)=\dfrac{Az+B}{Cz+D}$ is of the form
+	\[
+	H_{a,r}(z)=a+\frac{r^{2}}{z-a}
+	\]
+	(up to an overall nonzero scalar in the coefficients) exactly when
+	\[
+	A=-D.
+	\]
+	In that case one can set
+	\[
+	a=\frac{A}{C}=-\frac{D}{C},
+	\qquad
+	r^{2}=\frac{BC-AD}{C^{2}},
+	\]
+	and then indeed
+	\[
+	\frac{Az+B}{Cz+D}=a+\frac{r^{2}}{z-a}.
+	\]
+	
+	
+	% =========================================================
+	% How the Möbius/inversion discussion relates to Exercise 2(ii)
+	% =========================================================
+	
+	\subsection*{\textbf{How this relates to the exercise: why (i) $\Rightarrow$ (ii)}}
+	
+	\paragraph{\textbf{Goal of (ii).}}
+	We want to prove: every Möbius map
+	\[
+	f(z)=\frac{Az+B}{Cz+D}\qquad(AD-BC\neq 0)
+	\]
+	is a composition of inversions (in circles/lines).
+	
+	\paragraph{\textbf{Step 1: (i) provides the explicit inversion map.}}
+	From (i), inversion in the circle $|z-a|=r$ is the map
+	\[
+	I_{a,r}(z)=a+\frac{r^{2}}{\overline{z-a}}.
+	\]
+	This is a genuine Euclidean circle inversion: it sends $z$ to the unique point $z^{*}$ on the ray from $a$ through $z$
+	such that $|z-a|\cdot|z^{*}-a|=r^{2}$.
+	
+	\paragraph{\textbf{Step 2: reduce an arbitrary Möbius map to generators.}}
+	If $C\neq 0$, define
+	\[
+	\alpha=\frac{A}{C},\qquad
+	\delta=\frac{D}{C},\qquad
+	\beta=\frac{BC-AD}{C^{2}}.
+	\]
+	Then one checks the identity
+	\[
+	\frac{Az+B}{Cz+D}=\alpha+\frac{\beta}{z+\delta}.
+	\]
+	Hence, writing
+	\[
+	T_t(z)=z+t,\qquad S_\lambda(z)=\lambda z,\qquad J(z)=\frac{1}{z},
+	\]
+	we obtain the factorization
+	\[
+	f \;=\; T_{\alpha}\circ S_{\beta}\circ J\circ T_{\delta}.
+	\]
+	If $C=0$, then $f(z)=\left(\frac{A}{D}\right)z+\left(\frac{B}{D}\right)$ is already a similarity plus translation.
+	
+	\paragraph{\textbf{Step 3: realize each generator as a composition of inversions.}}
+	We allow inversions in circles and also in lines (lines are circles through $\infty$, i.e.\ reflections).
+	
+	\begin{itemize}
+		\item \textbf{The inversion $J(z)=1/z$ is a composition of inversions.}
+		By (i), inversion in the unit circle is
+		\[
+		I_{0,1}(z)=\frac{1}{\overline{z}}.
+		\]
+Reflection in the real axis is the line inversion
+\[
+R_{\mathbb{R}}(z)=\overline{z}.
+\]
+Therefore
+\[
+R_{\mathbb{R}}\circ I_{0,1}(z)=\overline{\left(\frac{1}{\overline{z}}\right)}=\frac{1}{z}=J(z),
+\]
+so $J$ is the composition of a circle inversion and a line inversion
+		
+		\item \textbf{Translations are compositions of two line inversions.}
+		Reflection in the vertical line $x=c$ is
+		\[
+		R_{x=c}(z)=2c-\overline{z}.
+		\]
+		Hence for real $t$,
+		\[
+		R_{x=t/2}\circ R_{x=0}(z)=z+t.
+		\]
+		Thus $T_t$ is a composition of two line inversions (and similarly for any complex translation by choosing parallel lines).
+		
+		\item \textbf{Positive scalings are compositions of two circle inversions.}
+		Inversion in $|z|=r$ is $I_{0,r}(z)=r^{2}/\overline{z}$, so
+		\[
+		I_{0,r_2}\circ I_{0,r_1}(z)=\frac{r_2^2}{r_1^2}\,z.
+		\]
+		Thus $S_\lambda$ with $\lambda>0$ is a composition of two circle inversions. Rotations are compositions of two line inversions,
+		so arbitrary nonzero complex scalings are obtained by combining these.
+	\end{itemize}
+	
+	\paragraph{\textbf{Conclusion.}}
+	Every Möbius map factors into translations, scalings/rotations, and $J(z)=1/z$, and each of these is a composition of inversions.
+	Therefore every Möbius map is a composition of inversions, proving (ii).
+	
+	% =========================================================
+	% Problem 4
+	% =========================================================
+	\subsection*{Problem 4 (Hyperbolic distance as a cross--ratio)}
+	
+	\paragraph{Problem statement.}
+	Let $z_1,z_2$ be distinct points in the upper half plane $\H$.
+	Suppose that the hyperbolic line through $z_1$ and $z_2$ meets the real axis
+	at points $w_1$ and $w_2$, where $z_1$ lies on the hyperbolic line segment
+	$w_1 z_2$ (and where one $w_i$ may be $\infty$).
+	Show that the hyperbolic distance
+	\[
+	d_{\hyp}(z_1,z_2)=\log r,
+	\]
+	where $r$ is the cross-ratio of the four points $z_1,z_2,w_1,w_2$ taken in an
+	appropriate order.
+	
+	\paragraph{Theory (what we use).}
+	\begin{enumerate}
+		\item In the upper half-plane model, the hyperbolic metric is
+		\[
+		ds=\frac{|dz|}{\Im z},
+		\qquad
+		dA=\frac{dx\,dy}{y^2}\quad (z=x+iy).
+		\]
+		\item The orientation-preserving isometries of $(\H,ds)$ are exactly the Möbius
+		transformations with real coefficients:
+		\[
+		T(z)=\frac{az+b}{cz+d},\qquad a,b,c,d\in\R,\ ad-bc=1,
+		\]
+		i.e.\ $T\in \PSL(2,\R)$.
+		\item The cross-ratio of four (possibly extended) complex numbers is
+		\[
+		[a,b,c,d]=\frac{(a-c)(b-d)}{(a-d)(b-c)},
+		\]
+		and it is invariant under Möbius transformations:
+		\[
+		[T(a),T(b),T(c),T(d)]=[a,b,c,d].
+		\]
+	\end{enumerate}
+	
+	\paragraph{Solution.}
+	Let $\gamma$ be the (unique) hyperbolic geodesic through $z_1$ and $z_2$.
+	It is either a vertical line or a semicircle orthogonal to $\R$, and it meets
+	$\R\cup\{\infty\}$ at the endpoints $w_1,w_2$.
+	
+	Choose an isometry $T\in \PSL(2,\R)$ such that
+	\[
+	T(w_1)=0,\qquad T(w_2)=\infty.
+	\]
+	Then $T(\gamma)$ is the imaginary axis, so we can write
+	\[
+	T(z_1)=i y_1,\qquad T(z_2)=i y_2
+	\quad\text{for some }y_1,y_2>0.
+	\]
+	Because $z_1$ lies on the hyperbolic segment from $w_1$ to $z_2$ along $\gamma$,
+	the order along $\gamma$ is $w_1,\ z_1,\ z_2,\ w_2$, hence on the imaginary axis
+	we have $0,\ i y_1,\ i y_2,\ \infty$ with $0<y_1<y_2$.
+	
+	\medskip
+	\noindent\textbf{Step 1: distance on the imaginary axis.}
+	Along the curve $z(t)=it$ (so $dz=i\,dt$ and $\Im z=t$),
+	\[
+	d_{\hyp}(i y_1,i y_2)=\int_{y_1}^{y_2}\frac{|dz|}{\Im z}
+	=\int_{y_1}^{y_2}\frac{dt}{t}
+	=\log\!\left(\frac{y_2}{y_1}\right).
+	\]
+	
+	\medskip
+	\noindent\textbf{Step 2: identify the cross-ratio.}
+	Consider the cross-ratio with the order
+	\[
+	r=[w_1,z_1,z_2,w_2]
+	=\frac{(w_1-z_2)(z_1-w_2)}{(w_1-w_2)(z_1-z_2)}
+	\quad\text{(any equivalent cross-ratio formula is fine)}.
+	\]
+	By Möbius invariance,
+	\[
+	r=[T(w_1),T(z_1),T(z_2),T(w_2)]=[0, i y_1, i y_2, \infty].
+	\]
+	Using the standard limiting rule for $\infty$, one finds
+	\[
+	[0, i y_1, i y_2, \infty]
+	=\frac{i y_2}{i y_1}
+	=\frac{y_2}{y_1}>1.
+	\]
+	Therefore
+	\[
+	\log r=\log\!\left(\frac{y_2}{y_1}\right)=d_{\hyp}(i y_1,i y_2).
+	\]
+	
+	\medskip
+	\noindent\textbf{Step 3: return to the original points.}
+	Since $T$ is an isometry,
+	\[
+	d_{\hyp}(z_1,z_2)=d_{\hyp}(T(z_1),T(z_2))=d_{\hyp}(i y_1,i y_2)=\log r.
+	\]
+	This proves the claim.
+	
+	\paragraph{Example.}
+	Take $z_1=i$ and $z_2=2i$. The geodesic is the imaginary axis, with endpoints
+	$w_1=0$ and $w_2=\infty$. Then
+	\[
+	r=[0,i,2i,\infty]=\frac{2i}{i}=2,
+	\qquad
+	d_{\hyp}(i,2i)=\log 2.
+	\]
+	
+	% =========================================================
+	% Problem 5
+	% =========================================================
+	\subsection*{Problem 5 (Circles in spherical and hyperbolic geometry)}
+	
+	\paragraph{Problem statement.}
+	\begin{enumerate}
+		\item Let $P\in S^2\subset\R^3$ be a point on the round sphere.
+		The spherical circle with centre $P$ and radius $\rho$ is the set
+		\[
+		\{\,w\in S^2 \mid d_{\sph}(w,P)=\rho\,\},
+		\]
+		where $d_{\sph}$ is the spherical metric (induced by the first fundamental form
+		of the embedding).
+		Prove that a spherical circle of radius $\rho$ is a Euclidean circle.
+		Prove that its circumference is $2\pi\sin(\rho)$ and that it bounds a disc on
+		$S^2$ of area $2\pi(1-\cos(\rho))$.
+		
+		\item Let $C\subset\H$ be a hyperbolic circle with centre $p\in\H$ and radius $\rho$,
+		i.e.\ the locus
+		\[
+		\{\,w\in\H \mid d_{\hyp}(w,p)=\rho\,\}
+		\quad\text{for some }\rho>0.
+		\]
+		Show that $C$ is a Euclidean circle. If $p=ic$ for $c\in\R_{>0}$, find the centre
+		and radius of $C$ as a Euclidean circle.
+		Show the hyperbolic circumference of $C$ is $2\pi\sinh(\rho)$, and the hyperbolic
+		area of the disc it bounds is $2\pi(\cosh(\rho)-1)$.
+		Deduce that no hyperbolic triangle contains a hyperbolic circle of radius
+		$>\cosh^{-1}(3/2)$.
+		
+		\item Show that there is some $\delta>0$ such that, in any hyperbolic triangle,
+		the union of the $\delta$-neighbourhoods of two of the sides completely contains
+		the third side. (Does such a $\delta$ exist for triangles in the Euclidean plane?)
+	\end{enumerate}
+	
+	\paragraph{(a) Theory.}
+	The round unit sphere $S^2\subset\R^3$ has constant curvature $+1$.
+	Great circles are geodesics, and spherical distance is the angle between radius
+	vectors. Rotations of $\R^3$ act by isometries of $(S^2,d_{\sph})$.
+	
+	\paragraph{(a) Solution.}
+	By a rotation, assume $P$ is the north pole:
+	\[
+	P=(0,0,1).
+	\]
+	Write a point $w\in S^2$ in spherical coordinates as
+	\[
+	w=(\sin\theta\cos\varphi,\ \sin\theta\sin\varphi,\ \cos\theta),
+	\]
+	where $\theta\in[0,\pi]$ is the colatitude (angle from the north pole).
+	On the unit sphere, the spherical distance from $P$ to $w$ equals $\theta$:
+	\[
+	d_{\sph}(w,P)=\theta.
+	\]
+	Hence the spherical circle of radius $\rho$ is given by $\theta=\rho$, i.e.
+	\[
+	w=(\sin\rho\cos\varphi,\ \sin\rho\sin\varphi,\ \cos\rho),
+	\qquad \varphi\in[0,2\pi).
+	\]
+	This set is exactly the intersection of $S^2$ with the plane $z=\cos\rho$.
+	Therefore it is a Euclidean circle of radius $\sin\rho$ in that plane.
+	
+	Its Euclidean circumference is
+	\[
+	\operatorname{length}=2\pi(\sin\rho).
+	\]
+	
+	The region on $S^2$ bounded by this circle is the spherical cap
+	\[
+	\{\,(\theta,\varphi)\mid 0\le \theta\le \rho,\ 0\le \varphi<2\pi\,\}.
+	\]
+	Using the area element on $S^2$ in spherical coordinates,
+	\[
+	dA=\sin\theta\,d\theta\,d\varphi,
+	\]
+	the area is
+	\[
+	\operatorname{area}
+	=\int_0^{2\pi}\int_0^\rho \sin\theta\,d\theta\,d\varphi
+	=2\pi(1-\cos\rho).
+	\]
+	
+	\paragraph{(a) Example.}
+	For $\rho=\pi/2$ the set is the equator ($z=0$), a Euclidean circle of radius $1$.
+	Its circumference is $2\pi\sin(\pi/2)=2\pi$ and the spherical cap area is
+	$2\pi(1-\cos(\pi/2))=2\pi$ (a hemisphere).
+	
+	% ---------------------------------------------------------
+	\paragraph{(b) Theory.}
+	In the upper half-plane model, a useful distance formula is
+	\[
+	\cosh d_{\hyp}(z,w)
+	=1+\frac{|z-w|^2}{2\,\Im z\,\Im w}.
+	\]
+	Geodesic polar coordinates around a point give the metric
+	\[
+	ds^2=d\rho^2+\sinh^2(\rho)\,d\theta^2,
+	\]
+	so circles of hyperbolic radius $\rho$ have length $2\pi\sinh\rho$ and disks have
+	area $2\pi(\cosh\rho-1)$.
+	
+	\paragraph{(b) Solution: Euclidean centre/radius when $p=ic$.}
+	Let $p=ic$ with $c>0$, and write $w=x+iy$ with $y>0$.
+	The condition $d_{\hyp}(w,ic)=\rho$ is equivalent to
+	\[
+	\cosh\rho
+	=1+\frac{|w-ic|^2}{2\,(\Im w)(\Im(ic))}
+	=1+\frac{x^2+(y-c)^2}{2yc}.
+	\]
+	Rearrange:
+	\[
+	x^2+(y-c)^2 = 2yc(\cosh\rho-1).
+	\]
+	Expand and collect terms:
+	\[
+	x^2+y^2-2cy+c^2 = 2yc(\cosh\rho-1)
+	\quad\Longrightarrow\quad
+	x^2+y^2-2c(\cosh\rho)\,y+c^2=0.
+	\]
+	Complete the square in $y$:
+	\[
+	x^2+\bigl(y-c\cosh\rho\bigr)^2
+	= c^2\sinh^2\rho.
+	\]
+	Thus $C$ is a Euclidean circle with
+	\[
+	\text{Euclidean centre }(0,\ c\cosh\rho),
+	\qquad
+	\text{Euclidean radius }c\sinh\rho.
+	\]
+	
+	\paragraph{(b) Hyperbolic circumference and area.}
+	In hyperbolic polar coordinates $(\rho,\theta)$ around the centre, the metric is
+	\[
+	ds^2=d\rho^2+\sinh^2(\rho)\,d\theta^2.
+	\]
+	Fixing $\rho$ gives a circle with line element $ds=\sinh(\rho)\,d\theta$, hence
+	\[
+	\operatorname{length}(\partial D_\rho)
+	=\int_0^{2\pi}\sinh(\rho)\,d\theta
+	=2\pi\sinh(\rho).
+	\]
+	The area element is $dA=\sinh(t)\,dt\,d\theta$, so
+	\[
+	\operatorname{area}(D_\rho)
+	=\int_0^{2\pi}\int_0^\rho \sinh(t)\,dt\,d\theta
+	=2\pi(\cosh\rho-1).
+	\]
+	
+	\paragraph{(b) Deduction about triangles.}
+	For a hyperbolic triangle with angles $\alpha,\beta,\gamma$, Gauss--Bonnet gives
+	\[
+	\operatorname{area}(\triangle)=\pi-(\alpha+\beta+\gamma)<\pi.
+	\]
+	If a triangle contained a hyperbolic disk of radius $r$, then
+	\[
+	\pi>\operatorname{area}(\triangle)\ge \operatorname{area}(D_r)=2\pi(\cosh r-1),
+	\]
+	hence $\cosh r-1<\tfrac12$, i.e.\ $\cosh r<\tfrac32$.
+	Therefore
+	\[
+	r<\cosh^{-1}\!\left(\frac32\right),
+	\]
+	so no hyperbolic triangle contains a hyperbolic circle of radius
+	$>\cosh^{-1}(3/2)$.
+	
+	\paragraph{(b) Example.}
+	If $p=2i$ and $\rho=1$, then the Euclidean circle has centre
+	$(0,2\cosh 1)$ and radius $2\sinh 1$.
+	
+	% ---------------------------------------------------------
+	\paragraph{(c) Solution (thin triangles and a concrete constant).}
+	There exists a universal constant $\delta>0$ such that every geodesic triangle in
+	$\H$ is \emph{$\delta$-thin}: each side is contained in the $\delta$-neighbourhood
+	of the union of the other two sides. Equivalently, for any hyperbolic triangle,
+	the union of the $\delta$-neighbourhoods of two sides contains the third side.
+	
+	A sharp choice (for curvature $-1$) is
+	\[
+	\delta=\arsinh(1)=\log(1+\sqrt2).
+	\]
+	
+	\medskip
+	\noindent\textbf{Sketch of why this works.}
+	Given any hyperbolic triangle, extend its sides to an \emph{ideal triangle} (with
+	vertices on $\partial\H=\R\cup\{\infty\}$) whose sides contain the original ones.
+	Distances to the union of the other sides can only increase in the ideal case,
+	so it suffices to bound the thickness of ideal triangles.
+	
+	By an isometry in $\PSL(2,\R)$, any ideal triangle is congruent to the standard
+	ideal triangle with vertices $0,1,\infty$.
+	Its sides are the geodesics
+	\[
+	L_0:\ x=0,\qquad L_1:\ x=1,\qquad L_2:\ (x-\tfrac12)^2+y^2=\tfrac14.
+	\]
+	Consider points on $L_0$, namely $z=iy$ with $y>0$.
+	One computes (using standard distance-to-geodesic formulas, or by mapping $L_2$
+	to the imaginary axis via $z\mapsto \frac{z}{1-z}$) that
+	\[
+	d_{\hyp}(iy,L_1)=\arsinh\!\left(\frac1y\right),
+	\qquad
+	d_{\hyp}(iy,L_2)=\arsinh(y).
+	\]
+	Hence the distance from $iy$ to the union $L_1\cup L_2$ is
+	\[
+	d_{\hyp}\bigl(iy,\,L_1\cup L_2\bigr)
+	=\min\!\left\{\arsinh\!\left(\frac1y\right),\ \arsinh(y)\right\}
+	\le \arsinh(1).
+	\]
+	The maximum occurs at $y=1$, giving
+	\[
+	\sup_{y>0}\ d_{\hyp}\bigl(iy,\,L_1\cup L_2\bigr)=\arsinh(1)=\log(1+\sqrt2).
+	\]
+	By symmetry the same bound holds for the other sides, so the standard ideal
+	triangle is $\delta$-thin with $\delta=\arsinh(1)$, and therefore \emph{every}
+	hyperbolic triangle is $\delta$-thin.
+	
+	\medskip
+	\noindent\textbf{Euclidean comparison.}
+	No such universal $\delta$ exists in the Euclidean plane: scaling an equilateral
+	triangle by a large factor scales all distances, so any fixed $\delta$ fails for
+	sufficiently large triangles.
+	
+	% =========================
+	% Figures for Problems 4–5
+	% =========================
+	% Preamble requirements (add once in your preamble):
+	% \usepackage{tikz}
+	% \usepackage{pgfplots}
+	% \pgfplotsset{compat=1.18}
+	% \usetikzlibrary{calc,arrows.meta,angles,quotes}
+	
+	% ---------------------------------------------------------
+	% Figure 4A: Geodesic in H with endpoints w1,w2 and points z1,z2
+	% ---------------------------------------------------------
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}
+			\begin{axis}[
+				axis lines=middle,
+				xmin=-0.4, xmax=2.4,
+				ymin=-0.1, ymax=1.3,
+				xlabel={$x$}, ylabel={$y$},
+				ticks=none,
+				width=11cm, height=5.5cm,
+				clip=false
+				]
+				% Parameters for a semicircle orthogonal to R:
+				% center (a,0), radius R
+				\def\a{1.0}
+				\def\R{1.0}
+				
+				% Endpoints on the real axis
+				\addplot[domain=-0.4:2.4, samples=2] ({x}, {0});
+				\node[below] at (axis cs:{\a-\R},0) {$w_1$};
+				\node[below] at (axis cs:{\a+\R},0) {$w_2$};
+				
+				% Semicircle geodesic: (x-a)^2 + y^2 = R^2, y>=0
+				\addplot[domain=0:180, samples=300] ({\a+\R*cos(x)}, {\R*sin(x)});
+				
+				% Two points on the geodesic (chosen by angles on the circle)
+				% angle 150 deg -> closer to w1; angle 60 deg -> closer to w2
+				\def\thOne{150}
+				\def\thTwo{60}
+				\coordinate (Z1) at (axis cs:{\a+\R*cos(\thOne)}, {\R*sin(\thOne)});
+				\coordinate (Z2) at (axis cs:{\a+\R*cos(\thTwo)}, {\R*sin(\thTwo)});
+				\coordinate (W1) at (axis cs:{\a-\R},0);
+				\coordinate (W2) at (axis cs:{\a+\R},0);
+				
+				% Mark points
+				\fill (W1) circle (1.5pt);
+				\fill (W2) circle (1.5pt);
+				\fill (Z1) circle (1.7pt);
+				\fill (Z2) circle (1.7pt);
+				
+				\node[above left]  at (Z1) {$z_1$};
+				\node[above right] at (Z2) {$z_2$};
+				
+				% Indicate the order along the geodesic: w1, z1, z2, w2
+				\draw[-{Latex[length=2mm]}, thick]
+				(axis cs:{\a+\R*cos(175)}, {\R*sin(175)})
+				to[bend left=10]
+				(axis cs:{\a+\R*cos(5)}, {\R*sin(5)});
+				\node at (axis cs:1.0,1.15) {\small order: $w_1 \to z_1 \to z_2 \to w_2$};
+				
+				% Optional: a label for the cross-ratio
+				\node at (axis cs:1.0,0.15) {\small $r=[w_1,z_1,z_2,w_2]$};
+				
+			\end{axis}
+		\end{tikzpicture}
+		\caption{Problem 4: A hyperbolic geodesic in $\H$ is a semicircle orthogonal to $\R$ with endpoints $w_1,w_2$. The correct ordering gives a cross-ratio $r>1$ and $d_{\hyp}(z_1,z_2)=\log r$.}
+	\end{figure}
+	
+	% ---------------------------------------------------------
+	% Figure 5A: Spherical circle as a plane cut (cross-section diagram)
+	% ---------------------------------------------------------
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=3, line cap=round, line join=round]
+			% Parameters: spherical radius rho (colatitude)
+			\def\rhoDeg{45} % edit: rho in degrees for the picture
+			
+			% Unit circle cross-section in the x-z plane
+			\draw[thick] (0,0) circle (1); % treat as x-z plane: x horizontal, z vertical
+			
+			% Axes
+			\draw[-{Latex[length=2mm]}] (-1.2,0) -- (1.2,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}] (0,-0.2) -- (0,1.2) node[above] {$z$};
+			
+			% North pole P and center O
+			\coordinate (O) at (0,0);
+			\coordinate (P) at (0,1);
+			
+			\fill (O) circle (0.6pt) node[below left] {$O$};
+			\fill (P) circle (0.8pt) node[above] {$P$};
+			
+			% Point at colatitude rho on the sphere (in this cross-section)
+			\coordinate (Q) at ({sin(\rhoDeg)},{cos(\rhoDeg)});
+			\fill (Q) circle (0.8pt) node[right] {$w$};
+			
+			% Draw the radius vectors and the angle rho
+			\draw[thick] (O) -- (P);
+			\draw[thick] (O) -- (Q);
+			\pic[draw, ->, "$\rho$", angle radius=0.35, angle eccentricity=1.3] {angle=P--O--Q};
+			
+			% Plane z = cos rho intersects sphere: in this cross-section it's a horizontal line at z=cos rho
+			\draw[dashed] (-1.1,{cos(\rhoDeg)}) -- (1.1,{cos(\rhoDeg)})
+			node[right] {\small $z=\cos\rho$};
+			
+			% Show that the Euclidean radius in that plane is sin rho (in cross-section it's the x-coordinate)
+			\draw[very thick] (0,{cos(\rhoDeg)}) -- ({sin(\rhoDeg)},{cos(\rhoDeg)})
+			node[midway, above] {\small $\sin\rho$};
+			
+			% Also show the height cos rho
+			\draw[very thick] (0,0) -- (0,{cos(\rhoDeg)})
+			node[midway, left] {\small $\cos\rho$};
+			
+		\end{tikzpicture}
+		\caption{Problem 5(a): In a meridian cross-section, the spherical circle of radius $\rho$ (center $P$) is the intersection of $S^2$ with the plane $z=\cos\rho$, hence a Euclidean circle of radius $\sin\rho$.}
+	\end{figure}
+	
+% ---------------------------------------------------------
+% Figure 5B (COLOR): Hyperbolic circle in H (center p=ic) is a Euclidean circle
+% ---------------------------------------------------------
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			axis lines=middle,
+			xmin=-2.2, xmax=2.2,
+			ymin=-0.1, ymax=3.2,
+			xlabel={$x$}, ylabel={$y$},
+			ticks=none,
+			width=11cm, height=6cm,
+			clip=false
+			]
+			% Parameters
+			\def\c{1.0}
+			\def\rho{1.0}
+			
+			% Precomputed for rho=1 (drawing only)
+			\def\coshR{1.54308}
+			\def\sinhR{1.17520}
+			
+			% Coordinates
+			\coordinate (P) at (axis cs:0,\c);
+			\coordinate (E) at (axis cs:0,{(\c*\coshR)});
+			\coordinate (A) at (axis cs:{(\c*\sinhR)},{(\c*\coshR)});
+			
+			% Fill disk
+			\addplot[
+			domain=0:360, samples=400,
+			draw=none,
+			fill=cyan!18, fill opacity=0.30
+			]
+			({(\c*\sinhR)*cos(x)}, {(\c*\coshR) + (\c*\sinhR)*sin(x)}) -- cycle;
+			
+			% Boundary circle
+			\addplot[
+			domain=0:360, samples=500,
+			very thick, blue!70!black
+			]
+			({(\c*\sinhR)*cos(x)}, {(\c*\coshR) + (\c*\sinhR)*sin(x)});
+			
+			% Radius segment + label (moved)
+			\draw[very thick, orange!80!black] (E) -- (A);
+			\node[orange!80!black, fill=white, inner sep=1pt]
+			at (axis cs:{0.62*(\c*\sinhR)},{(\c*\coshR)+0.10}) {$c\sinh\rho$};
+			
+			% Points
+			\fill[red!75!black] (P) circle (2.0pt);
+			\fill[black] (E) circle (1.6pt);
+			
+			% Labels (moved to avoid overlap)
+			\node[anchor=west, fill=white, inner sep=1pt]
+			at (axis cs:0.10,\c-0.05) {$p=ic$};
+			
+			\node[anchor=west, fill=white, inner sep=1pt]
+			at (axis cs:0.10,{(\c*\coshR)+0.06}) {$\text{centre }(0,c\cosh\rho)$};
+			
+			% Real axis (thicker)
+			\addplot[very thick, black, domain=-2.2:2.2, samples=2] ({x}, {0});
+			
+		 Set label (put above the plot frame; does not collide with y-label)
+		\node[fill=white, inner sep=1.5pt, anchor=south]
+		at (axis description cs:0.5,1.04)
+		{\small $C=\{w\in\HH:\ d_{\hyp}(w,p)=\rho\}$};
+			
+		\end{axis}
+	\end{tikzpicture}
+	
+	\[
+	x^2+(y-c\cosh\rho)^2=(c\sinh\rho)^2.
+	\]
+	
+	\caption{Problem 5(b): For $p=ic$, the hyperbolic circle $d_{\hyp}(w,p)=\rho$
+		is a Euclidean circle with centre $(0,c\cosh\rho)$ and radius $c\sinh\rho$.}
+\end{figure}
+
+
+
+% ---------------------------------------------------------
+% Figure 5C: δ-thin ideal triangle in H (vertices 0,1,∞)
+% Using δ = arsinh(1), so sinh(δ)=1 and the δ-neighborhood
+% of the vertical line x=0 is given by |x|<=y, i.e. y>=x in x>=0.
+% Similarly for x=1: |x-1|<=y, i.e. y>=1-x in x<=1.
+% ---------------------------------------------------------
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}
+		\begin{axis}[
+			axis lines=middle,
+			xmin=-0.25, xmax=1.25,
+			ymin=-0.05, ymax=1.35,
+			xlabel={$x$}, ylabel={$y$},
+			ticks=none,
+			width=12cm, height=6.2cm,
+			clip=false
+			]
+			\def\Ymax{1.30}
+			
+			% --- δ-neighborhood bands (for δ = asinh(1), i.e. sinh δ = 1) ---
+			% Band near side x=0 inside x∈[0,1]:  y >= x
+			\path[fill=blue!20, opacity=0.35]
+			(axis cs:0,0) -- (axis cs:0,\Ymax) -- (axis cs:1,\Ymax) -- (axis cs:1,1) -- cycle;
+			
+			% Band near side x=1 inside x∈[0,1]:  y >= 1-x
+			\path[fill=orange!25, opacity=0.35]
+			(axis cs:0,1) -- (axis cs:0,\Ymax) -- (axis cs:1,\Ymax) -- (axis cs:1,0) -- cycle;
+			
+			% Dashed boundaries of the bands: y=x and y=1-x
+			\addplot[dashed, domain=0:1, samples=2] ({x},{x});
+			\addplot[dashed, domain=0:1, samples=2] ({x},{1-x});
+			
+			% --- Ideal triangle sides: x=0, x=1, semicircle (x-1/2)^2 + y^2 = 1/4 ---
+			\addplot[thick, domain=0:\Ymax, samples=2] ({0},{x}); % x=0 (use x as y-parameter)
+			\addplot[thick, domain=0:\Ymax, samples=2] ({1},{x}); % x=1
+			
+			% semicircle from 0 to 1, orthogonal to R
+			\addplot[very thick, domain=0:180, samples=400] ({0.5+0.5*cos(x)}, {0.5*sin(x)});
+			
+			% Real axis
+			\addplot[domain=-0.25:1.25, samples=2] ({x}, {0});
+			
+			% Mark ideal vertices
+			\fill (axis cs:0,0) circle (1.4pt) node[below] {$0$};
+			\fill (axis cs:1,0) circle (1.4pt) node[below] {$1$};
+			\node at (axis cs:1.12,1.22) {\small $\infty$};
+			
+			% Labels
+			\node[align=left] at (axis cs:0.62,1.18)
+			{\small $\delta=\arsinh(1)=\log(1+\sqrt2)$\\[-1pt]
+				\small (so $\sinh\delta=1$)};
+			\node at (axis cs:0.50,0.62) {\small third side $\subset$ union of bands};
+			
+		\end{axis}
+	\end{tikzpicture}
+	\caption{Problem 5(c): The standard ideal triangle with vertices $0,1,\infty$.
+		For $\delta=\arsinh(1)$ (so $\sinh\delta=1$), the $\delta$-neighbourhood of the side $x=0$
+		inside $0\le x\le 1$ is exactly $y\ge x$, and the $\delta$-neighbourhood of $x=1$ is $y\ge 1-x$.
+		The third side $\bigl(x-\tfrac12\bigr)^2+y^2=\tfrac14$ lies in their union, illustrating $\delta$-thinness.}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=4, line cap=round, line join=round]
+		% ---------------------------
+		% Background: upper half-plane
+		% ---------------------------
+		\fill[gray!8] (-0.1,0) rectangle (2.1,1.55);
+		
+		% Real axis (keep)
+		\draw[thick] (-0.1,0) -- (2.1,0); % real axis
+		
+		% Axes (added)
+		\draw[-{Latex[length=2mm]}, thick] (-0.1,0) -- (2.1,0) node[right] {$x$};
+		\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,1.55) node[above] {$y$};
+		\node[below right] at (0.02,0.02) {\small $\H=\{y>0\}$};
+		
+		% Safety: clip everything to y>=0 (optional but recommended)
+		\clip (-0.1,0) rectangle (2.1,1.55);
+		
+		% ---------------------------
+		% Three vertices in H (edit these)
+		% ---------------------------
+		\pgfmathsetmacro{\xA}{0.25}\pgfmathsetmacro{\yA}{0.70}
+		\pgfmathsetmacro{\xB}{1.55}\pgfmathsetmacro{\yB}{0.55}
+		\pgfmathsetmacro{\xC}{0.95}\pgfmathsetmacro{\yC}{1.20}
+		
+		\coordinate (A) at (\xA,\yA);
+		\coordinate (B) at (\xB,\yB);
+		\coordinate (C) at (\xC,\yC);
+		
+		% --- AB ---
+		\pgfmathsetmacro{\aAB}{(\xB*\xB+\yB*\yB-\xA*\xA-\yA*\yA)/(2*(\xB-\xA))}
+		\pgfmathsetmacro{\RAB}{sqrt((\xA-\aAB)^2 + \yA^2)}
+		\pgfmathsetmacro{\tAAB}{atan2(\yA,(\xA-\aAB))}
+		\pgfmathsetmacro{\tBAB}{atan2(\yB,(\xB-\aAB))}
+		
+		% --- BC ---
+		\pgfmathsetmacro{\aBC}{(\xC*\xC+\yC*\yC-\xB*\xB-\yB*\yB)/(2*(\xC-\xB))}
+		\pgfmathsetmacro{\RBC}{sqrt((\xB-\aBC)^2 + \yB^2)}
+		\pgfmathsetmacro{\tBBC}{atan2(\yB,(\xB-\aBC))}
+		\pgfmathsetmacro{\tCBC}{atan2(\yC,(\xC-\aBC))}
+		
+		% --- CA ---
+		\pgfmathsetmacro{\aCA}{(\xA*\xA+\yA*\yA-\xC*\xC-\yC*\yC)/(2*(\xA-\xC))}
+		\pgfmathsetmacro{\RCA}{sqrt((\xC-\aCA)^2 + \yC^2)}
+		\pgfmathsetmacro{\tCCA}{atan2(\yC,(\xC-\aCA))}
+		\pgfmathsetmacro{\tACA}{atan2(\yA,(\xA-\aCA))}
+		
+		% Fill
+		\path[fill=cyan!25, opacity=0.35]
+		(A)
+		plot[smooth, variable=\t, domain=\tAAB:\tBAB, samples=140]
+		({\aAB+\RAB*cos(\t)}, {\RAB*sin(\t)})
+		plot[smooth, variable=\t, domain=\tBBC:\tCBC, samples=140]
+		({\aBC+\RBC*cos(\t)}, {\RBC*sin(\t)})
+		plot[smooth, variable=\t, domain=\tCCA:\tACA, samples=140]
+		({\aCA+\RCA*cos(\t)}, {\RCA*sin(\t)})
+		-- cycle;
+		
+		% Sides
+		\draw[very thick, red!70!black]
+		(A) plot[smooth, variable=\t, domain=\tAAB:\tBAB, samples=140]
+		({\aAB+\RAB*cos(\t)}, {\RAB*sin(\t)});
+		\draw[very thick, blue!70!black]
+		(B) plot[smooth, variable=\t, domain=\tBBC:\tCBC, samples=140]
+		({\aBC+\RBC*cos(\t)}, {\RBC*sin(\t)});
+		\draw[very thick, green!60!black]
+		(C) plot[smooth, variable=\t, domain=\tCCA:\tACA, samples=140]
+		({\aCA+\RCA*cos(\t)}, {\RCA*sin(\t)});
+		
+		% Mark vertices
+		\fill (A) circle (0.018) node[above left] {$z_1$};
+		\fill (B) circle (0.018) node[above right] {$z_2$};
+		\fill (C) circle (0.018) node[above] {$z_3$};
+	\end{tikzpicture}
+	\caption{A hyperbolic triangle in the upper half–plane model. Each side is the \emph{upper} arc of a circle orthogonal to $\R$ (or a vertical line).}
+\end{figure}
+
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=4.2, line cap=round, line join=round]
+		\fill[gray!8] (-0.15,0) rectangle (1.25,1.60);
+		
+		% Real axis (keep)
+		\draw[thick] (-0.15,0) -- (1.25,0);
+		
+		% Axes (added)
+		\draw[-{Latex[length=2mm]}, thick] (-0.15,0) -- (1.25,0) node[right] {$x$};
+		\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,1.60) node[above] {$y$};
+		\node[below right] at (0.02,0.02) {\small $\H=\{y>0\}$};
+		
+		% Safety clip (optional but recommended)
+		\clip (-0.15,0) rectangle (1.25,1.60);
+		
+		% Vertices closer to the boundary y=0 (edit these)
+		\pgfmathsetmacro{\xA}{0.10}\pgfmathsetmacro{\yA}{0.18}
+		\pgfmathsetmacro{\xB}{0.95}\pgfmathsetmacro{\yB}{0.14}
+		\pgfmathsetmacro{\xC}{0.52}\pgfmathsetmacro{\yC}{1.15}
+		
+		\coordinate (A) at (\xA,\yA);
+		\coordinate (B) at (\xB,\yB);
+		\coordinate (C) at (\xC,\yC);
+		
+		% --- AB ---
+		\pgfmathsetmacro{\aAB}{(\xB*\xB+\yB*\yB-\xA*\xA-\yA*\yA)/(2*(\xB-\xA))}
+		\pgfmathsetmacro{\RAB}{sqrt((\xA-\aAB)^2 + \yA^2)}
+		\pgfmathsetmacro{\tAAB}{atan2(\yA,(\xA-\aAB))}
+		\pgfmathsetmacro{\tBAB}{atan2(\yB,(\xB-\aAB))}
+		
+		% --- BC ---
+		\pgfmathsetmacro{\aBC}{(\xC*\xC+\yC*\yC-\xB*\xB-\yB*\yB)/(2*(\xC-\xB))}
+		\pgfmathsetmacro{\RBC}{sqrt((\xB-\aBC)^2 + \yB^2)}
+		\pgfmathsetmacro{\tBBC}{atan2(\yB,(\xB-\aBC))}
+		\pgfmathsetmacro{\tCBC}{atan2(\yC,(\xC-\aBC))}
+		
+		% --- CA ---
+		\pgfmathsetmacro{\aCA}{(\xA*\xA+\yA*\yA-\xC*\xC-\yC*\yC)/(2*(\xA-\xC))}
+		\pgfmathsetmacro{\RCA}{sqrt((\xC-\aCA)^2 + \yC^2)}
+		\pgfmathsetmacro{\tCCA}{atan2(\yC,(\xC-\aCA))}
+		\pgfmathsetmacro{\tACA}{atan2(\yA,(\xA-\aCA))}
+		
+		% Fill
+		\path[fill=yellow!35, opacity=0.35]
+		(A)
+		plot[smooth, variable=\t, domain=\tAAB:\tBAB, samples=160]
+		({\aAB+\RAB*cos(\t)}, {\RAB*sin(\t)})
+		plot[smooth, variable=\t, domain=\tBBC:\tCBC, samples=160]
+		({\aBC+\RBC*cos(\t)}, {\RBC*sin(\t)})
+		plot[smooth, variable=\t, domain=\tCCA:\tACA, samples=160]
+		({\aCA+\RCA*cos(\t)}, {\RCA*sin(\t)})
+		-- cycle;
+		
+		% Sides
+		\draw[very thick, red!70!black]
+		(A) plot[smooth, variable=\t, domain=\tAAB:\tBAB, samples=160]
+		({\aAB+\RAB*cos(\t)}, {\RAB*sin(\t)});
+		\draw[very thick, blue!70!black]
+		(B) plot[smooth, variable=\t, domain=\tBBC:\tCBC, samples=160]
+		({\aBC+\RBC*cos(\t)}, {\RBC*sin(\t)});
+		\draw[very thick, green!60!black]
+		(C) plot[smooth, variable=\t, domain=\tCCA:\tACA, samples=160]
+		({\aCA+\RCA*cos(\t)}, {\RCA*sin(\t)});
+		
+		% Points + label
+		\fill (A) circle (0.018) node[above left] {$z_1$};
+		\fill (B) circle (0.018) node[above right] {$z_2$};
+		\fill (C) circle (0.018) node[above] {$z_3$};
+		
+		\node[below right] at (0.25,0.02) {\small near-boundary vertices (large geometry)};
+	\end{tikzpicture}
+	\caption{A “large” hyperbolic triangle: vertices close to $y=0$ give strongly curved Euclidean arcs, but the geodesics remain entirely in $\H$ (upper half-plane).}
+\end{figure}
+
+
+	
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=6, line cap=round, line join=round]
+			% Background
+			\fill[gray!8] (-0.15,0) rectangle (1.15,1.35);
+			\draw[thick] (-0.15,0) -- (1.15,0);
+			
+			% δ = asinh(1), so sinh δ = 1 and the δ-band of x=0 is y>=x (in 0<=x<=1),
+			% δ-band of x=1 is y>=1-x.
+			\path[fill=blue!25, opacity=0.35]   (0,0) -- (0,1.30) -- (1,1.30) -- (1,1) -- cycle;
+			\path[fill=orange!30, opacity=0.35] (0,1) -- (0,1.30) -- (1,1.30) -- (1,0) -- cycle;
+			
+			% Band boundaries
+			\draw[dashed] (0,0) -- (1,1);
+			\draw[dashed] (0,1) -- (1,0);
+			
+			% Ideal triangle sides (colored)
+			\draw[very thick, red!75!black]   (0,0) -- (0,1.30); % x=0
+			\draw[very thick, blue!75!black]  (1,0) -- (1,1.30); % x=1
+			\draw[very thick, green!60!black] (0,0) arc[start angle=180, end angle=0, radius=0.5]; % semicircle
+			
+			% Vertices 0,1 and label ∞
+			\fill (0,0) circle (0.010) node[below] {$0$};
+			\fill (1,0) circle (0.010) node[below] {$1$};
+			\node[above right] at (1.02,1.25) {$\infty$};
+			
+			\node[align=left] at (0.56,1.18) {\scriptsize $\delta=\arsinh(1)=\log(1+\sqrt2)$};
+			\node at (0.50,0.62) {\scriptsize third side lies in union of bands};
+			
+		\end{tikzpicture}
+		\caption{Ideal triangle $(0,1,\infty)$ in $\H$. The two shaded $\delta$-neighbourhood bands (for $\delta=\arsinh(1)$) cover the third side, illustrating hyperbolic $\delta$-thinness.}
+	\end{figure}
+	
+	
+	\clearpage
+	
+	%=========================================================
+	% Problem 6 — Hyperbolic sine law (via cosine formulae)
+	%=========================================================
+	
+	\subsection*{Problem 6 (Hyperbolic law of sines)}
+	
+\subsubsection*{problem}
+		Fix a hyperbolic triangle $\Delta\subset \HH^2$ with interior angles $A,B,C$ and side lengths
+		(in the hyperbolic metric) $a,b,c$, where $a$ is opposite the vertex with angle $A$, etc.
+		\begin{enumerate}
+			\item Suppose that $C$ is a right angle. By applying the \emph{hyperbolic cosine formula} in two different ways,
+			prove that
+			\[
+			\sin(A)\,\sinh(c)=\sinh(a).
+			\]
+			\item Deduce that for a general hyperbolic triangle,
+			\[
+			\frac{\sin(A)}{\sinh(a)}=\frac{\sin(B)}{\sinh(b)}=\frac{\sin(C)}{\sinh(c)}.
+			\]
+		\end{enumerate}
+
+	
+	\subsubsection*{Theory: the cosine formulae in $\HH^2$}
+	For a hyperbolic triangle with side lengths $a,b,c$ opposite angles $A,B,C$ one has:
+	
+	\begin{itemize}
+		\item \textbf{Cosine formula (sides):}
+		\begin{align*}
+			\cosh(a)&=\cosh(b)\cosh(c)-\sinh(b)\sinh(c)\cos(A),\\
+			\cosh(b)&=\cosh(c)\cosh(a)-\sinh(c)\sinh(a)\cos(B),\\
+			\cosh(c)&=\cosh(a)\cosh(b)-\sinh(a)\sinh(b)\cos(C).
+		\end{align*}
+		
+		\item \textbf{Cosine formula (angles):}
+		\begin{align*}
+			\cos(A)&=-\cos(B)\cos(C)+\sin(B)\sin(C)\cosh(a),\\
+			\cos(B)&=-\cos(C)\cos(A)+\sin(C)\sin(A)\cosh(b),\\
+			\cos(C)&=-\cos(A)\cos(B)+\sin(A)\sin(B)\cosh(c).
+		\end{align*}
+	\end{itemize}
+	
+	(These are dual to each other; one clean way to see the duality is via the \emph{polar triangle}
+	in constant curvature $-1$ geometry.)
+	
+	\subsubsection*{Solution (a): right triangle, $C=\pi/2$}
+	Assume $C=\pi/2$ so $\cos(C)=0$ and $\sin(C)=1$.
+	
+	\paragraph{Step 1: apply the cosine formula (sides) to $c$.}
+	From the side-cosine formula for $c$ we get
+	\[
+	\cosh(c)=\cosh(a)\cosh(b)-\sinh(a)\sinh(b)\cos(C)
+	=\cosh(a)\cosh(b).
+	\tag{1}
+	\]
+	
+	\paragraph{Step 2: apply the cosine formula (sides) to $b$ and eliminate $\cosh(c)$.}
+	Use the side-cosine formula for $b$:
+	\[
+	\cosh(b)=\cosh(c)\cosh(a)-\sinh(c)\sinh(a)\cos(B).
+	\]
+	Insert $\cosh(c)=\cosh(a)\cosh(b)$ from (1):
+	\[
+	\cosh(b)=\cosh(a)\cosh(b)\cosh(a)-\sinh(c)\sinh(a)\cos(B)
+	=\cosh(b)\cosh^2(a)-\sinh(c)\sinh(a)\cos(B).
+	\]
+	Rearranging gives
+	\[
+	\sinh(c)\sinh(a)\cos(B)=\cosh(b)\bigl(\cosh^2(a)-1\bigr)=\cosh(b)\sinh^2(a).
+	\]
+	Hence
+	\[
+	\cos(B)=\cosh(b)\,\frac{\sinh(a)}{\sinh(c)}.
+	\tag{2}
+	\]
+	
+	\paragraph{Step 3: apply the cosine formula (angles) to $B$ (using $C=\pi/2$).}
+	From the angle-cosine formula for $B$ and $C=\pi/2$ we obtain
+	\[
+	\cos(B)=-\cos(C)\cos(A)+\sin(C)\sin(A)\cosh(b)=\sin(A)\cosh(b).
+	\tag{3}
+	\]
+	Comparing (2) and (3) and cancelling $\cosh(b)>0$ yields
+	\[
+	\sin(A)=\frac{\sinh(a)}{\sinh(c)}.
+	\]
+	Equivalently,
+	\[
+	\sin(A)\,\sinh(c)=\sinh(a),
+	\]
+	which is exactly the desired identity.
+	
+	\subsubsection*{Solution (b): the hyperbolic law of sines for a general triangle}
+	Let $\Delta ABC$ be any hyperbolic triangle and drop the hyperbolic perpendicular from $C$ to the side
+	$AB$; let $D\in AB$ be the foot, so $\angle ADC=\angle BDC=\pi/2$.
+	
+	In the right triangle $\triangle ACD$, the hypotenuse is $AC=b$ and the angle at $A$ is $A$.
+	Applying part (a) to $\triangle ACD$ gives
+	\[
+	\sin(A)\,\sinh(b)=\sinh(CD).
+	\tag{4}
+	\]
+	In the right triangle $\triangle BCD$, the hypotenuse is $BC=a$ and the angle at $B$ is $B$.
+	Applying part (a) to $\triangle BCD$ gives
+	\[
+	\sin(B)\,\sinh(a)=\sinh(CD).
+	\tag{5}
+	\]
+	Comparing (4) and (5) yields
+	\[
+	\sin(A)\,\sinh(b)=\sin(B)\,\sinh(a)
+	\quad\Longrightarrow\quad
+	\frac{\sin(A)}{\sinh(a)}=\frac{\sin(B)}{\sinh(b)}.
+	\]
+	Now repeat the same argument by dropping a perpendicular from $A$ to $BC$ (or from $B$ to $CA$)
+	to obtain equality with the remaining ratio, hence
+	\[
+	\frac{\sin(A)}{\sinh(a)}=\frac{\sin(B)}{\sinh(b)}=\frac{\sin(C)}{\sinh(c)}.
+	\]
+	
+	\subsubsection*{Figure: a labeled hyperbolic triangle (upper half–plane model)}
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=4, line cap=round, line join=round]
+			% background + axes
+			\fill[gray!8] (-0.1,0) rectangle (2.1,1.55);
+			\draw[thick] (-0.1,0) -- (2.1,0);
+			\draw[-{Latex[length=2mm]}, thick] (-0.1,0) -- (2.1,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,1.55) node[above] {$y$};
+			\clip (-0.1,0) rectangle (2.1,1.55);
+			
+			% vertices (purely illustrative)
+			\coordinate (A) at (0.25,0.70);
+			\coordinate (B) at (1.55,0.55);
+			\coordinate (C) at (0.95,1.20);
+			
+			% circle-geodesic data (upper arcs only)
+			\pgfmathsetmacro{\xA}{0.25}\pgfmathsetmacro{\yA}{0.70}
+			\pgfmathsetmacro{\xB}{1.55}\pgfmathsetmacro{\yB}{0.55}
+			\pgfmathsetmacro{\xC}{0.95}\pgfmathsetmacro{\yC}{1.20}
+			
+			% AB
+			\pgfmathsetmacro{\aAB}{(\xB*\xB+\yB*\yB-\xA*\xA-\yA*\yA)/(2*(\xB-\xA))}
+			\pgfmathsetmacro{\RAB}{sqrt((\xA-\aAB)^2 + \yA^2)}
+			\pgfmathsetmacro{\tAAB}{atan2(\yA,(\xA-\aAB))}
+			\pgfmathsetmacro{\tBAB}{atan2(\yB,(\xB-\aAB))}
+			% BC
+			\pgfmathsetmacro{\aBC}{(\xC*\xC+\yC*\yC-\xB*\xB-\yB*\yB)/(2*(\xC-\xB))}
+			\pgfmathsetmacro{\RBC}{sqrt((\xB-\aBC)^2 + \yB^2)}
+			\pgfmathsetmacro{\tBBC}{atan2(\yB,(\xB-\aBC))}
+			\pgfmathsetmacro{\tCBC}{atan2(\yC,(\xC-\aBC))}
+			% CA
+			\pgfmathsetmacro{\aCA}{(\xA*\xA+\yA*\yA-\xC*\xC-\yC*\yC)/(2*(\xA-\xC))}
+			\pgfmathsetmacro{\RCA}{sqrt((\xC-\aCA)^2 + \yC^2)}
+			\pgfmathsetmacro{\tCCA}{atan2(\yC,(\xC-\aCA))}
+			\pgfmathsetmacro{\tACA}{atan2(\yA,(\xA-\aCA))}
+			
+			% fill
+			\path[fill=cyan!18, opacity=0.35]
+			(A)
+			plot[smooth, variable=\t, domain=\tAAB:\tBAB, samples=160] ({\aAB+\RAB*cos(\t)},{\RAB*sin(\t)})
+			plot[smooth, variable=\t, domain=\tBBC:\tCBC, samples=160] ({\aBC+\RBC*cos(\t)},{\RBC*sin(\t)})
+			plot[smooth, variable=\t, domain=\tCCA:\tACA, samples=160] ({\aCA+\RCA*cos(\t)},{\RCA*sin(\t)})
+			-- cycle;
+			
+			% sides (colored)
+			\draw[very thick, blue!70!black]
+			(A) plot[smooth, variable=\t, domain=\tAAB:\tBAB, samples=160] ({\aAB+\RAB*cos(\t)},{\RAB*sin(\t)});
+			\draw[very thick, red!70!black]
+			(B) plot[smooth, variable=\t, domain=\tBBC:\tCBC, samples=160] ({\aBC+\RBC*cos(\t)},{\RBC*sin(\t)});
+			\draw[very thick, green!60!black]
+			(C) plot[smooth, variable=\t, domain=\tCCA:\tACA, samples=160] ({\aCA+\RCA*cos(\t)},{\RCA*sin(\t)});
+			
+			% vertices + labels
+			\fill (A) circle (0.018) node[above left] {$A$};
+			\fill (B) circle (0.018) node[above right] {$B$};
+			\fill (C) circle (0.018) node[above] {$C$};
+			
+			% side labels (placed near midpoints)
+			\node at ($(B)!0.5!(C)+(0.06,0.03)$) {$a$};
+			\node at ($(C)!0.5!(A)+(-0.06,0.03)$) {$b$};
+			\node at ($(A)!0.5!(B)+(0,-0.06)$) {$c$};
+			
+			% angle labels (schematic)
+			\node at ($(A)+(0.12,0.06)$) {$A$};
+			\node at ($(B)+(-0.12,0.06)$) {$B$};
+			\node at ($(C)+(0.00,-0.10)$) {$C$};
+			
+		\end{tikzpicture}
+		\caption{A hyperbolic triangle (illustration) with angles $A,B,C$ and opposite sides $a,b,c$.}
+	\end{figure}
+	
+	
+	%=========================================================
+	% Problem 7 — Ultraparallel lines, common perpendicular, reflections
+	%=========================================================
+	
+	\subsection*{Problem 7 (Ultraparallel lines and reflections)}
+	\paragraph{Problem.}
+	\begin{enumerate}[label=(\alph*)]
+		\item Show that two hyperbolic lines have a common perpendicular if and only if they are \emph{ultraparallel},
+		and that in this case the common perpendicular is unique. Show that, up to isometry, for $t>0$ there is a unique
+		configuration of ultraparallel lines for which the segment of the common perpendicular between the lines has length $t$.
+		\item Let $l_1,l_2$ be ultraparallel hyperbolic lines, and let $r_{l_i}$ denote the hyperbolic isometry given by reflection in $l_i$.
+		Prove that $r_{l_1}\circ r_{l_2}$ has infinite order.
+	\end{enumerate}
+	
+	
+	\subsubsection*{Theory}
+	In $\HH^2$ (e.g. the upper half–plane model $\HH=\{x+iy:y>0\}$), two distinct complete geodesics fall into exactly one of:
+	\begin{itemize}
+		\item \textbf{Intersecting:} they meet in $\HH$.
+		\item \textbf{Parallel (asymptotic):} disjoint in $\HH$ but share exactly one ideal endpoint on $\partial\HH=\R\cup\{\infty\}$.
+		\item \textbf{Ultraparallel:} disjoint in $\HH$ with \emph{two distinct} ideal endpoints each (no shared ideal endpoint).
+	\end{itemize}
+	Reflection in a geodesic is an isometry (orientation-reversing). The composition of two reflections is:
+	\begin{itemize}
+		\item elliptic if the lines intersect,
+		\item parabolic if they are asymptotically parallel,
+		\item hyperbolic (a translation along an axis) if they are ultraparallel.
+	\end{itemize}
+	
+	\subsubsection*{Solution (a): common perpendicular $\Longleftrightarrow$ ultraparallel; uniqueness; normal form with parameter $t$}
+	
+	\paragraph{($\Rightarrow$) If a common perpendicular exists, the lines are ultraparallel.}
+	Suppose $l_1,l_2$ share a common perpendicular geodesic $m$ meeting each at right angles. Then $l_1$ and $l_2$
+	cannot intersect (otherwise there would be a triangle with two right angles, impossible in $\HH^2$ since
+	$\text{Area}=\pi-(A+B+C)>0$ forces $A+B+C<\pi$). They also cannot share an ideal endpoint: if they did, they would
+	approach each other toward that cusp and no geodesic could meet both at right angles at finite points.
+	Hence $l_1,l_2$ are disjoint and have no common ideal endpoint, i.e. they are ultraparallel.
+	
+	\paragraph{($\Leftarrow$) If $l_1,l_2$ are ultraparallel, a common perpendicular exists and is unique.}
+	Let $g\in\Isom(\HH^2)$ be an isometry sending the pair $(l_1,l_2)$ to a convenient standard position.
+	Because $\Isom(\HH^2)$ acts $3$–transitively on the boundary $\partial\HH$ (via Möbius maps),
+	we may send the four ideal endpoints of $l_1$ and $l_2$ to symmetric positions so that
+	\[
+	g(l_1)=\{z\in\HH:|z|=1\},\qquad g(l_2)=\{z\in\HH:|z|=e^t\},
+	\]
+	for some $t>0$, i.e. two nested semicircular geodesics orthogonal to $\R$.
+	Then the imaginary axis
+	\[
+	m=\{iy:y>0\}
+	\]
+	meets both semicircles orthogonally (at $i$ and $ie^t$) and therefore is a common perpendicular in this model.
+	Pulling back by $g^{-1}$ gives a common perpendicular for the original pair.
+	
+	Uniqueness: in this normal form, the only geodesic perpendicular to both circles $|z|=1$ and $|z|=e^t$ is the
+	imaginary axis (by symmetry and the fact that orthogonality at a point fixes the tangent direction).
+	Hence the common perpendicular in the original configuration is unique.
+	
+	\paragraph{The length parameter $t$ and uniqueness up to isometry.}
+	On the imaginary axis, the hyperbolic distance is
+	\[
+	d_{\hyp}(iy_1,iy_2)=\left|\log\frac{y_2}{y_1}\right|.
+	\]
+	Thus
+	\[
+	d_{\hyp}(i,ie^t)=\log(e^t)=t.
+	\]
+	Conversely, any ultraparallel pair with common perpendicular segment of length $t$ is isometric to this standard pair,
+	so the configuration is unique up to isometry for each $t>0$.
+	
+	\subsubsection*{Solution (b): $r_{l_1}\circ r_{l_2}$ has infinite order}
+	
+	Continue in the standard position from (a):
+	\[
+	l_1:\ |z|=1,\qquad l_2:\ |z|=e^t.
+	\]
+	Reflection in the geodesic semicircle $|z|=r$ (orthogonal to $\R$) is given by the circle inversion with conjugation:
+	\[
+	r_{|z|=r}(z)=\frac{r^2}{\overline{z}}.
+	\]
+	Hence
+	\[
+	r_{l_1}(z)=\frac{1}{\overline{z}},\qquad r_{l_2}(z)=\frac{e^{2t}}{\overline{z}}.
+	\]
+	Therefore
+	\[
+	(r_{l_1}\circ r_{l_2})(z)
+	= r_{l_1}\!\left(\frac{e^{2t}}{\overline{z}}\right)
+	= \frac{1}{\overline{\,e^{2t}/\overline{z}\,}}
+	= \frac{1}{e^{2t}/z}
+	= e^{-2t}z.
+	\]
+	This is the hyperbolic translation along the imaginary axis (its invariant axis) by length $2t$ since
+	\[
+	d_{\hyp}(iy,\,i e^{-2t}y)=|{-2t}|=2t.
+	\]
+	Because $e^{-2t}\neq 1$, the iterates satisfy
+	\[
+	(r_{l_1}\circ r_{l_2})^n(z)=e^{-2nt}z\neq z\quad(n\neq 0),
+	\]
+	so the element has infinite order.
+	
+	\subsubsection*{Figure (colored): ultraparallel lines and their common perpendicular}
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=2.2, line cap=round, line join=round]
+			\fill[gray!8] (-2.4,0) rectangle (2.4,2.1);
+			\draw[thick] (-2.4,0) -- (2.4,0);
+			
+			% axes
+			\draw[-{Latex[length=2mm]}, thick] (-2.4,0) -- (2.4,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,2.1) node[above] {$y$};
+			\clip (-2.4,0) rectangle (2.4,2.1);
+			
+			% radii (choose r2 = e^t just for picture)
+			\def\rone{1.0}
+			\def\rtwo{1.8} % corresponds to t = log(1.8)
+			
+			% ultraparallel geodesics: |z|=r (upper semicircles)
+			\draw[very thick, blue!70!black] (-\rone,0) arc[start angle=180, end angle=0, radius=\rone];
+			\draw[very thick, red!70!black]  (-\rtwo,0) arc[start angle=180, end angle=0, radius=\rtwo];
+			
+			% common perpendicular: imaginary axis segment between i*r1 and i*r2
+			\draw[very thick, green!60!black] (0,\rone) -- (0,\rtwo);
+			
+			\fill (0,\rone) circle (0.03) node[left] {$i$};
+			\fill (0,\rtwo) circle (0.03) node[left] {$ie^t$};
+			
+			\node[blue!70!black] at (1.35,0.75) {$l_1$};
+			\node[red!70!black]  at (1.95,1.35) {$l_2$};
+			\node[green!60!black, fill=white, inner sep=1pt] at (0.35,1.35) {\small common $\perp$};
+		\end{tikzpicture}
+		\caption{A standard ultraparallel configuration: $l_1:|z|=1$, $l_2:|z|=e^t$ and the common perpendicular is the imaginary axis segment of length $t$.}
+	\end{figure}
+	
+	
+	%=========================================================
+	% Problem 8 — Ideal square and the thrice-punctured sphere; nonorientable compact hyperbolic surface
+	%=========================================================
+	
+	\subsection*{Problem 8 (Ideal square and hyperbolic surfaces)}
+	
+
+		\begin{enumerate}
+			\item Consider the \emph{ideal} hyperbolic square with vertices at $0,1,\infty,-1$ in the upper half–plane model.
+			By gluing the edges of the square by isometries, or otherwise, prove that there is a \emph{complete} hyperbolic metric
+			on the smooth surface $S^2\setminus\{p,q,r\}$ given by the complement of $3$ distinct points in the sphere.
+			\item Construct a non-orientable compact hyperbolic surface.
+		\end{enumerate}
+
+	
+	\subsubsection*{Solution (a): gluing an ideal square to obtain $S^2\setminus\{p,q,r\}$ (a pair of pants)}
+	Let $Q\subset\HH$ be the ideal quadrilateral with vertices in cyclic order
+	\[
+	-1,\ 0,\ 1,\ \infty.
+	\]
+	Its sides are the geodesics:
+	\[
+	\ell_{-1}: x=-1,\qquad
+	\ell_{1}: x=1,\qquad
+	s_-:\text{ semicircle from }-1\text{ to }0,\qquad
+	s_+:\text{ semicircle from }0\text{ to }1.
+	\]
+	
+	\paragraph{Step 1: choose explicit side-pairing isometries.}
+	Define the following isometries of $\HH$:
+	\[
+	T(z)=z+2\quad(\text{translation}),\qquad
+	R(z)=-\overline{z}\quad(\text{reflection in the imaginary axis}).
+	\]
+	Then:
+	\[
+	T(\ell_{-1})=\ell_1,\quad T(-1)=1,\quad T(\infty)=\infty,
+	\]
+	and
+	\[
+	R(s_+)=s_-,\quad R(0)=0,\quad R(1)=-1.
+	\]
+	Thus we can glue the sides by identifying $\ell_{-1}\sim\ell_1$ via $T$ and $s_+\sim s_-$ via $R$.
+	
+	\paragraph{Step 2: identify the topology of the quotient.}
+	After gluing:
+	\begin{itemize}
+		\item the ideal vertex $\infty$ is fixed by $T$ and becomes a \emph{cusp end} (a puncture),
+		\item the ideal vertices $-1$ and $1$ are identified by $T$ (also a cusp),
+		\item the ideal vertex $0$ is fixed by $R$ (a cusp).
+	\end{itemize}
+	Hence the quotient has exactly three cusp ends. The resulting surface is connected and has Euler characteristic
+	\[
+	\chi = 2-3=-1,
+	\]
+	so it is homeomorphic to $S^2\setminus\{p,q,r\}$ (a sphere with three punctures), i.e. a \emph{pair of pants}.
+	
+	\paragraph{Step 3: completeness of the induced hyperbolic metric.}
+	The metric on $Q$ is the restriction of the complete hyperbolic metric on $\HH$.
+	Gluing along geodesic sides by isometries produces a locally isometric quotient away from the ideal vertices.
+	Near each ideal vertex one may take a horocyclic neighbourhood (a standard cusp neighbourhood); since the vertices are ideal,
+	the distance to the vertex is infinite, and after gluing these neighbourhoods become standard cusp ends.
+	Therefore the quotient metric is complete.
+	
+	\paragraph{(Optional) Area check (Gauss--Bonnet / ideal polygon formula).}
+	An ideal $n$-gon in $\HH$ has area $(n-2)\pi$. Here $n=4$, so
+	\[
+	\Area(Q)=2\pi.
+	\]
+	For the thrice-punctured sphere, $\chi=-1$, so Gauss--Bonnet gives
+	\[
+	\Area = -2\pi\chi = 2\pi,
+	\]
+	consistent with the construction.
+	
+	\subsubsection*{Figure (colored): the ideal square and side pairings}
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=3.2, line cap=round, line join=round]
+			\fill[gray!8] (-1.25,0) rectangle (1.25,1.65);
+			\draw[thick] (-1.25,0) -- (1.25,0);
+			\draw[-{Latex[length=2mm]}, thick] (-1.25,0) -- (1.25,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,1.65) node[above] {$y$};
+			\clip (-1.25,0) rectangle (1.25,1.65);
+			
+			% sides: x=-1 and x=1
+			\draw[very thick, blue!70!black] (-1,0) -- (-1,1.65);
+			\draw[very thick, blue!70!black] ( 1,0) -- ( 1,1.65);
+			
+			% semicircle from -1 to 0 (center -1/2, radius 1/2)
+			\draw[very thick, red!70!black] (-1,0) arc[start angle=180, end angle=0, radius=0.5];
+			
+			% semicircle from 0 to 1 (center 1/2, radius 1/2)
+			\draw[very thick, red!70!black] (0,0) arc[start angle=180, end angle=0, radius=0.5];
+			
+			% label ideal vertices
+			\fill (-1,0) circle (0.02) node[below] {$-1$};
+			\fill (0,0)  circle (0.02) node[below] {$0$};
+			\fill (1,0)  circle (0.02) node[below] {$1$};
+			\node at (0,1.58) {$\infty$};
+			
+			% pairing arrows: vertical sides via T(z)=z+2
+			\draw[-{Latex[length=2mm]}, blue!70!black, thick] (-1,1.20) -- (1,1.20) node[midway, above] {\small $T:z\mapsto z+2$};
+			
+			% pairing arrows: semicircles via R(z)=-\bar z
+			\draw[-{Latex[length=2mm]}, red!70!black, thick] (0.75,0.35) to[bend left=25] (-0.75,0.35)
+			node[midway, above, fill=white, inner sep=1pt] {\small $R:z\mapsto -\bar z$};
+			
+			\node[fill=white, inner sep=1pt] at (0,1.02) {\small fundamental domain $Q$};
+		\end{tikzpicture}
+		\caption{An ideal quadrilateral with vertices $-1,0,1,\infty$ and one choice of side pairings producing the thrice-punctured sphere.}
+	\end{figure}
+	
+	\subsubsection*{Solution (b): a compact non-orientable hyperbolic surface}
+	A closed non-orientable surface of genus $k$ (connected sum of $k$ projective planes) has Euler characteristic
+	\[
+	\chi = 2-k.
+	\]
+	It admits a hyperbolic metric exactly when $\chi<0$, i.e. $k\ge 3$.
+	
+	\paragraph{Concrete construction (genus $3$).}
+	Take a hyperbolic hexagon $P$ with interior angles
+	\[
+	\alpha=\frac{\pi}{3}
+	\]
+	(for example, a \emph{regular} hyperbolic hexagon with all sides equal and all angles $\pi/3$; such a polygon exists since
+	$\alpha<\frac{(6-2)\pi}{6}=\frac{2\pi}{3}$).
+	Label the sides consecutively as
+	\[
+	a,\ a,\ b,\ b,\ c,\ c,
+	\]
+	and glue each pair of equally-labeled sides by an isometry that reverses orientation along the boundary
+	(so endpoints match). Because all six vertices are identified in the quotient, the total angle around the unique
+	vertex is
+	\[
+	6\cdot \frac{\pi}{3}=2\pi,
+	\]
+	so the quotient has no cone singularity and inherits a smooth hyperbolic metric from $P$.
+	
+	The resulting surface has fundamental polygon word
+	\[
+	a^2\,b^2\,c^2,
+	\]
+	hence it is the connected sum of three projective planes: a closed non-orientable surface of genus $3$.
+	Since $P$ is compact and the side pairings identify its boundary, the quotient is compact.
+	
+	\paragraph{Area (Gauss--Bonnet check).}
+	For a closed hyperbolic surface,
+	\[
+	\Area = -2\pi\chi = 2\pi(k-2).
+	\]
+	For $k=3$ this gives $\Area=2\pi>0$, consistent with a hyperbolic metric.
+	
+	\subsubsection*{Figure (colored schematic): side pairing for a non-orientable genus $3$ surface}
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=2.0, line cap=round, line join=round]
+			% Schematic hexagon (Euclidean-looking, used only to show identifications)
+			\coordinate (V1) at (0:1.2);
+			\coordinate (V2) at (60:1.2);
+			\coordinate (V3) at (120:1.2);
+			\coordinate (V4) at (180:1.2);
+			\coordinate (V5) at (240:1.2);
+			\coordinate (V6) at (300:1.2);
+			
+			\fill[gray!8] (V1) -- (V2) -- (V3) -- (V4) -- (V5) -- (V6) -- cycle;
+			
+			% edges in order: a,a,b,b,c,c
+			\draw[very thick, red!70!black]   (V1) -- (V2);
+			\draw[very thick, red!70!black]   (V2) -- (V3);
+			
+			\draw[very thick, blue!70!black]  (V3) -- (V4);
+			\draw[very thick, blue!70!black]  (V4) -- (V5);
+			
+			\draw[very thick, green!60!black] (V5) -- (V6);
+			\draw[very thick, green!60!black] (V6) -- (V1);
+			
+			% labels
+			\node[red!70!black]   at ($(V1)!0.5!(V2)+(0.10,0.12)$) {$a$};
+			\node[red!70!black]   at ($(V2)!0.5!(V3)+(0.15,0.00)$) {$a$};
+			
+			\node[blue!70!black]  at ($(V3)!0.5!(V4)+(-0.05,0.12)$) {$b$};
+			\node[blue!70!black]  at ($(V4)!0.5!(V5)+(-0.15,0.00)$) {$b$};
+			
+			\node[green!60!black] at ($(V5)!0.5!(V6)+(-0.10,-0.12)$) {$c$};
+			\node[green!60!black] at ($(V6)!0.5!(V1)+(0.10,-0.12)$) {$c$};
+			
+			% pairing arrows (schematic)
+			\draw[-{Latex[length=2mm]}, red!70!black, thick]  ($(V1)!0.5!(V2)$) to[bend left=25] ($(V2)!0.5!(V3)$);
+			\draw[-{Latex[length=2mm]}, blue!70!black, thick] ($(V3)!0.5!(V4)$) to[bend left=25] ($(V4)!0.5!(V5)$);
+			\draw[-{Latex[length=2mm]}, green!60!black, thick]($(V5)!0.5!(V6)$) to[bend left=25] ($(V6)!0.5!(V1)$);
+			
+			\node[fill=white, inner sep=1pt] at (0,0) {\small word $a^2b^2c^2$ (non-orientable genus $3$)};
+		\end{tikzpicture}
+		\caption{Schematic side pairing on a hyperbolic hexagon producing a compact non-orientable hyperbolic surface (genus $3$).}
+	\end{figure}
+	
+	\clearpage
+	
+	%=========================================================
+	% Deep section: Ideal hyperbolic triangles (Theory + key computations)
+	%=========================================================
+	
+	\subsection*{Deep theory: Ideal hyperbolic triangles}
+	
+	\subsubsection*{Definition and basic picture}
+	An \emph{ideal hyperbolic triangle} is a hyperbolic triangle whose three vertices lie on the \emph{ideal boundary}
+	\[
+	\partial \HH^2
+	\]
+	(e.g.\ in the upper half–plane model $\HH=\{x+iy:y>0\}$ one has $\partial\HH=\R\cup\{\infty\}$).
+	Equivalently, it is a geodesic $3$--gon in $\HH$ whose vertices are \emph{ideal points}.
+	Such a triangle has:
+	\begin{itemize}
+		\item \textbf{Angles} $A=B=C=0$ (each vertex is at infinity),
+		\item \textbf{Finite area} equal to $\pi$ (in curvature $-1$ normalization),
+		\item \textbf{Infinite side lengths} (each side is a complete geodesic extending to the boundary),
+		\item \textbf{Cusp ends} at each vertex: neighbourhoods of the vertices are \emph{cusps}.
+	\end{itemize}
+	
+	\subsubsection*{Uniqueness up to isometry}
+	Every ideal triangle in $\HH^2$ is congruent to every other ideal triangle.
+	
+	\paragraph{Reason (boundary $3$--transitivity).}
+	The full orientation-preserving isometry group of $\HH$ is
+	\[
+	\Isom^+(\HH)\cong \PSL(2,\R),
+	\]
+	acting by Möbius transformations
+	\[
+	z\longmapsto \frac{az+b}{cz+d},\qquad a,b,c,d\in\R,\ ad-bc=1.
+	\]
+	This action extends to the boundary $\partial\HH=\R\cup\{\infty\}$ and is \emph{$3$--transitive} on distinct boundary points:
+	given two triples of distinct boundary points $(u_1,u_2,u_3)$ and $(v_1,v_2,v_3)$ there exists a unique Möbius map
+	sending $u_i\mapsto v_i$ for $i=1,2,3$.
+	Hence any ideal triangle can be mapped by an isometry to the \emph{standard ideal triangle} with vertices
+	\[
+	0,\ 1,\ \infty.
+	\]
+	
+	\subsubsection*{Standard ideal triangle in the upper half–plane}
+	Let $\Delta_{\mathrm{ideal}}$ be the triangle with vertices $0,1,\infty$.
+	Its sides are the geodesics:
+	\[
+	\gamma_{0\infty}:\ x=0,\qquad
+	\gamma_{1\infty}:\ x=1,\qquad
+	\gamma_{01}:\ (x-\tfrac12)^2+y^2=\bigl(\tfrac12\bigr)^2,\ y>0.
+	\]
+	Thus it is bounded by two vertical lines and one semicircle orthogonal to $\R$.
+	
+	\subsubsection*{Area of an ideal triangle}
+	For a hyperbolic triangle in curvature $-1$, Gauss--Bonnet gives
+	\[
+	\Area(\Delta)=\pi-(A+B+C).
+	\]
+	For an \emph{ideal} triangle $A=B=C=0$, therefore
+	\[
+	\Area(\Delta_{\mathrm{ideal}})=\pi.
+	\]
+	In particular, \emph{all} ideal triangles have area $\pi$, since they are all isometric.
+	
+	\subsubsection*{Horocycles and cusp geometry}
+	A \emph{horocycle} in $\HH$ is a curve orthogonal to all geodesics ending at a given ideal point.
+	In the upper half–plane model:
+	\begin{itemize}
+		\item horocycles based at $\infty$ are horizontal lines $y=\text{const}$,
+		\item horocycles based at a finite boundary point $a\in\R$ are Euclidean circles tangent to $\R$ at $a$.
+	\end{itemize}
+	
+	If you cut an ideal triangle by horocycles near its vertices, you obtain a compact hexagon region.
+	A fundamental and very useful fact is:
+	
+	\paragraph{All ideal triangles are ``equilateral'' in horocyclic length.}
+	Choose one horocycle at each ideal vertex. Then the lengths of the three arcs of these horocycles inside the ideal triangle
+	are all equal (with appropriate normalization of the horocycles). This expresses the strong symmetry of ideal triangles
+	even though the vertices lie at infinity.
+	
+	
+	%=========================================================
+	% Horocycles ("horolines") inside an ideal triangle {1/4, 3/4, \infty}
+	%=========================================================
+% Requires: \usetikzlibrary{arrows.meta}
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=5, line cap=round, line join=round]
+		% background + real axis
+		\fill[gray!8] (-0.10,0) rectangle (1.20,1.55);
+		\draw[thick] (-0.10,0) -- (1.20,0);
+		
+		% axes
+		\draw[-{Latex[length=2mm]}, thick] (-0.10,0) -- (1.20,0) node[right] {$x$};
+		\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,1.55) node[above] {$y$};
+		
+		% parameters (triangle)
+		\def\xa{0.25}
+		\def\xb{0.75}
+		\def\xc{0.50}
+		\def\r{0.25}
+		\def\ymax{1.55}
+		
+		% horocycle parameters
+		\def\yinf{1.05}
+		\def\rhL{0.18}
+		\def\rhR{0.15}
+		
+		%-------------------------------------------------
+		% Clip ONLY to the interior of the ideal triangle
+		% rectangle [xa,xb]x[0,ymax] minus the disk (center xc,0 radius r)
+		%-------------------------------------------------
+		\begin{scope}
+			\pgfseteorule
+			\clip (\xa,0) rectangle (\xb,\ymax)
+			(\xc,0) circle (\r);
+			
+			% shade interior
+			\fill[cyan!18, opacity=0.28] (\xa,0) rectangle (\xb,\ymax);
+			
+			% horocycles (draw INSIDE the clipped interior)
+			\draw[very thick, orange!85!black] (\xa,\yinf) -- (\xb,\yinf);      % at infinity
+			\draw[very thick, violet!80!black] (\xa,\rhL) circle (\rhL);        % at 1/4
+			\draw[very thick, teal!75!black]   (\xb,\rhR) circle (\rhR);        % at 3/4
+		\end{scope}
+		
+		%-------------------------------------------------
+		% Triangle sides on top (not clipped)
+		%-------------------------------------------------
+		\draw[very thick, blue!70!black] (\xa,0) -- (\xa,\ymax);
+		\draw[very thick, blue!70!black] (\xb,0) -- (\xb,\ymax);
+		\draw[very thick, red!70!black]  (\xa,0) arc[start angle=180, end angle=0, radius=\r];
+		
+		% vertices
+		\fill (\xa,0) circle (0.02) node[below] {\scriptsize $\tfrac14$};
+		\fill (\xb,0) circle (0.02) node[below] {\scriptsize $\tfrac34$};
+		
+		% infinity marker (inside)
+		\draw[->, thin] (\xc,1.28) -- (\xc,1.40);
+		\node[above, fill=white, inner sep=1pt, font=\scriptsize] at (\xc,1.40) {$\infty$};
+		
+		% short side labels (small, not intrusive)
+		\node[blue!70!black, font=\scriptsize] at (\xa+0.03,1.18) {$x=\tfrac14$};
+		\node[blue!70!black, font=\scriptsize] at (\xb-0.03,1.18) {$x=\tfrac34$};
+		
+		%-------------------------------------------------
+		% OUTSIDE LEGEND + CALLOUTS (readable!)
+		%-------------------------------------------------
+		\node[anchor=west, fill=white, inner sep=2pt, font=\scriptsize]
+		(Linf) at (0.86,1.52) {horocycle at $\infty$: $y=c$};
+		\draw[->, thin, orange!85!black] (Linf.west) -- (\xb,\yinf);
+		
+		\node[anchor=west, fill=white, inner sep=2pt, font=\scriptsize]
+		(L1) at (0.86,0.62) {horocycle at $\tfrac14$};
+		\draw[->, thin, violet!80!black] (L1.west) -- (\xa,\rhL);
+		
+		\node[anchor=west, fill=white, inner sep=2pt, font=\scriptsize]
+		(L2) at (0.86,0.48) {horocycle at $\tfrac34$};
+		\draw[->, thin, teal!75!black] (L2.west) -- (\xb,\rhR);
+		
+		\node[anchor=west, fill=white, inner sep=2pt, font=\scriptsize]
+		(Ltri) at (0.86,1.36) {ideal triangle $\{\tfrac14,\tfrac34,\infty\}$};
+		
+	\end{tikzpicture}
+	
+	\[
+	(x-\tfrac12)^2+y^2=\bigl(\tfrac14\bigr)^2.
+	\]
+	
+	\caption{Horocycles inside the ideal triangle $\{\tfrac14,\tfrac34,\infty\}$. Labels are moved to an external legend to keep the picture readable.}
+\end{figure}
+
+\paragraph{Horocycles at $a=\tfrac14$ and the red geodesic side.}
+Consider the ideal triangle with vertices $\{\tfrac14,\tfrac34,\infty\}$ in the upper half--plane model.
+Its ``red'' geodesic side (joining $\tfrac14$ to $\tfrac34$) is the semicircle
+\[
+(x-\tfrac12)^2+y^2=\Bigl(\tfrac14\Bigr)^2,\qquad (y>0).
+\]
+A horocycle based at $a=\tfrac14$ is a Euclidean circle tangent to $\R$ at $\tfrac14$, hence it has equation
+\[
+(x-\tfrac14)^2+(y-r)^2=r^2,\qquad r>0,
+\]
+with centre $\bigl(\tfrac14,r\bigr)$ and radius $r$.
+
+\medskip
+
+\noindent
+\textbf{Key fact.}
+A horocycle based at $a=\tfrac14$ \emph{always} meets the red geodesic side
+\[
+(x-\tfrac12)^2+y^2=\Bigl(\tfrac14\Bigr)^2.
+\]
+Thus there is no regime in which it ``does not cross the red boundary'' (except in the degenerate limiting sense as
+the horocycle shrinks to the cusp point).
+
+\subsubsection*{1) What changes when the Euclidean radius $r$ increases?}
+As $r$ increases:
+\begin{itemize}
+	\item the circle becomes larger;
+	\item its highest point is at $y=2r$ (directly above $x=\tfrac14$);
+	\item near the real axis $y=0$ it becomes flatter (its curvature decreases), so parts of the circle may lie very close to $y=0$.
+\end{itemize}
+Hence ``larger radius'' does not mean ``the whole arc moves upward''; rather, the circle expands and flattens near the boundary.
+
+\subsubsection*{2) Explicit intersection with the red semicircle}
+Solve simultaneously
+\[
+(x-\tfrac14)^2+(y-r)^2=r^2,
+\qquad
+(x-\tfrac12)^2+y^2=\Bigl(\tfrac14\Bigr)^2.
+\]
+One intersection point is the cusp endpoint $(\tfrac14,0)$.
+The second intersection point is
+\[
+x(r)=\frac{48r^2+1}{4(16r^2+1)},
+\qquad
+y(r)=\frac{2r}{16r^2+1}.
+\]
+Its limiting behaviour is:
+\[
+r\to 0:\quad (x(r),y(r))\to\Bigl(\tfrac14,0\Bigr),
+\qquad
+r\to\infty:\quad (x(r),y(r))\to\Bigl(\tfrac34,0\Bigr).
+\]
+So increasing $r$ makes the visible horocycle arc extend farther across the triangle, but the intersection height $y(r)$
+eventually decreases back toward $0$.
+
+\subsubsection*{3) Why the arc looks cut in the picture (clipping to the triangle interior)}
+The interior of the ideal triangle $\{\tfrac14,\tfrac34,\infty\}$ is
+\[
+\operatorname{int}(\Delta)
+=\Bigl\{\,x+iy\in\HH:\ \tfrac14<x<\tfrac34,\ (x-\tfrac12)^2+y^2>\Bigl(\tfrac14\Bigr)^2\,\Bigr\}.
+\]
+Geometrically: we keep the region between the two vertical sides and \emph{outside} (above) the red semicircle.
+Therefore, whenever part of the horocycle lies below the red semicircle, that part is \emph{not} in $\operatorname{int}(\Delta)$
+and is clipped away; only the portion lying in the triangle interior remains visible.
+
+
+	
+	
+	
+	\subsubsection*{Ideal triangle and the thrice-punctured sphere}
+	Gluing sides of an ideal polygon by isometries produces complete finite-area hyperbolic surfaces.
+	The simplest example is the \emph{thrice-punctured sphere} (pair of pants with three cusps), which can be obtained from:
+	\begin{itemize}
+		\item two ideal triangles glued along their sides, or equivalently
+		\item one ideal quadrilateral (as in Problem 8(a)) with suitable side pairings.
+	\end{itemize}
+	The total area equals $2\pi$, consistent with $\chi=-1$:
+	\[
+	\Area = -2\pi\chi = 2\pi.
+	\]
+	
+	\subsubsection*{Figure: the standard ideal triangle (colored)}
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=4, line cap=round, line join=round]
+			\fill[gray!8] (-0.2,0) rectangle (1.2,1.45);
+			\draw[thick] (-0.2,0) -- (1.2,0);
+			
+			% axes
+			\draw[-{Latex[length=2mm]}, thick] (-0.2,0) -- (1.2,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,1.45) node[above] {$y$};
+			\clip (-0.2,0) rectangle (1.2,1.45);
+			
+			% sides x=0 and x=1
+			\draw[very thick, blue!70!black] (0,0) -- (0,1.45);
+			\draw[very thick, blue!70!black] (1,0) -- (1,1.45);
+			
+			% semicircle from 0 to 1: center 1/2 radius 1/2
+			\draw[very thick, red!70!black] (0,0) arc[start angle=180, end angle=0, radius=0.5];
+			
+			% fill triangle region (visual)
+			\path[fill=cyan!18, opacity=0.30]
+			(0,0) -- (0,1.45) -- (1,1.45) -- (1,0)
+			-- cycle;
+			% clip fill to triangle by re-filling precisely:
+			\begin{scope}
+				\clip (0,0) -- (0,1.45) -- (1,1.45) -- (1,0) -- cycle;
+				\fill[cyan!18, opacity=0.30]
+				(0,0) arc[start angle=180, end angle=0, radius=0.5] -- cycle;
+			\end{scope}
+			
+			% ideal vertices labels
+% ideal vertices labels
+\fill (0,0) circle (0.02) node[below] {$0$};
+\fill (1,0) circle (0.02) node[below] {$1$};
+
+% third ideal vertex (at infinity): show it clearly
+\draw[->, thin] (0.5,1.24) -- (0.5,1.33);
+\node[above, fill=white, inner sep=1pt] at (0.5,1.33) {$\infty$};
+			
+			\node[blue!70!black] at (0.08,1.18) {\small $x=0$};
+			\node[blue!70!black] at (0.92,1.18) {\small $x=1$};
+			\node[red!70!black]  at (0.50,0.25) {\small $(x-\tfrac12)^2+y^2=(\tfrac12)^2$};
+			
+			\node[fill=white, inner sep=1pt] at (0.5,1.08) {\small standard ideal triangle};
+		\end{tikzpicture}
+		\caption{The standard ideal hyperbolic triangle with vertices $0,1,\infty$ in the upper half–plane model. All ideal triangles are isometric and have area $\pi$.}
+	\end{figure}
+	
+	\begin{itemize}
+		\item The three sides are
+		\[
+		x=0,\qquad x=1,\qquad (x-\tfrac12)^2+y^2=\Bigl(\tfrac12\Bigr)^2 \quad (y>0).
+		\]
+		
+		\item The \emph{interior} is the set of points in $\HH$ that lie between the two vertical lines and
+		outside (i.e.\ above) the semicircle:
+		\[
+		\operatorname{int}(\Delta)
+		=\Bigl\{\,x+iy\in\HH:\ 0<x<1,\ (x-\tfrac12)^2+y^2>\Bigl(\tfrac12\Bigr)^2\,\Bigr\}.
+		\]
+	\end{itemize}
+	
+	So: inside the triangle $=$ the region above the red semicircle, with $0<x<1$.
+	
+	\medskip
+	
+	Why ``outside the circle''? Because the side $\gamma_{01}$ \emph{is} the semicircle itself, and the ideal triangle is the
+	unbounded region going upward toward the common ideal vertex $\infty$.
+	
+	% Requires: \usetikzlibrary{arrows.meta}
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=5, line cap=round, line join=round]
+			\fill[gray!8] (-0.05,0) rectangle (1.05,1.45);
+			\draw[thick] (-0.05,0) -- (1.05,0);
+			
+			% axes
+			\draw[-{Latex[length=2mm]}, thick] (-0.05,0) -- (1.05,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}, thick] (0,0) -- (0,1.45) node[above] {$y$};
+			\clip (-0.05,0) rectangle (1.05,1.45);
+			
+			% parameters
+			\def\xa{0.25}
+			\def\xb{0.75}
+			\def\xc{0.50}
+			\def\r{0.25}
+			\def\ymax{1.45}
+			
+			% Fill interior region: rectangle between vertical sides minus the semicircle cap
+			\path[fill=cyan!18, opacity=0.35, even odd rule]
+			(\xa,0) -- (\xb,0) -- (\xb,\ymax) -- (\xa,\ymax) -- cycle
+			(\xa,0) arc[start angle=180, end angle=0, radius=\r] -- cycle;
+			
+			% sides x=1/4 and x=3/4
+			\draw[very thick, blue!70!black] (\xa,0) -- (\xa,\ymax);
+			\draw[very thick, blue!70!black] (\xb,0) -- (\xb,\ymax);
+			
+			% semicircle from 1/4 to 3/4 (center 1/2, radius 1/4)
+			\draw[very thick, red!70!black] (\xa,0) arc[start angle=180, end angle=0, radius=\r];
+			
+			% ideal vertices labels
+			\fill (\xa,0) circle (0.02) node[below] {$\tfrac14$};
+			\fill (\xb,0) circle (0.02) node[below] {$\tfrac34$};
+			
+			% the ideal vertex at infinity (shared endpoint of the two vertical geodesics)
+			\draw[->, thin] (\xc,1.22) -- (\xc,1.33);
+			\node[above, fill=white, inner sep=1pt] at (\xc,1.33) {$\infty$};
+			
+			% side labels
+			\node[blue!70!black] at (\xa+0.03,1.18) {\small $x=\tfrac14$};
+			\node[blue!70!black] at (\xb-0.03,1.18) {\small $x=\tfrac34$};
+			\node[red!70!black]  at (\xc,0.27) {\small $(x-\tfrac12)^2+y^2=(\tfrac14)^2$};
+			
+			\node[fill=white, inner sep=1pt] at (\xc,1.05) {\small ideal triangle $\{\tfrac14,\tfrac34,\infty\}$};
+		\end{tikzpicture}
+		\caption{The ideal triangle with vertices $\{\tfrac14,\tfrac34,\infty\}$ in the upper half--plane model; its interior is shaded.}
+	\end{figure}
+	
+	
+	\subsubsection*{Chat-style explanation (intuition, but still precise)}
+	\begin{itemize}
+		\item Think of an ideal triangle as a triangle whose corners are ``pushed to infinity''. Each corner becomes a \emph{cusp}.
+		\item Even though the sides run off to infinity, the triangle has a \emph{finite} area: exactly $\pi$.
+		\item The reason everything is so rigid is that $\PSL(2,\R)$ can move any three boundary points to any other three:
+		so there is only one ideal triangle shape.
+		\item Ideal triangles are the basic building blocks of finite-area hyperbolic surfaces with cusps (like the thrice-punctured sphere).
+	\end{itemize}
+	
+	\subsection*{Deep theory: Ideal hyperbolic triangles in the Poincar\'e disk model}
+	
+	\paragraph{The Poincar\'e disk model.}
+	Let
+	\[
+	\DD=\{z\in\C:\ |z|<1\}.
+	\]
+	The Poincar\'e metric (curvature $-1$) is
+	\[
+	ds^2_{\hyp}=\frac{4\,|dz|^2}{(1-|z|^2)^2}.
+	\]
+	The boundary circle $\partial\DD=S^1=\{|z|=1\}$ is not part of the space, but it represents the \emph{ideal boundary}:
+	points of $S^1$ are the \emph{ideal points} (points ``at infinity'').
+	
+	\paragraph{Geodesics.}
+	Hyperbolic geodesics in $(\DD,d_{\hyp})$ are exactly:
+	\begin{itemize}
+		\item Euclidean diameters of the unit circle; and
+		\item Euclidean circular arcs meeting $S^1$ \emph{orthogonally}.
+	\end{itemize}
+	(So the correct ``straight lines'' are those arcs that hit the boundary at right angles.)
+	
+	\paragraph{Ideal triangles.}
+	An \emph{ideal hyperbolic triangle} is a region in $\DD$ bounded by three geodesics whose endpoints lie on $S^1$,
+	so its three vertices are ideal points $u,v,w\in S^1$ (pairwise distinct).
+	
+	\paragraph{Uniqueness up to isometry.}
+	Every ideal triangle in $\H^2$ is congruent to every other one. In the disk model the orientation-preserving isometry group
+	is the group of M\"obius transformations preserving $\DD$ (often written $\mathrm{PSU}(1,1)\cong \mathrm{PSL}(2,\R)$),
+	and it acts $3$-transitively on $S^1$: given two ordered triples of distinct boundary points, there is a unique isometry sending
+	one triple to the other. Hence \emph{there are infinitely many ideal triangles in $\DD$ as subsets, but only one up to isometry.}
+	
+	\paragraph{Area.}
+	For a hyperbolic triangle with interior angles $A,B,C$ in curvature $-1$ one has
+	\[
+	\operatorname{Area}(\Delta)=\pi-(A+B+C).
+	\]
+	For an ideal triangle, $A=B=C=0$, so
+	\[
+	\operatorname{Area}(\Delta_{\mathrm{ideal}})=\pi.
+	\]
+	(So all ideal triangles have the same area $\pi$.)
+	
+	\paragraph{Horocycles (horolines).}
+	In the disk model, a horocycle based at an ideal point $\xi\in S^1$ is a curve of constant distance from $\xi$,
+	and it appears as a Euclidean circle \emph{tangent} to $S^1$ at $\xi$ (or, in the limiting case, a diameter/line in a suitable model).
+	This is the disk analogue of ``$y=c$'' horocycles in the upper half-plane model.
+	
+	%=========================================================
+	% Figure: Standard ideal triangle in the Poincaré disk
+	%=========================================================
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=3.2, line cap=round, line join=round]
+			% background
+			\fill[gray!6] (-1.25,-1.25) rectangle (1.35,1.25);
+			
+			% axes
+			\draw[-{Latex[length=2mm]}, thick] (-1.25,0) -- (1.35,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}, thick] (0,-1.25) -- (0,1.25) node[above] {$y$};
+			
+			% unit disk boundary
+			\draw[thick] (0,0) circle (1);
+			
+			% ideal vertices (cube roots of unity)
+			\coordinate (A) at (1,0);
+			\coordinate (B) at (-0.5,0.8660254);
+			\coordinate (C) at (-0.5,-0.8660254);
+			
+			% fill ideal triangle interior by following geodesic arcs (orthogonal to S^1)
+			% For this symmetric choice, each side is an arc of a circle of radius sqrt(3).
+			\path[fill=cyan!18, opacity=0.35]
+			(A) arc[start angle=-90, end angle=-150, radius=1.7320508]
+			arc[start angle=30,  end angle=-30,  radius=1.7320508]
+			arc[start angle=150, end angle=90,   radius=1.7320508]
+			-- cycle;
+			
+			% draw the three geodesic sides (colored)
+			\draw[very thick, red!70!black]
+			(A) arc[start angle=-90, end angle=-150, radius=1.7320508];
+			\draw[very thick, blue!70!black]
+			(B) arc[start angle=30, end angle=-30, radius=1.7320508];
+			\draw[very thick, green!60!black]
+			(C) arc[start angle=150, end angle=90, radius=1.7320508];
+			
+			% mark ideal vertices on the boundary
+			\fill (A) circle (0.02) node[below right] {$1$};
+			\fill (B) circle (0.02) node[above left] {$e^{2\pi i/3}$};
+			\fill (C) circle (0.02) node[below left] {$e^{4\pi i/3}$};
+			
+\node[fill=white, inner sep=2pt] at (0,0.12)
+{\small ideal triangle in $(\DD,d_{\hyp})$};
+		\end{tikzpicture}
+		\caption{An ideal triangle in the Poincar\'e disk model. The sides are geodesics: Euclidean circle arcs orthogonal to the unit circle $S^1$. All ideal triangles are isometric and have area $\pi$.}
+	\end{figure}
+	
+	
+	% Requires: \usetikzlibrary{arrows.meta}
+	
+	\begin{figure}[ht]
+		\centering
+		\begin{tikzpicture}[scale=3.2, line cap=round, line join=round]
+			% background + axes
+			\fill[gray!6] (-1.25,-1.25) rectangle (1.45,1.25);
+			\draw[-{Latex[length=2mm]}, thick] (-1.25,0) -- (1.45,0) node[right] {$x$};
+			\draw[-{Latex[length=2mm]}, thick] (0,-1.25) -- (0,1.25) node[above] {$y$};
+			
+			% unit circle boundary of the disk
+			\draw[thick] (0,0) circle (1);
+			\node[below right] at (0.75,-0.75) {\small $\DD=\{|z|<1\}$};
+			
+			%--------------------------------------------
+			% Type 1: a diameter geodesic
+			%--------------------------------------------
+			\def\angD{25} % angle for diameter
+			\coordinate (D1) at ({cos(\angD)},{sin(\angD)});
+			\coordinate (D2) at ({-cos(\angD)},{-sin(\angD)});
+			\draw[very thick, purple!75!black] (D2) -- (D1);
+			\node[fill=white, inner sep=2pt, font=\scriptsize] at (0.15,0.55)
+			{geodesic type 1: diameter};
+			
+			%--------------------------------------------
+			% Type 2: orthogonal arc geodesic (right side)
+			% Endpoints at angles ±60° on S^1:
+			% center a = sec(60)=2 on x-axis, radius R = tan(60)=sqrt(3)
+			% Param: x = a + R cos t, y = R sin t, with t in [180-θ,180+θ]
+			%--------------------------------------------
+			\def\thetaR{60}
+			\def\aR{2.0}
+			\def\RR{1.7320508}
+			\draw[very thick, red!70!black]
+			plot[smooth, variable=\t, domain={180-\thetaR}:{180+\thetaR}, samples=220]
+			({\aR+\RR*cos(\t)},{\RR*sin(\t)});
+			% optional: show the full supporting circle (dashed) to emphasize orthogonality
+			\draw[dashed, red!70!black, opacity=0.45] (\aR,0) circle (\RR);
+			\node[fill=white, inner sep=2pt, font=\scriptsize] at (0.55,0.15)
+			{geodesic type 2: arc $\perp\,S^1$};
+			
+			%--------------------------------------------
+			% Another orthogonal arc (left side)
+			% Choose θ=50°, endpoints at angles 180±50°; center a=-sec(50), radius=tan(50)
+			% For this case the inside-disk arc is t in [-(90-θ), +(90-θ)].
+			%--------------------------------------------
+			\def\thetaL{50}
+			\def\aL{-1.5557238}  % -sec(50°)
+			\def\RL{1.1917536}   % tan(50°)
+			\draw[very thick, blue!70!black]
+			plot[smooth, variable=\t, domain={-(90-\thetaL)}:{(90-\thetaL)}, samples=220]
+			({\aL+\RL*cos(\t)},{\RL*sin(\t)});
+			\draw[dashed, blue!70!black, opacity=0.45] (\aL,0) circle (\RL);
+			
+			%--------------------------------------------
+			% (Optional) Non-example: a Euclidean circle NOT tangent/orthogonal to S^1
+			%--------------------------------------------
+			\draw[densely dashed, gray!70] (0.25,0.15) circle (0.32);
+			\node[gray!70, font=\scriptsize] at (0.25,-0.25) {not a geodesic};
+			
+			% mark a couple of boundary points (endpoints live on S^1)
+			\fill (1,0) circle (0.015);
+			\fill (-1,0) circle (0.015);
+			\node[font=\scriptsize, above right] at (1,0) {$S^1$};
+		\end{tikzpicture}
+		\caption{Geodesics in the Poincar\'e disk: (1) diameters; (2) circular arcs orthogonal to the boundary circle $S^1$. (Dashed circles show the Euclidean circles supporting the orthogonal arcs.)}
+	\end{figure}
+	
+	\clearpage
+	
+\section*{E1. Constellations of circles and M\"obius transformations}
+
+\subsubsection*{Problem statement}
+\begin{enumerate}
+	\item Let $A,B$ be disjoint circles in $\C$. Show that there is a M\"obius transformation which takes $A$ and $B$ to two concentric circles.
+	\item A collection of circles $X_i\subset \C$, $0\le i\le n-1$, for which
+	\begin{enumerate}
+		\item $X_i$ is tangent to $A$, $B$ and $X_{i+1}$ (indices mod $n$), and
+		\item the circles are disjoint away from tangency points,
+	\end{enumerate}
+	is called a \emph{constellation} on $(A,B)$.
+	Prove that for any $n\ge 2$ there is some pair $(A,B)$ and a constellation on $(A,B)$ made of precisely $n$ circles.
+	Draw a picture illustrating your answer.
+	\item Given an $n$-circle constellation $\{X_i\}$ on $(A,B)$, prove that the tangency points
+	\[
+	p_i:=X_i\cap X_{i+1}\qquad (0\le i\le n-1)
+	\]
+	all lie on a circle. Now suppose $n>2$. Prove that if $Y_0$ is \emph{any} circle tangent to $A$ and $B$, and circles
+	$Y_i$ are constructed inductively so that $Y_i$ is tangent to $A$, $B$ and $Y_{i-1}$, then necessarily $Y_n=Y_0$,
+	so the chain closes up to form another constellation. Does the same result hold when $n=2$?
+\end{enumerate}
+
+\subsubsection*{Theory (inversive/M\"obius geometry facts)}
+\begin{itemize}
+	\item A M\"obius transformation $T(z)=\dfrac{az+b}{cz+d}$ maps (generalized) circles/lines to (generalized) circles/lines.
+	\item M\"obius transformations preserve angles and tangency: if two circles are tangent, their images are tangent.
+	\item Two disjoint circles generate a \emph{coaxial family} of circles; this family has two \emph{limiting points}
+	(the two points with equal power w.r.t.\ both circles). Mapping these limiting points to $0$ and $\infty$ makes the family
+	concentric.
+\end{itemize}
+
+\subsubsection*{Solution (a): mapping two disjoint circles to concentric circles}
+Let $A$ and $B$ be disjoint circles. Consider their coaxial family; it has two distinct limiting points $\ell_1,\ell_2$
+(geometrically: the two points having equal power with respect to $A$ and $B$; they exist and are distinct since $A,B$
+do not meet).
+Choose a M\"obius transformation $T$ with
+\[
+T(\ell_1)=0,\qquad T(\ell_2)=\infty.
+\]
+In the $w$-plane, the coaxial family becomes the family of circles \emph{centered at $0$} (because the limiting points are
+$0$ and $\infty$), hence $T(A)$ and $T(B)$ are circles with the same center. Therefore $T(A)$ and $T(B)$ are concentric.
+
+\subsubsection*{Solution (b): existence of an $n$-circle constellation}
+By part (a) we may construct examples in the concentric model and then pull back by a M\"obius map.
+
+\paragraph{Case $n\ge 3$ (explicit concentric construction).}
+Let
+\[
+A:\ |z|=r,\qquad B:\ |z|=R,\qquad 0<r<R,
+\]
+concentric circles centered at $0$. A circle $X$ lying in the annulus and tangent to both boundaries must satisfy
+\[
+d+s=R,\qquad d-s=r,
+\]
+where $d$ is the distance of the center of $X$ from the origin and $s$ is the Euclidean radius of $X$.
+Hence
+\[
+d=\frac{R+r}{2},\qquad s=\frac{R-r}{2}.
+\]
+So \emph{all} circles tangent to both $A$ and $B$ have the same radius $s$ and their centers lie on the circle of radius $d$.
+
+Now arrange $n$ such circles with centers equally spaced on the circle $|z|=d$.
+Two consecutive circles are tangent iff the chord length between consecutive centers equals $2s$:
+\[
+2d\sin\!\Bigl(\frac{\pi}{n}\Bigr)=2s
+\quad\Longleftrightarrow\quad
+\sin\!\Bigl(\frac{\pi}{n}\Bigr)=\frac{s}{d}=\frac{R-r}{R+r}.
+\]
+Given $n\ge 3$, pick any $r>0$ and define $R$ by
+\[
+\frac{R-r}{R+r}=\sin\!\Bigl(\frac{\pi}{n}\Bigr)
+\quad\Longleftrightarrow\quad
+R=r\,\frac{1+\sin(\pi/n)}{1-\sin(\pi/n)}.
+\]
+Then the $n$ equal circles tangent to both boundaries and to their neighbors form a constellation.
+
+\paragraph{Case $n=2$ (a concrete non-concentric example).}
+Let $A,B$ be the two unit circles centered at $(-a,0)$ and $(a,0)$, with $a>1$ (so they are disjoint).
+Set
+\[
+R=\frac{a^2-1}{2}.
+\]
+Then the two circles
+\[
+X_0:\ (x-0)^2+(y-R)^2=R^2,
+\qquad
+X_1:\ (x-0)^2+(y+R)^2=R^2
+\]
+are each tangent to both $A$ and $B$, and also tangent to each other (by symmetry, their centers are distance $2R$ apart
+and their radii sum to $2R$). Hence $\{X_0,X_1\}$ is a $2$-circle constellation.
+
+\subsubsection*{Solution (c): tangency points are concyclic; the porism for $n>2$}
+Let $\{X_i\}_{i=0}^{n-1}$ be a constellation on $(A,B)$ and let $p_i=X_i\cap X_{i+1}$ be the tangency points.
+
+\paragraph{Step 1: reduce to concentric circles.}
+By (a) there is a M\"obius map $T$ sending $A,B$ to concentric circles.
+Since $T$ preserves tangency, $\{T(X_i)\}$ is a constellation between concentric circles, and the tangency points
+$T(p_i)$ are concyclic iff the original $p_i$ are concyclic (images of circles are circles).
+
+\paragraph{Step 2: concentric model computation.}
+Assume $A:|z|=r$, $B:|z|=R$ are concentric. Then each $X_i$ tangent to $A$ and $B$ has the \emph{same} radius
+\[
+s=\frac{R-r}{2},
+\quad\text{and its center lies on } |z|=d,\ \ d=\frac{R+r}{2}.
+\]
+In any constellation, consecutive circles $X_i,X_{i+1}$ are equal-radius tangent circles, so their tangency point is the
+Euclidean midpoint of their centers. If the centers are $c_i,c_{i+1}$ with $|c_i|=|c_{i+1}|=d$ and
+$\angle(c_i,c_{i+1})=\alpha$ constant along the chain, then
+\[
+p_i=\frac{c_i+c_{i+1}}{2}
+\quad\Longrightarrow\quad
+|p_i|=\Bigl|\frac{c_i+c_{i+1}}{2}\Bigr|=d\cos\!\Bigl(\frac{\alpha}{2}\Bigr),
+\]
+which is independent of $i$. Hence all $p_i$ lie on the circle centered at $0$ with radius $d\cos(\alpha/2)$.
+Pulling back by $T^{-1}$, the original tangency points $p_i$ are concyclic.
+
+\paragraph{Step 3: closure for $n>2$ (porism).}
+In the concentric model, a circle tangent to both boundaries is determined by the angle $\theta$ of its center on $|z|=d$.
+Fix the rule ``$Y_i$ is tangent to $A,B$ and $Y_{i-1}$'' choosing consistently one direction around the annulus.
+Then each step advances the center angle by a fixed increment $\alpha$ determined by the tangency condition
+\[
+2d\sin(\alpha/2)=2s.
+\]
+So the sequence of centers is $\theta_i=\theta_0+i\alpha$, and therefore
+\[
+Y_n=Y_0 \quad\Longleftrightarrow\quad n\alpha\equiv 2\pi \pmod{2\pi}.
+\]
+If \emph{one} $n$-cycle exists (a constellation with $n>2$), then necessarily $\alpha=2\pi/n$ (up to orientation),
+and then \emph{every} starting circle closes after $n$ steps. This is the circle-chain analogue of a Poncelet-type porism.
+
+\paragraph{What about $n=2$?}
+For $n=2$ the ``next circle tangent to $A,B$ and $Y_{i-1}$'' is not rigid in the same way (there can be branching choices),
+and the closure phenomenon does \emph{not} hold in general: there are pairs $(A,B)$ for which some choices yield a 2-cycle,
+while other starting circles (or other choices of the next tangent circle) generate non-closing chains.
+
+%=========================================================
+% Figure: n-circle constellation between concentric circles
+%=========================================================
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=2.6, line cap=round, line join=round]
+		% parameters
+		\def\n{10}      % number of circles in constellation (try 6,8,10,...)
+		\def\R{1.60}    % outer radius
+		\def\r{0.60}    % inner radius
+		
+		% derived quantities
+		\pgfmathsetmacro{\d}{(\R+\r)/2} % radius of centers
+		\pgfmathsetmacro{\s}{(\R-\r)/2} % radius of each tangent circle
+		
+		% draw A and B
+		\draw[very thick, blue!70!black] (0,0) circle (\R);
+		\draw[very thick, red!70!black]  (0,0) circle (\r);
+		
+		% draw the n equal circles tangent to both boundaries
+		\foreach \k in {0,...,\numexpr\n-1\relax} {
+			\pgfmathsetmacro{\ang}{360*\k/\n}
+			\coordinate (C\k) at ({\d*cos(\ang)},{\d*sin(\ang)});
+			\draw[thick] (C\k) circle (\s);
+		}
+		
+		\node[blue!70!black] at (0,\R+0.18) {\small $B$};
+		\node[red!70!black]  at (0,\r+0.14) {\small $A$};
+		\node[fill=white, inner sep=2pt] at (0,-\R-0.25)
+		{\small example: an $n$-circle constellation between concentric circles};
+	\end{tikzpicture}
+\caption{A constellation (here $n=\n$): $n$ equal circles tangent to the two concentric
+	circles $A$ (red) and $B$ (blue), and tangent successively to each other. Choosing $R,r$ so that
+	$2d\sin(\pi/n)=2s$ ensures the chain closes.}
+\end{figure}
+
+
+
+% ---------------------------------------------------------
+\subsection{E2. A free subgroup generated by compositions of reflections}
+
+\subsubsection*{Problem statement}
+Let $l_1,l_2,l_3$ be pairwise ultraparallel hyperbolic lines whose endpoints on
+$\partial\H^2$ are cyclically ordered
+\[
+l_1^+,\,l_1^-,\,l_2^+,\,l_2^-,\,l_3^+,\,l_3^- .
+\]
+Let $r_{l}$ denote reflection in the line $l$ and define
+\[
+T_a=r_{l_2}\circ r_{l_1},
+\qquad
+T_b=r_{l_3}\circ r_{l_2}.
+\]
+Prove that $T_a$ and $T_b$ generate a free subgroup of the group of
+orientation-preserving hyperbolic isometries.
+(\emph{Hint:} if $U$ is the region bounded by the $l_i$, and $V=U\cup r_{l_2}U$, consider a tiling of the plane by copies of $V$.)
+
+\subsubsection*{Theory}
+\begin{itemize}
+	\item A reflection $r_l$ is an isometry reversing orientation; it fixes $l$ pointwise and exchanges the two half-planes bounded by $l$.
+	\item If $l,m$ are ultraparallel, then $r_m\circ r_l$ is a \emph{hyperbolic translation} along the unique common perpendicular of $l$ and $m$
+	(with translation length twice the perpendicular distance).
+	\item \textbf{Ping--pong principle (geometric version).}
+	If a group acts on a set $X$ and one can find disjoint nonempty subsets $A,B\subset X$ such that
+	\[
+	T_a^{\pm1}(X\setminus A)\subset A,
+	\qquad
+	T_b^{\pm1}(X\setminus B)\subset B,
+	\]
+	then $\langle T_a,T_b\rangle$ is free on $\{T_a,T_b\}$.
+\end{itemize}
+
+\subsubsection*{Solution (tiling / ping--pong via a fundamental domain)}
+Work in the Poincar\'e disk model $\DD$ (the argument is model-independent).
+The cyclic ordering of endpoints means: the six ideal endpoints cut $\partial\DD$ into six disjoint arcs, and each line $l_i$
+connects its own pair of endpoints without intersecting the others. This ensures that the three ultraparallel geodesics bound a
+simply connected region $U$.
+
+Reflect $U$ across $l_2$ and set
+\[
+V:=U\cup r_{l_2}(U).
+\]
+Geometrically, $V$ is a ``two-sided'' region with boundary pieces lying on $l_1,l_2,l_3$ and their reflected images across $l_2$.
+
+Now observe:
+\[
+T_a=r_{l_2}\circ r_{l_1}\quad\text{maps $V$ across the side $l_1$ into an adjacent copy of $V$},
+\]
+and
+\[
+T_b=r_{l_3}\circ r_{l_2}\quad\text{maps $V$ across the side $l_3$ into another adjacent copy of $V$}.
+\]
+Moreover, reduced words in $T_a^{\pm1},T_b^{\pm1}$ move $V$ across successive sides without immediate cancellation; hence each reduced word
+sends $V$ into a copy of $V$ that is \emph{distinct} from $V$ itself. In particular no nontrivial reduced word can fix $V$, so
+no nontrivial reduced word represents the identity isometry.
+
+Equivalently, one can package the same idea as ping--pong on $\partial\DD$:
+the cyclic order gives disjoint boundary arcs (``ping--pong tables'') associated to the two translations $T_a$ and $T_b$,
+and the compositions push complementary arcs strictly inside the corresponding target arcs.
+Therefore $\langle T_a,T_b\rangle$ is free on $\{T_a,T_b\}$.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=3.2, line cap=round, line join=round]
+		% disk + axes (light)
+		\fill[gray!6] (-1.25,-1.25) rectangle (1.35,1.25);
+		\draw[thick] (0,0) circle (1);
+		\draw[-{Latex[length=2mm]}, thick] (-1.25,0) -- (1.35,0) node[right] {$x$};
+		\draw[-{Latex[length=2mm]}, thick] (0,-1.25) -- (0,1.25) node[above] {$y$};
+		
+		% pick six ideal endpoints in cyclic order (degrees)
+		\def\aOne{25}   \def\bOne{75}   % l1 endpoints
+		\def\aTwo{135}  \def\bTwo{195}  % l2 endpoints
+		\def\aThree{255}\def\bThree{315}% l3 endpoints
+		
+		% draw boundary points and labels
+		\foreach \ang/\lab in {
+			\aOne/{$l_1^+$}, \bOne/{$l_1^-$},
+			\aTwo/{$l_2^+$}, \bTwo/{$l_2^-$},
+			\aThree/{$l_3^+$}, \bThree/{$l_3^-$}
+		}{
+			\coordinate (P\ang) at ({cos(\ang)},{sin(\ang)});
+			\fill (P\ang) circle (0.012);
+			\node[font=\scriptsize] at ({1.10*cos(\ang)},{1.10*sin(\ang)}) {\lab};
+		}
+		
+		% geodesics (true orthogonal arcs)
+		\DiskGeodesic[very thick, red!70!black]{\aOne}{\bOne}
+		\DiskGeodesic[very thick, blue!70!black]{\aTwo}{\bTwo}
+		\DiskGeodesic[very thick, green!60!black]{\aThree}{\bThree}
+		
+		% a schematic "U" region label (not a precise clipping region, but conveys the bounded component)
+		\node[fill=white, inner sep=2pt] at (0.05,0.15) {\small $U$};
+		\node[fill=white, inner sep=2pt] at (0.58,0.45) {\small $l_1$};
+		\node[fill=white, inner sep=2pt] at (-0.55,0.40) {\small $l_2$};
+		\node[fill=white, inner sep=2pt] at (0.05,-0.55) {\small $l_3$};
+		
+		\node[fill=white, inner sep=2pt] at (0,-1.12) {\small Poincar\'e disk: three ultraparallel lines};
+	\end{tikzpicture}
+	\caption{E2 schematic in the disk model: three pairwise ultraparallel geodesics with cyclically ordered endpoints.
+		Compositions of reflections across consecutive sides act like ``side-pairings'' and (via ping--pong / tiling) generate a free group.}
+\end{figure}
+
+
+\clearpage
+% ---------------------------------------------------------
+\subsection*{E3. Simple closed geodesics and embedded subsurfaces}
+
+\subsubsection*{Problem statement}
+Let $\Sigma$ be an abstract compact hyperbolic surface.
+Let $\gamma_1,\gamma_2$ be simple closed geodesics in $\Sigma$ (images of smooth embeddings $S^1\to\Sigma$
+satisfying the geodesic equation everywhere).
+
+\begin{enumerate}
+	
+	\item Prove that $\gamma_1\cup\gamma_2$ cannot be the boundary of an embedded cylinder in $\Sigma$
+	(i.e.\ the boundary of an embedded subsurface homeomorphic to $S^1\times[0,1]$).
+	\item Construct a compact hyperbolic surface $\Sigma$ and disjoint simple closed geodesics $\gamma_1,\gamma_2\subset \Sigma$
+	such that $\gamma_1\cup\gamma_2$ bounds an embedded subsurface $\Sigma'\subset \Sigma$ homeomorphic to the complement
+	of two disjoint disks in a torus (i.e.\ genus $1$ with two boundary components).
+	\item Can this happen when $\Sigma$ has genus $2$? Briefly justify your answer.
+\end{enumerate}
+
+\subsubsection*{Theory}
+\begin{itemize}
+	\item (Uniqueness of geodesics in a free homotopy class.)
+	On a hyperbolic surface, each nontrivial free homotopy class of closed curves contains a \emph{unique} closed geodesic.
+	\item If two disjoint simple closed curves bound an embedded cylinder (annulus), then they are freely homotopic (indeed homotopic).
+	\item Euler characteristic bookkeeping for subsurfaces with boundary:
+	if $\Sigma=\Sigma'\cup \Sigma''$ glued along boundary circles (each has $\chi=0$), then
+	\[
+	\chi(\Sigma)=\chi(\Sigma')+\chi(\Sigma'').
+	\]
+\end{itemize}
+
+\subsubsection*{Solution (i): two distinct disjoint geodesics cannot bound an embedded cylinder}
+Assume for contradiction that $\gamma_1\cup\gamma_2$ is the boundary of an embedded cylinder $C\simeq S^1\times[0,1]$.
+Then $\gamma_1$ and $\gamma_2$ represent the same free homotopy class in $\Sigma$ (the two boundary components of an annulus are homotopic).
+But in a hyperbolic metric, each free homotopy class contains a \emph{unique} closed geodesic.
+Hence the geodesic representatives of that class must coincide, i.e.\ $\gamma_1=\gamma_2$, contradicting that they are distinct and disjoint.
+Therefore no such embedded cylinder can exist.
+
+\subsubsection*{Solution (ii): a surface where $\gamma_1\cup\gamma_2$ bounds a torus-with-two-holes}
+Let $\Sigma'$ be a compact surface of genus $1$ with two boundary components (a torus with two disks removed).
+Its Euler characteristic is
+\[
+\chi(\Sigma')=2-2\cdot 1-2=-2<0,
+\]
+so $\Sigma'$ admits a hyperbolic metric with \emph{geodesic boundary}.
+Let its boundary components be the geodesics $\gamma_1$ and $\gamma_2$.
+
+Now take the \emph{double} of $\Sigma'$ along its boundary:
+glue a second copy of $\Sigma'$ to the first by identifying $\gamma_1$ to $\gamma_1$ and $\gamma_2$ to $\gamma_2$.
+The resulting surface $\Sigma$ is closed and hyperbolic; its genus is
+\[
+g(\Sigma)=2g(\Sigma')+b(\Sigma')-1=2\cdot 1+2-1=3.
+\]
+In $\Sigma$, the curves $\gamma_1,\gamma_2$ remain disjoint simple closed geodesics, and they bound (one copy of) the subsurface $\Sigma'$
+embedded in $\Sigma$ exactly as required.
+
+\subsubsection*{Solution (iii): can this happen in genus $2$?}
+If $\Sigma$ has genus $2$, then $\chi(\Sigma)=2-2\cdot 2=-2$.
+If $\gamma_1\cup\gamma_2$ bounded a subsurface $\Sigma'$ homeomorphic to a torus minus two disks, then $\chi(\Sigma')=-2$ as above.
+Let $\Sigma''$ be the complementary subsurface (the closure of $\Sigma\setminus \Sigma'$).
+Gluing along boundary circles does not change Euler characteristic, so
+\[
+\chi(\Sigma)=\chi(\Sigma')+\chi(\Sigma'') \quad\Longrightarrow\quad
+-2=-2+\chi(\Sigma'') \quad\Longrightarrow\quad \chi(\Sigma'')=0.
+\]
+But $\Sigma''$ has \emph{two} boundary components (the same $\gamma_1,\gamma_2$), and $\chi(\Sigma'')=0$ forces $\Sigma''$ to be an annulus.
+That would mean $\gamma_1$ and $\gamma_2$ bound an embedded cylinder in $\Sigma$, which is impossible by part (i).
+Hence this configuration \emph{cannot} occur in genus $2$.
+
+\begin{figure}[ht]
+	\centering
+	\begin{tikzpicture}[scale=1.05, line cap=round, line join=round]
+		% schematic surface picture (topological, not metric)
+		\fill[gray!6] (-5.6,-1.8) rectangle (5.6,1.8);
+		
+		% draw a "genus 3" blob
+		\draw[thick] (-3.8,0) .. controls (-3.8,1.3) and (-1.8,1.6) .. (0,1.2)
+		.. controls (1.8,1.6) and (3.8,1.3) .. (3.8,0)
+		.. controls (3.8,-1.3) and (1.8,-1.6) .. (0,-1.2)
+		.. controls (-1.8,-1.6) and (-3.8,-1.3) .. (-3.8,0) -- cycle;
+		
+		% three "handles" (schematic)
+		\draw[thick] (-2.6,0.25) ellipse (1.0 and 0.55);
+		\draw[thick] (0.0,0.25) ellipse (1.0 and 0.55);
+		\draw[thick] (2.6,0.25) ellipse (1.0 and 0.55);
+		
+		% two geodesic boundaries inside (schematic as bold loops)
+		\draw[very thick, red!70!black] (-1.2,0) ellipse (0.75 and 0.35);
+		\draw[very thick, blue!70!black] (1.2,0) ellipse (0.75 and 0.35);
+		
+		% label the bounded subsurface
+		\node[fill=white, inner sep=2pt] at (0,0.95) {\small $\Sigma$ (genus $3$)};
+		\node[fill=white, inner sep=2pt] at (0,-0.95) {\small $\Sigma'$ is a torus with two holes};
+		\node[red!70!black] at (-1.2,0.55) {\small $\gamma_1$};
+		\node[blue!70!black] at (1.2,0.55) {\small $\gamma_2$};
+	\end{tikzpicture}
+	\caption{E3 schematic: in a genus $3$ surface (e.g.\ the double of a torus-with-two-holes),
+		two disjoint geodesics $\gamma_1,\gamma_2$ can bound an embedded subsurface homeomorphic to a torus minus two disks.
+		In genus $2$ this would force the complement to be an annulus, which is impossible for distinct geodesics.}
+\end{figure}
+
+
+
+
+% preamble:
+% \usepackage{float}
+% \usetikzlibrary{arrows.meta}
+
+\begin{figure}[H]
+	\centering
+	\begin{tikzpicture}[scale=3.2, line cap=round, line join=round]
+		% stable box + clip
+		\path[use as bounding box] (-1.25,-1.25) rectangle (1.35,1.25);
+		\clip (-1.25,-1.25) rectangle (1.35,1.25);
+		
+		\fill[gray!6] (-1.25,-1.25) rectangle (1.35,1.25);
+		\draw[thick] (0,0) circle (1);
+		\draw[-{Latex[length=2mm]}, thick] (-1.25,0) -- (1.35,0) node[right] {$x$};
+		\draw[-{Latex[length=2mm]}, thick] (0,-1.25) -- (0,1.25) node[above] {$y$};
+		
+		% ---------------------------------------------------------
+		% Mirror geodesic l given by boundary angles la, lb
+		% ---------------------------------------------------------
+		\pgfmathsetmacro{\la}{35}
+		\pgfmathsetmacro{\lb}{200}
+		
+		% endpoints on unit circle
+		\pgfmathsetmacro{\ax}{cos(\la)}
+		\pgfmathsetmacro{\ay}{sin(\la)}
+		\pgfmathsetmacro{\bx}{cos(\lb)}
+		\pgfmathsetmacro{\by}{sin(\lb)}
+		
+		% supporting circle center (h,k) and radius Rgeo (orthogonal to unit circle)
+		\pgfmathsetmacro{\det}{\ax*\by - \ay*\bx}
+		\pgfmathsetmacro{\h}{(\by-\ay)/\det}
+		\pgfmathsetmacro{\k}{(\ax-\bx)/\det}
+		\pgfmathsetmacro{\Rgeo}{sqrt(\h*\h+\k*\k-1)}
+		
+		% draw the geodesic arc itself
+		\DiskGeodesic[very thick, blue!70!black]{\la}{\lb}
+		\node[fill=white, inner sep=2pt] at (-0.55,0.55) {\small mirror $l$};
+		
+		% (optional) draw the full supporting circle (shows the "inversion circle")
+		\draw[dashed, blue!50!black] (\h,\k) circle (\Rgeo);
+		
+		% label ideal endpoints on boundary (optional but clarifies what l is)
+		\fill (\ax,\ay) circle (0.012) node[font=\scriptsize, above right] {$l^+$};
+		\fill (\bx,\by) circle (0.012) node[font=\scriptsize, below left] {$l^-$};
+		
+		% ---------------------------------------------------------
+		% Pick a point z and compute zr = r_l(z) by inversion in the supporting circle
+		% ---------------------------------------------------------
+		\pgfmathsetmacro{\zx}{0.55}
+		\pgfmathsetmacro{\zy}{0.25}
+		\coordinate (z) at (\zx,\zy);
+		
+		% inversion formula: z' = c + (R^2/|z-c|^2) (z-c), where c=(h,k)
+		\pgfmathsetmacro{\dx}{\zx-\h}
+		\pgfmathsetmacro{\dy}{\zy-\k}
+		\pgfmathsetmacro{\den}{\dx*\dx+\dy*\dy}
+		\pgfmathsetmacro{\zrx}{\h + (\Rgeo*\Rgeo)*\dx/\den}
+		\pgfmathsetmacro{\zry}{\k + (\Rgeo*\Rgeo)*\dy/\den}
+		\coordinate (zr) at (\zrx,\zry);
+		
+		\fill[red!70!black] (z)  circle (0.018) node[above right] {\small $z$};
+		\fill[red!70!black] (zr) circle (0.018) node[below right] {\small $r_l(z)$};
+		
+		% (optional) just a visual connector (NOT claiming this is a geodesic)
+		\draw[dashed, gray!70] (z) -- (zr);
+		
+		\node[fill=white, inner sep=2pt] at (0.30,0.95)
+		{\small $r_l$ fixes $l$ pointwise and swaps the two sides};
+	\end{tikzpicture}
+	\caption{Reflection $r_l$ in a hyperbolic line $l$ (Poincar\'e disk). Here $r_l(z)$ is computed exactly as inversion in the supporting circle of $l$ (orthogonal to $\partial\DD$), so $d_{\hyp}(z,l)=d_{\hyp}(r_l(z),l)$.}
+\end{figure}
+
+
+
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.72\textwidth]{figures/MATH-ALLS-2_.figs_poincare_reflection_in_line.png}
+	\caption{Reflection $r_l$ in a hyperbolic line $l$ (Poincar\'e disk). The mirror $l$ is fixed pointwise and the perpendicular geodesic through $z$ meets $l$ at $p$, with $d_{\mathbb D}(z,l)=d_{\mathbb D}(r_l(z),l)$.}
+\end{figure}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.72\textwidth]{figures/MATH-ALLS-2_.figs_poincare_intersecting_reflections.png}
+	\caption{Two intersecting mirrors: if $l_1$ and $l_2$ meet at angle $\theta$, then $r_{l_2}\circ r_{l_1}$ is an elliptic isometry (a rotation) about $l_1\cap l_2$ by angle $2\theta$.}
+\end{figure}
+
+
+\subsubsection*{Why the composition of two reflections rotates by $2\varphi$}
+
+Let $l_1$ and $l_2$ be two hyperbolic lines (geodesics) in the Poincar\'e disk model
+that intersect at a point $P$, and let
+\[
+\varphi=\angle(l_1,l_2)\in(0,\pi)
+\]
+be their (hyperbolic) angle at $P$.
+Since the Poincar\'e disk model is conformal, this equals the Euclidean angle at $P$.
+
+Consider an oriented tangent ray $\rho$ based at $P$.
+Let
+\[
+\alpha=\angle(\rho,l_1)
+\]
+be the signed angle from $l_1$ to $\rho$ (measured in $(-\pi,\pi)$).
+
+\medskip
+\noindent\textbf{Step 1: reflection in $l_1$.}
+Reflection $r_{l_1}$ fixes $l_1$ pointwise and reverses orientation, hence it
+\emph{negates} the signed angle with $l_1$:
+\[
+\angle\!\bigl(r_{l_1}(\rho),l_1\bigr)=-\alpha.
+\]
+
+\medskip
+\noindent\textbf{Step 2: express angles with respect to $l_2$.}
+Because $l_2$ is obtained from $l_1$ by rotating by $\varphi$ at $P$, we have
+\[
+\angle(\rho,l_2)=\alpha-\varphi,
+\qquad
+\angle\!\bigl(r_{l_1}(\rho),l_2\bigr)
+=\angle\!\bigl(r_{l_1}(\rho),l_1\bigr)-\varphi
+=-\alpha-\varphi.
+\]
+
+\medskip
+\noindent\textbf{Step 3: reflection in $l_2$.}
+Again reflection negates the signed angle with the mirror, so
+\[
+\angle\!\bigl(r_{l_2}r_{l_1}(\rho),\,l_2\bigr)
+=
+-\angle\!\bigl(r_{l_1}(\rho),\,l_2\bigr)
+=
+\alpha+\varphi.
+\]
+
+Finally convert back to angles with respect to $l_1$:
+\[
+\angle\!\bigl(r_{l_2}r_{l_1}(\rho),\,l_1\bigr)
+=
+\angle\!\bigl(r_{l_2}r_{l_1}(\rho),\,l_2\bigr)
++\varphi
+=
+(\alpha+\varphi)+\varphi
+=
+\alpha+2\varphi.
+\]
+
+\medskip
+\noindent\textbf{Conclusion.}
+For every tangent direction $\rho$ at $P$, the composition $r_{l_2}\circ r_{l_1}$
+adds the constant angle $2\varphi$:
+\[
+\alpha \longmapsto \alpha+2\varphi.
+\]
+Therefore $r_{l_2}\circ r_{l_1}$ is a rotation about $P=l_1\cap l_2$ by angle $2\varphi$.
+
+\medskip
+\noindent\emph{Remark (answer to the confusion).}
+The expression $\alpha+2\varphi$ is the \emph{final} angle of the ray with respect to $l_1$.
+The \emph{rotation amount} is the difference
+\[
+(\alpha+2\varphi)-\alpha=2\varphi,
+\]
+which does \emph{not} depend on $\alpha$.
+
+
+
+
+
+
+
+	
+	\end{document}
+
