@@ -11,7 +11,7 @@ $sourceRoot = Resolve-Path -LiteralPath $scriptDir
 $repoRoot = Resolve-Path -LiteralPath (Join-Path $sourceRoot "..")
 
 if (-not $OutputDirectory) {
-  $OutputDirectory = Join-Path $repoRoot "pdfs\chapters"
+  $OutputDirectory = Join-Path $repoRoot "content\pdfs\chapters"
 }
 
 if ([System.IO.Path]::IsPathRooted($OutputDirectory)) {
