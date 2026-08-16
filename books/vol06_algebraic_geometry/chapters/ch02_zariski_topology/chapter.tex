@@ -1,0 +1,632 @@
+% Canonical chapter: VI/02 — The Zariski Topology
+% Status: DRAFTED (mathematical/editorial review still required)
+%
+% Legacy migration source:
+%   theory-of-differential-geometry-4.tex
+%   selector: Zariski
+%
+% Boundary:
+%   algebraic sets and V/I dictionary -> VI/01
+%   coordinate rings -> VI/03
+%   polynomial/regular maps -> VI/04
+%   irreducibility/components -> VI/05
+%   Spec A -> VI/07
+%   distinguished opens D(f) on Spec A -> VI/08
+%
+% This file is canonical. Do not reintroduce historical corrected/vN lineages.
+
+\chapter{The Zariski Topology}
+\label{ch:zariski-topology}
+
+\section*{Purpose and learning goals}
+
+Chapter VI/01 showed that polynomial zero loci satisfy exactly the formal closure properties
+needed for closed sets of a topology.  We now make that observation structural: algebraic
+sets are declared to be closed.
+
+The resulting topology is deliberately coarse.  It is very different from the Euclidean
+topology familiar from analysis, but it is adapted to polynomial equations.  Its closed
+sets remember algebraic constraints, its open sets express the failure of equations, and
+its closure operation records all polynomial equations satisfied by a subset.
+
+Throughout, \(k\) is a field and
+\[
+\mathbb A^n_k=k^n.
+\]
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+  \item prove that algebraic subsets define a topology on affine space;
+  \item compute Zariski closures using vanishing ideals;
+  \item describe the induced topology on an algebraic subset;
+  \item use principal open subsets as a basis;
+  \item compare the Zariski and Euclidean topologies;
+  \item explain why Zariski topology is \(T_1\) on \(k\)-rational affine points but
+        usually not Hausdorff;
+  \item work explicitly with \(\mathbb A^1_k\), especially when \(k\) is infinite.
+\end{itemize}
+
+\section{From algebraic sets to a topology}
+
+Recall from Chapter VI/01 that for ideals \(I,J\subseteq k[x_1,\dots,x_n]\),
+\[
+V((0))=\mathbb A^n_k,\qquad V((1))=\varnothing,
+\]
+\[
+\bigcap_{\lambda}V(I_\lambda)
+=
+V\!\left(\sum_\lambda I_\lambda\right),
+\]
+and
+\[
+V(I)\cup V(J)=V(IJ).
+\]
+
+These identities are precisely the closed-set axioms.
+
+\begin{theorem}[Zariski topology on affine space]
+\label{thm:zariski-topology-affine-space}
+The collection
+\[
+\mathcal Z
+=
+\set{V(I)\subseteq\mathbb A^n_k \mid I\subseteq k[x_1,\dots,x_n]\text{ an ideal}}
+\]
+is the family of closed sets of a topology on \(\mathbb A^n_k\).
+\end{theorem}
+
+\begin{proof}
+The whole space and empty set belong to \(\mathcal Z\) because
+\[
+\mathbb A^n_k=V((0)),
+\qquad
+\varnothing=V((1)).
+\]
+Arbitrary intersections of members of \(\mathcal Z\) are algebraic:
+\[
+\bigcap_\lambda V(I_\lambda)
+=
+V\!\left(\sum_\lambda I_\lambda\right).
+\]
+Finite unions are algebraic:
+\[
+V(I)\cup V(J)=V(IJ).
+\]
+Thus \(\mathcal Z\) satisfies the axioms for closed subsets of a topology.
+\end{proof}
+
+\begin{definition}[Zariski topology]
+The topology of \cref{thm:zariski-topology-affine-space} is called the
+\emph{Zariski topology} on \(\mathbb A^n_k\).
+\end{definition}
+
+A subset \(U\subseteq\mathbb A^n_k\) is therefore Zariski open exactly when
+\[
+U=\mathbb A^n_k\setminus V(I)
+\]
+for some ideal \(I\subseteq k[x_1,\dots,x_n]\).
+
+\section{Closed sets as systems of equations}
+
+The topology is built so that polynomial equations define closed conditions.
+
+\begin{example}[A hypersurface is closed]
+For one polynomial \(f\in k[x_1,\dots,x_n]\),
+\[
+V(f)
+=
+\set{a\in\mathbb A^n_k\mid f(a)=0}
+\]
+is Zariski closed.  Such a set is called a \emph{hypersurface} when the geometry has the
+expected codimension.
+\end{example}
+
+\begin{example}[Finite systems are closed]
+For \(f_1,\dots,f_r\in k[x_1,\dots,x_n]\),
+\[
+V(f_1,\dots,f_r)
+=
+V((f_1,\dots,f_r))
+\]
+is closed.
+\end{example}
+
+\begin{remark}
+Hilbert's basis theorem implies that every Zariski closed subset of finite-dimensional affine
+space can be defined by finitely many equations.  The topology itself does not require this
+fact: the definition allows arbitrary ideals.
+\end{remark}
+
+\section{The induced topology on an algebraic set}
+
+Let
+\[
+X\subseteq\mathbb A^n_k
+\]
+be algebraic.  As a subset of a topological space, \(X\) inherits the subspace topology.
+
+\begin{definition}[Zariski topology on an affine algebraic set]
+If \(X\subseteq\mathbb A^n_k\) is algebraic, its \emph{Zariski topology} is the subspace
+topology induced from \(\mathbb A^n_k\).
+\end{definition}
+
+Thus \(Y\subseteq X\) is closed in \(X\) exactly when there is an algebraic set
+\(Z\subseteq\mathbb A^n_k\) with
+\[
+Y=X\cap Z.
+\]
+
+It is useful to write closed subsets intrinsically relative to \(X\).
+
+\begin{definition}[Relative zero set]
+For \(S\subseteq k[x_1,\dots,x_n]\), define
+\[
+V_X(S)
+:=
+\set{x\in X\mid f(x)=0\text{ for every }f\in S}.
+\]
+\end{definition}
+
+\begin{proposition}
+\label{prop:relative-zero-set}
+For every \(S\subseteq k[x_1,\dots,x_n]\),
+\[
+V_X(S)=X\cap V(S).
+\]
+Consequently, the closed subsets of \(X\) are exactly the sets \(V_X(S)\).
+\end{proposition}
+
+\begin{proof}
+The equality follows directly from the definitions.  Every \(V_X(S)\) is the intersection
+of \(X\) with an ambient Zariski closed set, hence is closed in \(X\).  Conversely, every
+closed subset of \(X\) has the form \(X\cap Z\) with \(Z=V(S)\) algebraic.
+\end{proof}
+
+\section{Zariski closure and equations}
+
+One of the most useful features of the topology is that closure has an exact algebraic
+description.
+
+For any subset \(Y\subseteq\mathbb A^n_k\), recall its vanishing ideal
+\[
+I(Y)
+=
+\set{
+f\in k[x_1,\dots,x_n]
+\mid
+f(y)=0\text{ for all }y\in Y
+}.
+\]
+
+\begin{theorem}[Closure formula]
+\label{thm:zariski-closure-formula}
+For every subset \(Y\subseteq\mathbb A^n_k\),
+\[
+\overline{Y}^{\,\mathrm{Zar}}
+=
+V(I(Y)).
+\]
+\end{theorem}
+
+\begin{proof}
+Chapter VI/01 proved that \(V(I(Y))\) is the smallest algebraic set containing \(Y\).
+Since the algebraic sets are exactly the Zariski closed sets, this is precisely the
+topological closure of \(Y\).
+\end{proof}
+
+\begin{corollary}[Density criterion]
+\label{cor:zariski-density}
+A subset \(Y\subseteq\mathbb A^n_k\) is Zariski dense if and only if
+\[
+I(Y)=I(\mathbb A^n_k).
+\]
+If \(k\) is infinite, then
+\[
+I(\mathbb A^n_k)=(0),
+\]
+so \(Y\) is dense exactly when no nonzero polynomial vanishes on all of \(Y\).
+\end{corollary}
+
+\begin{proof}
+Density means
+\[
+V(I(Y))=\mathbb A^n_k.
+\]
+The first statement follows by applying \(I\) to the equality of closed sets.  Over an
+infinite field, a polynomial vanishing on all of \(k^n\) is zero; this follows by induction
+on \(n\), using the one-variable root bound.
+\end{proof}
+
+\begin{example}[An infinite line is dense in itself]
+Let
+\[
+L=V(y)\subseteq\mathbb A^2_k
+\]
+with \(k\) infinite, and let
+\[
+Y=\set{(t,0)\mid t\in k}.
+\]
+Then \(Y=L\), so it is of course dense in \(L\).  More generally, an infinite subset of an
+affine line is dense in that line.
+\end{example}
+
+\section{Principal open subsets}
+
+The complements of single hypersurfaces are especially important.
+
+\begin{definition}[Principal open subset of affine space]
+For \(f\in k[x_1,\dots,x_n]\), define
+\[
+D_{\mathbb A^n}(f)
+:=
+\mathbb A^n_k\setminus V(f)
+=
+\set{a\in\mathbb A^n_k\mid f(a)\neq0}.
+\]
+If \(X\subseteq\mathbb A^n_k\) is algebraic, define
+\[
+D_X(f)
+:=
+X\setminus V_X(f).
+\]
+\end{definition}
+
+The notation \(D_X(f)\) is used here only for classical affine algebraic sets.  The
+scheme-theoretic distinguished opens \(D(f)\subseteq\Spec A\) are developed later in
+VI/08.
+
+\begin{proposition}[Elementary identities for principal opens]
+\label{prop:principal-open-identities}
+For \(f,g\in k[x_1,\dots,x_n]\),
+\[
+D_X(1)=X,\qquad D_X(0)=\varnothing,
+\]
+and
+\[
+D_X(f)\cap D_X(g)=D_X(fg).
+\]
+Also,
+\[
+D_X(f)=D_X(f^m)
+\]
+for every integer \(m\ge1\).
+\end{proposition}
+
+\begin{proof}
+The first two statements are immediate.  A point \(x\in X\) belongs to both
+\(D_X(f)\) and \(D_X(g)\) exactly when
+\[
+f(x)\neq0\quad\text{and}\quad g(x)\neq0.
+\]
+Because \(k\) is a field, this is equivalent to
+\[
+f(x)g(x)\neq0,
+\]
+hence to \(x\in D_X(fg)\).  Finally, \(f(x)\neq0\) if and only if \(f(x)^m\neq0\).
+\end{proof}
+
+\begin{theorem}[Principal opens form a basis]
+\label{thm:principal-open-basis}
+The family
+\[
+\set{D_X(f)\mid f\in k[x_1,\dots,x_n]}
+\]
+is a basis for the Zariski topology on an affine algebraic set \(X\).
+\end{theorem}
+
+\begin{proof}
+Let \(U\subseteq X\) be open, and let \(x\in U\).  Its complement \(X\setminus U\) is
+closed in \(X\), so
+\[
+X\setminus U=V_X(S)
+\]
+for some family \(S\subseteq k[x_1,\dots,x_n]\).
+
+Since \(x\notin V_X(S)\), not every polynomial in \(S\) vanishes at \(x\).  Choose
+\(f\in S\) with \(f(x)\neq0\).  Then
+\[
+x\in D_X(f).
+\]
+Moreover, if \(y\in D_X(f)\), then \(f(y)\neq0\), so \(y\notin V_X(S)=X\setminus U\).
+Hence
+\[
+D_X(f)\subseteq U.
+\]
+Thus every point of every open set lies in a principal open contained in that open set.
+\end{proof}
+
+\section{Points are closed}
+
+The Zariski topology on \(k\)-rational affine space is \(T_1\).
+
+\begin{proposition}[Closed points in affine space]
+\label{prop:affine-points-closed}
+For every
+\[
+a=(a_1,\dots,a_n)\in\mathbb A^n_k,
+\]
+the singleton \(\{a\}\) is Zariski closed:
+\[
+\{a\}
+=
+V(x_1-a_1,\dots,x_n-a_n).
+\]
+\end{proposition}
+
+\begin{proof}
+The displayed equations force each coordinate \(x_i\) to equal \(a_i\), and the point
+\(a\) clearly satisfies all of them.
+\end{proof}
+
+\begin{corollary}
+Every finite subset of \(\mathbb A^n_k\) is Zariski closed.
+\end{corollary}
+
+\begin{remark}
+This statement concerns the classical space of \(k\)-rational points.  In
+\(\Spec A\), not every prime ideal is a closed point.  Generic points are a central feature
+of scheme topology and are postponed to VI/09.
+\end{remark}
+
+\section{The affine line}
+
+The Zariski topology becomes particularly transparent in dimension one.
+
+\begin{theorem}[Zariski topology on the affine line over an infinite field]
+\label{thm:affine-line-cofinite}
+Let \(k\) be infinite.  The proper Zariski closed subsets of
+\[
+\mathbb A^1_k
+\]
+are exactly the finite subsets.  Equivalently, the nonempty Zariski open subsets are exactly
+the complements of finite subsets.
+\end{theorem}
+
+\begin{proof}
+A proper closed subset has the form \(V(I)\) with \(I\neq(0)\).  Choose a nonzero
+\(f\in I\).  Then
+\[
+V(I)\subseteq V(f).
+\]
+A nonzero polynomial in one variable has only finitely many roots, so \(V(I)\) is finite.
+
+Conversely, if
+\[
+F=\{a_1,\dots,a_r\}\subseteq k,
+\]
+then
+\[
+F
+=
+V\!\left(\prod_{j=1}^r(x-a_j)\right),
+\]
+so every finite subset is Zariski closed.
+\end{proof}
+
+Thus \(\mathbb A^1_k\) has the \emph{cofinite topology} whenever \(k\) is infinite.
+
+\begin{corollary}[Not Hausdorff]
+\label{cor:a1-not-hausdorff}
+If \(k\) is infinite, \(\mathbb A^1_k\) with the Zariski topology is not Hausdorff.
+\end{corollary}
+
+\begin{proof}
+Every nonempty open set has finite complement.  If \(U\) and \(V\) are nonempty open sets,
+then
+\[
+\mathbb A^1_k\setminus(U\cap V)
+=
+(\mathbb A^1_k\setminus U)\cup(\mathbb A^1_k\setminus V)
+\]
+is finite.  Since \(k\) is infinite, \(U\cap V\neq\varnothing\).  Therefore two distinct
+points cannot have disjoint open neighborhoods.
+\end{proof}
+
+\begin{remark}[Finite fields]
+If \(k\) is finite, then \(\mathbb A^1_k\) is a finite set and every singleton is Zariski
+closed.  Hence every subset is closed and the topology is discrete.  This is a useful
+reminder that the topology of \(k\)-rational points can depend strongly on the ground field.
+\end{remark}
+
+\section{Comparison with Euclidean topology}
+
+When \(k=\mathbb R\) or \(\mathbb C\), affine space also carries its usual Euclidean
+topology.
+
+\begin{proposition}
+\label{prop:zariski-coarser-euclidean}
+On \(\mathbb R^n\) and \(\mathbb C^n\), every Zariski closed set is Euclidean closed.
+Consequently, the Zariski topology is coarser than the Euclidean topology.
+\end{proposition}
+
+\begin{proof}
+Every polynomial function is Euclidean continuous.  Therefore its zero set is Euclidean
+closed.  An arbitrary algebraic set is an intersection of polynomial zero sets, hence is
+Euclidean closed.
+\end{proof}
+
+The containment is usually strict.
+
+\begin{example}
+The Euclidean open interval
+\[
+(0,1)\subseteq\mathbb R=\mathbb A^1_{\mathbb R}
+\]
+is not Zariski open.  If it were, its complement would be Zariski closed.  But the complement
+is infinite and proper, contradicting \cref{thm:affine-line-cofinite}.
+\end{example}
+
+\begin{example}
+The punctured affine line
+\[
+\mathbb A^1_k\setminus\{0\}
+=
+D_{\mathbb A^1}(x)
+\]
+is Zariski open.  Over \(\mathbb R\) or \(\mathbb C\), it is also Euclidean open.
+\end{example}
+
+The coarse nature of the Zariski topology is a feature rather than a defect.  Euclidean
+topology is designed for distance and limits; Zariski topology is designed so that
+polynomial equations become geometric closed conditions.
+
+\section{Dense subsets}
+
+Zariski density can be surprising from a Euclidean viewpoint.
+
+\begin{proposition}
+\label{prop:infinite-subset-a1-dense}
+Let \(k\) be infinite.  Every infinite subset of \(\mathbb A^1_k\) is Zariski dense.
+\end{proposition}
+
+\begin{proof}
+If \(Y\subseteq\mathbb A^1_k\) is infinite and its closure were proper, then by
+\cref{thm:affine-line-cofinite} its closure would be finite, impossible.
+\end{proof}
+
+\begin{example}
+The integers
+\[
+\mathbb Z\subseteq\mathbb A^1_{\mathbb C}
+\]
+are Zariski dense, even though they form a discrete and very small subset in the usual
+Euclidean topology.
+\end{example}
+
+\begin{example}
+The set
+\[
+\set{(t,t^2)\mid t\in k}
+\subseteq
+V(y-x^2)
+\]
+is the whole parabola, so it is dense in that curve.  If we retain only infinitely many
+parameters \(t\) over an infinite field, the resulting subset is still dense in the parabola:
+a polynomial condition restricting to the curve becomes a one-variable polynomial
+condition in \(t\).
+\end{example}
+
+\section{Relative closure inside an algebraic set}
+
+Let \(X\subseteq\mathbb A^n_k\) be algebraic and \(Y\subseteq X\).
+
+\begin{proposition}[Closure inside \(X\)]
+\label{prop:relative-closure}
+The closure of \(Y\) in \(X\) is
+\[
+\overline{Y}^{\,X}
+=
+X\cap V(I(Y)).
+\]
+Because \(Y\subseteq X\) and \(X\) is algebraic, one in fact has
+\[
+V(I(Y))\subseteq X,
+\]
+so
+\[
+\overline{Y}^{\,X}=V(I(Y)).
+\]
+\end{proposition}
+
+\begin{proof}
+The subspace-closure formula gives
+\[
+\overline{Y}^{\,X}
+=
+X\cap\overline{Y}^{\,\mathbb A^n_k}.
+\]
+Apply \cref{thm:zariski-closure-formula}.  Since \(Y\subseteq X\),
+\[
+I(X)\subseteq I(Y),
+\]
+so order reversal gives
+\[
+V(I(Y))\subseteq V(I(X))=X.
+\]
+\end{proof}
+
+\section{A practical topology dictionary}
+
+For an affine algebraic set \(X\), the following translations are worth memorizing:
+\[
+\begin{array}{c|c}
+\text{Algebraic statement} & \text{Topological statement}\\
+\hline
+Y=V_X(I) & Y\text{ is closed in }X\\
+U=X\setminus V_X(I) & U\text{ is open in }X\\
+D_X(f)=\{x\in X:f(x)\neq0\} & \text{basic/principal open}\\
+I\subseteq J & V_X(J)\subseteq V_X(I)\\
+I(Y) & \text{all equations true on }Y\\
+V(I(Y)) & \overline{Y}^{\,\mathrm{Zar}}\\
+I(Y)=(0)\text{ over infinite }k & Y\text{ is dense in }\mathbb A^n_k
+\end{array}
+\]
+
+The guiding principle is simple:
+
+\[
+\boxed{
+\text{polynomial equations}
+\longleftrightarrow
+\text{closed geometric conditions}
+}
+\]
+
+\section{Common pitfalls}
+
+\begin{warning}[Open does not mean Euclidean open]
+A Zariski open set may be extremely large.  On \(\mathbb A^1_k\) with \(k\) infinite, every
+nonempty open set has finite complement.
+\end{warning}
+
+\begin{warning}[Closed points do not imply Hausdorff]
+The Zariski topology on \(k\)-rational affine space is \(T_1\), because points are closed.
+It can nevertheless fail dramatically to be Hausdorff.
+\end{warning}
+
+\begin{warning}[Do not import scheme topology too early]
+The principal open \(D_X(f)\) in a classical algebraic set and the distinguished open
+\(D(f)\subseteq\Spec A\) have analogous notation and behavior, but the underlying points
+are different.  Scheme spectra are developed later.
+\end{warning}
+
+\begin{warning}[Closure is algebraic closure, not metric closure]
+Zariski closure records polynomial equations.  It is generally much larger than Euclidean
+closure; for example, every infinite subset of \(\mathbb A^1_k\) is Zariski dense when \(k\)
+is infinite.
+\end{warning}
+
+\section{Worked examples}
+\input{chapters/ch02_zariski_topology/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch02_zariski_topology/exercises.tex}
+
+\section{Chapter summary}
+
+The Zariski topology on affine space is defined by declaring algebraic sets to be closed.
+Its construction rests on the identities
+\[
+\bigcap_\lambda V(I_\lambda)
+=
+V\!\left(\sum_\lambda I_\lambda\right),
+\qquad
+V(I)\cup V(J)=V(IJ).
+\]
+For every subset \(Y\),
+\[
+\overline{Y}^{\,\mathrm{Zar}}=V(I(Y)),
+\]
+so topological closure is exactly the operation of imposing all polynomial equations true on
+\(Y\).
+
+On an affine algebraic set \(X\), the sets
+\[
+D_X(f)=\set{x\in X\mid f(x)\neq0}
+\]
+form a basis of open sets.  Points of classical affine space are closed, but the topology is
+usually much coarser than the Euclidean topology.  In particular, if \(k\) is infinite,
+\(\mathbb A^1_k\) has the cofinite topology and is not Hausdorff.
+
+The next chapter attaches a ring to an algebraic set.  The coordinate ring will turn
+geometric questions about \(X\) into algebraic questions about polynomial functions on \(X\).

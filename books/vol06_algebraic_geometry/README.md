@@ -1,6 +1,6 @@
 ﻿# Volume VI — Algebraic Geometry and Sheaf Theory
 
-**Status:** Architecture frozen; canonical reconstruction underway.
+**Status:** Architecture frozen; canonical reconstruction underway. VI/01-VI/02 are drafted and awaiting mathematical/editorial review.
 
 Canonical chapter codes: `VI/01`–`VI/49`.
 
