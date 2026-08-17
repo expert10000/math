@@ -1,743 +1,470 @@
-% Canonical chapter: VI/03 — Coordinate Rings
-% Status: DRAFTED (mathematical/editorial review still required)
-%
-% Legacy migration source:
-%   theory-of-differential-geometry-4.tex
-%   selector: coordinate ring
+% Canonical chapter: VI/03 --- Coordinate Rings
+% Reorganized pedagogical edition.
+% Legacy migration source: chapters/tex/theory-of-differential-geometry-4.tex
+% Primary selector: coordinate ring
 %
 % Boundary:
-%   algebraic sets / V-I dictionary -> VI/01
+%   algebraic sets and V/I dictionary -> VI/01
 %   Zariski topology -> VI/02
 %   regular maps / morphisms -> VI/04
-%   irreducibility and components -> VI/05
-%   Spec A and scheme coordinate geometry -> VI/06 onward
-%
-% This file is canonical. Do not reintroduce corrected/vN source lineages.
+%   irreducibility / components -> VI/05
+%   Spec(A) and schemes -> VI/07 onward
 
 \chapter{Coordinate Rings}
 \label{ch:coordinate-rings}
 
 \section*{Purpose and learning goals}
 
-An affine algebraic set is specified by polynomial equations.  The coordinate ring turns
-that geometric object back into algebra: it records polynomial functions on the set, with
-two polynomials identified when they agree at every point.
+The first two chapters moved from polynomial equations to algebraic sets and then to the
+Zariski topology.  We now reverse direction.  Given an affine algebraic set \(X\), we ask:
+\emph{which polynomial functions actually live on \(X\), and what algebraic relations do
+they satisfy?}
 
-This construction is the first serious form of the algebra--geometry dictionary.  A
-geometric set \(X\) gives a ring \(k[X]\), and geometric information about \(X\) becomes
-encoded in algebraic properties of \(k[X]\).
-
-Throughout, \(k\) is a field and
+The answer is the coordinate ring
 \[
-X\subseteq \mathbb A_k^n
+  k[X]=k[x_1,\dots,x_n]/I(X).
 \]
-is an affine algebraic set unless stated otherwise.
+This quotient is not merely a convenient presentation.  It is the ring of polynomial
+functions on \(X\), and it is the first object that makes the algebra--geometry dictionary
+behave systematically.
 
-After this chapter, the reader should be able to:
+Throughout, \(k\) is a field and \(X\subseteq\mathbb A_k^n\) is an affine algebraic set.
+Whenever a computation identifies \(I(V(J))\) with a displayed ideal \(J\), the necessary
+field hypothesis is stated explicitly.
+
+After this chapter the reader should be able to:
 \begin{itemize}
-  \item define polynomial functions on an algebraic set;
-  \item prove that the kernel of restriction to \(X\) is \(I(X)\);
-  \item construct
-        \[
-        k[X]=k[x_1,\dots,x_n]/I(X);
-        \]
-  \item compute coordinate rings in standard examples;
-  \item recognize coordinate rings as finitely generated reduced \(k\)-algebras;
-  \item recover \(I(X)\) as the relations among the coordinate functions;
-  \item distinguish the coordinate ring from a chosen presentation of that ring;
-  \item explain why nilpotent information is absent from classical algebraic sets.
+\item construct \(k[X]\) from restriction of ambient polynomials;
+\item recognize \(I(X)\) as the kernel of restriction and as the complete set of relations;
+\item compute coordinate rings of lines, parabolas, hyperbolas, finite sets, and unions;
+\item distinguish a ring from a chosen presentation by generators and relations;
+\item use evaluation maps to encode points by maximal ideals;
+\item turn a closed inclusion \(Y\subseteq X\) into a quotient \(k[X]\twoheadrightarrow k[Y]\);
+\item explain why classical coordinate rings are reduced and why nilpotents require a richer geometry;
+\item understand how finite fields alter the ring of polynomial functions;
+\item solve a nontrivial legacy example: the monomial curve \((t^3,t^4,t^5)\).
 \end{itemize}
 
-\section{Polynomial functions on an algebraic set}
+\section{From ambient polynomials to polynomial functions}
+\label{sec:vi03-polynomial-functions}
 
-A polynomial in the ambient variables restricts to a function on \(X\).
+Every ambient polynomial restricts to a function on \(X\).  The central point is that
+many different ambient polynomials can restrict to the same function.
 
 \begin{definition}[Polynomial function]
-Let \(X\subseteq\mathbb A_k^n\).  A function
-\[
-\varphi:X\longrightarrow k
-\]
-is called a \emph{polynomial function} if there exists
-\[
-f\in k[x_1,\dots,x_n]
-\]
-such that
-\[
-\varphi(a)=f(a)
-\]
-for every \(a\in X\).
+A function \(\varphi:X\to k\) is a \emph{polynomial function} if there exists
+\(f\in k[x_1,\dots,x_n]\) such that \(\varphi(a)=f(a)\) for every \(a\in X\).
 \end{definition}
 
-The polynomial representing a polynomial function need not be unique.
-
-\begin{example}
-Let
+Consider the restriction homomorphism
 \[
-X=V(y-x^2)\subseteq\mathbb A_k^2.
+\rho_X:k[x_1,\dots,x_n]\longrightarrow \operatorname{Fun}(X,k),
+\qquad f\longmapsto f|_X.
 \]
-On \(X\), the two ambient polynomials \(y\) and \(x^2\) define the same function because
-\[
-y-x^2
-\]
-vanishes at every point of \(X\).
-\end{example}
-
-This observation motivates the quotient construction.
-
-\section{Restriction and its kernel}
-
-Consider the restriction map
-\[
-\rho_X:
-k[x_1,\dots,x_n]
-\longrightarrow
-\operatorname{Fun}(X,k),
-\qquad
-f\longmapsto f|_X,
-\]
-where \(\operatorname{Fun}(X,k)\) denotes all set-theoretic functions \(X\to k\).
-
-The image consists exactly of the polynomial functions on \(X\).
+Its image is exactly the ring of polynomial functions on \(X\).
 
 \begin{proposition}[Kernel of restriction]
-\label{prop:vi03-kernel-restriction}
-The kernel of \(\rho_X\) is the vanishing ideal:
+\label{prop:vi03-kernel}
 \[
 \ker\rho_X=I(X).
 \]
+Hence \(f\) and \(g\) induce the same polynomial function on \(X\) if and only if
+\(f-g\in I(X)\).
 \end{proposition}
 
 \begin{proof}
-A polynomial \(f\) lies in \(\ker\rho_X\) exactly when
-\[
-f(a)=0
-\]
-for every \(a\in X\).  This is precisely the definition of \(I(X)\).
+A polynomial belongs to the kernel precisely when it vanishes at every point of \(X\),
+which is the definition of \(I(X)\).  The second statement follows by applying this to
+\(f-g\).
 \end{proof}
 
-Therefore two polynomials \(f,g\) determine the same polynomial function on \(X\) exactly
-when
-\[
-f-g\in I(X).
-\]
+The entire construction can be summarized by the first isomorphism theorem.
 
-Equivalently,
-\[
-f|_X=g|_X
-\quad\Longleftrightarrow\quad
-f\equiv g\pmod{I(X)}.
-\]
+\begin{center}
+\begin{tikzpicture}[node distance=8mm and 10mm,font=\small,
+  box/.style={draw,rounded corners,align=center,minimum width=39mm,minimum height=11mm},
+  arr/.style={-{Latex[length=2.2mm]},thick}]
+\node[box] (poly) {ambient polynomials\\\(k[x_1,\dots,x_n]\)};
+\node[box,right=of poly] (fun) {polynomial functions\\on \(X\)};
+\node[box,below=of poly] (ideal) {functions vanishing on \(X\)\\\(I(X)=\ker\rho_X\)};
+\node[box,below=of fun] (quot) {coordinate ring\\\(k[X]=k[x]/I(X)\)};
+\draw[arr] (poly)-- node[above,font=\scriptsize]{restrict} (fun);
+\draw[arr] (poly)-- node[left,font=\scriptsize]{kernel} (ideal);
+\draw[arr] (poly)-- node[below,sloped,font=\scriptsize]{quotient} (quot);
+\draw[arr] (quot)-- node[right,font=\scriptsize]{canonical isomorphism} (fun);
+\end{tikzpicture}
+\end{center}
 
 \section{Definition of the coordinate ring}
+\label{sec:vi03-definition}
 
 \begin{definition}[Coordinate ring]
-The \emph{coordinate ring} of an affine algebraic set
+The \emph{coordinate ring} of \(X\subseteq\mathbb A_k^n\) is
 \[
-X\subseteq\mathbb A_k^n
+  k[X]:=k[x_1,\dots,x_n]/I(X).
 \]
-is
-\[
-k[X]
-:=
-k[x_1,\dots,x_n]/I(X).
-\]
-It is also called the \emph{affine coordinate ring} of \(X\).
 \end{definition}
 
-By the first isomorphism theorem, \(k[X]\) is naturally isomorphic to the ring of
-polynomial functions on \(X\):
+By \cref{prop:vi03-kernel}, \(k[X]\) is canonically the ring of polynomial functions on
+\(X\).  An element can therefore be read in three equivalent ways:
 \[
-k[X]
-\cong
-\operatorname{im}(\rho_X).
+\boxed{[f]\quad\longleftrightarrow\quad f|_X\quad\longleftrightarrow\quad
+\text{a polynomial function }X\to k.}
 \]
 
-Thus an element of \(k[X]\) may be viewed in three equivalent ways:
-
+Write \(\bar x_i\) for the class of \(x_i\) in \(k[X]\).  Then
 \[
-\boxed{
-\begin{array}{c}
-\text{a residue class }[f]\text{ modulo }I(X),\\[0.4em]
-\text{a polynomial expression restricted to }X,\\[0.4em]
-\text{a polynomial function }X\to k.
-\end{array}
-}
+  k[X]=k[\bar x_1,\dots,\bar x_n].
 \]
-
-\begin{remark}
-The quotient notation is not bookkeeping.  It encodes all polynomial relations that hold on
-\(X\).
-\end{remark}
-
-\section{Coordinate functions and relations}
-
-Let
-\[
-\bar x_i
-\]
-denote the residue class of \(x_i\) in \(k[X]\).  These are the canonical coordinate
-functions on \(X\).
-
-They generate \(k[X]\) as a \(k\)-algebra:
-\[
-k[X]=k[\bar x_1,\dots,\bar x_n].
-\]
-
-All algebraic relations among them come from \(I(X)\).
+The ideal \(I(X)\) is exactly the set of polynomial relations among these coordinate
+functions.
 
 \begin{proposition}[Relations among coordinates]
-\label{prop:vi03-relations}
-For
+For \(F\in k[t_1,\dots,t_n]\),
 \[
-F\in k[t_1,\dots,t_n],
-\]
-one has
-\[
-F(\bar x_1,\dots,\bar x_n)=0
-\quad\text{in }k[X]
-\]
-if and only if
-\[
+F(\bar x_1,\dots,\bar x_n)=0\text{ in }k[X]
+\quad\Longleftrightarrow\quad
 F(x_1,\dots,x_n)\in I(X).
 \]
 \end{proposition}
 
 \begin{proof}
-The quotient map
-\[
-k[x_1,\dots,x_n]\to k[X]
-\]
-has kernel \(I(X)\).  The element
-\[
-F(\bar x_1,\dots,\bar x_n)
-\]
-is the image of \(F(x_1,\dots,x_n)\), so it is zero exactly when that polynomial belongs
-to the kernel.
+The quotient map \(k[x_1,\dots,x_n]\to k[X]\) has kernel \(I(X)\).
 \end{proof}
 
-\begin{example}[Parabola]
-For
-\[
-X=V(y-x^2),
-\]
-the coordinate functions satisfy
-\[
-\bar y=\bar x^2.
-\]
-Hence
-\[
-k[X]
-=
-k[x,y]/(y-x^2).
-\]
-Eliminating \(y\) gives an isomorphism
-\[
-k[X]\cong k[t].
-\]
-\end{example}
+\section{First computations}
+\label{sec:vi03-first-computations}
 
-\section{Basic examples}
-
-\begin{example}[Affine space]
-Since
+When \(k\) is infinite,
 \[
-I(\mathbb A_k^n)=(0)
+k[\mathbb A_k^n]=k[x_1,\dots,x_n].
 \]
-when \(k\) is infinite,
-\[
-k[\mathbb A_k^n]
-\cong
-k[x_1,\dots,x_n].
-\]
-For finite \(k\), the classical ring of polynomial functions on the finite point set is a
-different quotient; this field-dependent phenomenon is discussed later in the chapter.
-\end{example}
-
-\begin{example}[A point]
-For
-\[
-a=(a_1,\dots,a_n)\in\mathbb A_k^n,
-\]
-\[
-I(\{a\})
-=
-(x_1-a_1,\dots,x_n-a_n).
-\]
-Therefore
+For a rational point \(a=(a_1,\dots,a_n)\),
 \[
 k[\{a\}]
-=
-k[x_1,\dots,x_n]/
-(x_1-a_1,\dots,x_n-a_n)
-\cong k.
+=\frac{k[x_1,\dots,x_n]}{(x_1-a_1,\dots,x_n-a_n)}\cong k.
 \]
-\end{example}
 
-\begin{example}[A coordinate line]
-Let
+A line and a parabola already show why the presentation of a coordinate ring is not
+intrinsic.  Assume \(k\) is infinite.  For
 \[
-L=V(y)\subseteq\mathbb A_k^2.
+L=V(y)\subseteq\mathbb A_k^2,
+\qquad
+P=V(y-x^2)\subseteq\mathbb A_k^2,
 \]
-Then
+one has
 \[
-k[L]
-=
-k[x,y]/(y)
-\cong
-k[x].
+k[L]\cong k[t],
+\qquad
+k[P]=k[x,y]/(y-x^2)\cong k[t].
 \]
-\end{example}
+The two plane embeddings look different, but their polynomial-function rings are
+isomorphic.
 
-\begin{example}[Two coordinate axes]
-Let
-\[
-X=V(xy)\subseteq\mathbb A_k^2.
-\]
-If the base field is such that
-\[
-I(X)=(xy)
-\]
-(for example over an algebraically closed field), then
-\[
-k[X]
-=
-k[x,y]/(xy).
-\]
-The classes \(\bar x,\bar y\) are both nonzero, but
-\[
-\bar x\bar y=0.
-\]
-Thus the coordinate ring has zero divisors, reflecting the decomposition of \(X\) into two
-components.
-\end{example}
+\begin{center}
+\begin{tikzpicture}[node distance=9mm and 18mm,font=\small,
+  box/.style={draw,rounded corners,align=center,minimum width=42mm,minimum height=13mm},
+  arr/.style={-{Latex[length=2.2mm]},thick}]
+\node[box] (line) {affine line\\\(\mathbb A^1\)};
+\node[box,right=of line] (para) {parabola\\\(V(y-x^2)\subset\mathbb A^2\)};
+\node[box,below=of line] (r1) {\(k[t]\)};
+\node[box,below=of para] (r2) {\(k[x,y]/(y-x^2)\)};
+\draw[arr] (line)--(r1);
+\draw[arr] (para)--(r2);
+\draw[<->,thick] (r1)-- node[below,font=\scriptsize]{\(x\mapsto t,\ y\mapsto t^2\)} (r2);
+\node[below=3mm of $(r1)!0.5!(r2)$,font=\scriptsize,align=center]{different presentations; the same abstract \(k\)-algebra};
+\end{tikzpicture}
+\end{center}
 
-\section{Finitely generated \texorpdfstring{\(k\)}{k}-algebras}
+\section{Finitely generated algebras and presentations}
+\label{sec:vi03-presentations}
 
 \begin{definition}[Finitely generated \(k\)-algebra]
-A \(k\)-algebra \(A\) is \emph{finitely generated} if there exist
-\(a_1,\dots,a_n\in A\) such that
+A \(k\)-algebra \(A\) is finitely generated if
 \[
-A=k[a_1,\dots,a_n].
+A=k[a_1,\dots,a_m]
 \]
+for finitely many elements \(a_i\in A\).
 \end{definition}
 
 \begin{proposition}
-\label{prop:vi03-fg}
-The coordinate ring of every affine algebraic set is a finitely generated \(k\)-algebra.
+Every classical affine coordinate ring is a finitely generated \(k\)-algebra.
 \end{proposition}
 
 \begin{proof}
-By definition,
-\[
-k[X]=k[x_1,\dots,x_n]/I(X),
-\]
-and the residue classes
-\[
-\bar x_1,\dots,\bar x_n
-\]
-generate the quotient as a \(k\)-algebra.
+The classes \(\bar x_1,\dots,\bar x_n\) generate the quotient
+\(k[x_1,\dots,x_n]/I(X)\).
 \end{proof}
 
-Conversely, every finitely generated commutative \(k\)-algebra has a presentation
+Conversely, every finitely generated commutative \(k\)-algebra admits a presentation
 \[
-A\cong k[x_1,\dots,x_n]/J
+A\cong k[x_1,\dots,x_n]/J.
 \]
-for some ideal \(J\).
+This does \emph{not} mean every such quotient is the coordinate ring of the classical point
+set \(V(J)\): the classical point set forgets nilpotent and, over non-algebraically-closed
+fields, sometimes further information.  Schemes will repair this loss later.
 
-This is an algebraic statement.  Turning such a presentation into a classical affine
-algebraic set requires care: the set
-\[
-V(J)
-\]
-remembers only the radical information visible in \(k\)-rational points.  Scheme theory
-will later allow arbitrary finitely generated \(k\)-algebras to serve directly as affine
-geometric objects.
+\section{Reducedness and what classical geometry forgets}
+\label{sec:vi03-reducedness}
 
-\section{Reducedness}
+Since \(I(X)\) is radical, classical coordinate rings contain no nonzero nilpotents.
 
-Chapter VI/01 showed that \(I(X)\) is radical.
-
-\begin{proposition}[Coordinate rings of classical algebraic sets are reduced]
-\label{prop:vi03-reduced}
-For every affine algebraic set \(X\),
-\[
-k[X]
-\]
-has no nonzero nilpotent elements.
+\begin{proposition}[Classical coordinate rings are reduced]
+If \(u^m=0\) in \(k[X]\) for some \(m\ge1\), then \(u=0\).
 \end{proposition}
 
 \begin{proof}
-Since \(I(X)\) is radical, suppose
-\[
-[f]^m=0
-\]
-in \(k[X]\).  Then
-\[
-f^m\in I(X).
-\]
-Radicality gives
-\[
-f\in I(X),
-\]
-hence
-\[
-[f]=0.
-\]
+Write \(u=[f]\).  Then \(f^m\in I(X)\).  Radicality of \(I(X)\) gives \(f\in I(X)\), so
+\([f]=0\).
 \end{proof}
 
-\begin{remark}[Why schemes later enlarge the category]
-The quotients
+The basic warning is visible in the one-point example:
 \[
-k[x]/(x)
-\qquad\text{and}\qquad
-k[x]/(x^2)
+\frac{k[x]}{(x)}\qquad\text{versus}\qquad \frac{k[x]}{(x^2)}.
 \]
-have the same classical zero set, but the second ring contains a nonzero nilpotent class.
-Classical algebraic sets discard this infinitesimal information.  Affine schemes will retain
-it.
-\end{remark}
+Both ideals have the same classical zero set \(\{0\}\), but the class of \(x\) in the
+second ring is nonzero and nilpotent.
 
-\section{Presentations are not intrinsic}
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+& \textbf{Classical point} & \textbf{Thickened point (later)}\\
+\midrule
+ideal & \((x)\) & \((x^2)\)\\
+set of rational zeros & \(\{0\}\) & \(\{0\}\)\\
+quotient ring & \(k\) & \(k[x]/(x^2)\)\\
+nonzero nilpotent & no & yes: \([x]^2=0\)\\
+\bottomrule
+\end{tabular}
+\end{center}
 
-An algebraic set may admit different embeddings into affine spaces, leading to different
-polynomial presentations of the same abstract ring.
+\section{Points as evaluation homomorphisms}
+\label{sec:vi03-evaluation}
 
-\begin{example}[The parabola again]
-The parabola
+For \(a\in X\), evaluation descends to a \(k\)-algebra homomorphism
 \[
-X=V(y-x^2)\subseteq\mathbb A_k^2
+\operatorname{ev}_a:k[X]\to k,
+\qquad [f]\mapsto f(a).
 \]
-has
+It is surjective because constants lie in \(k[X]\).  Its kernel
 \[
-k[X]=k[x,y]/(y-x^2).
+\mathfrak m_a=\set{\varphi\in k[X]\mid\varphi(a)=0}
 \]
-But
-\[
-k[x,y]/(y-x^2)\cong k[t].
-\]
-So its coordinate ring can be presented either with two generators and one relation or with
-one generator and no relation.
-\end{example}
+is maximal, since \(k[X]/\mathfrak m_a\cong k\).
 
-This distinction will matter in VI/04.  Geometry should not depend on a particular choice
-of coordinates or presentation.
+This is the first signal that points should be encoded by ideals.  The full spectrum of a
+ring is postponed to VI/07.
 
-\section{Quotient maps and evaluation}
+\section{Closed subsets become quotient rings}
+\label{sec:vi03-closed-quotients}
 
-Let
-\[
-\pi_X:
-k[x_1,\dots,x_n]\to k[X]
-\]
-be the quotient map.
-
-For every point \(a\in X\), evaluation at \(a\) descends to a \(k\)-algebra map
-\[
-\operatorname{ev}_a:
-k[X]\to k,
-\qquad
-[f]\longmapsto f(a).
-\]
-
-\begin{proposition}[Evaluation is well-defined]
-\label{prop:vi03-evaluation}
-The map \(\operatorname{ev}_a\) is a well-defined \(k\)-algebra homomorphism.
-\end{proposition}
-
-\begin{proof}
-If
-\[
-[f]=[g]
-\]
-in \(k[X]\), then
-\[
-f-g\in I(X),
-\]
-so in particular
-\[
-f(a)-g(a)=0.
-\]
-Thus the value depends only on the residue class.  The ring and \(k\)-algebra properties
-follow from ordinary polynomial evaluation.
-\end{proof}
-
-Its kernel is
-\[
-\mathfrak m_a
-=
-\set{\varphi\in k[X]\mid \varphi(a)=0}.
-\]
-
-Because
-\[
-k[X]/\mathfrak m_a\cong k,
-\]
-the ideal \(\mathfrak m_a\) is maximal.
-
-This is an early indication that points can be encoded algebraically by maximal ideals.
-Prime ideals and the full spectrum are postponed to VI/06--VI/09.
-
-\section{The coordinate ring of a closed subset}
-
-Suppose
-\[
-Y\subseteq X\subseteq\mathbb A_k^n
-\]
-are algebraic sets.
-
-The inclusion of vanishing ideals reverses:
-\[
-I(X)\subseteq I(Y).
-\]
-
-Therefore the quotient map induces a surjection
+If \(Y\subseteq X\subseteq\mathbb A_k^n\) are algebraic, then
+\(I(X)\subseteq I(Y)\).  Hence there is a natural surjection
 \[
 k[X]\twoheadrightarrow k[Y].
 \]
 
 \begin{proposition}[Closed subsets give quotient rings]
-\label{prop:vi03-closed-subset-quotient}
-Let \(Y\subseteq X\) be algebraic.  Define
+Define
 \[
-I_X(Y)
-=
-I(Y)/I(X)
-\subseteq
-k[X].
+I_X(Y):=I(Y)/I(X)\subseteq k[X].
 \]
 Then
 \[
-k[Y]
-\cong
-k[X]/I_X(Y).
+k[Y]\cong k[X]/I_X(Y).
 \]
 \end{proposition}
 
 \begin{proof}
-The natural map
+Apply the first isomorphism theorem to
 \[
-k[x_1,\dots,x_n]/I(X)
-\longrightarrow
-k[x_1,\dots,x_n]/I(Y)
+\frac{k[x_1,\dots,x_n]}{I(X)}\longrightarrow
+\frac{k[x_1,\dots,x_n]}{I(Y)}.
 \]
-is surjective because
-\[
-I(X)\subseteq I(Y).
-\]
-Its kernel is exactly
-\[
-I(Y)/I(X).
-\]
-The first isomorphism theorem gives the result.
+Its kernel is \(I(Y)/I(X)\).
 \end{proof}
 
-This is a fundamental reversal:
+The direction reversal is fundamental:
 
+\begin{center}
+\begin{tikzpicture}[node distance=10mm and 18mm,font=\small,
+ box/.style={draw,rounded corners,align=center,minimum width=35mm,minimum height=11mm},
+ arr/.style={-{Latex[length=2.2mm]},thick}]
+\node[box] (x) {geometry\\\(Y\subseteq X\)};
+\node[box,right=of x] (a) {algebra\\\(k[X]\twoheadrightarrow k[Y]\)};
+\draw[arr] (x)-- node[above,font=\scriptsize]{reverse the arrow} (a);
+\end{tikzpicture}
+\end{center}
+
+This contravariance becomes even more important in VI/04, where maps of algebraic sets
+induce homomorphisms of coordinate rings in the opposite direction.
+
+\section{Finite sets and the Chinese remainder picture}
+\label{sec:vi03-finite-sets}
+
+Let \(X=\{a_1,\dots,a_r\}\subseteq\mathbb A_k^n\) be distinct rational points.  Their
+maximal ideals \(\mathfrak m_{a_i}\) are pairwise comaximal and
 \[
-\boxed{
-Y\subseteq X
-\quad\Longrightarrow\quad
-k[X]\twoheadrightarrow k[Y].
-}
+I(X)=\bigcap_{i=1}^r\mathfrak m_{a_i}.
 \]
-
-Geometric inclusion becomes algebraic quotient.
-
-\section{Products and separated variables}
-
-For affine spaces,
+Therefore the Chinese remainder theorem gives
 \[
-k[\mathbb A_k^m\times\mathbb A_k^n]
-\cong
-k[x_1,\dots,x_m,y_1,\dots,y_n].
+k[X]\cong\prod_{i=1}^r k.
 \]
+Every function on a finite set of rational points is consequently polynomial.
 
-More generally, coordinate rings of products are closely related to tensor products.
-The systematic statement belongs naturally with morphisms and categorical constructions, so
-we postpone it until the algebra--geometry correspondence has been developed further.
+\begin{center}
+\begin{tikzpicture}[node distance=8mm and 11mm,font=\small,
+ box/.style={draw,rounded corners,align=center,minimum width=30mm,minimum height=10mm},
+ arr/.style={-{Latex[length=2.2mm]},thick}]
+\node[box] (pts) {\(r\) distinct\\rational points};
+\node[box,right=of pts] (ideals) {pairwise comaximal\\\(\mathfrak m_1,\dots,\mathfrak m_r\)};
+\node[box,right=of ideals] (crt) {CRT\\\(k[X]\cong k^r\)};
+\node[box,below=of crt] (fun) {all functions\\\(X\to k\)};
+\draw[arr] (pts)--(ideals);
+\draw[arr] (ideals)--(crt);
+\draw[arr] (crt)--(fun);
+\end{tikzpicture}
+\end{center}
 
-For now, an elementary case is useful.
+\section{Zero divisors as geometric signals}
+\label{sec:vi03-zero-divisors}
 
-\begin{example}
-Let
+Assume \(k\) is algebraically closed, and let
 \[
-X=V(f(x))\subseteq\mathbb A_k^1,
-\qquad
-Y=V(g(y))\subseteq\mathbb A_k^1.
+X=V(xy)=V(x)\cup V(y)\subseteq\mathbb A_k^2.
 \]
 Then
 \[
-X\times Y
-\subseteq
-\mathbb A_k^2
+k[X]=k[x,y]/(xy).
 \]
-is cut out by
+The nonzero classes \(\bar x\) and \(\bar y\) satisfy
 \[
-f(x)=0,\qquad g(y)=0.
+\bar x\bar y=0.
 \]
-Under the expected radical hypotheses,
-\[
-k[X\times Y]
-\cong
-k[x,y]/(f(x),g(y)).
-\]
-\end{example}
+The zero divisors record the fact that functions supported on different components can
+annihilate each other.  The precise relation between irreducibility and integral domains is
+proved in VI/05.
 
-\section{What changes over finite fields?}
+\section{Finite fields and polynomial function rings}
+\label{sec:vi03-finite-fields}
 
-Over an infinite field, a polynomial that vanishes on all of
+Over an infinite field, no nonzero polynomial vanishes on all of \(k^n\).  Over a finite
+field this fails dramatically.  If \(k=\mathbb F_q\), then
 \[
-\mathbb A_k^n
+x^q-x
 \]
-is the zero polynomial, so
+vanishes at every element of \(\mathbb F_q\), and
 \[
-I(\mathbb A_k^n)=(0).
+I(\mathbb A^1_{\mathbb F_q})=(x^q-x).
 \]
-
-Over a finite field this fails.
-
-\begin{example}
-Over \(\mathbb F_p\),
+Hence
 \[
-x^p-x
+\mathbb F_q[\mathbb A^1_{\mathbb F_q}]
+\cong \mathbb F_q[x]/(x^q-x)
+\cong \prod_{a\in\mathbb F_q}\mathbb F_q.
 \]
-vanishes at every element of \(\mathbb F_p\).  Hence
-\[
-x^p-x\in I(\mathbb A^1_{\mathbb F_p}).
-\]
-Indeed,
-\[
-I(\mathbb A^1_{\mathbb F_p})=(x^p-x).
-\]
-Thus the ring of polynomial functions on the finite point set is
-\[
-\mathbb F_p[x]/(x^p-x),
-\]
-not the full polynomial ring.
-\end{example}
+Thus the coordinate ring of the \emph{finite rational-point set} is the full algebra of
+functions on that finite set.
 
 For several variables,
 \[
-I(\mathbb A^n_{\mathbb F_q})
-=
-(x_1^q-x_1,\dots,x_n^q-x_n).
+I(\mathbb F_q^n)=(x_1^q-x_1,\dots,x_n^q-x_n),
 \]
+a result developed further in the Challenges.
 
-This distinction is important: the \emph{classical coordinate ring of the rational point
-set} depends on the chosen field of points.  Later scheme-theoretic affine space is defined
-instead from the polynomial ring itself and does not collapse these functions.
+\section{A reusable coordinate-ring dictionary}
+\label{sec:vi03-dictionary}
 
-\section{The algebra--geometry dictionary so far}
-
-The first three chapters now give:
-
-\[
-\boxed{
-\begin{array}{c|c}
-\text{Geometry} & \text{Algebra}\\
-\hline
-X\subseteq\mathbb A_k^n & I(X)\subseteq k[x_1,\dots,x_n]\\[0.2em]
-X=V(I) & \text{polynomial equations}\\[0.2em]
-\overline{Y}^{\,\mathrm{Zar}} & V(I(Y))\\[0.2em]
-X & k[X]=k[x_1,\dots,x_n]/I(X)\\[0.2em]
-\text{coordinate functions} & \bar x_1,\dots,\bar x_n\\[0.2em]
-Y\subseteq X\text{ closed} & k[X]\twoheadrightarrow k[Y]\\[0.2em]
-a\in X & \operatorname{ev}_a:k[X]\to k
-\end{array}
-}
-\]
-
-The next chapter adds the most important contravariant step: a polynomial/regular map
-\[
-X\to Y
-\]
-will induce a \(k\)-algebra homomorphism in the opposite direction
-\[
-k[Y]\to k[X].
-\]
+\begin{center}
+\begin{tabular}{@{}p{0.40\textwidth}p{0.48\textwidth}@{}}
+\toprule
+\textbf{Geometry} & \textbf{Algebra}\\
+\midrule
+\(X\subseteq\mathbb A_k^n\) & \(k[X]=k[x_1,\dots,x_n]/I(X)\)\\
+polynomial function on \(X\) & residue class \([f]\in k[X]\)\\
+relation true on every point & element of \(I(X)\)\\
+coordinate functions & generators \(\bar x_1,\dots,\bar x_n\)\\
+point \(a\in X\) & evaluation \(k[X]\to k\), kernel \(\mathfrak m_a\)\\
+closed subset \(Y\subseteq X\) & quotient \(k[X]\twoheadrightarrow k[Y]\)\\
+finite set of \(r\) rational points & product ring \(k^r\)\\
+reducible union (preview) & zero divisors can appear\\
+classical algebraic set & reduced finitely generated \(k\)-algebra\\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \section{Common pitfalls}
+\label{sec:vi03-pitfalls}
 
-\begin{warning}[Do not quotient by arbitrary defining equations without checking]
-If
+\begin{warning}[Use \(I(X)\), not an arbitrary ideal cutting out \(X\)]
+If \(X=V(J)\), the classical coordinate ring is
 \[
-X=V(J),
+k[X]=k[x_1,\dots,x_n]/I(X),
 \]
-the classical coordinate ring is defined using
-\[
-I(X),
-\]
-not automatically using \(J\).  Different ideals can define the same point set.
-Over an algebraically closed field,
-\[
-I(V(J))=\sqrt J
-\]
-by the Nullstellensatz.
+not automatically \(k[x_1,\dots,x_n]/J\).  Different ideals can define the same point set.
 \end{warning}
 
-\begin{warning}[A presentation is not the object]
-The rings
-\[
-k[x,y]/(y-x^2)
-\quad\text{and}\quad
-k[t]
-\]
-are isomorphic.  The coordinate ring is an abstract \(k\)-algebra, not a preferred list of
-generators and relations.
+\begin{warning}[A presentation is not the ring itself]
+The rings \(k[x,y]/(y-x^2)\) and \(k[t]\) are isomorphic.  Generators and relations are a
+presentation, not an intrinsic coordinate system.
 \end{warning}
 
 \begin{warning}[Classical coordinate rings are reduced]
-If nilpotents appear in a quotient presentation, then that quotient is carrying more
-information than the classical algebraic set.  This is exactly the extra information schemes
-will preserve.
+A quotient with nonzero nilpotents carries more information than the classical zero set.
+That extra information belongs to scheme theory.
 \end{warning}
 
-\begin{warning}[Do not reverse the arrow incorrectly]
-A closed inclusion
-\[
-Y\subseteq X
-\]
-produces a surjection
-\[
-k[X]\twoheadrightarrow k[Y].
-\]
-The direction reverses.
+\begin{warning}[Finite fields change polynomial functions]
+Over \(\mathbb F_q\), distinct polynomials can define the same function even on all of
+affine space.  The relations \(x_i^q-x_i\) must be taken into account.
 \end{warning}
 
-\section{Worked examples}
-\input{chapters/ch03_coordinate_rings/examples.tex}
+\input{chapters/ch03_coordinate_rings/examples}
 
 \section{Exercises}
-\input{chapters/ch03_coordinate_rings/exercises.tex}
+\label{sec:vi03-exercises}
+The Exercises are primarily new and are ordered from direct quotient computations to
+structural uses of evaluation, Chinese remainders, zero divisors, and finite fields.
+\input{chapters/ch03_coordinate_rings/exercises}
+
+\ifdefined\IncludeExerciseHints
+\section{Hints to the Exercises}
+\label{sec:vi03-exercise-hints}
+\input{chapters/ch03_coordinate_rings/exercise_hints}
+\fi
+
+\section{Problems}
+\label{sec:vi03-problems}
+Problem VI.03.P1 recovers the substantive legacy coordinate-ring problem.  The remaining
+Problems are new synthesis problems designed around the same level of structural reasoning.
+\input{chapters/ch03_coordinate_rings/problems/index}
+
+\section{Challenges}
+\label{sec:vi03-challenges}
+\input{chapters/ch03_coordinate_rings/challenges/index}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Solutions to the Exercises}
+\label{sec:vi03-exercise-solutions}
+\input{chapters/ch03_coordinate_rings/exercise_solutions}
+\fi
 
 \section{Chapter summary}
+\label{sec:vi03-summary}
 
-The coordinate ring of an affine algebraic set
+The coordinate ring
 \[
-X\subseteq\mathbb A_k^n
+k[X]=k[x_1,\dots,x_n]/I(X)
 \]
-is
-\[
-k[X]
-=
-k[x_1,\dots,x_n]/I(X).
-\]
-It is canonically the ring of polynomial functions on \(X\).  The residue classes of the
-ambient coordinates generate the ring, and the ideal \(I(X)\) records exactly their
-relations.
+is canonically the ring of polynomial functions on \(X\).  The ambient coordinate classes
+generate the ring, while \(I(X)\) records every relation among them.  Points produce
+evaluation maps to \(k\); closed subsets produce quotient rings in the reverse direction;
+finite rational-point sets produce product rings; and reducible geometry can manifest as
+zero divisors.
 
-Coordinate rings are finitely generated and reduced.  A point gives an evaluation
-homomorphism
-\[
-k[X]\to k,
-\]
-while a closed inclusion
-\[
-Y\subseteq X
-\]
-gives a quotient
-\[
-k[X]\twoheadrightarrow k[Y].
-\]
-
-The next chapter extends this correspondence from objects to maps.
+Classical coordinate rings are finitely generated and reduced, so they deliberately forget
+nilpotent thickening information.  Over finite fields the ring of polynomial functions is
+smaller than the polynomial ring because \(x_i^q-x_i\) vanishes identically on rational
+points.  These facts prepare the next chapter, where maps of affine algebraic sets will
+become homomorphisms of coordinate rings in the opposite direction.
