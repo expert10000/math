@@ -1,0 +1,1011 @@
+% Canonical chapter: VI/04 — Morphisms of Affine Algebraic Sets
+% Status: DRAFTED (review PDF generated before repository write)
+%
+% Boundary:
+%   algebraic sets -> VI/01
+%   Zariski topology -> VI/02
+%   coordinate rings -> VI/03
+%   irreducibility/components -> VI/05
+%   schemes/morphisms of schemes -> VI/18 onward
+%
+% This chapter establishes the contravariant affine algebra--geometry dictionary.
+
+\chapter{Morphisms of Affine Algebraic Sets}
+\label{ch:morphisms-affine-algebraic-sets}
+
+\section*{Purpose and learning goals}
+
+The previous chapter associated a ring \(k[X]\) to every affine algebraic set \(X\).
+We now extend this correspondence from objects to maps.
+
+If
+\[
+\varphi:X\longrightarrow Y
+\]
+is given by polynomial coordinate functions, then every polynomial function on \(Y\) can
+be pulled back along \(\varphi\).  This produces a \(k\)-algebra homomorphism
+\[
+\varphi^\ast:k[Y]\longrightarrow k[X].
+\]
+The direction reverses.
+
+This reversal is one of the central structural ideas of algebraic geometry.  Geometric maps
+go one way; functions go the other way.
+
+Throughout, \(k\) is a field,
+\[
+X\subseteq\mathbb A_k^n,
+\qquad
+Y\subseteq\mathbb A_k^m
+\]
+are affine algebraic sets, and their coordinate rings are understood in the classical sense
+developed in VI/03.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+  \item define polynomial maps between affine algebraic sets;
+  \item verify that such maps are Zariski continuous;
+  \item construct the pullback homomorphism on coordinate rings;
+  \item prove contravariance under composition;
+  \item recover a polynomial map from a \(k\)-algebra homomorphism of coordinate rings;
+  \item prove the affine correspondence
+        \[
+        \operatorname{Mor}(X,Y)
+        \cong
+        \operatorname{Hom}_{k\text{-alg}}(k[Y],k[X]);
+        \]
+  \item characterize affine isomorphisms algebraically;
+  \item understand closed embeddings as quotient maps on coordinate rings.
+\end{itemize}
+
+\section{Polynomial maps}
+
+\begin{definition}[Polynomial map]
+A map
+\[
+\varphi:X\longrightarrow\mathbb A_k^m
+\]
+is a \emph{polynomial map} if there exist polynomial functions
+\[
+f_1,\dots,f_m\in k[X]
+\]
+such that
+\[
+\varphi(x)
+=
+\bigl(f_1(x),\dots,f_m(x)\bigr)
+\]
+for every \(x\in X\).
+\end{definition}
+
+Each \(f_i\in k[X]\) may be represented by an ambient polynomial in
+\(k[x_1,\dots,x_n]\), but the map depends only on its class in the coordinate ring.
+
+\begin{definition}[Morphisms of affine algebraic sets]
+Let \(Y\subseteq\mathbb A_k^m\) be algebraic.  A \emph{morphism}
+\[
+\varphi:X\longrightarrow Y
+\]
+is a polynomial map \(X\to\mathbb A_k^m\) whose image lies in \(Y\).
+\end{definition}
+
+In this classical affine setting, we use \emph{morphism} and \emph{polynomial morphism}
+interchangeably.  Later scheme theory will provide the intrinsic locally ringed-space
+definition.
+
+\begin{example}[A polynomial self-map of the affine line]
+The map
+\[
+\varphi:\mathbb A_k^1\longrightarrow\mathbb A_k^1,
+\qquad
+t\longmapsto t^2+t
+\]
+is a morphism.
+\end{example}
+
+\begin{example}[Parametrizing the parabola]
+Let
+\[
+P=V(y-x^2)\subseteq\mathbb A_k^2.
+\]
+Then
+\[
+\alpha:\mathbb A_k^1\longrightarrow P,
+\qquad
+t\longmapsto(t,t^2)
+\]
+is a morphism.
+\end{example}
+
+\section{Testing whether a polynomial map lands in a target}
+
+Suppose
+\[
+Y=V(J)\subseteq\mathbb A_k^m,
+\]
+where
+\[
+J\subseteq k[y_1,\dots,y_m].
+\]
+Given polynomial functions
+\[
+f_1,\dots,f_m\in k[X],
+\]
+we would like to know whether
+\[
+x\longmapsto(f_1(x),\dots,f_m(x))
+\]
+has image in \(Y\).
+
+\begin{proposition}[Equation test for the target]
+\label{prop:vi04-target-test}
+Let
+\[
+\varphi=(f_1,\dots,f_m):X\to\mathbb A_k^m.
+\]
+Then \(\varphi(X)\subseteq Y\) if and only if
+\[
+g(f_1,\dots,f_m)=0
+\quad\text{in }k[X]
+\]
+for every
+\[
+g\in I(Y).
+\]
+\end{proposition}
+
+\begin{proof}
+The image lies in \(Y\) exactly when, for every \(x\in X\) and every
+\(g\in I(Y)\),
+\[
+g\bigl(f_1(x),\dots,f_m(x)\bigr)=0.
+\]
+That is exactly the statement that the polynomial function
+\[
+g(f_1,\dots,f_m)
+\]
+is the zero element of \(k[X]\).
+\end{proof}
+
+\begin{example}
+For the parabola
+\[
+P=V(y-x^2),
+\]
+the map
+\[
+t\longmapsto(t,t^2)
+\]
+lands in \(P\) because
+\[
+t^2-t^2=0.
+\]
+Algebraically, the defining relation \(y-x^2\) becomes zero after substituting
+\[
+x\mapsto t,\qquad y\mapsto t^2.
+\]
+\end{example}
+
+\section{Pullback of polynomial functions}
+
+Let
+\[
+\varphi:X\to Y
+\]
+be a morphism.
+
+Every polynomial function
+\[
+h:Y\to k
+\]
+can be composed with \(\varphi\):
+\[
+h\circ\varphi:X\to k.
+\]
+
+Because \(\varphi\) is polynomial, \(h\circ\varphi\) is again a polynomial function on
+\(X\).
+
+\begin{definition}[Pullback]
+The \emph{pullback} of functions along \(\varphi\) is
+\[
+\varphi^\ast:k[Y]\longrightarrow k[X],
+\qquad
+h\longmapsto h\circ\varphi.
+\]
+\end{definition}
+
+\begin{proposition}[Pullback is a \(k\)-algebra homomorphism]
+\label{prop:vi04-pullback-hom}
+For every morphism
+\[
+\varphi:X\to Y,
+\]
+the map
+\[
+\varphi^\ast:k[Y]\to k[X]
+\]
+is a \(k\)-algebra homomorphism.
+\end{proposition}
+
+\begin{proof}
+For \(f,g\in k[Y]\), \(c\in k\), and \(x\in X\),
+\[
+\varphi^\ast(f+g)(x)
+=
+(f+g)(\varphi(x))
+=
+f(\varphi(x))+g(\varphi(x)),
+\]
+so
+\[
+\varphi^\ast(f+g)=\varphi^\ast(f)+\varphi^\ast(g).
+\]
+Similarly,
+\[
+\varphi^\ast(fg)=\varphi^\ast(f)\varphi^\ast(g),
+\]
+and constant functions are fixed:
+\[
+\varphi^\ast(c)=c.
+\]
+\end{proof}
+
+\section{Coordinate description of the pullback}
+
+Write the coordinate functions on
+\[
+Y\subseteq\mathbb A_k^m
+\]
+as
+\[
+\bar y_1,\dots,\bar y_m\in k[Y].
+\]
+
+If
+\[
+\varphi=(f_1,\dots,f_m),
+\]
+then
+\[
+\varphi^\ast(\bar y_i)=f_i.
+\]
+
+Thus the entire pullback homomorphism is determined by the images of the coordinate
+functions.
+
+\begin{proposition}[Pullback by substitution]
+\label{prop:vi04-substitution}
+If
+\[
+[h]\in k[Y]
+\]
+is represented by
+\[
+h(y_1,\dots,y_m),
+\]
+then
+\[
+\varphi^\ast([h])
+=
+h(f_1,\dots,f_m)
+\quad\text{in }k[X].
+\]
+\end{proposition}
+
+\begin{proof}
+At \(x\in X\),
+\[
+\varphi^\ast([h])(x)
+=
+h(\varphi(x))
+=
+h\bigl(f_1(x),\dots,f_m(x)\bigr).
+\]
+\end{proof}
+
+This is simply substitution, but phrased intrinsically in coordinate rings.
+
+\section{Why the pullback is well-defined in quotient coordinates}
+
+Suppose
+\[
+k[Y]=k[y_1,\dots,y_m]/I(Y).
+\]
+To define a homomorphism out of this quotient by choosing images \(f_i\in k[X]\), the
+relations in \(I(Y)\) must vanish after substitution.
+
+That is exactly the condition from
+\cref{prop:vi04-target-test}.
+
+\begin{proposition}[Universal quotient criterion]
+\label{prop:vi04-quotient-criterion}
+Choose
+\[
+f_1,\dots,f_m\in k[X].
+\]
+The assignment
+\[
+\bar y_i\longmapsto f_i
+\]
+extends to a \(k\)-algebra homomorphism
+\[
+k[Y]\longrightarrow k[X]
+\]
+if and only if
+\[
+g(f_1,\dots,f_m)=0
+\]
+for every
+\[
+g\in I(Y).
+\]
+\end{proposition}
+
+\begin{proof}
+A homomorphism
+\[
+k[y_1,\dots,y_m]\to k[X]
+\]
+is determined by the images of the variables.  It factors through
+\[
+k[y_1,\dots,y_m]/I(Y)
+\]
+exactly when every element of \(I(Y)\) lies in its kernel.
+\end{proof}
+
+Compare this with \cref{prop:vi04-target-test}: the algebraic factorization condition is
+the same as the geometric condition that the map lands in \(Y\).
+
+\section{Contravariance}
+
+Suppose
+\[
+X\xrightarrow{\varphi}Y\xrightarrow{\psi}Z
+\]
+are morphisms.
+
+Then a function on \(Z\) pulls back first to \(Y\), then to \(X\).
+
+\begin{theorem}[Contravariance of coordinate rings]
+\label{thm:vi04-contravariance}
+For composable morphisms
+\[
+X\xrightarrow{\varphi}Y\xrightarrow{\psi}Z,
+\]
+one has
+\[
+(\psi\circ\varphi)^\ast
+=
+\varphi^\ast\circ\psi^\ast.
+\]
+Also,
+\[
+(\operatorname{id}_X)^\ast
+=
+\operatorname{id}_{k[X]}.
+\]
+\end{theorem}
+
+\begin{proof}
+For \(h\in k[Z]\),
+\[
+(\psi\circ\varphi)^\ast(h)
+=
+h\circ\psi\circ\varphi
+=
+\varphi^\ast(\psi^\ast(h)).
+\]
+The identity statement follows from
+\[
+h\circ\operatorname{id}_X=h.
+\]
+\end{proof}
+
+Thus
+\[
+X\longmapsto k[X]
+\]
+reverses arrows.
+
+\[
+\boxed{
+\begin{array}{ccccc}
+X & \xrightarrow{\varphi} & Y\\[0.5em]
+k[X] & \xleftarrow{\ \varphi^\ast\ } & k[Y]
+\end{array}
+}
+\]
+
+\section{Recovering a morphism from a ring homomorphism}
+
+The remarkable fact is that no information is lost.
+
+Let
+\[
+\Phi:k[Y]\longrightarrow k[X]
+\]
+be a \(k\)-algebra homomorphism.
+
+Let
+\[
+\bar y_1,\dots,\bar y_m
+\]
+be the coordinate functions on \(Y\).  Define
+\[
+f_i:=\Phi(\bar y_i)\in k[X].
+\]
+
+These polynomial functions determine a candidate map
+\[
+\varphi_\Phi:X\to\mathbb A_k^m,
+\qquad
+x\longmapsto
+\bigl(f_1(x),\dots,f_m(x)\bigr).
+\]
+
+\begin{proposition}[The reconstructed map lands in \(Y\)]
+\label{prop:vi04-reconstruction-lands}
+The map \(\varphi_\Phi\) has image contained in \(Y\).
+\end{proposition}
+
+\begin{proof}
+Let \(g\in I(Y)\).  In \(k[Y]\),
+\[
+g(\bar y_1,\dots,\bar y_m)=0.
+\]
+Applying \(\Phi\),
+\[
+g(f_1,\dots,f_m)
+=
+\Phi\bigl(g(\bar y_1,\dots,\bar y_m)\bigr)
+=
+0
+\]
+in \(k[X]\).
+By \cref{prop:vi04-target-test}, the image lies in \(Y\).
+\end{proof}
+
+Therefore every \(k\)-algebra homomorphism
+\[
+k[Y]\to k[X]
+\]
+comes from a morphism
+\[
+X\to Y.
+\]
+
+\section{The affine algebra--geometry correspondence}
+
+\begin{theorem}[Affine morphism correspondence]
+\label{thm:vi04-affine-correspondence}
+For affine algebraic sets \(X\) and \(Y\), pullback gives a natural bijection
+\[
+\operatorname{Mor}_k(X,Y)
+\;\cong\;
+\operatorname{Hom}_{k\text{-alg}}(k[Y],k[X]).
+\]
+The bijection is contravariant in \(X\) and \(Y\).
+\end{theorem}
+
+\begin{proof}
+A morphism \(\varphi:X\to Y\) produces
+\[
+\varphi^\ast:k[Y]\to k[X].
+\]
+
+Conversely, a \(k\)-algebra homomorphism
+\[
+\Phi:k[Y]\to k[X]
+\]
+produces the morphism
+\[
+\varphi_\Phi
+=
+\bigl(
+\Phi(\bar y_1),\dots,\Phi(\bar y_m)
+\bigr).
+\]
+
+Starting with \(\varphi=(f_1,\dots,f_m)\), the reconstructed map has coordinates
+\[
+\varphi^\ast(\bar y_i)=f_i,
+\]
+so it is exactly \(\varphi\).
+
+Starting with \(\Phi\), the pullback of the reconstructed map sends
+\[
+\bar y_i\longmapsto \Phi(\bar y_i).
+\]
+Since the \(\bar y_i\) generate \(k[Y]\) as a \(k\)-algebra, the two homomorphisms are
+equal.
+\end{proof}
+
+This theorem is the central result of the chapter.
+
+\section{Morphisms are Zariski continuous}
+
+The algebraic definition automatically implies topological continuity.
+
+\begin{theorem}[Continuity of morphisms]
+\label{thm:vi04-continuity}
+Every morphism of affine algebraic sets
+\[
+\varphi:X\to Y
+\]
+is continuous for the Zariski topologies.
+\end{theorem}
+
+\begin{proof}
+It is enough to compute the inverse image of a closed set.
+
+Let
+\[
+W=V_Y(S)\subseteq Y
+\]
+for some set
+\[
+S\subseteq k[Y].
+\]
+Then
+\[
+x\in\varphi^{-1}(W)
+\]
+exactly when
+\[
+s(\varphi(x))=0
+\]
+for every \(s\in S\).  Equivalently,
+\[
+\varphi^\ast(s)(x)=0
+\]
+for every \(s\in S\).  Hence
+\[
+\varphi^{-1}(W)
+=
+V_X(\varphi^\ast(S)),
+\]
+which is closed in \(X\).
+\end{proof}
+
+For a principal open,
+\[
+D_Y(f)=\set{y\in Y\mid f(y)\neq0},
+\]
+one obtains the useful formula
+\[
+\varphi^{-1}(D_Y(f))
+=
+D_X(\varphi^\ast f).
+\]
+
+\section{Isomorphisms}
+
+\begin{definition}[Isomorphism]
+A morphism
+\[
+\varphi:X\to Y
+\]
+is an \emph{isomorphism} if there exists a morphism
+\[
+\psi:Y\to X
+\]
+such that
+\[
+\psi\circ\varphi=\operatorname{id}_X,
+\qquad
+\varphi\circ\psi=\operatorname{id}_Y.
+\]
+\end{definition}
+
+\begin{theorem}[Isomorphism criterion]
+\label{thm:vi04-iso-criterion}
+A morphism
+\[
+\varphi:X\to Y
+\]
+is an isomorphism if and only if
+\[
+\varphi^\ast:k[Y]\to k[X]
+\]
+is an isomorphism of \(k\)-algebras.
+\end{theorem}
+
+\begin{proof}
+If \(\varphi\) has inverse \(\psi\), contravariance gives
+\[
+\varphi^\ast\circ\psi^\ast
+=
+(\psi\circ\varphi)^\ast
+=
+\operatorname{id}_{k[X]},
+\]
+and
+\[
+\psi^\ast\circ\varphi^\ast
+=
+(\varphi\circ\psi)^\ast
+=
+\operatorname{id}_{k[Y]}.
+\]
+Thus \(\varphi^\ast\) is an isomorphism.
+
+Conversely, if \(\varphi^\ast\) is an isomorphism, its inverse
+\[
+(\varphi^\ast)^{-1}:k[X]\to k[Y]
+\]
+corresponds by \cref{thm:vi04-affine-correspondence} to a morphism
+\[
+\psi:Y\to X.
+\]
+The identities for the two ring homomorphisms translate, again by the correspondence, into
+the two geometric inverse identities.
+\end{proof}
+
+\begin{example}[The parabola is isomorphic to the affine line]
+Let
+\[
+P=V(y-x^2).
+\]
+The maps
+\[
+\alpha:\mathbb A_k^1\to P,
+\qquad
+t\mapsto(t,t^2),
+\]
+and
+\[
+\beta:P\to\mathbb A_k^1,
+\qquad
+(x,y)\mapsto x
+\]
+are inverse morphisms.
+
+On coordinate rings,
+\[
+\alpha^\ast:
+k[x,y]/(y-x^2)\to k[t]
+\]
+sends
+\[
+\bar x\mapsto t,
+\qquad
+\bar y\mapsto t^2,
+\]
+while
+\[
+\beta^\ast:k[t]\to k[P]
+\]
+sends
+\[
+t\mapsto\bar x.
+\]
+\end{example}
+
+\section{Closed embeddings}
+
+A closed inclusion gives a quotient of coordinate rings, as already observed in VI/03.
+
+\begin{definition}[Closed embedding in the affine classical setting]
+A morphism
+\[
+i:Y\to X
+\]
+is a \emph{closed embedding} if it identifies \(Y\) isomorphically with a Zariski closed
+subset of \(X\).
+\end{definition}
+
+\begin{theorem}[Closed embeddings and surjections]
+\label{thm:vi04-closed-embedding-surjection}
+A morphism
+\[
+i:Y\to X
+\]
+is a closed embedding if and only if the pullback
+\[
+i^\ast:k[X]\to k[Y]
+\]
+is surjective.
+\end{theorem}
+
+\begin{proof}
+If \(Y\) is identified with a closed subset of \(X\), then
+\[
+k[Y]\cong k[X]/I_X(Y),
+\]
+so the restriction map
+\[
+i^\ast:k[X]\twoheadrightarrow k[Y]
+\]
+is surjective.
+
+Conversely, suppose \(i^\ast\) is surjective.  Let
+\[
+J=\ker(i^\ast).
+\]
+Then
+\[
+k[Y]\cong k[X]/J.
+\]
+The quotient corresponds to the closed algebraic subset of \(X\) defined by the functions in
+\(J\).  Under the affine correspondence, the quotient map is the pullback of the canonical
+closed inclusion, and because pullback determines the morphism uniquely, \(i\) identifies
+\(Y\) with that closed subset.
+\end{proof}
+
+\begin{remark}
+Over a classical point-set presentation one must remember that closed subsets are governed
+by vanishing ideals, hence radical ideals.  Scheme theory will later remove this reduction
+and allow arbitrary quotient ideals to define closed subschemes.
+\end{remark}
+
+\section{Projections and coordinate inclusions}
+
+\begin{example}[Projection]
+The projection
+\[
+\pi:\mathbb A_k^2\to\mathbb A_k^1,
+\qquad
+(x,y)\mapsto x
+\]
+is a morphism.
+
+Its pullback is
+\[
+\pi^\ast:k[t]\to k[x,y],
+\qquad
+t\mapsto x.
+\]
+\end{example}
+
+\begin{example}[A coordinate axis]
+Let
+\[
+i:\mathbb A_k^1\to\mathbb A_k^2,
+\qquad
+t\mapsto(t,0).
+\]
+Then
+\[
+i^\ast:k[x,y]\to k[t]
+\]
+is
+\[
+x\mapsto t,
+\qquad
+y\mapsto0.
+\]
+It is surjective, and its kernel is
+\[
+(y).
+\]
+Thus the map is a closed embedding with image \(V(y)\).
+\end{example}
+
+\section{Maps to affine space}
+
+Affine space is particularly simple because its coordinate ring is freely generated.
+
+Assume \(k\) is infinite so that
+\[
+k[\mathbb A_k^m]=k[y_1,\dots,y_m].
+\]
+
+\begin{proposition}
+\label{prop:vi04-maps-to-affine-space}
+Giving a morphism
+\[
+\varphi:X\to\mathbb A_k^m
+\]
+is equivalent to choosing \(m\) elements
+\[
+f_1,\dots,f_m\in k[X].
+\]
+\end{proposition}
+
+\begin{proof}
+A morphism is exactly an \(m\)-tuple of polynomial functions.  Algebraically, a homomorphism
+\[
+k[y_1,\dots,y_m]\to k[X]
+\]
+is freely determined by the images of the variables \(y_i\).
+\end{proof}
+
+In particular,
+\[
+\operatorname{Mor}(X,\mathbb A_k^1)
+\cong
+k[X].
+\]
+
+A regular function is therefore the same thing as a morphism to the affine line.
+
+\section{Endomorphisms and automorphisms}
+
+A morphism
+\[
+X\to X
+\]
+is an \emph{endomorphism}; an isomorphism \(X\to X\) is an \emph{automorphism}.
+
+Contravariance gives
+\[
+\operatorname{Aut}(X)
+\cong
+\operatorname{Aut}_{k\text{-alg}}(k[X])^{\mathrm{op}},
+\]
+where the opposite notation records reversal of composition.
+
+As a set, however, an automorphism is completely determined by the corresponding
+\(k\)-algebra automorphism of the coordinate ring.
+
+\begin{example}[Affine transformations of the line]
+For
+\[
+a\in k^\times,\qquad b\in k,
+\]
+the map
+\[
+\varphi(t)=at+b
+\]
+is an automorphism of \(\mathbb A_k^1\), with inverse
+\[
+t\mapsto a^{-1}(t-b).
+\]
+
+Its pullback is the automorphism
+\[
+k[t]\to k[t],
+\qquad
+t\mapsto at+b.
+\]
+\end{example}
+
+\section{Composition as substitution}
+
+Let
+\[
+\varphi:X\to Y,
+\qquad
+\psi:Y\to Z
+\]
+be given in coordinates by
+\[
+\varphi=(f_1,\dots,f_m),
+\qquad
+\psi=(g_1,\dots,g_r).
+\]
+
+Then
+\[
+\psi\circ\varphi
+=
+\bigl(
+g_1(f_1,\dots,f_m),
+\dots,
+g_r(f_1,\dots,f_m)
+\bigr).
+\]
+
+The coordinate-ring statement is
+\[
+(\psi\circ\varphi)^\ast
+=
+\varphi^\ast\circ\psi^\ast.
+\]
+
+Thus ordinary polynomial substitution and categorical contravariance are two descriptions
+of the same operation.
+
+\section{A first categorical viewpoint}
+
+The affine correspondence may be summarized as
+
+\[
+\boxed{
+\text{affine algebraic sets over }k
+\quad\longleftrightarrow\quad
+\text{their coordinate }k\text{-algebras, with arrows reversed}.
+}
+\]
+
+At the classical level, coordinate rings are finitely generated reduced \(k\)-algebras of
+the appropriate form.  Scheme theory will eventually replace an algebraic set \(X\) by
+\[
+\operatorname{Spec}A
+\]
+and thereby allow arbitrary commutative rings \(A\), including rings with nilpotents.
+
+The present chapter is therefore not a side calculation.  It is the prototype for the
+scheme-theoretic equivalence
+\[
+\operatorname{Hom}_{\mathrm{Sch}}
+(\operatorname{Spec}B,\operatorname{Spec}A)
+\cong
+\operatorname{Hom}_{\mathrm{Ring}}(A,B),
+\]
+which will appear later in Volume VI.
+
+\section{Common pitfalls}
+
+\begin{warning}[Continuity alone is not enough]
+A Zariski-continuous map need not be a morphism.  A morphism must arise from polynomial
+coordinate functions, equivalently from a homomorphism of coordinate rings.
+\end{warning}
+
+\begin{warning}[The pullback reverses direction]
+For
+\[
+\varphi:X\to Y,
+\]
+the induced map is
+\[
+\varphi^\ast:k[Y]\to k[X],
+\]
+not \(k[X]\to k[Y]\).
+\end{warning}
+
+\begin{warning}[Relations in the target must be respected]
+Choosing arbitrary \(f_1,\dots,f_m\in k[X]\) defines a map to
+\(\mathbb A_k^m\), but it defines a map to
+\[
+Y=V(I(Y))
+\]
+only when every relation in \(I(Y)\) vanishes after substitution.
+\end{warning}
+
+\begin{warning}[Bijective is not automatically isomorphic]
+A bijective morphism need not have a polynomial inverse.  Isomorphism means that both
+directions are morphisms, or equivalently that the pullback on coordinate rings is an
+isomorphism.
+\end{warning}
+
+\begin{warning}[Classical closed subsets are reduced]
+A surjective coordinate-ring map in this classical chapter should be interpreted through
+the reduced closed subset determined by its vanishing ideal.  Arbitrary nonradical quotient
+ideals belong naturally to closed subschemes later.
+\end{warning}
+
+\section{Worked examples}
+\input{chapters/ch04_morphisms_affine_algebraic_sets/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch04_morphisms_affine_algebraic_sets/exercises.tex}
+
+\section{Chapter summary}
+
+A morphism of affine algebraic sets
+\[
+\varphi:X\to Y
+\]
+is a polynomial map whose image lies in \(Y\).  Pulling back polynomial functions gives a
+\(k\)-algebra homomorphism
+\[
+\varphi^\ast:k[Y]\to k[X].
+\]
+
+The assignment is contravariant:
+\[
+(\psi\circ\varphi)^\ast
+=
+\varphi^\ast\circ\psi^\ast.
+\]
+
+Most importantly,
+\[
+\operatorname{Mor}_k(X,Y)
+\cong
+\operatorname{Hom}_{k\text{-alg}}(k[Y],k[X]).
+\]
+
+Consequently,
+\[
+X\cong Y
+\quad\Longleftrightarrow\quad
+k[X]\cong k[Y],
+\]
+and closed embeddings correspond to surjective pullbacks.
+
+The next chapter studies geometric decomposition.  Irreducibility and connectedness will
+translate into strong algebraic properties of coordinate rings, especially the presence or
+absence of zero divisors and idempotents.

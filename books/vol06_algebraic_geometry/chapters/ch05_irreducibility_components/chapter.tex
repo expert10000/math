@@ -1,0 +1,776 @@
+% Canonical chapter: VI/05 — Irreducibility, Components and Connectedness
+% Status: DRAFTED (review before repository write)
+%
+% Content policy for end-of-chapter material:
+%   Examples  = fully worked illustrations inside the chapter.
+%   Exercises = shorter reinforcement.
+%   Problems  = harder, synthetic items, including recovered legacy problems.
+%   Challenges = optional extensions.
+%
+% Legacy problem recovery used in this draft:
+%   theory-of-differential-geometry-4.tex:
+%     Problem 2  -> Problem VI.05.P1
+%     Problem 4  -> Problem VI.05.P2
+%     Problem 6  -> Problem VI.05.P4
+%     Problem 8  -> Problem VI.05.P3
+%   theory-of-algebraic-geometry-1.tex:
+%     Problem 3 (disconnected spectra/idempotents/product rings)
+%       -> adapted classically as Problem VI.05.P5
+%
+% Scheme-level irreducibility/integrality remains for VI/27.
+
+\chapter{Irreducibility, Components and Connectedness}
+\label{ch:irreducibility-components-connectedness}
+
+\section*{Purpose and learning goals}
+
+Algebraic sets can split into simpler pieces.  Some decompositions are genuine and
+intrinsic, while others merely reflect a poor choice of equations.  This chapter develops
+two complementary notions that measure whether a space splits:
+
+\begin{itemize}
+  \item \emph{irreducibility}, which forbids decomposition into two proper closed pieces;
+  \item \emph{connectedness}, which forbids decomposition into two disjoint nonempty open
+        pieces.
+\end{itemize}
+
+For affine algebraic sets, irreducibility is controlled by prime ideals and integral
+domains, while connectedness is controlled by idempotents and product decompositions of
+coordinate rings.  The two notions are related but not equivalent.
+
+Throughout, \(k\) is a field and
+\[
+X\subseteq \mathbb A_k^n
+\]
+is an affine algebraic set.  When the connectedness--idempotent correspondence is invoked
+in its strongest classical point-set form, we explicitly assume that \(k\) is algebraically
+closed.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+  \item characterize irreducible spaces using nonempty open subsets;
+  \item prove that nonempty open subsets of irreducible spaces are dense and irreducible;
+  \item translate irreducibility of \(X\) into primality of \(I(X)\) and domain structure
+        of \(k[X]\);
+  \item prove existence and uniqueness of irreducible components in affine algebraic sets;
+  \item distinguish irreducible components from connected components;
+  \item characterize disconnected affine algebraic sets using nontrivial idempotents;
+  \item use component-intersection graphs to test connectedness;
+  \item analyze explicit reducible algebraic sets by factoring equations and computing
+        minimal components.
+\end{itemize}
+
+\section{Irreducible topological spaces}
+
+\begin{definition}[Irreducible space]
+A nonempty topological space \(X\) is \emph{irreducible} if whenever
+\[
+X=F\cup G
+\]
+with \(F,G\subseteq X\) closed, then
+\[
+F=X
+\qquad\text{or}\qquad
+G=X.
+\]
+Equivalently, \(X\) cannot be written as a union of two proper closed subsets.
+\end{definition}
+
+\begin{proposition}[Open-set criterion]
+\label{prop:vi05-open-criterion}
+For a nonempty topological space \(X\), the following are equivalent:
+\begin{enumerate}
+  \item \(X\) is irreducible;
+  \item every two nonempty open subsets of \(X\) intersect;
+  \item every nonempty open subset of \(X\) is dense.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Suppose \(X\) is irreducible and let \(U,V\subseteq X\) be nonempty open subsets.  If
+\(U\cap V=\varnothing\), then
+\[
+X=(X\setminus U)\cup(X\setminus V)
+\]
+is a union of two proper closed subsets, contradiction.  Hence (1) implies (2).
+
+Assume (2), and let \(U\subseteq X\) be nonempty open.  If
+\[
+\overline U\neq X,
+\]
+then
+\[
+X\setminus\overline U
+\]
+is a nonempty open set disjoint from \(U\), contradicting (2).  Thus \(U\) is dense, so
+(2) implies (3).
+
+Finally, assume every nonempty open subset is dense.  If
+\[
+X=F\cup G
+\]
+with \(F,G\) proper closed subsets, then
+\[
+U=X\setminus F
+\]
+is nonempty open.  Since \(U\subseteq G\) and \(G\) is closed,
+\[
+\overline U\subseteq G\neq X,
+\]
+contradicting density.  Thus (3) implies (1).
+\end{proof}
+
+\begin{corollary}
+\label{cor:vi05-nonempty-open-irreducible}
+Every nonempty open subset of an irreducible space is irreducible and dense in the ambient
+space.
+\end{corollary}
+
+\begin{proof}
+Density is part of \cref{prop:vi05-open-criterion}.  Let \(U\subseteq X\) be nonempty
+open and let \(U_1,U_2\subseteq U\) be nonempty open subsets in the subspace topology.
+Write
+\[
+U_i=U\cap V_i
+\]
+with \(V_i\) open in \(X\).  Then \(U\cap V_1\) and \(U\cap V_2\) are nonempty open
+subsets of \(X\), so their intersection is nonempty.  Hence \(U_1\cap U_2\neq\varnothing\),
+and \(U\) is irreducible.
+\end{proof}
+
+\section{Closure preserves irreducibility}
+
+\begin{proposition}
+\label{prop:vi05-closure-irreducible}
+If \(Y\) is an irreducible subset of a topological space \(X\), then its closure
+\[
+\overline Y
+\]
+is irreducible.
+\end{proposition}
+
+\begin{proof}
+Suppose
+\[
+\overline Y=F\cup G
+\]
+with \(F,G\) closed in \(\overline Y\).  Then
+\[
+Y=(Y\cap F)\cup(Y\cap G).
+\]
+The subsets \(Y\cap F\) and \(Y\cap G\) are closed in \(Y\).  Since \(Y\) is irreducible,
+one of them is all of \(Y\).  If, for example, \(Y\subseteq F\), then by closedness of
+\(F\) in \(\overline Y\),
+\[
+\overline Y\subseteq F.
+\]
+Hence \(F=\overline Y\).
+\end{proof}
+
+This fact is especially useful for parametrized subsets: if the parameter space is
+irreducible and the image is dense in its closure, the closure is irreducible.
+
+\section{Irreducibility and coordinate rings}
+
+The topological definition becomes algebraic for affine algebraic sets.
+
+\begin{theorem}[Prime-ideal criterion]
+\label{thm:vi05-prime-criterion}
+For an affine algebraic set \(X\subseteq\mathbb A_k^n\), the following are equivalent:
+\begin{enumerate}
+  \item \(X\) is irreducible;
+  \item \(I(X)\subseteq k[x_1,\dots,x_n]\) is prime;
+  \item \(k[X]\) is an integral domain.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+The equivalence of (2) and (3) is the standard quotient criterion:
+\[
+k[X]=k[x_1,\dots,x_n]/I(X)
+\]
+is a domain exactly when \(I(X)\) is prime.
+
+Assume \(X\) is irreducible.  Suppose
+\[
+fg\in I(X).
+\]
+Then \(fg\) vanishes on \(X\), so
+\[
+X\subseteq V(fg)=V(f)\cup V(g).
+\]
+Inside \(X\),
+\[
+X=V_X(f)\cup V_X(g).
+\]
+Irreducibility implies
+\[
+X=V_X(f)
+\qquad\text{or}\qquad
+X=V_X(g).
+\]
+Thus
+\[
+f\in I(X)
+\qquad\text{or}\qquad
+g\in I(X),
+\]
+so \(I(X)\) is prime.
+
+Conversely, assume \(I(X)\) is prime and suppose
+\[
+X=Y\cup Z
+\]
+with \(Y,Z\) closed in \(X\).  We may write
+\[
+Y=V_X(J),
+\qquad
+Z=V_X(K).
+\]
+If both are proper, choose
+\[
+f\in I(Y)\setminus I(X),
+\qquad
+g\in I(Z)\setminus I(X).
+\]
+Since every point of \(X\) lies in \(Y\) or \(Z\),
+\[
+fg
+\]
+vanishes on all of \(X\).  Hence
+\[
+fg\in I(X).
+\]
+Primality forces \(f\in I(X)\) or \(g\in I(X)\), contradiction.  Thus one of \(Y,Z\)
+equals \(X\).
+\end{proof}
+
+\begin{corollary}
+\label{cor:vi05-affine-space-irreducible}
+If \(k\) is infinite, then
+\[
+\mathbb A_k^n
+\]
+is irreducible.
+\end{corollary}
+
+\begin{proof}
+For infinite \(k\),
+\[
+I(\mathbb A_k^n)=(0),
+\]
+and the polynomial ring \(k[x_1,\dots,x_n]\) is a domain.
+\end{proof}
+
+\begin{remark}[Classical terminology]
+Many texts reserve the word \emph{affine variety} for an irreducible affine algebraic set.
+Under that convention,
+\[
+X\text{ is an affine variety}
+\quad\Longleftrightarrow\quad
+k[X]\text{ is a domain}.
+\]
+Other texts allow ``variety'' to be reducible.  We will always state irreducibility
+explicitly when it matters.
+\end{remark}
+
+\section{Reducibility and zero divisors}
+
+The contrapositive of \cref{thm:vi05-prime-criterion} is often computationally useful.
+
+\begin{corollary}
+\label{cor:vi05-reducible-zero-divisors}
+An affine algebraic set \(X\) is reducible if and only if its coordinate ring \(k[X]\)
+has nonzero zero divisors.
+\end{corollary}
+
+\begin{example}
+For
+\[
+X=V(xy)\subseteq\mathbb A_k^2,
+\]
+the classes \(\bar x,\bar y\in k[X]\) are nonzero and satisfy
+\[
+\bar x\bar y=0.
+\]
+Geometrically,
+\[
+X=V(x)\cup V(y),
+\]
+the union of the two coordinate axes.
+\end{example}
+
+Zero divisors detect reducibility, but they do \emph{not} by themselves detect
+disconnectedness.  The crossing axes are reducible yet connected.
+
+\section{Noetherianity of affine algebraic sets}
+
+To obtain a finite decomposition into irreducible components, we use the Noetherian property.
+
+\begin{definition}[Noetherian topological space]
+A topological space \(X\) is \emph{Noetherian} if every descending chain of closed subsets
+\[
+F_1\supseteq F_2\supseteq F_3\supseteq\cdots
+\]
+stabilizes.
+\end{definition}
+
+\begin{theorem}
+\label{thm:vi05-affine-noetherian}
+Every affine algebraic set is a Noetherian topological space in the Zariski topology.
+\end{theorem}
+
+\begin{proof}
+Let
+\[
+X\subseteq\mathbb A_k^n.
+\]
+A descending chain of closed subsets of \(X\),
+\[
+F_1\supseteq F_2\supseteq\cdots,
+\]
+gives an ascending chain of vanishing ideals
+\[
+I_X(F_1)\subseteq I_X(F_2)\subseteq\cdots
+\]
+inside \(k[X]\).  The ring \(k[X]\) is a quotient of
+\(k[x_1,\dots,x_n]\), hence is Noetherian by Hilbert's basis theorem.  Therefore the ideal
+chain stabilizes.  Applying \(V_X\) shows that the closed-set chain stabilizes.
+\end{proof}
+
+\begin{corollary}[Quasi-compactness]
+\label{cor:vi05-quasicompact}
+Every affine algebraic set is quasi-compact: every open cover has a finite subcover.
+\end{corollary}
+
+\begin{proof}
+This is true for every Noetherian topological space.  If an open cover had no finite
+subcover, the complements would yield a family of closed sets with the finite intersection
+property but empty total intersection.  Equivalently, one can choose a maximal closed subset
+that cannot be finitely covered and obtain a contradiction by covering one of its points.
+\end{proof}
+
+\section{Irreducible components}
+
+\begin{definition}[Irreducible component]
+An \emph{irreducible component} of a topological space \(X\) is a maximal irreducible
+closed subset of \(X\).
+\end{definition}
+
+\begin{theorem}[Existence of a finite irreducible decomposition]
+\label{thm:vi05-component-existence}
+Every nonempty affine algebraic set \(X\) can be written as a finite union
+\[
+X=X_1\cup\cdots\cup X_r
+\]
+where each \(X_i\) is irreducible and no \(X_i\) is contained in another.
+\end{theorem}
+
+\begin{proof}
+Because \(X\) is Noetherian, consider the collection of closed subsets that cannot be written
+as a finite union of irreducible closed subsets.  If this collection were nonempty, choose a
+minimal member \(F\).  The set \(F\) is not irreducible, so
+\[
+F=F_1\cup F_2
+\]
+with \(F_1,F_2\subsetneq F\) closed.  By minimality, each \(F_i\) is a finite union of
+irreducible closed subsets, hence so is \(F\), contradiction.  Thus every closed subset,
+and in particular \(X\), has a finite irreducible decomposition.  Removing redundant pieces
+gives the noncontainment condition.
+\end{proof}
+
+\begin{theorem}[Uniqueness of irreducible components]
+\label{thm:vi05-component-uniqueness}
+Suppose
+\[
+X=X_1\cup\cdots\cup X_r
+=
+Y_1\cup\cdots\cup Y_s
+\]
+are two decompositions into irreducible closed subsets with no redundant containments.
+Then
+\[
+r=s,
+\]
+and after reindexing,
+\[
+X_i=Y_i
+\]
+for all \(i\).
+\end{theorem}
+
+\begin{proof}
+Fix \(i\).  Since
+\[
+X_i\subseteq Y_1\cup\cdots\cup Y_s
+\]
+and \(X_i\) is irreducible, repeated use of the defining property shows
+\[
+X_i\subseteq Y_j
+\]
+for some \(j\).  Similarly, \(Y_j\subseteq X_\ell\) for some \(\ell\).  Therefore
+\[
+X_i\subseteq X_\ell.
+\]
+The noncontainment assumption forces \(\ell=i\), hence
+\[
+X_i=Y_j.
+\]
+Thus each \(X_i\) appears among the \(Y_j\).  By symmetry, each \(Y_j\) appears among the
+\(X_i\).  The two collections therefore coincide up to reordering.
+\end{proof}
+
+\section{Minimal primes and components}
+
+Assume now that \(k\) is algebraically closed.
+
+For a radical ideal
+\[
+I=I(X)\subseteq k[x_1,\dots,x_n],
+\]
+one can write
+\[
+I=\mathfrak p_1\cap\cdots\cap\mathfrak p_r
+\]
+where the \(\mathfrak p_i\) are the minimal prime ideals containing \(I\).
+
+\begin{theorem}[Components from minimal primes]
+\label{thm:vi05-minimal-primes}
+The irreducible components of \(X=V(I)\) are exactly
+\[
+V(\mathfrak p_1),\dots,V(\mathfrak p_r),
+\]
+where \(\mathfrak p_1,\dots,\mathfrak p_r\) are the minimal primes over \(I\).
+\end{theorem}
+
+\begin{proof}
+Each \(V(\mathfrak p_i)\) is irreducible by
+\cref{thm:vi05-prime-criterion}.  Since
+\[
+I=\bigcap_i\mathfrak p_i,
+\]
+we have
+\[
+V(I)=\bigcup_iV(\mathfrak p_i).
+\]
+Minimality of the primes corresponds, under order reversal, to maximality of the associated
+irreducible closed subsets.
+\end{proof}
+
+This gives a practical algebraic method: find the minimal primes of \(I(X)\), then take their
+zero sets.
+
+\section{Connectedness}
+
+\begin{definition}[Connected space]
+A topological space \(X\) is \emph{connected} if it cannot be written as a disjoint union
+\[
+X=U\sqcup V
+\]
+of two nonempty open subsets.
+\end{definition}
+
+Equivalently, the only subsets of \(X\) that are both open and closed are
+\[
+\varnothing
+\qquad\text{and}\qquad
+X.
+\]
+
+\begin{proposition}
+\label{prop:vi05-irreducible-connected}
+Every irreducible space is connected.
+\end{proposition}
+
+\begin{proof}
+If
+\[
+X=U\sqcup V
+\]
+with \(U,V\) nonempty open, then \(U\) and \(V\) are also closed, because each is the
+complement of the other.  Thus
+\[
+X=U\cup V
+\]
+is a union of two proper closed subsets, contradicting irreducibility.
+\end{proof}
+
+The converse fails.
+
+\begin{example}[Reducible but connected]
+The algebraic set
+\[
+X=V(xy)\subseteq\mathbb A_k^2
+\]
+is the union
+\[
+V(x)\cup V(y)
+\]
+of two irreducible components.  They meet at the origin, so \(X\) is connected.
+\end{example}
+
+\section{Idempotents and disconnected affine algebraic sets}
+
+We now assume that \(k\) is algebraically closed.
+
+\begin{definition}[Idempotent]
+An element \(e\) of a ring \(A\) is \emph{idempotent} if
+\[
+e^2=e.
+\]
+It is \emph{nontrivial} if
+\[
+e\neq0,1.
+\]
+\end{definition}
+
+\begin{theorem}[Connectedness--idempotent criterion]
+\label{thm:vi05-idempotent-criterion}
+Let \(X\) be an affine algebraic set over an algebraically closed field \(k\).  Then the
+following are equivalent:
+\begin{enumerate}
+  \item \(X\) is disconnected;
+  \item \(k[X]\) contains a nontrivial idempotent;
+  \item there exist nonzero \(k\)-algebras \(A_1,A_2\) such that
+        \[
+        k[X]\cong A_1\times A_2.
+        \]
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Assume \(e\in k[X]\) is a nontrivial idempotent.  At every point \(x\in X\),
+\[
+e(x)^2=e(x),
+\]
+so
+\[
+e(x)\in\{0,1\}.
+\]
+Define
+\[
+X_0=V_X(e),
+\qquad
+X_1=V_X(e-1).
+\]
+Then
+\[
+X=X_0\sqcup X_1.
+\]
+Both subsets are closed.  Each is also open because it is the complement of the other.
+Nontriviality of \(e\) ensures both are nonempty.  Hence \(X\) is disconnected.
+
+Conversely, suppose
+\[
+X=Y\sqcup Z
+\]
+with \(Y,Z\) nonempty and clopen.  Since they are closed algebraic subsets,
+\[
+V(I(Y)+I(Z))=Y\cap Z=\varnothing.
+\]
+By the Nullstellensatz,
+\[
+I(Y)+I(Z)=k[x_1,\dots,x_n].
+\]
+Choose
+\[
+f\in I(Y),
+\qquad
+g\in I(Z)
+\]
+with
+\[
+f+g=1.
+\]
+On \(Y\), \(f=0\) and hence \(g=1\); on \(Z\), \(g=0\).  Therefore the class
+\[
+e=[g]\in k[X]
+\]
+takes only the values \(0\) and \(1\), so
+\[
+e^2=e.
+\]
+It is nontrivial because both \(Y\) and \(Z\) are nonempty.
+
+Finally, if \(e\) is a nontrivial idempotent in a ring \(A\), then
+\[
+A\longrightarrow eA\times(1-e)A,
+\qquad
+a\longmapsto(ea,(1-e)a)
+\]
+is an isomorphism.  Conversely, in a nontrivial product
+\[
+A_1\times A_2,
+\]
+the element
+\[
+(1,0)
+\]
+is a nontrivial idempotent.
+\end{proof}
+
+\begin{corollary}
+\label{cor:vi05-domain-connected}
+If \(k[X]\) is a domain, then \(X\) is connected.
+\end{corollary}
+
+This also follows from irreducibility, but the idempotent criterion gives a different
+algebraic perspective.
+
+\section{Connected components versus irreducible components}
+
+Irreducible components need not be disjoint.  Connected components, by contrast, form a
+partition into maximal connected subsets.
+
+For affine algebraic sets, there are finitely many irreducible components.  Their incidence
+controls connectedness.
+
+\begin{definition}[Component-intersection graph]
+Let
+\[
+X=X_1\cup\cdots\cup X_r
+\]
+be the irreducible-component decomposition.  The \emph{component-intersection graph}
+\(\Gamma_X\) has one vertex for each \(X_i\), with an edge between \(X_i\) and \(X_j\)
+when
+\[
+X_i\cap X_j\neq\varnothing.
+\]
+\end{definition}
+
+\begin{theorem}[Intersection-graph criterion]
+\label{thm:vi05-intersection-graph}
+An affine algebraic set \(X\) is connected if and only if its component-intersection graph
+\(\Gamma_X\) is connected.
+\end{theorem}
+
+\begin{proof}
+Suppose \(\Gamma_X\) is disconnected.  Partition its vertices into two nonempty sets
+\(A,B\) with no edges between them.  Let
+\[
+Y=\bigcup_{i\in A}X_i,
+\qquad
+Z=\bigcup_{j\in B}X_j.
+\]
+These are finite unions of closed sets, hence closed.  The absence of edges gives
+\[
+Y\cap Z=\varnothing,
+\]
+and
+\[
+X=Y\sqcup Z.
+\]
+Thus \(X\) is disconnected.
+
+Conversely, suppose
+\[
+X=U\sqcup V
+\]
+is a separation into nonempty clopen subsets.  Each irreducible component \(X_i\) is
+connected, hence must lie entirely in \(U\) or entirely in \(V\).  If
+\[
+X_i\cap X_j\neq\varnothing,
+\]
+then \(X_i\) and \(X_j\) must lie on the same side.  Therefore no graph edge crosses from
+the collection of components in \(U\) to those in \(V\).  Since both collections are
+nonempty, \(\Gamma_X\) is disconnected.
+\end{proof}
+
+This criterion makes the difference between irreducible and connected geometry very
+concrete: connectedness allows several irreducible pieces, provided the pieces are linked
+through intersections.
+
+\section{Common pitfalls}
+
+\begin{warning}[Reducible does not mean disconnected]
+The crossing axes
+\[
+V(xy)
+\]
+are reducible but connected.
+\end{warning}
+
+\begin{warning}[Connected does not mean irreducible]
+Connectedness only forbids a separation into disjoint clopen pieces.  Components may still
+overlap.
+\end{warning}
+
+\begin{warning}[Zero divisors and idempotents detect different phenomena]
+Zero divisors detect reducibility of \(k[X]\); nontrivial idempotents detect
+disconnectedness.  A ring may have zero divisors but no nontrivial idempotents.
+\end{warning}
+
+\begin{warning}[Irreducible components are maximal, not merely any irreducible subsets]
+A line contained in an irreducible surface is irreducible, but it is not an irreducible
+component of the surface.
+\end{warning}
+
+\begin{warning}[Classical point sets versus schemes]
+Later, \(\operatorname{Spec}A\) may contain generic points and nilpotent structure not
+visible in the classical set \(V(I)\subseteq k^n\).  The scheme-theoretic notions of
+irreducibility and connectedness will be revisited in that broader setting.
+\end{warning}
+
+\section{Worked examples}
+\input{chapters/ch05_irreducibility_components/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch05_irreducibility_components/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section{Hints to the Exercises}
+\input{chapters/ch05_irreducibility_components/exercise_hints.tex}
+\fi
+
+\section{Problems}
+% Each problem file is a self-contained dossier.  In the student build only the
+% statement is shown.  Define \FullProblemDossiers to add orientation, guided
+% hints, solution, commentary, extensions, and provenance immediately after
+% each problem.
+\input{chapters/ch05_irreducibility_components/problems/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Solutions to the Exercises}
+\input{chapters/ch05_irreducibility_components/exercise_solutions.tex}
+\fi
+
+\section{Chapter summary}
+
+Irreducibility is the strongest basic notion of ``one piece'' in algebraic geometry.  For
+an affine algebraic set,
+\[
+X\text{ irreducible}
+\quad\Longleftrightarrow\quad
+I(X)\text{ prime}
+\quad\Longleftrightarrow\quad
+k[X]\text{ a domain}.
+\]
+
+Every affine algebraic set is Noetherian and therefore decomposes into finitely many
+irreducible components,
+\[
+X=X_1\cup\cdots\cup X_r,
+\]
+uniquely up to order.
+
+Connectedness is weaker:
+\[
+X\text{ irreducible}
+\Longrightarrow
+X\text{ connected},
+\]
+but not conversely.  Over an algebraically closed field,
+\[
+X\text{ disconnected}
+\quad\Longleftrightarrow\quad
+k[X]\text{ has a nontrivial idempotent}
+\quad\Longleftrightarrow\quad
+k[X]\cong A_1\times A_2.
+\]
+
+Finally, if \(X_1,\dots,X_r\) are the irreducible components, then \(X\) is connected
+exactly when the graph recording which components intersect is connected.
+
+The next chapters change viewpoint from \(k\)-rational zero sets to prime ideals as
+geometric points, beginning the passage from classical affine algebraic geometry to
+\(\operatorname{Spec}\) and affine schemes.
