@@ -6,6 +6,9 @@
 %   - primary legacy family: theory-of-differential-geometry-4.tex
 %     selector: affine variety | algebraic set
 %   - rewritten canonically; no legacy document is copied wholesale.
+%   - pedagogical examples/exercises are freshly designed.
+%   - harder items live as self-contained problem/challenge dossiers.
+%   - all legacy problems are disposition-audited before freeze.
 %
 % Boundary:
 %   Zariski topology -> VI/02
@@ -51,6 +54,39 @@ After this chapter, the reader should be able to:
   \item recognize how the geometry changes when the ground field changes;
   \item distinguish a set of equations from the geometric set that it defines.
 \end{itemize}
+
+\subsection*{The chapter at a glance}
+
+The basic machine of classical affine algebraic geometry has two directions.  Equations
+produce sets of points, while sets of points produce all equations that vanish on them.
+
+\begin{center}
+\begin{tikzpicture}[
+  node distance=8mm and 13mm,
+  box/.style={draw, rounded corners=2pt, align=center, inner sep=6pt,
+              text width=0.24\textwidth},
+  arrow/.style={-{Latex[length=2.2mm]}, thick}
+]
+\node[box] (eq) {equations\\\(S\subseteq k[x_1,\dots,x_n]\)};
+\node[box, right=of eq] (ideal) {generated ideal\\\((S)\)};
+\node[box, right=of ideal] (zero) {zero locus\\\(V(S)=V((S))\)};
+\draw[arrow] (eq) -- node[above, font=\small]{generate} (ideal);
+\draw[arrow] (ideal) -- node[above, font=\small]{solve} (zero);
+
+\node[box, below=of zero] (subset) {subset of points\\\(X\subseteq\mathbb A_k^n\)};
+\node[box, left=of subset] (vanish) {vanishing ideal\\\(I(X)\)};
+\node[box, left=of vanish] (closure) {algebraic envelope\\\(V(I(X))\)};
+\draw[arrow] (subset) -- node[below, font=\scriptsize]{vanish on} (vanish);
+\draw[arrow] (vanish) -- node[below, font=\scriptsize]{solve} (closure);
+\end{tikzpicture}
+\end{center}
+
+Two warnings should be visible from the beginning:
+\begin{enumerate}
+  \item the arrows reverse inclusions;
+  \item the round trip \(I\mapsto V(I)\mapsto I(V(I))\) can enlarge an ideal, because
+        an ordinary zero set forgets multiplicity and nilpotent information.
+\end{enumerate}
 
 \section{Affine space and polynomial functions}
 \label{sec:vi01-affine-space}
@@ -527,6 +563,30 @@ determine the same polynomial function on a finite field.
 These examples are not pathologies.  They show that the chosen base field is part of the
 geometric data.
 
+\subsection*{Field-dependence chart}
+
+The polynomial is only half of the geometric datum.  For the single equation
+\[
+  x^2+1=0,
+\]
+the point set changes with the field:
+
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Field} & \textbf{Zero locus} & \textbf{Reason}\\
+\midrule
+\(\mathbb R\) & \(\varnothing\) & no real square equals \(-1\)\\
+\(\mathbb C\) & \(\{i,-i\}\) & \(x^2+1=(x-i)(x+i)\)\\
+\(\mathbb F_2\) & \(\{1\}\) & \(-1=1\)\\
+\(\mathbb F_5\) & \(\{2,3\}\) & \(2^2=3^2=4=-1\)\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This is why we write \(\mathbb A_k^n\) and, when ambiguity is possible,
+\(V_k(I)\).
+
 \section{A reusable dictionary}
 \label{sec:vi01-dictionary}
 
@@ -575,7 +635,37 @@ points are prime ideals.  That transition is postponed to Chapters VI/06--VI/08.
 \end{warning}
 
 \input{chapters/ch01_algebraic_sets/examples}
+
+\section{Exercises}
+\label{sec:vi01-exercises}
+The exercises are deliberately pedagogical rather than archival: they progress from direct
+manipulation of zero loci to the \(V\)-\(I\) closure mechanism and field dependence.
 \input{chapters/ch01_algebraic_sets/exercises}
+
+\ifdefined\IncludeExerciseHints
+\section{Hints to the Exercises}
+\label{sec:vi01-exercise-hints}
+\input{chapters/ch01_algebraic_sets/exercise_hints}
+\fi
+
+\section{Problems}
+\label{sec:vi01-problems}
+The problems are longer synthesis tasks.  In the student edition only the statement is
+shown.  In the complete edition each problem expands in place to include orientation,
+prerequisites, guided hints, a full solution, commentary, extensions, and provenance.
+\input{chapters/ch01_algebraic_sets/problems/index}
+
+\section{Challenges}
+\label{sec:vi01-challenges}
+The challenges push the chapter's ideas beyond the minimum prerequisites and preview later
+algebraic geometry and commutative algebra.
+\input{chapters/ch01_algebraic_sets/challenges/index}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Solutions to the Exercises}
+\label{sec:vi01-exercise-solutions}
+\input{chapters/ch01_algebraic_sets/exercise_solutions}
+\fi
 
 \section{Chapter summary}
 \label{sec:vi01-summary}
