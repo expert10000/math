@@ -1,0 +1,553 @@
+% Canonical chapter: VI/06 — Prime Ideals as Geometric Points
+% Status: DRAFTED (extended review draft)
+%
+% This chapter is the bridge from Part I (classical affine geometry) to Part II
+% (prime spectra).  It motivates prime ideals as points without yet developing
+% the full Zariski topology on Spec(A); that is VI/07.
+%
+% Legacy migration source audited here:
+%   theory-of-commutative-algebra-13.tex
+% The source migration table assigns unmatched material from that file to VI/06,
+% but topic-level reconstruction routes Spec topology to VI/07, D(f) to VI/08,
+% generic/closed points to VI/09, reduced/nonreduced geometry to VI/10,
+% local rings/residue fields to VI/11, affine schemes to VI/18, and base change
+% to VI/24.  The genuinely foundational prime-as-point material is retained here.
+
+\chapter{Prime Ideals as Geometric Points}
+\label{ch:prime-ideals-geometric-points}
+
+\section*{Purpose and learning goals}
+
+The first five chapters used ordinary points
+\[
+a=(a_1,\dots,a_n)\in k^n
+\]
+and algebraic subsets of affine space.  That viewpoint is concrete, but it has an important
+limitation: an irreducible algebraic locus contains more information than any one ordinary
+coordinate point.  Algebra suggests a natural way to package that information.  A prime
+ideal behaves like the algebraic fingerprint of one irreducible geometric piece.
+
+This chapter makes that idea precise enough to motivate the next step.  We will not yet
+construct the full topological space \(\Spec A\); that is the subject of VI/07.  Instead we
+ask a simpler question:
+
+\begin{quote}
+Why are prime ideals the right objects to promote to geometric points?
+\end{quote}
+
+The answer comes from three correspondences:
+\[
+\text{ordinary point}
+\longleftrightarrow
+\text{maximal ideal},
+\]
+\[
+\text{irreducible closed locus}
+\longleftrightarrow
+\text{prime ideal},
+\]
+and
+\[
+\text{containment of loci}
+\longleftrightarrow
+\text{reverse containment of ideals}.
+\]
+
+Unless stated otherwise, rings are commutative with identity.  For the cleanest classical
+geometry dictionary we assume that \(k\) is algebraically closed.  Several examples then
+show why prime ideals remain meaningful even when \(k\) is not algebraically closed.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+  \item test whether an ideal is prime using the quotient-domain criterion;
+  \item distinguish prime ideals from maximal ideals;
+  \item identify ordinary affine points with maximal ideals over an algebraically closed field;
+  \item identify irreducible affine algebraic subsets with prime vanishing ideals;
+  \item interpret a chain of prime ideals as a reverse chain of irreducible loci;
+  \item use the prime correspondence for quotient rings;
+  \item explain why minimal primes encode irreducible components;
+  \item explain why the zero ideal is the natural ``generic'' point of an integral affine locus;
+  \item recognize geometric information that is invisible if one keeps only \(k\)-rational points;
+  \item state clearly what is postponed to \(\Spec A\), generic points, residue fields, and base change.
+\end{itemize}
+
+\input{chapters/ch06_prime_ideals_geometric_points/figures/vi06_bridge.tex}
+
+\section{Prime ideals: the algebraic definition}
+
+\begin{definition}[Prime ideal]
+Let \(A\) be a ring.  A proper ideal \(\mathfrak p\subsetneq A\) is \emph{prime} if
+\[
+ab\in\mathfrak p
+\quad\Longrightarrow\quad
+ a\in\mathfrak p\ \text{or}\ b\in\mathfrak p
+\]
+for every \(a,b\in A\).
+\end{definition}
+
+The definition says that modulo a prime ideal, a product cannot vanish unless one factor
+already vanishes.  This is exactly the algebraic behavior expected of an irreducible
+geometric locus: if an irreducible locus lies inside the union of two hypersurfaces, then it
+must lie inside one of them.
+
+\begin{theorem}[Quotient-domain criterion]
+\label{thm:vi06-quotient-domain}
+For a proper ideal \(\mathfrak p\subsetneq A\), the following are equivalent:
+\begin{enumerate}
+  \item \(\mathfrak p\) is prime;
+  \item \(A/\mathfrak p\) is an integral domain.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+Suppose \(\mathfrak p\) is prime.  If
+\[
+(a+\mathfrak p)(b+\mathfrak p)=0+\mathfrak p,
+\]
+then \(ab\in\mathfrak p\), so primality gives \(a\in\mathfrak p\) or
+\(b\in\mathfrak p\).  Hence one factor is zero in the quotient.
+
+Conversely, suppose \(A/\mathfrak p\) is a domain and \(ab\in\mathfrak p\).  Then
+\[
+(a+\mathfrak p)(b+\mathfrak p)=0
+\]
+in the quotient.  Since the quotient has no zero divisors, one factor is zero, so
+\(a\in\mathfrak p\) or \(b\in\mathfrak p\).
+\end{proof}
+
+\begin{corollary}[The zero ideal]
+\label{cor:vi06-zero-prime}
+The zero ideal \((0)\subseteq A\) is prime if and only if \(A\) is an integral domain.
+\end{corollary}
+
+\begin{corollary}[Maximal ideals are prime]
+\label{cor:vi06-maximal-prime}
+Every maximal ideal is prime.
+\end{corollary}
+
+\begin{proof}
+If \(\mathfrak m\) is maximal, then \(A/\mathfrak m\) is a field, hence an integral
+domain.  Apply \cref{thm:vi06-quotient-domain}.
+\end{proof}
+
+The converse is false.  For example,
+\[
+(0)\subset k[t]
+\]
+is prime because \(k[t]\) is a domain, but it is not maximal because \(k[t]\) is not a
+field.
+
+\section{Ordinary affine points give maximal ideals}
+
+Let
+\[
+a=(a_1,\dots,a_n)\in\mathbb A_k^n.
+\]
+Evaluation at \(a\) defines a surjective ring homomorphism
+\[
+\operatorname{ev}_a:k[x_1,\dots,x_n]\longrightarrow k,
+\qquad
+f\longmapsto f(a).
+\]
+Its kernel is
+\[
+\mathfrak m_a=(x_1-a_1,\dots,x_n-a_n).
+\]
+Therefore
+\[
+k[x_1,\dots,x_n]/\mathfrak m_a\cong k,
+\]
+so \(\mathfrak m_a\) is maximal.
+
+\begin{proposition}[Point ideals]
+\label{prop:vi06-point-ideals}
+Every ordinary point \(a\in\mathbb A_k^n\) determines a maximal ideal
+\[
+\mathfrak m_a=(x_1-a_1,\dots,x_n-a_n).
+\]
+Distinct points determine distinct maximal ideals.
+\end{proposition}
+
+\begin{theorem}[Weak Nullstellensatz, geometric form]
+\label{thm:vi06-weak-nullstellensatz}
+Assume \(k\) is algebraically closed.  Every maximal ideal of
+\(k[x_1,\dots,x_n]\) is uniquely of the form
+\[
+(x_1-a_1,\dots,x_n-a_n)
+\]
+for a point \(a\in k^n\).
+\end{theorem}
+
+Thus, over an algebraically closed field,
+\[
+\boxed{
+\text{ordinary affine points}
+\longleftrightarrow
+\text{maximal ideals}
+}.
+\]
+
+\begin{remark}[Why algebraic closedness matters]
+Over \(\mathbb R\), the ideal
+\[
+(t^2+1)\subset\mathbb R[t]
+\]
+is maximal, but it is not \((t-a)\) for any real number \(a\).  The maximal-ideal
+picture therefore contains closed geometric information that the set of real coordinate
+points alone does not see.
+\end{remark}
+
+\section{Irreducible loci give prime ideals}
+
+Chapter VI/05 established the central criterion
+\[
+Y\text{ irreducible}
+\quad\Longleftrightarrow\quad
+I(Y)\text{ prime}
+\quad\Longleftrightarrow\quad
+k[Y]\text{ is a domain}.
+\]
+We now reinterpret this criterion as a statement about geometric points.
+
+\begin{theorem}[Prime ideals classify irreducible affine loci]
+\label{thm:vi06-prime-irreducible}
+Assume \(k\) is algebraically closed.  The assignments
+\[
+Y\longmapsto I(Y)
+\qquad\text{and}\qquad
+\mathfrak p\longmapsto V(\mathfrak p)
+\]
+give inverse correspondences between:
+\begin{itemize}
+  \item irreducible algebraic subsets \(Y\subseteq\mathbb A_k^n\);
+  \item prime ideals \(\mathfrak p\subseteq k[x_1,\dots,x_n]\).
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+If \(Y\) is irreducible, VI/05 shows that \(I(Y)\) is prime.  Conversely, if
+\(\mathfrak p\) is prime, then it is radical.  Hilbert's Nullstellensatz gives
+\[
+I(V(\mathfrak p))=\sqrt{\mathfrak p}=\mathfrak p.
+\]
+The prime-ideal criterion then implies that \(V(\mathfrak p)\) is irreducible.  The
+usual \(I\)-\(V\) identities show that the assignments are inverse.
+\end{proof}
+
+This is the decisive conceptual step.  A maximal ideal remembers one closed point.  A
+nonmaximal prime ideal remembers an entire irreducible locus in a compressed algebraic form.
+Promoting the prime ideal itself to a point will allow that whole locus to acquire a single
+``generic'' representative.
+
+\section{Containment reverses}
+
+If \(I\subseteq J\), then every common zero of \(J\) is automatically a common zero of
+\(I\).  Hence
+\[
+I\subseteq J
+\quad\Longrightarrow\quad
+V(J)\subseteq V(I).
+\]
+For prime ideals this gives a geometric hierarchy.
+
+\begin{example}[Plane, line, point]
+In \(k[x,y]\),
+\[
+(0)\subset (x)\subset (x,y).
+\]
+Assuming \(k\) algebraically closed, all three ideals are prime and
+\[
+\mathbb A_k^2=V(0)\supset V(x)\supset V(x,y)=\{(0,0)\}.
+\]
+Thus moving upward in the ideal lattice means moving downward to a smaller geometric
+locus.
+\end{example}
+
+\input{chapters/ch06_prime_ideals_geometric_points/figures/vi06_containment.tex}
+
+\begin{proposition}[Incidence by ideal containment]
+\label{prop:vi06-incidence}
+Assume \(k\) algebraically closed.  Let \(I\subseteq k[x_1,\dots,x_n]\) be an ideal and
+let \(\mathfrak p\) be prime.  Then
+\[
+I\subseteq\mathfrak p
+\quad\Longleftrightarrow\quad
+V(\mathfrak p)\subseteq V(I).
+\]
+\end{proposition}
+
+\begin{proof}
+The forward implication is the order-reversing property of \(V\).  Conversely, if
+\(V(\mathfrak p)\subseteq V(I)\), then
+\[
+I\subseteq I(V(I))\subseteq I(V(\mathfrak p))=\mathfrak p,
+\]
+where the last equality uses that \(\mathfrak p\) is radical and the Nullstellensatz.
+\end{proof}
+
+So the innocent-looking relation
+\[
+I\subseteq\mathfrak p
+\]
+has a geometric meaning: the irreducible locus represented by \(\mathfrak p\) lies on the
+closed condition defined by \(I\).
+
+\section{Prime ideals in quotient rings}
+
+Closed subspaces are described algebraically by quotients.  The relevant prime ideals pass
+through the quotient exactly as expected.
+
+\begin{theorem}[Prime correspondence for quotients]
+\label{thm:vi06-prime-correspondence}
+Let \(I\subseteq A\) be an ideal and let
+\[
+\pi:A\onto A/I
+\]
+be the quotient map.  The assignments
+\[
+\mathfrak p\longmapsto \mathfrak p/I
+\qquad\text{and}\qquad
+\mathfrak q\longmapsto \pi^{-1}(\mathfrak q)
+\]
+give inverse inclusion-preserving bijections between:
+\begin{itemize}
+  \item prime ideals \(\mathfrak p\subseteq A\) containing \(I\);
+  \item prime ideals \(\mathfrak q\subseteq A/I\).
+\end{itemize}
+\end{theorem}
+
+\begin{proof}
+If \(I\subseteq\mathfrak p\), then
+\[
+(A/I)/(\mathfrak p/I)\cong A/\mathfrak p.
+\]
+Thus \(\mathfrak p/I\) is prime exactly when \(\mathfrak p\) is prime.  Conversely,
+the inverse image of a prime ideal under a ring homomorphism is prime.  The two operations
+are inverse by the correspondence theorem for ideals.
+\end{proof}
+
+\begin{corollary}[Prime ideals on an affine algebraic set]
+Let \(X=V(I)\subseteq\mathbb A_k^n\).  Prime ideals of its coordinate ring
+\[
+k[X]=k[x_1,\dots,x_n]/I
+\]
+correspond to prime ideals of \(k[x_1,\dots,x_n]\) that contain \(I\).
+\end{corollary}
+
+This statement is the algebraic prototype of a future topological fact: the prime spectrum
+of a quotient will identify with the closed subset cut out by the quotient ideal.
+
+\section{Minimal primes remember irreducible components}
+
+Suppose \(X=V(I)\subseteq\mathbb A_k^n\) over an algebraically closed field.  If
+\[
+X=X_1\cup\cdots\cup X_r
+\]
+is the decomposition into irreducible components, then
+\[
+\mathfrak p_i=I(X_i)
+\]
+are prime ideals.  They are exactly the prime ideals minimal among those containing
+\(I(X)\).
+
+\begin{theorem}[Components and minimal primes]
+\label{thm:vi06-components-minimal-primes}
+Let \(X\subseteq\mathbb A_k^n\) be algebraic over an algebraically closed field.  The
+irreducible components of \(X\) correspond bijectively to the minimal prime ideals over
+\(I(X)\).
+\end{theorem}
+
+\begin{proof}
+By VI/05, every irreducible component \(X_i\) has prime vanishing ideal
+\(\mathfrak p_i=I(X_i)\), and
+\[
+I(X)\subseteq\mathfrak p_i.
+\]
+If \(I(X)\subseteq\mathfrak q\subsetneq\mathfrak p_i\) with \(\mathfrak q\) prime, then
+\[
+X_i=V(\mathfrak p_i)\subsetneq V(\mathfrak q)\subseteq X,
+\]
+contradicting maximality of \(X_i\) as an irreducible subset.  Thus \(\mathfrak p_i\) is
+minimal over \(I(X)\).
+
+Conversely, if \(\mathfrak p\) is minimal over \(I(X)\), then \(V(\mathfrak p)\) is an
+irreducible subset of \(X\).  It lies in some irreducible component \(X_i\), so
+\[
+I(X)\subseteq I(X_i)\subseteq\mathfrak p.
+\]
+Minimality forces \(I(X_i)=\mathfrak p\).
+\end{proof}
+
+\input{chapters/ch06_prime_ideals_geometric_points/figures/vi06_crossing_axes.tex}
+
+\section{The generic-point idea}
+
+A prime ideal does not merely describe equations.  It can be regarded as a placeholder for
+the whole irreducible locus it defines.
+
+Consider a domain \(A\).  The zero ideal is prime.  In the future spectrum
+\(\Spec A\), the point represented by \((0)\) will have closure equal to the whole space.
+For \(A=k[t]\), this point is not any coordinate value \(t=a\); it represents the affine
+line ``at a generic location,'' where no nonzero polynomial equation has been imposed.
+
+More generally, a prime \(\mathfrak p\) will become a point whose closure is the irreducible
+closed set represented by \(\mathfrak p\).  This language is deliberately motivational
+here.  VI/07 defines the spectrum and its topology, while VI/09 develops generic and closed
+points systematically.
+
+\begin{remark}[Specialization preview]
+If
+\[
+\mathfrak p\subseteq\mathfrak q,
+\]
+then the future point \(\mathfrak q\) lies in the closure of the future point
+\(\mathfrak p\).  Thus ideal containment becomes a specialization relation between
+geometric points.  The chain
+\[
+(0)\subset(x)\subset(x,y)
+\]
+should be read as
+\[
+\text{generic plane point}
+\rightsquigarrow
+\text{generic point of a line}
+\rightsquigarrow
+\text{closed point}.
+\]
+\end{remark}
+
+\section{Why rational points are not enough}
+
+The need for prime ideals is especially visible over a field that is not algebraically
+closed.
+
+In \(\mathbb R[t]\), the ideal
+\[
+(t^2+1)
+\]
+is maximal and hence prime because
+\[
+\mathbb R[t]/(t^2+1)\cong\mathbb C
+\]
+is a field.  Yet the equation
+\[
+t^2+1=0
+\]
+has no real solution.  If geometry were defined only as a subset of \(\mathbb R\), this
+prime ideal would disappear.  The prime-ideal viewpoint keeps it.
+
+After extending scalars from \(\mathbb R\) to \(\mathbb C\),
+\[
+t^2+1=(t-i)(t+i),
+\]
+so the single real prime splits into two complex maximal ideals.  This phenomenon is a
+preview of geometric fibers and base change; the systematic treatment comes later.
+
+\input{chapters/ch06_prime_ideals_geometric_points/figures/vi06_field_dependence.tex}
+
+\section{A comparison chart for ideals and geometry}
+
+The following table separates several notions that are easy to conflate.
+
+\begin{center}
+\begin{tabular}{>{\raggedright\arraybackslash}p{0.19\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.24\textwidth}>{\raggedright\arraybackslash}p{0.22\textwidth}}
+\toprule
+\textbf{Ideal type} & \textbf{Quotient condition} & \textbf{Classical geometric signal} & \textbf{Future spectrum signal}\\
+\midrule
+maximal \(\mathfrak m\) & \(A/\mathfrak m\) field & ordinary closed point over algebraically closed \(k\) & closed point\\
+prime \(\mathfrak p\) & \(A/\mathfrak p\) domain & irreducible locus & one point representing that locus\\
+radical \(I\) & \(A/I\) reduced & reduced algebraic set, possibly reducible & closed set with no nilpotent thickening\\
+nonradical \(I\) & \(A/I\) has nilpotents & same ordinary zero set may occur for many ideals & extra infinitesimal structure\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The hierarchy is
+\[
+\text{maximal}\Longrightarrow\text{prime}\Longrightarrow\text{radical},
+\]
+and neither converse holds in general.
+
+\section{Common pitfalls}
+
+\begin{warning}[Prime does not mean maximal]
+The zero ideal in \(k[t]\) is prime but not maximal.  Prime ideals are designed to include
+generic irreducible information, not only closed points.
+\end{warning}
+
+\begin{warning}[A prime ideal is not a coordinate tuple]
+Over a non-algebraically closed field, a maximal ideal may have no point in \(k^n\).  The
+ideal \((t^2+1)\subset\mathbb R[t]\) is the basic example.
+\end{warning}
+
+\begin{warning}[Ideal containment points the opposite way geometrically]
+If \(\mathfrak p\subseteq\mathfrak q\), then
+\[
+V(\mathfrak q)\subseteq V(\mathfrak p).
+\]
+Larger ideals impose more equations and therefore define smaller loci.
+\end{warning}
+
+\begin{warning}[Radical is weaker than prime]
+The ideal \((xy)\subset k[x,y]\) is radical but not prime: it defines a reduced union of
+two axes, not one irreducible component.
+\end{warning}
+
+\begin{warning}[Do not import later structure too early]
+This chapter motivates prime ideals as points.  The topology of \(\Spec A\), distinguished
+opens, generic/closed points, nilpotent scheme structure, local rings and residue fields are
+developed separately in VI/07--VI/11.
+\end{warning}
+
+\section{Worked examples}
+\input{chapters/ch06_prime_ideals_geometric_points/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch06_prime_ideals_geometric_points/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section{Hints to the Exercises}
+\input{chapters/ch06_prime_ideals_geometric_points/exercise_hints.tex}
+\fi
+
+\section{Problems and Challenges}
+\input{chapters/ch06_prime_ideals_geometric_points/problems/index.tex}
+\input{chapters/ch06_prime_ideals_geometric_points/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Solutions to the Exercises}
+\input{chapters/ch06_prime_ideals_geometric_points/exercise_solutions.tex}
+\fi
+
+\section{Chapter summary}
+
+Prime ideals are the correct bridge from classical affine geometry to spectra because they
+encode irreducible geometric information.  Over an algebraically closed field,
+\[
+\text{closed point}
+\longleftrightarrow
+\text{maximal ideal}
+\]
+and
+\[
+\text{irreducible closed locus}
+\longleftrightarrow
+\text{prime ideal}.
+\]
+
+The quotient criterion
+\[
+\mathfrak p\text{ prime}
+\quad\Longleftrightarrow\quad
+A/\mathfrak p\text{ domain}
+\]
+explains why primality is the algebraic form of irreducibility.  The quotient correspondence
+explains how prime ideals survive passage to closed algebraic subsets, while minimal primes
+record irreducible components.
+
+Finally, a nonmaximal prime ideal should be imagined as one point representing an entire
+irreducible locus.  VI/07 makes that imagination literal by defining
+\[
+\Spec A
+\]
+as a topological space whose points are precisely the prime ideals of \(A\).
