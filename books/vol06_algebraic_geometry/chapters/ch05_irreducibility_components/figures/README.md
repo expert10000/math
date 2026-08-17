@@ -1,11 +1,8 @@
-# Figures for VI/05 - Irreducibility, Components and Connectedness
+# VI/05 figures
 
-Only canonical figures belong here.
+All figures are native TikZ/LaTeX and compile with the shared preamble.
 
-Useful future figures:
-- reducible but connected crossing axes `V(xy)`;
-- disconnected parallel components `V(x(x-1))`;
-- irreducible-component intersection graph;
-- three-component decomposition of `V(x^2-yz, xz-x)`.
-
-Figures should illustrate structure, not merely decorate the page.
+- `vi05_dictionary.tex` - irreducibility/connectedness algebra-geometry dictionary
+- `vi05_minimal_primes.tex` - minimal primes to irreducible components
+- `vi05_idempotent_split.tex` - idempotent/clopen/product splitting
+- `vi05_component_graph.tex` - graph components to connected components

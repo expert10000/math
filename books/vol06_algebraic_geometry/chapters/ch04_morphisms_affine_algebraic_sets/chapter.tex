@@ -1,5 +1,5 @@
 % Canonical chapter: VI/04 — Morphisms of Affine Algebraic Sets
-% Status: DRAFTED (review PDF generated before repository write)
+% Status: DRAFTED - reorganized examples/exercises/problem dossiers/challenges
 %
 % Boundary:
 %   algebraic sets -> VI/01
@@ -357,6 +357,22 @@ exactly when every element of \(I(Y)\) lies in its kernel.
 Compare this with \cref{prop:vi04-target-test}: the algebraic factorization condition is
 the same as the geometric condition that the map lands in \(Y\).
 
+\begin{center}
+\begin{tikzpicture}[node distance=10mm and 18mm,font=\small,
+  box/.style={draw,rounded corners,align=center,minimum width=39mm,minimum height=12mm},
+  arr/.style={-{Latex[length=2.2mm]},thick}]
+\node[box] (tuple) {choose \(f_1,\dots,f_m\in k[X]\)};
+\node[box,right=of tuple] (map) {candidate map\\\(X\to\mathbb A^m\)};
+\node[box,below=of tuple] (relations) {substitute in every\\\(g\in I(Y)\)};
+\node[box,right=of relations] (factor) {relations vanish\\\(\Longleftrightarrow\) factors through \(k[Y]\)};
+\draw[arr] (tuple)--(map);
+\draw[arr] (tuple)--(relations);
+\draw[arr] (relations)--(factor);
+\draw[arr] (factor)-- node[right,font=\scriptsize]{same condition} (map);
+\end{tikzpicture}
+\end{center}
+The upper route is geometric and the lower route algebraic; the target equations make the two tests equivalent.
+
 \section{Contravariance}
 
 Suppose
@@ -408,14 +424,15 @@ X\longmapsto k[X]
 \]
 reverses arrows.
 
-\[
-\boxed{
-\begin{array}{ccccc}
-X & \xrightarrow{\varphi} & Y\\[0.5em]
-k[X] & \xleftarrow{\ \varphi^\ast\ } & k[Y]
-\end{array}
-}
-\]
+\begin{center}
+\begin{tikzcd}[column sep=large,row sep=large]
+X \arrow[r,"\varphi"] & Y \\
+k[X] & k[Y] \arrow[l,"\varphi^\ast"']
+\end{tikzcd}
+\end{center}
+
+The diagram is deliberately asymmetric: a point travels from \(X\) to \(Y\), while a
+function on \(Y\) travels backward to a function on \(X\).
 
 \section{Recovering a morphism from a ring homomorphism}
 
@@ -578,6 +595,51 @@ one obtains the useful formula
 =
 D_X(\varphi^\ast f).
 \]
+
+\section{The kernel of pullback and the closure of the image}
+\label{sec:vi04-image-kernel}
+
+The pullback records exactly which functions on the target vanish on the image.
+
+\begin{proposition}[Kernel--image relation]
+\label{prop:vi04-kernel-image}
+For a morphism \(\varphi:X\to Y\),
+\[
+\ker(\varphi^\ast)
+=
+I_Y(\varphi(X)),
+\]
+the ideal of polynomial functions on \(Y\) vanishing on the set-theoretic image.  Hence
+\[
+V_Y(\ker\varphi^\ast)=\overline{\varphi(X)}^{\,\mathrm{Zar}}.
+\]
+In particular, \(\varphi(X)\) is Zariski dense in \(Y\) if and only if \(\varphi^\ast\) is
+injective.
+\end{proposition}
+
+\begin{proof}
+A function \(h\in k[Y]\) belongs to the kernel exactly when
+\[
+0=\varphi^\ast(h)=h\circ\varphi,
+\]
+which says precisely that \(h\) vanishes at every point of \(\varphi(X)\).  The closure
+formula from VI/02 then gives the second assertion.  Density means that the vanishing ideal
+inside \(k[Y]\) is zero.
+\end{proof}
+
+\begin{center}
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Geometry of \(\varphi:X\to Y\)} & \textbf{Algebra of \(\varphi^\ast:k[Y]\to k[X]\)}\\
+\midrule
+isomorphism & isomorphism\\
+closed embedding & surjective\\
+dense image & injective\\
+functions vanishing on image & \(\ker\varphi^\ast\)\\
+closure of image & \(V_Y(\ker\varphi^\ast)\)\\
+\bottomrule
+\end{tabular}
+\end{center}
 
 \section{Isomorphisms}
 
@@ -820,6 +882,46 @@ k[X].
 
 A regular function is therefore the same thing as a morphism to the affine line.
 
+\section{Products and graphs}
+\label{sec:vi04-products-graphs}
+
+Products provide a first example of a geometric construction that becomes an algebraic
+construction in the opposite direction.  If \(k\) is algebraically closed and
+\(X\subseteq\mathbb A^m\), \(Y\subseteq\mathbb A^n\) are affine algebraic sets, then
+\[
+X\times Y\subseteq\mathbb A^{m+n}
+\]
+is algebraic and
+\[
+k[X\times Y]\cong k[X]\otimes_k k[Y].
+\]
+The two projections correspond to the two canonical maps into the tensor product.
+
+For morphisms \(f:Z\to X\) and \(g:Z\to Y\), the paired map
+\[
+(f,g):Z\to X\times Y
+\]
+is a morphism.  It is uniquely characterized by the two projection identities.
+
+\begin{center}
+\begin{tikzcd}[row sep=large,column sep=large]
+& Z \arrow[dl,"f"'] \arrow[dr,"g"] \arrow[d,dashed,"{(f,g)}"] & \\
+X & X\times Y \arrow[l,"\pi_X"] \arrow[r,"\pi_Y"'] & Y
+\end{tikzcd}
+\end{center}
+
+Every morphism \(f:X\to Y\) also has a graph
+\[
+\Gamma_f=\set{(x,f(x)):x\in X}\subseteq X\times Y.
+\]
+Because equality of polynomial coordinates is a closed condition, \(\Gamma_f\) is closed,
+and
+\[
+x\longmapsto(x,f(x))
+\]
+is a closed embedding.  This observation will reappear repeatedly in later geometric
+constructions.
+
 \section{Endomorphisms and automorphisms}
 
 A morphism
@@ -966,11 +1068,53 @@ the reduced closed subset determined by its vanishing ideal.  Arbitrary nonradic
 ideals belong naturally to closed subschemes later.
 \end{warning}
 
+\begin{center}
+\begin{tabular}{@{}lll@{}}
+\toprule
+& \textbf{Parabola parametrization} & \textbf{Cusp parametrization}\\
+\midrule
+map & \(t\mapsto(t,t^2)\) & \(t\mapsto(t^2,t^3)\)\\
+set-theoretic behavior & bijective & bijective on \(k\)-points\\
+pullback image & \(k[t]\) & \(k[t^2,t^3]\subsetneq k[t]\)\\
+conclusion & isomorphism & not an isomorphism\\
+\bottomrule
+\end{tabular}
+\end{center}
+
 \section{Worked examples}
-\input{chapters/ch04_morphisms_affine_algebraic_sets/examples.tex}
+\label{sec:vi04-worked-examples}
+The examples emphasize how the same map is read geometrically and through the reversed
+coordinate-ring homomorphism.
+\input{chapters/ch04_morphisms_affine_algebraic_sets/examples}
 
 \section{Exercises}
-\input{chapters/ch04_morphisms_affine_algebraic_sets/exercises.tex}
+\label{sec:vi04-exercises}
+The Exercises are primarily new, short-to-medium training problems.  The three substantive
+legacy affine-morphism problems have been promoted to Problem Dossiers below rather than
+left among routine exercises.
+\input{chapters/ch04_morphisms_affine_algebraic_sets/exercises}
+
+\ifdefined\IncludeExerciseHints
+\section{Hints to the Exercises}
+\label{sec:vi04-exercise-hints}
+\input{chapters/ch04_morphisms_affine_algebraic_sets/exercise_hints}
+\fi
+
+\section{Problems}
+\label{sec:vi04-problems}
+Problems VI.04.P1--P3 preserve the substantive legacy affine-morphism problems.  Problems
+VI.04.P4--P8 are new synthesis problems selected to deepen the algebra--geometry dictionary.
+\input{chapters/ch04_morphisms_affine_algebraic_sets/problems/index}
+
+\section{Challenges}
+\label{sec:vi04-challenges}
+\input{chapters/ch04_morphisms_affine_algebraic_sets/challenges/index}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Solutions to the Exercises}
+\label{sec:vi04-exercise-solutions}
+\input{chapters/ch04_morphisms_affine_algebraic_sets/exercise_solutions}
+\fi
 
 \section{Chapter summary}
 
@@ -979,33 +1123,19 @@ A morphism of affine algebraic sets
 \varphi:X\to Y
 \]
 is a polynomial map whose image lies in \(Y\).  Pulling back polynomial functions gives a
-\(k\)-algebra homomorphism
+\(k\)-algebra homomorphism in the reverse direction,
 \[
 \varphi^\ast:k[Y]\to k[X].
 \]
-
-The assignment is contravariant:
-\[
-(\psi\circ\varphi)^\ast
-=
-\varphi^\ast\circ\psi^\ast.
-\]
-
-Most importantly,
+Composition becomes substitution, and every homomorphism of coordinate rings arises from a
+unique affine morphism:
 \[
 \operatorname{Mor}_k(X,Y)
 \cong
 \operatorname{Hom}_{k\text{-alg}}(k[Y],k[X]).
 \]
-
-Consequently,
-\[
-X\cong Y
-\quad\Longleftrightarrow\quad
-k[X]\cong k[Y],
-\]
-and closed embeddings correspond to surjective pullbacks.
-
-The next chapter studies geometric decomposition.  Irreducibility and connectedness will
-translate into strong algebraic properties of coordinate rings, especially the presence or
-absence of zero divisors and idempotents.
+Thus isomorphisms correspond to ring isomorphisms, closed embeddings to surjective
+pullbacks, and dense images to injective pullbacks.  Products become tensor products, while
+graphs become closed embeddings.  The next chapter studies irreducibility, components, and
+connectedness, where these map-theoretic ideas interact with zero divisors, prime ideals,
+and idempotents.
