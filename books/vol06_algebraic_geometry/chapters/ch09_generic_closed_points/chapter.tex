@@ -1,0 +1,511 @@
+% Canonical chapter: VI/09 - Generic and Closed Points
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Generic and Closed Points}
+\label{ch:generic-closed-points}
+
+\section*{Purpose and learning goals}
+
+The preceding chapters built the prime spectrum and its principal-open basis.  We now ask
+what the individual points of $\Spec A$ mean topologically.
+
+A prime ideal may represent a closed point, the generic point of an irreducible closed
+subset, or an intermediate point between these extremes.  The organizing principle is the
+closure formula
+\[
+\overline{\{\mathfrak p\}}=V(\mathfrak p).
+\]
+Because containment of prime ideals controls these closures, the specialization order is
+nothing more than inclusion of prime ideals.
+
+This chapter develops that pointwise geometry carefully.  It also explains why closed
+points need not be rational over the base field, why generic points are genuine topological
+points rather than informal ``general positions,'' and why irreducible components carry
+distinguished generic points.  We use the language of schemes only for the legacy theorem
+that every irreducible closed subset of a scheme has a unique generic point; local rings and
+residue fields remain reserved for VI/11, and function fields for VI/27.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item compute the closure of a point in $\Spec A$;
+\item translate specialization and generalization into inclusion of prime ideals;
+\item prove that $\Spec A$ is a $T_0$ space and characterize when it is $T_1$;
+\item identify closed points with maximal ideals;
+\item identify generic points of irreducible closed subsets with prime ideals;
+\item recognize generic points of irreducible components as minimal primes;
+\item decide when the whole spectrum has a generic point;
+\item distinguish closed points from $k$-rational points;
+\item analyze generic and closed points in arithmetic, reducible, product, and
+      nonreduced examples;
+\item use generic points to test density of open subsets and irreducible components.
+\end{itemize}
+
+\section{The closure of one point}
+
+Let $\mathfrak p\in\Spec A$.  A closed set $V(I)$ contains $\mathfrak p$ exactly when
+$I\subseteq\mathfrak p$.  Therefore the smallest closed set containing $\mathfrak p$ is
+$V(\mathfrak p)$.
+
+\begin{proposition}[Closure formula]
+For every $\mathfrak p\in\Spec A$,
+\[
+\overline{\{\mathfrak p\}}=V(\mathfrak p)
+=\{\mathfrak q\in\Spec A:\mathfrak p\subseteq\mathfrak q\}.
+\]
+\end{proposition}
+
+\begin{proof}
+Every closed set containing $\mathfrak p$ has the form $V(I)$ with
+$I\subseteq\mathfrak p$.  Since $I\subseteq\mathfrak p$ implies
+$V(\mathfrak p)\subseteq V(I)$, the set $V(\mathfrak p)$ is contained in every closed
+set containing $\mathfrak p$.  It is itself closed and contains $\mathfrak p$.
+\end{proof}
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_closure_dictionary.tex}
+
+\section{Specialization and generalization}
+
+\begin{definition}[Specialization and generalization]
+Let $x,y$ be points of a topological space.  We say that $y$ is a
+\emph{specialization} of $x$ if
+\[
+y\in\overline{\{x\}}.
+\]
+Equivalently, $x$ is a \emph{generalization} of $y$.
+\end{definition}
+
+For spectra the order is completely algebraic.
+
+\begin{theorem}[Specialization order on a spectrum]
+For $\mathfrak p,\mathfrak q\in\Spec A$,
+\[
+\mathfrak q\text{ is a specialization of }\mathfrak p
+\quad\Longleftrightarrow\quad
+\mathfrak p\subseteq\mathfrak q.
+\]
+\end{theorem}
+
+Thus smaller prime ideals are more generic and larger prime ideals are more special.
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_specialization_chain.tex}
+
+The familiar chain
+\[
+(0)\subset (x)\subset (x,y)
+\qquad\text{in }k[x,y]
+\]
+means
+\[
+\text{generic plane point}
+\leadsto
+\text{generic point of the line }x=0
+\leadsto
+\text{closed origin}.
+\]
+
+\begin{proposition}[Open and closed sets respect the specialization order]
+In $\Spec A$:
+\begin{enumerate}
+\item closed subsets are stable under specialization;
+\item open subsets are stable under generalization.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+If $\mathfrak p\in V(I)$ and $\mathfrak p\subseteq\mathfrak q$, then
+$I\subseteq\mathfrak q$, so $\mathfrak q\in V(I)$.  Taking complements gives the open-set
+statement.
+\end{proof}
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_order_stability.tex}
+
+\section{\texorpdfstring{$T_0$}{T0} and \texorpdfstring{$T_1$}{T1} behavior}
+
+\begin{proposition}
+Every affine spectrum $\Spec A$ is a $T_0$ space.
+\end{proposition}
+
+\begin{proof}
+Take distinct primes $\mathfrak p\neq\mathfrak q$.  After interchanging them if necessary,
+choose
+\[
+f\in\mathfrak q\setminus\mathfrak p.
+\]
+Then $\mathfrak p\in D(f)$ but $\mathfrak q\notin D(f)$.  Hence distinct points are
+topologically distinguishable.
+\end{proof}
+
+\begin{corollary}
+The closure map
+\[
+\mathfrak p\longmapsto\overline{\{\mathfrak p\}}
+\]
+is injective on $\Spec A$.
+\end{corollary}
+
+\begin{proposition}
+The space $\Spec A$ is $T_1$ if and only if every prime ideal of $A$ is maximal.
+\end{proposition}
+
+\begin{proof}
+A space is $T_1$ exactly when every singleton is closed.  By the closed-point criterion
+proved below, this means precisely that every prime is maximal.
+\end{proof}
+
+Thus affine spectra are always $T_0$, but are usually far from $T_1$.
+
+\section{Generic points of irreducible closed subsets}
+
+\begin{definition}[Generic point]
+Let $Z$ be a closed subset of a topological space.  A point $\eta\in Z$ is a
+\emph{generic point} of $Z$ if
+\[
+\overline{\{\eta\}}=Z.
+\]
+\end{definition}
+
+In an affine spectrum, prime ideals and irreducible closed subsets are two descriptions of
+the same data.
+
+\begin{theorem}[Prime ideal--generic point correspondence]
+For $\mathfrak p\in\Spec A$, the closed set $V(\mathfrak p)$ is irreducible and
+$\mathfrak p$ is its unique generic point.
+
+Conversely, if $Z\subseteq\Spec A$ is irreducible and closed, then
+\[
+Z=V(\mathfrak p)
+\]
+for a unique prime ideal $\mathfrak p$, namely the generic point of $Z$.
+\end{theorem}
+
+\begin{proof}
+The quotient
+\[
+A/\mathfrak p
+\]
+is a domain, so $\Spec(A/\mathfrak p)\cong V(\mathfrak p)$ is irreducible.  By the closure
+formula, $\overline{\{\mathfrak p\}}=V(\mathfrak p)$, so $\mathfrak p$ is generic.
+
+Conversely, write $Z=V(I)$.  The closed set $V(I)$ is irreducible if and only if
+$\sqrt I$ is prime.  Put $\mathfrak p=\sqrt I$.  Then
+\[
+Z=V(I)=V(\mathfrak p).
+\]
+Uniqueness follows from the $T_0$ property, or directly from equality of radicals.
+\end{proof}
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_prime_generic_dictionary.tex}
+
+\begin{remark}[Sobriety]
+A topological space is called \emph{sober} if every nonempty irreducible closed subset has
+a unique generic point.  Every affine spectrum is sober.  In fact every scheme is sober;
+the full scheme-theoretic statement is preserved as Legacy Problem VI.09.P1 below.
+\end{remark}
+
+\section{When the whole spectrum has a generic point}
+
+The entire spectrum has a generic point exactly when it is irreducible.
+
+\begin{theorem}
+The following are equivalent:
+\begin{enumerate}
+\item $\Spec A$ is irreducible;
+\item the nilradical $\sqrt{(0)}$ is a prime ideal;
+\item $\Spec A$ has a generic point.
+\end{enumerate}
+When these conditions hold, the generic point is
+\[
+\eta=\sqrt{(0)}.
+\]
+\end{theorem}
+
+\begin{proof}
+By VI/05, $\Spec A$ is irreducible exactly when its defining radical
+$\sqrt{(0)}$ is prime.  If it is prime, then
+\[
+\overline{\{\sqrt{(0)}\}}=V(\sqrt{(0)})=V(0)=\Spec A.
+\]
+Conversely, if $\eta$ is generic, then $\Spec A=V(\eta)$ is irreducible.
+\end{proof}
+
+If $A$ is a domain, then $\sqrt{(0)}=(0)$, so $(0)$ is the generic point.  But in a
+nonreduced irreducible ring the generic point need not be the zero ideal.
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_nonreduced_generic.tex}
+
+\section{Closed points}
+
+Generic points are as large as possible from the viewpoint of closure.  Closed points are
+the opposite extreme.
+
+\begin{theorem}[Closed points are maximal ideals]
+For $\mathfrak p\in\Spec A$, the following are equivalent:
+\begin{enumerate}
+\item $\mathfrak p$ is a closed point of $\Spec A$;
+\item $\overline{\{\mathfrak p\}}=\{\mathfrak p\}$;
+\item $V(\mathfrak p)=\{\mathfrak p\}$;
+\item $\mathfrak p$ is maximal.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+By the closure formula,
+\[
+V(\mathfrak p)
+=
+\{\mathfrak q\in\Spec A:\mathfrak p\subseteq\mathfrak q\}.
+\]
+This set is the singleton $\{\mathfrak p\}$ exactly when no proper prime ideal strictly
+contains $\mathfrak p$.  A prime ideal with this property is maximal.
+\end{proof}
+
+For a maximal ideal $\mathfrak m$, the quotient $A/\mathfrak m$ is a field.  VI/11 will
+package this field as the residue field of the point and study the associated local ring.
+
+\section{Closed points versus rational points}
+
+Let $A$ be a $k$-algebra.  A $k$-rational point of $\Spec A$ corresponds to a $k$-algebra
+map
+\[
+A\longrightarrow k,
+\]
+hence to a maximal ideal $\mathfrak m$ for which
+\[
+A/\mathfrak m\cong k.
+\]
+A closed point need not be $k$-rational: it only requires $\mathfrak m$ to be maximal.
+
+\begin{theorem}[Finite-type algebraically closed case]
+Let $k$ be algebraically closed and let $A$ be a finitely generated $k$-algebra.  By the
+weak Nullstellensatz, every maximal ideal has quotient $k$.  Thus the closed points of
+$\Spec A$ are exactly the classical $k$-rational points.
+\end{theorem}
+
+Over a non-algebraically closed or finite field, additional closed points appear.
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_closed_point_fields.tex}
+
+\section{Generic points of irreducible components}
+
+Let $\operatorname{Min}(A)$ denote the set of minimal prime ideals of $A$.
+
+\begin{theorem}[Minimal primes are component-generic points]
+The irreducible components of $\Spec A$ are exactly the closed sets
+\[
+V(\mathfrak p),
+\qquad
+\mathfrak p\in\operatorname{Min}(A).
+\]
+The point $\mathfrak p$ is the generic point of the corresponding component.
+\end{theorem}
+
+\begin{proof}
+Every irreducible component is an irreducible closed subset, hence has the form
+$V(\mathfrak p)$ for a prime $\mathfrak p$.  Maximality of the component under inclusion is
+equivalent, by reversal of inclusion, to minimality of $\mathfrak p$ among prime ideals.
+The generic-point statement follows from the previous theorem.
+\end{proof}
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_component_generic.tex}
+
+This gives a particularly efficient way to read reducible geometry: the minimal primes are
+the generic points of the largest irreducible pieces.
+
+\section{The crossing axes as a specialization picture}
+
+Let
+\[
+R=k[x,y]/(xy).
+\]
+The minimal primes are
+\[
+(\bar x)
+\qquad\text{and}\qquad
+(\bar y).
+\]
+They are the generic points of the two axes.  The maximal ideal
+\[
+(\bar x,\bar y)
+\]
+is their common closed specialization at the crossing.
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_crossing_axes.tex}
+
+The point $(\bar x,\bar y)$ lies in the closure of each component-generic point because
+\[
+(\bar x)\subset(\bar x,\bar y),
+\qquad
+(\bar y)\subset(\bar x,\bar y).
+\]
+
+\section{Generic points and nonempty open subsets}
+
+\begin{proposition}
+Let $X$ be an irreducible topological space with generic point $\eta$.  Then every nonempty
+open subset $U\subseteq X$ contains $\eta$.  Moreover $\eta$ is the generic point of $U$
+with its subspace topology.
+\end{proposition}
+
+\begin{proof}
+If $\eta\notin U$, then the closed set $X\setminus U$ contains $\eta$, hence contains
+$\overline{\{\eta\}}=X$, contradicting $U\neq\varnothing$.  Therefore $\eta\in U$.
+Furthermore
+\[
+\overline{\{\eta\}}^{\,U}
+=
+U\cap\overline{\{\eta\}}^{\,X}
+=
+U.
+\]
+\end{proof}
+
+More generally, if $C$ is an irreducible component with generic point $\eta_C$ and an open
+set $U$ meets $C$, then $\eta_C\in U$.
+
+\section{The arithmetic spectrum}
+
+The spectrum of the integers gives the cleanest example in which one generic point
+specializes to infinitely many closed points:
+\[
+\Spec\ZZ=\{(0)\}\cup\{(p):p\text{ prime}\}.
+\]
+The point $(0)$ is generic because $\ZZ$ is a domain.  Every $(p)$ is maximal and hence
+closed.
+
+\input{chapters/ch09_generic_closed_points/figures/vi09_spec_z.tex}
+
+For nonzero $n$,
+\[
+D(n)=\{(0)\}\cup\{(p):p\nmid n\},
+\]
+so every nonempty principal open contains the generic point and all but finitely many closed
+prime-number points.
+
+\section{Comparison chart}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.22}
+\begin{tabular}{p{0.22\textwidth}p{0.28\textwidth}p{0.37\textwidth}}
+\toprule
+\textbf{Point type} & \textbf{Algebraic condition} & \textbf{Topological meaning}\\
+\midrule
+arbitrary point & prime $\mathfrak p$ & closure is $V(\mathfrak p)$\\
+specialization of $\mathfrak p$ & $\mathfrak p\subseteq\mathfrak q$ & $\mathfrak q\in\overline{\{\mathfrak p\}}$\\
+generalization of $\mathfrak q$ & $\mathfrak p\subseteq\mathfrak q$ & $\mathfrak p$ is more generic\\
+closed point & $\mathfrak m$ maximal & $\overline{\{\mathfrak m\}}=\{\mathfrak m\}$\\
+generic point of $V(\mathfrak p)$ & $\mathfrak p$ prime & closure equals the whole irreducible closed set\\
+component-generic point & $\mathfrak p$ minimal prime & generic point of an irreducible component\\
+generic point of $\Spec A$ & $\sqrt{(0)}$ prime & $\Spec A$ is irreducible\\
+$k$-rational closed point & $A/\mathfrak m\cong k$ & closed point defined over the base field\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Common pitfalls}
+
+\begin{itemize}
+\item A generic point is an actual point of the spectrum, not a vague ``general point.''
+\item A closed point need not be $k$-rational unless additional hypotheses such as the
+      Nullstellensatz apply.
+\item The zero ideal is generic only when it is prime.  In a nonreduced irreducible ring,
+      the generic point can be a nonzero nilradical.
+\item Inclusion of prime ideals and inclusion of their closures run in the same direction
+      for specializations but in the opposite direction for the defining closed sets:
+      $\mathfrak p\subseteq\mathfrak q$ implies $V(\mathfrak q)\subseteq V(\mathfrak p)$.
+\item Being closed in one chosen open neighborhood does not by itself mean being closed in
+      the entire ambient scheme.  In this chapter, the maximal-ideal criterion is stated
+      for the affine spectrum under discussion.
+\item Generic-point existence is special: arbitrary topological spaces need not have
+      generic points for irreducible closed subsets.  Spectra and schemes do.
+\end{itemize}
+
+\section{Worked examples}
+\input{chapters/ch09_generic_closed_points/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch09_generic_closed_points/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section*{Hints to the exercises}
+\input{chapters/ch09_generic_closed_points/exercise_hints.tex}
+\fi
+
+\ifdefined\IncludeExerciseSolutions
+\section*{Solutions to the exercises}
+\input{chapters/ch09_generic_closed_points/exercise_solutions.tex}
+\fi
+
+\section{Problems}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch09_generic_closed_points/problems/index.tex}
+\else
+\begin{problem}
+Prove that every irreducible closed subset of a scheme has a unique generic point.
+\end{problem}
+\begin{problem}
+Analyze the specialization chain $(0)\subset(x)\subset(x,y)$ in $\Spec k[x,y]$.
+\end{problem}
+\begin{problem}
+Characterize when $\Spec A$ has a generic point and identify it.
+\end{problem}
+\begin{problem}
+Prove that minimal primes are the generic points of irreducible components.
+\end{problem}
+\begin{problem}
+Prove that closed points of $\Spec A$ are exactly maximal ideals.
+\end{problem}
+\begin{problem}
+Classify generic and closed points of the affine line over an arbitrary field.
+\end{problem}
+\begin{problem}
+Analyze generic and closed points of $\Spec\ZZ$.
+\end{problem}
+\begin{problem}
+Analyze the specialization geometry of $k[x,y]/(xy)$.
+\end{problem}
+\begin{problem}
+Prove the $T_0$ and $T_1$ assertions for affine spectra.
+\end{problem}
+\begin{problem}
+Analyze the generic point of $k[x,y]/(x^2)$.
+\end{problem}
+\begin{problem}
+Track generic points through quotient spectra.
+\end{problem}
+\begin{problem}
+Show maps of spectra preserve specialization and generic images.
+\end{problem}
+\begin{problem}
+Prove every nonempty open of an irreducible space contains its generic point.
+\end{problem}
+\begin{problem}
+Compare closed and rational points over $\CC$, $\RR$, and finite fields.
+\end{problem}
+\begin{problem}
+Analyze generic and closed points in finite product rings.
+\end{problem}
+\fi
+
+\section{Challenges}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch09_generic_closed_points/challenges/index.tex}
+\else
+\begin{problem}
+Show closed points are dense in spectra of finitely generated algebras over a field.
+\end{problem}
+\begin{problem}
+Characterize dense opens using generic points of irreducible components.
+\end{problem}
+\begin{problem}
+Show the specialization order alone does not make the Zariski topology Alexandroff.
+\end{problem}
+\fi
+
+\section{Boundary with the next chapters}
+
+The topology of individual points is now complete.  VI/10 will explain why the underlying
+topological space cannot detect nilpotent thickening.  VI/11 will attach a local ring and
+a residue field to each prime and make the distinction between rational and non-rational
+closed points algebraically precise.  Later VI/27 will return to integral schemes and
+complete the legacy generic-point problem by constructing the function field at the generic
+point.
