@@ -1,0 +1,458 @@
+% Canonical chapter: VI/08 - Basic Open Sets D(f)
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Basic Open Sets \texorpdfstring{$D(f)$}{D(f)}}
+\label{ch:basic-open-sets}
+
+\section*{Purpose and learning goals}
+
+VI/07 constructed the Zariski topology on $\Spec A$ from the closed sets $V(I)$.  We now
+turn to the most useful open subsets:
+\[
+D(f)=\{\mathfrak p\in\Spec A:f\notin\mathfrak p\}.
+\]
+These are simultaneously topological neighborhoods, complements of hypersurface-type
+closed sets, and the geometric manifestation of localization.  Their algebra is unusually
+clean: multiplication becomes intersection, powers do not change the open set, and
+localizing at $f$ produces exactly the spectrum carried by $D(f)$.
+
+This chapter develops the principal-open basis and its localization calculus.  VI/09 will
+separate generic from closed points; VI/10 will analyze nilpotent and reduced structure in
+its own right; VI/11 will localize at a prime and construct local rings and residue fields.
+Here the localization is only at a single element or a finitely generated principal-open
+cover.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item manipulate the identities satisfied by $D(f)$;
+\item prove that principal opens form a basis of $\Spec A$;
+\item decide when $D(f)\subseteq D(g)$ or $D(f)=D(g)$ using radicals;
+\item translate open covers by $D(f_i)$ into ideal-generation statements;
+\item prove that every $D(f)$ is quasi-compact and hence every affine spectrum is quasi-compact;
+\item construct $A_f$ and prove $\Spec A_f\cong D_A(f)$;
+\item compute nested localizations and the interaction of localization with quotients;
+\item compute principal opens in arithmetic, reducible, product, and nonreduced examples;
+\item track principal opens under maps of spectra.
+\end{itemize}
+
+\section{Definition and first identities}
+
+\begin{definition}[Basic or distinguished open]
+Let $A$ be a commutative ring and $f\in A$.  The \emph{basic open} or
+\emph{distinguished open} determined by $f$ is
+\[
+D_A(f)=D(f)=\{\mathfrak p\in\Spec A:f\notin\mathfrak p\}.
+\]
+\end{definition}
+
+Since
+\[
+V((f))=\{\mathfrak p:f\in\mathfrak p\},
+\]
+we have
+\[
+D(f)=\Spec A\setminus V(f).
+\]
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_complement.tex}
+
+\begin{proposition}[Principal-open calculus]
+For $f,g\in A$ and $n\ge1$,
+\[
+D(0)=\varnothing,
+\qquad
+D(1)=\Spec A,
+\]
+\[
+D(fg)=D(f)\cap D(g),
+\qquad
+D(f^n)=D(f).
+\]
+\end{proposition}
+
+\begin{proof}
+Every prime contains $0$ and no proper ideal contains $1$.  Further,
+$fg\notin\mathfrak p$ is equivalent, by primality, to
+$f\notin\mathfrak p$ and $g\notin\mathfrak p$.  Finally a prime contains $f^n$ iff it
+contains $f$.
+\end{proof}
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_intersection.tex}
+
+\begin{remark}[A common false rule]
+In general,
+\[
+D(f+g)\neq D(f)\cup D(g).
+\]
+Addition has no comparably simple topological rule.  The clean operation is multiplication,
+which corresponds to intersection.
+\end{remark}
+
+\section{Principal opens form a basis}
+
+\begin{theorem}[Basis theorem]
+The sets $D(f)$, as $f$ ranges over $A$, form a basis for the Zariski topology on $\Spec A$.
+More precisely, if
+\[
+U=\Spec A\setminus V(I),
+\]
+then
+\[
+U=\bigcup_{f\in I}D(f).
+\]
+\end{theorem}
+
+\begin{proof}
+A prime $\mathfrak p$ lies in $U$ iff $I\not\subseteq\mathfrak p$, which is equivalent to
+there being some $f\in I$ with $f\notin\mathfrak p$.  That is exactly
+$\mathfrak p\in D(f)$ for some $f\in I$.
+\end{proof}
+
+If $I=(f_1,\dots,f_r)$ is finitely generated, then the same argument gives
+\[
+\Spec A\setminus V(I)=D(f_1)\cup\cdots\cup D(f_r).
+\]
+Thus finitely generated ideals produce finite principal-open covers of their complements.
+
+\section{Inclusion and equality criteria}
+
+The topology of principal opens is controlled by radicals.
+
+\begin{theorem}[Inclusion criterion]
+For $f,g\in A$,
+\[
+D(f)\subseteq D(g)
+\quad\Longleftrightarrow\quad
+f\in\sqrt{(g)}.
+\]
+Equivalently,
+\[
+D(f)\subseteq D(g)
+\quad\Longleftrightarrow\quad
+f^N\in(g)\text{ for some }N\ge1.
+\]
+\end{theorem}
+
+\begin{proof}
+The inclusion $D(f)\subseteq D(g)$ is equivalent to $V(g)\subseteq V(f)$.  By the
+closed-set/radical correspondence of VI/07, this is equivalent to
+\[
+\sqrt{(f)}\subseteq\sqrt{(g)},
+\]
+which in turn is equivalent to $f\in\sqrt{(g)}$.
+\end{proof}
+
+\begin{corollary}[Equality criterion]
+\[
+D(f)=D(g)
+\quad\Longleftrightarrow\quad
+\sqrt{(f)}=\sqrt{(g)}.
+\]
+In particular $D(f)=D(f^n)$ for every $n\ge1$.
+\end{corollary}
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_radical_criterion.tex}
+
+\section{Extremal principal opens: units and nilpotents}
+
+\begin{proposition}
+For $f\in A$,
+\[
+D(f)=\Spec A\quad\Longleftrightarrow\quad f\text{ is a unit},
+\]
+and
+\[
+D(f)=\varnothing\quad\Longleftrightarrow\quad f\text{ is nilpotent}.
+\]
+\end{proposition}
+
+\begin{proof}
+If $f$ is a unit, no proper ideal contains it.  Conversely, if no prime contains $f$, then
+no maximal ideal contains $f$, so $(f)=A$ and $f$ is a unit.
+
+For the second statement, $D(f)=\varnothing$ means $f$ lies in every prime ideal.  The
+intersection of all prime ideals is the nilradical, so this is equivalent to $f$ being
+nilpotent.
+\end{proof}
+
+The second equivalence is topologically useful here; VI/10 will study the nilpotent
+structure itself rather than merely its invisibility to principal opens.
+
+\section{Covers by principal opens}
+
+\begin{theorem}[Cover criterion]
+For a family $\{f_\lambda\}_{\lambda\in\Lambda}\subseteq A$ and $f\in A$,
+\[
+D(f)\subseteq\bigcup_{\lambda\in\Lambda}D(f_\lambda)
+\]
+if and only if
+\[
+f\in\sqrt{(f_\lambda:\lambda\in\Lambda)}.
+\]
+Equivalently, some power $f^N$ belongs to the ideal generated by the $f_\lambda$.
+\end{theorem}
+
+\begin{proof}
+The displayed inclusion is equivalent, after taking complements inside $\Spec A$, to
+\[
+V(f_\lambda:\lambda\in\Lambda)\subseteq V(f).
+\]
+The radical/closed-set correspondence gives the stated ideal condition.
+\end{proof}
+
+For $f=1$ this becomes the important special case
+\[
+\Spec A=\bigcup_\lambda D(f_\lambda)
+\quad\Longleftrightarrow\quad
+(f_\lambda:\lambda\in\Lambda)=A.
+\]
+For a finite cover $D(f_1),\dots,D(f_r)$, this says precisely that there are
+$a_1,\dots,a_r\in A$ with
+\[
+a_1f_1+\cdots+a_rf_r=1.
+\]
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_cover_criterion.tex}
+
+\section{Quasi-compactness}
+
+\begin{theorem}[Principal opens are quasi-compact]
+Every $D(f)\subseteq\Spec A$ is quasi-compact.  In particular, $\Spec A=D(1)$ is
+quasi-compact.
+\end{theorem}
+
+\begin{proof}
+Suppose
+\[
+D(f)\subseteq\bigcup_{\lambda\in\Lambda}D(g_\lambda).
+\]
+By the cover criterion, $f^N$ lies in the ideal generated by the $g_\lambda$ for some $N$.
+An element of an ideal is a finite linear combination, so there are finitely many indices
+$\lambda_1,\dots,\lambda_m$ such that
+\[
+f^N\in(g_{\lambda_1},\dots,g_{\lambda_m}).
+\]
+Applying the cover criterion again gives
+\[
+D(f)\subseteq D(g_{\lambda_1})\cup\cdots\cup D(g_{\lambda_m}).
+\]
+\end{proof}
+
+This finite-subcover theorem is one reason principal opens are the natural working basis for
+affine geometry.
+
+\section{Localization at one element}
+
+Let
+\[
+S_f=\{1,f,f^2,f^3,\dots\}.
+\]
+The localization of $A$ at $f$ is
+\[
+A_f=S_f^{-1}A=A\left[\frac1f\right].
+\]
+Its elements are represented by fractions
+\[
+\frac{a}{f^n},\qquad a\in A,\ n\ge0.
+\]
+
+\begin{proposition}[Universal property]
+A ring map $\varphi:A\to B$ factors uniquely through $A_f$ iff $\varphi(f)$ is a unit in
+$B$.
+\end{proposition}
+
+Thus localization is the universal algebraic operation that forces $f$ to become invertible.
+
+\section{The spectrum of a localization}
+
+\begin{theorem}[Principal-open localization theorem]
+Extension and contraction give mutually inverse bijections
+\[
+\Spec A_f
+\longleftrightarrow
+D_A(f),
+\]
+\[
+\mathfrak q\longmapsto\mathfrak q\cap A,
+\qquad
+\mathfrak p\longmapsto\mathfrak p A_f.
+\]
+These maps identify the Zariski topologies, hence
+\[
+\boxed{\Spec A_f\cong D_A(f)}.
+\]
+\end{theorem}
+
+\begin{proof}
+Prime ideals of $A_f$ correspond to prime ideals of $A$ disjoint from $S_f$.  A prime
+$\mathfrak p$ is disjoint from $S_f$ exactly when $f\notin\mathfrak p$, so the underlying
+bijection is exactly the one displayed.  For topology, a basic closed subset of
+$\Spec A_f$ has the form $V_{A_f}(J)$; contraction identifies it with the corresponding
+subspace-closed set inside $D_A(f)$.  Equivalently, basic opens correspond by the nested
+localization identity proved below.
+\end{proof}
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_localization_correspondence.tex}
+
+\section{Nested principal opens}
+
+Let $g\in A$.  Inside $\Spec A_f$, the image $g/1\in A_f$ defines the principal open
+\[
+D_{A_f}(g/1).
+\]
+Under $\Spec A_f\cong D_A(f)$ this is precisely
+\[
+D_A(fg).
+\]
+Algebraically,
+\[
+(A_f)_{g/1}\cong A_{fg}.
+\]
+
+Thus shrinking from $D(f)$ to the smaller principal open cut out by $g$ is exactly the same
+as inverting both $f$ and $g$.
+
+\section{Quotients and principal opens}
+
+Let $I\subseteq A$ and let $\bar f$ be the image of $f$ in $A/I$.  Then
+\[
+(A/I)_{\bar f}\cong A_f/IA_f.
+\]
+Taking spectra gives
+\[
+D_{A/I}(\bar f)
+\cong
+V_A(I)\cap D_A(f).
+\]
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_quotient_intersection.tex}
+
+This formula is the basic compatibility between imposing equations and then restricting to
+an open region.
+
+\section{Behavior under maps of spectra}
+
+Let $\varphi:A\to B$ and let
+\[
+\varphi^\ast:\Spec B\to\Spec A,
+\qquad
+\mathfrak q\mapsto\varphi^{-1}(\mathfrak q).
+\]
+Then
+\[
+(\varphi^\ast)^{-1}(D_A(f))=D_B(\varphi(f)).
+\]
+Indeed,
+\[
+f\notin\varphi^{-1}(\mathfrak q)
+\quad\Longleftrightarrow\quad
+\varphi(f)\notin\mathfrak q.
+\]
+This is the principal-open form of continuity and is often the fastest way to verify a map
+of affine spectra is continuous.
+
+\section{Arithmetic and geometric reference pictures}
+
+\subsection{\texorpdfstring{$D(n)$ inside $\Spec\ZZ$}{D(n) inside Spec Z}}
+For nonzero $n\in\ZZ$,
+\[
+D(n)=\{(0)\}\cup\{(p):p\nmid n\}.
+\]
+The closed prime-number points dividing $n$ are removed, while the generic point remains.
+Moreover
+\[
+D(n)\cong\Spec\ZZ[1/n].
+\]
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_spec_z.tex}
+
+\subsection{The crossing axes}
+Let
+\[
+R=k[x,y]/(xy).
+\]
+On $D(\bar x)$ the element $\bar x$ becomes invertible, so the equation
+$\bar x\bar y=0$ forces $\bar y=0$.  Hence
+\[
+R_{\bar x}\cong k[x,x^{-1}].
+\]
+Similarly,
+\[
+R_{\bar y}\cong k[y,y^{-1}].
+\]
+Localization literally removes the component on which the inverted function vanishes.
+
+\input{chapters/ch08_basic_open_sets/figures/vi08_crossing_axes.tex}
+
+\section{Comparison chart}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.22}
+\begin{tabular}{p{0.24\textwidth}p{0.29\textwidth}p{0.35\textwidth}}
+\toprule
+\textbf{Algebraic datum} & \textbf{Open-set statement} & \textbf{Geometric meaning}\\
+\midrule
+$f$ unit & $D(f)=\Spec A$ & $f$ vanishes nowhere\\
+$f$ nilpotent & $D(f)=\varnothing$ & every prime contains $f$\\
+$fg$ & $D(fg)=D(f)\cap D(g)$ & invert both functions\\
+$f^n$ & $D(f^n)=D(f)$ & multiplicity is invisible topologically\\
+$f\in\sqrt{(g)}$ & $D(f)\subseteq D(g)$ & radical containment controls open inclusion\\
+$(f_1,\dots,f_r)=A$ & $\bigcup_iD(f_i)=\Spec A$ & the principal opens cover everywhere\\
+localize at $f$ & $\Spec A_f\cong D(f)$ & force $f$ to become invertible\\
+quotient by $I$ & $D_{A/I}(\bar f)\cong V(I)\cap D_A(f)$ & impose equations and then restrict\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Worked examples}
+\input{chapters/ch08_basic_open_sets/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch08_basic_open_sets/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section*{Hints to the exercises}
+\input{chapters/ch08_basic_open_sets/exercise_hints.tex}
+\fi
+
+\ifdefined\IncludeExerciseSolutions
+\section*{Solutions to the exercises}
+\input{chapters/ch08_basic_open_sets/exercise_solutions.tex}
+\fi
+
+\section{Problems}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch08_basic_open_sets/problems/index.tex}
+\else
+\begin{problem}Prove that the $D(f)$ form a basis and that $D(f)=\varnothing$ iff $f$ is nilpotent.\end{problem}
+\begin{problem}Prove the radical criterion for inclusion and equality of principal opens.\end{problem}
+\begin{problem}Prove the general cover criterion $D(f)\subseteq\bigcup D(g_\lambda)$.\end{problem}
+\begin{problem}Prove every principal open is quasi-compact.\end{problem}
+\begin{problem}Prove the homeomorphism $\Spec A_f\cong D_A(f)$.\end{problem}
+\begin{problem}Analyze $D(n)\subseteq\Spec\ZZ$ and identify it with $\Spec\ZZ[1/n]$.\end{problem}
+\begin{problem}Prove $(A_f)_{g/1}\cong A_{fg}$ and identify the corresponding nested open.\end{problem}
+\begin{problem}Prove $(A/I)_{\bar f}\cong A_f/IA_f$ and identify the corresponding open subset.\end{problem}
+\begin{problem}Prove preimages of principal opens are principal under maps of spectra.\end{problem}
+\begin{problem}Analyze principal-open covers of $\Spec A$ in terms of a unit ideal.\end{problem}
+\begin{problem}Analyze the principal opens of the crossing-axes ring $k[x,y]/(xy)$.\end{problem}
+\begin{problem}Describe principal opens in a product ring $A\times B$.\end{problem}
+\begin{problem}Analyze principal opens in $k[\varepsilon]/(\varepsilon^2)$.\end{problem}
+\fi
+
+\section{Challenges}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch08_basic_open_sets/challenges/index.tex}
+\else
+\begin{problem}Show a quasi-compact open subset of $\Spec A$ is a finite union of principal opens.\end{problem}
+\begin{problem}Characterize clopen principal opens through idempotents.\end{problem}
+\begin{problem}Prove the equalizer/gluing statement for a finite principal-open cover.\end{problem}
+\fi
+
+\section{Boundary with the next chapters}
+
+Principal opens and one-element localization are now complete.  VI/09 will use the topology
+to distinguish generic, closed, and intermediate points.  VI/10 will explain what the
+underlying topology misses about nilpotents.  VI/11 will replace $A_f$ by localization at a
+prime $A_{\mathfrak p}$ and construct the genuinely local algebra of a point.  Later, VI/17
+and VI/18 will interpret $A_f$ as the ring of sections on $D(f)$ and use principal opens as
+the standard affine basis for the structure sheaf.
