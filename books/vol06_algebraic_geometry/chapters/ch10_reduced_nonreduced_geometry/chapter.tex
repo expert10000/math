@@ -1,0 +1,614 @@
+% Canonical chapter: VI/10 - Reduced and Nonreduced Geometry
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Reduced and Nonreduced Geometry}
+\label{ch:reduced-nonreduced-geometry}
+\providecommand{\Nil}{\operatorname{Nil}}
+
+\section*{Purpose and learning goals}
+
+The preceding chapters developed the topology of prime spectra.  That topology is powerful,
+but it deliberately forgets one kind of algebraic information: nilpotent elements.  The
+simplest warning is already striking:
+\[
+\Spec k[t]/(t)
+\qquad\text{and}\qquad
+\Spec k[t]/(t^2)
+\]
+have the same underlying one-point topological space, even though the two rings are not
+isomorphic.  The second ring contains a nonzero element whose square is zero.  Scheme
+theory remembers this infinitesimal information even when ordinary point-set topology does
+not.
+
+This chapter makes that phenomenon systematic.  We study reduced rings, the nilradical,
+the reduced quotient, radical ideals, nilpotent thickenings, and the way reduction interacts
+with localization.  We also separate three notions that are often confused:
+\emph{reduced}, \emph{irreducible}, and \emph{integral}.  Finally, we preview a genuinely
+scheme-theoretic phenomenon: reducedness may be destroyed by a field extension in positive
+characteristic.
+
+The chapter remains centered on affine spectra and quotient rings.  The full local-ring
+criterion belongs to VI/11, the global structure sheaf to VI/17, affine schemes as locally
+ringed spaces to VI/18, and integral schemes/function fields to VI/27.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item recognize nilpotent elements and compute the nilradical;
+\item decide whether a ring or affine quotient is reduced;
+\item construct and use the reduction $A_{\mathrm{red}}$;
+\item prove the universal property of reduction;
+\item explain precisely why $\Spec A$ and $\Spec A_{\mathrm{red}}$ have the same topology;
+\item translate radical ideals into reduced closed affine structures;
+\item distinguish reduced, irreducible, and integral affine geometry;
+\item analyze doubled points, double lines, and higher nilpotent thickenings;
+\item prove that reduction commutes with localization;
+\item test reducedness locally on a principal-open cover;
+\item understand how products, polynomial extensions, and quotients affect reducedness;
+\item recognize why base change can create nilpotents in positive characteristic;
+\item identify mathematical information that is invisible to the underlying spectrum.
+\end{itemize}
+
+\section{Nilpotents and the nilradical}
+
+\begin{definition}[Nilpotent element]
+An element $a\in A$ is \emph{nilpotent} if
+\[
+a^n=0
+\]
+for some integer $n\ge 1$.
+\end{definition}
+
+\begin{definition}[Nilradical]
+The \emph{nilradical} of $A$ is
+\[
+\Nil(A)=\sqrt{(0)}=\{a\in A:a^n=0\text{ for some }n\ge1\}.
+\]
+\end{definition}
+
+The nilpotent elements form an ideal.  Indeed, if $a^m=0$ and $b^n=0$, then every term in
+$(a+b)^{m+n}$ contains either at least $m$ factors of $a$ or at least $n$ factors of $b$,
+so $(a+b)^{m+n}=0$.  Also $(ra)^m=r^m a^m=0$ for every $r\in A$.
+
+From VI/08 we retain the fundamental identity
+\[
+\Nil(A)=\bigcap_{\mathfrak p\in\Spec A}\mathfrak p.
+\]
+Thus nilpotents lie in every prime ideal.  Equivalently, no point of the spectrum can
+separate a nilpotent element from zero.
+
+\begin{definition}[Reduced ring]
+A commutative ring $A$ is \emph{reduced} if it has no nonzero nilpotent elements, or
+equivalently if
+\[
+\Nil(A)=0.
+\]
+\end{definition}
+
+\begin{proposition}
+For a ring $A$, the following are equivalent:
+\begin{enumerate}
+\item $A$ is reduced;
+\item $(0)$ is a radical ideal;
+\item $a^n=0$ implies $a=0$ for every $a\in A$.
+\end{enumerate}
+\end{proposition}
+
+\section{The reduced quotient}
+
+Every ring has a canonical reduced quotient.
+
+\begin{definition}[Reduction of a ring]
+Define
+\[
+A_{\mathrm{red}}:=A/\Nil(A)=A/\sqrt{(0)}.
+\]
+\end{definition}
+
+\begin{proposition}
+The ring $A_{\mathrm{red}}$ is reduced.
+\end{proposition}
+
+\begin{proof}
+Suppose $\bar a\in A/\Nil(A)$ is nilpotent.  Then $\bar a^n=0$ for some $n$, so
+$a^n\in\Nil(A)$.  Hence $(a^n)^m=0$ for some $m$, and therefore $a^{nm}=0$.  Thus
+$a\in\Nil(A)$ and $\bar a=0$.
+\end{proof}
+
+The reduction is canonical in a stronger sense.
+
+\begin{theorem}[Universal property of reduction]
+Let $B$ be reduced and let $\varphi:A\to B$ be a ring homomorphism.  Then $\varphi$ factors
+uniquely through the quotient map $\pi:A\to A_{\mathrm{red}}$:
+\[
+\begin{tikzcd}[column sep=large]
+A \arrow[r,"\varphi"] \arrow[d,two heads,"\pi"'] & B\\
+A_{\mathrm{red}} \arrow[ur,dashed,"\bar\varphi"'] &
+\end{tikzcd}
+\]
+\end{theorem}
+
+\begin{proof}
+If $a\in\Nil(A)$, then $a^n=0$ for some $n$, so $\varphi(a)^n=0$.  Because $B$ is
+reduced, $\varphi(a)=0$.  Therefore $\Nil(A)\subseteq\ker\varphi$, and the universal
+property of quotients gives a unique map $\bar\varphi:A/\Nil(A)\to B$.
+\end{proof}
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_reduction_map.tex}
+
+\section{Why topology cannot see nilpotents}
+
+The quotient map $A\to A_{\mathrm{red}}$ does not change the prime spectrum.
+
+\begin{theorem}[Topological invariance under reduction]
+The quotient map induces a natural homeomorphism
+\[
+\Spec A_{\mathrm{red}}\xrightarrow{\sim}\Spec A.
+\]
+Under this homeomorphism, a prime $\mathfrak p/\Nil(A)$ corresponds to
+$\mathfrak p$.
+\end{theorem}
+
+\begin{proof}
+Prime ideals of $A/\Nil(A)$ correspond to prime ideals of $A$ containing $\Nil(A)$.
+Every prime ideal of $A$ contains the nilradical, so this gives a bijection on points.
+For any ideal $J\supseteq\Nil(A)$,
+\[
+V_{A/\Nil(A)}(J/\Nil(A))
+\longleftrightarrow
+V_A(J),
+\]
+so the bijection preserves closed sets and is a homeomorphism.
+\end{proof}
+
+Thus the underlying topological space of an affine spectrum remembers all prime ideals and
+all specialization relations, but forgets nilpotent thickness.
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_doubled_point.tex}
+
+\begin{remark}
+The word ``same'' must be used carefully.  Reduction preserves the underlying spectrum as a
+topological space, but it changes the ring of functions whenever $A$ has nonzero
+nilpotents.  The full scheme therefore changes even though its points and closed subsets do
+not.
+\end{remark}
+
+\section{Radical ideals and reduced quotients}
+
+Nilpotent structure appears naturally in quotients.
+
+\begin{theorem}
+Let $I\subseteq A$ be an ideal.  Then
+\[
+A/I\text{ is reduced}
+\quad\Longleftrightarrow\quad
+I\text{ is radical}.
+\]
+Moreover,
+\[
+(A/I)_{\mathrm{red}}\cong A/\sqrt I.
+\]
+\end{theorem}
+
+\begin{proof}
+The nilradical of $A/I$ is
+\[
+\Nil(A/I)=\sqrt{(0)}_{A/I}=\sqrt I/I.
+\]
+Thus $A/I$ is reduced exactly when $\sqrt I=I$.  Quotienting $A/I$ by its nilradical
+gives
+\[
+(A/I)/(\sqrt I/I)\cong A/\sqrt I.
+\]
+\end{proof}
+
+The topological equality
+\[
+V(I)=V(\sqrt I)
+\]
+therefore has a scheme-theoretic interpretation: $A/I$ and $A/\sqrt I$ define the same
+underlying closed subset, but the former may carry nilpotent structure.
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_radical_quotient.tex}
+
+\section{Reduced, irreducible, and integral are different notions}
+
+A reduced ring need not be a domain.  The basic example is
+\[
+k[x,y]/(xy),
+\]
+which is reduced but has zero divisors.  Its spectrum is the union of two irreducible
+components.
+
+Conversely, an irreducible spectrum need not come from a reduced ring.  For example,
+\[
+A=k[x,y]/(x^2)
+\]
+has reduction $k[y]$, so $\Spec A$ is homeomorphic to the affine line and is irreducible,
+but $\bar x\neq0$ and $\bar x^2=0$.
+
+\begin{theorem}[Affine integral criterion]
+For a ring $A$, the following are equivalent:
+\begin{enumerate}
+\item $A$ is an integral domain;
+\item $A$ is reduced and $\Spec A$ is irreducible.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+If $A$ is a domain, then it is reduced and $(0)$ is prime, so $\Spec A$ is irreducible.
+Conversely, if $A$ is reduced, then $\Nil(A)=0$.  If $\Spec A$ is irreducible, VI/05
+shows that $\Nil(A)$ is prime.  Hence $(0)$ is prime, so $A$ is a domain.
+\end{proof}
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_property_dictionary.tex}
+
+The corresponding theorem for arbitrary schemes is a substantive legacy problem and is
+reserved for VI/27, where the definition of an integral scheme and its function field are
+developed globally.
+
+\section{Nilpotent thickenings}
+
+The quotient $A/I$ depends on more than the support $V(I)$.  If $I$ is not radical, then
+$A/I$ contains nilpotents and should be thought of as a \emph{thickened} version of the
+reduced closed set defined by $\sqrt I$.
+
+The simplest family is
+\[
+A_n=k[t]/(t^n),\qquad n\ge1.
+\]
+Every $A_n$ has a one-point spectrum, but for $n>1$ the class of $t$ is a nonzero
+nilpotent.  The integer $n$ records a depth of infinitesimal structure invisible to the
+underlying point.
+
+A geometric two-variable example is the double line
+\[
+k[x,y]/(y^2).
+\]
+Its reduction is
+\[
+k[x,y]/(y)\cong k[x].
+\]
+Both have the same topological support $y=0$, but only the first remembers a first-order
+normal thickening of that line.
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_double_line.tex}
+
+\begin{definition}[Nilpotent thickening, affine form]
+Let $I\subseteq A$ be a nilpotent ideal, meaning $I^N=0$ for some $N$.  The quotient map
+\[
+A\twoheadrightarrow A/I
+\]
+induces a homeomorphism
+\[
+\Spec(A/I)\xrightarrow{\sim}\Spec A.
+\]
+We call this an affine nilpotent thickening relationship.
+\end{definition}
+
+The nilpotence hypothesis is stronger than necessary for the homeomorphism: it is enough
+that every element of $I$ be nilpotent, i.e. $I\subseteq\Nil(A)$.  In Noetherian rings the
+nilradical is nilpotent, but in arbitrary rings it need not be; Challenge VI.10.C1 explores
+this distinction.
+
+\section{Reduction and localization}
+
+Reducedness behaves well under localization.
+
+\begin{proposition}
+If $A$ is reduced and $S\subseteq A$ is multiplicatively closed, then $S^{-1}A$ is reduced.
+\end{proposition}
+
+\begin{proof}
+Suppose $(a/s)^n=0$ in $S^{-1}A$.  Then there exists $u\in S$ such that
+$ua^n=0$.  Hence $(ua)^n=u^n a^n=0$.  Since $A$ is reduced, $ua=0$, so $a/s=0$ in
+$S^{-1}A$.
+\end{proof}
+
+\begin{theorem}[Reduction commutes with localization]
+For $f\in A$, there is a natural isomorphism
+\[
+(A_{\mathrm{red}})_{\bar f}
+\cong
+(A_f)_{\mathrm{red}}.
+\]
+More generally, for every multiplicative set $S$,
+\[
+S^{-1}(A_{\mathrm{red}})\cong (S^{-1}A)_{\mathrm{red}}.
+\]
+\end{theorem}
+
+\begin{proof}
+Localization commutes with quotients:
+\[
+S^{-1}(A/\Nil(A))
+\cong
+S^{-1}A/S^{-1}\Nil(A).
+\]
+The nilradical of $S^{-1}A$ is exactly $S^{-1}\Nil(A)$.  Therefore the quotient on the
+right is the reduction of $S^{-1}A$.
+\end{proof}
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_localization_square.tex}
+
+Reducedness is also local in the Zariski topology.
+
+\begin{theorem}[Local criterion for reducedness]
+For a ring $A$, the following are equivalent:
+\begin{enumerate}
+\item $A$ is reduced;
+\item $A_{\mathfrak p}$ is reduced for every prime $\mathfrak p$;
+\item there exists a principal-open cover
+      $\Spec A=\bigcup_{i=1}^r D(f_i)$ such that each $A_{f_i}$ is reduced.
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+If $A$ is reduced, then every localization of $A$ is reduced, so (1) implies (2).
+
+Assume (2), and let $a\in A$ satisfy $a^n=0$.  Then $a/1=0$ in $A_{\mathfrak p}$ for
+every prime $\mathfrak p$.  If $a\ne0$, its annihilator $\operatorname{Ann}(a)$ is a
+proper ideal, so it is contained in some prime $\mathfrak p$.  But $a/1=0$ in
+$A_{\mathfrak p}$ means that some $s\notin\mathfrak p$ satisfies $sa=0$, hence
+$s\in\operatorname{Ann}(a)\subseteq\mathfrak p$, a contradiction.  Thus $a=0$, and
+(2) implies (1).
+
+Clearly (1) implies (3), for instance by the one-set principal-open cover
+$D(1)=\Spec A$.  Finally assume (3).  If $a^n=0$ in $A$, then $a/1=0$ in every
+$A_{f_i}$.  Hence for each $i$ there exists $N_i$ with $f_i^{N_i}a=0$.  Since the
+$D(f_i)$ cover $\Spec A$, the ideal $(f_1,\dots,f_r)$ has radical $(1)$.  Therefore
+some power of $(f_1,\dots,f_r)$ is contained in the ideal
+$(f_1^{N_1},\dots,f_r^{N_r})$ after enlarging the exponents if necessary; because the
+radical is $(1)$, this latter ideal is the unit ideal.  Thus a linear combination of
+elements annihilating $a$ equals $1$, and consequently $a=0$.  Hence (3) implies (1).
+\end{proof}
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_local_criterion.tex}
+
+\section{Basic constructions and reducedness}
+
+\begin{proposition}[Products]
+A finite product
+\[
+A_1\times\cdots\times A_r
+\]
+is reduced if and only if every $A_i$ is reduced.
+\end{proposition}
+
+\begin{proof}
+An element $(a_1,\dots,a_r)$ is nilpotent exactly when each coordinate $a_i$ is nilpotent.
+\end{proof}
+
+\begin{proposition}[Polynomial extensions]
+The polynomial ring $A[t]$ is reduced if and only if $A$ is reduced.
+\end{proposition}
+
+\begin{proof}
+If $A[t]$ is reduced then its subring of constant polynomials is reduced.  Conversely,
+assume $A$ is reduced and $f(t)^n=0$.  Every prime $\mathfrak p$ of $A$ gives a map
+\[
+A[t]\to (A/\mathfrak p)[t],
+\]
+and the target is a domain.  Hence the image of $f$ is zero for every prime
+$\mathfrak p$, so every coefficient of $f$ lies in every prime of $A$, hence in
+$\Nil(A)=0$.  Thus $f=0$.
+\end{proof}
+
+\begin{warning}[Quotients]
+A quotient of a reduced ring need not be reduced.  For example, $k[t]$ is reduced but
+\[
+k[t]/(t^2)
+\]
+is not.  The correct criterion is that the quotient ideal be radical.
+\end{warning}
+
+\section{Finite reduced algebras and discrete geometry}
+
+Reducedness becomes especially concrete in finite-dimensional algebras.
+
+\begin{proposition}
+Let $k$ be algebraically closed and let $A$ be a finite-dimensional commutative
+$k$-algebra.  If $A$ is reduced, then
+\[
+A\cong k^r
+\]
+for some $r\ge0$.
+\end{proposition}
+
+\begin{proof}
+A finite-dimensional $k$-algebra is Artinian, so it has finitely many maximal ideals
+$\mathfrak m_1,\dots,\mathfrak m_r$, and its nilradical equals the intersection of these
+maximal ideals.  Since $A$ is reduced,
+\[
+\bigcap_i\mathfrak m_i=0.
+\]
+Distinct maximal ideals are comaximal, so the Chinese remainder theorem gives
+\[
+A\cong\prod_i A/\mathfrak m_i.
+\]
+Each quotient is a finite field extension of the algebraically closed field $k$, hence is
+$k$.
+\end{proof}
+
+Thus a finite reduced affine $k$-scheme over an algebraically closed field is simply a
+finite collection of reduced points.  Nonreduced finite algebras are exactly where
+infinitesimal multiplicity enters.
+
+\section{Infinitesimal information carried by dual numbers}
+
+The dual numbers
+\[
+k[\varepsilon]/(\varepsilon^2)
+\]
+have only one point, but they can record first-order variation.  A $k$-algebra map
+\[
+k[t]\longrightarrow k[\varepsilon]/(\varepsilon^2)
+\]
+is determined by
+\[
+t\longmapsto a+b\varepsilon.
+\]
+All values of $b$ induce the same map on underlying topological points, namely the point
+$t=a$, but different values of $b$ are different ring maps.  The coefficient $b$ is an
+infinitesimal direction invisible to point-set topology.
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_infinitesimal_maps.tex}
+
+This observation is only a preview.  VI/32 will turn dual-number maps into tangent vectors
+and cotangent-space calculations.
+
+\section{Reducedness and base change: a warning}
+
+Localization and polynomial extension preserve reducedness, but arbitrary field extension
+need not.
+
+Let
+\[
+k=\FF_p(s),
+\qquad
+A=k[x]/(x^p-s).
+\]
+The polynomial $x^p-s$ is irreducible over $k$, so $A$ is a field and hence reduced.
+Now extend scalars to
+\[
+K=\FF_p(s^{1/p}).
+\]
+Writing $\alpha=s^{1/p}\in K$, characteristic $p$ gives
+\[
+x^p-s=(x-\alpha)^p.
+\]
+Therefore
+\[
+A\otimes_k K
+\cong
+K[x]/((x-\alpha)^p),
+\]
+which is nonreduced.
+
+\input{chapters/ch10_reduced_nonreduced_geometry/figures/vi10_base_change_failure.tex}
+
+This motivates a later refinement: a $k$-algebra is \emph{geometrically reduced} if it
+remains reduced after suitable field extensions.  The systematic theory belongs with base
+change in VI/24.
+
+\section{Comparison chart and common pitfalls}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.22}
+\begin{tabular}{p{0.20\textwidth}p{0.18\textwidth}p{0.20\textwidth}p{0.28\textwidth}}
+\toprule
+Ring & Reduced? & Irreducible? & Key feature\\
+\midrule
+$k[t]$ & yes & yes & domain\\
+$k[t]/(t^2)$ & no & yes & doubled point\\
+$k[x,y]/(xy)$ & yes & no & two reduced components\\
+$k[x,y]/(x^2)$ & no & yes & thickened line\\
+$k\times k$ & yes & no & two disconnected points\\
+$\ZZ/12\ZZ$ & no & no & nilpotents and several primes\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Keep the following distinctions explicit:
+\begin{itemize}
+\item ``Reduced'' means no nonzero nilpotents.  It says nothing by itself about the number
+      of irreducible components.
+\item ``Irreducible spectrum'' is a topological condition.  It does not force the ring to
+      be reduced.
+\item The spectrum cannot detect whether an ideal is $I$ or $\sqrt I$; quotient rings can.
+\item A one-point spectrum need not be a field and need not be reduced.
+\item A quotient of a reduced ring need not be reduced.
+\item Reducedness survives localization but can fail after inseparable base change.
+\item In a nonreduced irreducible ring, the generic point is $\Nil(A)$, not necessarily
+      $(0)$.
+\end{itemize}
+
+\section{Worked examples}
+\input{chapters/ch10_reduced_nonreduced_geometry/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch10_reduced_nonreduced_geometry/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section*{Hints to the exercises}
+\input{chapters/ch10_reduced_nonreduced_geometry/exercise_hints.tex}
+\fi
+
+\ifdefined\IncludeExerciseSolutions
+\section*{Solutions to the exercises}
+\input{chapters/ch10_reduced_nonreduced_geometry/exercise_solutions.tex}
+\fi
+
+\section{Problems}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch10_reduced_nonreduced_geometry/problems/index.tex}
+\else
+\begin{problem}
+Give and analyze a scheme that is not reduced, preserving the reducedness subproblem of a
+legacy counterexample collection.
+\end{problem}
+\begin{problem}
+Compare $\Spec k[t]/(t)$ and $\Spec k[t]/(t^n)$ topologically and algebraically.
+\end{problem}
+\begin{problem}
+Prove the universal property and idempotence of reduction.
+\end{problem}
+\begin{problem}
+Characterize radical ideals by reduced quotients and reduced closed structures.
+\end{problem}
+\begin{problem}
+Analyze the double line $k[x,y]/(y^2)$ and its reduction.
+\end{problem}
+\begin{problem}
+Prove the affine criterion: domain if and only if reduced with irreducible spectrum.
+\end{problem}
+\begin{problem}
+Prove reducedness is local on prime localizations and on finite principal-open covers.
+\end{problem}
+\begin{problem}
+Prove reduction commutes with localization and apply it to a nonreduced example.
+\end{problem}
+\begin{problem}
+Characterize squarefree principal hypersurfaces as reduced.
+\end{problem}
+\begin{problem}
+Classify finite-dimensional reduced algebras over an algebraically closed field.
+\end{problem}
+\begin{problem}
+Show dual-number maps record first-order data invisible on underlying points.
+\end{problem}
+\begin{problem}
+Characterize quotient maps by nil ideals that leave the entire spectrum unchanged.
+\end{problem}
+\begin{problem}
+Show reduction preserves idempotents and connected-component decompositions.
+\end{problem}
+\begin{problem}
+Construct a reduced algebra that becomes nonreduced after a purely inseparable field extension.
+\end{problem}
+\fi
+
+\section{Challenges}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch10_reduced_nonreduced_geometry/challenges/index.tex}
+\else
+\begin{problem}
+Construct a ring whose nilradical is not nilpotent even though its spectrum is a single point.
+\end{problem}
+\begin{problem}
+Characterize ideals $I$ for which $\Spec(A/I)\to\Spec A$ is a homeomorphism onto all of
+$\Spec A$.
+\end{problem}
+\begin{problem}
+Analyze the entire tower $k[t]/(t^n)$ and identify invariants that distinguish its infinitesimal layers.
+\end{problem}
+\fi
+
+\section{Boundary with the next chapters}
+
+VI/10 has shown exactly what prime-spectrum topology forgets.  VI/11 now restores local
+algebra at each point by attaching the local ring $A_{\mathfrak p}$ and residue field
+$\kappa(\mathfrak p)$.  VI/17 will organize regular functions into the structure sheaf,
+and VI/18 will package the topological space together with that sheaf as an affine scheme.
+Later VI/24 will return to the base-change warning and distinguish reduced from geometrically
+reduced objects; VI/27 will treat integral schemes and function fields globally.
