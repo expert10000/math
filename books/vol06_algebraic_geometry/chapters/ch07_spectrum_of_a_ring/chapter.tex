@@ -1,0 +1,420 @@
+% Canonical chapter: VI/07 - The Spectrum of a Ring
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{The Spectrum of a Ring}
+\label{ch:spectrum-of-a-ring}
+
+\section*{Purpose and learning goals}
+
+VI/06 explained why prime ideals behave like generalized geometric points.  We now place
+\emph{all} prime ideals of a ring into a single topological space:
+\[
+\Spec A=\{\mathfrak p\subsetneq A:\mathfrak p\text{ prime}\}.
+\]
+This is the decisive move from classical affine algebraic sets to scheme-theoretic geometry.
+The topology is built directly from ideal containment, so algebraic inclusions become
+geometric closure relations.
+
+This chapter develops the topology of $\Spec A$ itself.  VI/08 will refine the open sets
+through the distinguished basis $D(f)$ and localization; VI/09 will study generic and closed
+points systematically; VI/10 will separate topological information from nilpotent scheme
+structure; VI/11 will attach local rings and residue fields.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item construct $\Spec A$ from the prime ideals of a ring;
+\item prove that the sets $V(I)$ define the Zariski topology;
+\item manipulate closed sets through sums, products, intersections, and radicals of ideals;
+\item compute closures of points and arbitrary subsets of a spectrum;
+\item read prime inclusion as specialization;
+\item recognize quotient spectra as closed subspaces;
+\item analyze standard spectra such as $\Spec\ZZ$, $\Spec k[t]$, $\Spec(k[x,y]/(xy))$, and $\Spec(A\times B)$;
+\item construct the continuous map on spectra induced contravariantly by a ring homomorphism;
+\item compute the closure of the image of a spectrum map.
+\end{itemize}
+
+\section{The underlying set of the spectrum}
+
+\begin{definition}[Prime spectrum]
+For a commutative ring $A$ with identity,
+\[
+\Spec A=\{\mathfrak p\subsetneq A:\mathfrak p\text{ is a prime ideal}\}.
+\]
+\end{definition}
+
+The zero ring has empty spectrum, because it has no proper ideals.  If $K$ is a field, then
+\[
+\Spec K=\{(0)\}.
+\]
+Thus even the simplest rings already produce legitimate topological spaces.
+
+\begin{remark}
+A point of $\Spec A$ is literally a prime ideal.  The geometric meaning developed in VI/06
+is not metaphorical notation: the prime itself is the point.
+\end{remark}
+
+\section{Closed sets from ideals}
+
+\begin{definition}[Zariski closed set]
+For an ideal $I\subseteq A$, define
+\[
+V_A(I)=V(I)=\{\mathfrak p\in\Spec A:I\subseteq\mathfrak p\}.
+\]
+\end{definition}
+
+The containment condition is the entire mechanism:
+\[
+\mathfrak p\in V(I)\quad\Longleftrightarrow\quad I\subseteq\mathfrak p.
+\]
+
+\input{chapters/ch07_spectrum_of_a_ring/figures/vi07_closed_set_pipeline.tex}
+
+\begin{theorem}[Closed-set calculus]
+For ideals $I,J$ and a family $\{I_\lambda\}_{\lambda\in\Lambda}$,
+\[
+V((0))=\Spec A,\qquad V(A)=\varnothing,
+\]
+\[
+V(I)\cup V(J)=V(IJ)=V(I\cap J),
+\]
+and
+\[
+\bigcap_{\lambda\in\Lambda}V(I_\lambda)
+=
+V\!\left(\sum_{\lambda\in\Lambda}I_\lambda\right).
+\]
+Therefore the subsets $V(I)$ are exactly the closed sets of a topology on $\Spec A$.
+\end{theorem}
+
+\begin{proof}
+A prime contains $IJ$ iff it contains $I$ or $J$, which gives the finite-union formula.
+A prime contains every $I_\lambda$ iff it contains their sum, which gives arbitrary
+intersections.  The two extreme cases are immediate.
+\end{proof}
+
+\section{Reversal of inclusion}
+
+If $I\subseteq J$, then every prime containing $J$ also contains $I$, hence
+\[
+I\subseteq J
+\quad\Longrightarrow\quad
+V(J)\subseteq V(I).
+\]
+Algebra and geometry reverse order.
+
+\input{chapters/ch07_spectrum_of_a_ring/figures/vi07_inclusion_reversal.tex}
+
+This is the spectrum version of a principle already visible in affine algebraic sets:
+adding equations makes the geometric locus smaller.
+
+\section{Radicals are the topological information}
+
+\begin{proposition}
+For every ideal $I$,
+\[
+V(I)=V(\sqrt I).
+\]
+Moreover,
+\[
+V(I)=V(J)\quad\Longleftrightarrow\quad \sqrt I=\sqrt J.
+\]
+\end{proposition}
+
+\begin{proof}
+Every prime ideal is radical, so a prime contains $I$ iff it contains $\sqrt I$.
+For the converse statement use
+\[
+\sqrt I=\bigcap_{\mathfrak p\supseteq I}\mathfrak p.
+\]
+\end{proof}
+
+Thus the topology remembers radical ideals, not multiplicities.  The deeper consequence
+that nilpotent thickenings can have the same underlying topological spectrum is developed
+in VI/10.
+
+\section{Closure of a point and specialization}
+
+For a point $\mathfrak p\in\Spec A$,
+\[
+\overline{\{\mathfrak p\}}=V(\mathfrak p).
+\]
+
+\begin{theorem}[Specialization order]
+For $\mathfrak p,\mathfrak q\in\Spec A$,
+\[
+\mathfrak q\in\overline{\{\mathfrak p\}}
+\quad\Longleftrightarrow\quad
+\mathfrak p\subseteq\mathfrak q.
+\]
+When this holds, $\mathfrak q$ is called a \emph{specialization} of $\mathfrak p$ and
+$\mathfrak p$ a \emph{generalization} of $\mathfrak q$.
+\end{theorem}
+
+\input{chapters/ch07_spectrum_of_a_ring/figures/vi07_specialization_chain.tex}
+
+A larger prime ideal represents a more specialized point.  For instance,
+\[
+(0)\subsetneq(x)\subsetneq(x,y)
+\]
+in $k[x,y]$ becomes a specialization chain from the generic plane condition, to the
+$x=0$ line condition, to the origin.
+
+\begin{corollary}
+Every spectrum is a $T_0$ topological space.
+\end{corollary}
+
+\begin{proof}
+Distinct prime ideals have distinct closures because
+$\overline{\{\mathfrak p\}}=V(\mathfrak p)$ and prime ideals are radical.
+\end{proof}
+
+A spectrum is usually not $T_1$: a point is closed exactly when its prime ideal is maximal.
+VI/09 develops that distinction in detail.
+
+\section{Closure of an arbitrary subset}
+
+For $S\subseteq\Spec A$, define
+\[
+I(S)=\bigcap_{\mathfrak p\in S}\mathfrak p.
+\]
+
+\begin{theorem}[Closure formula]
+\[
+\overline S=V(I(S)).
+\]
+\end{theorem}
+
+\begin{proof}
+A closed set $V(J)$ contains $S$ iff $J\subseteq\mathfrak p$ for every $\mathfrak p\in S$,
+equivalently $J\subseteq I(S)$.  By inclusion reversal, the smallest such closed set is
+$V(I(S))$.
+\end{proof}
+
+This formula is a useful bridge between topology and intersections of prime ideals.
+
+\section{Irreducible closed subsets}
+
+\begin{proposition}
+A closed set $V(I)$ is irreducible iff $\sqrt I$ is prime.
+\end{proposition}
+
+\begin{proof}
+Since $V(I)=V(\sqrt I)$, reduce to a radical ideal.  If $\sqrt I=\mathfrak p$ is prime,
+then a decomposition
+\[
+V(\mathfrak p)=V(J)\cup V(K)=V(JK)
+\]
+forces $JK\subseteq\mathfrak p$, hence $J\subseteq\mathfrak p$ or $K\subseteq\mathfrak p$,
+so one closed set equals $V(\mathfrak p)$.  The converse is the standard prime-ideal
+criterion for irreducibility.
+\end{proof}
+
+This recovers, now intrinsically inside a spectrum, the prime/irreducible dictionary of VI/06.
+
+\section{Quotients give closed subspaces}
+
+Let $\pi:A\twoheadrightarrow A/I$ be the quotient map.  Prime correspondence gives
+\[
+\Spec(A/I)
+\longleftrightarrow
+\{\mathfrak p\in\Spec A:I\subseteq\mathfrak p\}
+=
+V_A(I).
+\]
+
+\begin{theorem}[Closed-subspace theorem for quotients]
+The correspondence
+\[
+\mathfrak q\longmapsto\pi^{-1}(\mathfrak q)
+\]
+is a homeomorphism
+\[
+\Spec(A/I)\cong V_A(I)
+\]
+where $V_A(I)$ carries the subspace topology.
+\end{theorem}
+
+\input{chapters/ch07_spectrum_of_a_ring/figures/vi07_quotient_closed_subspace.tex}
+
+\section{Standard spectra}
+
+Several spectra should become mental reference models.
+
+\subsection{$\Spec k[t]$}
+If $k$ is algebraically closed,
+\[
+\Spec k[t]=\{(0)\}\cup\{(t-a):a\in k\}.
+\]
+The zero prime specializes to every closed point.  Over a nonclosed field, irreducible
+polynomials of higher degree contribute additional closed points.
+
+\subsection{$\Spec\ZZ$}
+The points are
+\[
+(0),\quad (2),\quad(3),\quad(5),\dots.
+\]
+The point $(0)$ specializes to every prime-number point.  For $n\neq0$,
+\[
+V(n)=\{(p):p\mid n\}.
+\]
+
+\input{chapters/ch07_spectrum_of_a_ring/figures/vi07_spec_z.tex}
+
+\subsection{The crossing axes}
+For
+\[
+R=k[x,y]/(xy),
+\]
+the minimal primes $(\bar x)$ and $(\bar y)$ are the two component points.  Closed points
+on the axes specialize from one of those component primes, while the origin
+$(\bar x,\bar y)$ lies on both components.
+
+\input{chapters/ch07_spectrum_of_a_ring/figures/vi07_crossing_axes.tex}
+
+\section{Contravariance: ring maps reverse direction}
+
+Let $\varphi:A\to B$ be a ring homomorphism.
+
+\begin{proposition}
+If $\mathfrak q\in\Spec B$, then $\varphi^{-1}(\mathfrak q)\in\Spec A$.
+Hence
+\[
+\varphi^\ast:\Spec B\longrightarrow\Spec A,
+\qquad
+\mathfrak q\longmapsto\varphi^{-1}(\mathfrak q)
+\]
+is well defined.
+\end{proposition}
+
+\begin{theorem}[Continuity of the induced map]
+For every ideal $I\subseteq A$,
+\[
+(\varphi^\ast)^{-1}(V_A(I))=V_B(IB),
+\]
+where $IB$ denotes the ideal generated by $\varphi(I)$ in $B$.  Therefore
+$\varphi^\ast$ is continuous.
+\end{theorem}
+
+\begin{proof}
+A prime $\mathfrak q$ lies in the left side iff
+$I\subseteq\varphi^{-1}(\mathfrak q)$, equivalently $\varphi(I)\subseteq\mathfrak q$,
+equivalently $IB\subseteq\mathfrak q$.
+\end{proof}
+
+\input{chapters/ch07_spectrum_of_a_ring/figures/vi07_contravariance.tex}
+
+Identity maps and compositions behave as expected:
+\[
+(\operatorname{id}_A)^\ast=\operatorname{id}_{\Spec A},
+\qquad
+(\psi\circ\varphi)^\ast=\varphi^\ast\circ\psi^\ast.
+\]
+Thus $\Spec$ reverses arrows.
+
+\section{The closure of the image of a spectrum map}
+
+\begin{theorem}[Image-closure theorem]
+For $\varphi:A\to B$,
+\[
+\overline{\varphi^\ast(\Spec B)}=V_A(\ker\varphi).
+\]
+\end{theorem}
+
+\begin{proof}
+The ideal of the image is
+\[
+\bigcap_{\mathfrak q\in\Spec B}\varphi^{-1}(\mathfrak q)
+=
+\varphi^{-1}\!\left(\sqrt{(0)_B}\right).
+\]
+An element $a\in A$ lies in this preimage exactly when $\varphi(a)$ is nilpotent, equivalently
+$a^n\in\ker\varphi$ for some $n$.  Hence the ideal is $\sqrt{\ker\varphi}$, and the closure
+formula gives
+\[
+V_A(\sqrt{\ker\varphi})=V_A(\ker\varphi).
+\]
+\end{proof}
+
+\begin{corollary}
+If $\varphi$ is injective, then $\varphi^\ast(\Spec B)$ is dense in $\Spec A$.
+If $\varphi$ is surjective, $\varphi^\ast$ is a homeomorphism onto the closed set
+$V(\ker\varphi)$.
+\end{corollary}
+
+\section{Comparison chart}
+
+\begin{center}
+\renewcommand{\arraystretch}{1.22}
+\begin{tabular}{p{0.22\textwidth}p{0.27\textwidth}p{0.39\textwidth}}
+\toprule
+\textbf{Ring} & \textbf{Spectrum points} & \textbf{Topological picture}\\
+\midrule
+field $K$ & $(0)$ & one closed point\\
+$k[t]$, $k$ algebraically closed & $(0)$ and $(t-a)$ & one generic direction specializing to all ordinary points\\
+$\ZZ$ & $(0)$ and $(p)$ & arithmetic generic point plus one closed point for each prime number\\
+$k[x,y]/(xy)$ & two minimal-prime families meeting at closed points & two irreducible components with shared specializations\\
+$A\times B$ & primes from $A$ or from $B$ & disjoint union $\Spec A\sqcup\Spec B$\\
+$k[\varepsilon]/(\varepsilon^2)$ & $(\varepsilon)$ & one point; topology cannot see the nilpotent thickening\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Worked examples}
+\input{chapters/ch07_spectrum_of_a_ring/examples.tex}
+
+\section{Exercises}
+\input{chapters/ch07_spectrum_of_a_ring/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section*{Hints to the exercises}
+\input{chapters/ch07_spectrum_of_a_ring/exercise_hints.tex}
+\fi
+
+\ifdefined\IncludeExerciseSolutions
+\section*{Solutions to the exercises}
+\input{chapters/ch07_spectrum_of_a_ring/exercise_solutions.tex}
+\fi
+
+\section{Problems}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch07_spectrum_of_a_ring/problems/index.tex}
+\else
+\begin{problem}Describe the topological spaces $\Spec\RR[x]$, $\Spec\CC[x,y]$, $\Spec\ZZ[x]$, and $\Spec\FF_p[x]$.\end{problem}
+\begin{problem}Prove the complete closed-set calculus for $V(I)$ and identify the radical information remembered by the topology.\end{problem}
+\begin{problem}Compute closure and specialization relations for arbitrary subsets of $\Spec A$.\end{problem}
+\begin{problem}Determine the topology of $\Spec\ZZ$ and of $\Spec(\ZZ/n\ZZ)$.\end{problem}
+\begin{problem}Analyze the full specialization geometry of $\Spec(k[x,y]/(xy))$.\end{problem}
+\begin{problem}Prove that $\Spec(A/I)$ is homeomorphic to $V(I)\subseteq\Spec A$.\end{problem}
+\begin{problem}Prove continuity and functoriality of the map on spectra induced by a ring homomorphism.\end{problem}
+\begin{problem}Prove the image-closure theorem $\overline{\operatorname{im}\varphi^\ast}=V(\ker\varphi)$.\end{problem}
+\begin{problem}Describe $\Spec(A\times B)$ as a disjoint union.\end{problem}
+\begin{problem}Analyze the map $\Spec k[x]\to\Spec k[t]$ induced by $t\mapsto x^2$.\end{problem}
+\begin{problem}Classify the prime specialization levels of $\Spec k[x,y]$ for algebraically closed $k$.\end{problem}
+\begin{problem}Reconstruct the radical ideal lattice from the closed-set lattice of $\Spec A$.\end{problem}
+\fi
+
+\section{Challenges}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch07_spectrum_of_a_ring/challenges/index.tex}
+\else
+\begin{problem}Show every irreducible closed subset of $\Spec A$ has a unique generic point.\end{problem}
+\begin{problem}Prove $\Spec(A_{\mathrm{red}})\to\Spec A$ is a homeomorphism.\end{problem}
+\begin{problem}Analyze the contraction map $\Spec\CC[x]\to\Spec\RR[x]$ and the behavior of conjugate closed points.\end{problem}
+\fi
+
+\section{Boundary with the next chapters}
+
+The topology of $\Spec A$ is now in place.  The next four chapters refine different aspects
+without changing the underlying definition:
+\[
+\text{VI/08: }D(f)\text{ and localization},
+\qquad
+\text{VI/09: generic and closed points},
+\]
+\[
+\text{VI/10: reduced versus nonreduced geometry},
+\qquad
+\text{VI/11: local rings and residue fields}.
+\]
+This division is important: VI/07 constructs the topological space; the later chapters add
+local and scheme-theoretic structure.
