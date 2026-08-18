@@ -1,0 +1,488 @@
+% Canonical chapter: VI/11 - Local Rings and Residue Fields
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Local Rings and Residue Fields}
+\label{ch:local-rings-residue-fields}
+\providecommand{\Nil}{\operatorname{Nil}}
+
+\section*{Purpose and learning goals}
+
+The spectrum of a ring tells us where the prime ideals are and how they specialize, but it
+still treats each point largely as a topological position.  Local algebra adds the next layer.
+Given a point $\mathfrak p\in\Spec A$, we invert every element that does not vanish at that
+point and obtain the local ring
+\[
+A_{\mathfrak p}.
+\]
+This ring records algebraic information visible arbitrarily near $\mathfrak p$.  Its unique
+maximal ideal is $\mathfrak pA_{\mathfrak p}$, and quotienting by that maximal ideal gives
+the residue field
+\[
+\kappa(\mathfrak p)=A_{\mathfrak p}/\mathfrak pA_{\mathfrak p}.
+\]
+The residue field is the correct field of values at a scheme-theoretic point.
+
+This chapter is intentionally example-rich.  In addition to the main worked-example section,
+there is a separate \emph{Advanced examples} section containing arithmetic, reducible,
+nonreduced, and singular local rings.  The examples are drawn from and expand the legacy
+commutative-algebra corpus, especially its detailed calculations in $k[t]$, $\mathbb R[t]$,
+$\mathbb Z$, finite fields, crossing components, and mixed rings such as $\mathbb Z[x]$.
+
+We remain primarily in affine algebra.  The formal construction of stalks from sheaves comes
+in VI/13, the structure sheaf in VI/17, affine schemes as locally ringed spaces in VI/18,
+fibers in VI/25, integral schemes and function fields in VI/27, and tangent spaces in VI/32.
+Where these ideas naturally appear here, we mark them as previews rather than importing the
+later chapters wholesale.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item recognize and characterize local rings abstractly;
+\item compute units and the unique maximal ideal in a local ring;
+\item construct $A_{\mathfrak p}$ and determine its units and maximal ideal;
+\item identify $\Spec A_{\mathfrak p}$ with the generalizations of $\mathfrak p$;
+\item compute residue fields by both localization and quotient methods;
+\item prove $\kappa(\mathfrak p)\cong\Frac(A/\mathfrak p)$;
+\item distinguish rational, non-rational closed, and generic points via residue fields;
+\item compute local rings at smooth points, crossings, generic points, and nonreduced points;
+\item compare local rings before and after restricting to a principal open;
+\item combine quotients and localization correctly;
+\item recognize local homomorphisms and the induced maps on residue fields;
+\item use local rings to see when components disappear after localization;
+\item work comfortably with arithmetic local rings such as $\mathbb Z_{(p)}$;
+\item interpret the short exact sequence
+      $0\to\mathfrak m\to A\to A/\mathfrak m\to0$ in local geometry;
+\item avoid common confusions between $A_f$, $A_{\mathfrak p}$, $A/\mathfrak p$, and
+      $\kappa(\mathfrak p)$.
+\end{itemize}
+
+\section{Local rings as algebraic objects}
+
+\begin{definition}[Local ring]
+A commutative ring $R$ is \emph{local} if it has a unique maximal ideal.  We usually write
+\[
+(R,\mathfrak m)
+\]
+for a local ring together with its maximal ideal.
+\end{definition}
+
+The most useful test for locality is a statement about units.
+
+\begin{theorem}[Units and nonunits in a local ring]
+For a commutative ring $R$, the following are equivalent:
+\begin{enumerate}
+\item $R$ is local;
+\item the set of nonunits of $R$ is an ideal;
+\item there exists a proper ideal $\mathfrak m$ such that every element of
+      $R\setminus\mathfrak m$ is a unit;
+\item for every $a\in R$, at least one of $a$ and $1-a$ is a unit.
+\end{enumerate}
+When these conditions hold, the nonunits are exactly the unique maximal ideal $\mathfrak m$.
+\end{theorem}
+
+\begin{proof}
+If $R$ has unique maximal ideal $\mathfrak m$, every nonunit lies in some maximal ideal and
+therefore lies in $\mathfrak m$; conversely no element of $\mathfrak m$ is a unit.  Hence the
+nonunits are exactly $\mathfrak m$ and form an ideal.  This proves $(1)\Rightarrow(2)$ and
+$(2)\Rightarrow(3)$ is immediate.
+
+If $(3)$ holds and $\mathfrak n$ is any maximal ideal, then $\mathfrak n$ contains no unit,
+so $\mathfrak n\subseteq\mathfrak m$.  Maximality forces $\mathfrak n=\mathfrak m$, proving
+$(3)\Rightarrow(1)$.
+
+Finally, if $R$ is local and both $a$ and $1-a$ were nonunits, then both would lie in
+$\mathfrak m$, forcing $1\in\mathfrak m$.  Conversely, assume condition $(4)$.  If two
+maximal ideals $\mathfrak m\neq\mathfrak n$ existed, choose $a\in\mathfrak m$ and
+$b\in\mathfrak n$ with $a+b=1$ after using $\mathfrak m+\mathfrak n=R$.  Then $a$ and
+$1-a=b$ would both be nonunits, contradiction.
+\end{proof}
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_units_nonunits.tex}
+
+\begin{corollary}
+If $(R,\mathfrak m)$ is local, then
+\[
+R^\times=R\setminus\mathfrak m.
+\]
+In particular, every element is either a unit or lies in the maximal ideal.
+\end{corollary}
+
+\section{Localization at a prime}
+
+Let $A$ be a ring and $\mathfrak p\in\Spec A$.  We localize at the multiplicative set
+\[
+S=A\setminus\mathfrak p.
+\]
+The resulting ring is
+\[
+A_{\mathfrak p}=S^{-1}A.
+\]
+An element is represented by a fraction $a/s$ with $s\notin\mathfrak p$.
+
+\begin{theorem}[Prime localization is local]
+The ring $A_{\mathfrak p}$ is local.  Its unique maximal ideal is
+\[
+\mathfrak pA_{\mathfrak p}
+=
+\left\{\frac{a}{s}:a\in\mathfrak p,\ s\notin\mathfrak p\right\}.
+\]
+Moreover,
+\[
+\frac{a}{s}\in A_{\mathfrak p}
+\quad\text{is a unit}\quad
+\Longleftrightarrow\quad
+a\notin\mathfrak p.
+\]
+\end{theorem}
+
+\begin{proof}
+If $a\notin\mathfrak p$, then $a$ belongs to the multiplicative set, so
+$(a/s)^{-1}=s/a$.  If $a\in\mathfrak p$ and $a/s$ were a unit, there would be $b/t$ with
+$ab/(st)=1$.  After clearing denominators, some element outside $\mathfrak p$ would lie in
+$(a)\subseteq\mathfrak p$, impossible.  Thus the nonunits are exactly
+$\mathfrak pA_{\mathfrak p}$, and the preceding theorem shows that this is the unique
+maximal ideal.
+\end{proof}
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_global_local_residue.tex}
+
+\section{The local spectrum and generalizations}
+
+Localization at a prime has a clean geometric meaning.
+
+\begin{theorem}[Prime ideals of $A_{\mathfrak p}$]
+Contraction and extension give an inclusion-preserving bijection
+\[
+\Spec A_{\mathfrak p}
+\longleftrightarrow
+\{\mathfrak q\in\Spec A:\mathfrak q\subseteq\mathfrak p\}.
+\]
+Under the canonical map $\Spec A_{\mathfrak p}\to\Spec A$, the image consists exactly of
+the generalizations of $\mathfrak p$.
+\end{theorem}
+
+\begin{proof}
+Prime ideals of a localization $S^{-1}A$ correspond to prime ideals of $A$ disjoint from
+$S$.  Here $S=A\setminus\mathfrak p$, so disjointness means every element of
+$\mathfrak q$ lies in $\mathfrak p$, i.e. $\mathfrak q\subseteq\mathfrak p$.
+\end{proof}
+
+Thus the unique closed point of $\Spec A_{\mathfrak p}$ is
+$\mathfrak pA_{\mathfrak p}$, while smaller primes appear as more generic points.
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_local_spectrum.tex}
+
+\begin{remark}[A local spectrum is not usually an open neighborhood]
+The image $\{\mathfrak q:\mathfrak q\subseteq\mathfrak p\}$ need not be open in
+$\Spec A$.  Localization at a single element $f$ produces the open subset $D(f)$;
+localization at a prime is a different operation that inverts \emph{all} elements outside
+$\mathfrak p$.
+\end{remark}
+
+\section{Residue fields}
+
+\begin{definition}[Residue field]
+For $\mathfrak p\in\Spec A$, the \emph{residue field at $\mathfrak p$} is
+\[
+\kappa(\mathfrak p)
+:=A_{\mathfrak p}/\mathfrak pA_{\mathfrak p}.
+\]
+\end{definition}
+
+The canonical map
+\[
+A\longrightarrow A_{\mathfrak p}\longrightarrow\kappa(\mathfrak p)
+\]
+has kernel exactly $\mathfrak p$.  Thus elements of $A$ can be ``evaluated'' at
+$\mathfrak p$, but the values need not lie in the original ground field.
+
+\begin{theorem}[Computational formula for residue fields]
+For every prime ideal $\mathfrak p\subseteq A$,
+\[
+\boxed{
+\kappa(\mathfrak p)
+\cong
+\Frac(A/\mathfrak p).
+}
+\]
+\end{theorem}
+
+\begin{proof}
+Localize the quotient map $A\to A/\mathfrak p$ at $S=A\setminus\mathfrak p$.  This gives
+\[
+A_{\mathfrak p}/\mathfrak pA_{\mathfrak p}
+\cong
+S^{-1}(A/\mathfrak p).
+\]
+Since $A/\mathfrak p$ is a domain and the image of $S$ is its set of nonzero elements,
+this localization is exactly its field of fractions.
+\end{proof}
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_residue_formula.tex}
+
+\begin{corollary}[Maximal ideals]
+If $\mathfrak m$ is maximal, then
+\[
+\kappa(\mathfrak m)\cong A/\mathfrak m,
+\]
+because $A/\mathfrak m$ is already a field.
+\end{corollary}
+
+\section{Rational, non-rational, and generic points}
+
+Suppose $A$ is a $k$-algebra.  A closed point $\mathfrak m$ is $k$-rational when the
+structural map $k\to\kappa(\mathfrak m)$ is an isomorphism.  If $k$ is not algebraically
+closed, closed points can have larger residue fields.
+
+At the opposite extreme, if $A$ is a domain and $\eta=(0)$ is the generic point, then
+\[
+\kappa(\eta)=\Frac(A).
+\]
+More generally, the generic point $\mathfrak p$ of the irreducible closed subset
+$V(\mathfrak p)$ carries the field
+\[
+\kappa(\mathfrak p)=\Frac(A/\mathfrak p),
+\]
+which is the function field of that irreducible piece.
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_point_types.tex}
+
+\section{Local rings inside principal opens}
+
+Suppose $f\notin\mathfrak p$.  Then $\mathfrak p\in D(f)$ and the corresponding prime of
+$A_f$ is $\mathfrak pA_f$.
+
+\begin{proposition}[Local ring does not change after shrinking around the point]
+If $f\notin\mathfrak p$, then there are canonical isomorphisms
+\[
+(A_f)_{\mathfrak pA_f}\cong A_{\mathfrak p},
+\qquad
+\kappa_{A_f}(\mathfrak pA_f)\cong\kappa_A(\mathfrak p).
+\]
+\end{proposition}
+
+\begin{proof}
+In $A_{\mathfrak p}$ the element $f$ is already invertible, so the universal property of
+localization gives $A_f\to A_{\mathfrak p}$.  Localizing $A_f$ at
+$\mathfrak pA_f$ then inverts exactly the remaining elements outside $\mathfrak p$, giving
+$A_{\mathfrak p}$.  The residue-field isomorphism follows by quotienting by the maximal
+ideals.
+\end{proof}
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_shrink_invariance.tex}
+
+This proposition is the algebraic reason a local ring depends only on an arbitrarily small
+affine neighborhood of the point.
+
+\section{Quotients and local rings}
+
+Let $I\subseteq\mathfrak p$.  The point $\mathfrak p$ of $\Spec A$ corresponds to the
+point $\mathfrak p/I$ of $\Spec(A/I)$.
+
+\begin{proposition}[Localization after quotient]
+There is a canonical isomorphism
+\[
+(A/I)_{\mathfrak p/I}
+\cong
+A_{\mathfrak p}/IA_{\mathfrak p}.
+\]
+The two points have the same residue field:
+\[
+\kappa_{A/I}(\mathfrak p/I)
+\cong
+\kappa_A(\mathfrak p).
+\]
+\end{proposition}
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_quotient_localization.tex}
+
+The quotient changes the local ring by imposing the equations $I$, but once we reach the
+residue field at a point containing $I$, those equations already vanish.
+
+\section{When a fraction or germ is zero}
+
+A subtle but important localization test is the following.
+
+\begin{proposition}[Zero in a localization]
+For $a\in A$,
+\[
+\frac{a}{1}=0\text{ in }A_{\mathfrak p}
+\]
+if and only if there exists $s\notin\mathfrak p$ such that
+\[
+sa=0\text{ in }A.
+\]
+\end{proposition}
+
+Thus an element can vanish in the local ring without being globally zero: it is enough that
+some element nonvanishing at $\mathfrak p$ kills it.  Geometrically, the element vanishes on
+some principal neighborhood of the point.
+
+\section{Maps of local rings}
+
+Let $\varphi:A\to B$ be a ring homomorphism and let $\mathfrak q\in\Spec B$.  Set
+\[
+\mathfrak p=\varphi^{-1}(\mathfrak q).
+\]
+Every element of $A\setminus\mathfrak p$ maps outside $\mathfrak q$, so there is a canonical
+localized homomorphism
+\[
+\varphi_{\mathfrak q}:A_{\mathfrak p}\longrightarrow B_{\mathfrak q}.
+\]
+
+\begin{definition}[Local homomorphism]
+A homomorphism of local rings
+\[
+(R,\mathfrak m)\longrightarrow(S,\mathfrak n)
+\]
+is \emph{local} if the inverse image of $\mathfrak n$ is $\mathfrak m$.
+\end{definition}
+
+\begin{proposition}
+The map $A_{\mathfrak p}\to B_{\mathfrak q}$ above is local and induces an injective field
+homomorphism
+\[
+\kappa(\mathfrak p)\longrightarrow\kappa(\mathfrak q).
+\]
+\end{proposition}
+
+\begin{proof}
+An element $a/s$ maps into $\mathfrak qB_{\mathfrak q}$ exactly when
+$\varphi(a)\in\mathfrak q$, equivalently $a\in\mathfrak p$.  Hence the inverse image of
+the maximal ideal is $\mathfrak pA_{\mathfrak p}$.  Quotienting produces a unital field
+homomorphism between residue fields, and every unital field homomorphism is injective.
+\end{proof}
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_local_map.tex}
+
+\section{The local exact sequence}
+
+Every local ring $(R,\mathfrak m)$ sits in the canonical short exact sequence
+\[
+0\longrightarrow\mathfrak m
+\longrightarrow R
+\longrightarrow R/\mathfrak m
+\longrightarrow0.
+\]
+For $R=A_{\mathfrak p}$ this becomes
+\[
+0\longrightarrow\mathfrak pA_{\mathfrak p}
+\longrightarrow A_{\mathfrak p}
+\longrightarrow\kappa(\mathfrak p)
+\longrightarrow0.
+\]
+The maximal ideal consists of local functions vanishing at the point, while the quotient is
+their value field.
+
+\section{Local rings can reveal geometry invisible globally}
+
+Two nearby points on the same reducible scheme can have very different local rings.  On
+\[
+X=\Spec k[x,y]/(xy),
+\]
+the origin sees both components, so its local ring has zero divisors.  At a point on the
+$x$-axis with $x\neq0$, the element $x$ becomes invertible; the relation $xy=0$ then forces
+$y=0$, and locally the other component disappears.  This is the simplest model of how local
+algebra isolates the geometry actually passing through a point.
+
+\input{chapters/ch11_local_rings_residue_fields/figures/vi11_crossing_local.tex}
+
+\section{A comparison chart}
+
+\begin{center}
+\small
+\renewcommand{\arraystretch}{1.25}
+\begin{tabular}{p{0.20\textwidth}p{0.22\textwidth}p{0.23\textwidth}p{0.24\textwidth}}
+\toprule
+Point & Local ring & Maximal ideal & Residue field\\
+\midrule
+$(t-a)\subset k[t]$ & $k[t]_{(t-a)}$ & $(t-a)$ locally & $k$\\
+$(0)\subset k[t]$ & $k(t)$ & $(0)$ & $k(t)$\\
+$(p)\subset\ZZ$ & $\ZZ_{(p)}$ & $p\ZZ_{(p)}$ & $\FF_p$\\
+$(t^2+1)\subset\RR[t]$ & $\RR[t]_{(t^2+1)}$ & $(t^2+1)$ locally & $\CC$\\
+$(x)\subset k[x,y]/(xy)$ & $k(y)$ & $(0)$ & $k(y)$\\
+$(x,y)\subset k[x,y]/(xy)$ & $A_{(x,y)}$ & $(x,y)A_{(x,y)}$ & $k$\\
+$(\varepsilon)\subset k[\varepsilon]/(\varepsilon^2)$ & same ring & $(\varepsilon)$ & $k$\\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\section{Common pitfalls}
+
+Keep the following distinctions explicit:
+\begin{itemize}
+\item $A_f$ is the ring on a principal open $D(f)$; $A_{\mathfrak p}$ is the local ring
+      obtained by inverting every element outside $\mathfrak p$.
+\item $A/\mathfrak p$ is a domain, but it need not be a field unless $\mathfrak p$ is
+      maximal.  The residue field is $\Frac(A/\mathfrak p)$.
+\item A closed point need not be rational over the chosen base field.
+\item A local ring need not be a domain, reduced, Noetherian, or zero-dimensional.
+\item A one-point spectrum need not be a field: $k[\varepsilon]/(\varepsilon^2)$ is the
+      standard counterexample.
+\item Localization can make a component disappear because elements outside the chosen prime
+      become units.
+\item If $\mathfrak p\subsetneq\mathfrak q$, the natural map of local rings goes
+      $A_{\mathfrak q}\to A_{\mathfrak p}$, not the other way around.
+\item There is generally no canonical residue-field map associated merely to a specialization
+      $\mathfrak p\subsetneq\mathfrak q$; residue-field maps arise naturally from morphisms of
+      schemes/ring maps together with chosen points above one another.
+\end{itemize}
+
+\section{Worked examples}
+\input{chapters/ch11_local_rings_residue_fields/examples.tex}
+
+\section{Advanced examples}
+\input{chapters/ch11_local_rings_residue_fields/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch11_local_rings_residue_fields/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section*{Hints to the exercises}
+\input{chapters/ch11_local_rings_residue_fields/exercise_hints.tex}
+\fi
+
+\ifdefined\IncludeExerciseSolutions
+\section*{Solutions to the exercises}
+\input{chapters/ch11_local_rings_residue_fields/exercise_solutions.tex}
+\fi
+
+\section{Problems}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch11_local_rings_residue_fields/problems/index.tex}
+\else
+\begin{problem}Characterize local rings by units and nonunits.\end{problem}
+\begin{problem}Prove that $A_{\mathfrak p}$ is local and determine its units.\end{problem}
+\begin{problem}Describe $\Spec A_{\mathfrak p}$ as the generalizations of $\mathfrak p$.\end{problem}
+\begin{problem}Derive and apply $\kappa(\mathfrak p)\cong\Frac(A/\mathfrak p)$.\end{problem}
+\begin{problem}Compare local rings on the crossing $xy=0$ at and away from the node.\end{problem}
+\begin{problem}Analyze the arithmetic local ring $\ZZ_{(p)}$.\end{problem}
+\begin{problem}Classify residue fields of closed points of $\Spec\FF_q[t]$.\end{problem}
+\begin{problem}Prove quotient-localization compatibility at a point.\end{problem}
+\begin{problem}Prove local rings are unchanged after shrinking to a principal neighborhood.\end{problem}
+\begin{problem}Construct local homomorphisms from ring maps and determine residue-field maps.\end{problem}
+\begin{problem}Analyze the dual numbers as a nonreduced local ring.\end{problem}
+\begin{problem}Prove the local zero criterion and interpret it geometrically.\end{problem}
+\begin{problem}Analyze localizations of product rings at their prime ideals.\end{problem}
+\begin{problem}Compare the local ring of a cusp with the local ring of its parametrizing line.\end{problem}
+\begin{problem}Study a specialization chain through its induced maps of local rings.\end{problem}
+\begin{problem}Compute a mixed arithmetic-geometric local ring in $\ZZ[x]$.\end{problem}
+\fi
+
+\section{Challenges}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch11_local_rings_residue_fields/challenges/index.tex}
+\else
+\begin{problem}Construct and classify a family of one-point local Artin rings with the same residue field.\end{problem}
+\begin{problem}Show that localizing a reduced ring at all minimal primes produces the total ring of fractions in a finite-minimal-prime case.\end{problem}
+\begin{problem}Analyze the local ring and residue extension at a closed point of an arithmetic curve.\end{problem}
+\begin{problem}Relate chains in $\Spec A_{\mathfrak p}$ to chains of generalizations of $\mathfrak p$.\end{problem}
+\fi
+
+\section{Boundary with the next chapters}
+
+VI/11 completes Part II by attaching concrete local algebra to points of spectra.  VI/12 begins
+Part III with presheaves, VI/13 turns compatible local data into stalks, and VI/17 constructs
+the structure sheaf whose stalk at $\mathfrak p$ recovers $A_{\mathfrak p}$.  VI/18 then
+packages these data into affine schemes.  Later VI/25 uses residue fields to define fibers,
+VI/27 develops function fields globally, and VI/32 uses
+$\mathfrak m/\mathfrak m^2$ to build tangent spaces.
