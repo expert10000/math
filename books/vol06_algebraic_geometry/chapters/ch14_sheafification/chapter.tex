@@ -1,0 +1,501 @@
+% Canonical chapter: VI/14 - Sheafification
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Sheafification}
+\label{ch:sheafification}
+\providecommand{\id}{\operatorname{id}}
+\providecommand{\PreSh}{\mathbf{PreSh}}
+\providecommand{\Sh}{\mathbf{Sh}}
+\providecommand{\colim}{\operatorname*{colim}}
+\providecommand{\Et}{E_{\mathcal F}}
+
+\section*{Purpose and learning goals}
+
+VI/12 introduced presheaves and VI/13 imposed the local-to-global sheaf axiom.  The next
+question is unavoidable: what should one do with a useful presheaf that fails locality or
+gluing?  \emph{Sheafification} is the canonical repair.  It replaces a presheaf by a sheaf
+without changing its germs at any point, and it is characterized by a universal mapping
+property rather than by an arbitrary choice of construction.
+
+This chapter treats sheafification from three complementary viewpoints:
+\begin{enumerate}
+\item the universal property, which says what the associated sheaf \emph{is};
+\item the espace \'{e}tal\'{e} construction, which proves existence concretely from stalks;
+\item the plus construction, which makes the ``separate, then glue'' mechanism explicit.
+\end{enumerate}
+The ordinary and advanced example banks are intentionally large.  They show both ways in
+which sheafification changes a presheaf: it may \emph{add} locally compatible sections, and
+it may \emph{identify or kill} sections that have the same germs.
+
+A corpus-wide legacy-problem ledger is now maintained for Volume VI.  The central legacy
+item of this chapter is AG1 Exercise 4, a long associated-sheaf problem requiring existence,
+the canonical morphism, the universal property, preservation of stalks, functoriality, and
+the adjunction.  It is preserved as VI.14.P1 at essentially its full mathematical depth and
+merged with the preferred reorganized sheaf notes rather than duplicated.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item state the universal property of the associated sheaf;
+\item distinguish a construction of sheafification from its universal characterization;
+\item build the espace \'{e}tal\'{e} $E_{\mathcal F}=\coprod_x\mathcal F_x$;
+\item prove that the germ images $\widetilde s(U)$ form a basis for a topology on $E_{\mathcal F}$;
+\item construct the associated sheaf as locally representable continuous sections of
+$E_{\mathcal F}\to X$;
+\item construct the canonical morphism $\eta:\mathcal F\to\mathcal F^\#$;
+\item prove $(\mathcal F^\#)_x\cong\mathcal F_x$ for every $x$;
+\item prove and use the universal property;
+\item prove uniqueness of sheafification up to a unique isomorphism;
+\item sheafify morphisms and establish functoriality;
+\item express sheafification as a left adjoint $a\dashv i$;
+\item prove that sheafification of an already existing sheaf is canonically isomorphic to it;
+\item understand why the unit need be neither injective nor surjective on sections;
+\item compute sheafifications in constant, bounded-function, finite-space, and basis examples;
+\item use the plus construction and its separatedness step;
+\item keep quotient sheaves, image sheaves, and exactness for VI/15--VI/16, where the relevant
+legacy problems are reserved.
+\end{itemize}
+
+\section{The universal problem}
+
+Let $X$ be a topological space and let $\mathcal F$ be a presheaf of sets, abelian groups,
+rings, or modules.  A sheafification should be a sheaf receiving a map from $\mathcal F$
+through which every map from $\mathcal F$ to a sheaf factors uniquely.
+
+\begin{definition}[Sheafification]
+A \emph{sheafification} or \emph{associated sheaf} of $\mathcal F$ is a pair
+$(\mathcal F^\#,\eta_{\mathcal F})$ consisting of a sheaf $\mathcal F^\#$ and a morphism of
+presheaves
+\[
+\eta_{\mathcal F}:\mathcal F\longrightarrow\mathcal F^\#
+\]
+such that for every sheaf $\mathcal G$ and every presheaf morphism
+$u:\mathcal F\to\mathcal G$, there exists a unique sheaf morphism
+$\bar u:\mathcal F^\#\to\mathcal G$ satisfying
+\[
+ u=\bar u\circ\eta_{\mathcal F}.
+\]
+\end{definition}
+
+\input{chapters/ch14_sheafification/figures/vi14_universal_triangle.tex}
+
+The phrase ``closest sheaf'' means precisely this universal property.  It does \emph{not}
+mean that $\mathcal F^\#(U)$ is numerically or set-theoretically close to $\mathcal F(U)$.
+Indeed, on some opens sheafification can add sections, while on others it can identify
+sections.
+
+\section{Uniqueness before existence}
+
+Universal properties give uniqueness automatically.
+
+\begin{theorem}[Uniqueness of sheafification]
+If $(\mathcal A,\eta)$ and $(\mathcal B,\theta)$ are two sheafifications of the same
+presheaf $\mathcal F$, there is a unique isomorphism
+\[
+\Phi:\mathcal A\xrightarrow{\sim}\mathcal B
+\]
+satisfying $\Phi\circ\eta=\theta$.
+\end{theorem}
+\begin{proof}
+Apply the universal property of $\mathcal A$ to $\theta:\mathcal F\to\mathcal B$ to obtain
+$\Phi:\mathcal A\to\mathcal B$.  Similarly obtain $\Psi:\mathcal B\to\mathcal A$ with
+$\Psi\theta=\eta$.  Then $(\Psi\Phi)\eta=\eta$.  By uniqueness in the universal property
+of $\mathcal A$, $\Psi\Phi=\id_{\mathcal A}$.  Likewise $\Phi\Psi=\id_{\mathcal B}$.
+Uniqueness of $\Phi$ is built into the same factorization property.
+\end{proof}
+
+Thus one may use whichever construction is most convenient and still speak of
+\emph{the} sheafification up to canonical isomorphism.
+
+\section{The espace \texorpdfstring{\'{e}tal\'{e}}{etale}: all germs over all points}
+
+We now prove existence.  For each $x\in X$, let $\mathcal F_x$ be the stalk of the presheaf
+from VI/13.  Form the disjoint union
+\[
+E_{\mathcal F}:=\coprod_{x\in X}\mathcal F_x
+\]
+and the projection
+\[
+\pi:E_{\mathcal F}\longrightarrow X,
+\qquad a\in\mathcal F_x\longmapsto x.
+\]
+
+For an open $U\subseteq X$ and $s\in\mathcal F(U)$ define
+\[
+\widetilde s:U\longrightarrow E_{\mathcal F},
+\qquad x\longmapsto s_x.
+\]
+Its image is
+\[
+\widetilde s(U)=\{s_x:x\in U\}.
+\]
+
+\input{chapters/ch14_sheafification/figures/vi14_etale_space.tex}
+
+\begin{proposition}[The germ images form a basis]
+The sets $\widetilde s(U)$, as $U$ and $s\in\mathcal F(U)$ vary, form a basis for a topology
+on $E_{\mathcal F}$.
+\end{proposition}
+\begin{proof}
+Every point $a\in\mathcal F_x$ is represented by some $s\in\mathcal F(U)$ with $x\in U$,
+so $a=s_x\in\widetilde s(U)$.  Suppose
+$a\in\widetilde s(U)\cap\widetilde t(V)$ and $a\in\mathcal F_x$.  Then $s_x=t_x$.
+Equality of germs gives a neighborhood $W\subseteq U\cap V$ of $x$ on which
+$s|_W=t|_W$.  Hence
+\[
+a\in\widetilde{s|_W}(W)\subseteq\widetilde s(U)\cap\widetilde t(V).
+\]
+This is the basis-intersection criterion.
+\end{proof}
+
+With this topology, $\\pi$ is a local homeomorphism: on each basic open
+$\widetilde s(U)$, the inverse of $\pi$ is $x\mapsto s_x$.
+
+\section{Locally representable sections}
+
+\begin{definition}[Associated sheaf from the espace \texorpdfstring{\'{e}tal\'{e}}{etale}]
+For an open set $U\subseteq X$, define
+\[
+\mathcal F^\#(U)
+=
+\left\{\sigma:U\to E_{\mathcal F}:
+\pi\circ\sigma=\id_U,
+\ \sigma\text{ is continuous}\right\}.
+\]
+Restrictions are ordinary restrictions of maps.
+\end{definition}
+
+Continuity has a useful algebraic meaning.
+
+\begin{proposition}[Local representability]
+A section $\sigma:U\to E_{\mathcal F}$ belongs to $\mathcal F^\#(U)$ if and only if every
+$x\in U$ has a neighborhood $V\subseteq U$ and some $s\in\mathcal F(V)$ such that
+\[
+\sigma(y)=s_y\qquad (y\in V).
+\]
+\end{proposition}
+\begin{proof}
+If $\sigma$ is continuous and $x\in U$, choose a basic neighborhood
+$\widetilde s(V)$ of $\sigma(x)$.  Shrinking $V$ if necessary inside $U$, the local
+homeomorphism property forces $\sigma|_V=\widetilde s$.  Conversely, a map which is locally
+of the form $\widetilde s$ is continuous because each $\widetilde s$ is a homeomorphism
+onto a basic open.
+\end{proof}
+
+\input{chapters/ch14_sheafification/figures/vi14_local_representability.tex}
+
+\begin{theorem}[The associated presheaf is a sheaf]
+$U\mapsto\mathcal F^\#(U)$ is a sheaf.
+\end{theorem}
+\begin{proof}
+Compatible continuous sections of $\pi$ glue uniquely as ordinary maps.  Continuity is local
+on the domain, so the glued map is continuous.  Because every local section satisfies
+$\pi\sigma=\id$, the gluing does also.  Locality is equality of maps on an open cover.
+\end{proof}
+
+\section{The canonical morphism}
+
+Define
+\[
+\eta_U:\mathcal F(U)\longrightarrow\mathcal F^\#(U),
+\qquad
+s\longmapsto\widetilde s.
+\]
+The compatibility
+\[
+\widetilde{s|_V}=\widetilde s|_V
+\]
+shows that these maps form a morphism of presheaves
+\[
+\eta_{\mathcal F}:\mathcal F\longrightarrow\mathcal F^\#.
+\]
+
+\input{chapters/ch14_sheafification/figures/vi14_unit_restriction.tex}
+
+The unit may fail to be injective on sections: two sections of a presheaf can have the same
+germ at every point without being equal if locality fails.  It may also fail to be
+surjective: a locally representable family of germs can fail to arise from one original
+global section if gluing fails.
+
+\section{Sheafification preserves every stalk}
+
+This theorem is the central local invariant of sheafification.
+
+\begin{theorem}[Stalk preservation]
+For every $x\in X$, the map induced by the unit is an isomorphism
+\[
+(\eta_{\mathcal F})_x:\mathcal F_x\xrightarrow{\sim}(\mathcal F^\#)_x.
+\]
+\end{theorem}
+\begin{proof}
+Define
+\[
+\Phi_x:(\mathcal F^\#)_x\longrightarrow\mathcal F_x,
+\qquad
+[U,\sigma]_x\longmapsto\sigma(x).
+\]
+This is well defined: if two sheafified sections have the same germ, they agree on some
+neighborhood of $x$ and hence have the same value in the fiber $\mathcal F_x$.
+
+For surjectivity, let $a\in\mathcal F_x$.  Choose $s\in\mathcal F(U)$ representing $a$.
+Then $\widetilde s\in\mathcal F^\#(U)$ and $\Phi_x((\widetilde s)_x)=a$.
+
+For injectivity, suppose $\Phi_x(\sigma_x)=\Phi_x(\tau_x)$.  Then
+$\sigma(x)=\tau(x)$ in the fiber.  By local representability, after shrinking around $x$,
+write $\sigma=\widetilde s$ and $\tau=\widetilde t$.  Equality at $x$ means $s_x=t_x$ in
+$\mathcal F_x$, so after shrinking once more $s$ and $t$ agree.  Hence $\sigma_x=\tau_x$.
+The inverse is induced by $a=s_x\mapsto(\widetilde s)_x$, exactly the stalk map of
+$\eta_{\mathcal F}$.
+\end{proof}
+
+\input{chapters/ch14_sheafification/figures/vi14_stalk_preservation.tex}
+
+Thus sheafification changes global bookkeeping while leaving all local germs unchanged.
+
+\section{The universal property: existence of the factorization}
+
+Let $\mathcal G$ be a sheaf and $u:\mathcal F\to\mathcal G$ a presheaf morphism.  Every
+$x$ has an induced stalk map $u_x:\mathcal F_x\to\mathcal G_x$.  If
+$\sigma\in\mathcal F^\#(U)$, define a family of germs
+\[
+x\longmapsto u_x(\sigma(x))\in\mathcal G_x.
+\]
+Because $\sigma$ is locally represented by sections of $\mathcal F$, this family is locally
+represented by sections of $\mathcal G$.  Since $\mathcal G$ is a sheaf, these local
+representatives glue uniquely to a section of $\mathcal G(U)$.
+
+\begin{theorem}[Universal property]
+There exists a unique morphism of sheaves
+\[
+\bar u:\mathcal F^\#\longrightarrow\mathcal G
+\]
+with $u=\bar u\eta_{\mathcal F}$.
+\end{theorem}
+\begin{proof}
+For $\sigma\in\mathcal F^\#(U)$ choose an open cover $U=\bigcup_iU_i$ and
+$s_i\in\mathcal F(U_i)$ with $\sigma|_{U_i}=\widetilde{s_i}$.  Set
+$g_i=u(s_i)\in\mathcal G(U_i)$.  On $U_i\cap U_j$, equality of the sheafified sections
+means the germs of $s_i$ and $s_j$ agree at every point.  Applying $u$ gives equal germs of
+$g_i$ and $g_j$; because $\mathcal G$ is a sheaf, equality of all germs implies equality of
+sections.  Hence the $g_i$ glue uniquely to $g\in\mathcal G(U)$.  Define
+$\bar u_U(\sigma)=g$.  This is independent of the chosen local presentation and commutes
+with restrictions.  For $s\in\mathcal F(U)$, the construction applied to $\widetilde s$
+gives $u(s)$, so $\bar u\eta=u$.
+
+If $v:\mathcal F^\#\to\mathcal G$ is another factorization, every sheafified section is
+locally of the form $\widetilde s$, and on such a neighborhood
+$v(\widetilde s)=u(s)=\bar u(\widetilde s)$.  Locality in $\mathcal G$ gives $v=\bar u$.
+\end{proof}
+
+\section{Functoriality}
+
+Given $f:\mathcal F\to\mathcal G$ in $\PreSh(X)$, apply the universal property to
+\[
+\mathcal F\xrightarrow{f}\mathcal G\xrightarrow{\eta_{\mathcal G}}\mathcal G^\#.
+\]
+There is a unique sheaf morphism
+\[
+f^\#:\mathcal F^\#\longrightarrow\mathcal G^\#
+\]
+with
+\[
+f^\#\eta_{\mathcal F}=\eta_{\mathcal G}f.
+\]
+
+\input{chapters/ch14_sheafification/figures/vi14_functorial_square.tex}
+
+\begin{proposition}[Sheafification is a functor]
+The assignments $\mathcal F\mapsto\mathcal F^\#$ and $f\mapsto f^\#$ satisfy
+\[
+(\id_{\mathcal F})^\#=\id_{\mathcal F^\#},
+\qquad
+(gf)^\#=g^\#f^\#.
+\]
+Moreover, under the canonical stalk identifications,
+\[
+(f^\#)_x=f_x.
+\]
+\end{proposition}
+\begin{proof}
+The identity and composition formulas follow from uniqueness in the universal property:
+both candidate maps have the same composite with the unit.  The stalk formula follows from
+naturality of the unit and the fact that both vertical unit maps are stalk isomorphisms.
+\end{proof}
+
+\section{Adjunction}
+
+Let
+\[
+i:\Sh(X)\hookrightarrow\PreSh(X)
+\]
+be the inclusion functor.  Sheafification is left adjoint to $i$.
+
+\begin{theorem}[Adjunction]
+For every presheaf $\mathcal F$ and sheaf $\mathcal G$ there is a natural bijection
+\[
+\Hom_{\Sh(X)}(\mathcal F^\#,\mathcal G)
+\cong
+\Hom_{\PreSh(X)}(\mathcal F,i\mathcal G),
+\]
+given by precomposition with $\eta_{\mathcal F}$.  Symbolically,
+\[
+a:\PreSh(X)\rightleftarrows\Sh(X):i,
+\qquad a\dashv i.
+\]
+\end{theorem}
+
+\input{chapters/ch14_sheafification/figures/vi14_adjunction.tex}
+
+This compact statement contains existence, uniqueness, and functoriality at once.
+
+\section{Sheafifying a sheaf does nothing}
+
+\begin{corollary}[Idempotence]
+If $\mathcal F$ is already a sheaf, the unit
+\[
+\eta_{\mathcal F}:\mathcal F\longrightarrow\mathcal F^\#
+\]
+is an isomorphism.  Consequently
+\[
+(\mathcal F^\#)^\#\cong\mathcal F^\#.
+\]
+\end{corollary}
+\begin{proof}
+Apply the universal property to the identity map $\mathcal F\to\mathcal F$.  It produces a
+retraction $r:\mathcal F^\#\to\mathcal F$ with $r\eta=\id$.  The composites
+$\eta r$ and $\id_{\mathcal F^\#}$ agree after precomposition with $\eta$, so uniqueness in
+the universal property gives $\eta r=\id$.
+\end{proof}
+
+\section{Separated presheaves and the plus construction}
+
+There is another construction that makes the repair mechanism transparent.  A presheaf is
+\emph{separated} if locality holds, even if gluing may fail.
+
+For an open $U$, consider pairs consisting of an open cover $U=\bigcup_iU_i$ and a compatible
+family $s_i\in\mathcal F(U_i)$.  Two such families are equivalent if they agree after passing
+to a common refinement.  Denote the resulting presheaf by $\mathcal F^+$.  There is a
+natural map $\mathcal F\to\mathcal F^+$ sending a section to its restrictions.
+
+\begin{theorem}[Plus construction]
+For presheaves of sets or abelian groups:
+\begin{enumerate}
+\item $\mathcal F^+$ is separated;
+\item if $\mathcal F$ is separated, then $\mathcal F^+$ is a sheaf;
+\item therefore $\mathcal F^{++}$ is always a sheaf and is canonically isomorphic to
+$\mathcal F^\#$.
+\end{enumerate}
+\end{theorem}
+
+\input{chapters/ch14_sheafification/figures/vi14_plus_construction.tex}
+
+The first ``plus'' removes failure of uniqueness; the second removes failure of existence.
+This notation is different from the legacy AG1 Exercise 4, where $\mathcal F^+$ denotes the
+final associated sheaf built from stalks.  VI.14.P1 preserves the legacy notation inside the
+problem while the chapter uses $\mathcal F^\#$ for the final sheafification.
+
+\section{Restriction to an open subset}
+
+If $j:U\hookrightarrow X$ is open, then sheafification commutes with restriction:
+\[
+(\mathcal F|_U)^\#\cong\mathcal F^\#|_U.
+\]
+This can be proved either by comparing stalks and universal properties or by observing that
+the espace \'{e}tal\'{e} over $U$ is simply the restriction of $E_{\mathcal F}$ to $U$.
+
+\input{chapters/ch14_sheafification/figures/vi14_restriction_open.tex}
+
+\section{Sheafification on a basis}
+
+Let $\mathcal B$ be a basis for $X$.  Suppose data are given on basis opens with compatible
+restrictions, but locality or gluing may fail.  One can form germs using only basis
+neighborhoods because they are cofinal among all neighborhoods.  The same espace
+\'{e}tal\'{e} construction then produces the sheafification on all opens.  This is especially
+important in algebraic geometry: principal opens $D(f)$ form a basis of $\Spec A$, and the
+localization data $D(f)\mapsto A_f$ will feed directly into VI/17.
+
+\section{What the unit can do to sections}
+
+The map
+\[
+\eta_U:\mathcal F(U)\to\mathcal F^\#(U)
+\]
+can behave in three qualitatively different ways.
+\begin{enumerate}
+\item It can be an isomorphism, as when $\mathcal F$ is already a sheaf.
+\item It can fail to be surjective: the constant presheaf on a disconnected open has too few
+sections, while its sheafification contains independently chosen locally constant values.
+\item It can fail to be injective: a presheaf can contain distinct sections whose restrictions
+coincide near every point; sheafification identifies them because their germs are equal.
+\end{enumerate}
+
+\input{chapters/ch14_sheafification/figures/vi14_add_identify.tex}
+
+This explains the right mental model:
+\[
+\boxed{\text{sheafification preserves local germs, not the original global section sets}.}
+\]
+
+\section{Common pitfalls}
+
+\begin{enumerate}
+\item Sheafification is not defined by simply imposing an equivalence relation on each
+$\mathcal F(U)$ independently; new sections may also have to be added.
+\item Equality of all stalks does not mean two presheaves are isomorphic.  It does mean their
+sheafifications may be locally equivalent, and the universal property decides the actual
+comparison.
+\item The canonical map need be neither injective nor surjective on a fixed open set.
+\item The phrase ``associated sheaf'' refers to a universal property; the espace
+\'{e}tal\'{e} and plus constructions are models of that property.
+\item In the standard plus construction, one application produces a separated presheaf and
+two applications produce a sheaf.  Do not confuse that notation with sources that call the
+final sheafification $\mathcal F^+$ directly.
+\item The image presheaf and quotient presheaf of sheaves need not themselves be sheaves.
+Those are VI/15 problems, although their repair uses the present chapter.
+\item Stalkwise exactness and sheaf surjectivity belong to VI/16; sheafification is the tool,
+not the final exactness theory.
+\end{enumerate}
+
+\section{Worked examples}
+\input{chapters/ch14_sheafification/examples.tex}
+
+\section{Advanced worked examples}
+\input{chapters/ch14_sheafification/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch14_sheafification/exercises.tex}
+\ifdefined\IncludeExerciseHints
+\input{chapters/ch14_sheafification/exercise_hints.tex}
+\fi
+
+\section{Problems}
+\input{chapters/ch14_sheafification/problems/index.tex}
+
+\section{Challenges}
+\input{chapters/ch14_sheafification/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Exercise solutions}
+\input{chapters/ch14_sheafification/exercise_solutions.tex}
+\fi
+
+\section*{Summary}
+
+Sheafification is the universal local-to-global repair of a presheaf.  The associated sheaf
+$\mathcal F^\#$ is characterized by
+\[
+\Hom_{\Sh(X)}(\mathcal F^\#,\mathcal G)
+\cong
+\Hom_{\PreSh(X)}(\mathcal F,i\mathcal G)
+\]
+for every sheaf $\mathcal G$, and it preserves all stalks:
+\[
+(\mathcal F^\#)_x\cong\mathcal F_x.
+\]
+The espace \'{e}tal\'{e} construction proves existence by turning germs into a local
+homeomorphism over $X$; the plus construction explains the repair as separation followed by
+gluing.  The unit may add sections or identify sections, but it never changes the local germ
+seen at a point.
+
+VI/15 uses this machinery to construct kernels, images, and quotient sheaves.  The Volume VI
+legacy-problem ledger records AG1 Exercise 5 and AG2 Problem 8 there, so the sheafification
+chapter does not consume or duplicate them.
