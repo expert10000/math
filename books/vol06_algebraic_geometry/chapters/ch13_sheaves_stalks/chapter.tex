@@ -1,0 +1,440 @@
+% Canonical chapter: VI/13 - Sheaves and Stalks
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Sheaves and Stalks}
+\label{ch:sheaves-stalks}
+\providecommand{\id}{\operatorname{id}}
+\providecommand{\PreSh}{\mathbf{PreSh}}
+\providecommand{\Sh}{\mathbf{Sh}}
+\providecommand{\LocConst}{\mathcal{LC}}
+
+\section*{Purpose and learning goals}
+
+VI/12 introduced presheaves: algebraic data attached contravariantly to open sets.  The
+present chapter adds the decisive local-to-global principle.  A \emph{sheaf} is a presheaf in
+which compatible local sections glue uniquely, and a \emph{stalk} records everything a
+sheaf knows arbitrarily close to one point.
+
+These two ideas are complementary.  The sheaf axiom moves from local data to a global
+section; the stalk moves from sections on neighborhoods to a single local object.  Together
+they form the basic language of modern geometry.  Later chapters will sheafify presheaves,
+construct kernels and quotients, define the structure sheaf, and use exact sequences and
+cohomology.  All of those constructions depend on the material developed here.
+
+This chapter retains the example-heavy policy introduced in VI/12.  The ordinary example
+bank builds fluency with locality, gluing, germs, and stalks; a separate advanced bank
+studies discrete and irreducible spaces, skyscraper sheaves, local branches, support,
+basis criteria, and stalkwise detection.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item state the locality and gluing axioms of a sheaf;
+\item reformulate the sheaf axiom as an equalizer condition for sheaves of groups;
+\item prove that continuous, smooth, holomorphic, and locally constant functions form sheaves;
+\item diagnose standard presheaves that fail the sheaf axiom;
+\item define germs explicitly as equivalence classes of local sections;
+\item construct the stalk $\mathcal F_x$ as a filtered colimit;
+\item test equality of germs by shrinking neighborhoods;
+\item compute stalks in standard analytic, topological, and algebraic examples;
+\item construct the stalk map induced by a morphism of sheaves;
+\item prove that sheaf sections and sheaf morphisms are detected by all stalks;
+\item prove that a morphism of sheaves is an isomorphism when every stalk map is an isomorphism;
+\item define and compute skyscraper sheaves;
+\item describe sheaves on discrete spaces directly from their stalks;
+\item understand why a naive constant presheaf differs from the constant sheaf;
+\item use a basis of the topology to verify the sheaf condition;
+\item define the support of a section using its germs;
+\item keep sheafification, quotient sheaves, and exactness in their proper later chapters.
+\end{itemize}
+
+\section{From presheaves to sheaves}
+
+Let $X$ be a topological space and let $\mathcal F$ be a presheaf of sets, groups, rings,
+or modules.  Presheaf axioms tell us only how to restrict data.  They do not say that a
+section is determined by its restrictions, nor that compatible local sections arise from a
+global one.
+
+\begin{definition}[Sheaf]
+A presheaf $\mathcal F$ is a \emph{sheaf} if for every open set $U\subseteq X$, every open
+cover $U=\bigcup_{i\in I}U_i$, and every family $s_i\in\mathcal F(U_i)$, the following hold.
+\begin{enumerate}
+\item \textbf{Locality:} if $s,t\in\mathcal F(U)$ and $s|_{U_i}=t|_{U_i}$ for all $i$, then
+$s=t$.
+\item \textbf{Gluing:} if
+\[
+s_i|_{U_i\cap U_j}=s_j|_{U_i\cap U_j}
+\qquad\text{for all }i,j,
+\]
+then there exists $s\in\mathcal F(U)$ with $s|_{U_i}=s_i$ for every $i$.
+\end{enumerate}
+By locality, a glued section is automatically unique.
+\end{definition}
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_gluing.tex}
+
+The slogan is
+\[
+\boxed{\text{compatible local data glue to one and only one global section}.}
+\]
+
+\section{The empty set and uniqueness}
+
+The empty cover of $\varnothing$ forces a small but useful convention.  For a sheaf of sets,
+$\mathcal F(\varnothing)$ is a singleton.  For a sheaf of groups, rings with zero object in
+the chosen category, or modules, it is the terminal object appropriate to the category; in
+particular for abelian groups and modules,
+\[
+\mathcal F(\varnothing)=0.
+\]
+
+\begin{proposition}[Uniqueness follows from locality]
+Suppose a presheaf satisfies locality.  If a compatible family $s_i\in\mathcal F(U_i)$ has
+two gluings $s,t\in\mathcal F(U)$, then $s=t$.
+\end{proposition}
+\begin{proof}
+Both sections restrict to $s_i$ on every $U_i$, so locality gives equality.
+\end{proof}
+
+\section{The equalizer form of the sheaf axiom}
+
+For sheaves of abelian groups, the two axioms can be packaged into one exactness statement.
+Let $U=\bigcup_iU_i$.  Define
+\[
+\Delta:\mathcal F(U)\longrightarrow\prod_i\mathcal F(U_i),
+\qquad s\longmapsto(s|_{U_i})_i.
+\]
+The two maps to pairwise overlaps are restriction from the first and second index.
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_equalizer.tex}
+
+\begin{proposition}[Equalizer criterion]
+A presheaf of abelian groups is a sheaf if and only if for every open cover the displayed
+sequence is exact at the first two terms; equivalently, $\mathcal F(U)$ is the equalizer of
+$\alpha$ and $\beta$.
+\end{proposition}
+\begin{proof}
+Injectivity of $\Delta$ is locality.  Its image consists precisely of families whose two
+restrictions to every overlap agree, and gluing says exactly that every such family lies in
+the image.
+\end{proof}
+
+\section{Standard sheaves of functions}
+
+The most important elementary examples are defined by local conditions on functions.
+
+\begin{proposition}[Continuous functions]
+For a topological space $X$, the assignment
+\[
+U\longmapsto C^0(U,\RR)
+\]
+with ordinary restriction is a sheaf of rings.
+\end{proposition}
+\begin{proof}
+Functions agreeing on a cover agree pointwise.  Compatible continuous functions define a
+unique function $f:U\to\RR$ pointwise; continuity is local, so $f$ is continuous.
+\end{proof}
+
+Exactly the same proof works for smooth functions on a smooth manifold, holomorphic
+functions on a complex manifold, and sections of a vector bundle: the defining condition is
+local and compatible sections glue as ordinary functions or local bundle sections.
+
+\begin{proposition}[Locally constant functions]
+For an abelian group $A$, the assignment
+\[
+\underline A(U)=\{f:U\to A: f\text{ is locally constant}\}
+\]
+is a sheaf of abelian groups.  It is called the \emph{constant sheaf} with value $A$.
+\end{proposition}
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_constant_components.tex}
+
+This is different from the naive constant presheaf of VI/12.  On a disconnected open set,
+locally constant functions may take different values on different connected components.
+
+\section{Presheaves that fail to be sheaves}
+
+The sheaf axiom is strong enough to rule out natural-looking global conditions.
+
+\begin{example}[Bounded continuous functions]
+Let $\mathcal B(U)$ be the bounded continuous real-valued functions on $U$.  Restriction
+makes $\mathcal B$ a presheaf.  On $\RR$ cover by $U_n=(-n,n)$.  The functions
+$s_n(x)=x$ on $U_n$ are bounded on each $U_n$ and compatible, but their only possible
+gluing is $x\mapsto x$, which is unbounded on $\RR$.  Thus $\mathcal B$ is not a sheaf.
+\end{example}
+
+\begin{example}[The naive constant presheaf]
+On a space with a disconnected open $U=U_1\sqcup U_2$, choose distinct $a,b\in A$ on the
+two components.  They are compatible because $U_1\cap U_2=\varnothing$, but there is no
+single element of the naive constant presheaf on $U$ restricting to both.  Hence the naive
+constant presheaf generally fails gluing.
+\end{example}
+
+\section{Germs of sections}
+
+A stalk is built from germs, so it is useful to define germs concretely before invoking a
+colimit.
+
+Fix $x\in X$.  Consider pairs $(U,s)$ with $x\in U$ open and $s\in\mathcal F(U)$.  Declare
+\[
+(U,s)\sim(V,t)
+\]
+if there exists an open neighborhood $W$ of $x$ with $W\subseteq U\cap V$ and
+\[
+s|_W=t|_W.
+\]
+This is an equivalence relation.  The class of $(U,s)$ is the \emph{germ of $s$ at $x$},
+denoted $s_x$.
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_germ_equivalence.tex}
+
+\begin{warning}[Same value does not mean same germ]
+For function sheaves, equality $f(x)=g(x)$ is much weaker than $f_x=g_x$.  For example,
+$f(t)=t$ and $g(t)=0$ have the same value at $0$ but different germs there.
+\end{warning}
+
+\section{The stalk as a filtered colimit}
+
+\begin{definition}[Stalk]
+The \emph{stalk} of a presheaf $\mathcal F$ at $x\in X$ is
+\[
+\mathcal F_x:=\varinjlim_{x\in U}\mathcal F(U),
+\]
+where neighborhoods are ordered by reverse inclusion through restriction maps.
+\end{definition}
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_stalk_colimit.tex}
+
+The equivalence-class construction above and this filtered-colimit definition give the same
+object.  If $\mathcal F$ is a presheaf of groups, rings, or modules, the stalk inherits the
+same algebraic structure.
+
+\begin{proposition}[Equality in a stalk]
+For sections $s\in\mathcal F(U)$ and $t\in\mathcal F(V)$ with $x\in U\cap V$,
+\[
+s_x=t_x
+\]
+if and only if there exists a neighborhood $W\subseteq U\cap V$ of $x$ such that
+$s|_W=t|_W$.
+\end{proposition}
+
+\section{What a stalk remembers and forgets}
+
+A germ remembers all behavior on some sufficiently small unspecified neighborhood; it
+forgets what happens far from the point.  In particular:
+\begin{itemize}
+\item two global sections can define the same germ even when they differ elsewhere;
+\item a stalk is generally much richer than point evaluation;
+\item global topological obstructions can disappear in a stalk;
+\item sheafification will later preserve stalks even when it changes global sections.
+\end{itemize}
+
+For the sheaf $C^0_X$ of continuous real-valued functions, $(C^0_X)_x$ is the ring of germs
+of continuous functions at $x$.  For $C^\infty_M$, it is the local ring of smooth germs.
+For the holomorphic structure sheaf on a complex manifold, it is the local ring of
+holomorphic germs.
+
+\section{Morphisms and maps on stalks}
+
+Let $\varphi:\mathcal F\to\mathcal G$ be a morphism of presheaves.  Define
+\[
+\varphi_x:\mathcal F_x\longrightarrow\mathcal G_x,
+\qquad
+\varphi_x(s_x):=(\varphi_U(s))_x.
+\]
+Naturality with restriction makes this independent of the representative.
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_stalk_map.tex}
+
+\begin{proposition}[Functoriality on stalks]
+For morphisms $\mathcal F\xrightarrow{\varphi}\mathcal G\xrightarrow{\psi}\mathcal H$,
+\[
+(\psi\circ\varphi)_x=\psi_x\circ\varphi_x,
+\qquad
+(\id_{\mathcal F})_x=\id_{\mathcal F_x}.
+\]
+\end{proposition}
+
+\section{Stalks detect sections and morphisms}
+
+The next statements are special to sheaves; they can fail for arbitrary presheaves.
+
+\begin{theorem}[Sections are determined by their germs]
+Let $\mathcal F$ be a sheaf and $s,t\in\mathcal F(U)$.  Then
+\[
+s=t\quad\Longleftrightarrow\quad s_x=t_x\text{ for every }x\in U.
+\]
+\end{theorem}
+\begin{proof}
+Only the reverse implication needs proof.  For each $x$, equality of germs gives a
+neighborhood $V_x\subseteq U$ on which $s$ and $t$ agree.  The $V_x$ cover $U$, and
+locality gives $s=t$.
+\end{proof}
+
+\begin{corollary}[Morphisms are determined stalkwise]
+If $\varphi,\psi:\mathcal F\to\mathcal G$ are morphisms of sheaves and
+$\varphi_x=\psi_x$ for every $x\in X$, then $\varphi=\psi$.
+\end{corollary}
+
+\begin{theorem}[Stalkwise isomorphism criterion]
+A morphism of sheaves of sets, groups, rings, or modules
+\[
+\varphi:\mathcal F\longrightarrow\mathcal G
+\]
+is an isomorphism if and only if every stalk map
+\[
+\varphi_x:\mathcal F_x\longrightarrow\mathcal G_x
+\]
+is an isomorphism.
+\end{theorem}
+\begin{proof}
+Necessity is immediate.  Conversely, let $t\in\mathcal G(U)$.  Stalkwise surjectivity gives,
+for each $x\in U$, a germ $a_x\in\mathcal F_x$ mapping to $t_x$.  Represent $a_x$ by a
+section $s_x$ on a neighborhood $V_x$ and shrink so that
+$\varphi(s_x)=t|_{V_x}$.  On overlaps, stalkwise injectivity implies the germs of the two
+local lifts agree; after shrinking around every point they agree as sections, and locality
+shows they agree on the whole overlap.  The sheaf axiom glues the $s_x$ uniquely to a
+section $s\in\mathcal F(U)$ with $\varphi(s)=t$.  The same stalkwise injectivity argument
+shows uniqueness.  Thus every $\varphi_U$ is bijective and the inverse maps commute with
+restrictions.
+\end{proof}
+
+\begin{remark}[A boundary for VI/16]
+The full theory of injective/surjective morphisms and exact sequences of sheaves is deferred
+to VI/16.  In particular, sectionwise surjectivity is stronger than the natural local notion
+of surjectivity for sheaves.
+\end{remark}
+
+\section{Skyscraper sheaves}
+
+Fix $x\in X$ and an abelian group $A$.
+
+\begin{definition}[Skyscraper sheaf]
+Define
+\[
+\mathcal S_x(A)(U)=
+\begin{cases}
+A,&x\in U,\\
+0,&x\notin U,
+\end{cases}
+\]
+with the evident restriction maps.  This is the \emph{skyscraper sheaf at $x$ with value
+$A$}.
+\end{definition}
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_skyscraper.tex}
+
+Its stalk is $A$ at $x$ and $0$ at every $y\neq x$ provided points can be separated by a
+neighborhood of $y$ avoiding $x$; in particular this holds in $T_1$ spaces.  On arbitrary
+spaces, the stalk at $y$ is $A$ exactly when every neighborhood of $y$ contains $x$.
+
+\section{Sheaves on discrete spaces}
+
+If $X$ is discrete, every singleton is open and every open $U$ is the disjoint union of its
+points.  The sheaf axiom therefore gives a complete classification.
+
+\begin{theorem}[Discrete-space classification]
+For a sheaf of sets or abelian groups on a discrete space $X$,
+\[
+\mathcal F(U)\cong\prod_{x\in U}\mathcal F_x.
+\]
+Thus a sheaf on $X$ is determined by the family of its stalks.
+\end{theorem}
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_discrete_product.tex}
+
+\section{Sheaf condition on a basis}
+
+In geometry one rarely wants to verify gluing on every open set separately.  A basis is
+enough.
+
+\begin{theorem}[Basis criterion]
+Let $\mathcal B$ be a basis for the topology of $X$, closed under taking sufficiently small
+basis neighborhoods inside intersections.  Suppose algebraic data $\mathcal F(B)$ and
+restriction maps are given for $B\in\mathcal B$, and suppose locality and gluing hold for
+covers of basis opens by basis opens.  Then the data extend uniquely, up to unique
+isomorphism, to a sheaf on all open subsets of $X$.
+\end{theorem}
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_basis_test.tex}
+
+This criterion is the bridge to the structure sheaf: on $\Spec A$, principal opens $D(f)$
+form a basis and carry localization rings $A_f$.
+
+\section{Support of a section}
+
+Let $\mathcal F$ be a sheaf of abelian groups and $s\in\mathcal F(U)$.  Define
+\[
+\operatorname{NZ}(s)=\{x\in U:s_x\neq0\}.
+\]
+Because vanishing of a germ means vanishing on some neighborhood, the zero-germ locus
+\[
+\{x\in U:s_x=0\}
+\]
+is open.  Therefore $\operatorname{NZ}(s)$ is already closed in $U$.
+
+\begin{definition}[Support]
+The \emph{support} of $s$ is the closed set
+\[
+\operatorname{supp}(s)=\{x\in U:s_x\neq0\}.
+\]
+For ordinary function sheaves this equals the closure of the pointwise nonvanishing set
+$\{x:s(x)\neq0\}$.
+\end{definition}
+
+\input{chapters/ch13_sheaves_stalks/figures/vi13_support.tex}
+
+For ordinary continuous or smooth functions this agrees with the usual support.
+
+\section{Common pitfalls}
+
+\begin{enumerate}
+\item A presheaf is not automatically a sheaf; restriction axioms do not imply gluing.
+\item Equality at a point is not equality of germs.
+\item A germ is not a section on a distinguished smallest neighborhood; most spaces have no
+such neighborhood.
+\item Stalks forget global topology.  A global obstruction can vanish locally at every point.
+\item A family of arbitrary germs does not necessarily come from a section; the family must
+vary locally in a representable way.
+\item The naive constant presheaf and the constant sheaf are different on disconnected opens.
+\item Stalkwise surjectivity of a morphism does not mean every section has one global lift.
+\item The structure sheaf is not yet being defined; VI/17 will specialize the present theory
+to regular functions on spectra.
+\end{enumerate}
+
+\section{Worked examples}
+\input{chapters/ch13_sheaves_stalks/examples.tex}
+
+\section{Advanced worked examples}
+\input{chapters/ch13_sheaves_stalks/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch13_sheaves_stalks/exercises.tex}
+\ifdefined\IncludeExerciseHints
+\input{chapters/ch13_sheaves_stalks/exercise_hints.tex}
+\fi
+
+\section{Problems}
+\input{chapters/ch13_sheaves_stalks/problems/index.tex}
+
+\section{Challenges}
+\input{chapters/ch13_sheaves_stalks/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Exercise solutions}
+\input{chapters/ch13_sheaves_stalks/exercise_solutions.tex}
+\fi
+
+\section*{Summary}
+
+A sheaf is a presheaf with a precise local-to-global principle: local equality detects global
+equality, and compatible local sections glue uniquely.  A stalk
+\[
+\mathcal F_x=\varinjlim_{x\in U}\mathcal F(U)
+\]
+packages all sections defined near a point into germs.  Sheaf sections and sheaf morphisms
+are detected by stalks, and a morphism is an isomorphism exactly when every stalk map is.
+The examples of locally constant functions, discrete spaces, skyscraper sheaves, and local
+function germs show how much geometric information can be organized by these two ideas.
+
+VI/14 now addresses the next unavoidable question: given a presheaf that fails locality or
+gluing, how can one construct the closest sheaf without changing its local germs?
