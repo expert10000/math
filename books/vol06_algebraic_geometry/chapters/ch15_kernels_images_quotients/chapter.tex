@@ -1,0 +1,370 @@
+% Canonical chapter: VI/15 - Kernels, Images and Quotients of Sheaves
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Kernels, Images and Quotients of Sheaves}
+\label{ch:kernels-images-quotients-sheaves}
+\providecommand{\id}{\operatorname{id}}
+\providecommand{\PreSh}{\mathbf{PreSh}}
+\providecommand{\Sh}{\mathbf{Sh}}
+\providecommand{\Ker}{\operatorname{Ker}}
+\providecommand{\Coim}{\operatorname{Coim}}
+\providecommand{\F}{\mathcal F}
+\providecommand{\G}{\mathcal G}
+\providecommand{\Hcal}{\mathcal H}
+\providecommand{\Kcal}{\mathcal K}
+\providecommand{\Qcal}{\mathcal Q}
+
+\section*{Purpose and learning goals}
+
+Sheafification repaired a presheaf without changing its germs.  We now need that repair in
+ordinary algebraic constructions.  If
+\[
+\varphi:\F\longrightarrow\G
+\]
+is a morphism of sheaves of abelian groups, the sectionwise kernel is already a sheaf, but
+the sectionwise image, cokernel, and quotient need not be.  Their correct sheaf-theoretic
+versions are obtained by imposing a local condition or, equivalently, by sheafifying the
+corresponding presheaves.
+
+This distinction is small in notation and fundamental in practice.  A section may be locally
+in the image of a morphism on every neighborhood and still have no single global preimage.
+Thus the image sheaf can be strictly larger on an open set than the image of the map on that
+open set.  Quotients exhibit the same phenomenon.
+
+The Volume VI legacy-problem ledger is the starting point for this reconstruction.  The two
+principal numbered corpus items are AG1 Exercise 5, on identifying the image sheaf with the
+subsheaf of locally liftable sections, and AG2 Problem 8, on quotient sheaves and the resulting
+short exact sequence.  Both are preserved as full detailed dossiers, VI.15.P1 and VI.15.P2.
+The preferred reorganized sheaf notes are merged with them and with the chapter theory rather
+than counted as duplicate problems.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item compute the kernel sheaf sectionwise and prove its universal property;
+\item distinguish the presheaf image from the image sheaf;
+\item characterize image-sheaf sections by local liftability;
+\item define cokernel and quotient sheaves by sheafification;
+\item prove the stalk identities
+\[
+(\ker\varphi)_x=\ker(\varphi_x),\quad
+(\im\varphi)_x=\im(\varphi_x),\quad
+(\coker\varphi)_x=\coker(\varphi_x);
+\]
+\item prove
+\[
+(\F/\F')_x\cong\F_x/\F'_x
+\]
+for every subsheaf $\F'\subseteq\F$;
+\item use the universal properties of kernels, quotients, and cokernels;
+\item explain why a sheaf epimorphism need not be surjective on sections over every open set;
+\item identify the canonical coimage-to-image map and understand why it is an isomorphism for
+sheaves of abelian groups;
+\item keep general exactness and the stalkwise exactness criterion for VI/16 while using the
+legacy quotient problem here as a motivating application.
+\end{itemize}
+
+\section{Kernels are computed sectionwise}
+
+Let $\varphi:\F\to\G$ be a morphism of sheaves of abelian groups on $X$.
+For every open $U\subseteq X$ define
+\[
+(\ker\varphi)(U):=\ker\bigl(\varphi_U:\F(U)\to\G(U)\bigr).
+\]
+Restrictions preserve kernels because $\varphi$ commutes with restriction maps.
+
+\begin{theorem}[Kernel sheaf]
+The presheaf $U\mapsto\ker(\varphi_U)$ is a sheaf.  With its natural inclusion
+$\ker\varphi\hookrightarrow\F$, it is the categorical kernel of $\varphi$ in the category
+of sheaves of abelian groups.
+\end{theorem}
+\begin{proof}
+Suppose $U=\bigcup_iU_i$ and $s_i\in\ker(\varphi)(U_i)$ are compatible.  Since $\F$ is a
+sheaf, they glue uniquely to $s\in\F(U)$.  On every $U_i$,
+\[
+\varphi_U(s)|_{U_i}=\varphi_{U_i}(s_i)=0.
+\]
+By locality in $\G$, $\varphi_U(s)=0$, so $s\in\ker(\varphi)(U)$.  Uniqueness is inherited
+from $\F$.  For the universal property, any $h:\Hcal\to\F$ with $\varphi h=0$ has every
+$h_U$ landing in $\ker(\varphi_U)$, giving a unique factorization through the kernel sheaf.
+\end{proof}
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_kernel_universal.tex}
+
+\section{The image presheaf and the local image sheaf}
+
+The most tempting definition is
+\[
+\operatorname{Im}^{\mathrm{pre}}(\varphi)(U)
+:=\im\bigl(\varphi_U:\F(U)\to\G(U)\bigr).
+\]
+This is a subpresheaf of $\G$, but it need not be a sheaf.  The obstruction is global:
+compatible target sections may have local preimages without those preimages being capable of
+forming one global source section.
+
+\begin{definition}[Image sheaf]
+The \emph{image sheaf} of $\varphi$ is
+\[
+\im\varphi:=\bigl(\operatorname{Im}^{\mathrm{pre}}(\varphi)\bigr)^\#.
+\]
+Equivalently, it is the following subsheaf of $\G$:
+\[
+(\im\varphi)(U)=
+\left\{g\in\G(U):
+\begin{array}{l}
+\text{for every }x\in U\text{ there is an open }V\subseteq U\text{ with }x\in V\\
+\text{and }f\in\F(V)\text{ such that }g|_V=\varphi_V(f)
+\end{array}
+\right\}.
+\]
+\end{definition}
+
+\begin{theorem}[Locally in the image]
+The locally liftable sections above form a subsheaf of $\G$, and this subsheaf is canonically
+isomorphic to the sheafification of the image presheaf.
+\end{theorem}
+\begin{proof}
+Restriction preserves local liftability.  Compatible locally liftable sections glue in
+$\G$; local liftability of the glued section is checked point by point inside one member of
+the cover.  Thus they form a subsheaf $\Hcal\subseteq\G$.  The presheaf image maps into
+$\Hcal$.  Since $\Hcal$ is a sheaf, the map factors through the sheafification.  Conversely,
+every section of $\Hcal$ is locally represented by a section of the presheaf image, which is
+exactly the local description of its sheafification.  The two maps are inverse locally and
+hence globally.
+\end{proof}
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_image_local.tex}
+
+\section{Images on stalks}
+
+\begin{theorem}[Image stalk]
+For every $x\in X$ there is a canonical equality of subgroups of $\G_x$,
+\[
+(\im\varphi)_x=\im(\varphi_x:\F_x\to\G_x).
+\]
+\end{theorem}
+\begin{proof}
+A germ in the image-sheaf stalk is represented near $x$ by a section that is locally in the
+image, so after shrinking it is literally $\varphi(f)$ and its germ lies in $\im\varphi_x$.
+Conversely, if $g_x=\varphi_x(f_x)$, choose representatives and shrink until the equality of
+germs becomes equality of sections.  Then the representative of $g_x$ is locally in the
+image, so $g_x\in(\im\varphi)_x$.
+\end{proof}
+
+Together with the sectionwise definition of the kernel,
+\[
+(\ker\varphi)_x=\ker(\varphi_x).
+\]
+This is the first indication that sheaf algebra is ordinary algebra when viewed through one
+stalk at a time.
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_stalk_dictionary.tex}
+
+\section{Quotient presheaves and quotient sheaves}
+
+Let $\F'\subseteq\F$ be a subsheaf.  Sectionwise algebra gives a quotient presheaf
+\[
+\Qcal^{\mathrm{pre}}(U)=\F(U)/\F'(U).
+\]
+It can fail to be a sheaf, so the correct quotient is its sheafification.
+
+\begin{definition}[Quotient sheaf]
+\[
+\F/\F':=\bigl(U\longmapsto\F(U)/\F'(U)\bigr)^\#.
+\]
+The composite
+\[
+\F\longrightarrow\Qcal^{\mathrm{pre}}\longrightarrow\F/\F'
+\]
+is the canonical quotient morphism $q$.
+\end{definition}
+
+\begin{theorem}[Stalks of a quotient]
+For every $x\in X$ there is a natural isomorphism
+\[
+(\F/\F')_x\cong\F_x/\F'_x.
+\]
+\end{theorem}
+\begin{proof}
+Sheafification preserves stalks, so the left side is the stalk of the quotient presheaf.
+Filtered colimits of abelian groups are exact, hence localization to the stalk commutes with
+the cokernel of $\F'(U)\to\F(U)$.  Concretely, a germ of a quotient section is represented
+by $[s]\in\F(U)/\F'(U)$ and is sent to the class of $s_x$ in $\F_x/\F'_x$.  Equality of
+classes is verified after shrinking, which proves injectivity as well as surjectivity.
+\end{proof}
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_quotient_pipeline.tex}
+
+\section{Cokernels}
+
+For a general morphism $\varphi:\F\to\G$, define the cokernel presheaf by
+\[
+U\longmapsto\coker(\varphi_U)=\G(U)/\im(\varphi_U).
+\]
+Its sheafification is the cokernel sheaf:
+\[
+\coker\varphi:=
+\bigl(U\longmapsto\coker(\varphi_U)\bigr)^\#.
+\]
+Equivalently,
+\[
+\coker\varphi\cong\G/\im\varphi.
+\]
+
+\begin{theorem}[Cokernel universal property]
+If $h:\G\to\Hcal$ satisfies $h\varphi=0$, then there is a unique morphism
+$\bar h:\coker\varphi\to\Hcal$ with $h=\bar h\circ q$.  Moreover,
+\[
+(\coker\varphi)_x\cong\coker(\varphi_x).
+\]
+\end{theorem}
+\begin{proof}
+Sectionwise, $h_U$ kills $\im\varphi_U$ and therefore factors through the cokernel presheaf.
+The target is already a sheaf, so the universal property of sheafification gives a unique
+factorization through its sheafification.  Stalk preservation and the filtered-colimit
+calculation above give the stalk formula.
+\end{proof}
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_cokernel_universal.tex}
+
+\section{The quotient by a subsheaf}
+
+The quotient map $q:\F\to\F/\F'$ has stalk map
+\[
+q_x:\F_x\longrightarrow\F_x/\F'_x.
+\]
+Hence it is locally onto in the precise sheaf-theoretic sense, and its kernel sheaf is
+$\F'$.  This yields the short sequence
+\[
+0\longrightarrow\F'\longrightarrow\F\longrightarrow\F/\F'\longrightarrow0.
+\]
+The full theory of exact sequences and the criterion for exactness on all stalks are the
+subject of VI/16.  Here the sequence is retained because it is the mathematical center of
+legacy AG2 Problem 8.
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_quotient_sequence.tex}
+
+\section{Sheaf surjectivity is local, not sectionwise}
+
+A morphism $\varphi:\F\to\G$ can have image sheaf equal to $\G$ while
+\[
+\F(U)\longrightarrow\G(U)
+\]
+is not surjective for some open $U$.  Equivalently, every target germ can lift while some
+global target section has no global lift.
+
+The basic model is the exponential map of function sheaves.  On a circle, every circle-valued
+continuous function has a local real-valued argument, but a degree-one map has no global
+continuous argument.  Thus local liftability and global liftability are genuinely different.
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_local_global_lift.tex}
+
+\section{Coimage and image}
+
+Define the coimage by
+\[
+\Coim(\varphi):=\F/\ker\varphi.
+\]
+There is a canonical morphism
+\[
+\Coim(\varphi)\longrightarrow\im\varphi.
+\]
+
+\begin{theorem}[Coimage equals image for sheaves of abelian groups]
+The canonical morphism
+\[
+\F/\ker\varphi\xrightarrow{\sim}\im\varphi
+\]
+is an isomorphism.
+\end{theorem}
+\begin{proof}
+At $x$ it becomes the ordinary first-isomorphism-theorem map
+\[
+\F_x/\ker(\varphi_x)\xrightarrow{\sim}\im(\varphi_x).
+\]
+A morphism of sheaves that is an isomorphism on every stalk is an isomorphism.  The latter
+criterion was established in VI/13; VI/16 will place it into the general language of exactness.
+\end{proof}
+
+\input{chapters/ch15_kernels_images_quotients/figures/vi15_coimage_image.tex}
+
+\section{Restriction and locality of the constructions}
+
+If $j:U\hookrightarrow X$ is open, restriction commutes with all four constructions:
+\[
+(\ker\varphi)|_U\cong\ker(\varphi|_U),\qquad
+(\im\varphi)|_U\cong\im(\varphi|_U),
+\]
+\[
+(\coker\varphi)|_U\cong\coker(\varphi|_U),\qquad
+(\F/\F')|_U\cong(\F|_U)/(\F'|_U).
+\]
+For kernels this is sectionwise.  For the others it follows either from the local
+description or from sheafification commuting with restriction.
+
+\section{Common pitfalls}
+\begin{enumerate}
+\item The sectionwise image $U\mapsto\im\varphi_U$ is a presheaf, not necessarily a sheaf.
+\item The sectionwise quotient $U\mapsto\F(U)/\F'(U)$ is a presheaf, not necessarily a sheaf.
+\item ``Surjective morphism of sheaves'' does not mean surjective on sections over every open
+set; the correct notion is local liftability, equivalently surjectivity on stalks.
+\item Kernels are different: they are already computed sectionwise because the sheaf axiom
+passes to a subgroup defined by an equation.
+\item Do not replace $\F/\F'$ by a sectionwise quotient in later exact-sequence arguments
+unless an independent reason shows that quotient presheaf is already a sheaf.
+\item The identity $\coker\varphi\cong\G/\im\varphi$ uses the \emph{image sheaf}, not merely
+the image presheaf.
+\item General stalkwise exactness belongs to VI/16.  The stalk computations here are the
+algebraic ingredients for that theorem.
+\end{enumerate}
+
+\section{Worked examples}
+\input{chapters/ch15_kernels_images_quotients/examples.tex}
+
+\section{Advanced worked examples}
+\input{chapters/ch15_kernels_images_quotients/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch15_kernels_images_quotients/exercises.tex}
+\ifdefined\IncludeExerciseHints
+\input{chapters/ch15_kernels_images_quotients/exercise_hints.tex}
+\fi
+
+\section{Problems}
+\input{chapters/ch15_kernels_images_quotients/problems/index.tex}
+
+\section{Challenges}
+\input{chapters/ch15_kernels_images_quotients/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Exercise solutions}
+\input{chapters/ch15_kernels_images_quotients/exercise_solutions.tex}
+\fi
+
+\section*{Summary}
+
+For a morphism of sheaves $\varphi:\F\to\G$, kernels are already local enough to be
+computed sectionwise, while images, quotients, and cokernels generally require
+sheafification:
+\[
+(\ker\varphi)(U)=\ker\varphi_U,
+\qquad
+\im\varphi=(U\mapsto\im\varphi_U)^\#,
+\]
+\[
+\F/\F'=(U\mapsto\F(U)/\F'(U))^\#,
+\qquad
+\coker\varphi=(U\mapsto\coker\varphi_U)^\#.
+\]
+At every point the constructions become ordinary algebra:
+\[
+(\ker\varphi)_x=\ker\varphi_x,
+\quad
+(\im\varphi)_x=\im\varphi_x,
+\quad
+(\coker\varphi)_x=\coker\varphi_x,
+\quad
+(\F/\F')_x=\F_x/\F'_x.
+\]
+AG1 Exercise 5 and AG2 Problem 8 are preserved here as VI.15.P1 and VI.15.P2.  The updated
+Volume VI ledger records that migration explicitly so neither is lost when VI/16 develops
+the general theory of exact sequences.
