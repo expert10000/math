@@ -1,0 +1,301 @@
+% Canonical chapter: VI/16 - Exact Sequences of Sheaves
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Exact Sequences of Sheaves}
+\label{ch:exact-sequences-sheaves}
+\providecommand{\F}{\mathcal F}
+\providecommand{\G}{\mathcal G}
+\providecommand{\Hcal}{\mathcal H}
+\providecommand{\Kcal}{\mathcal K}
+\providecommand{\Acal}{\mathcal A}
+\providecommand{\Bcal}{\mathcal B}
+\providecommand{\Ccal}{\mathcal C}
+\providecommand{\PreSh}{\mathbf{PreSh}}
+\providecommand{\Sh}{\mathbf{Sh}}
+\providecommand{\id}{\operatorname{id}}
+\providecommand{\Ker}{\operatorname{Ker}}
+\providecommand{\Coker}{\operatorname{Coker}}
+\providecommand{\HH}{\mathcal H}
+
+\section*{Purpose and learning goals}
+
+The preceding chapters built the local algebra of sheaves: germs and stalks, sheafification,
+and the correct kernel, image, quotient, and cokernel constructions.  Exact sequences are the
+language that assembles those constructions into a reusable calculus.
+
+For sheaves of abelian groups, exactness is fundamentally local.  A sequence
+\[
+\cdots\longrightarrow\F_{i-1}\xrightarrow{d_{i-1}}\F_i
+\xrightarrow{d_i}\F_{i+1}\longrightarrow\cdots
+\]
+is exact precisely when every induced sequence of stalks is exact.  This theorem is the
+principal legacy problem AG1 Exercise 6 and is preserved in full as VI.16.P1.  The second
+principal corpus problem, AG2 Problem 7, proves that a morphism of sheaves is an isomorphism
+exactly when it is injective and surjective in the sheaf-theoretic sense; it is preserved as
+VI.16.P2.  The preferred reorganized sheaf notes contain parallel treatments and are merged
+into the theory and these dossiers rather than counted as duplicate problems.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item define exactness at a term using the image and kernel sheaves;
+\item prove and use the stalkwise exactness criterion;
+\item recognize monomorphisms and epimorphisms by their stalk maps;
+\item distinguish a sheaf epimorphism from surjectivity on sections over every open set;
+\item work with short exact sequences and quotient presentations;
+\item prove that restriction to an open subset preserves exactness;
+\item understand the left exactness of the section functor without prematurely developing
+cohomology;
+\item package failure of exactness into homology sheaves;
+\item use local lifting arguments in continuous, smooth, and holomorphic examples;
+\item read exactness diagrams stalkwise and perform basic diagram chases.
+\end{itemize}
+
+\section{Exactness at a term}
+
+Let
+\[
+\F_{i-1}\xrightarrow{d_{i-1}}\F_i\xrightarrow{d_i}\F_{i+1}
+\]
+be morphisms of sheaves of abelian groups.
+
+\begin{definition}[Exactness at a term]
+The sequence is \emph{exact at $\F_i$} if
+\[
+\im(d_{i-1})=\ker(d_i)
+\]
+as subsheaves of $\F_i$.
+\end{definition}
+
+This equality automatically implies
+\[
+d_i\circ d_{i-1}=0.
+\]
+The converse is weaker: $d_i d_{i-1}=0$ gives only
+\[
+\im(d_{i-1})\subseteq\ker(d_i).
+\]
+Exactness says that every local solution of $d_i(s)=0$ is locally produced by the preceding
+map.
+
+\input{chapters/ch16_exact_sequences_sheaves/figures/vi16_exact_middle.tex}
+
+\begin{remark}[Local meaning of the image]
+Because $\im(d_{i-1})$ is the sheaf image, a section $s\in\F_i(U)$ belongs to it exactly when
+every $x\in U$ has a neighborhood $V\subseteq U$ and a section
+$t\in\F_{i-1}(V)$ with
+\[
+d_{i-1}(t)=s|_V.
+\]
+Thus exactness of sheaves means \emph{local exactness of sections}, not necessarily exactness
+of every sequence of section groups.
+\end{remark}
+
+\section{The stalkwise exactness theorem}
+
+\begin{theorem}[Stalkwise criterion for exactness]\label{thm:vi16-stalkwise-exact}
+A sequence of sheaves of abelian groups is exact if and only if, for every $x\in X$, the
+induced sequence of stalks is exact.
+\end{theorem}
+
+\begin{proof}
+Suppose first that the sheaf sequence is exact at $\F_i$.  Then
+\[
+\im(d_{i-1})=\ker(d_i).
+\]
+Taking the stalk at $x$ and using the identities established in VI/15,
+\[
+(\im d_{i-1})_x=\im((d_{i-1})_x),\qquad
+(\ker d_i)_x=\ker((d_i)_x),
+\]
+gives exactness at $(\F_i)_x$.
+
+Conversely, suppose every stalk sequence is exact.  Since
+$(d_i)_x(d_{i-1})_x=0$ for every $x$, the morphism $d_i d_{i-1}$ has zero stalk map
+everywhere and hence is zero.  Therefore
+$\im(d_{i-1})\subseteq\ker(d_i)$.
+
+Let $s\in\ker(d_i)(U)$ and $x\in U$.  Exactness of the stalk sequence gives a germ
+$t_x\in(\F_{i-1})_x$ satisfying
+\[
+(d_{i-1})_x(t_x)=s_x.
+\]
+Choose a representative $t\in\F_{i-1}(V)$ on a neighborhood $V$ of $x$.  Equality of germs
+allows us to shrink $V$ so that
+\[
+d_{i-1}(t)=s|_V.
+\]
+Hence $s$ is locally in the image of $d_{i-1}$ at every point, so
+$s\in(\im d_{i-1})(U)$.  Thus the reverse inclusion holds and the sequence is exact.
+\end{proof}
+
+\input{chapters/ch16_exact_sequences_sheaves/figures/vi16_stalkwise_criterion.tex}
+
+\section{Monomorphisms, epimorphisms, and isomorphisms}
+
+For a morphism $f:\F\to\G$, the following conditions are equivalent:
+\[
+\ker f=0
+\quad\Longleftrightarrow\quad
+f_x:\F_x\to\G_x\text{ is injective for all }x
+\]
+and these are also equivalent to injectivity of
+$f_U:\F(U)\to\G(U)$ for every open $U$.
+
+Surjectivity is subtler.
+
+\begin{theorem}[Local lifting criterion for epimorphisms]\label{thm:vi16-epi-local}
+For $f:\F\to\G$, the following are equivalent:
+\begin{enumerate}
+\item $\im f=\G$;
+\item $\coker f=0$;
+\item every stalk map $f_x$ is surjective;
+\item every section $g\in\G(U)$ is locally liftable: each $x\in U$ has a neighborhood
+$V\subseteq U$ and $s\in\F(V)$ such that $f(s)=g|_V$.
+\end{enumerate}
+\end{theorem}
+
+A morphism satisfying these conditions is called surjective as a morphism of sheaves, or an
+epimorphism in this abelian category.  It need not be surjective on $\F(U)\to\G(U)$ for a
+large open set $U$.
+
+\input{chapters/ch16_exact_sequences_sheaves/figures/vi16_local_lift.tex}
+
+\begin{corollary}[Stalkwise isomorphism criterion]
+A morphism $f:\F\to\G$ is an isomorphism if and only if every $f_x$ is an isomorphism.
+Equivalently, $f$ is an isomorphism if and only if it is both injective and surjective as a
+morphism of sheaves.
+\end{corollary}
+
+\section{Short exact sequences}
+
+\begin{definition}[Short exact sequence]
+A sequence
+\[
+0\longrightarrow\F'\xrightarrow{i}\F\xrightarrow{q}\F''\longrightarrow0
+\]
+is short exact if it is exact at each of the three nonzero terms.
+\end{definition}
+
+Equivalently, $i$ identifies $\F'$ with $\ker q$, the map $q$ is locally surjective, and
+\[
+\F''\cong\F/\F'.
+\]
+By the stalkwise criterion, short exactness is equivalent to exactness of
+\[
+0\longrightarrow\F'_x\longrightarrow\F_x\longrightarrow\F''_x\longrightarrow0
+\]
+for every $x$.
+
+\input{chapters/ch16_exact_sequences_sheaves/figures/vi16_short_exact.tex}
+
+\section{Restriction preserves exactness}
+
+Let $j:U\hookrightarrow X$ be the inclusion of an open subset.  Restriction of a sheaf to
+$U$ does not change the stalks at points of $U$:
+\[
+(\F|_U)_x\cong\F_x\qquad(x\in U).
+\]
+Therefore restricting an exact sequence of sheaves on $X$ yields an exact sequence on $U$.
+This is one of the most useful manifestations of locality: exactness can be checked after
+passing to a sufficiently small neighborhood of every point.
+
+\input{chapters/ch16_exact_sequences_sheaves/figures/vi16_restriction_exact.tex}
+
+\section{Sections are left exact, but not generally exact}
+
+Let
+\[
+0\longrightarrow\F'\longrightarrow\F\longrightarrow\F''\longrightarrow0
+\]
+be short exact.  For every open $U\subseteq X$, the induced sequence
+\[
+0\longrightarrow\F'(U)\longrightarrow\F(U)\longrightarrow\F''(U)
+\]
+is exact at the first two terms.  The final map need not be surjective.
+
+\begin{theorem}[Left exactness of sections]\label{thm:vi16-left-exact-sections}
+For every open $U$, the functor $\Gamma(U,-)$ preserves kernels and therefore sends a short
+exact sequence of sheaves of abelian groups to a left exact sequence of abelian groups.
+\end{theorem}
+
+The failure of the last map to be surjective measures a genuinely global obstruction.  The
+systematic study of that failure belongs to VI/48; here we use it only as a warning and as a
+source of examples.
+
+\input{chapters/ch16_exact_sequences_sheaves/figures/vi16_global_sections_warning.tex}
+
+\section{Homology sheaves}
+
+Suppose $d_i d_{i-1}=0$.  Define the $i$th homology sheaf of the complex by
+\[
+\HH_i:=\ker(d_i)/\im(d_{i-1}).
+\]
+Because quotients are sheaf quotients, this is again a sheaf.
+
+\begin{theorem}[Homology is computed on stalks]
+For every $x\in X$,
+\[
+(\HH_i)_x\cong
+\frac{\ker((d_i)_x)}{\im((d_{i-1})_x)}.
+\]
+Consequently, the complex is exact at $\F_i$ if and only if $\HH_i=0$.
+\end{theorem}
+
+\input{chapters/ch16_exact_sequences_sheaves/figures/vi16_homology_sheaf.tex}
+
+\section{Common pitfalls}
+\begin{enumerate}
+\item Exactness of sheaves is equality of the \emph{sheaf image} and the kernel sheaf.
+\item A sheaf epimorphism need not be surjective on sections over every open set.
+\item Exactness on stalks is equivalent to exactness of sheaves; exactness of global-section
+sequences is stronger at the right end.
+\item The relation $d_i d_{i-1}=0$ is necessary for exactness but is not sufficient.
+\item If a section lies in the kernel, exactness gives local preimages; those preimages need
+not glue globally.
+\item Restriction to an open subset preserves exactness, while direct image need not preserve
+surjectivity.
+\item Do not consume AG2 Problem 9 here: the failure of right exactness of $\Gamma(U,-)$ is
+only previewed; the corpus problem is reserved for VI/48.
+\end{enumerate}
+
+\section{Worked examples}
+\input{chapters/ch16_exact_sequences_sheaves/examples.tex}
+
+\section{Advanced worked examples}
+\input{chapters/ch16_exact_sequences_sheaves/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch16_exact_sequences_sheaves/exercises.tex}
+\ifdefined\IncludeExerciseHints
+\input{chapters/ch16_exact_sequences_sheaves/exercise_hints.tex}
+\fi
+
+\section{Problems}
+\input{chapters/ch16_exact_sequences_sheaves/problems/index.tex}
+
+\section{Challenges}
+\input{chapters/ch16_exact_sequences_sheaves/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Exercise solutions}
+\input{chapters/ch16_exact_sequences_sheaves/exercise_solutions.tex}
+\fi
+
+\section*{Summary}
+
+The central theorem of this chapter is
+\[
+\boxed{
+\text{a sequence of sheaves is exact}
+\iff
+\text{every sequence of stalks is exact}.}
+\]
+It converts sheaf-theoretic exactness into ordinary exactness of abelian groups, while the
+local-image construction explains why a surjective sheaf morphism can fail to be surjective
+on global sections.  Short exact sequences are therefore locally ordinary short exact
+sequences, restrictions preserve exactness, and homology sheaves detect the precise locus of
+failure of exactness.
+
+The Volume VI ledger records AG1 Exercise 6 as VI.16.P1 and AG2 Problem 7 as VI.16.P2.  Their
+parallel variants in the preferred notes and repeated theorem statements are merged rather
+than duplicated.  AG2 Problem 9 remains reserved for VI/48.
