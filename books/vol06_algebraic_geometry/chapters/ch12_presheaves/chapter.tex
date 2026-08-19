@@ -1,0 +1,456 @@
+% Canonical chapter: VI/12 - Presheaves
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{Presheaves}
+\label{ch:presheaves}
+\providecommand{\id}{\operatorname{id}}
+\providecommand{\Hom}{\operatorname{Hom}}
+
+\section*{Purpose and learning goals}
+
+Part II attached local rings and residue fields to individual points of spectra.  Part III now
+changes viewpoint: instead of studying one point at a time, we organize algebraic data on
+\emph{every open set} and compare those data when the open set shrinks.  The resulting
+object is a presheaf.
+
+A presheaf is deliberately weaker than a sheaf.  It knows how to restrict sections, but it
+does not yet promise that locally compatible sections determine a unique global section.
+That extra locality-and-gluing principle belongs to VI/13.  Keeping this distinction clear is
+important: many natural assignments are presheaves, some are sheaves, and some tempting
+assignments fail even to be presheaves because restriction is not well defined.
+
+This chapter is intentionally example-rich.  The main worked-example section contains
+elementary and geometric presheaves, while a separate \emph{Advanced examples} section
+develops finite-space diagrams, arithmetic and affine-basis localizations, direct images,
+cochains, bounded-function counterexamples, and representable presheaves.  These examples
+prepare the reader for stalks, sheafification, the structure sheaf, and later cohomology.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item define a presheaf of sets, groups, rings, or modules on a topological space;
+\item interpret a presheaf as a contravariant functor from $\operatorname{Open}(X)$;
+\item write and check restriction maps, identity, and composition axioms;
+\item distinguish sections from their restrictions and from later notions of germs;
+\item construct morphisms of presheaves and verify the naturality square;
+\item form subpresheaves, products, kernels, images, and quotient presheaves objectwise;
+\item restrict a presheaf to an open subspace;
+\item construct direct images of presheaves along continuous maps;
+\item encode presheaves on finite spaces as diagrams of algebraic objects;
+\item recognize the naive constant presheaf and explain why it can fail the sheaf gluing axiom;
+\item recognize locally constant, continuous, smooth, holomorphic, harmonic, and cochain examples;
+\item explain why compactly supported sections do not form a presheaf under arbitrary restriction;
+\item construct the localization presheaf on principal opens $D(f)$;
+\item construct the module-localization analogue $M_f$ on principal opens;
+\item distinguish ``presheaf data'' from the extra locality and gluing axioms of a sheaf;
+\item audit a proposed assignment systematically before calling it a presheaf.
+\end{itemize}
+
+\section{The category of open sets}
+
+Let $X$ be a topological space.  Write $\operatorname{Open}(X)$ for the category whose
+objects are open subsets of $X$ and with a unique morphism
+\[
+V\longrightarrow U
+\]
+exactly when $V\subseteq U$.
+
+Because there is at most one morphism between any two objects, $\operatorname{Open}(X)$ is
+simply the poset of open subsets viewed as a category.  A presheaf reverses these arrows.
+
+\input{chapters/ch12_presheaves/figures/vi12_contravariance.tex}
+
+\begin{definition}[Presheaf]
+Let $\mathcal C$ be a category.  A \emph{$\mathcal C$-valued presheaf} on $X$ is a
+contravariant functor
+\[
+\mathcal F:\operatorname{Open}(X)^{op}\longrightarrow\mathcal C.
+\]
+Equivalently, it consists of:
+\begin{enumerate}
+\item an object $\mathcal F(U)$ of $\mathcal C$ for every open $U\subseteq X$;
+\item for every inclusion $V\subseteq U$, a restriction morphism
+\[
+\rho^U_V:\mathcal F(U)\longrightarrow\mathcal F(V);
+\]
+\item the identities
+\[
+\rho^U_U=\id_{\mathcal F(U)},
+\qquad
+\rho^V_W\circ\rho^U_V=\rho^U_W
+\quad(W\subseteq V\subseteq U).
+\]
+\end{enumerate}
+\end{definition}
+
+When $\mathcal C=\mathbf{Set},\mathbf{Ab},\mathbf{Ring}$, or $R\mathbf{-Mod}$, we speak of
+presheaves of sets, abelian groups, rings, or $R$-modules.
+
+\input{chapters/ch12_presheaves/figures/vi12_composition.tex}
+
+\section{Sections and restriction}
+
+An element
+\[
+s\in\mathcal F(U)
+\]
+is called a \emph{section of $\mathcal F$ over $U$}.  If $V\subseteq U$, its restriction is
+\[
+s|_V:=\rho^U_V(s)\in\mathcal F(V).
+\]
+
+The word ``section'' is intentionally abstract.  Depending on the presheaf, a section might
+be a function, differential form, cochain, algebraic element, solution of an equation, or
+some other object defined over $U$.
+
+\begin{remark}[Restriction is structure, not notation]
+Writing $s|_V$ does not mean that every presheaf section is literally a function.  The
+notation records the structure map supplied by the presheaf.
+\end{remark}
+
+\section{Presheaves as contravariant functors}
+
+The functorial formulation is not cosmetic.  It packages the two restriction axioms into
+ordinary functoriality:
+\[
+\mathcal F(\id_U)=\id_{\mathcal F(U)}
+\]
+and
+\[
+\mathcal F(W\hookrightarrow V)\circ \mathcal F(V\hookrightarrow U)
+=
+\mathcal F(W\hookrightarrow U).
+\]
+
+Thus the slogan is
+\[
+\boxed{\text{smaller open set}\quad\Longrightarrow\quad\text{restriction of data}.}
+\]
+
+This reversal of arrows is the same contravariant pattern already encountered in coordinate
+rings and $\Spec$.
+
+\section{Morphisms of presheaves}
+
+\begin{definition}[Morphism of presheaves]
+Let $\mathcal F,\mathcal G$ be presheaves with values in the same category.  A morphism
+\[
+\varphi:\mathcal F\longrightarrow\mathcal G
+\]
+is a natural transformation.  Thus for every open $U\subseteq X$ there is a morphism
+\[
+\varphi_U:\mathcal F(U)\longrightarrow\mathcal G(U)
+\]
+such that for every inclusion $V\subseteq U$ the square
+\[
+\begin{tikzcd}
+\mathcal F(U)\arrow[r,"\varphi_U"]\arrow[d,"\rho^U_V"']&
+\mathcal G(U)\arrow[d,"\rho^U_V"]\\
+\mathcal F(V)\arrow[r,"\varphi_V"']&
+\mathcal G(V)
+\end{tikzcd}
+\]
+commutes.
+\end{definition}
+
+\input{chapters/ch12_presheaves/figures/vi12_naturality.tex}
+
+The commutative square says exactly that ``apply the morphism, then restrict'' equals
+``restrict, then apply the morphism.''
+
+\section{Subpresheaves and objectwise constructions}
+
+For presheaves of algebraic objects, many constructions are performed open set by open set.
+
+\begin{definition}[Subpresheaf]
+A presheaf $\mathcal G$ is a \emph{subpresheaf} of $\mathcal F$ if
+$\mathcal G(U)\subseteq\mathcal F(U)$ for every open $U$, and the restriction maps of
+$\mathcal G$ are the restrictions of those of $\mathcal F$.
+\end{definition}
+
+For presheaves of abelian groups:
+\[
+(\mathcal F\times\mathcal G)(U)=\mathcal F(U)\times\mathcal G(U),
+\]
+and if $\varphi:\mathcal F\to\mathcal G$,
+\[
+(\ker\varphi)(U)=\ker(\varphi_U),\qquad
+(\operatorname{im}^{pre}\varphi)(U)=\operatorname{im}(\varphi_U).
+\]
+If $\mathcal H\subseteq\mathcal F$ is a subpresheaf, the quotient presheaf is
+\[
+(\mathcal F/\mathcal H)^{pre}(U)=\mathcal F(U)/\mathcal H(U).
+\]
+
+These are genuine presheaves.  A major lesson of later chapters is that an objectwise image
+or quotient presheaf need not already be a sheaf.
+
+\section{Restriction to an open subset}
+
+Let $j:U\hookrightarrow X$ be an open inclusion.
+
+\begin{definition}[Restricted presheaf]
+For a presheaf $\mathcal F$ on $X$, define its restriction to $U$ by
+\[
+(\mathcal F|_U)(V)=\mathcal F(V)
+\]
+for every open $V\subseteq U$, with the same restriction maps.
+\end{definition}
+
+Nothing new is created; one simply forgets all opens not contained in $U$.
+
+\section{Direct image of a presheaf}
+
+Let $f:X\to Y$ be continuous.
+
+\begin{definition}[Direct image presheaf]
+For a presheaf $\mathcal F$ on $X$, define $f_*\mathcal F$ on $Y$ by
+\[
+(f_*\mathcal F)(V)=\mathcal F(f^{-1}(V))
+\]
+for each open $V\subseteq Y$.
+\end{definition}
+
+If $W\subseteq V$, then
+\[
+f^{-1}(W)\subseteq f^{-1}(V),
+\]
+so restriction in $\mathcal F$ gives the required map
+\[
+(f_*\mathcal F)(V)\longrightarrow(f_*\mathcal F)(W).
+\]
+
+\input{chapters/ch12_presheaves/figures/vi12_direct_image.tex}
+
+\section{The naive constant presheaf}
+
+Let $A$ be an abelian group.  The standard naive constant presheaf is
+\[
+\underline{A}^{pre}(U)=
+\begin{cases}
+A,&U\neq\varnothing,\\
+0,&U=\varnothing,
+\end{cases}
+\]
+with identity restrictions between nonempty opens and the unique map to $0$ when the target
+is empty.
+
+This is a presheaf.  However, if an open set has two disjoint nonempty components, locally
+different constants cannot be glued to one global element of $A$.  Thus the naive constant
+presheaf is generally \emph{not} a sheaf.
+
+\input{chapters/ch12_presheaves/figures/vi12_constant_failure.tex}
+
+The presheaf of \emph{locally constant} $A$-valued functions repairs this defect and will be
+a standard sheaf example in VI/13.
+
+\section{A systematic presheaf test}
+
+Given a proposed assignment $U\mapsto\mathcal F(U)$, check four things:
+
+\begin{enumerate}
+\item \textbf{Objects:} is $\mathcal F(U)$ defined for every open $U$?
+\item \textbf{Restrictions:} if $V\subseteq U$, does every section over $U$ naturally produce
+      a section over $V$?
+\item \textbf{Identity:} is restriction from $U$ to itself the identity?
+\item \textbf{Composition:} for $W\subseteq V\subseteq U$, is restricting in two stages the
+      same as restricting directly?
+\end{enumerate}
+
+The second test is often the subtle one.  Compact support, global boundedness, normalization
+conditions, and choices depending on the ambient open set can fail to survive restriction.
+
+\section{Presheaves on finite spaces}
+
+Finite topological spaces make the category-theoretic content visible without analytic
+distractions.  Consider the Sierpinski space
+\[
+X=\{\eta,s\},
+\qquad
+\operatorname{Open}(X)=\{\varnothing,\{\eta\},X\}.
+\]
+A presheaf of abelian groups, after choosing $\mathcal F(\varnothing)=0$, is exactly a
+homomorphism
+\[
+\mathcal F(X)\longrightarrow\mathcal F(\{\eta\}).
+\]
+
+\input{chapters/ch12_presheaves/figures/vi12_sierpinski.tex}
+
+More generally, on a finite Alexandrov space a presheaf is a contravariant diagram indexed
+by the poset of open sets.
+
+\section{Presheaves on a basis: an affine preview}
+
+Let $A$ be a ring.  The principal opens $D(f)\subseteq\Spec A$ form a basis.  On this basis
+one has the fundamental assignment
+\[
+D(f)\longmapsto A_f.
+\]
+For the especially transparent inclusion
+\[
+D(fg)\subseteq D(f),
+\]
+the restriction morphism is the localization map
+\[
+A_f\longrightarrow A_{fg}.
+\]
+
+Similarly, for an $A$-module $M$,
+\[
+D(f)\longmapsto M_f
+\]
+is the module-valued prototype.
+
+\input{chapters/ch12_presheaves/figures/vi12_affine_basis.tex}
+
+We do not yet call this the structure sheaf: extending from the basis, verifying the sheaf
+axioms, and identifying stalks require the machinery of VI/13 and VI/17.
+
+\section{What a presheaf does not promise}
+
+A presheaf guarantees only coherent restriction.  It does \emph{not} guarantee:
+
+\begin{itemize}
+\item that a section is determined by all of its local restrictions;
+\item that compatible local sections glue to a global section;
+\item that objectwise images or quotients behave like local images or quotients;
+\item that values on a basis determine values on arbitrary opens.
+\end{itemize}
+
+The first two missing properties are precisely the sheaf axioms.
+
+\input{chapters/ch12_presheaves/figures/vi12_presheaf_vs_sheaf.tex}
+
+\section{Common pitfalls}
+
+Keep the following distinctions explicit:
+\begin{itemize}
+\item A presheaf is not just a collection of objects $\mathcal F(U)$; the restriction maps
+      and their functoriality are part of the data.
+\item Restriction arrows go opposite to inclusions of open sets.
+\item A morphism of presheaves is not an arbitrary family of maps; it must commute with all
+      restrictions.
+\item ``Constant presheaf'' and ``locally constant functions'' are different constructions.
+\item A natural assignment may fail to be a presheaf if its defining property is not stable
+      under restriction.
+\item The fact that an assignment is a presheaf says nothing yet about gluing.
+\item Objectwise quotients and images are presheaves, but later they may require
+      sheafification to become the correct sheaf-theoretic objects.
+\item Stalks and germs are deliberately postponed to VI/13, except for brief previews.
+\item The localization assignment $D(f)\mapsto A_f$ is currently a basis-level prototype;
+      the full structure sheaf comes later.
+\end{itemize}
+
+\section{Worked examples}
+\input{chapters/ch12_presheaves/examples.tex}
+
+\section{Advanced examples}
+\input{chapters/ch12_presheaves/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch12_presheaves/exercises.tex}
+
+\ifdefined\IncludeExerciseHints
+\section*{Hints to the exercises}
+\input{chapters/ch12_presheaves/exercise_hints.tex}
+\fi
+
+\ifdefined\IncludeExerciseSolutions
+\section*{Solutions to the exercises}
+\input{chapters/ch12_presheaves/exercise_solutions.tex}
+\fi
+
+\section{Problems}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch12_presheaves/problems/index.tex}
+\else
+\begin{problem}
+Reformulate the presheaf axioms as contravariant functoriality.
+\end{problem}
+\begin{problem}
+Classify presheaves of abelian groups on the Sierpinski space.
+\end{problem}
+\begin{problem}
+Analyze the naive constant presheaf and its gluing failure on disconnected opens.
+\end{problem}
+\begin{problem}
+Show that bounded continuous functions form a presheaf but not, in general, a sheaf.
+\end{problem}
+\begin{problem}
+Show that compactly supported continuous functions do not form a presheaf under arbitrary restriction.
+\end{problem}
+\begin{problem}
+Construct and analyze morphisms of presheaves using the naturality square.
+\end{problem}
+\begin{problem}
+Construct kernels, images, and quotients objectwise in the presheaf category.
+\end{problem}
+\begin{problem}
+Prove that restriction to an open subset is functorial.
+\end{problem}
+\begin{problem}
+Construct the direct image presheaf under a continuous map.
+\end{problem}
+\begin{problem}
+Analyze a presheaf of local solutions to a differential equation.
+\end{problem}
+\begin{problem}
+Construct the singular cochain presheaf and its restriction maps.
+\end{problem}
+\begin{problem}
+Build the localization presheaf on the basis of principal opens of an affine spectrum.
+\end{problem}
+\begin{problem}
+Build the module-localization presheaf $D(f)\mapsto M_f$.
+\end{problem}
+\begin{problem}
+Compare the naive constant presheaf with locally constant functions.
+\end{problem}
+\begin{problem}
+Construct a presheaf on a three-step finite topology and read it as a diagram.
+\end{problem}
+\begin{problem}
+Give two presheaves that agree on a chosen basis but differ on a larger open set.
+\end{problem}
+\begin{problem}
+Analyze a skyscraper-type presheaf supported at one point.
+\end{problem}
+\begin{problem}
+Prove a Yoneda-style classification for representable presheaves on $\operatorname{Open}(X)$.
+\end{problem}
+\fi
+
+\section{Challenges}
+\ifdefined\FullProblemDossiers
+\input{chapters/ch12_presheaves/challenges/index.tex}
+\else
+\begin{problem}
+Classify presheaves on a finite Alexandrov space as contravariant diagrams on its specialization poset.
+\end{problem}
+\begin{problem}
+Prove the open-set Yoneda lemma $\operatorname{Nat}(h_U,\mathcal F)\cong\mathcal F(U)$.
+\end{problem}
+\begin{problem}
+Construct nonisomorphic presheaves whose restrictions to a fixed basis are isomorphic.
+\end{problem}
+\begin{problem}
+Develop the localization presheaf on principal opens and prove all restriction maps are independent of chosen factorizations.
+\end{problem}
+\fi
+
+\section{Legacy-corpus boundary}
+
+The legacy corpus contains substantial sheaf-family material, but its numbered problems are
+not all VI/12 problems.  The present chapter absorbs the presheaf definitions, restriction
+formalism, and legacy examples belonging here.  The associated-sheaf exercise is reserved for
+VI/14, image and quotient problems for VI/15, stalkwise exactness and isomorphism criteria for
+VI/16, and left exactness of global sections for the later cohomology arc.  The audit appendix
+records these destinations explicitly so no substantive legacy problem disappears or is
+counted twice.
+
+\section{Boundary with the next chapters}
+
+VI/12 supplies the raw contravariant data.  VI/13 adds the locality and gluing axioms and
+develops germs and stalks.  VI/14 constructs sheafification, VI/15 studies kernels, images,
+and quotient sheaves, VI/16 develops exact sequences, and VI/17 specializes the formalism to
+the structure sheaf of an affine spectrum.
