@@ -1,0 +1,357 @@
+% Canonical chapter: VI/17 - The Structure Sheaf
+% Status: DRAFTED (extended review before repository write)
+
+\chapter{The Structure Sheaf}
+\label{ch:structure-sheaf}
+\providecommand{\OO}{\mathcal O}
+\providecommand{\OOX}{\mathcal O_X}
+\providecommand{\Spec}{\operatorname{Spec}}
+\providecommand{\Frac}{\operatorname{Frac}}
+\providecommand{\Nil}{\operatorname{Nil}}
+\providecommand{\kappaof}[1]{\kappa(#1)}
+\providecommand{\mfp}{\mathfrak p}
+\providecommand{\mfq}{\mathfrak q}
+\providecommand{\mfm}{\mathfrak m}
+\providecommand{\id}{\operatorname{id}}
+
+\section*{Purpose and learning goals}
+
+A spectrum is not only a topological space of prime ideals.  Its geometry is carried by a
+sheaf of rings that records which algebraic functions are available on each open region.
+For an affine spectrum $X=\Spec A$, that sheaf is the \emph{structure sheaf} $\OO_X$.
+On a principal open $D(f)$ it has the fundamental form
+\[
+\OO_X(D(f))\cong A_f,
+\]
+and at a point $\mfp$ its stalk is
+\[
+\OO_{X,\mfp}\cong A_{\mfp}.
+\]
+These two formulas are the bridge from the sheaf theory of VI/12--VI/16 to affine schemes
+in VI/18.
+
+The corpus audit for this chapter is deliberately conservative.  The explicit VI/17 source
+stream in \texttt{theory-of-algebraic-geometry-3.tex} contains structure-sheaf theory and
+regular-function examples, but no numbered Problem whose unique mathematical center is the
+structure sheaf alone.  Four numbered Problems in the same legacy file are tracked rather
+than absorbed by the fallback rule: Problem 11 is reserved for VI/18, Problem 12 for VI/19,
+Problem 13 for VI/21, and Problem 14 for VI/20.  The structure-sheaf examples in the
+commutative-algebra corpus are merged into this chapter as examples, not promoted to false
+legacy Problems.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item define $\OO_{\Spec A}$ by locally representable fractions;
+\item prove that the definition gives a sheaf of rings;
+\item compute sections on $D(f)$ as $A_f$;
+\item identify the stalk at $\mfp$ with $A_{\mfp}$ and its residue field with
+$\Frac(A/\mfp)$;
+\item interpret restriction maps as further localization;
+\item evaluate regular functions in the varying residue fields $\kappa(\mfp)$;
+\item distinguish topology from scheme-theoretic function data, especially in nonreduced
+examples;
+\item compute structure sheaves on $\Spec\mathbb Z$, polynomial spectra, product rings, and
+reducible rings;
+\item use the sheaf equalizer condition to compute sections on unions of principal opens;
+\item recognize exactly what remains for the definition of an affine scheme in VI/18.
+\end{itemize}
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_part3_bridge.tex}
+
+\section{From a spectrum to functions}
+
+Let $A$ be a commutative ring and let
+\[
+X=\Spec A.
+\]
+A point of $X$ is a prime ideal $\mfp$.  The ring $A$ supplies global algebraic
+expressions, but an open subset may admit expressions with denominators that are invertible
+there.  This is why localization is the correct local algebra.
+
+For $f\in A$ the principal open is
+\[
+D(f)=\{\mfp\in\Spec A:f\notin\mfp\}.
+\]
+On $D(f)$ the element $f$ is nowhere contained in a prime, so it is natural to allow
+powers of $f$ in denominators.  The expected ring of functions is therefore $A_f$.
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_structure_sheaf_pipeline.tex}
+
+\section{Definition by locally representable fractions}
+
+For each $\mfp\in X$, let $A_{\mfp}$ be the localization of $A$ at
+$A\setminus\mfp$.  For an open subset $U\subseteq X$, define $\OO_X(U)$ to be the set of
+families
+\[
+s=(s_{\mfp})_{\mfp\in U},\qquad s_{\mfp}\in A_{\mfp},
+\]
+that are \emph{locally represented by one fraction from $A$}: for every
+$\mfp\in U$ there exist an open neighborhood $V\subseteq U$ of $\mfp$ and elements
+$a,b\in A$ such that
+\[
+V\subseteq D(b)
+\quad\text{and}\quad
+s_{\mfq}=\frac{a}{b}\in A_{\mfq}
+\qquad(\mfq\in V).
+\]
+Addition and multiplication are defined pointwise in the localizations $A_{\mfp}$.
+
+\begin{definition}[Structure sheaf of an affine spectrum]
+The assignment $U\mapsto\OO_X(U)$ with restriction given by deleting components of the
+family outside the smaller open set is the \emph{structure sheaf} of $X=\Spec A$.
+\end{definition}
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_local_fraction.tex}
+
+\begin{theorem}[Sheaf property]
+The assignment $U\mapsto\OO_X(U)$ is a sheaf of commutative rings.
+\end{theorem}
+
+\begin{proof}
+Locality is immediate: two families equal on an open cover have the same component at every
+point.  For gluing, let $U=\bigcup_i U_i$ and let $s_i\in\OO_X(U_i)$ agree on overlaps.
+Define $s_{\mfp}$ using any $i$ with $\mfp\in U_i$.  Compatibility makes this well defined.
+Each $s_i$ is locally represented by a fraction $a/b$, so the glued family is also locally
+represented by such fractions.  Hence it is a section of $\OO_X(U)$, and uniqueness follows
+pointwise.
+\end{proof}
+
+\section{Sections on principal opens}
+
+The central computation is the following.
+
+\begin{theorem}[Principal-open formula]\label{thm:vi17-basic-open}
+For every $f\in A$ there is a natural isomorphism
+\[
+\OO_X(D(f))\cong A_f.
+\]
+Under this isomorphism, $a/f^n$ is the section whose germ at
+$\mfp\in D(f)$ is the same fraction in $A_{\mfp}$.
+\end{theorem}
+
+The theorem says that a principal open carries exactly the algebra obtained by making its
+defining function invertible.  In particular,
+\[
+\OO_X(X)=\OO_X(D(1))\cong A.
+\]
+Thus the global ring can be recovered from its affine structure sheaf.
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_basic_open_sections.tex}
+
+\begin{remark}[What is not being consumed here]
+The stronger legacy statement that the restricted locally ringed space
+$(D(f),\OO_X|_{D(f)})$ is canonically isomorphic to $\Spec A_f$ is AG3 Problem 11.  It is
+reserved for VI/18, where principal opens are treated as affine schemes.  This chapter uses
+only the structure-sheaf computations needed to prepare that result.
+\end{remark}
+
+\section{Restriction maps are further localization}
+
+If $g\in A$, then
+\[
+D(fg)=D(f)\cap D(g)\subseteq D(f).
+\]
+Under the identifications from Theorem~\ref{thm:vi17-basic-open}, the restriction map is
+\[
+A_f\longrightarrow A_{fg},
+\]
+the localization map that also makes $g$ invertible.  Composition of restrictions is
+therefore associativity of localization.
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_restriction_localization.tex}
+
+\section{Stalks are local rings}
+
+Fix $\mfp\in\Spec A$.  Principal opens $D(f)$ with $f\notin\mfp$ form a neighborhood
+basis at $\mfp$, hence
+\[
+\OO_{X,\mfp}
+=\varinjlim_{\mfp\in D(f)}\OO_X(D(f))
+\cong
+\varinjlim_{f\notin\mfp} A_f.
+\]
+The colimit is exactly $A_{\mfp}$.
+
+\begin{theorem}[Stalk formula]\label{thm:vi17-stalk}
+For every prime $\mfp$,
+\[
+\boxed{\OO_{X,\mfp}\cong A_{\mfp}.}
+\]
+The unique maximal ideal is $\mfp A_{\mfp}$.
+\end{theorem}
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_stalk_colimit.tex}
+
+\section{Residue fields and values of regular functions}
+
+The residue field at $\mfp$ is
+\[
+\kappa(\mfp)
+:=\OO_{X,\mfp}/\mfp\OO_{X,\mfp}
+\cong A_{\mfp}/\mfp A_{\mfp}.
+\]
+Since $A/\mfp$ is a domain,
+\[
+\boxed{\kappa(\mfp)\cong\Frac(A/\mfp).}
+\]
+A section $s\in\OO_X(U)$ therefore has a value at each $\mfp\in U$, namely the residue
+class of its germ
+\[
+s(\mfp)\in\kappa(\mfp).
+\]
+The target field varies with the point.  This is one of the basic differences between a
+scheme and an ordinary set carrying scalar-valued functions.
+
+\section{Generic and closed points revisited}
+
+If $A$ is a domain, the generic point $(0)$ has stalk
+\[
+\OO_{X,(0)}\cong\Frac(A),
+\]
+so the function field is already present as the local ring at the generic point.  If
+$\mfm$ is maximal, then the closed point has residue field $A/\mfm$.
+
+For $A=k[t]$ with $k$ algebraically closed,
+\[
+\OO_{X,(0)}=k(t),
+\qquad
+\OO_{X,(t-a)}=k[t]_{(t-a)},
+\qquad
+\kappa(t-a)=k.
+\]
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_generic_closed_stalks.tex}
+
+\section{The arithmetic line \texorpdfstring{$\Spec\mathbb Z$}{Spec Z}}
+
+For $X=\Spec\mathbb Z$,
+\[
+\OO_X(D(n))=\mathbb Z[1/n].
+\]
+At a closed point $(p)$,
+\[
+\OO_{X,(p)}=\mathbb Z_{(p)},
+\qquad
+\kappa(p)=\mathbb F_p,
+\]
+while the generic point has
+\[
+\OO_{X,(0)}=\mathbb Q.
+\]
+Thus one sheaf simultaneously remembers rational generic information and modular special
+fibers.
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_spec_z.tex}
+
+\section{Nilpotents are invisible topologically but visible sheaf-theoretically}
+
+Let
+\[
+A=k[\varepsilon]/(\varepsilon^2).
+\]
+Its spectrum has a single point, just like $\Spec k$, but
+\[
+\OO_{\Spec A}(\Spec A)=A
+\]
+contains the nonzero nilpotent section $\varepsilon$.  Hence the same underlying topological
+space can support different structure sheaves.
+
+More generally, $A$ and $A_{\mathrm{red}}=A/\Nil(A)$ have homeomorphic spectra, but their
+structure sheaves differ by nilpotent functions.
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_nilpotent_visible.tex}
+
+\section{Gluing regular functions}
+
+If $U=D(f)\cup D(g)$, a section over $U$ is determined by sections
+\[
+s_f\in A_f,
+\qquad
+s_g\in A_g
+\]
+that agree after restriction to
+\[
+D(fg)=D(f)\cap D(g).
+\]
+Thus
+\[
+\OO_X(U)
+\cong
+\left\{(s_f,s_g)\in A_f\times A_g:
+ s_f|_{A_{fg}}=s_g|_{A_{fg}}\right\}.
+\]
+This is the equalizer form of the sheaf axiom.
+
+\input{chapters/ch17_structure_sheaf/figures/vi17_gluing_equalizer.tex}
+
+\section{Units and local vanishing}
+
+For $a\in A$, the germ $a/1\in A_{\mfp}$ is a unit if and only if
+$a\notin\mfp$.  Hence the unit locus of the global section $a$ is precisely
+\[
+D(a).
+\]
+By contrast,
+\[
+\frac a1=0\text{ in }A_{\mfp}
+\]
+if and only if there exists $s\notin\mfp$ with $sa=0$ in $A$.  In a ring with zero
+divisors, local vanishing is therefore subtler than membership $a\in\mfp$.
+
+\section{Common pitfalls}
+\begin{enumerate}
+\item A regular section over $D(f)$ need not come from an element of $A$; it may use powers
+of $f$ in the denominator.
+\item The value of a regular function at $\mfp$ lies in $\kappa(\mfp)$, not in one fixed
+base field in general.
+\item The topology of $\Spec A$ does not determine $A$: nilpotents can change the structure
+sheaf without changing the underlying topological space.
+\item The stalk at $\mfp$ is $A_{\mfp}$, not the residue field $\kappa(\mfp)$; the latter is
+a quotient of the stalk.
+\item A fraction $a/b$ represents a section only where $b$ is invertible, i.e. on an open
+contained in $D(b)$.
+\item The full statement $D(f)\cong\Spec A_f$ as locally ringed spaces is reserved for
+VI/18; the universal property of affine schemes is reserved for VI/19.
+\item The fallback migration rule for the legacy AG3 file must not send Problems 11--14 to
+VI/17; the ledger records their later destinations explicitly.
+\end{enumerate}
+
+\section{Worked examples}
+\input{chapters/ch17_structure_sheaf/examples.tex}
+
+\section{Advanced worked examples}
+\input{chapters/ch17_structure_sheaf/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch17_structure_sheaf/exercises.tex}
+\ifdefined\IncludeExerciseHints
+\input{chapters/ch17_structure_sheaf/exercise_hints.tex}
+\fi
+
+\section{Problems}
+\input{chapters/ch17_structure_sheaf/problems/index.tex}
+
+\section{Challenges}
+\input{chapters/ch17_structure_sheaf/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Exercise solutions}
+\input{chapters/ch17_structure_sheaf/exercise_solutions.tex}
+\fi
+
+\section*{Summary}
+
+For $X=\Spec A$, the structure sheaf is the local algebraic function theory determined by
+localization:
+\[
+\boxed{\OO_X(D(f))=A_f,\qquad \OO_{X,\mfp}=A_{\mfp},\qquad
+\kappa(\mfp)=\Frac(A/\mfp).}
+\]
+The sheaf glues locally representable fractions, recovers $A$ from global sections, records
+nilpotents that topology cannot see, and makes every point carry a local ring.  This completes
+Part III: the sheaf machinery is now attached to spectra.  VI/18 packages the pair
+$(\Spec A,\OO_{\Spec A})$ as an affine scheme.
+
+The Volume VI ledger records that no numbered legacy Problem is consumed by VI/17 itself.
+AG3 Problems 11--14 are reserved exactly once for VI/18, VI/19, VI/21, and VI/20,
+respectively, while the structure-sheaf theory/examples from AG3 and CA13 are merged here.
