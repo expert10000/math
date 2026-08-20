@@ -1,319 +1,296 @@
 % Canonical chapter: VI/18 - Affine Schemes
-% Status: DRAFTED (legacy recovery and chapter reconstruction)
+% Status: DRAFTED (extended review before repository write)
 
 \chapter{Affine Schemes}
 \label{ch:affine-schemes}
 \providecommand{\OO}{\mathcal O}
 \providecommand{\Spec}{\operatorname{Spec}}
+\providecommand{\GammaX}{\Gamma(X,\mathcal O_X)}
 \providecommand{\mfp}{\mathfrak p}
 \providecommand{\mfq}{\mathfrak q}
 \providecommand{\mfm}{\mathfrak m}
-\providecommand{\Aone}{\mathbb A^1}
-\providecommand{\An}{\mathbb A^n}
-\providecommand{\Pone}{\mathbb P^1}
+\providecommand{\Frac}{\operatorname{Frac}}
+\providecommand{\A}{\mathbb A}
+\providecommand{\Pj}{\mathbb P}
+\providecommand{\Gm}{\mathbb G_m}
+\providecommand{\kappaof}[1]{\kappa(#1)}
 
 \section*{Purpose and learning goals}
 
-VI/17 attached the structure sheaf to a spectrum.  This chapter packages that construction
-into the basic geometric object of scheme theory.  An affine scheme is not merely a set of
-prime ideals or a Zariski topological space: it is the locally ringed space
+The previous chapter attached a structure sheaf to every spectrum.  We now package the
+pair
 \[
-(\Spec A,\OO_{\Spec A}).
+  (\Spec A,\OO_{\Spec A})
 \]
-The decisive compatibility between localization and restriction is now geometric: for every
-$f\in A$, the principal open $D(f)$ is itself an affine scheme, canonically isomorphic to
-$\Spec A_f$.
+as one geometric object: an \emph{affine scheme}.  This is the basic local model for all
+scheme theory.  Its points are prime ideals, its open sets are Zariski opens, its regular
+functions are local fractions, and its local ring at $\mfp$ is $A_{\mfp}$.
 
-The legacy audit has two explicit obligations.  AG3 Problem 11 is recovered below in full:
-the isomorphism
-\[
-\bigl(D(f),\OO_{\Spec A}|_{D(f)}\bigr)\cong \Spec A_f
-\]
-is proved as an isomorphism of locally ringed spaces, including the prime correspondence,
-topology, sheaf maps, restriction compatibility, and stalks.  The affineness subpart of
-AG6 Problem 6 is also retained: $\Pone_k$ is a standard non-affine scheme.  AG3 Problems
-12--14 are not consumed here; they remain reserved for the later chapters on morphisms,
-gluing, and general schemes.
+The chapter begins from the Volume VI legacy-problem ledger rather than from a desired
+problem count.  Two substantive corpus items belong here and are preserved in full:
+AG3 Problem 11, proving that a distinguished open $D(f)$ is the affine scheme
+$\Spec A_f$ as a locally ringed space, and the affineness subproblem AG6 Problem 6.4,
+which exhibits $\mathbb P^1_k$ as a non-affine scheme.  The neighboring AG3 Problems
+12--14 remain reserved for VI/19, VI/21, and VI/20 respectively.
 
 After this chapter, the reader should be able to:
 \begin{itemize}
-\item define an affine scheme as a locally ringed space isomorphic to a spectrum;
-\item recover the coordinate ring of an affine scheme from global sections;
+\item define affine schemes as spectra equipped with their structure sheaves;
+\item pass freely among the ring $A$, its spectrum, and the corresponding locally ringed
+space $(\Spec A,\OO_{\Spec A})$;
+\item compute global sections, stalks, residue fields, and distinguished opens;
 \item prove that $D(f)$ is canonically $\Spec A_f$ as a locally ringed space;
-\item translate nested distinguished opens into iterated localizations;
-\item use distinguished opens as a basis of affine neighborhoods;
+\item recognize that distinguished opens form an affine basis;
 \item prove that every affine scheme is quasi-compact;
-\item recognize standard affine schemes over fields and over $\mathbb Z$;
-\item distinguish affineness from irreducibility, reducedness, and integrality;
-\item use global functions to obstruct affineness in the projective-line example;
-\item identify precisely what is deferred to VI/19--VI/22.
+\item recover the coordinate ring of an affine scheme from global sections;
+\item work with affine schemes arising from fields, polynomial rings, product rings,
+quotients, localizations, arithmetic rings, and nonreduced rings;
+\item distinguish ``affine'' from ``locally affine'' and explain why open subsets need not
+be affine;
+\item prove the legacy example that $\mathbb P^1_k$ is not affine;
+\item keep scheme-morphism and gluing results properly reserved for VI/19 and VI/20.
 \end{itemize}
 
-\section{From affine spectra to affine schemes}
+\input{chapters/ch18_affine_schemes/figures/vi18_part4_bridge.tex}
+
+\section{Locally ringed spaces and the affine model}
+
+A \emph{locally ringed space} is a topological space $X$ equipped with a sheaf of rings
+$\OO_X$ such that every stalk $\OO_{X,x}$ is a local ring.  VI/17 proved that for
+$X=\Spec A$,
+\[
+\OO_{X,\mfp}\cong A_{\mfp},
+\]
+and $A_{\mfp}$ is local with maximal ideal $\mfp A_{\mfp}$.  Thus every spectrum with
+its structure sheaf is naturally a locally ringed space.
 
 \begin{definition}[Affine scheme]
-An \emph{affine scheme} is a locally ringed space $(X,\OO_X)$ for which there exists a
-commutative ring $A$ and an isomorphism of locally ringed spaces
+An \emph{affine scheme} is a locally ringed space isomorphic to
 \[
-(X,\OO_X)\cong(\Spec A,\OO_{\Spec A}).
+  \Spec A := (\Spec A,\OO_{\Spec A})
 \]
-When such an identification is fixed, we write simply $X=\Spec A$.
+for some commutative ring $A$ with identity.
 \end{definition}
 
-Thus ``affine'' packages three compatible layers: the ring $A$, the Zariski space
-$\Spec A$, and the structure sheaf $\OO_{\Spec A}$ with stalks $A_{\mfp}$.
-The topology records specialization of primes; the structure sheaf records local rings and
-therefore remembers nilpotents and other local algebra invisible to topology alone.
+The adjective ``affine'' refers to the fact that one ring controls the whole space.  Later,
+a general scheme will be a locally ringed space that is only \emph{locally} affine.
 
-\begin{example}[A point]
-If $k$ is a field, $\Spec k$ has one point and structure ring $k$.  It is the basic one-point
-affine scheme.
-\end{example}
+\input{chapters/ch18_affine_schemes/figures/vi18_affine_package.tex}
 
-\begin{example}[Affine space]
-For a field $k$,
+\section{The three layers of an affine scheme}
+
+For $X=\Spec A$, one should keep three layers visible simultaneously:
 \[
-\An_k:=\Spec k[x_1,\dots,x_n].
+\boxed{
+\begin{array}{c}
+\text{topology: prime ideals and Zariski opens},\\[2pt]
+\text{functions: }\OO_X(D(f))=A_f,\\[2pt]
+\text{local algebra: }\OO_{X,\mfp}=A_{\mfp}.
+\end{array}}
 \]
-In particular $\Aone_k=\Spec k[t]$.  Its scheme-theoretic points are all prime ideals, not
-only maximal ideals corresponding to ordinary $k$-points.
-\end{example}
-
-\begin{example}[The arithmetic spectrum]
-The scheme $\Spec\mathbb Z$ is affine.  Its generic point is $(0)$ and its closed points are
-$(p)$ for prime integers $p$; its local ring at $(p)$ is $\mathbb Z_{(p)}$.
-\end{example}
+The residue field at a point is
+\[
+\kappa(\mfp)=A_{\mfp}/\mfp A_{\mfp}\cong\Frac(A/\mfp).
+\]
+Thus an affine scheme is much richer than its underlying topological space.
 
 \section{Global sections recover the affine coordinate ring}
 
-For $X=\Spec A$, VI/17 established
+Since $X=D(1)$, VI/17 gives
 \[
-\Gamma(X,\OO_X)=\OO_X(D(1))\cong A.
+\Gamma(X,\OO_X)=\OO_X(X)\cong A.
 \]
-Hence an affine scheme remembers its defining ring.
-
-\begin{proposition}[Affine rigidity from global sections]\label{prop:vi18-global-recovery}
-If $X$ is affine, then
+Consequently, if $X$ is affine then its coordinate ring can be recovered intrinsically:
+\[
+\boxed{A\cong\Gamma(X,\OO_X).}
+\]
+In particular, if $X\cong\Spec A$, then
 \[
 X\cong\Spec\Gamma(X,\OO_X).
 \]
-Consequently, if $\Spec A$ and $\Spec B$ are isomorphic as locally ringed spaces, then
-$A\cong B$ as rings.
-\end{proposition}
+This elementary recovery principle is one of the strongest tests for non-affineness used
+later in the chapter.
 
-\begin{proof}
-Choose an affine presentation $X\cong\Spec A$.  Taking global sections gives
-$\Gamma(X,\OO_X)\cong A$, and substituting this ring isomorphism into the presentation gives
-the first assertion.  An isomorphism of locally ringed spaces induces an isomorphism on
-global section rings, giving the second.
-\end{proof}
+\input{chapters/ch18_affine_schemes/figures/vi18_global_recovery.tex}
 
-This is deliberately weaker than the full anti-equivalence between rings and affine schemes.
-The correspondence between \emph{morphisms} and ring maps is the subject of VI/19.
+\section{Distinguished opens are affine}
 
-\section{Principal opens are affine}\label{sec:vi18-principal-opens}
-
-Let $A$ be a ring, $f\in A$, and $X=\Spec A$.  Recall
+Let $X=\Spec A$ and $f\in A$.  Topologically, primes of $A_f$ correspond exactly to
+primes of $A$ not containing $f$.  Hence
 \[
-D(f)=\{\mfp\in\Spec A:f\notin\mfp\}.
+\Spec A_f\longleftrightarrow D(f).
 \]
-The localization map $A\to A_f$ suggests that $D(f)$ should be the spectrum of $A_f$.
-The next theorem makes this exact at the level of locally ringed spaces.
-
-\begin{theorem}[Basic-open affine theorem]\label{thm:vi18-basic-open-affine}
-There is a canonical isomorphism of locally ringed spaces
+The structure sheaves agree under this correspondence because, for $g\in A$,
+\[
+\OO_{\Spec A}|_{D(f)}(D(fg))=A_{fg}
+\]
+and
+\[
+\OO_{\Spec A_f}(D(g/1))=(A_f)_{g/1}\cong A_{fg}.
+\]
+Therefore one has the fundamental geometric localization theorem
 \[
 \boxed{
-\bigl(D(f),\OO_X|_{D(f)}\bigr)
-\cong
-\bigl(\Spec A_f,\OO_{\Spec A_f}\bigr).}
+  (D(f),\OO_X|_{D(f)})\cong\Spec A_f.
+}
 \]
+This is the full content of legacy AG3 Problem 11 and is proved in detail in Problem
+VI.18.P1.
+
+\input{chapters/ch18_affine_schemes/figures/vi18_basic_open_affine.tex}
+
+\begin{corollary}[Affine basis]
+Every affine scheme has a basis of open subsets that are themselves affine schemes.
+\end{corollary}
+
+Indeed, the distinguished opens $D(f)$ form a basis of $\Spec A$, and every one of them is
+an affine scheme $\Spec A_f$.
+
+\section{Finite principal covers and quasi-compactness}
+
+Suppose
+\[
+\Spec A=\bigcup_{i\in I}D(f_i).
+\]
+The complement is
+\[
+V((f_i)_{i\in I}),
+\]
+so the cover condition is equivalent to the ideal generated by the $f_i$ being all of $A$.
+Thus there exist finitely many indices $i_1,\dots,i_r$ and elements $a_j\in A$ such that
+\[
+1=a_1f_{i_1}+\cdots+a_rf_{i_r}.
+\]
+Hence
+\[
+\Spec A=D(f_{i_1})\cup\cdots\cup D(f_{i_r}).
+\]
+
+\begin{theorem}[Affine schemes are quasi-compact]
+Every open cover of an affine scheme has a finite subcover.
 \end{theorem}
 
 \begin{proof}
-Prime ideals of $A_f$ correspond exactly to primes $\mfp\subseteq A$ with $f\notin\mfp$,
-by contraction and extension:
-\[
-\mfq\longmapsto\mfq\cap A,
-\qquad
-\mfp\longmapsto\mfp A_f.
-\]
-A basic open $D(g/1)\subseteq\Spec A_f$ corresponds to
-\[
-D(g)\cap D(f)=D(fg)\subseteq\Spec A,
-\]
-so the point bijection is a homeomorphism.
-
-On these corresponding basic opens,
-\[
-\OO_X(D(fg))=A_{fg},
-\qquad
-\OO_{\Spec A_f}(D(g/1))=(A_f)_{g/1}.
-\]
-Associativity of localization gives
-\[
-(A_f)_{g/1}\xrightarrow{\sim}A_{fg},
-\qquad
-\frac{a/f^m}{(g/1)^n}\longmapsto\frac{a}{f^m g^n}.
-\]
-These maps commute with restriction maps, hence identify the sheaves on a basis and
-therefore on all opens.  Finally, at corresponding points
-$\mfp\leftrightarrow\mfp A_f$,
-\[
-(A_f)_{\mfp A_f}\cong A_{\mfp},
-\]
-and this is an isomorphism of local rings.  Therefore the homeomorphism is an isomorphism
-of locally ringed spaces.
+Refine the cover by distinguished opens.  The refined distinguished-open cover admits a
+finite subcover by the preceding ideal argument; the corresponding members of the original
+cover form a finite subcover as well.
 \end{proof}
 
-\section{Nested principal opens and repeated localization}
+\input{chapters/ch18_affine_schemes/figures/vi18_quasicompact_cover.tex}
 
-Under Theorem~\ref{thm:vi18-basic-open-affine}, a principal open inside $D(f)$ has the form
+\section{Basic affine schemes}
+
+The basic examples include
 \[
-D_{\Spec A_f}(g/1).
+\A^n_k=\Spec k[x_1,\dots,x_n],
+\qquad
+\Spec\mathbb Z,
+\qquad
+\Spec k[\varepsilon]/(\varepsilon^2),
 \]
-Its image in $\Spec A$ is
+and reducible spectra such as
 \[
-D(f)\cap D(g)=D(fg),
+\Spec k[x,y]/(xy).
 \]
-and its coordinate ring is
+The multiplicative group is the distinguished open
 \[
-(A_f)_{g/1}\cong A_{fg}.
+\Gm=\Spec k[t,t^{-1}]\cong D(t)\subseteq\A^1_k.
 \]
-Thus restriction to a smaller principal affine neighborhood is literally further
-localization:
+Product rings give disconnected affine schemes:
+\[
+\Spec(A\times B)\cong \Spec A\sqcup\Spec B
+\]
+as locally ringed spaces.
+
+\input{chapters/ch18_affine_schemes/figures/vi18_examples_gallery.tex}
+
+\section{The empty affine scheme}
+
+The zero ring has no prime ideals, so
+\[
+\Spec 0=\varnothing.
+\]
+With its unique sheaf of rings, this is the empty affine scheme.  It is important to allow
+this object: it appears naturally as $D(f)$ whenever $f$ is nilpotent, since then $A_f=0$.
+
+\section{Affine schemes can have the same underlying space}
+
+The spectra
+\[
+\Spec k
+\qquad\text{and}\qquad
+\Spec k[\varepsilon]/(\varepsilon^2)
+\]
+both have one point, but their global rings are different.  Since an affine scheme recovers
+its global ring, they are not isomorphic as affine schemes.  Affine geometry therefore
+remembers nilpotent directions that the underlying topology forgets.
+
+\section{Local affine schemes}
+
+If $(A,\mfm)$ is a local ring, then $\Spec A$ has a unique closed point, namely $\mfm$.
+Conversely, if an affine scheme $\Spec A$ has a unique closed point, then $A$ has a unique
+maximal ideal and is local.  Thus
 \[
 \boxed{
-D(f)\supseteq D(fg)
-\quad\longleftrightarrow\quad
-A_f\longrightarrow A_{fg}.}
+A\text{ local}\iff\Spec A\text{ has exactly one closed point}.}
 \]
+This gives a useful geometric interpretation of local rings without confusing a local scheme
+with a one-point space: a local ring can have many nonclosed prime ideals.
 
-\begin{corollary}[Affine neighborhood basis]\label{cor:vi18-affine-basis}
-Every affine scheme has a basis of open subsets that are affine schemes.
-\end{corollary}
+\section{Affine algebraic sets versus affine schemes}
 
-\begin{proof}
-The distinguished opens $D(f)$ form a basis of $\Spec A$, and each is affine by
-Theorem~\ref{thm:vi18-basic-open-affine}.
-\end{proof}
-
-\section{Quasi-compactness of affine schemes}
-
-\begin{proposition}[Affine schemes are quasi-compact]\label{prop:vi18-qc}
-Every affine scheme is quasi-compact.
-\end{proposition}
-
-\begin{proof}
-It suffices to consider $X=\Spec A$.  Let $X=\bigcup_{i\in I}U_i$ be an open cover.
-Refine it by distinguished opens, obtaining a cover
+If $k$ is algebraically closed and
 \[
-X=\bigcup_{j\in J}D(f_j).
-\]
-If the ideal $(f_j:j\in J)$ were proper, it would lie in a maximal ideal $\mfm$, and then
-$\mfm$ would lie in none of the $D(f_j)$, a contradiction.  Thus
-\[
-1=a_1f_{j_1}+\cdots+a_rf_{j_r}
-\]
-for finitely many indices.  No prime can contain all $f_{j_1},\dots,f_{j_r}$, so
-\[
-X=D(f_{j_1})\cup\cdots\cup D(f_{j_r}).
-\]
-Choosing parent members of the original cover gives a finite subcover.
-\end{proof}
-
-\section{Extreme principal opens}
-
-The spectrum-localization dictionary gives two useful tests:
-\[
-D(f)=\varnothing\iff f\text{ is nilpotent},
+V=V(I)\subseteq k^n,
 \qquad
-D(f)=\Spec A\iff f\text{ is a unit}.
+A=k[x_1,\dots,x_n]/I,
 \]
-In the first case $A_f=0$; in the second $A_f\cong A$.
+then the classical points of $V$ correspond to maximal ideals of $A$ of the form
+$(x_1-a_1,\dots,x_n-a_n)/I$.  The affine scheme $\Spec A$ also contains nonclosed prime
+ideals, generic points, residue-field information, and nilpotent structure when $I$ is not
+radical.  Thus affine schemes extend rather than merely rename classical affine algebraic
+sets.
 
-\section{Standard affine constructions}
+\section{An open subset of an affine scheme need not be affine}
 
-\subsection{Laurent affine line}
-For $A=k[t]$ and $f=t$,
+Distinguished opens are affine, but arbitrary open subsets need not be.  The first corpus
+example is projective rather than open-affine: the projective line $\Pj^1_k$ is covered by
+two affine lines, yet it is not itself affine.  In the advanced examples and Problem
+VI.18.P2 we compute
 \[
-D(t)\cong\Spec k[t,t^{-1}].
+\Gamma(\Pj^1_k,\OO)=k
 \]
-Thus the affine line with the origin removed is still affine.
-
-\subsection{Reducible affine schemes}
-For
+and deduce that affineness would force
 \[
-A=k[x,y]/(xy),
+\Pj^1_k\cong\Spec k,
 \]
-$\Spec A$ is affine although reducible.  Affineness is not the same as irreducibility,
-reducedness, or integrality.
+which is impossible because $\Pj^1_k$ has more than one point.
 
-\subsection{Nonreduced affine schemes}
-For
+This example separates two ideas that must remain distinct:
 \[
-A=k[\varepsilon]/(\varepsilon^2),
+\boxed{\text{covered by affine opens}\not\Rightarrow\text{affine}.}
 \]
-$\Spec A$ is a one-point affine scheme with a nonzero nilpotent global section.  It has the
-same underlying topological space as $\Spec k$ but is not isomorphic to it as a locally
-ringed space.
+The formal gluing construction of general schemes is reserved for VI/20--VI/21.
 
-\subsection{Product rings}
-For rings $A$ and $B$, $\Spec(A\times B)$ is the disjoint union of two clopen affine pieces.
-The idempotents $(1,0)$ and $(0,1)$ cut out those distinguished opens.
-
-\section{Affineness is a genuine global condition}
-
-Not every scheme is affine.  A standard counterexample, already present in the legacy
-corpus, is the projective line.
-
-\begin{proposition}[The projective line is not affine]\label{prop:vi18-p1-nonaffine}
-Let $k$ be a field.  Then $\Pone_k$ is not affine.
-\end{proposition}
-
-\begin{proof}
-Using the two standard affine charts $U_0\cong\Spec k[t]$ and
-$U_1\cong\Spec k[u]$, with $u=t^{-1}$ on the overlap, a global regular function is a pair
-\[
-p(t)\in k[t],\qquad q(u)\in k[u]
-\]
-whose restrictions agree in $k[t,t^{-1}]$.  Hence
-\[
-p(t)=q(t^{-1}).
-\]
-The left side contains only nonnegative powers of $t$ and the right side only nonpositive
-powers.  Their common elements are exactly the constants.  Therefore
-\[
-\Gamma(\Pone_k,\OO_{\Pone_k})=k.
-\]
-If $\Pone_k$ were affine, Proposition~\ref{prop:vi18-global-recovery} would give
-\[
-\Pone_k\cong\Spec k,
-\]
-which is impossible because $\Pone_k$ is not a one-point space.  Thus $\Pone_k$ is not affine.
-\end{proof}
-
-The systematic construction of projective schemes appears later in Volume VI.  The example
-is retained here because it is the affineness subproblem explicitly reserved by the legacy
-ledger.
+\input{chapters/ch18_affine_schemes/figures/vi18_p1_nonaffine.tex}
 
 \section{Common pitfalls}
 \begin{enumerate}
-\item $\Spec A$ as a topological space is not yet the affine scheme; the structure sheaf is
+\item An affine scheme is not only the topological space $\Spec A$; the structure sheaf is
 part of the object.
-\item Homeomorphic spectra need not define isomorphic affine schemes; nilpotent thickenings
-are the basic warning.
-\item $D(f)$ is not merely homeomorphic to $\Spec A_f$; the canonical statement is an
-isomorphism of locally ringed spaces.
-\item Matching section rings on isolated basis opens is not enough; the sheaf maps must be
-compatible with restrictions.
-\item The stalk comparison must preserve the maximal ideals, because morphisms of locally
-ringed spaces are local on stalks.
-\item Affineness is independent of reducedness, irreducibility, and integrality.
-\item The equality $\Gamma(X,\OO_X)=A$ for $X=\Spec A$ does not by itself establish the
-ring--affine-scheme anti-equivalence; morphisms are treated in VI/19.
-\item AG3 Problems 12--14 remain reserved for VI/19, VI/21, and VI/20 respectively and
-must not be absorbed into this chapter.
+\item ``Affine'' means globally isomorphic to one spectrum.  Being covered by affine opens
+is weaker.
+\item Not every open subset of an affine scheme is affine, although every distinguished open
+$D(f)$ is affine.
+\item The coordinate ring of an affine scheme is recovered as $\Gamma(X,\OO_X)$; this is a
+powerful invariant.
+\item $\Spec(A/I)$ is certainly affine, but interpreting it as a \emph{closed subscheme} of
+$\Spec A$ is reserved for VI/22.
+\item A ring homomorphism induces a contravariant map of spectra, but the full definition and
+universal property of affine-scheme morphisms are reserved for VI/19 and AG3 Problem 12.
+\item The scheme-gluing theorem AG3 Problem 14 remains reserved for VI/20.
+\item A local affine scheme need not be a one-point space; it has one closed point but may
+have many generic or intermediate points.
 \end{enumerate}
 
 \section{Worked examples}
@@ -341,20 +318,24 @@ must not be absorbed into this chapter.
 
 \section*{Summary}
 
-An affine scheme is the locally ringed space attached to a ring:
+An affine scheme is one globally controlled by a ring:
 \[
-X=\Spec A,
-\qquad
+\boxed{X=\Spec A=(\Spec A,\OO_{\Spec A}).}
+\]
+Its fundamental computations are
+\[
 \Gamma(X,\OO_X)=A,
 \qquad
-\OO_{X,\mfp}=A_{\mfp}.
+\OO_{X,\mfp}=A_{\mfp},
+\qquad
+\kappa(\mfp)=\Frac(A/\mfp),
 \]
-Its distinguished opens are affine charts:
+and its basic open charts satisfy
 \[
-\boxed{(D(f),\OO_X|_{D(f)})\cong\Spec A_f.}
+\boxed{D(f)\cong\Spec A_f.}
 \]
-This is the full content of legacy AG3 Problem 11 and is now recovered at its reserved
-canonical destination.  Affine schemes have bases of affine principal opens and are
-quasi-compact, while $\Pone_k$ supplies the reserved non-affine counterexample.  VI/19
-next adds the morphism theorem that turns the ring--spectrum construction into the
-contravariant equivalence governing affine geometry.
+Distinguished opens form an affine basis and affine schemes are quasi-compact.  The ring is
+recoverable from global sections, while topology alone is insufficient to recover the
+scheme.  The legacy ledger now records AG3 Problem 11 as VI.18.P1 and the non-affineness
+subproblem AG6 Problem 6.4 as VI.18.P2, while AG3 Problems 12--14 remain reserved for their
+later canonical destinations.
