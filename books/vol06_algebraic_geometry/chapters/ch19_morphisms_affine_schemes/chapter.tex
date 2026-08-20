@@ -1,0 +1,398 @@
+% Canonical chapter: VI/19 - Morphisms of Affine Schemes
+% Status: DRAFTED (corpus/ledger audited)
+
+\chapter{Morphisms of Affine Schemes}
+\label{ch:morphisms-affine-schemes}
+\providecommand{\OO}{\mathcal O}
+\providecommand{\Spec}{\operatorname{Spec}}
+\providecommand{\GammaX}{\Gamma(X,\mathcal O_X)}
+\providecommand{\mfp}{\mathfrak p}
+\providecommand{\mfq}{\mathfrak q}
+\providecommand{\mfm}{\mathfrak m}
+\providecommand{\Frac}{\operatorname{Frac}}
+\providecommand{\A}{\mathbb A}
+\providecommand{\kappaof}[1]{\kappa(#1)}
+
+\section*{Purpose and learning goals}
+
+VI/18 constructed affine schemes from rings.  The next question is how maps between these
+geometric objects are encoded algebraically.  The answer is one of the central reversals of
+algebraic geometry:
+\[
+\boxed{
+  \varphi:A\longrightarrow B
+  \qquad\Longleftrightarrow\qquad
+  \Spec B\longrightarrow\Spec A.
+}
+\]
+The direction reverses because a point of $\Spec B$ is a prime ideal of $B$, and a ring map
+$A\to B$ sends it back to its contraction in $A$.
+
+The chapter is organized around the one numbered legacy Problem assigned to the direct
+VI/19 corpus scope: AG3 Problem 12, the universal property
+\[
+\boxed{
+\operatorname{Hom}_{\mathrm{LRS}}(X,\Spec A)
+\cong
+\operatorname{Hom}_{\mathrm{Ring}}(A,\Gamma(X,\OO_X)).
+}
+\]
+For affine $X=\Spec B$, this becomes the familiar affine anti-equivalence
+\[
+\operatorname{Hom}_{\mathrm{AffSch}}(\Spec B,\Spec A)
+\cong
+\operatorname{Hom}_{\mathrm{Ring}}(A,B).
+\]
+The proof is carried out at locally-ringed-space level, so it does not require the general
+scheme definition reserved for VI/20--VI/21.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item define morphisms of locally ringed spaces and affine schemes;
+\item construct $\Spec(\varphi)$ from a ring homomorphism $\varphi:A\to B$;
+\item prove $\Spec(\varphi)^{-1}(D(a))=D(\varphi(a))$;
+\item construct the induced morphism of structure sheaves and the local maps on stalks;
+\item prove functoriality and contravariance of $\Spec$;
+\item recover a morphism of affine schemes uniquely from its map on global sections;
+\item prove the AG3 Problem 12 universal property in full;
+\item recognize maps to the universal affine line $\Spec\mathbb Z[t]$ as global regular functions;
+\item detect affine-scheme isomorphisms by ring isomorphisms;
+\item compute morphisms induced by polynomial, quotient, and localization maps;
+\item compute the induced maps of residue fields;
+\item distinguish underlying continuous maps from morphisms of locally ringed spaces;
+\item keep gluing, structure morphisms, closed subschemes, fiber products, and base change at
+  their later canonical destinations.
+\end{itemize}
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_part4_bridge.tex}
+
+\section{Morphisms of locally ringed spaces}
+
+A morphism of ringed spaces
+\[
+f:(X,\OO_X)\longrightarrow(Y,\OO_Y)
+\]
+consists of a continuous map $f:X\to Y$ together with a morphism of sheaves of rings
+\[
+f^\sharp:\OO_Y\longrightarrow f_*\OO_X.
+\]
+Equivalently, for every open $V\subseteq Y$ there is a compatible ring homomorphism
+\[
+f_V^\sharp:\OO_Y(V)\longrightarrow\OO_X(f^{-1}V).
+\]
+It is a morphism of \emph{locally} ringed spaces when, for each $x\in X$, the induced map
+on stalks
+\[
+f_x^\sharp:\OO_{Y,f(x)}\longrightarrow\OO_{X,x}
+\]
+is local: the inverse image of the maximal ideal of $\OO_{X,x}$ is the maximal ideal of
+$\OO_{Y,f(x)}$.
+
+An affine-scheme morphism is simply a morphism of locally ringed spaces between affine
+schemes.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_lrs_morphism.tex}
+
+\section{A ring homomorphism gives a map of spectra}
+
+Let
+\[
+\varphi:A\longrightarrow B
+\]
+be a ring homomorphism.  For each $\mfp\in\Spec B$, contraction gives a prime ideal
+\[
+\varphi^{-1}(\mfp)\in\Spec A.
+\]
+Thus define
+\[
+f=\Spec(\varphi):\Spec B\longrightarrow\Spec A,
+\qquad
+\mfp\longmapsto\varphi^{-1}(\mfp).
+\]
+The point map already exhibits the contravariance: arrows of rings and arrows of affine
+schemes point in opposite directions.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_contravariant_spec.tex}
+
+\section{Continuity and principal opens}
+
+The point map is continuous for an especially transparent reason.  If $a\in A$, then
+\[
+\begin{aligned}
+\mfp\in f^{-1}(D(a))
+&\iff a\notin\varphi^{-1}(\mfp)\\
+&\iff \varphi(a)\notin\mfp\\
+&\iff \mfp\in D(\varphi(a)).
+\end{aligned}
+\]
+Hence
+\[
+\boxed{f^{-1}(D(a))=D(\varphi(a)).}
+\]
+Since principal opens form a basis, $f$ is continuous.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_basic_open_pullback.tex}
+
+\section{The map on structure sheaves}
+
+On a principal open $D(a)\subseteq\Spec A$, the structure sheaf gives $A_a$.  Its inverse
+image is $D(\varphi(a))\subseteq\Spec B$, whose section ring is $B_{\varphi(a)}$.
+The universal property of localization therefore gives
+\[
+\varphi_a:A_a\longrightarrow B_{\varphi(a)},
+\qquad
+\frac{r}{a^n}\longmapsto\frac{\varphi(r)}{\varphi(a)^n}.
+\]
+These maps commute with further localization, hence with restriction maps.  They therefore
+define the sheaf morphism
+\[
+f^\sharp:\OO_{\Spec A}\longrightarrow f_*\OO_{\Spec B}.
+\]
+
+\section{The maps on stalks are local}
+
+Let $\mfp\in\Spec B$ and put $\mfq=\varphi^{-1}(\mfp)$.  Passing to stalks gives
+\[
+A_{\mfq}\longrightarrow B_{\mfp},
+\qquad
+\frac{a}{s}\longmapsto\frac{\varphi(a)}{\varphi(s)}.
+\]
+If the image lies in the maximal ideal $\mfp B_{\mfp}$, then $\varphi(a)\in\mfp$, hence
+$a\in\mfq$.  Conversely $a\in\mfq$ clearly maps into $\mfp B_{\mfp}$.  Thus the inverse
+image of the maximal ideal is $\mfq A_{\mfq}$, so the stalk map is local.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_stalk_map.tex}
+
+\section{Functoriality of the spectrum construction}
+
+For ring maps
+\[
+A\xrightarrow{\varphi}B\xrightarrow{\psi}C
+\]
+one has
+\[
+\Spec(\psi\circ\varphi)=\Spec(\varphi)\circ\Spec(\psi),
+\]
+and $\Spec(\operatorname{id}_A)=\operatorname{id}_{\Spec A}$.  The same identities hold
+for the sheaf maps because localization respects composition.  Thus
+\[
+\Spec:(\mathbf{CRing})^{\mathrm{op}}\longrightarrow\mathbf{AffSch}
+\]
+is a contravariant functor.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_functoriality.tex}
+
+\section{Affine schemes and rings form opposite categories}
+
+If $X=\Spec B$ and $Y=\Spec A$, every ring map $A\to B$ gives an affine-scheme morphism
+$X\to Y$.  Conversely, a morphism $f:X\to Y$ induces on global sections a ring map
+\[
+\Gamma(Y,\OO_Y)=A\longrightarrow\Gamma(X,\OO_X)=B.
+\]
+The two constructions are inverse.  Therefore
+\[
+\boxed{
+\operatorname{Hom}_{\mathrm{AffSch}}(\Spec B,\Spec A)
+\cong
+\operatorname{Hom}_{\mathrm{Ring}}(A,B).
+}
+\]
+In particular, an affine-scheme morphism is completely determined by its pullback on global
+regular functions.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_affine_antiequivalence.tex}
+
+\section{The universal property of \texorpdfstring{$\Spec A$}{Spec A} --- AG3 Problem 12}
+
+The affine statement admits a stronger formulation.  Let $(X,\OO_X)$ be any locally ringed
+space.  A morphism
+\[
+f:X\longrightarrow\Spec A
+\]
+induces a ring map on global sections
+\[
+A=\Gamma(\Spec A,\OO)\xrightarrow{\Gamma(f^\sharp)}\Gamma(X,\OO_X).
+\]
+Conversely, given
+\[
+\alpha:A\longrightarrow\Gamma(X,\OO_X),
+\]
+for each $x\in X$ compose with the germ map to obtain
+\[
+A\xrightarrow{\alpha}\Gamma(X,\OO_X)\longrightarrow\OO_{X,x}.
+\]
+Since $\OO_{X,x}$ is local with maximal ideal $\mfm_x$, define
+\[
+f_\alpha(x)=\{a\in A:\alpha(a)_x\in\mfm_x\}.
+\]
+This is a prime ideal.  The section $\alpha(a)$ is a unit at $x$ exactly when
+$x\in f_\alpha^{-1}(D(a))$, so
+\[
+f_\alpha^{-1}(D(a))
+=
+\{x:\alpha(a)_x\in\OO_{X,x}^{\times}\},
+\]
+which is open.  Localizing $\alpha$ on these opens constructs the required sheaf map, and
+the stalk maps are local by construction.  Uniqueness follows because principal opens form a
+basis and a local stalk map forces the image prime at every point.
+
+Thus
+\[
+\boxed{
+\operatorname{Hom}_{\mathrm{LRS}}(X,\Spec A)
+\cong
+\operatorname{Hom}_{\mathrm{Ring}}(A,\Gamma(X,\OO_X)).
+}
+\]
+Problem VI.19.P1 gives the complete proof with all continuity, sheaf, stalk, uniqueness, and
+naturality steps.  This is the canonical migration of legacy AG3 Problem 12.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_universal_property.tex}
+
+\section{Maps to affine space and global functions}
+
+Taking $A=\mathbb Z[t]$ in the universal property gives, for any locally ringed space $X$,
+\[
+\operatorname{Hom}_{\mathrm{LRS}}(X,\Spec\mathbb Z[t])
+\cong\Gamma(X,\OO_X).
+\]
+If one works over a fixed field $k$ and restricts to ring maps fixing $k$, the same idea says
+that a map to affine $n$-space is encoded by $n$ global functions.  In the affine case
+$X=\Spec B$, a tuple $(b_1,\dots,b_n)\in B^n$ corresponds to
+\[
+k[x_1,\dots,x_n]\longrightarrow B,
+\qquad
+x_i\longmapsto b_i.
+\]
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_polynomial_map.tex}
+
+\section{Isomorphisms}
+
+Because the Hom correspondence is functorial, a ring isomorphism $A\cong B$ induces an
+affine-scheme isomorphism $\Spec B\cong\Spec A$, and conversely every affine-scheme
+isomorphism induces an isomorphism on global sections.  Hence
+\[
+\boxed{
+\Spec A\cong\Spec B\text{ as affine schemes}
+\iff
+A\cong B\text{ as rings}.
+}
+\]
+This strengthens VI/18's reconstruction principle from objects to morphisms.
+
+\section{Localization and quotient maps}
+
+Two important ring maps already have familiar topological meanings.
+
+For localization $A\to A_f$,
+\[
+\Spec A_f\longrightarrow\Spec A
+\]
+identifies the source with the distinguished open $D(f)$, recovering VI.18.P1 now as a
+morphism statement.
+
+For a quotient $A\to A/I$,
+\[
+\Spec(A/I)\longrightarrow\Spec A
+\]
+is injective on points with image $V(I)$.  This chapter uses this only as an affine morphism
+and a statement about the underlying topology.  The language and universal property of
+\emph{closed subschemes} are deliberately reserved for VI/22.
+
+\input{chapters/ch19_morphisms_affine_schemes/figures/vi19_localization_quotient.tex}
+
+\section{Residue fields under a morphism}
+
+For $f=\Spec(\varphi):\Spec B\to\Spec A$ and $\mfp\in\Spec B$, with
+$\mfq=\varphi^{-1}(\mfp)$, the local map
+\[
+A_{\mfq}\longrightarrow B_{\mfp}
+\]
+induces a field homomorphism
+\[
+\boxed{\kappa(\mfq)\longrightarrow\kappa(\mfp).}
+\]
+Thus scheme morphisms do not merely send points to points; they also compare the fields in
+which functions take values at those points.
+
+\section{The closure of the image}
+
+If $f=\Spec(\varphi):\Spec B\to\Spec A$, then every point of the image contains
+$\ker\varphi$.  More precisely,
+\[
+\boxed{\overline{f(\Spec B)}=V(\ker\varphi).}
+\]
+Indeed, the ideal of functions vanishing on the image is
+$\varphi^{-1}(\sqrt{(0)_B})=\sqrt{\ker\varphi}$, which defines the same closed set as
+$\ker\varphi$.  In particular, the image is dense exactly when $\ker\varphi$ is nilpotent
+in the radical sense $\sqrt{\ker\varphi}=\sqrt{(0)}$; equivalently
+$\ker\varphi\subseteq\sqrt{(0)_A}$.
+
+\section{Common pitfalls}
+\begin{enumerate}
+\item Ring maps reverse direction under $\Spec$: $A\to B$ gives $\Spec B\to\Spec A$.
+\item A continuous map of spectra is not by itself an affine-scheme morphism; the compatible
+sheaf map and local stalk condition are essential.
+\item The point map is contraction of primes, not extension of primes.
+\item On stalks the relevant map is $A_{\varphi^{-1}(\mfp)}\to B_{\mfp}$.
+\item A morphism of affine schemes is determined by the global ring map, but this fact uses
+both the affine reconstruction theorem and the universal property.
+\item Quotient maps are discussed here only as affine morphisms with image $V(I)$; the
+closed-subscheme formalism belongs to VI/22.
+\item The canonical structure morphism and the statement that $\Spec\mathbb Z$ is final are
+AG3 Problem 13 and remain reserved for VI/21.
+\item Gluing local affine morphisms into general scheme morphisms belongs to VI/20--VI/21;
+AG3 Problem 14 remains reserved for VI/20.
+\item Fiber products and base change are not hidden inside the affine Hom correspondence;
+they receive their own treatment in VI/23--VI/24.
+\end{enumerate}
+
+\section{Worked examples}
+\input{chapters/ch19_morphisms_affine_schemes/examples.tex}
+
+\section{Advanced worked examples}
+\input{chapters/ch19_morphisms_affine_schemes/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch19_morphisms_affine_schemes/exercises.tex}
+\ifdefined\IncludeExerciseHints
+\input{chapters/ch19_morphisms_affine_schemes/exercise_hints.tex}
+\fi
+
+\section{Problems}
+\input{chapters/ch19_morphisms_affine_schemes/problems/index.tex}
+
+\section{Challenges}
+\input{chapters/ch19_morphisms_affine_schemes/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Exercise solutions}
+\input{chapters/ch19_morphisms_affine_schemes/exercise_solutions.tex}
+\fi
+
+\section*{Summary}
+
+A ring homomorphism $\varphi:A\to B$ produces the affine morphism
+\[
+\Spec(\varphi):\Spec B\longrightarrow\Spec A,
+\qquad
+\mfp\longmapsto\varphi^{-1}(\mfp),
+\]
+with
+\[
+\Spec(\varphi)^{-1}(D(a))=D(\varphi(a)),
+\qquad
+A_a\longrightarrow B_{\varphi(a)},
+\qquad
+A_{\varphi^{-1}(\mfp)}\longrightarrow B_{\mfp}.
+\]
+The construction is functorial and yields the anti-equivalence
+\[
+\operatorname{Hom}_{\mathrm{AffSch}}(\Spec B,\Spec A)
+\cong\operatorname{Hom}_{\mathrm{Ring}}(A,B).
+\]
+The stronger AG3 Problem 12 universal property identifies maps from any locally ringed
+space $X$ into $\Spec A$ with ring maps $A\to\Gamma(X,\OO_X)$.  The Volume VI ledger now
+records AG3 Problem 12 uniquely as VI.19.P1; AG3 Problems 13 and 14 remain reserved for
+VI/21 and VI/20.
