@@ -1,0 +1,281 @@
+% Canonical chapter: VI/20 — Gluing Affine Schemes
+% Status: DRAFTED (corpus/ledger audited)
+
+\chapter{Gluing Affine Schemes}
+\label{ch:gluing-affine-schemes}
+\providecommand{\OO}{\mathcal O}
+\providecommand{\Spec}{\operatorname{Spec}}
+\providecommand{\A}{\mathbb A}
+\providecommand{\PP}{\mathbb P}
+\providecommand{\mfp}{\mathfrak p}
+\providecommand{\mfq}{\mathfrak q}
+\providecommand{\ZZ}{\mathbb Z}
+
+\section*{Purpose and learning goals}
+
+Affine schemes are local building blocks, not the whole subject.  The passage from affine
+geometry to general scheme geometry is made by gluing compatible local models along open
+subschemes.  The central theorem of this chapter is the full legacy AG3 Problem 14: a family
+of schemes equipped with compatible open-overlap isomorphisms can be assembled into a scheme,
+unique up to unique isomorphism.
+
+A second legacy problem belongs here as well.  AG5 Problem 2 proves that if two affine open
+subschemes $U=\Spec A$ and $V=\Spec B$ lie in one scheme, then $U\cap V$ can be covered by
+open affines that are distinguished in both $U$ and $V$.  This is exactly the local algebraic
+refinement needed to make gluing computations explicit.
+
+After this chapter, the reader should be able to:
+\begin{itemize}
+\item state gluing data and the inverse/cocycle compatibility conditions;
+\item construct the quotient topological space underlying a glued scheme;
+\item prove each original chart embeds homeomorphically as an open subset;
+\item define the glued structure sheaf by compatible families of local sections;
+\item verify the sheaf axiom and identify the stalks with chart stalks;
+\item prove the resulting locally ringed space is a scheme;
+\item prove uniqueness up to unique isomorphism;
+\item use the universal mapping property for morphisms out of a glued scheme;
+\item reduce two-chart affine gluing to ring isomorphisms on localized coordinate rings;
+\item construct the doubled-origin line and a two-chart model later recognized as $\PP^1$;
+\item recover a scheme from any affine open cover;
+\item refine intersections of affine opens by common distinguished affine opens;
+\item compute global sections of a two-chart gluing as an equalizer;
+\item distinguish gluing from later closed-subscheme, fiber-product, and base-change constructions.
+\end{itemize}
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_gluing_overview.tex}
+
+\section{Gluing data}
+
+Let $\{X_i\}_{i\in I}$ be schemes.  For each pair $i,j$, choose an open subscheme
+$U_{ij}\subseteq X_i$ and an isomorphism
+\[
+\varphi_{ij}:U_{ij}\xrightarrow{\sim}U_{ji}.
+\]
+It is convenient to put $U_{ii}=X_i$ and $\varphi_{ii}=\operatorname{id}_{X_i}$.
+The gluing conditions are
+\[
+\varphi_{ji}=\varphi_{ij}^{-1}
+\]
+and, on every triple overlap where both sides are defined,
+\[
+\varphi_{ik}=\varphi_{jk}\circ\varphi_{ij}.
+\]
+Equivalently, $\varphi_{ij}$ must carry the part of $U_{ij}$ meeting $U_{ik}$ onto the
+corresponding part of $U_{ji}$ meeting $U_{jk}$, and the transition maps satisfy the cocycle law.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_cocycle.tex}
+
+\section{The quotient set and topology}
+
+Start from the disjoint union of underlying sets
+\[
+Y=\coprod_{i\in I}X_i.
+\]
+For $x\in X_i$ and $y\in X_j$, declare $x\sim y$ exactly when $x\in U_{ij}$ and
+$y=\varphi_{ij}(x)$.  Identity, inverse, and cocycle conditions make this an equivalence relation.
+Define
+\[
+X=Y/{\sim}
+\]
+and let $\psi_i:X_i\to X$ be the quotient maps.
+
+A subset $V\subseteq X$ is declared open precisely when every $\psi_i^{-1}(V)$ is open in $X_i$.
+This final topology is designed so that all chart maps are continuous.  Moreover,
+\[
+\psi_j^{-1}(\psi_i(X_i))=U_{ji},
+\]
+so $\psi_i(X_i)$ is open, and $\psi_i:X_i\to\psi_i(X_i)$ is a homeomorphism.
+The images cover $X$, and
+\[
+\psi_i(X_i)\cap\psi_j(X_j)=\psi_i(U_{ij})=\psi_j(U_{ji}).
+\]
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_quotient_space.tex}
+
+\section{Gluing the structure sheaf}
+
+For an open set $V\subseteq X$, put $V_i=\psi_i^{-1}(V)$.  Define
+\[
+\OO_X(V)=
+\left\{(s_i)_i\in\prod_i\OO_{X_i}(V_i):
+ s_i|_{V_i\cap U_{ij}}
+ =\varphi_{ij}^{\sharp}\bigl(s_j|_{V_j\cap U_{ji}}\bigr)
+ \text{ for all }i,j
+\right\}.
+\]
+Restrictions are componentwise.  Because each $\OO_{X_i}$ is a sheaf and the transition maps
+satisfy the cocycle law, compatible local families glue uniquely; hence $\OO_X$ is a sheaf.
+On the chart $\psi_i(X_i)$ the restriction of $\OO_X$ identifies canonically with $\OO_{X_i}$.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_sheaf_equalizer.tex}
+
+\section{Local rings and the scheme condition}
+
+If $x\in X$, choose a chart $\psi_i(X_i)$ containing it and a point $x_i\in X_i$ with
+$\psi_i(x_i)=x$.  The chart identification gives
+\[
+\OO_{X,x}\cong\OO_{X_i,x_i}.
+\]
+The ring on the right is local, so the glued ringed space is locally ringed.  Since the opens
+$\psi_i(X_i)$ cover $X$ and are schemes, $X$ is a scheme.  Thus gluing is genuinely local:
+all stalk and affine-neighborhood questions may be checked inside one chart.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_stalk_chart.tex}
+
+\section{Uniqueness and the universal mapping property}
+
+Suppose $X$ and $X'$ are two gluings of the same data.  On every chart, the identity of $X_i$
+produces an isomorphism between the corresponding open subsets of $X$ and $X'$.  These chartwise
+isomorphisms agree on overlaps, hence glue to a unique isomorphism $X\xrightarrow{\sim}X'$.
+Therefore the gluing is unique up to unique isomorphism compatible with all charts.
+
+A useful equivalent form is the mapping property.  If $Y$ is any scheme, then giving a morphism
+$f:X\to Y$ is equivalent to giving morphisms $f_i:X_i\to Y$ such that
+\[
+f_i|_{U_{ij}}=f_j\circ\varphi_{ij}
+\]
+on every overlap.  Thus morphisms out of a glued scheme are exactly compatible families of
+morphisms out of its charts.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_mapping_property.tex}
+
+\section{Two-chart affine gluing}
+
+Let $X_1=\Spec A$ and $X_2=\Spec B$.  Suppose principal opens
+$D(f)\subseteq X_1$ and $D(g)\subseteq X_2$ are identified by an affine-scheme isomorphism.
+By VI/18--VI/19 this is equivalently a ring isomorphism
+\[
+B_g\xrightarrow{\sim}A_f
+\]
+with the direction reversed geometrically.  Gluing the two affine schemes along these opens
+produces a scheme covered by two affine charts.
+
+This is the basic computational model: topology says which points are identified; localization
+says what the functions are on the overlap; the isomorphism of localized rings tells how functions
+transform between charts.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_two_affines.tex}
+
+\section{The doubled-origin line}
+
+Take two copies $X_1=X_2=\A^1_k=\Spec k[t]$ and glue
+\[
+D(t)\subseteq X_1\qquad\text{to}\qquad D(t)\subseteq X_2
+\]
+by the identity.  Every nonzero point is identified across the two charts, but the two origins are
+not.  The result is the affine line with doubled origin.
+
+Its global sections are the equalizer
+\[
+\Gamma(X,\OO_X)=
+\{(p,q)\in k[t]\times k[t]:p=q\text{ in }k[t,t^{-1}]\}
+\cong k[t].
+\]
+Nevertheless the glued scheme is not $\Spec k[t]$: its underlying space has two distinct origins.
+Thus a scheme covered by affine opens need not itself be affine.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_doubled_origin.tex}
+
+\section{A two-chart projective-line model}
+
+Take $X_0=\Spec k[t]$ and $X_1=\Spec k[u]$.  Identify $D(t)$ with $D(u)$ by
+\[
+u\longmapsto t^{-1}
+\]
+at the level of overlap rings $k[u,u^{-1}]\cong k[t,t^{-1}]$.  Gluing produces a scheme covered
+by two affine lines.  Later projective geometry will identify this model canonically with $\PP^1_k$;
+here its role is simply to show that non-affine global geometry can emerge from elementary affine
+charts and localization.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_projective_line_model.tex}
+
+\section{Intersections of affine open subschemes}
+
+Let $X$ be a scheme and let
+\[
+U=\Spec A,\qquad V=\Spec B
+\]
+be affine opens.  For every $x\in U\cap V$, the basis theorem for distinguished opens lets us
+choose a distinguished neighborhood inside $U$ contained in $U\cap V$, then refine inside $V$,
+and finally refine once more so the same open is distinguished in both charts.  Consequently,
+\[
+\boxed{
+U\cap V=\bigcup_\lambda W_\lambda,
+\qquad
+W_\lambda=D(f_\lambda)\subseteq U
+=D(g_\lambda)\subseteq V.
+}
+\]
+This is legacy AG5 Problem 2 and is the practical bridge from abstract overlap isomorphisms to
+localization computations.
+
+\input{chapters/ch20_gluing_affine_schemes/figures/vi20_common_distinguished_refinement.tex}
+
+\section{Reconstructing a scheme from an affine cover}
+
+Let $X$ be any scheme with affine open cover $X=\bigcup_i U_i$.  On $U_i\cap U_j$, use the identity
+as the transition isomorphism between the two copies of the overlap.  The cocycle condition is
+automatic, so the gluing theorem reconstructs a scheme canonically isomorphic to $X$.
+Thus the slogan ``schemes are obtained by gluing affine schemes'' is literally a reconstruction
+theorem, not merely a heuristic.
+
+\section{Global sections as an equalizer}
+
+For a two-open cover $X=U\cup V$, the sheaf axiom yields
+\[
+0\longrightarrow\Gamma(X,\OO_X)
+\longrightarrow\Gamma(U,\OO_X)\times\Gamma(V,\OO_X)
+\rightrightarrows\Gamma(U\cap V,\OO_X),
+\]
+where the two arrows are the two restrictions.  Hence global sections are pairs of local functions
+that agree on the overlap.  This formula is especially effective when $U,V$, and their overlap are
+affine principal opens.
+
+\section{Common pitfalls}
+\begin{enumerate}
+\item Pairwise identifications are not enough: triple-overlap cocycle compatibility is essential.
+\item The quotient topology alone does not make a scheme; the structure sheaf must also be glued.
+\item The sheaf is not a direct product of chart sheaves: sections must satisfy overlap compatibility.
+\item The chart maps are open embeddings because inverse images of chart images are the prescribed open overlaps.
+\item A glued scheme can be non-affine even when every chart and overlap is affine.
+\item An isomorphism of overlap spaces is insufficient; one needs an isomorphism of schemes, including the sheaves.
+\item When affines overlap inside a scheme, the whole intersection need not be one principal open, but it has a cover by opens principal in both charts.
+\item AG3 Problem 13, the finality of $\Spec\ZZ$ and structure morphism, remains reserved for VI/21.
+\item Closed subschemes remain centered in VI/22; quotient-ring examples here are used only when needed to understand open-chart gluing.
+\item Fiber products and base change are different universal constructions and remain reserved for VI/23--VI/24.
+\end{enumerate}
+
+\section{Worked examples}
+\input{chapters/ch20_gluing_affine_schemes/examples.tex}
+
+\section{Advanced worked examples}
+\input{chapters/ch20_gluing_affine_schemes/advanced_examples.tex}
+
+\section{Exercises}
+\input{chapters/ch20_gluing_affine_schemes/exercises.tex}
+\ifdefined\IncludeExerciseHints
+\input{chapters/ch20_gluing_affine_schemes/exercise_hints.tex}
+\fi
+
+\section{Problems}
+\input{chapters/ch20_gluing_affine_schemes/problems/index.tex}
+
+\section{Challenges}
+\input{chapters/ch20_gluing_affine_schemes/challenges/index.tex}
+
+\ifdefined\IncludeExerciseSolutions
+\section{Exercise solutions}
+\input{chapters/ch20_gluing_affine_schemes/exercise_solutions.tex}
+\fi
+
+\section*{Summary}
+
+Compatible open-subscheme isomorphisms satisfying inverse and cocycle laws determine a scheme
+obtained from the disjoint union of the charts by quotienting points and gluing functions.  Each
+chart survives as an open subscheme, the stalks are the original chart stalks, and the result is
+unique up to unique isomorphism.  This is AG3 Problem 14, now recovered uniquely as VI.20.P1.
+
+The corpus audit also recovers AG5 Problem 2 as VI.20.P2: intersections of affine opens possess a
+cover by affine opens distinguished in both charts.  This turns abstract overlap geometry into
+explicit localization algebra and closes VI/20 without consuming AG3 Problem 13, which remains
+reserved for VI/21.
