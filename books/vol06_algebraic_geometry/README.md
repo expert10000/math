@@ -1,8 +1,8 @@
 ﻿# Volume VI — Algebraic Geometry and Sheaf Theory
 
-**Status:** Architecture frozen; canonical reconstruction underway. VI/01-VI/05 are drafted and awaiting mathematical/editorial review.
+**Status:** Architecture synchronized through VI/49; canonical reconstruction underway.
 
-Canonical chapter codes: `VI/01`–`VI/49`.
+Canonical chapter codes: `VI/01`-`VI/49`.
 
 ## Part I — Classical Affine Geometry
 
@@ -54,14 +54,14 @@ Canonical chapter codes: `VI/01`–`VI/49`.
 - **VI/31** — Codimension
 - **VI/32** — Tangent Spaces and Local Geometry
 
-## Part VII — Projective Geometry
+## Part VII — Modules and Projective Geometry
 
-- **VI/33** — Graded Rings
-- **VI/34** — Proj
-- **VI/35** — Projective Space
-- **VI/36** — Projective Schemes
-- **VI/37** — Projective Morphisms and Closed Embeddings
-- **VI/38** — Coherent and Quasi-Coherent Sheaves
+- **VI/33** — $\mathcal O_X$-Modules and Quasi-Coherent Sheaves
+- **VI/34** — Graded Rings
+- **VI/35** — Proj
+- **VI/36** — Projective Space
+- **VI/37** — Projective Schemes
+- **VI/38** — Projective Morphisms and Closed Embeddings
 
 ## Part VIII — Divisors and Birational Geometry
 
@@ -76,7 +76,7 @@ Canonical chapter codes: `VI/01`–`VI/49`.
 ## Part IX — Sheaf Cohomology
 
 - **VI/46** — Flabby Sheaves
-- **VI/47** — Čech Cohomology
+- **VI/47** — Cech Cohomology
 - **VI/48** — Exact Sequences and Cohomology
 - **VI/49** — Basic Vanishing Results
 

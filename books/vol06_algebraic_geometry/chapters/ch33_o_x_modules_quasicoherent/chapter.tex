@@ -1,0 +1,302 @@
+\chapter{\texorpdfstring{$\mathcal O_X$-Modules and Quasi-Coherent Sheaves}{O-X Modules and Quasi-Coherent Sheaves}}
+\label{ch:vi33-ox-modules-qcoh}
+
+The structure sheaf turns a scheme into a space on which algebra can vary from open set to open set.  The next step is to let modules vary in the same way.  An $\mathcal O_X$-module is the scheme-theoretic analogue of a module over a ring; quasi-coherent sheaves are the modules that, on affine charts, really do come from ordinary modules.  This is the correct language for ideal sheaves, vector bundles, closed subschemes, and eventually twisting sheaves on projective space.
+
+This chapter deliberately comes before \texttt{Proj}.  Projective geometry is built from graded rings, but its geometry is expressed through sheaves.  Developing the module-sheaf dictionary first makes the later construction of $\widetilde M$ on $\operatorname{Proj} S$, the sheaves $\mathcal O_{\mathbf P^n}(d)$, and coherent ideal sheaves conceptually natural rather than abrupt.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item define sheaves of $\mathcal O_X$-modules and their morphisms;
+\item compute stalks and use the fact that exactness is stalkwise;
+\item construct the affine sheaf $\widetilde M$ attached to an $A$-module $M$;
+\item prove $\widetilde M(D(f))\cong M_f$ and $(\widetilde M)_{\mathfrak p}\cong M_{\mathfrak p}$;
+\item explain why $M\mapsto\widetilde M$ is exact;
+\item define quasi-coherent sheaves and state the affine equivalence
+\[
+A\text{-}\mathrm{Mod}\simeq\operatorname{QCoh}(\operatorname{Spec}A);
+\]
+\item identify ideal sheaves and quotient structure sheaves on affine closed subschemes;
+\item recognize finite-type, coherent, and locally free sheaves in the locally Noetherian setting;
+\item compute supports of finite modules and understand their geometric meaning;
+\item compute pullback of a quasi-coherent sheaf on affine schemes by tensor product.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+The central dictionary is
+\[
+\boxed{
+\begin{array}{c}
+A\text{-module }M\\[2pt]
+\downarrow\ M\mapsto\widetilde M\\[2pt]
+\mathcal O_{\operatorname{Spec}A}\text{-module}\\[2pt]
+\downarrow\text{ affine-local model}\\[2pt]
+\text{quasi-coherent sheaf on a scheme.}
+\end{array}}
+\]
+Localization is the mechanism underneath every arrow: the section module on $D(f)$ is $M_f$, and the stalk at $\mathfrak p$ is $M_{\mathfrak p}$.
+
+\input{chapters/ch33_o_x_modules_quasicoherent/figures/figure_01}
+
+\section{Modules over the structure sheaf}
+Let $(X,\mathcal O_X)$ be a ringed space.
+
+\begin{definition}[$\mathcal O_X$-module]
+A sheaf $\mathcal F$ of abelian groups on $X$ is an $\mathcal O_X$-module if, for every open set $U\subseteq X$, the group $\mathcal F(U)$ is an $\mathcal O_X(U)$-module and every restriction map
+\[
+\mathcal F(U)\longrightarrow\mathcal F(V),\qquad V\subseteq U,
+\]
+is linear with respect to the restriction homomorphism $\mathcal O_X(U)\to\mathcal O_X(V)$.
+\end{definition}
+
+The structure sheaf itself is an $\mathcal O_X$-module.  So are finite free sheaves $\mathcal O_X^{\oplus r}$, ideal sheaves $\mathcal I\subseteq\mathcal O_X$, quotients $\mathcal O_X/\mathcal I$, kernels, cokernels, and tensor products of module sheaves.
+
+A morphism $\varphi:\mathcal F\to\mathcal G$ of $\mathcal O_X$-modules is a morphism of sheaves whose maps on sections are $\mathcal O_X(U)$-linear for every open $U$.
+
+\section{Stalks are modules over local rings}
+For every $x\in X$, the stalk $\mathcal F_x$ is naturally a module over the local ring $\mathcal O_{X,x}$.  A morphism $\varphi:\mathcal F\to\mathcal G$ induces an $\mathcal O_{X,x}$-linear map
+\[
+\varphi_x:\mathcal F_x\longrightarrow\mathcal G_x.
+\]
+Thus module-sheaf questions can be tested pointwise.
+
+\begin{theorem}[Stalkwise criterion]
+A morphism of $\mathcal O_X$-modules is an isomorphism if and only if it is an isomorphism on every stalk.  A sequence
+\[
+\mathcal F'\longrightarrow\mathcal F\longrightarrow\mathcal F''
+\]
+is exact if and only if the induced sequence on every stalk is exact.
+\end{theorem}
+
+This is the module-theoretic form of the stalkwise exactness developed earlier for sheaves of abelian groups.
+
+\input{chapters/ch33_o_x_modules_quasicoherent/figures/figure_02}
+
+\section{Kernels, cokernels, and exact sequences}
+The kernel and cokernel of a morphism of $\mathcal O_X$-modules are formed in the category of sheaves, with the inherited module structures.  The image must be sheafified when necessary; the pointwise presheaf image is not automatically a sheaf.
+
+A short exact sequence
+\[
+0\longrightarrow\mathcal F'\longrightarrow\mathcal F\longrightarrow\mathcal F''\longrightarrow0
+\]
+therefore means exactness on all stalks.  This language will later control ideal sheaves, divisor sequences, and cohomology.
+
+\section{Restriction and locally free sheaves}
+If $U\subseteq X$ is open, restriction gives an $\mathcal O_U$-module $\mathcal F|_U$.
+
+\begin{definition}[Locally free sheaf]
+An $\mathcal O_X$-module $\mathcal E$ is \emph{locally free of rank $r$} if every point has an open neighborhood $U$ such that
+\[
+\mathcal E|_U\cong\mathcal O_U^{\oplus r}.
+\]
+\end{definition}
+
+Finite locally free sheaves are the sheaf-theoretic form of algebraic vector bundles.  Rank is locally constant, so on a connected scheme a finite locally free sheaf has constant rank.
+
+\input{chapters/ch33_o_x_modules_quasicoherent/figures/figure_03}
+
+\section{From an affine module to a sheaf}
+Let $A$ be a ring, $X=\operatorname{Spec}A$, and let $M$ be an $A$-module.  On the distinguished-open basis define
+\[
+D(f)\longmapsto M_f.
+\]
+If $D(g)\subseteq D(f)$, the restriction is the canonical localization map $M_f\to M_g$.
+
+\begin{theorem}[The affine module sheaf]
+There is a unique sheaf of $\mathcal O_X$-modules, denoted $\widetilde M$, whose sections on distinguished opens satisfy
+\[
+\boxed{\widetilde M(D(f))\cong M_f.}
+\]
+For every prime $\mathfrak p\subseteq A$,
+\[
+\boxed{(\widetilde M)_{\mathfrak p}\cong M_{\mathfrak p}.}
+\]
+Moreover
+\[
+\Gamma(X,\widetilde M)\cong M.
+\]
+\end{theorem}
+
+The construction is the module analogue of the structure sheaf itself: $\widetilde A\cong\mathcal O_X$.
+
+\input{chapters/ch33_o_x_modules_quasicoherent/figures/figure_04}
+
+\section{Localization makes the construction exact}
+Localization of modules is exact.  Therefore an exact sequence
+\[
+0\to M'\to M\to M''\to0
+\]
+of $A$-modules yields an exact sequence
+\[
+0\to\widetilde{M'}\to\widetilde M\to\widetilde{M''}\to0
+\]
+of $\mathcal O_X$-modules.
+
+\begin{proposition}[Compatibility with standard operations]
+For $A$-modules $M,N$,
+\[
+\widetilde{M\oplus N}\cong\widetilde M\oplus\widetilde N,
+\qquad
+\widetilde{M\otimes_A N}\cong\widetilde M\otimes_{\mathcal O_X}\widetilde N.
+\]
+Arbitrary direct sums are also preserved.
+\end{proposition}
+
+The tensor identity can be checked on $D(f)$, where both sides identify with $M_f\otimes_{A_f}N_f$.
+
+\section{Quasi-coherent sheaves}
+The affine construction is local, and this leads to the central definition.
+
+\begin{definition}[Quasi-coherent sheaf]
+An $\mathcal O_X$-module $\mathcal F$ on a scheme $X$ is \emph{quasi-coherent} if every point has an affine open neighborhood $U=\operatorname{Spec}A$ for which
+\[
+\mathcal F|_U\cong\widetilde M
+\]
+for some $A$-module $M$.
+\end{definition}
+
+Equivalently, one may require this on an affine open cover.  The definition says that quasi-coherent sheaves are exactly those module sheaves whose local behavior is governed by ordinary commutative algebra.
+
+\begin{theorem}[Affine module--sheaf equivalence]
+For $X=\operatorname{Spec}A$, the functors
+\[
+M\longmapsto\widetilde M,
+\qquad
+\mathcal F\longmapsto\Gamma(X,\mathcal F)
+\]
+give quasi-inverse equivalences
+\[
+\boxed{A\text{-}\mathrm{Mod}\simeq\operatorname{QCoh}(X).}
+\]
+\end{theorem}
+
+In particular, a quasi-coherent sheaf on an affine scheme is completely determined by its global sections.
+
+\begin{corollary}[Exactness of global sections on affine quasi-coherent sheaves]
+If
+\[
+0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0
+\]
+is an exact sequence of quasi-coherent sheaves on an affine scheme, then
+\[
+0\to\Gamma(X,\mathcal F')\to\Gamma(X,\mathcal F)\to\Gamma(X,\mathcal F'')\to0
+\]
+is exact.
+\end{corollary}
+
+On a general scheme, global sections are only left exact.  The affine result is stronger, and its higher-cohomological form will later become affine vanishing.
+
+\input{chapters/ch33_o_x_modules_quasicoherent/figures/figure_05}
+
+\section{Ideal sheaves and closed subschemes}
+Let $X=\operatorname{Spec}A$ and $I\subseteq A$ be an ideal.  Write $i:Z=\operatorname{Spec}(A/I)\hookrightarrow X$ for the corresponding closed immersion.  The inclusion $I\hookrightarrow A$ sheafifies to a quasi-coherent ideal sheaf
+\[
+\widetilde I\hookrightarrow\mathcal O_X.
+\]
+Exactness gives
+\[
+0\to\widetilde I\to\mathcal O_X\to\widetilde{A/I}\to0.
+\]
+The quotient is canonically $i_*\mathcal O_Z$, the structure sheaf of the affine closed subscheme viewed as an $\mathcal O_X$-module.  Thus the ring-theoretic sequence
+\[
+0\to I\to A\to A/I\to0
+\]
+becomes the geometric sequence
+\[
+\boxed{0\to\mathcal I\to\mathcal O_X\to i_*\mathcal O_Z\to0.}
+\]
+
+More generally, quasi-coherent ideal sheaves are the correct global objects for closed subschemes of an arbitrary scheme.
+
+\input{chapters/ch33_o_x_modules_quasicoherent/figures/figure_06}
+
+\section{Finite type and coherent sheaves}
+A quasi-coherent sheaf $\mathcal F$ is of finite type if locally on affine opens it is represented by finitely generated modules.  On a locally Noetherian scheme, this is the standard setting in which quasi-coherent sheaves of finite type are coherent.
+
+\begin{definition}[Coherent sheaf in the locally Noetherian setting]
+Let $X$ be locally Noetherian.  A quasi-coherent $\mathcal O_X$-module $\mathcal F$ is \emph{coherent} if every point has an affine neighborhood $U=\operatorname{Spec}A$ such that
+\[
+\mathcal F|_U\cong\widetilde M
+\]
+with $M$ a finitely generated $A$-module.
+\end{definition}
+
+Because $A$ is Noetherian, finitely generated modules are finitely presented.  This is exactly the finiteness class needed for most projective and divisor constructions later in the volume.
+
+\section{Support and annihilators}
+For any $\mathcal O_X$-module $\mathcal F$, define
+\[
+\operatorname{Supp}(\mathcal F)=\{x\in X:\mathcal F_x\neq0\}.
+\]
+For $X=\operatorname{Spec}A$ and a finitely generated $A$-module $M$,
+\[
+\boxed{\operatorname{Supp}(\widetilde M)=V(\operatorname{Ann}_A M).}
+\]
+Finite generation is important for this clean closed-set formula.  For example, $M=A/I$ has support exactly $V(I)$.
+
+\section{Pullback and tensor product}
+Let $f:X\to Y$ be a morphism of schemes.  The pullback of an $\mathcal O_Y$-module is
+\[
+f^*\mathcal F=
+\mathcal O_X\otimes_{f^{-1}\mathcal O_Y}f^{-1}\mathcal F.
+\]
+Pullback preserves quasi-coherence.
+
+On affine schemes this is just extension of scalars.  If $A\to B$ corresponds to
+\[
+f:\operatorname{Spec}B\to\operatorname{Spec}A
+\]
+and $M$ is an $A$-module, then
+\[
+\boxed{f^*(\widetilde M)\cong\widetilde{B\otimes_A M}.}
+\]
+This formula is the module-theoretic companion of base change and fiber products.
+
+\input{chapters/ch33_o_x_modules_quasicoherent/figures/figure_07}
+
+\section{Why this chapter precedes projective geometry}
+Projective geometry will replace an ordinary ring by a graded ring and an ordinary module by a graded module.  The notation $\widetilde M$ will reappear on $\operatorname{Proj}S$, but with degree-zero localizations on the basic opens $D_+(f)$.  Twisting sheaves $\mathcal O(d)$, homogeneous ideal sheaves, and projective embeddings all depend on the module-sheaf language developed here.
+
+The conceptual order is therefore
+\[
+\boxed{
+\text{modules}\to\mathcal O_X\text{-modules}\to\text{quasi-coherent sheaves}
+\to\text{graded modules}\to\operatorname{Proj}.}
+\]
+
+\section{Common pitfalls}
+\begin{itemize}
+\item \textbf{A sheaf of modules is more than modules on opens.}  The restriction maps must be compatible with scalar restriction.
+\item \textbf{The presheaf image need not be a sheaf.}  Kernels behave sectionwise, but images and cokernels belong to the sheaf category.
+\item \textbf{Quasi-coherent does not mean locally constant.}  It means affine-locally represented by modules.
+\item \textbf{Coherent is a finiteness condition.}  In this chapter the clean finite-generation criterion is used only on locally Noetherian schemes.
+\item \textbf{Global sections do not usually recover an arbitrary sheaf.}  The equivalence with modules is special to quasi-coherent sheaves on affine schemes.
+\item \textbf{Support need not be closed for an arbitrary module.}  The formula $\operatorname{Supp}(\widetilde M)=V(\operatorname{Ann}M)$ is stated here for finitely generated $M$.
+\item \textbf{Pullback is tensorial; pushforward is subtler.}  Preservation of quasi-coherence under pushforward requires hypotheses and is deferred.
+\end{itemize}
+
+\section{Worked examples}
+\input{chapters/ch33_o_x_modules_quasicoherent/examples}
+
+\section{Exercises}
+\input{chapters/ch33_o_x_modules_quasicoherent/exercises}
+\subsection*{Hints}
+\input{chapters/ch33_o_x_modules_quasicoherent/exercise_hints}
+\subsection*{Solutions}
+\input{chapters/ch33_o_x_modules_quasicoherent/exercise_solutions}
+
+\section{Problem dossiers}
+\input{chapters/ch33_o_x_modules_quasicoherent/problems/index}
+
+\section{Challenges}
+\input{chapters/ch33_o_x_modules_quasicoherent/challenges/index}
+
+\section{Chapter synthesis}
+An $A$-module becomes geometry on $\operatorname{Spec}A$ by localization:
+\[
+\widetilde M(D(f))=M_f,
+\qquad
+(\widetilde M)_{\mathfrak p}=M_{\mathfrak p}.
+\]
+Quasi-coherent sheaves are precisely the module sheaves that look like this on affine charts, and on an affine scheme the correspondence is an equivalence of categories.  Ideal sheaves, quotient structure sheaves, finite locally free sheaves, coherent sheaves, supports, and pullbacks all fit into this dictionary.  The book is now ready to introduce graded modules and $\operatorname{Proj}$ without postponing the sheaf language on which projective geometry depends.
