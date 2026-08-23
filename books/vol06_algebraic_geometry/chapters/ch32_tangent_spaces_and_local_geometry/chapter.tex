@@ -1,0 +1,291 @@
+\chapter{Local Dimension, Regularity, and Singularities}\label{ch:vi32-local-geometry}
+
+VI/29--VI/31 measured prime chains globally and relatively.  VI/32 now fixes a point $x\in X$ and asks what the scheme
+looks like infinitesimally near that point.  The local ring $\OO_{X,x}$ supplies two basic numerical invariants:
+\[
+ \dim\OO_{X,x}
+ \qquad\text{and}\qquad
+ \dim_{\kappa(x)}\mathfrak m_x/\mathfrak m_x^2.
+\]
+The first counts prime chains inside the local ring; the second counts independent first-order directions.  Their
+comparison detects regularity.  For a Noetherian local ring, the second number is always at least the first, and equality
+is exactly the definition of a regular local ring.  This turns singularity detection into a concrete comparison between
+Krull dimension and linear algebra.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item compute the local-ring dimension $\dim\OO_{X,x}$ from an affine chart and identify it with prime height;
+\item prove the closed-point local-dimension theorem for varieties and recognize its failure for general schemes;
+\item compute the cotangent space $\mathfrak m_x/\mathfrak m_x^2$ and the embedding dimension;
+\item define the Zariski tangent space as the dual of the cotangent space and compute it from linearized equations;
+\item define regular local rings, regular points, and singular points;
+\item apply the Jacobian matrix to curves and hypersurfaces at rational points;
+\item distinguish a smooth-looking tangent direction from genuine regularity, especially for cusps, nodes, crossings,
+  and nilpotent thickenings.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+At one point $x$, the chapter follows the chain
+\[
+ x\in X
+ \longrightarrow
+ (\OO_{X,x},\mathfrak m_x,\kappa(x))
+ \longrightarrow
+ \mathfrak m_x/\mathfrak m_x^2
+ \longrightarrow
+ T_xX
+ \longrightarrow
+ \text{regular or singular}.
+\]
+The local ring retains all algebra visible in arbitrarily small neighborhoods.  Passing to $\mathfrak m_x/\mathfrak m_x^2$
+throws away quadratic and higher-order terms and keeps only first-order behavior.  Regularity says that this first-order
+model has exactly as many independent directions as the local Krull dimension predicts.
+
+\section{Local-ring dimension at a point}\label{sec:vi32-local-dimension}
+\begin{definition}[Local-ring dimension]\label{def:vi32-local-dim}
+For a scheme $X$ and a point $x\in X$, define
+\[
+ \dim_x^{\mathrm{loc}}X:=\dim\OO_{X,x}.
+\]
+In this volume, ``local dimension at $x$'' means this local-ring dimension unless another convention is stated explicitly.
+\end{definition}
+If $x$ corresponds to $\mathfrak p\in\Spec A$ in an affine chart, then
+\[
+ \OO_{X,x}\cong A_{\mathfrak p},
+ \qquad
+ \dim\OO_{X,x}=\operatorname{ht}(\mathfrak p).
+\]
+Thus local dimension counts chains of generalizations ending at the chosen point.  At a generic point of an irreducible
+component it is $0$; at a closed point of an $n$-dimensional variety it is $n$.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_01}
+
+\section{Closed points of varieties}\label{sec:vi32-closed-variety}
+Let $X$ be a variety over $k$ and let $x\in X$ be closed. Choose an affine neighborhood $U=\Spec A$ of $x$, with maximal
+ideal $\mathfrak m$.  Since $A$ is a finitely generated $k$-domain, the dimension formula gives
+\[
+ \operatorname{ht}(\mathfrak m)+\operatorname{trdeg}_k\kappa(x)=\dim A.
+\]
+Zariski's lemma makes $\kappa(x)/k$ algebraic, so the transcendence degree term is $0$. Hence
+\begin{theorem}[Closed-point local dimension for varieties]\label{thm:vi32-closed-variety}
+If $X$ is a variety over $k$ and $x\in X$ is closed, then
+\[
+ \boxed{\dim\OO_{X,x}=\dim X.}
+\]
+\end{theorem}
+This is the remaining local-dimension statement from the AG8 Problem 2 stream.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_02}
+
+\section{Why the closed-point formula can fail}\label{sec:vi32-counterexample}
+The preceding theorem is not a formal fact about arbitrary schemes. Let
+\[
+ X=\Spec k\sqcup\mathbb A^1_k
+\]
+and let $x$ be the unique point of the $\Spec k$ component. Then $x$ is closed and
+\[
+ \OO_{X,x}\cong k,
+ \qquad
+ \dim\OO_{X,x}=0,
+ \qquad
+ \dim X=1.
+\]
+Thus the equality at closed points fails once components of different dimensions are allowed.  This realizes the
+remaining part-(a) counterexample requirement of AG8 Problem 3 and completes the Problem 3 routing begun in VI/30 and
+VI/31.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_03}
+
+\section{The maximal ideal and the cotangent space}\label{sec:vi32-cotangent}
+The local ring $(\OO_{X,x},\mathfrak m_x)$ distinguishes functions vanishing at $x$ from units.  Modulo
+$\mathfrak m_x^2$, products of two vanishing functions disappear, leaving their linear parts.
+\begin{definition}[Cotangent space and embedding dimension]\label{def:vi32-embed-dim}
+The cotangent space at $x$ is the $\kappa(x)$-vector space
+\[
+ \mathfrak m_x/\mathfrak m_x^2.
+\]
+Its dimension
+\[
+ \operatorname{edim}_xX:=\dim_{\kappa(x)}\mathfrak m_x/\mathfrak m_x^2
+\]
+is the embedding dimension at $x$.
+\end{definition}
+For a Noetherian local ring, Nakayama's lemma identifies this number with the minimal number of generators of the maximal
+ideal.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_04}
+
+\section{Zariski tangent space}\label{sec:vi32-tangent}
+\begin{definition}[Zariski tangent space]\label{def:vi32-zariski-tangent}
+The Zariski tangent space at $x$ is
+\[
+ T_xX:=\operatorname{Hom}_{\kappa(x)}(\mathfrak m_x/\mathfrak m_x^2,\kappa(x)).
+\]
+Hence $\dim_{\kappa(x)}T_xX=\operatorname{edim}_xX$.
+\end{definition}
+At a $k$-rational point of a $k$-scheme, these tangent vectors can be viewed as first-order maps from the dual numbers
+$\Spec k[\varepsilon]/(\varepsilon^2)$ whose closed point maps to $x$.  The dual-number interpretation explains why the
+tangent space sees first-order infinitesimal directions rather than only ordinary nearby points.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_05}
+
+\section{Regular local rings and regular points}\label{sec:vi32-regular}
+A basic theorem of Noetherian local algebra gives
+\[
+ \dim R\leq\dim_\kappa\mathfrak m/\mathfrak m^2
+\]
+for every Noetherian local ring $(R,\mathfrak m,\kappa)$.
+\begin{definition}[Regular local ring]\label{def:vi32-regular-local}
+A Noetherian local ring $(R,\mathfrak m,\kappa)$ is regular if
+\[
+ \dim R=\dim_\kappa\mathfrak m/\mathfrak m^2.
+\]
+\end{definition}
+\begin{definition}[Regular and singular points]\label{def:vi32-regular-point}
+A locally Noetherian scheme $X$ is regular at $x$ if $\OO_{X,x}$ is a regular local ring. Otherwise $x$ is singular.
+The scheme is regular if it is regular at every point.
+\end{definition}
+Thus the numerical test is
+\[
+ \boxed{x\text{ regular}\iff \operatorname{edim}_xX=\dim\OO_{X,x}.}
+\]
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_06}
+
+\section{Affine equations and the Jacobian matrix}\label{sec:vi32-jacobian}
+Let
+\[
+ X=V(f_1,\ldots,f_r)\subseteq\mathbb A^n_k
+\]
+and let $a\in X(k)$.  Write $J(a)$ for the $r\times n$ matrix
+\[
+ J(a)=\left(\frac{\partial f_i}{\partial x_j}(a)\right).
+\]
+Linearizing the equations at $a$ gives
+\begin{proposition}[Tangent space from the Jacobian]\label{prop:vi32-jacobian-tangent}
+For a $k$-rational point $a$,
+\[
+ T_aX\cong\ker\bigl(J(a):k^n\to k^r\bigr),
+ \qquad
+ \dim_k T_aX=n-\operatorname{rank}J(a).
+\]
+\end{proposition}
+This formula computes the tangent space directly.  Regularity still requires comparison with the local Krull dimension;
+Jacobian rank alone is not a substitute for knowing the dimension of the local scheme.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_07}
+
+\section{Hypersurfaces}\label{sec:vi32-hypersurface}
+For a nonzero nonconstant polynomial $f\in k[x_1,\ldots,x_n]$, every component of the hypersurface $V(f)$ has dimension
+$n-1$. At a $k$-rational point $a\in V(f)$,
+\[
+ T_aV(f)=\left\{v\in k^n:\sum_{j=1}^n\frac{\partial f}{\partial x_j}(a)v_j=0\right\}.
+\]
+Consequently, in this hypersurface setting,
+\begin{corollary}[Hypersurface regularity test]\label{cor:vi32-hypersurface}
+The point $a$ is regular if at least one partial derivative of $f$ is nonzero at $a$.  If all partial derivatives vanish,
+then the tangent space has dimension $n>n-1$ and $a$ is singular.
+\end{corollary}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_08}
+
+\section{Cusp, node, and crossing}\label{sec:vi32-cusp-node}
+Assume the relevant characteristics are excluded when factorization or derivatives require it.
+For the cusp
+\[
+ C: y^2=x^3,
+\]
+the origin has local dimension $1$, while both first derivatives vanish there, so $\dim T_0C=2$.  The lowest-degree
+part is $y^2$, giving one tangent direction with multiplicity two.
+
+For the node
+\[
+ N:y^2=x^2(x+1),
+\]
+the origin also has local dimension $1$ and two-dimensional Zariski tangent space, but the lowest-degree part
+$y^2-x^2=(y-x)(y+x)$ exhibits two distinct tangent directions.  Both points are singular, but their first nonzero
+homogeneous terms distinguish the geometry beyond the mere dimension of the tangent space.
+
+For the crossing $xy=0$, the origin is again singular with local dimension $1$ and tangent dimension $2$, now because
+two irreducible components meet.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_09}
+
+\section{A recurring multiple-lens example: the cusp}\label{sec:vi32-cusp-lenses}
+The cusp now supports several viewpoints developed across the volume:
+\[
+\begin{array}{c|c}
+\text{lens} & \text{cusp data}\\ \hline
+\text{equation} & y^2-x^3=0\\
+\text{coordinate ring} & k[x,y]/(y^2-x^3)\cong k[t^2,t^3]\\
+\text{function field} & k(t)\\
+\text{normalization} & \Spec k[t]\to\Spec k[t^2,t^3]\\
+\text{dimension} & 1\\
+\text{local ring at cusp} & k[t^2,t^3]_{(t^2,t^3)}\\
+\text{embedding dimension} & 2\\
+\text{regularity} & \text{singular, since }2>1
+\end{array}
+\]
+This is the first full ``same geometry, multiple lenses'' panel in the dimension arc.
+
+\section{Common pitfalls}\label{sec:vi32-pitfalls}
+\begin{itemize}
+\item \textbf{Local-ring dimension is not the dimension of the closure of the point.}  For a prime $\mathfrak p$ in an
+affine scheme, $\dim\OO_{X,x}=\operatorname{ht}(\mathfrak p)$, whereas $\dim\overline{\{x\}}=\dim A/\mathfrak p$ in the
+finite-type variety setting.
+\item \textbf{Terminology varies.}  Some references use ``dimension at $x$'' for an infimum of neighborhood dimensions.
+This chapter explicitly uses the local-ring convention $\dim\OO_{X,x}$.
+\item \textbf{Tangent dimension is not local dimension.}  Equality characterizes regularity; a larger tangent space is a
+signal of singularity.
+\item \textbf{A tangent line is not enough to classify a singularity.}  The cusp and node both have two-dimensional
+Zariski tangent spaces as plane curves, but their tangent cones differ.
+\item \textbf{Regular, normal, reduced, and smooth are different adjectives.}  This chapter treats regularity.  Their
+systematic comparison belongs to later property and morphism chapters.
+\end{itemize}
+
+\section{Boundaries of VI/32}\label{sec:vi32-boundaries}
+VI/32 closes the dimension/local-geometry arc by introducing local-ring dimension, cotangent and tangent spaces,
+embedding dimension, regularity, singularity, and elementary Jacobian calculations.  It does not yet develop Kähler
+differentials, smooth morphisms, étale morphisms, completions, tangent cones in full generality, Serre's conditions, or
+divisor theory.  Those require later structural chapters.
+
+\section{Examples}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/examples}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/advanced_examples}
+
+\section{Problem dossiers}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_01}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_02}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_03}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_04}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_05}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_06}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_07}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_08}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_09}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_10}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_11}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_12}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_13}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_14}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_15}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_16}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_17}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_18}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_19}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/problems/problem_20}
+
+\section{Exercises}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/exercises}
+\subsection*{Hints}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/exercise_hints}
+\subsection*{Solutions}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/exercise_solutions}
+
+\section{Challenges}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/challenges/challenge_01}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/challenges/challenge_02}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/challenges/challenge_03}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/challenges/challenge_04}
+\input{chapters/ch32_tangent_spaces_and_local_geometry/challenges/challenge_05}
+
+\section{Chapter synthesis}\label{sec:vi32-synthesis}
+Local geometry compresses the neighborhood of a point into the local ring and then linearizes its maximal ideal.  The
+Krull dimension $\dim\OO_{X,x}$ measures specialization depth, while $\mathfrak m_x/\mathfrak m_x^2$ measures independent
+first-order directions.  A Noetherian point is regular exactly when these numbers agree.  The Jacobian matrix makes the
+comparison computable for affine equations, while the cusp, node, crossing, and dual numbers show how singularity can
+arise from ramification, branching, reducibility, or nilpotent structure.  With VI/32, Part VI has moved from global
+prime chains to a pointwise diagnostic of geometric regularity.
+\input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_10}
