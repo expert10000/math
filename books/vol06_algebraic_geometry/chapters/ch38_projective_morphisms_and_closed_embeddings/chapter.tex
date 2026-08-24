@@ -1,0 +1,424 @@
+\chapter{Projective Morphisms and Closed Embeddings}
+\label{ch:vi38-projective-morphisms-closed-embeddings}
+
+VI/34 developed graded algebra, VI/35 constructed \(\Proj\), VI/36 made projective space concrete, and VI/37 developed projective schemes cut out by homogeneous ideals.  This chapter completes the projective arc by answering the functorial questions that were deliberately postponed: when does a graded ring map induce a morphism on Proj, what exactly is a projective morphism, how are closed embeddings recognized, and why are the Veronese and Segre maps genuine closed embeddings rather than merely injective formulas on points?
+
+The central warning is that \(\Proj\) is not contravariantly functorial for arbitrary graded maps on all points.  If \(\varphi:S\to T\) preserves degree and \(\mathfrak q\in\Proj T\), the contracted prime \(\varphi^{-1}(\mathfrak q)\) belongs to \(\Proj S\) only when it does not contain \(S_+\).  Thus one must first identify the open domain on which the irrelevant ideal survives.  Once that issue is handled, the affine chart maps glue exactly as in VI/35.
+
+The current migration ledger assigns six rules to VI/38: the AG4 projective-morphism/closed-embedding section with its inherited theorem/problem descendants, together with the projective-morphism overlap split from AG9 during the architecture synchronization.  The accessible repository does not contain the raw legacy AG4/AG9 prose, so the ledger is used as provenance and scope evidence rather than as a basis for claiming verbatim recovery.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item determine the maximal open subset of \(\Proj T\) on which a degree-preserving map \(S\to T\) induces a morphism to \(\Proj S\);
+\item state practical sufficient conditions ensuring that the induced Proj morphism is defined everywhere;
+\item handle homogeneous maps of positive degree by passing to a Veronese regrading;
+\item construct morphisms to projective space from homogeneous forms of one degree and identify their base locus;
+\item characterize closed immersions affine-locally by surjective ring maps;
+\item prove that a homogeneous quotient \(S\twoheadrightarrow S/I\) induces the canonical closed immersion \(\Proj(S/I)\hookrightarrow\Proj S\);
+\item define relative projective space \(\mathbb P^n_Y\) and projective morphisms over a base scheme;
+\item prove stability of projective morphisms under arbitrary base change;
+\item prove stability under composition using the relative Segre embedding;
+\item prove the \(d\)-uple Veronese map is a closed embedding via the Veronese subring;
+\item prove the Segre map is a closed embedding and identify its ideal by the \(2\times2\) minors;
+\item connect closed embeddings with very ample invertible sheaves and systems of homogeneous coordinates.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\[
+\boxed{
+\begin{array}{c}
+S\xrightarrow{\varphi}T\ \text{graded}\\[2pt]
+\downarrow\\[-2pt]
+U_\varphi=\{\mathfrak q\in\Proj T:\varphi(S_+)\not\subseteq\mathfrak q\}
+\xrightarrow{\ \Proj(\varphi)\ }\Proj S\\[5pt]
+\text{surjection}\Rightarrow\text{closed immersion}\qquad
+\text{same-degree forms}\Rightarrow\text{projective map}\\[5pt]
+\text{Veronese + Segre}\Rightarrow\text{closed embeddings and composition of projective morphisms}
+\end{array}}
+\]
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_01}
+
+\section{Graded maps and the domain of definition}
+Let \(S=\bigoplus_{d\ge0}S_d\) and \(T=\bigoplus_{d\ge0}T_d\) be graded rings, and let
+\[
+  \varphi:S\longrightarrow T
+\]
+be degree preserving.  For a homogeneous prime \(\mathfrak q\subset T\), the contraction \(\varphi^{-1}(\mathfrak q)\) is homogeneous and prime.  However it may contain \(S_+\), in which case it is not a point of \(\Proj S\).
+
+\begin{definition}[Proj domain of a graded map]\label{def:vi38-domain}
+Define
+\[
+U_\varphi
+:=\{\mathfrak q\in\Proj T:\varphi(S_+)\not\subseteq\mathfrak q\}
+=\bigcup_{f\in S_+\ \mathrm{homogeneous}}D_+(\varphi(f)).
+\]
+This is the maximal open subset of \(\Proj T\) on which contraction lands in \(\Proj S\).
+\end{definition}
+
+\begin{theorem}[Functoriality on the correct domain]\label{thm:vi38-proj-domain-map}
+A degree-preserving map \(\varphi:S\to T\) induces a canonical morphism
+\[
+  \Proj(\varphi):U_\varphi\longrightarrow\Proj S,
+  \qquad
+  \mathfrak q\longmapsto\varphi^{-1}(\mathfrak q).
+\]
+For homogeneous \(f\in S_+\), its restriction to \(D_+(\varphi(f))\) is the affine morphism induced by
+\[
+  S_{(f)}\longrightarrow T_{(\varphi(f))}.
+\]
+\end{theorem}
+
+\begin{proof}
+On \(D_+(\varphi(f))\), contraction lands in \(D_+(f)\).  Localization gives a graded map \(S_f\to T_{\varphi(f)}\), and taking degree-zero parts gives \(S_{(f)}\to T_{(\varphi(f))}\).  Hence VI/35 produces an affine morphism of the corresponding standard opens.  If both \(f\) and \(g\) are nonvanishing, localization in stages shows that the two chart maps agree on \(D_+(\varphi(fg))\).  They therefore glue.  Maximality follows because any point outside \(U_\varphi\) contracts to a prime containing \(S_+\).
+\end{proof}
+
+\begin{corollary}[A useful global criterion]\label{cor:vi38-global-criterion}
+If
+\[
+  T_+\subseteq\sqrt{\varphi(S_+)T},
+\]
+then \(U_\varphi=\Proj T\), so \(\varphi\) induces a morphism on all of \(\Proj T\).  For finitely generated standard graded algebras over a field, this is equivalent to the absence of projective points containing \(\varphi(S_+)T\).
+\end{corollary}
+
+\begin{remark}[Why arbitrary graded maps fail]
+There is no contradiction with the contravariance of Spec.  Spec uses every prime, while Proj deliberately discards primes containing the irrelevant ideal.  Contraction can move a surviving projective prime into the discarded locus.
+\end{remark}
+
+\section{Maps defined by homogeneous forms and base loci}
+Let \(S=k[y_0,\ldots,y_m]\) and \(T=k[x_0,\ldots,x_n]\).  Suppose \(F_0,\ldots,F_m\in T_d\) are homogeneous of one positive degree \(d\).  The assignment
+\[
+  y_i\longmapsto F_i
+\]
+is degree preserving as a map
+\[
+  S\longrightarrow T^{(d)}:=\bigoplus_{r\ge0}T_{rd},
+\]
+where \(T^{(d)}\) is regraded so that \(T_{rd}\) has degree \(r\).  By Veronese invariance from VI/35,
+\[
+  \Proj T^{(d)}\cong\Proj T=\mathbb P^n_k.
+\]
+
+\begin{definition}[Base locus]\label{def:vi38-base-locus}
+The base locus of \(F_0,\ldots,F_m\) is
+\[
+  B=V_+(F_0,\ldots,F_m)\subseteq\mathbb P^n_k.
+\]
+On \(\mathbb P^n_k\setminus B\), the forms define a morphism
+\[
+  [x]\longmapsto[F_0(x):\cdots:F_m(x)].
+\]
+If \(B=\varnothing\), the morphism is everywhere defined.
+\end{definition}
+
+The empty-base-locus condition is exactly the Proj-domain condition for the induced map \(S\to T^{(d)}\).  Thus the familiar coordinate formula is not an extra construction: it is the graded-ring theorem above after the correct regrading.
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_02}
+
+\section{Closed immersions}
+\begin{definition}[Closed immersion]\label{def:vi38-closed-immersion}
+A morphism \(i:X\to Y\) is a closed immersion if it identifies \(|X|\) homeomorphically with a closed subset of \(|Y|\) and the map of sheaves
+\[
+  \OO_Y\longrightarrow i_*\OO_X
+\]
+is surjective.
+\end{definition}
+
+\begin{theorem}[Affine-local criterion]\label{thm:vi38-affine-closed}
+A morphism \(i:X\to Y\) is a closed immersion if and only if every point of \(Y\) has an affine open neighborhood \(V=\Spec A\) such that
+\[
+  i^{-1}(V)=\Spec B
+\]
+for a surjective ring map \(A\twoheadrightarrow B\).
+\end{theorem}
+
+\begin{proof}
+If \(i\) is a closed immersion with ideal sheaf \(\mathcal I\), then on an affine open \(V=\Spec A\) the restriction is cut out by the ideal \(I=\Gamma(V,\mathcal I)\), hence is \(\Spec(A/I)\).  Conversely, affine closed immersions glue because the defining quotient maps agree under localization; the resulting map is a homeomorphism onto a closed subspace and the structure-sheaf map is locally surjective.
+\end{proof}
+
+Closed immersions are stable under composition and arbitrary base change.  They also preserve scheme-theoretic nilpotents: a double hyperplane embeds just as genuinely as its reduced support.
+
+\section{Homogeneous quotients give closed immersions}
+Let \(\varphi:S\twoheadrightarrow T=S/I\) be a surjective degree-preserving map with homogeneous kernel \(I\).  Then \(T_+=\varphi(S_+)\), so the induced Proj morphism is defined everywhere.
+
+\begin{theorem}[Quotient closed immersion]\label{thm:vi38-quotient-closed}
+The morphism
+\[
+  \Proj(S/I)\longrightarrow\Proj S
+\]
+induced by the quotient map is a closed immersion.  On \(D_+(f)\) it is induced by the surjection
+\[
+  S_{(f)}\twoheadrightarrow (S/I)_{(\bar f)}
+  \cong S_{(f)}/I_{(f)}.
+\]
+Its image is the projective closed locus \(V_+(I)\).
+\end{theorem}
+
+\begin{proof}
+VI/37 identifies the chart of \(\Proj(S/I)\) with \(\Spec(S_{(f)}/I_{(f)})\).  The chart map is therefore an affine closed immersion.  These local closed immersions glue by \cref{thm:vi38-affine-closed}, and the underlying image is \(V_+(I)\).
+\end{proof}
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_03}
+
+\section{Relative projective space and projective morphisms}
+For any scheme \(Y\), define
+\[
+  \mathbb P^n_Y:=\mathbb P^n_{\mathbb Z}\times_{\Spec\mathbb Z}Y.
+\]
+Equivalently, it is obtained by gluing \(n+1\) copies of \(\mathbb A^n_Y\) with the same transition maps as ordinary projective space.  The projection is denoted
+\[
+  \pi:\mathbb P^n_Y\longrightarrow Y.
+\]
+
+\begin{definition}[Projective morphism]\label{def:vi38-projective-morphism}
+A morphism \(f:X\to Y\) is projective if there exist an integer \(n\ge0\) and a factorization
+\[
+  X\xrightarrow{i}\mathbb P^n_Y\xrightarrow{\pi}Y
+\]
+with \(i\) a closed immersion.  All applications in this volume are in finite-type/Noetherian settings, so this agrees with the usual finite-type formulation used in algebraic geometry.
+\end{definition}
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_04}
+
+A closed immersion is projective: take \(n=0\), since \(\mathbb P^0_Y\cong Y\).  The structural morphism \(\mathbb P^n_Y\to Y\) is projective by definition.
+
+\begin{theorem}[Base change stability]\label{thm:vi38-projective-basechange}
+If \(f:X\to Y\) is projective and \(Y'\to Y\) is any morphism, then the base change
+\[
+  f':X\times_Y Y'\longrightarrow Y'
+\]
+is projective.
+\end{theorem}
+
+\begin{proof}
+Choose a closed immersion \(X\hookrightarrow\mathbb P^n_Y\).  Base change preserves closed immersions, and
+\[
+  \mathbb P^n_Y\times_Y Y'\cong\mathbb P^n_{Y'}.
+\]
+Thus \(X\times_Y Y'\) is a closed subscheme of \(\mathbb P^n_{Y'}\).
+\end{proof}
+
+\section{Very ample invertible sheaves}
+Let \(f:X\to Y\).  In the projective setting considered here, we use the closed-embedding form of relative very ampleness: an invertible sheaf \(\mathcal L\) on \(X\) is \emph{very ample relative to \(Y\)} if there exists a closed immersion
+\[
+  i:X\hookrightarrow\mathbb P^n_Y
+\]
+with
+\[
+  \mathcal L\cong i^*\OO_{\mathbb P^n_Y}(1).
+\]
+Thus projectivity can be encoded by an embedding together with the pullback of the universal twisting sheaf.  Over a field, a choice of generating sections of a very ample line bundle produces homogeneous coordinates.  The divisor and Picard chapters will develop the intrinsic line-bundle side further.
+
+\section{The Veronese embedding}
+Fix \(d\ge1\) and let
+\[
+  S=k[x_0,\ldots,x_n],
+  \qquad
+  S^{(d)}=\bigoplus_{r\ge0}S_{rd}.
+\]
+Let \(\mathcal M_d\) be the set of monomials \(x^\alpha=x_0^{\alpha_0}\cdots x_n^{\alpha_n}\) of degree \(|\alpha|=d\).  Its cardinality is
+\[
+  N+1=\binom{n+d}{d}.
+\]
+Introduce a polynomial ring
+\[
+  R=k[y_\alpha:|\alpha|=d].
+\]
+
+\begin{theorem}[Veronese closed embedding]\label{thm:vi38-veronese}
+The map
+\[
+  \nu_d:\mathbb P^n_k\longrightarrow\mathbb P^N_k,
+  \qquad
+  [x_0:\cdots:x_n]\longmapsto[x^\alpha]_{|\alpha|=d},
+\]
+is a closed immersion.
+\end{theorem}
+
+\begin{proof}
+Define a degree-preserving map
+\[
+  \psi:R\longrightarrow S^{(d)},
+  \qquad
+  y_\alpha\longmapsto x^\alpha.
+\]
+It is surjective: every monomial of degree \(rd\) can be written as a product of \(r\) monomials of degree \(d\), so \(S^{(d)}\) is generated in degree one by \(S_d\).  Therefore \cref{thm:vi38-quotient-closed} gives a closed immersion
+\[
+  \Proj S^{(d)}\hookrightarrow\Proj R=\mathbb P^N_k.
+\]
+By Veronese invariance from VI/35, the canonical map \(\Proj S\cong\Proj S^{(d)}\) is an isomorphism.  Their composite is a closed immersion.  On \(K\)-valued points it is exactly the displayed coordinate formula because the degree-one generators of \(S^{(d)}\) are the degree-\(d\) monomials in the \(x_i\).
+\end{proof}
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_05}
+
+For \(n=1,d=2\), this gives the conic
+\[
+  [s:t]\longmapsto[s^2:st:t^2]
+\]
+with homogeneous ideal \((Y_0Y_2-Y_1^2)\).  For \(n=1\) and general \(d\), the image is the rational normal curve of degree \(d\) in \(\mathbb P^d\).
+
+\section{The Segre ring and product charts}
+Set
+\[
+  A=k[x_0,\ldots,x_m],\qquad B=k[y_0,\ldots,y_n].
+\]
+Their Segre product is the standard graded ring
+\[
+  A\# B:=\bigoplus_{d\ge0}A_d\otimes_k B_d.
+\]
+It is generated in degree one by the elements \(x_i\otimes y_j\).
+
+\begin{proposition}[Proj of the Segre product]\label{prop:vi38-segre-product}
+There is a canonical isomorphism
+\[
+  \Proj(A\# B)\cong\mathbb P^m_k\times_k\mathbb P^n_k.
+\]
+On the standard open defined by \(x_i\otimes y_j\), the degree-zero ring is
+\[
+  (A\# B)_{(x_i\otimes y_j)}
+  \cong A_{(x_i)}\otimes_k B_{(y_j)},
+\]
+so the chart is \(U_i\times V_j\cong\mathbb A^m\times\mathbb A^n\).
+\end{proposition}
+
+\begin{proof}
+In the localization, the ratios
+\[
+  \frac{x_a\otimes y_j}{x_i\otimes y_j}=\frac{x_a}{x_i},
+  \qquad
+  \frac{x_i\otimes y_b}{x_i\otimes y_j}=\frac{y_b}{y_j}
+\]
+generate the degree-zero part.  Hence the displayed chart ring is the tensor product of the two affine chart rings.  These chart identifications agree on overlaps, because all transition maps are obtained by further localization.  The charts cover both sides.
+\end{proof}
+
+\section{The Segre embedding}
+Let
+\[
+  R=k[z_{ij}:0\le i\le m,\ 0\le j\le n].
+\]
+Define
+\[
+  \theta:R\longrightarrow A\#B,
+  \qquad z_{ij}\longmapsto x_i\otimes y_j.
+\]
+This map is surjective because the Segre product is generated by its degree-one elements.
+
+\begin{theorem}[Segre closed embedding and equations]\label{thm:vi38-segre}
+The Segre map
+\[
+\sigma:\mathbb P^m_k\times\mathbb P^n_k
+\longrightarrow\mathbb P^{(m+1)(n+1)-1}_k,
+\qquad
+([x_i],[y_j])\longmapsto[x_i y_j]_{i,j},
+\]
+is a closed immersion.  Its homogeneous ideal is generated by the \(2\times2\) minors
+\[
+  z_{ij}z_{\ell r}-z_{ir}z_{\ell j}.
+\]
+Equivalently, the image consists scheme-theoretically of rank-one matrices \((z_{ij})\).
+\end{theorem}
+
+\begin{proof}
+The surjection \(\theta:R\twoheadrightarrow A\#B\) gives a closed immersion
+\[
+  \Proj(A\#B)\hookrightarrow\Proj R.
+\]
+By \cref{prop:vi38-segre-product}, the source is \(\mathbb P^m\times\mathbb P^n\), and on points the map has coordinates \(z_{ij}=x_i y_j\).  It remains to identify the kernel.
+
+Every \(2\times2\) minor maps to zero, so the ideal \(J\) generated by the minors lies in \(\ker\theta\).  Conversely, a monomial \(z_{i_1j_1}\cdots z_{i_dj_d}\) maps to
+\[
+  (x_{i_1}\cdots x_{i_d})\otimes(y_{j_1}\cdots y_{j_d}),
+\]
+which depends only on the multiset of row indices and the multiset of column indices.  The minor relations permit the swap
+\[
+  z_{ij}z_{\ell r}\equiv z_{ir}z_{\ell j}\pmod J,
+\]
+so any two monomials with the same row and column multisets are congruent modulo \(J\).  Group a polynomial in \(\ker\theta\) by its image monomial in \(A\#B\); in each group the coefficients sum to zero, and the group is therefore a linear combination of differences of monomials with the same image.  Each such difference lies in \(J\).  Hence \(\ker\theta=J\), proving the equation statement and the closed-embedding theorem.
+\end{proof}
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_06}
+
+The smallest nontrivial case is
+\[
+  \mathbb P^1\times\mathbb P^1\hookrightarrow\mathbb P^3,
+  \qquad
+  ([s:t],[u:v])\longmapsto[su:sv:tu:tv],
+\]
+whose image is the smooth quadric \(Z_{00}Z_{11}-Z_{01}Z_{10}=0\).
+
+\section{Composition of projective morphisms}
+The Segre embedding is exactly what is needed to prove that projective morphisms compose.
+
+\begin{theorem}[Projective morphisms compose]\label{thm:vi38-projective-composition}
+If \(f:X\to Y\) and \(g:Y\to Z\) are projective, then \(g\circ f:X\to Z\) is projective.
+\end{theorem}
+
+\begin{proof}
+Choose closed immersions over the bases
+\[
+  X\hookrightarrow\mathbb P^m_Y,
+  \qquad
+  Y\hookrightarrow\mathbb P^n_Z.
+\]
+After base change along \(Y\to Z\), the first ambient space is
+\[
+  \mathbb P^m_Y\cong\mathbb P^m_Z\times_Z Y,
+\]
+which is a closed subscheme of
+\[
+  \mathbb P^m_Z\times_Z\mathbb P^n_Z.
+\]
+The relative Segre embedding, obtained from \cref{thm:vi38-segre} by base change, is a closed immersion of this product into \(\mathbb P^N_Z\), where \(N=(m+1)(n+1)-1\).  Composing the closed immersions embeds \(X\) into \(\mathbb P^N_Z\), proving that \(X\to Z\) is projective.
+\end{proof}
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_07}
+
+\section{Consequences and geometric diagnostics}
+Projective morphisms are stable under arbitrary base change and composition.  In the finite-type situations used throughout this volume they are finite type and separated.  The separatedness can be seen from the fact that \(\mathbb P^n_Y\to Y\) is separated and closed immersions are separated; the property is inherited by composites.
+
+For maps to projective space, a practical diagnostic is therefore:
+\begin{enumerate}
+\item choose homogeneous forms of one degree;
+\item compute the base locus;
+\item if the base locus is empty, obtain a morphism;
+\item if the induced graded map is surjective after the appropriate Veronese presentation, obtain a closed immersion;
+\item determine equations of the image from the kernel of the coordinate-ring map.
+\end{enumerate}
+
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/figures/figure_08}
+
+\section{Common pitfalls}
+\begin{itemize}
+\item A graded map \(S\to T\) does not automatically give a morphism \(\Proj T\to\Proj S\) everywhere; first check the irrelevant-ideal condition.
+\item Homogeneous forms defining a coordinate formula must have one common degree.  Different degrees require regrading or a different target construction.
+\item A common projective zero of all coordinate forms is a base point; the formula is not a morphism there.
+\item Injectivity on \(k\)-points is much weaker than being a closed immersion.  A closed immersion is a scheme-theoretic statement about topology and structure sheaves.
+\item A surjective homogeneous ring map gives a closed immersion in the opposite direction on Proj.
+\item The Veronese proof depends on the surjection onto the Veronese subring, not merely on the coordinate formula being injective.
+\item The Segre image is defined scheme-theoretically by all \(2\times2\) minors, not merely by the set-theoretic rank-one condition.
+\item Projectivity is relative: a projective morphism \(X\to Y\) means an embedding into some \(\mathbb P^n_Y\), not merely that \(X\) is abstractly a projective scheme over a field.
+\item Composition of projective morphisms is not immediate from the definition; the Segre embedding supplies the required single projective ambient space.
+\end{itemize}
+
+\section{Boundaries of VI/38}
+VI/38 completes the projective-geometry arc: functoriality of Proj, projective morphisms, closed immersions, very ampleness, and the Veronese/Segre embedding theorems.  The next arc turns to divisors and line bundles in intrinsic form.  Weil divisors, Cartier divisors, class groups, Picard groups, and cohomological ampleness criteria remain later chapters.
+
+\section{Worked examples}
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/examples}
+
+\section{Exercises}
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/exercises}
+\subsection*{Hints}
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/exercise_hints}
+\subsection*{Solutions}
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/exercise_solutions}
+
+\section{Problem dossiers}
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/problems/index}
+
+\section{Challenges}
+\input{chapters/ch38_projective_morphisms_and_closed_embeddings/challenges/index}
+
+\section*{Chapter synthesis}
+The functorial behavior of Proj is controlled by the irrelevant ideal.  Once the correct domain is identified, graded ring maps become ordinary affine morphisms on standard charts and glue globally.  Surjective graded maps give closed immersions, same-degree homogeneous forms give projective coordinate maps away from their base locus, and relative projective space packages these constructions over arbitrary bases.  The Veronese embedding is the quotient map onto a Veronese subring viewed contravariantly, while the Segre embedding is the quotient map onto the Segre product; its determinantal equations make the product geometry explicit.  Together, base change and Segre show that projective morphisms form a robust geometric class closed under composition.
