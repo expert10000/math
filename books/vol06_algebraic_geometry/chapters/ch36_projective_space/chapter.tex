@@ -1,0 +1,397 @@
+\chapter{Projective Space}
+\label{ch:vi36-projective-space}
+
+VI/35 constructed \(\Proj S\) for a general graded ring.  Projective space is the most important special case:
+\[
+  \mathbb P^n_k:=\Proj k[x_0,\ldots,x_n],
+\]
+where every variable has degree one.  The general machinery now becomes concrete.  The standard open \(D_+(x_i)\) is an affine \(n\)-space, ratios \(x_j/x_i\) become affine coordinates, and the overlap maps record exactly how homogeneous coordinates change from one normalization to another.
+
+The legacy migration ledger assigns the projective-space section of the AG4 source, together with its theorem-like and exercise/problem descendants, to VI/36.  The raw legacy source is not present in the accessible repository archive, so this chapter uses that ledger as provenance while developing a new canonical treatment compatible with VI/34--VI/35.  Projective subschemes and homogeneous coordinate rings are reserved for VI/37; projective morphisms and closed embeddings are reserved for VI/38.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item define \(\mathbb P^n_k\) as \(\Proj k[x_0,\ldots,x_n]\);
+\item identify \(K\)-valued points with one-dimensional subspaces of \(K^{n+1}\) and use homogeneous coordinates;
+\item compute the standard affine charts \(U_i=D_+(x_i)\cong\mathbb A^n_k\);
+\item write the transition maps on \(U_i\cap U_j\);
+\item reconstruct \(\mathbb P^1\) from two affine lines and \(\mathbb P^2\) from three affine planes;
+\item identify \(\mathbb A^n_k\) as the complement of a hyperplane at infinity;
+\item describe projective linear subspaces by homogeneous linear equations;
+\item prove \(\dim\mathbb P^n_k=n\);
+\item distinguish closed points from \(k\)-rational points and compute a basic non-rational example;
+\item understand base extension \(\mathbb P^n_k\times_k K\cong\mathbb P^n_K\);
+\item trivialize \(\mathcal O_{\mathbb P^n}(d)\) on standard charts and compute its transition factors;
+\item compute global sections of \(\mathcal O(d)\) for \(d\ge0\);
+\item use the Veronese and Segre maps as first concrete projective-coordinate constructions without yet invoking the closed-embedding theory of VI/38.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\[
+\boxed{
+\begin{array}{c}
+S=k[x_0,\ldots,x_n]\quad\longrightarrow\quad\mathbb P^n_k=\Proj S\\[2pt]
+U_i=D_+(x_i)\cong\Spec S_{(x_i)}\cong\mathbb A^n_k\\[2pt]
+\text{homogeneous coordinates}\longleftrightarrow\text{affine ratios}\longleftrightarrow\text{transition maps}
+\end{array}}
+\]
+Projective space is therefore not an additional primitive object: it is the standard graded polynomial ring interpreted through the Proj construction.
+
+\input{chapters/ch36_projective_space/figures/figure_01}
+
+\section{Definition and homogeneous coordinates}
+Let
+\[
+S=k[x_0,\ldots,x_n]
+\]
+with the standard grading.  By definition,
+\[
+\mathbb P^n_k=\Proj S.
+\]
+For a field extension \(K/k\), the \(K\)-valued points admit the familiar coordinate description.
+
+\begin{theorem}[Homogeneous coordinates over a field]\label{thm:vi36-homogeneous-coordinates}
+For every field extension \(K/k\), there is a natural bijection
+\[
+\mathbb P^n_k(K)\cong\{\text{one-dimensional }K\text{-subspaces of }K^{n+1}\}.
+\]
+Equivalently, every \(K\)-point can be written
+\[
+[a_0:\cdots:a_n],\qquad (a_0,\ldots,a_n)\ne0,
+\]
+with
+\[
+[a_0:\cdots:a_n]=[\lambda a_0:\cdots:\lambda a_n]
+\]
+for every \(\lambda\in K^\times\).
+\end{theorem}
+
+\begin{proof}
+A nonzero vector \(a=(a_0,\ldots,a_n)\) determines a homogeneous prime kernel in the usual coordinate description after choosing a chart containing it; multiplying \(a\) by \(\lambda\ne0\) does not change any ratio \(a_j/a_i\).  Conversely, a \(K\)-point lies in some standard chart \(U_i\), where it is determined by the affine ratios \(a_j/a_i\).  Normalizing \(a_i=1\) produces a nonzero vector unique up to nonzero scalar.  The chart descriptions agree on overlaps by the transition formulas proved below.
+\end{proof}
+
+\begin{remark}[What homogeneous coordinates do not mean]
+The symbols \([a_0:\cdots:a_n]\) are coordinates for field-valued points, not a replacement for the scheme.  The scheme also contains points with larger residue fields and generic points of irreducible closed subsets.
+\end{remark}
+
+\section{The standard affine charts}
+For \(0\le i\le n\), set
+\[
+U_i:=D_+(x_i)\subseteq\mathbb P^n_k.
+\]
+VI/35 gives
+\[
+U_i\cong\Spec S_{(x_i)}.
+\]
+Since
+\[
+S_{(x_i)}=k\!\left[\frac{x_0}{x_i},\ldots,\widehat{\frac{x_i}{x_i}},\ldots,\frac{x_n}{x_i}\right],
+\]
+we obtain the fundamental atlas.
+
+\begin{theorem}[Standard affine atlas]\label{thm:vi36-standard-atlas}
+Each standard open is canonically an affine \(n\)-space:
+\[
+\boxed{U_i\cong\mathbb A^n_k.}
+\]
+The \(n+1\) opens \(U_0,\ldots,U_n\) cover \(\mathbb P^n_k\).
+\end{theorem}
+
+On \(U_i\), write
+\[
+t_j^{(i)}:=\frac{x_j}{x_i}\qquad(j\ne i).
+\]
+For a field-valued point with \(a_i\ne0\), the chart map is
+\[
+[a_0:\cdots:a_n]\longmapsto
+\left(\frac{a_0}{a_i},\ldots,\widehat{\frac{a_i}{a_i}},\ldots,\frac{a_n}{a_i}\right).
+\]
+Its inverse inserts \(1\) in the \(i\)-th position.
+
+\input{chapters/ch36_projective_space/figures/figure_02}
+
+\section{Transition maps on overlaps}
+Suppose \(i\ne j\).  On \(U_i\cap U_j\), the coordinate \(t_j^{(i)}=x_j/x_i\) is invertible.  Passing from the \(i\)-chart to the \(j\)-chart gives
+\[
+t_i^{(j)}=\frac{x_i}{x_j}=\frac{1}{t_j^{(i)}},
+\]
+and for \(\ell\ne i,j\),
+\[
+t_\ell^{(j)}=\frac{x_\ell}{x_j}
+=\frac{x_\ell/x_i}{x_j/x_i}
+=\frac{t_\ell^{(i)}}{t_j^{(i)}}.
+\]
+Thus the change of coordinates is regular precisely on the principal open where \(t_j^{(i)}\ne0\).
+
+\begin{proposition}[Overlap algebra]
+Under \(U_i\cong\mathbb A^n_k\), the overlap \(U_i\cap U_j\) is the distinguished open
+\[
+D(t_j^{(i)})\subseteq\mathbb A^n_k,
+\]
+and its coordinate ring is
+\[
+k[t_\ell^{(i)}:\ell\ne i]_{t_j^{(i)}}.
+\]
+The transition formulas above induce the canonical isomorphism with the corresponding localization in the \(j\)-chart.
+\end{proposition}
+
+\input{chapters/ch36_projective_space/figures/figure_03}
+
+\section{The projective line from two affine lines}
+For \(\mathbb P^1_k=\Proj k[x_0,x_1]\), set
+\[
+U_0=D_+(x_0),\qquad U_1=D_+(x_1).
+\]
+Then
+\[
+U_0\cong\Spec k[t],\qquad t=\frac{x_1}{x_0},
+\]
+and
+\[
+U_1\cong\Spec k[u],\qquad u=\frac{x_0}{x_1}.
+\]
+Their overlap is
+\[
+\Spec k[t,t^{-1}]\cong\Spec k[u,u^{-1}],
+\]
+with transition
+\[
+u=t^{-1}.
+\]
+Therefore \(\mathbb P^1_k\) is obtained by gluing two affine lines along their punctured lines by inversion.  The point outside \(U_0\) is
+\[
+[0:1],
+\]
+which is the standard point at infinity for the affine coordinate \(t\).
+
+\begin{corollary}[Affine line plus infinity]
+\[
+\mathbb P^1_k=\mathbb A^1_k\cup\{\infty\}
+\]
+as a mnemonic for the open embedding \(U_0\cong\mathbb A^1_k\) and its one-point complement.  The scheme structure near \(\infty\) is still an affine-line chart, not a topological one-point compactification.
+\end{corollary}
+
+\input{chapters/ch36_projective_space/figures/figure_04}
+
+\section{The projective plane from three affine planes}
+For \(\mathbb P^2_k\), the charts
+\[
+U_0,U_1,U_2\cong\mathbb A^2_k
+\]
+have coordinates
+\[
+U_0:(x_1/x_0,x_2/x_0),\quad
+U_1:(x_0/x_1,x_2/x_1),\quad
+U_2:(x_0/x_2,x_1/x_2).
+\]
+A point \([a:b:c]\) belongs to whichever charts correspond to its nonzero coordinates.  On a double overlap, the transition divides all remaining coordinates by the new normalizing coordinate.  Triple overlap means \(abc\ne0\).
+
+This chart description is the practical computational model for projective plane geometry: equations are homogenized globally and dehomogenized on a chosen affine chart.
+
+\section{Affine space and the hyperplane at infinity}
+The chart \(U_0=D_+(x_0)\) identifies with \(\mathbb A^n_k\) by
+\[
+[a_0:a_1:\cdots:a_n]\longmapsto
+\left(\frac{a_1}{a_0},\ldots,\frac{a_n}{a_0}\right).
+\]
+The complementary closed set is
+\[
+H_\infty:=V_+(x_0).
+\]
+Its underlying projective locus is naturally identified with
+\[
+\mathbb P^{n-1}_k
+\]
+using the remaining coordinates \([a_1:\cdots:a_n]\).  Thus projective space decomposes geometrically into an affine chart and a lower-dimensional hyperplane at infinity:
+\[
+\boxed{\mathbb P^n_k=\mathbb A^n_k\sqcup H_\infty,\qquad H_\infty\simeq\mathbb P^{n-1}_k.}
+\]
+The full closed-subscheme interpretation of \(V_+(x_0)\) belongs to VI/37; here only the standard projective-space identification is used.
+
+\input{chapters/ch36_projective_space/figures/figure_05}
+
+\section{Dimension}
+Every chart \(U_i\) is an affine \(n\)-space, hence has dimension \(n\).  Since the charts cover \(\mathbb P^n_k\), dimension is determined locally.
+
+\begin{theorem}[Dimension of projective space]\label{thm:vi36-dimension}
+\[
+\boxed{\dim\mathbb P^n_k=n.}
+\]
+\end{theorem}
+
+\begin{proof}
+The nonempty open subset \(U_0\cong\mathbb A^n_k\) has dimension \(n\), so \(\dim\mathbb P^n_k\ge n\).  Conversely every point has a neighborhood isomorphic to an open subset of \(\mathbb A^n_k\), so no chain of irreducible closed subsets can have length exceeding \(n\) locally.  VI/30 then gives the equality.
+\end{proof}
+
+In particular, the hyperplane at infinity has codimension one, in agreement with VI/31.
+
+\section{Projective linear subspaces}
+A system of homogeneous linear equations
+\[
+L_1=\cdots=L_r=0
+\]
+defines a projective linear locus.  If the independent linear forms have rank \(r\), a linear change of homogeneous coordinates reduces the system to
+\[
+x_0=\cdots=x_{r-1}=0.
+\]
+The remaining coordinates identify the locus with
+\[
+\mathbb P^{n-r}_k.
+\]
+Thus projective points, lines, planes, and hyperplanes form one uniform hierarchy.
+
+\begin{proposition}[Projective span of two rational points]
+If \(p=[a_0:\cdots:a_n]\) and \(q=[b_0:\cdots:b_n]\) are distinct \(k\)-rational points, their projective line consists of
+\[
+[\lambda a_0+\mu b_0:\cdots:\lambda a_n+\mu b_n],
+\qquad [\lambda:\mu]\in\mathbb P^1_k,
+\]
+provided the displayed vector is nonzero.  Equivalently it is the projectivization of the two-dimensional vector subspace spanned by representatives of \(p\) and \(q\).
+\end{proposition}
+
+\input{chapters/ch36_projective_space/figures/figure_06}
+
+\section{Closed points and rational points}
+A \(k\)-rational point has residue field \(k\), but closed points can have larger finite extensions as residue fields.  This is already visible on \(\mathbb P^1_{\mathbb R}\).  On the chart \(U_0\cong\Spec\mathbb R[t]\), the prime
+\[
+(t^2+1)
+\]
+is maximal and has residue field \(\mathbb C\).  In homogeneous form it corresponds to the irreducible quadratic
+\[
+x_1^2+x_0^2.
+\]
+Hence it defines a closed point of \(\mathbb P^1_{\mathbb R}\) that is not \(\mathbb R\)-rational.
+
+Over an algebraically closed field, every closed point of \(\mathbb P^n_k\) is \(k\)-rational by the affine-chart form of the Nullstellensatz.
+
+\section{Base extension}
+Let \(K/k\) be a field extension.  Base change of the standard affine charts gives
+\[
+U_i\times_k K\cong\mathbb A^n_K.
+\]
+The overlap maps are obtained by the same rational formulas after extending scalars.  Therefore the charts glue to the expected scheme.
+
+\begin{theorem}[Projective space commutes with field extension]\label{thm:vi36-base-change}
+\[
+\boxed{\mathbb P^n_k\times_{\Spec k}\Spec K\cong\mathbb P^n_K.}
+\]
+\end{theorem}
+
+This explains why \(\mathbb P^n_k(K)\) is naturally the set of one-dimensional \(K\)-subspaces of \(K^{n+1}\): the field-valued points are ordinary rational points after base extension to \(K\).
+
+\section{Twisting sheaves on projective space}
+VI/35 defined
+\[
+\mathcal O_{\mathbb P^n}(d):=\widetilde{S(d)},
+\qquad S=k[x_0,\ldots,x_n].
+\]
+On \(U_i\), the degree-zero localized module \(S(d)_{(x_i)}\) is free of rank one over \(S_{(x_i)}\).  A convenient generator is the localized homogeneous element \(x_i^d\), interpreted inside the graded localization for arbitrary \(d\in\mathbb Z\).
+
+On \(U_i\cap U_j\), the two local generators satisfy
+\[
+x_i^d=\left(\frac{x_i}{x_j}\right)^d x_j^d.
+\]
+Thus \(\mathcal O(d)\) is locally free of rank one, with transition factors
+\[
+\left(\frac{x_i}{x_j}\right)^d.
+\]
+This is the first concrete line-bundle calculation in projective geometry.  The general theory of invertible sheaves and Picard groups is deferred to the later line-bundle chapter.
+
+\input{chapters/ch36_projective_space/figures/figure_07}
+
+\section{Global sections of the basic twists}
+For \(d\ge0\), every homogeneous polynomial \(F\in S_d\) determines a global section of \(\mathcal O(d)\): on \(U_i\), divide by \(x_i^d\) to obtain the degree-zero function
+\[
+\frac{F}{x_i^d}\in S_{(x_i)}.
+\]
+These local functions agree on overlaps after accounting for the transition factors.
+
+\begin{theorem}[Global sections in nonnegative degree]\label{thm:vi36-global-sections}
+For \(d\ge0\),
+\[
+\boxed{\Gamma(\mathbb P^n_k,\mathcal O(d))\cong k[x_0,\ldots,x_n]_d.}
+\]
+In particular,
+\[
+\Gamma(\mathbb P^n_k,\mathcal O)=k.
+\]
+\end{theorem}
+
+\begin{proof}
+The construction above gives a map \(S_d\to\Gamma(\mathbb P^n,\mathcal O(d))\).  Conversely, a global section is represented on each \(U_i\) by a degree-zero element of \(S(d)_{x_i}\), hence by a homogeneous rational expression of total degree \(d\).  Agreement on overlaps forces these expressions to define one homogeneous polynomial of degree \(d\); any possible denominator supported on a coordinate hyperplane is eliminated by comparing with a chart on which that coordinate vanishes.  Thus the map is bijective.
+\end{proof}
+
+The notation \(H^0(\mathbb P^n,\mathcal O(d))\) is often used for the same vector space, but no higher cohomology is needed here.
+
+\section{The Veronese map}
+Let \(d\ge1\), and let \(N=\binom{n+d}{d}-1\).  List all monomials \(m_0,\ldots,m_N\) of degree \(d\) in \(x_0,\ldots,x_n\).  Since each monomial scales by \(\lambda^d\), the formula
+\[
+\nu_d:\mathbb P^n_k\longrightarrow\mathbb P^N_k,
+\qquad
+[a_0:\cdots:a_n]\longmapsto[m_0(a):\cdots:m_N(a)]
+\]
+is well defined on field-valued points and, chart by chart, defines a scheme morphism.
+
+For \(\mathbb P^1\) and \(d=2\),
+\[
+\nu_2([s:t])=[s^2:st:t^2]\in\mathbb P^2.
+\]
+Its image satisfies
+\[
+XZ-Y^2=0.
+\]
+VI/38 will prove that the Veronese map is a closed embedding; VI/37 will give the scheme-theoretic meaning of the displayed homogeneous equation.
+
+\input{chapters/ch36_projective_space/figures/figure_08}
+
+\section{The Segre map}
+For projective spaces over \(k\), define
+\[
+\sigma:\mathbb P^m_k\times_k\mathbb P^n_k
+\longrightarrow\mathbb P^{(m+1)(n+1)-1}_k
+\]
+on field-valued points by
+\[
+([x_0:\cdots:x_m],[y_0:\cdots:y_n])
+\longmapsto [x_i y_j]_{0\le i\le m,\ 0\le j\le n}.
+\]
+Independent rescaling of the two factors changes all coordinates by one common nonzero scalar, so the formula is projectively well defined.  On affine charts it is polynomial, hence defines a morphism.  The image satisfies the rank-one relations
+\[
+z_{ij}z_{\ell r}-z_{ir}z_{\ell j}=0.
+\]
+Again, the closed-embedding theorem and scheme-theoretic image belong to VI/38 and VI/37 respectively.
+
+\section{Common pitfalls}
+\begin{itemize}
+\item Homogeneous coordinates are defined only up to a common nonzero scalar.
+\item One may normalize \(a_i=1\) only on the chart where \(a_i\ne0\).
+\item \(\mathbb P^n_k\) is not one affine scheme for \(n>0\); it requires the standard affine cover.
+\item The phrase ``hyperplane at infinity'' depends on the chosen affine chart.  Another choice of distinguished coordinate produces another hyperplane.
+\item Closed points need not be \(k\)-rational when \(k\) is not algebraically closed.
+\item The coordinate formulas for Veronese and Segre maps are easy; proving that they are closed embeddings is a separate theorem reserved for VI/38.
+\item Writing a homogeneous equation inside projective space suggests a projective closed locus, but its full scheme structure belongs to VI/37.
+\item \(\Gamma(\mathbb P^n,\mathcal O)=k\) does not imply \(\mathbb P^n\cong\Spec k\); global sections do not recover a non-affine scheme.
+\end{itemize}
+
+\section{Boundaries of VI/36}
+VI/36 owns projective space itself: homogeneous coordinates, standard affine charts, chart transitions, the hyperplane at infinity, projective linear loci, dimension, residue-field behavior, base extension, basic twists, and the first coordinate morphisms such as Veronese and Segre.  VI/37 will develop projective schemes from homogeneous ideals and quotients, including scheme-theoretic intersections and homogeneous coordinate rings.  VI/38 will develop projective morphisms and closed embeddings and will prove the embedding statements previewed here.  General line bundles, divisors, and sheaf cohomology remain later topics.
+
+\section{Worked examples}
+\input{chapters/ch36_projective_space/examples}
+
+\section{Exercises}
+\input{chapters/ch36_projective_space/exercises}
+\subsection*{Hints}
+\input{chapters/ch36_projective_space/exercise_hints}
+\subsection*{Solutions}
+\input{chapters/ch36_projective_space/exercise_solutions}
+
+\section{Problem dossiers}
+\input{chapters/ch36_projective_space/problems/index}
+
+\section{Challenges}
+\input{chapters/ch36_projective_space/challenges/index}
+
+\section*{Chapter synthesis}
+Projective space is the first place where the Proj construction becomes geometric in coordinates.  The ring \(k[x_0,\ldots,x_n]\) yields \(n+1\) affine charts \(U_i\cong\mathbb A^n\), and their transition functions are exactly the ratios forced by homogeneous rescaling.  This gives a single object containing affine \(n\)-space together with a hyperplane at infinity, while preserving enough symmetry that no affine chart is preferred intrinsically.  The twists \(\mathcal O(d)\), their homogeneous global sections, and the Veronese and Segre coordinate systems now prepare the passage from the ambient space \(\mathbb P^n\) to projective schemes and projective embeddings in VI/37--VI/38.
