@@ -1,0 +1,370 @@
+\chapter{Proj}
+\label{ch:vi35-proj}
+
+VI/34 prepared the graded algebra needed to pass from an affine cone to projective geometry.  The decisive operation is not merely to remove the cone vertex from \(\Spec S\), but to retain only homogeneous prime ideals and then replace homogeneous localizations by their degree-zero parts.  The legacy AG4 source identifies exactly this package: \(\Proj S\), homogeneous primes, the structure sheaf, degree-zero localization, and the standard opens \(D_+(f)\).  This chapter reconstructs that package as a self-contained scheme construction.  Projective space and projective subschemes are reserved for VI/36 and VI/37.
+
+Throughout the core construction, let
+\[
+S=\bigoplus_{n\ge 0}S_n
+\]
+be a nonnegatively graded ring and write \(S_+=\bigoplus_{n>0}S_n\).  When an assertion needs a stronger hypothesis, such as standard grading or finite generation, it is stated explicitly.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item define \(\Proj S\) as homogeneous primes not containing \(S_+\);
+\item define the closed sets \(V_+(I)\) and standard opens \(D_+(f)\);
+\item prove \(D_+(f)\cap D_+(g)=D_+(fg)\) and recognize the standard opens as a basis;
+\item prove the affine chart theorem \(D_+(f)\cong\Spec S_{(f)}\);
+\item construct the structure sheaf by gluing the affine chart sheaves;
+\item compute stalks as degree-zero homogeneous localizations \(S_{(\mathfrak p)}\);
+\item associate a sheaf \(\widetilde M\) to a graded module using \(M_{(f)}\);
+\item explain why exact sequences of graded modules give exact sequences of associated sheaves;
+\item compute concrete charts for small graded rings and detect empty, reducible, and nonreduced Proj examples;
+\item distinguish the general Proj construction from the later special theory of projective space and projective embeddings.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\[
+\boxed{
+\begin{array}{c}
+S\text{ graded}\longrightarrow
+\{\text{homogeneous primes }\mathfrak p\not\supseteq S_+\}\\[2pt]
+\longrightarrow D_+(f)\longleftrightarrow\Spec S_{(f)}
+\longrightarrow \OO_{\Proj S}
+\longrightarrow \widetilde M
+\end{array}}
+\]
+VI/34 supplied the rings \(S_{(f)}=(S_f)_0\) and modules \(M_{(f)}=(M_f)_0\).  VI/35 now glues those affine pieces into geometry.
+
+\input{chapters/ch35_proj/figures/figure_01}
+
+\section{The projective spectrum}
+\begin{definition}[Projective spectrum]
+The \emph{projective spectrum} of \(S\) is the set
+\[
+\Proj S:=\{\mathfrak p\subset S:\mathfrak p\text{ is homogeneous prime and }S_+\not\subseteq\mathfrak p\}.
+\]
+\end{definition}
+Thus the irrelevant ideal is excluded: a point of \(\Proj S\) must miss at least one positive-degree homogeneous element.
+
+If \(S=k[x_0,\ldots,x_n]\) with the standard grading, the excluded homogeneous maximal ideal \((x_0,\ldots,x_n)\) is the cone vertex.  But \(\Proj S\) is not defined by first forming a quotient of \(\Spec S\) by scalar multiplication; it is defined algebraically from homogeneous primes.
+
+\begin{remark}[Underlying topology versus structure sheaf]
+As a set, \(\Proj S\subseteq\Spec S\), and the topology below agrees with the subspace topology.  The structure sheaf, however, is \emph{not} the restriction of \(\OO_{\Spec S}\): projective charts use \(S_{(f)}=(S_f)_0\), not the whole localization \(S_f\).
+\end{remark}
+
+\section{Closed sets and the Zariski topology}
+For a homogeneous ideal \(I\subseteq S\), define
+\[
+V_+(I):=\{\mathfrak p\in\Proj S:I\subseteq\mathfrak p\}.
+\]
+These sets satisfy
+\[
+V_+(0)=\Proj S,\qquad V_+(S)=\varnothing,
+\]
+\[
+V_+(I)\cup V_+(J)=V_+(IJ),\qquad
+\bigcap_\alpha V_+(I_\alpha)=V_+\!\left(\sum_\alpha I_\alpha\right).
+\]
+Hence they are the closed sets of a topology on \(\Proj S\).
+
+\begin{proposition}[Radicals do not change the closed set]
+For homogeneous \(I\),
+\[
+V_+(I)=V_+(\sqrt I).
+\]
+\end{proposition}
+
+\begin{proof}
+A prime contains \(I\) exactly when it contains \(\sqrt I\).  VI/34 showed that \(\sqrt I\) is homogeneous.
+\end{proof}
+
+\input{chapters/ch35_proj/figures/figure_02}
+
+\section{Standard opens}
+Let \(f\in S\) be homogeneous of positive degree.
+\begin{definition}[Standard open]
+\[
+D_+(f):=\Proj S\setminus V_+((f))
+      =\{\mathfrak p\in\Proj S:f\notin\mathfrak p\}.
+\]
+\end{definition}
+
+The standard opens satisfy the projective analogue of the affine basic-open identities:
+\begin{proposition}[Standard-open calculus]
+For homogeneous \(f,g\) of positive degree,
+\[
+D_+(f)\cap D_+(g)=D_+(fg).
+\]
+If homogeneous elements \(f_i\) generate an ideal whose radical contains \(S_+\), then
+\[
+\Proj S=\bigcup_iD_+(f_i).
+\]
+\end{proposition}
+
+\begin{proof}
+A prime misses \(fg\) exactly when it misses both \(f\) and \(g\).  For the cover statement, a point outside every \(D_+(f_i)\) contains all \(f_i\), hence their radical and therefore \(S_+\), contradicting the definition of \(\Proj S\).
+\end{proof}
+
+\begin{corollary}[Standard opens form a basis]
+The sets \(D_+(f)\), for positive-degree homogeneous \(f\), form a basis for the topology of \(\Proj S\).
+\end{corollary}
+
+\input{chapters/ch35_proj/figures/figure_03}
+
+\section{The affine chart theorem}
+VI/34 defined
+\[
+S_{(f)}=(S_f)_0.
+\]
+The central theorem of the construction is that this ordinary ring is exactly the coordinate ring of \(D_+(f)\).
+
+\begin{theorem}[Affine chart theorem]\label{thm:vi35-affine-chart}
+For every homogeneous \(f\in S\) of positive degree there is a canonical homeomorphism
+\[
+\boxed{D_+(f)\cong\Spec S_{(f)}.}
+\]
+Under this correspondence,
+\[
+\mathfrak p\longmapsto (\mathfrak p S_f)_0.
+\]
+\end{theorem}
+
+\begin{proof}
+A homogeneous prime \(\mathfrak p\) with \(f\notin\mathfrak p\) localizes to a homogeneous prime \(\mathfrak pS_f\subset S_f\).  Since a power of the homogeneous element \(f\) is invertible in \(S_f\), a homogeneous prime of \(S_f\) is determined by its degree-zero part; that degree-zero part is a prime of \((S_f)_0=S_{(f)}\).  Conversely, a prime \(\mathfrak q\subset S_{(f)}\) determines the homogeneous prime of \(S_f\) generated degreewise by \(\mathfrak q\), whose contraction to \(S\) is homogeneous and misses \(f\).  These operations are inverse.
+
+For a homogeneous \(g\), the condition \(g\notin\mathfrak p\) becomes the nonvanishing of a suitable degree-zero fraction obtained by balancing powers of \(g\) and \(f\).  Thus standard opens inside \(D_+(f)\) correspond to distinguished opens in \(\Spec S_{(f)}\), proving continuity in both directions.
+\end{proof}
+
+When \(S=k[x_0,\ldots,x_n]\) is standard graded and \(f=x_i\), VI/34 computed
+\[
+S_{(x_i)}\cong k\!\left[\frac{x_0}{x_i},\ldots,\widehat{\frac{x_i}{x_i}},\ldots,\frac{x_n}{x_i}\right].
+\]
+Thus the standard chart is an ordinary affine scheme.  VI/36 will organize these charts into projective space.
+
+\input{chapters/ch35_proj/figures/figure_04}
+
+\section{Overlaps and localization in stages}
+The affine chart theorem must be compatible on overlaps.  Suppose for simplicity that \(f\) and \(g\) have the same positive degree.  Then \(g/f\in S_{(f)}\), and VI/34 gives
+\[
+(S_{(f)})_{g/f}\cong S_{(fg)}.
+\]
+Therefore
+\[
+D_+(f)\cap D_+(g)=D_+(fg)
+\]
+is identified from either side with the same affine scheme
+\[
+\Spec S_{(fg)}.
+\]
+If the degrees differ, choose positive powers \(f^a,g^b\) with equal degree and use the corresponding degree-zero ratios.  This is the algebraic cocycle that makes the global construction possible.
+
+\section{The structure sheaf on Proj}
+On every standard open define
+\[
+\OO_{\Proj S}(D_+(f)):=S_{(f)}.
+\]
+On overlaps, use the localization maps supplied by the previous section.  Since the standard opens form a basis and the restrictions satisfy the cocycle identities, these affine structure sheaves glue.
+
+\begin{theorem}[Proj is a scheme]\label{thm:vi35-proj-scheme}
+There is a unique structure sheaf \(\OO_{\Proj S}\) whose restriction to each standard open agrees under \cref{thm:vi35-affine-chart} with the affine structure sheaf of \(\Spec S_{(f)}\).  Consequently
+\[
+\boxed{(\Proj S,\OO_{\Proj S})\text{ is a scheme}.}
+\]
+\end{theorem}
+
+\begin{proof}
+The standard opens cover \(\Proj S\).  Their affine scheme structures agree on pairwise intersections because both restrictions identify with the structure sheaf of \(\Spec S_{(fg)}\), after replacing by equal-degree powers when necessary.  The scheme-gluing theorem of VI/20 therefore produces a scheme.  Uniqueness follows because the standard opens are a basis.
+\end{proof}
+
+\input{chapters/ch35_proj/figures/figure_05}
+
+\section{Stalks and homogeneous local rings}
+Let \(\mathfrak p\in\Proj S\).  Localize \(S\) at the multiplicative system of homogeneous elements outside \(\mathfrak p\), preserving the grading, and take degree zero.  Denote the resulting local ring by
+\[
+S_{(\mathfrak p)}.
+\]
+Equivalently, its elements are represented by fractions \(a/b\) with \(a,b\) homogeneous of the same degree and \(b\notin\mathfrak p\).
+
+\begin{proposition}[Stalk formula]\label{prop:vi35-stalk}
+\[
+\boxed{\OO_{\Proj S,\mathfrak p}\cong S_{(\mathfrak p)}.}
+\]
+Its maximal ideal consists of the degree-zero fractions \(a/b\) with \(a\in\mathfrak p\).
+\end{proposition}
+
+\begin{proof}
+Choose homogeneous \(f\notin\mathfrak p\).  Inside the affine chart \(D_+(f)\cong\Spec S_{(f)}\), the stalk is the ordinary localization of \(S_{(f)}\) at the corresponding prime.  Unwinding the fractions gives exactly the displayed homogeneous degree-zero localization.
+\end{proof}
+
+Thus the residue field is
+\[
+\kappa(\mathfrak p)=S_{(\mathfrak p)}/\mathfrak m_{\mathfrak p}.
+\]
+
+\input{chapters/ch35_proj/figures/figure_06}
+
+\section{Sheaves from graded modules}
+Let \(M=\bigoplus_{n\in\mathbb Z}M_n\) be a graded \(S\)-module.  VI/34 defined
+\[
+M_{(f)}=(M_f)_0.
+\]
+On the affine chart \(D_+(f)\cong\Spec S_{(f)}\), VI/33 turns this module into a quasi-coherent sheaf.  The overlap identifications from homogeneous localization let these affine sheaves glue.
+
+\begin{definition}[Associated sheaf of a graded module]
+The sheaf associated to \(M\) on \(\Proj S\), denoted \(\widetilde M\), is characterized on standard opens by
+\[
+\boxed{\Gamma(D_+(f),\widetilde M)=M_{(f)}}
+\]
+and by the corresponding affine quasi-coherent sheaves on those opens.
+\end{definition}
+
+\begin{proposition}[Stalks of an associated graded sheaf]
+For \(\mathfrak p\in\Proj S\),
+\[
+\widetilde M_{\mathfrak p}\cong M_{(\mathfrak p)}.
+\]
+\end{proposition}
+
+\begin{theorem}[Quasi-coherence and exactness]
+The sheaf \(\widetilde M\) is quasi-coherent.  Moreover, an exact sequence of graded modules with degree-zero maps
+\[
+0\to M'\to M\to M''\to0
+\]
+induces an exact sequence
+\[
+0\to\widetilde{M'}\to\widetilde M\to\widetilde{M''}\to0.
+\]
+\end{theorem}
+
+\begin{proof}
+Quasi-coherence is affine-local and holds on every standard chart by VI/33.  VI/34 proved exactness of degree-zero homogeneous localization, so the induced sequence is exact on every standard chart, hence on stalks.
+\end{proof}
+
+\input{chapters/ch35_proj/figures/figure_07}
+
+\section{Shifts and the first twisting preview}
+For \(d\in\mathbb Z\), VI/34 defined the shifted graded module \(S(d)\).  Applying the present construction gives sheaves
+\[
+\widetilde{S(d)}.
+\]
+It is customary to write
+\[
+\OO_{\Proj S}(d):=\widetilde{S(d)}.
+\]
+At this stage this notation records a family of quasi-coherent sheaves.  Their invertibility, tensor identities, sections, and role in projective embeddings belong to later projective and divisor chapters.
+
+A key warning is that the graded shift matters globally even when some affine charts make the localized module look free of rank one.  Projective information is encoded in how those local trivializations transform on overlaps.
+
+\section{Homogeneous quotients and closed loci: topological form}
+If \(I\subseteq S\) is homogeneous, then homogeneous primes of \(S/I\) correspond to homogeneous primes of \(S\) containing \(I\).  Therefore there is a canonical homeomorphism
+\[
+\Proj(S/I)\cong V_+(I)\subseteq\Proj S.
+\]
+This chapter uses this only as a topological and chart-level statement.  The systematic closed-subscheme interpretation, homogeneous coordinate ideals, and projective subschemes are reserved for VI/37.
+
+The projective closed set depends only on the saturation of \(I\) with respect to \(S_+\) in standard Noetherian situations; this explains why equations supported only at the cone vertex can disappear after passing to Proj.  Full saturation theory is deferred.
+
+\section{Veronese invariance}
+VI/34 introduced the \(d\)-th Veronese subring
+\[
+S^{(d)}=\bigoplus_{n\ge0}S_{nd}.
+\]
+Projective geometry is insensitive to this regrading in the expected sense.
+
+\begin{theorem}[Veronese invariance]\label{thm:vi35-veronese}
+Assume \(S\) is standard graded over \(S_0\). For every \(d\ge1\), there is a canonical isomorphism of schemes
+\[
+\boxed{\Proj S\cong\Proj S^{(d)}}.
+\]
+\end{theorem}
+
+\begin{proof}[Proof idea]
+A homogeneous prime of \(S\) contracts to a homogeneous prime of \(S^{(d)}\), and the projectively relevant primes correspond.  On a standard open indexed by a homogeneous element \(f\) of degree divisible by \(d\), both sides have the same degree-zero chart ring: passing to the Veronese changes the bookkeeping of degrees but not the balanced fractions.  These chart identifications agree on overlaps and glue.
+\end{proof}
+
+\section{Prototype computations}
+Several small examples already show the range of the construction.
+
+\paragraph{One variable.}
+For \(S=k[x]\) with \(\deg x=1\), the only homogeneous prime missing \(S_+=(x)\) is \((0)\).  Hence \(\Proj S\) is one point, and
+\[
+D_+(x)=\Proj S\cong\Spec S_{(x)}=\Spec k.
+\]
+
+\paragraph{Two variables.}
+For \(S=k[x,y]\),
+\[
+D_+(x)\cong\Spec k[y/x],\qquad D_+(y)\cong\Spec k[x/y].
+\]
+Their overlap is obtained by inverting \(y/x\) on the first chart or \(x/y\) on the second.  VI/36 will identify the resulting scheme as projective one-space.
+
+\paragraph{A reducible example.}
+Let \(S=k[x,y]/(xy)\).  The projectively relevant homogeneous primes are \((x)\) and \((y)\).  The two standard charts are each \(\Spec k\), so \(\Proj S\) is a disjoint union of two reduced points.
+
+\paragraph{A nonreduced example.}
+Let \(S=k[x,y]/(y^2)\).  Topologically \(\Proj S\) has the homogeneous prime \((y)\).  On \(D_+(x)\),
+\[
+S_{(x)}\cong k[t]/(t^2),\qquad t=y/x,
+\]
+so the projective scheme is a one-point nonreduced scheme.  Proj retains nilpotent structure even when the underlying point set is tiny.
+
+\input{chapters/ch35_proj/figures/figure_08}
+
+\section{Common pitfalls}
+\begin{itemize}
+\item \textbf{Proj is not all homogeneous primes.}  Primes containing \(S_+\) are excluded.
+\item \textbf{The projective structure sheaf is not \(\OO_{\Spec S}|_{\Proj S}\).}  Its chart rings are \(S_{(f)}\), not \(S_f\).
+\item \textbf{Only homogeneous equations define \(V_+(I)\) directly.}  Homogeneity is what makes vanishing compatible with scaling.
+\item \textbf{A graded ring map does not automatically give an everywhere-defined morphism on Proj.}  Additional hypotheses are needed to control the irrelevant ideals; projective morphisms are deferred to VI/38.
+\item \textbf{Global sections need not simply recover the original graded ring.}  The affine reconstruction identity \(A=\Gamma(\Spec A,\OO)\) has no naive graded analogue for \(\Proj S\).
+\item \textbf{The notation \(\OO(d)\) does not yet prove invertibility.}  The associated shifted sheaf is defined here; its line-bundle theory comes later.
+\item \textbf{Projective space is an example of Proj, not the definition of Proj.}  VI/36 specializes the general construction to polynomial rings.
+\end{itemize}
+
+\section{Boundaries of VI/35}
+VI/35 owns the general construction of \(\Proj S\): its homogeneous-prime topology, standard-open basis, affine chart theorem, structure sheaf, stalks, and sheaves associated to graded modules.  It does not yet develop projective \(n\)-space systematically, homogeneous coordinates and projective varieties, closed projective subschemes, projective morphisms, very ample sheaves, or projective embeddings.  Those are the jobs of VI/36--VI/38 and the later line-bundle chapters.
+
+\section{Examples}
+\input{chapters/ch35_proj/examples}
+
+\section{Exercises}
+\input{chapters/ch35_proj/exercises}
+\subsection*{Hints}
+\input{chapters/ch35_proj/exercise_hints}
+\subsection*{Solutions}
+\input{chapters/ch35_proj/exercise_solutions}
+
+\section{Problem dossiers}
+\input{chapters/ch35_proj/problems/index}
+
+\section{Challenges}
+\input{chapters/ch35_proj/challenges/index}
+
+\section*{Source and scope audit}
+The repository migration ledger assigns the legacy AG4 thematic selector \texttt{Proj} and its inherited theorem/problem descendants to VI/35.  The broader audit describes the same source as containing \(\Proj S\), its structure sheaf, degree-zero localization, \(D_+(f)\), projective space, and closed projective subschemes.  This chapter consumes the general Proj construction and its local sheaf theory.  The source's projective-space and projective-subscheme material remains reserved for VI/36 and VI/37.  The additional treatments of graded-module sheaves, exactness, shifts, Veronese invariance, reducible/nonreduced prototypes, and saturation warnings are canonical extensions justified by VI/33--VI/34; they are not presented as separately numbered legacy problems.
+
+\section*{Chapter synthesis}
+Projective geometry is obtained from graded algebra by a precise two-step reduction:
+\[
+\boxed{
+\text{homogeneous primes }\mathfrak p\not\supseteq S_+
+\quad+\quad
+\text{degree-zero localizations}.}
+\]
+The topology is controlled by
+\[
+D_+(f)=\{\mathfrak p:f\notin\mathfrak p\},
+\qquad D_+(f)\cap D_+(g)=D_+(fg),
+\]
+and every standard open is affine:
+\[
+\boxed{D_+(f)\cong\Spec S_{(f)}.}
+\]
+Gluing these charts gives \(\OO_{\Proj S}\), with stalks \(S_{(\mathfrak p)}\).  A graded module becomes a quasi-coherent sheaf by the parallel formula
+\[
+\Gamma(D_+(f),\widetilde M)=M_{(f)},
+\qquad \widetilde M_{\mathfrak p}=M_{(\mathfrak p)}.
+\]
+The general Proj machine is now complete.  VI/36 can specialize it to polynomial rings and projective space without hiding any of the underlying algebra or sheaf theory.
