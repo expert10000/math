@@ -1,0 +1,834 @@
+\chapter{Cremona Transformations}
+\label{ch:vi44-cremona-transformations}
+\providecommand{\Cr}{\operatorname{Cr}}
+\providecommand{\Bir}{\operatorname{Bir}}
+\providecommand{\Bs}{\operatorname{Bs}}
+\providecommand{\mult}{\operatorname{mult}}
+
+VI/43 used projective lines to study a fixed plane cubic.  The present chapter changes the viewpoint: now the ambient plane itself is allowed to move birationally.  A \emph{Cremona transformation} is a birational self-map of \(\PP^2\).  Such a map is not required to be defined everywhere, and that single relaxation produces the central phenomena of the chapter: base points, contracted curves, inverse base points, degree change, and linear systems with assigned multiplicities.
+
+The model example is the standard quadratic transformation
+\[
+  \sigma:\PP^2\dashrightarrow\PP^2,
+  \qquad
+  [x:y:z]\longmapsto[yz:xz:xy].
+\]
+It is undefined at the three coordinate points
+\[
+  p_1=[1:0:0],\qquad p_2=[0:1:0],\qquad p_3=[0:0:1],
+\]
+contracts the three coordinate lines, and satisfies \(\sigma^2=\mathrm{id}\) wherever both sides are defined.  Thus a map given by quadratic polynomials can nevertheless have a rational inverse of the same degree.
+
+This example is the prototype for the entire subject.  A general rational map is encoded by homogeneous forms of the same degree; their common zero set is the base locus.  A birational map sends a general curve to a birational transform, but the degree of the image is corrected by the multiplicities of the curve at the base points.  For the standard quadratic transformation the basic formula is
+\[
+  \boxed{\deg \sigma_*(C)=2\deg C-m_1-m_2-m_3,}
+\]
+provided the coordinate lines are not components of \(C\), where \(m_i=\mult_{p_i}(C)\).
+
+The formula already points toward VI/45.  The expression
+\[
+  2d-m_1-m_2-m_3
+\]
+looks like intersection against a divisor class \(2H-E_1-E_2-E_3\).  In this chapter that notation is only a preview.  VI/45 will create the surface on which the exceptional classes \(E_i\) actually live and on which \(\sigma\) becomes an honest morphism.
+
+\section*{Standing conventions}
+Unless stated otherwise, \(k\) is a field and all projective spaces are over \(k\).  When geometric base points are discussed, we pass to \(\bar k\) if necessary.  A rational map is identified with its restriction to any dense open set on which it is represented by regular functions.  Curves are assumed reduced and without components contracted by the map when a degree formula requires that hypothesis.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item distinguish rational maps, morphisms, birational maps, and Cremona transformations;
+\item represent a rational map of projective space by homogeneous forms of one degree;
+\item compute its base locus and explain why a common factor must be removed;
+\item analyze the standard quadratic transformation \([x:y:z]\dashrightarrow[yz:xz:xy]\);
+\item identify its three base points and three contracted coordinate lines;
+\item verify directly that the standard quadratic transformation is an involution on a dense open set;
+\item compute the image of a general line and the inverse image of a general line;
+\item interpret the map through the net of conics passing through three noncollinear points;
+\item compute algebraic degree and recognize degree drop under composition caused by cancellation;
+\item define the birational transform of a curve away from contracted components;
+\item derive the degree formula \(2d-m_1-m_2-m_3\) for the standard quadratic transformation;
+\item track smooth cubics, singular cubics, and curves passing through the base triangle;
+\item compare projective automorphisms with genuine Cremona transformations;
+\item understand how source and target base points are exchanged by inversion;
+\item recognize the divisor-class shadow \(H\mapsto2H-E_1-E_2-E_3\) without using blow-ups prematurely;
+\item explain why resolving indeterminacy is the natural next step.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\begin{gathered}
+\text{homogeneous forms}\Longrightarrow\text{base locus}\Longrightarrow\text{birational plane map}\\
+\Downarrow\\
+\text{degree/multiplicity bookkeeping}\Longrightarrow\text{resolution}
+\end{gathered}}
+\]
+\input{chapters/ch44_cremona_transformations/figures/figure_01}
+
+\section{Rational maps of the projective plane}
+
+\begin{definition}[Rational map]\label{def:vi44-rational-map}
+A \emph{rational map}
+\[
+  \phi:X\dashrightarrow Y
+\]
+between integral varieties is an equivalence class of morphisms \(U\to Y\) defined on nonempty open subsets \(U\subseteq X\), where two representatives are equivalent if they agree on a nonempty open subset of their common domain.
+\end{definition}
+
+The maximal open subset on which the rational map is represented by a morphism is its \emph{domain of definition}.  Its complement is the \emph{indeterminacy locus}.  For maps from a smooth surface to projective space, indeterminacy is typically concentrated at finitely many points.
+
+\begin{definition}[Cremona transformation]\label{def:vi44-cremona}
+A \emph{Cremona transformation of the plane} is a birational map
+\[
+  \phi:\PP^2\dashrightarrow\PP^2.
+\]
+The set of such transformations, under composition of rational maps, is the plane Cremona group
+\[
+  \Cr_2(k)=\Bir_k(\PP^2).
+\]
+\end{definition}
+
+Every projective automorphism belongs to \(\Cr_2(k)\), but Cremona transformations are much more general: they may fail to be defined at points and may contract curves.
+
+\begin{proposition}[Homogeneous representation]\label{prop:vi44-homogeneous-representation}
+A rational map
+\[
+  \phi:\PP^2\dashrightarrow\PP^2
+\]
+can be represented as
+\[
+  [x:y:z]\longmapsto[F_0(x,y,z):F_1(x,y,z):F_2(x,y,z)],
+\]
+where the \(F_i\) are homogeneous forms of the same degree and have no nonconstant common factor.  Two such triples represent the same rational map exactly when they differ by multiplication by a common nonzero rational function; after choosing primitive homogeneous triples, this reduces to a common scalar.
+\end{proposition}
+
+\begin{proof}
+A rational map to projective space is determined by three rational functions, not all zero, up to common multiplication.  Clearing denominators and homogenizing gives a triple of homogeneous forms of one degree.  Removing their gcd does not change the rational map on the dense open set where the common factor is nonzero.  Conversely, a primitive homogeneous triple defines a morphism wherever the three forms do not vanish simultaneously.
+\end{proof}
+
+\begin{definition}[Base locus]\label{def:vi44-base-locus}
+For a primitive representation \(\phi=[F_0:F_1:F_2]\), the \emph{base locus} is
+\[
+  \Bs(\phi)=V_+(F_0,F_1,F_2)\subset\PP^2.
+\]
+Its points are the base points of the rational map.
+\end{definition}
+
+The primitive condition matters.  The triple
+\[
+  [xz:yz:z^2]
+\]
+has a common factor \(z\) and represents the identity map on \(z\neq0\); after cancellation it becomes \([x:y:z]\).  Treating the whole line \(z=0\) as a genuine base locus would therefore be an artifact of a nonminimal representation.
+
+\input{chapters/ch44_cremona_transformations/figures/figure_02}
+
+\section{The standard quadratic transformation}
+
+Consider
+\[
+  \sigma[x:y:z]=[yz:xz:xy].
+\]
+The three coordinate quadrics have no common factor, so this is a primitive quadratic representation.
+
+\begin{proposition}[Domain and base points of the standard map]\label{prop:vi44-sigma-domain}
+The base locus of \(\sigma\) is precisely
+\[
+  \{p_1,p_2,p_3\}
+  =\{[1:0:0],[0:1:0],[0:0:1]\}.
+\]
+On the dense torus \(xyz\neq0\), the map is regular and can be written as
+\[
+  [x:y:z]\longmapsto[1/x:1/y:1/z]
+\]
+up to a common projective scalar.
+\end{proposition}
+
+\begin{proof}
+The equations \(yz=xz=xy=0\) force at least two coordinates to vanish, hence give exactly the three coordinate points.  If \(xyz\neq0\), multiplying \([1/x:1/y:1/z]\) by \(xyz\) gives \([yz:xz:xy]\).
+\end{proof}
+
+\begin{proposition}[Quadratic involution]\label{prop:vi44-sigma-involution}
+The standard quadratic transformation is a birational involution:
+\[
+  \sigma\circ\sigma=\mathrm{id}_{\PP^2}
+\]
+as rational maps.
+\end{proposition}
+
+\begin{proof}
+On the dense open set \(xyz\neq0\),
+\[
+ \sigma^2[x:y:z]
+ =\sigma[yz:xz:xy]
+ =[x^2yz:xy^2z:xyz^2]
+ =[x:y:z].
+\]
+Equality on a dense open subset is equality of rational maps.  Thus \(\sigma\) is its own rational inverse.
+\end{proof}
+
+This calculation also illustrates degree cancellation.  Naively substituting one quadratic triple into another produces quartics, but the three quartics have the common cubic factor \(xyz\).  After cancellation, the composition has degree one.
+
+\input{chapters/ch44_cremona_transformations/figures/figure_03}
+
+\section{Exceptional curves and inverse base points}
+
+A birational map need not preserve dimension on every closed subset.  For \(\sigma\), each side of the coordinate triangle is contracted.
+
+\begin{proposition}[Contracted coordinate lines]\label{prop:vi44-exceptional-lines}
+Let
+\[
+  L_x=V_+(x),\qquad L_y=V_+(y),\qquad L_z=V_+(z).
+\]
+Then away from the two base points lying on each line,
+\[
+  \sigma(L_x)=p_1,\qquad
+  \sigma(L_y)=p_2,\qquad
+  \sigma(L_z)=p_3.
+\]
+Thus the three coordinate lines are exceptional curves for \(\sigma\), and the three target coordinate points are base points of the inverse map as well.
+\end{proposition}
+
+\begin{proof}
+If \(x=0\) and \(yz\neq0\), then
+\[
+  \sigma[0:y:z]=[yz:0:0]=[1:0:0]=p_1.
+\]
+The other two cases are cyclic permutations.  Since \(\sigma^{-1}=\sigma\), the same three points are the inverse base points.
+\end{proof}
+
+This is the first sign that a birational map does not simply ``delete'' information at a contracted line.  The inverse map must remember that line through an indeterminacy point.  VI/45 will replace each such base point by an exceptional projective line, making the exchange geometrically visible.
+
+\section{Lines become conics}
+
+Let \(M\subset\PP^2\) be the line
+\[
+  aX+bY+cZ=0
+\]
+in the target.  Pulling its equation back through \(\sigma\) gives
+\[
+  ayz+bxz+cxy=0.
+\]
+This is a conic through \(p_1,p_2,p_3\).
+
+\begin{proposition}[Line--conic correspondence]\label{prop:vi44-line-to-conic}
+Under the standard quadratic transformation, the inverse image of a general target line is a conic through all three base points.  Conversely, every conic in the three-dimensional vector space
+\[
+  \langle yz,xz,xy\rangle
+\]
+is the pullback of a line.  If the conic is irreducible and avoids exceptional degeneracies, its birational transform is a line.
+\end{proposition}
+
+\begin{proof}
+The pullback calculation above gives the first assertion.  Every conic in the displayed span has the form \(ayz+bxz+cxy\), so it arises from \(aX+bY+cZ\).  On the dense torus \(\sigma\) is an isomorphism, hence an irreducible member not contracted by \(\sigma\) maps birationally to the corresponding line.
+\end{proof}
+
+\input{chapters/ch44_cremona_transformations/figures/figure_04}
+
+\section{Linear systems and the map they define}
+
+The three quadrics \(yz,xz,xy\) do more than provide coordinates.  Their span is a linear system of conics.
+
+\begin{proposition}[The net of conics through three points]\label{prop:vi44-conics-linear-system}
+The projective linear system of conics through the three noncollinear coordinate points is
+\[
+  \PP\langle yz,xz,xy\rangle\cong\PP^2.
+\]
+It defines the rational map \(\sigma\).  More generally, after a projective change of coordinates, the net of conics through any three noncollinear points defines a quadratic Cremona transformation.
+\end{proposition}
+
+\begin{proof}
+A general conic has equation
+\[
+ ax^2+by^2+cz^2+dxy+exz+fyz=0.
+\]
+Vanishing at \(p_1,p_2,p_3\) forces \(a=b=c=0\), leaving the three-dimensional vector space spanned by \(xy,xz,yz\).  Choosing these three basis sections as target coordinates gives \(\sigma\).  Any ordered triple of noncollinear points can be carried to the coordinate points by an element of \(\operatorname{PGL}_3(k)\).
+\end{proof}
+
+The word \emph{net} means a projective linear system of dimension two.  Thus the standard Cremona transformation is the map associated with the complete net of conics through its three base points.
+
+\begin{proposition}[General quadratic transformation with three proper base points]\label{prop:vi44-general-quadratic}
+Let \(q_1,q_2,q_3\in\PP^2\) be noncollinear points.  The complete net of conics through them defines a quadratic Cremona transformation.  Up to pre- and post-composition by projective automorphisms, it is the standard quadratic transformation.
+\end{proposition}
+
+\begin{proof}
+Choose \(A\in\operatorname{PGL}_3(k)\) taking \((q_1,q_2,q_3)\) to \((p_1,p_2,p_3)\).  In the new coordinates the net is \(\langle yz,xz,xy\rangle\), hence defines \(\sigma\).  Changing the basis of the three-dimensional vector space of sections corresponds to a projective automorphism \(B\) of the target.  Therefore the original map has the form \(B^{-1}\sigma A\).
+\end{proof}
+
+\section{Algebraic degree and cancellation}
+
+\begin{definition}[Algebraic degree]\label{def:vi44-algebraic-degree}
+If a rational map \(\phi:\PP^2\dashrightarrow\PP^2\) has a primitive homogeneous representation \([F_0:F_1:F_2]\) with forms of common degree \(d\), then
+\[
+  \deg(\phi):=d
+\]
+is its \emph{algebraic degree}.
+\end{definition}
+
+Projective automorphisms have degree one.  The standard Cremona involution has degree two.  Under composition, degrees satisfy
+\[
+  \deg(\phi\circ\psi)\le \deg(\phi)\deg(\psi),
+\]
+and the inequality can be strict because a common factor may appear after substitution.
+
+\begin{proposition}[Degree drop records exceptional geometry]\label{prop:vi44-cancellation}
+Let \(\phi=[F_0:F_1:F_2]\) and \(\psi=[G_0:G_1:G_2]\) be primitive rational maps of degrees \(d\) and \(e\).  The substituted triple \([F_0(G):F_1(G):F_2(G)]\) has degree \(de\).  If its gcd has degree \(r\), then
+\[
+  \deg(\phi\circ\psi)=de-r.
+\]
+For \(\sigma^2\), the common factor is \(xyz\) of degree three, so \(4-3=1\).
+\end{proposition}
+
+\begin{proof}
+All substituted forms have degree \(de\).  Dividing by the common homogeneous gcd of degree \(r\) produces a primitive representative of degree \(de-r\).  The calculation for \(\sigma^2\) was given above.
+\end{proof}
+
+Degree cancellation is not merely formal simplification.  Common factors often encode curves that one map contracts into base points of the next map.
+
+\input{chapters/ch44_cremona_transformations/figures/figure_05}
+
+\section{Birational transforms of curves}
+
+\begin{definition}[Birational transform of a curve]\label{def:vi44-birational-transform}
+Let \(\phi:\PP^2\dashrightarrow\PP^2\) be birational and let \(C\subset\PP^2\) be an irreducible curve not contracted by \(\phi\).  The \emph{birational transform} of \(C\) is
+\[
+  \phi_*(C):=\overline{\phi(C\cap U)},
+\]
+where \(U\) is any dense open subset on which \(\phi\) is an isomorphism onto its image.
+\end{definition}
+
+This definition avoids pretending that the image of points where \(\phi\) is undefined is already meaningful.  The closure is taken only after applying \(\phi\) on a dense open set.
+
+For the standard transformation, one can derive the degree of \(\sigma_*(C)\) by intersecting it with a general target line.  Its pullback is a conic through the three base points.
+
+\begin{theorem}[Degree transform under the standard quadratic map]\label{thm:vi44-degree-transform}
+Let \(C\subset\PP^2\) be an irreducible plane curve of degree \(d\), not equal to a coordinate line, and let
+\[
+  m_i=\mult_{p_i}(C)
+\]
+for the three base points of \(\sigma\).  Assume the chosen general member of the conic net has no common component with \(C\).  Then the birational transform \(C'=\sigma_*(C)\) has degree
+\[
+  \boxed{\deg C'=2d-m_1-m_2-m_3.}
+\]
+\end{theorem}
+
+\begin{proof}
+Let \(M\) be a general line in the target.  Its inverse image is a general conic \(Q\) through \(p_1,p_2,p_3\).  By B\'ezout,
+\[
+  C\cdot Q=2d.
+\]
+At \(p_i\), the general conic is smooth and has a general tangent direction, so the local intersection contributes exactly \(m_i\).  The remaining intersection points lie in the open set where \(\sigma\) is an isomorphism and correspond bijectively, with multiplicity, to intersections of \(C'\) with \(M\).  Hence
+\[
+  \deg C'=2d-(m_1+m_2+m_3).
+\]
+\end{proof}
+
+The formula is the elementary predecessor of a divisor calculation on a blown-up plane.  It is also immediately useful:
+\begin{itemize}
+\item a general line \((d=1,m_i=0)\) becomes a conic;
+\item a line through one base point \((d=1,m_i=1)\) becomes a line;
+\item a conic through all three base points \((d=2,m_1=m_2=m_3=1)\) becomes a line;
+\item a cubic through all three base points simply \((d=3,m_i=1)\) remains cubic.
+\end{itemize}
+
+\section{What happens to the base triangle}
+
+The degree formula does not apply naively to a coordinate line because that line is contracted.  For instance, \(L_x\) has degree one and contains \(p_2,p_3\), so the formal expression gives
+\[
+  2-1-1=0,
+\]
+which correctly signals that the image has dimension zero rather than being a degree-zero curve.
+
+This is a useful diagnostic rule: when the transformed degree drops to zero, first ask whether the curve is exceptional.  The formula is not a license to regard points as curves of degree zero; it is a numerical shadow of contraction.
+
+\section{Cubic curves under a quadratic transformation}
+
+VI/43 makes cubic curves a natural test family.  The transformation can preserve, raise, or effectively lower plane degree depending on the cubic's incidence with the base points.
+
+\begin{proposition}[Cubic transform bookkeeping]\label{prop:vi44-cubic-transform}
+Let \(C\) be an irreducible cubic not containing a coordinate line.
+\begin{enumerate}[label=(\alph*)]
+\item If \(C\) avoids all three base points, then \(\deg\sigma_*(C)=6\).
+\item If \(C\) passes simply through exactly one, two, or three base points, the transformed degrees are respectively \(5,4,3\).
+\item If a singular cubic has multiplicity two at one base point and passes simply through the other two, then its transform has degree two.
+\end{enumerate}
+In every noncontracted case the restriction of \(\sigma\) gives a birational equivalence between \(C\) and its transform.
+\end{proposition}
+
+\begin{proof}
+Apply Theorem~\ref{thm:vi44-degree-transform}.  Birationality of the restrictions follows because \(\sigma\) is an isomorphism between dense open subsets of the source and target planes; intersecting these opens with a noncontracted irreducible curve gives dense opens of the curves.
+\end{proof}
+
+A smooth cubic through all three base points therefore transforms to another plane cubic.  Its chord-and-tangent drawing changes, but the function field of the curve does not.  If a smooth cubic avoids the base points, its plane image is a sextic with singularities forced by the three contracted coordinate lines.  Thus plane degree is not a birational invariant.
+
+\input{chapters/ch44_cremona_transformations/figures/figure_06}
+
+\section{Function fields and birational invariance}
+
+\begin{proposition}[Function-field criterion]\label{prop:vi44-function-field}
+For integral varieties \(X\) and \(Y\), a dominant rational map \(\phi:X\dashrightarrow Y\) induces an inclusion
+\[
+  \phi^*:k(Y)\hookrightarrow k(X).
+\]
+The map is birational if and only if this inclusion is an isomorphism.  Hence every Cremona transformation of \(\PP^2\) acts by an automorphism of
+\[
+  k(\PP^2)\cong k(u,v).
+\]
+\end{proposition}
+
+\begin{proof}
+Pullback of rational functions along a dominant rational map is injective.  A rational inverse induces the inverse field homomorphism.  Conversely, an isomorphism of function fields identifies dense affine opens and therefore yields a birational correspondence.
+\end{proof}
+
+On the affine chart \(z=1\), with coordinates \(u=x/z\) and \(v=y/z\), the standard quadratic transformation becomes
+\[
+  (u,v)\dashrightarrow\left(\frac1u,\frac1v\right)
+\]
+after identifying the appropriate target chart.  This makes birationality transparent at the function-field level.
+
+\section{Projective automorphisms versus quadratic transformations}
+
+A projective automorphism has no base points, contracts no curve, and preserves degree of every plane curve.  A genuine quadratic Cremona transformation has base points and exceptional curves.  These differences are not coordinate accidents; they survive conjugation by projective automorphisms.
+
+For a quadratic map with three noncollinear proper base points, the picture is therefore rigid up to coordinates:
+\[
+  \text{three base points}
+  \longleftrightarrow
+  \text{three opposite contracted lines}.
+\]
+The source and target configurations are interchanged by the inverse map.
+
+\section{The divisor-class shadow}
+
+Although blow-ups have not yet been constructed, the numerical patterns strongly suggest a more stable bookkeeping system.  Let \(H\) denote the class of a line.  A general target line pulls back to a conic through all three base points, so one expects a symbolic transformation
+\[
+  H\longmapsto 2H-E_1-E_2-E_3.
+\]
+Similarly, the coordinate line through \(p_2,p_3\) should have a transform recorded by
+\[
+  H-E_2-E_3.
+\]
+In the plane itself the symbols \(E_i\) have nowhere to live.  They are placeholders for the exceptional divisors that will appear after blowing up the base points.
+
+\begin{theorem}[Classical generation theorem --- preview only]\label{thm:vi44-noether-castelnuovo-preview}
+Over an algebraically closed field, the classical Noether--Castelnuovo theorem says, under the standard hypotheses of plane birational geometry, that the plane Cremona group is generated by projective automorphisms together with a standard quadratic transformation.
+\end{theorem}
+
+No proof is attempted here.  A serious proof requires the multiplicity theory of base points, including infinitely near points, and repeated reduction of degree.  The theorem is included only to explain why the quadratic model deserves such attention: it is not an isolated curiosity but the elementary generator of the classical theory.
+
+\input{chapters/ch44_cremona_transformations/figures/figure_07}
+
+\section{Why indeterminacy must be resolved}
+
+\begin{proposition}[Resolution preview for the standard map]\label{prop:vi44-resolution-preview}
+For the standard quadratic transformation, any geometric resolution of the three source base points must replace each \(p_i\) by data recording tangent directions, because the exceptional line opposite \(p_i\) is recovered by the inverse map from those directions.  After resolving the three source base points and the three target base points, the birational correspondence becomes an isomorphism between the resolved surfaces.
+\end{proposition}
+
+\begin{proof}[Explanation]
+Approaching a base point along different curves produces different limiting values under \(\sigma\); a single target point cannot encode these limits.  The missing parameter is a projective line of directions.  The blow-up construction of VI/45 replaces the point precisely by such a \(\PP^1\).  Doing this at the three base points separates the coordinate functions and turns the rational map into a morphism.  Since \(\sigma^{-1}=\sigma\), the analogous target resolution yields the inverse morphism.
+\end{proof}
+
+This is the geometric reason blow-ups are next.  They are not an auxiliary trick attached to Cremona theory; they are the operation that makes the hidden geometry of a rational map visible.
+
+\input{chapters/ch44_cremona_transformations/figures/figure_08}
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vi44-01}
+Show that \([xz:yz:z^2]\) represents the identity rational map on \(\PP^2\).
+\end{exercise}
+\begin{hint}Cancel the common factor \(z\).
+\end{hint}
+\begin{solution}
+On \(z\neq0\),
+\[
+ [xz:yz:z^2]=[x:y:z].
+\]
+The triples differ by the common factor \(z\), so after primitive reduction the map is the identity rational map.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-02}
+Compute the base locus of \([xy:xz:yz]\).
+\end{exercise}
+\begin{hint}Solve the three pairwise-product equations simultaneously.
+\end{hint}
+\begin{solution}
+The equations \(xy=xz=yz=0\) force at least two coordinates to vanish.  Hence the base locus is \(\{p_1,p_2,p_3\}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-03}
+Verify \(\sigma[1:2:3]=[6:3:2]\) and \(\sigma[6:3:2]=[1:2:3]\).
+\end{exercise}
+\begin{hint}Apply \([x:y:z]\mapsto[yz:xz:xy]\) twice and rescale.
+\end{hint}
+\begin{solution}
+The first image is \([6:3:2]\).  The second is \([6:12:18]=[1:2:3]\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-04}
+Determine the image of the line \(x=0\) away from its base points.
+\end{exercise}
+\begin{hint}Substitute \(x=0\) into the three target coordinates.
+\end{hint}
+\begin{solution}
+For \(yz\neq0\), \(\sigma[0:y:z]=[yz:0:0]=p_1\).  Thus the line is contracted to \(p_1\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-05}
+Find the inverse image of the target line \(X+Y+Z=0\).
+\end{exercise}
+\begin{hint}Substitute \(X=yz,Y=xz,Z=xy\).
+\end{hint}
+\begin{solution}
+The inverse image is the conic
+\[
+ yz+xz+xy=0,
+\]
+which passes through all three coordinate base points.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-06}
+Show that the vector space of conics through \(p_1,p_2,p_3\) has dimension three.
+\end{exercise}
+\begin{hint}Start with the six monomials of degree two.
+\end{hint}
+\begin{solution}
+A conic has six coefficients.  Vanishing at the three coordinate points kills the coefficients of \(x^2,y^2,z^2\), leaving \(xy,xz,yz\).  The vector-space dimension is three.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-07}
+Show that a projective automorphism has empty base locus.
+\end{exercise}
+\begin{hint}Its coordinate forms are independent linear forms coming from an invertible matrix.
+\end{hint}
+\begin{solution}
+If three independent linear forms vanished simultaneously at a projective point, the representing invertible matrix would send a nonzero vector to zero, impossible.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-08}
+Why is \(\deg(\sigma^2)\neq4\) even though \(\deg\sigma=2\)?
+\end{exercise}
+\begin{hint}Write the composed triple and find its gcd.
+\end{hint}
+\begin{solution}
+The composed triple is
+\[
+ [x^2yz:xy^2z:xyz^2]=xyz[x:y:z].
+\]
+After canceling the degree-three common factor, the degree is one.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-09}
+Let \(L\) be a general line avoiding the base points.  Compute \(\deg\sigma_*(L)\).
+\end{exercise}
+\begin{hint}Use \(d=1\) and \(m_1=m_2=m_3=0\).
+\end{hint}
+\begin{solution}
+The degree formula gives \(2\).  A general line is therefore transformed birationally into a conic.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-10}
+Let \(L\) be a line through \(p_1\) but not through \(p_2,p_3\).  Compute the transformed degree.
+\end{exercise}
+\begin{hint}Its multiplicity vector is \((1,0,0)\).
+\end{hint}
+\begin{solution}
+The degree is \(2-1=1\).  Thus such a line maps birationally to a line.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-11}
+Let \(Q\) be an irreducible conic through all three base points.  Compute \(\deg\sigma_*(Q)\).
+\end{exercise}
+\begin{hint}Use \(d=2\) and \(m_i=1\).
+\end{hint}
+\begin{solution}
+The degree is \(4-3=1\), so \(Q\) maps birationally to a line.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-12}
+Explain why the coordinate line \(x=0\) is excluded from the curve degree formula as an ordinary noncontracted curve.
+\end{exercise}
+\begin{hint}It is an exceptional curve.
+\end{hint}
+\begin{solution}
+The line is contracted to \(p_1\), so its image is zero-dimensional.  The numerical expression \(2-1-1=0\) detects contraction but does not produce a degree-zero image curve.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-13}
+Compute the transformed degree of a cubic passing simply through all three base points.
+\end{exercise}
+\begin{hint}Use \(d=3\), \(m_i=1\).
+\end{hint}
+\begin{solution}
+The degree is \(6-3=3\).  Such a cubic remains a plane cubic under the quadratic transformation.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-14}
+Compute the transformed degree of a smooth cubic avoiding all three base points.
+\end{exercise}
+\begin{hint}All three multiplicities vanish.
+\end{hint}
+\begin{solution}
+The image has degree \(6\).  Since the map restricts birationally, the sextic is birational to the original genus-one cubic and must acquire singularities.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-15}
+On the affine chart \(z=1\), express \(\sigma\) in affine coordinates on the target chart where \(XY\neq0\).
+\end{exercise}
+\begin{hint}Start from \([y:x:xy]\) and divide by \(xy\).
+\end{hint}
+\begin{solution}
+For \(x,y\neq0\),
+\[
+ [y:x:xy]=[1/x:1/y:1].
+\]
+Thus the affine map is \((x,y)\mapsto(1/x,1/y)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-16}
+Show directly on function fields that \((u,v)\mapsto(1/u,1/v)\) is birational.
+\end{exercise}
+\begin{hint}Apply the substitution twice.
+\end{hint}
+\begin{solution}
+It defines the automorphism \(u\mapsto u^{-1},v\mapsto v^{-1}\) of \(k(u,v)\), whose square is the identity.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-17}
+Let \(A,B\in\operatorname{PGL}_3(k)\).  Show that \(B\sigma A\) is again a quadratic Cremona transformation.
+\end{exercise}
+\begin{hint}Projective automorphisms have degree one and rational inverses.
+\end{hint}
+\begin{solution}
+It is birational with inverse \(A^{-1}\sigma B^{-1}\).  Linear changes of coordinates preserve the common degree two of the primitive coordinate forms.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-18}
+Why must the three proper base points of a standard quadratic transformation be noncollinear?
+\end{exercise}
+\begin{hint}Compare the dimension of conics through three collinear points and the fixed line they may force in degenerate systems.
+\end{hint}
+\begin{solution}
+The noncollinear condition is what makes the complete net equivalent to \(\langle xy,xz,yz\rangle\) without a fixed line component.  Three collinear assigned base points lead to a different, degenerate base geometry and are not projectively equivalent to the standard quadratic configuration.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-19}
+Suppose an irreducible quartic has multiplicities \((2,1,1)\) at the three base points.  Compute its transformed degree.
+\end{exercise}
+\begin{hint}Insert \(d=4\) into the degree formula.
+\end{hint}
+\begin{solution}
+The transformed degree is
+\[
+ 8-2-1-1=4.
+\]
+So the plane degree is unchanged in this configuration.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-20}
+Find the image degree of a quintic with multiplicities \((3,2,1)\) at the three base points.
+\end{exercise}
+\begin{hint}Compute \(10-(3+2+1)\).
+\end{hint}
+\begin{solution}
+The image degree is \(4\), assuming the curve has no exceptional-line component.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-21}
+Explain why plane degree cannot be a birational invariant of curves.
+\end{exercise}
+\begin{hint}Use a line avoiding the base points.
+\end{hint}
+\begin{solution}
+A general line is rational and maps birationally under \(\sigma\) to a conic.  Thus birational curves can have different plane degrees.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-22}
+What geometric event can make \(\deg(\phi\circ\psi)<\deg\phi\deg\psi\)?
+\end{exercise}
+\begin{hint}Think of a curve contracted by \(\psi\) into a base point of \(\phi\).
+\end{hint}
+\begin{solution}
+Such exceptional-to-base incidence creates a common factor in the substituted coordinate forms.  Canceling that factor lowers the algebraic degree of the composition.
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-23}
+Why does a birational map induce an isomorphism of function fields?
+\end{exercise}
+\begin{hint}Pull back rational functions along the map and its rational inverse.
+\end{hint}
+\begin{solution}
+The two pullback maps are inverse field homomorphisms on dense domains, yielding \(k(Y)\cong k(X)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi44-24}
+Explain informally why one projective line of tangent directions should replace a base point in a resolution.
+\end{exercise}
+\begin{hint}Approach the base point along lines of different slopes.
+\end{hint}
+\begin{solution}
+Different approach directions can yield different limiting target points.  Directions through a point form a projective line \(\PP^1\), exactly the parameter space inserted by the blow-up.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Recovering the standard map from its conic net]\label{prob:vi44-01}
+Starting from the complete linear system of conics through \(p_1,p_2,p_3\), reconstruct the standard quadratic transformation.
+\end{problem}
+\begin{solution}
+A conic through the three coordinate points has no \(x^2,y^2,z^2\) terms, so the vector space is \(\langle yz,xz,xy\rangle\).  Choosing this ordered basis as projective coordinates on the target gives
+\[
+ [x:y:z]\dashrightarrow[yz:xz:xy].
+\]
+Thus the map is exactly the rational map associated with the net.
+\end{solution}
+
+\begin{problem}[A full involution calculation]\label{prob:vi44-02}
+Compute \(\sigma^2\) as a homogeneous triple and explain every cancellation.
+\end{problem}
+\begin{solution}
+Substitution gives
+\[
+ \sigma^2[x:y:z]
+ =[xz\cdot xy:yz\cdot xy:yz\cdot xz]
+ =[x^2yz:xy^2z:xyz^2].
+\]
+The three quartics share the factor \(xyz\).  Dividing by it gives \([x:y:z]\).  The canceled factors correspond to the coordinate triangle, the exceptional locus of the first map.
+\end{solution}
+
+\begin{problem}[Transform of a general line]\label{prob:vi44-03}
+Let \(L:a x+b y+c z=0\) avoid the base points.  Derive an equation for its transformed conic in target coordinates.
+\end{problem}
+\begin{solution}
+Because \(\sigma^{-1}=\sigma\), substitute
+\[
+ x=YZ,\qquad y=XZ,\qquad z=XY
+\]
+into the line equation.  The image closure is
+\[
+ aYZ+bXZ+cXY=0.
+\]
+It passes through all three target coordinate points and is generically irreducible.
+\end{solution}
+
+\begin{problem}[Transform of a conic through the base triangle]\label{prob:vi44-04}
+Let
+\[
+ Q:a yz+b xz+c xy=0
+\]
+be irreducible.  Determine its image.
+\end{problem}
+\begin{solution}
+The equation is the pullback of the target line \(aX+bY+cZ=0\).  Since \(Q\) is not contracted and \(\sigma\) is birational, its transform is precisely that line.
+\end{solution}
+
+\begin{problem}[Degree formula by a general line]\label{prob:vi44-05}
+Give a self-contained B\'ezout proof of the formula \(2d-m_1-m_2-m_3\).
+\end{problem}
+\begin{solution}
+Choose a general target line \(M\).  Its pullback is a general conic \(Q\) through the three base points.  B\'ezout gives \(C\cdot Q=2d\).  At each \(p_i\), genericity of \(Q\) makes the local contribution equal to \(m_i\).  All remaining intersections occur on the isomorphism locus and correspond to \(M\cap\sigma_*(C)\).  Their number is therefore \(\deg\sigma_*(C)\), yielding the formula.
+\end{solution}
+
+\begin{problem}[A cubic preserved in degree]\label{prob:vi44-06}
+Let \(E\) be a smooth cubic through \(p_1,p_2,p_3\), with transverse passage through each.  What can be said about \(E'=\sigma_*(E)\)?
+\end{problem}
+\begin{solution}
+The multiplicities are \((1,1,1)\), so \(\deg E'=6-3=3\).  The restriction \(E\dashrightarrow E'\) is birational.  Since a smooth projective genus-one curve is the smooth model of its function field, the normalizations of \(E\) and \(E'\) agree.  The plane cubic \(E'\) is generically smooth for a general configuration but smoothness should be checked rather than assumed from degree alone.
+\end{solution}
+
+\begin{problem}[A smooth cubic becomes a sextic]\label{prob:vi44-07}
+Let \(E\) be a smooth cubic avoiding the base points.  Explain why its sextic image must be singular.
+\end{problem}
+\begin{solution}
+The degree formula gives degree six.  Yet \(E'\) is birational to \(E\), so its normalization has genus one.  A smooth plane sextic would have genus \((6-1)(6-2)/2=10\).  Therefore the plane sextic image cannot be smooth; the missing genus is accounted for by singularities created through the contracted coordinate lines.
+\end{solution}
+
+\begin{problem}[Conjugating the base triangle]\label{prob:vi44-08}
+Given three noncollinear points \(q_1,q_2,q_3\), construct a quadratic Cremona transformation having them as base points.
+\end{problem}
+\begin{solution}
+Choose \(A\in\operatorname{PGL}_3(k)\) with \(A(q_i)=p_i\).  Then
+\[
+ \phi=A^{-1}\sigma A
+\]
+is a quadratic Cremona transformation whose base locus is \(\{q_1,q_2,q_3\}\).  More generally one may post-compose by any target automorphism without changing the source base points.
+\end{solution}
+
+\begin{problem}[Function-field form of the standard map]\label{prob:vi44-09}
+Describe the automorphism of \(k(u,v)\) induced by \(\sigma\) and verify its order.
+\end{problem}
+\begin{solution}
+On the dense torus the map is \((u,v)\mapsto(u^{-1},v^{-1})\).  Hence
+\[
+ u\mapsto u^{-1},\qquad v\mapsto v^{-1}.
+\]
+Applying it twice fixes both generators, so the field automorphism has order two.
+\end{solution}
+
+\begin{problem}[Why composition degree can collapse]\label{prob:vi44-10}
+Relate the degree collapse in \(\sigma^2\) to the exceptional triangle.
+\end{problem}
+\begin{solution}
+The first \(\sigma\) contracts each coordinate line to one of the inverse base points.  When the second \(\sigma\) is substituted, these exceptional components appear algebraically as the common factor \(xyz\).  Removing that factor corresponds to discarding components that do not belong to the moving image.  The degree falls from the naive value four to one.
+\end{solution}
+
+\begin{problem}[Numerical preview of exceptional divisors]\label{prob:vi44-11}
+Explain why the degree formula suggests the class \(2H-E_1-E_2-E_3\) for the pullback of a line.
+\end{problem}
+\begin{solution}
+A target line pulls back to a degree-two curve, giving the coefficient \(2H\).  Every member of the defining net passes once through each base point, so one must subtract one copy of the condition at each \(p_i\).  On the blown-up plane those conditions become actual exceptional divisor classes, yielding \(2H-E_1-E_2-E_3\).
+\end{solution}
+
+\begin{problem}[Why blow-up directions are necessary]\label{prob:vi44-12}
+Near \(p_1=[1:0:0]\), use affine coordinates \(u=y/x,v=z/x\) to see direction dependence of \(\sigma\).
+\end{problem}
+\begin{solution}
+Near \(p_1\),
+\[
+ \sigma[1:u:v]=[uv:v:u].
+\]
+Along a line \(v=tu\), this is
+\[
+ [tu^2:tu:u]=[tu:t:1]
+\]
+for \(u\neq0\), which tends projectively to \([0:t:1]\) as \(u\to0\).  Different slopes \(t\) produce different limiting points on the target line \(X=0\).  A single point \(p_1\) therefore needs to be replaced by a \(\PP^1\) of directions.
+\end{solution}
+
+\section{Challenges}
+
+\begin{problem}[Challenge: classify quadratic base configurations]\label{chal:vi44-01}
+Analyze primitive triples of quadratic forms defining birational plane maps.  Determine how the standard three-proper-point configuration changes when base points collide or become infinitely near, and identify precisely which cases require VI/45 machinery to formulate correctly.
+\end{problem}
+
+\begin{problem}[Challenge: degree dynamics of compositions]\label{chal:vi44-02}
+Study sequences of projective automorphisms and standard quadratic transformations.  Develop an algorithm that predicts the algebraic degree after each composition from base-point/exceptional-curve incidence, and compare the prediction with direct gcd cancellation in coordinates.
+\end{problem}
+
+\begin{problem}[Challenge: Cremona action on cubic models]\label{chal:vi44-03}
+Start with a smooth plane cubic and vary the position of the three quadratic base points: off the cubic, one point on it, two points on it, and all three on it.  Track image degree, singularities, normalization, and the induced birational map of the genus-one curve.
+\end{problem}
+
+\begin{problem}[Challenge: reconstruct the divisor action]\label{chal:vi44-04}
+Assuming only the geometric behavior established in this chapter, predict the full linear action of the standard quadratic involution on the symbols \(H,E_1,E_2,E_3\).  Check formally that the predicted action is an involution and preserves the quadratic intersection form that VI/45 will construct.
+\end{problem}
+
+\begin{problem}[Challenge: resolve the standard transformation]\label{chal:vi44-05}
+Using local coordinates near all three base points, design the charts needed to replace each point by its projective line of directions.  Show chart-by-chart how \([yz:xz:xy]\) becomes regular after this replacement.  Treat the result as a blueprint for VI/45 rather than invoking the blow-up theorem in advance.
+\end{problem}
+
+\section*{Bridge to VI/45}
+
+The standard quadratic transformation compresses the essential paradox of birational geometry into one formula:
+\[
+  [x:y:z]\dashrightarrow[yz:xz:xy].
+\]
+It is invertible on a dense open set, yet it is undefined at three points and contracts three whole lines.  The degree formula
+\[
+  d\longmapsto2d-m_1-m_2-m_3
+\]
+shows that the correct invariants must remember not only plane degree but also multiplicities at base points.  The symbolic pullback
+\[
+  H\longmapsto2H-E_1-E_2-E_3
+\]
+then announces the missing geometry: the plane must be replaced by a surface carrying exceptional divisors \(E_i\).
+
+VI/45 performs exactly that replacement.  A blow-up replaces a point by the projective line of tangent directions through it.  On the blow-up, rational maps such as \(\sigma\) can be resolved into morphisms; strict transforms replace naive curve images; exceptional divisors become genuine curves with computable intersection numbers; and the degree/multiplicity formulas of the present chapter become linear algebra in the Picard group of the resolved surface.
