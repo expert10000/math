@@ -1,0 +1,934 @@
+\chapter{Plane Cubics}
+\label{ch:vi43-plane-cubics}
+\providecommand{\Pic}{\operatorname{Pic}}
+\providecommand{\Div}{\operatorname{Div}}
+\providecommand{\ord}{\operatorname{ord}}
+
+VI/42 ended with the degree-zero Picard group of a smooth projective curve,
+\[
+  \Pic^0(C)=\ker\!\bigl(\deg:\Pic(C)\to\mathbb Z\bigr),
+\]
+and with the map
+\[
+  P\longmapsto [\OO_C(P-O)].
+\]
+For a smooth plane cubic this map is not merely a convenient source of degree-zero line bundles: it is the mechanism that turns the geometry of secant and tangent lines into an abelian group law on the curve itself.
+
+The key divisor calculation is almost visible before any group law is defined.  If a line \(L\subset\PP^2\) meets a smooth cubic \(E\) in the divisor
+\[
+  L\cdot E=P+Q+R
+\]
+with intersection multiplicities understood, then every line section represents the same hyperplane class \(H\), so
+\[
+  P+Q+R\sim H.
+\]
+If a chosen origin \(O\in E\) is a flex, its tangent line cuts the divisor \(3O\), hence
+\[
+  H\sim 3O
+\]
+and therefore
+\[
+  \boxed{P+Q+R\sim 3O.}
+\]
+This is the divisor-theoretic heart of the familiar rule ``the three collinear points sum to zero.''
+
+The present chapter develops this carefully.  It first treats plane cubics and their singularities, then line sections, tangency and flexes, and finally the Abel--Picard map
+\[
+  \alpha_O:E\longrightarrow\Pic^0(E),
+  \qquad
+  P\longmapsto[\OO_E(P-O)].
+\]
+The chord-and-tangent law is constructed so that \(\alpha_O\) carries it to tensor product in \(\Pic^0(E)\).  Commutativity and associativity are then inherited from the Picard group rather than proved by a long synthetic incidence argument.
+
+\section*{Standing conventions}
+Unless explicitly stated otherwise, \(k\) is algebraically closed and \(E\subset\PP^2_k\) is a smooth plane cubic.  Statements over an arbitrary field are collected later.  Formulas in short Weierstrass form are stated under \(\operatorname{char}k\neq2,3\).  All line--curve intersections are counted with scheme-theoretic intersection multiplicity.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item define a plane cubic and test smoothness from the homogeneous partial derivatives;
+\item distinguish smooth, nodal and cuspidal cubic behavior in standard examples;
+\item use B\'ezout's theorem to count line--cubic intersections with multiplicity;
+\item interpret a tangent as intersection multiplicity at least two and a flex as multiplicity three;
+\item identify the hyperplane divisor class on a cubic and prove \(P+Q+R\sim H\) for a line section;
+\item explain why a flex origin gives \(H\sim3O\);
+\item construct the Abel--Picard map \(P\mapsto[\OO_E(P-O)]\);
+\item use the plane-cubic degree-one rigidity lemma to prove injectivity of the Abel--Picard map;
+\item reduce degree-zero divisors geometrically and obtain surjectivity onto \(\Pic^0(E)\);
+\item define the chord-and-tangent law for an arbitrary chosen origin \(O\);
+\item specialize the construction to a flex origin and recover the usual ``third point, then inverse'' rule;
+\item deduce associativity and commutativity from \(\Pic^0(E)\);
+\item put a cubic with a flex into Weierstrass form and compute the explicit addition formulas when \(\operatorname{char}k\neq2,3\);
+\item identify geometric descriptions of \(2\)-torsion and \(3\)-torsion;
+\item understand how nodal and cuspidal cubics degenerate toward multiplicative and additive group laws;
+\item separate geometric statements over \(\bar k\) from rational-point statements over a nonclosed field.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\[
+\boxed{
+\text{line sections}
+\Longrightarrow
+\text{divisor relations}
+\Longrightarrow
+\Pic^0(E)
+\Longrightarrow
+\text{group law on }E
+}
+\]
+\input{chapters/ch43_plane_cubics/figures/figure_01}
+
+\section{Plane cubics and the smoothness test}
+
+\begin{definition}[Plane cubic]\label{def:vi43-plane-cubic}
+A \emph{plane cubic} over \(k\) is a closed subscheme
+\[
+  C=V_+(F)\subset\PP^2_k
+\]
+defined by a nonzero homogeneous polynomial
+\[
+  F(x,y,z)\in k[x,y,z]
+\]
+of degree \(3\).
+\end{definition}
+
+The Jacobian criterion gives the basic smoothness test.  A geometric point \(P\in C(\bar k)\) is singular precisely when
+\[
+  F(P)=F_x(P)=F_y(P)=F_z(P)=0.
+\]
+Because Euler's relation for a cubic is
+\[
+  3F=xF_x+yF_y+zF_z,
+\]
+one should not use it to discard \(F=0\) in characteristic \(3\) without checking the hypotheses separately.
+
+\begin{proposition}[Smooth plane cubic criterion]\label{prop:vi43-smoothness}
+The plane cubic \(C=V_+(F)\) is smooth over \(k\) if and only if the homogeneous partial derivatives \(F_x,F_y,F_z\) have no common geometric zero on \(C\).
+\end{proposition}
+
+\begin{proof}
+This is the projective Jacobian criterion for a hypersurface.  At a point of a hypersurface, singularity means that the differential \(dF\) vanishes in the cotangent space, equivalently all homogeneous partial derivatives vanish there.
+\end{proof}
+
+A smooth plane cubic is geometrically integral.  Indeed a reducible cubic over \(\bar k\) would contain components of positive degree, and distinct components meet in \(\PP^2\); every such intersection is singular on the union.  A nonreduced cubic is likewise singular along the repeated component.
+
+\begin{example}[Fermat cubic]
+If \(\operatorname{char}k\neq3\), the cubic
+\[
+  x^3+y^3+z^3=0
+\]
+is smooth because simultaneous vanishing of the partial derivatives forces \(x=y=z=0\), which is not a projective point.  In characteristic \(3\), the polynomial is \((x+y+z)^3\), so the scheme is nonreduced and certainly not smooth.
+\end{example}
+
+\begin{example}[A nodal and a cuspidal model]
+In characteristic different from \(2\), the affine cubic
+\[
+  y^2=x^2(x+1)
+\]
+has a node at the origin: the quadratic tangent cone has two distinct lines.  The cubic
+\[
+  y^2=x^3
+\]
+has a cusp: the tangent cone is a repeated line.  Their projective closures are singular plane cubics and will reappear in the degeneration section.
+\end{example}
+
+\input{chapters/ch43_plane_cubics/figures/figure_02}
+
+\section{Lines, B\'ezout, and the hyperplane divisor}
+
+Let \(E\subset\PP^2\) be smooth of degree \(3\).  If a line \(L=V_+(\ell)\) is not a component of \(E\), B\'ezout's theorem gives
+\[
+  \sum_{P\in E\cap L} I_P(E,L)=3.
+\]
+Thus a line meets a smooth cubic in three points counted with multiplicity.
+
+The restriction of \(\ell\) to \(E\) is a global section of
+\[
+  \OO_E(1):=\OO_{\PP^2}(1)|_E.
+\]
+Its zero divisor is exactly the scheme-theoretic intersection divisor \(L\cdot E\).  Consequently every line section is linearly equivalent to the same degree-three divisor class.
+
+\begin{definition}[Hyperplane class on a cubic]\label{def:vi43-hyperplane-class}
+The divisor class
+\[
+  H:=[L\cdot E]\in\Pic(E)
+\]
+for any line \(L\subset\PP^2\) is the \emph{hyperplane class}.  Equivalently
+\[
+  \OO_E(H)\cong\OO_E(1),
+  \qquad
+  \deg H=3.
+\]
+\end{definition}
+
+\begin{theorem}[Collinear divisor relation]\label{thm:vi43-collinear-divisor}
+If a line meets \(E\) in the degree-three divisor
+\[
+  P+Q+R
+\]
+with multiplicities, then
+\[
+  P+Q+R\sim H.
+\]
+More generally, any two line sections of \(E\) are linearly equivalent.
+\end{theorem}
+
+\begin{proof}
+If \(L=V_+(\ell)\) and \(M=V_+(m)\), then the rational function \(\ell/m\) on \(E\) has divisor
+\[
+  \operatorname{div}_E(\ell/m)
+  =(L\cdot E)-(M\cdot E).
+\]
+Hence the two intersection divisors are linearly equivalent.
+\end{proof}
+
+This proof is the first place where the divisor theory of VI/39--VI/42 becomes computational geometry: a ratio of linear forms converts an incidence statement in \(\PP^2\) into a principal divisor on \(E\).
+
+\section{Tangents, residual points, and flexes}
+
+At a smooth point \(P=[a:b:c]\in E\), the tangent line is
+\[
+  T_PE:
+  F_x(P)x+F_y(P)y+F_z(P)z=0,
+\]
+In small characteristic, interpret this formula through the differential \(dF\); this avoids relying on Euler identities that may degenerate.
+
+\begin{definition}[Tangent and flex]\label{def:vi43-flex}
+A line \(L\) is tangent to \(E\) at \(P\) if
+\[
+  I_P(E,L)\ge2.
+\]
+The point \(P\) is a \emph{flex} (inflection point) if its tangent line satisfies
+\[
+  I_P(E,T_PE)=3.
+\]
+Thus the tangent section at a flex is the divisor \(3P\).
+\end{definition}
+
+For a nonflex point \(P\), the tangent meets \(E\) in
+\[
+  2P+R
+\]
+for a unique residual point \(R\).  If a secant passes through distinct \(P,Q\), its intersection divisor is
+\[
+  P+Q+R.
+\]
+These residual points remain meaningful in all limiting cases once multiplicity is used consistently.
+
+\begin{proposition}[Flex origin trivializes the hyperplane shift]\label{prop:vi43-flex-hyperplane}
+If \(O\in E\) is a flex, then
+\[
+  H\sim3O,
+  \qquad
+  \OO_E(1)\cong\OO_E(3O).
+\]
+Hence every line section \(P+Q+R\) satisfies
+\[
+  \boxed{P+Q+R\sim3O.}
+\]
+\end{proposition}
+
+\begin{proof}
+The tangent line at \(O\) cuts out \(3O\), and every line section represents \(H\).
+\end{proof}
+
+\input{chapters/ch43_plane_cubics/figures/figure_03}
+
+\section{The Abel--Picard map}
+
+Fix a point \(O\in E(k)\), not necessarily a flex for the moment.
+
+\begin{definition}[Abel--Picard map for a cubic]\label{def:vi43-abel-picard}
+Define
+\[
+  \alpha_O:E(k)\longrightarrow\Pic^0(E),
+  \qquad
+  \alpha_O(P)=[\OO_E(P-O)].
+\]
+Over an algebraically closed field we also write this as a map on geometric points
+\[
+  \alpha_O:E\longrightarrow\Pic^0(E).
+\]
+\end{definition}
+
+The degree is zero because \(\deg(P-O)=0\).  The nontrivial statement is that on a smooth cubic this map captures every degree-zero divisor class exactly once.
+
+\begin{theorem}[Degree-one rigidity on a smooth cubic]\label{thm:vi43-degree-one-rigidity}
+If \(P,Q\in E\) and
+\[
+  P\sim Q,
+\]
+then \(P=Q\).  Equivalently, no nonconstant rational function on a smooth plane cubic has a single simple pole.
+\end{theorem}
+
+\begin{proof}
+If \(P\neq Q\) and \(P-Q=\operatorname{div}(f)\), then the rational function \(f\) defines a morphism
+\[
+  f:E\longrightarrow\PP^1
+\]
+of degree \(1\).  A finite degree-one morphism between smooth projective curves is an isomorphism.  But a smooth plane cubic has genus
+\[
+  g=\frac{(3-1)(3-2)}2=1,
+\]
+whereas \(\PP^1\) has genus \(0\).  This is impossible.  Thus \(P=Q\).
+\end{proof}
+
+The genus formula is the only curve-genus input needed for injectivity here.  Later cohomological machinery packages the same fact as the degree-one case of Riemann--Roch.
+
+\begin{proposition}[Geometric reduction of two points]\label{prop:vi43-two-point-reduction}
+For any \(A,B\in E\), there exists a unique point \(S\in E\) such that
+\[
+  A+B\sim O+S.
+\]
+It is obtained as follows: let the secant or tangent through \(A,B\) have residual point \(R\), then let the line through \(R,O\) have residual point \(S\).
+\end{proposition}
+
+\begin{proof}
+The first line gives
+\[
+  A+B+R\sim H,
+\]
+and the second gives
+\[
+  R+O+S\sim H.
+\]
+Subtracting the two relations yields \(A+B\sim O+S\).  Uniqueness follows from degree-one rigidity: if also \(A+B\sim O+S'\), then \(S\sim S'\), hence \(S=S'\).
+\end{proof}
+
+This reduction already contains the group law, but it is useful first to finish the Picard statement.
+
+\begin{theorem}[Abel--Picard theorem for a smooth plane cubic]\label{thm:vi43-abel-picard-bijection}
+Let \(k\) be algebraically closed and \(E\subset\PP^2_k\) a smooth plane cubic with \(O\in E(k)\).  Then
+\[
+  \alpha_O:E(k)\xrightarrow{\sim}\Pic^0(E)
+\]
+is a bijection.
+\end{theorem}
+
+\begin{proof}
+Injectivity is immediate from degree-one rigidity: if \(\alpha_O(P)=\alpha_O(Q)\), then \(P-O\sim Q-O\), so \(P\sim Q\) and hence \(P=Q\).
+
+For surjectivity, let \([D]\in\Pic^0(E)\).  Because \(E\) is smooth, divisor classes and line bundles agree, and over an algebraically closed field we may write a degree-zero divisor as a difference of effective divisors of the same degree:
+\[
+  D=(P_1+\cdots+P_n)-(Q_1+\cdots+Q_n).
+\]
+Repeatedly applying Proposition~\ref{prop:vi43-two-point-reduction} reduces
+\[
+  P_1+\cdots+P_n\sim P+(n-1)O,
+  \qquad
+  Q_1+\cdots+Q_n\sim Q+(n-1)O
+\]
+for some \(P,Q\in E\).  Thus \(D\sim P-Q\).
+
+It remains to replace \(P-Q\) by a divisor of the form \(S-O\).  Let the tangent at \(O\) cut
+\[
+  2O+A\sim H.
+\]
+Let the line through \(Q,A\) have residual point \(B\), so
+\[
+  Q+A+B\sim H.
+\]
+Subtracting gives
+\[
+  Q+B\sim2O.
+\]
+Now reduce \(P+B\): there is \(S\) with
+\[
+  P+B\sim O+S.
+\]
+Using \(B\sim2O-Q\), we obtain
+\[
+  P-Q\sim S-O.
+\]
+Therefore \([D]=\alpha_O(S)\).
+\end{proof}
+
+\input{chapters/ch43_plane_cubics/figures/figure_04}
+
+\section{The chord-and-tangent group law with arbitrary origin}
+
+We can now define addition intrinsically by transporting the group law of \(\Pic^0(E)\) back to \(E\).
+
+\begin{definition}[Cubic group law]\label{def:vi43-group-law}
+For \(P,Q\in E\), define \(P\oplus Q\) to be the unique point \(S\) such that
+\[
+  \alpha_O(S)=\alpha_O(P)+\alpha_O(Q).
+\]
+Equivalently,
+\[
+  P+Q\sim O+S.
+\]
+\end{definition}
+
+Proposition~\ref{prop:vi43-two-point-reduction} gives the geometric construction without first computing in \(\Pic^0\):
+\begin{enumerate}
+\item draw the secant through \(P,Q\), or the tangent if \(P=Q\), and call the residual intersection \(R\);
+\item draw the line through \(R,O\), using the tangent if \(R=O\), and call its residual intersection \(S\);
+\item then \(P\oplus Q=S\).
+\end{enumerate}
+
+\begin{theorem}[Group law from Picard theory]\label{thm:vi43-group-law}
+The operation \(\oplus\) makes \(E\) into an abelian group with identity \(O\).  Under the Abel--Picard bijection,
+\[
+  (E,\oplus,O)\xrightarrow{\sim}\Pic^0(E)
+\]
+is an isomorphism of abelian groups.
+\end{theorem}
+
+\begin{proof}
+The operation was defined by transport of structure along the bijection \(\alpha_O\).  Hence associativity and commutativity follow from tensor product of line bundles, the identity is the unique point mapping to \([\OO_E]\), namely \(O\), and inverses are transported from dual line bundles.
+\end{proof}
+
+This proof is conceptually important.  A direct coordinate verification of associativity is possible but unenlightening.  Divisor theory explains why the apparently ad hoc chord construction is forced by an already existing abelian group.
+
+\begin{proposition}[Geometric inverse for arbitrary origin]\label{prop:vi43-arbitrary-inverse}
+Let the tangent at \(O\) meet \(E\) in \(2O+A\).  For \(P\in E\), let the line through \(P,A\) meet \(E\) residually at \(P^-\).  Then
+\[
+  P\oplus P^-=O.
+\]
+Equivalently,
+\[
+  P+P^-\sim2O.
+\]
+\end{proposition}
+
+\begin{proof}
+The tangent relation gives \(2O+A\sim H\), while the second line gives \(P+A+P^-\sim H\).  Subtraction yields \(P+P^-\sim2O\), which is exactly \(\alpha_O(P^-)= -\alpha_O(P)\).
+\end{proof}
+
+\section{The flex-origin form of the law}
+
+Suppose now that \(O\) is a flex.  Then the tangent at \(O\) has intersection divisor \(3O\), so the auxiliary point \(A\) in the preceding construction is simply \(O\).
+
+\begin{corollary}[Three collinear points sum to zero]\label{cor:vi43-collinear-zero}
+With a flex origin \(O\), if a line cuts \(E\) in \(P+Q+R\), then
+\[
+  P\oplus Q\oplus R=O.
+\]
+Equivalently,
+\[
+  \alpha_O(P)+\alpha_O(Q)+\alpha_O(R)=0.
+\]
+\end{corollary}
+
+\begin{proof}
+Since \(P+Q+R\sim H\sim3O\), subtract \(3O\) and pass to \(\Pic^0(E)\).
+\end{proof}
+
+Thus to add \(P\) and \(Q\), find the third point \(R\) of the secant or tangent and then take the inverse of \(R\).  With a flex origin, the inverse of \(R\) is the third point on the line through \(R\) and \(O\).
+
+\input{chapters/ch43_plane_cubics/figures/figure_05}
+
+\section{Weierstrass form}
+
+A smooth cubic with a chosen flex can be put into a form adapted to the group law.  After a projective change of coordinates placing
+\[
+  O=[0:1:0]
+\]
+and its tangent at infinity, one obtains a generalized Weierstrass equation
+\[
+  y^2z+a_1xyz+a_3yz^2
+  =x^3+a_2x^2z+a_4xz^2+a_6z^3.
+\]
+
+If \(\operatorname{char}k\neq2,3\), completing the square and cube yields the short form
+\[
+  E:\quad y^2z=x^3+Axz^2+Bz^3,
+\]
+or on the affine chart \(z=1\),
+\[
+  y^2=x^3+Ax+B.
+\]
+
+\begin{proposition}[Smoothness discriminant in short Weierstrass form]\label{prop:vi43-discriminant}
+Assume \(\operatorname{char}k\neq2,3\).  The cubic
+\[
+  y^2z=x^3+Axz^2+Bz^3
+\]
+is smooth if and only if
+\[
+  \Delta=-16(4A^3+27B^2)\neq0.
+\]
+\end{proposition}
+
+\begin{proof}
+On the affine chart, a singular point must satisfy
+\[
+  y=0,
+  \qquad
+  3x^2+A=0,
+  \qquad
+  x^3+Ax+B=0.
+\]
+Such a common solution exists exactly when the cubic polynomial \(x^3+Ax+B\) has a repeated root, equivalently when its discriminant \(-4A^3-27B^2\) vanishes.  The conventional elliptic discriminant differs by the nonzero factor \(16\).
+\end{proof}
+
+The point \(O=[0:1:0]\) is a flex and acts as the identity.
+
+\section{Explicit addition formulas}
+
+Assume again \(\operatorname{char}k\neq2,3\) and
+\[
+  E:y^2=x^3+Ax+B.
+\]
+Let \(P=(x_1,y_1)\), \(Q=(x_2,y_2)\).
+
+If \(P\neq Q\) and \(x_1\neq x_2\), the secant slope is
+\[
+  m=\frac{y_2-y_1}{x_2-x_1}.
+\]
+If \(P=Q\) and \(y_1\neq0\), the tangent slope is
+\[
+  m=\frac{3x_1^2+A}{2y_1}.
+\]
+Substitution of the line into the cubic shows that the \(x\)-coordinates of the three intersection points have sum \(m^2\).  Therefore the group sum \(P\oplus Q=(x_3,y_3)\) is
+\[
+  \boxed{x_3=m^2-x_1-x_2,}
+\]
+\[
+  \boxed{y_3=m(x_1-x_3)-y_1.}
+\]
+
+If \(x_1=x_2\) and \(y_2=-y_1\), then the secant is vertical and
+\[
+  P\oplus Q=O.
+\]
+In particular
+\[
+  -(x,y)=(x,-y).
+\]
+If \(y_1=0\), then \(P=-P\), so \(2P=O\).
+
+\begin{proposition}[Coordinate formulas agree with Picard addition]\label{prop:vi43-coordinate-picard}
+The above formulas compute the unique point \(S\) satisfying
+\[
+  [\OO_E(S-O)]
+  =
+  [\OO_E(P-O)]\otimes[\OO_E(Q-O)].
+\]
+\end{proposition}
+
+\begin{proof}
+The secant or tangent meets \(E\) at a third point \(R\).  In short Weierstrass form the inverse map is reflection across the \(x\)-axis, so \(S=-R\).  The collinear divisor relation gives \(P+Q+R\sim3O\), hence \(P+Q\sim O+S\), which is the Picard identity.
+\end{proof}
+
+\input{chapters/ch43_plane_cubics/figures/figure_06}
+
+\section{Torsion seen in the plane}
+
+The geometry of low-order torsion is especially transparent.
+
+\begin{proposition}[Two-torsion]\label{prop:vi43-two-torsion}
+In short Weierstrass form, a finite point \(P=(x,y)\) satisfies \(2P=O\) if and only if \(y=0\).  Thus nontrivial \(2\)-torsion points correspond to roots of
+\[
+  x^3+Ax+B.
+\]
+\end{proposition}
+
+\begin{proof}
+A point has order dividing two exactly when \(P=-P\).  In short Weierstrass form, inversion sends \( (x,y) \) to \( (x,-y) \).  Hence a finite point is fixed by inversion exactly when \(y=0\).
+\end{proof}
+
+\begin{proposition}[Flexes and three-torsion]\label{prop:vi43-flex-three-torsion}
+Let \(O\) be a flex origin.  A point \(P\in E\) is a flex if and only if
+\[
+  3P=O.
+\]
+Thus flexes are exactly the geometric \(3\)-torsion points for the embedding determined by \(\OO_E(3O)\).
+\end{proposition}
+
+\begin{proof}
+If \(P\) is a flex, its tangent cuts \(3P\), so
+\[
+  3P\sim H\sim3O,
+\]
+and hence \(3P=O\) in the group law.  Conversely, if \(3P=O\), then \(3P\sim3O\sim H\).  The canonical section of \(\OO_E(3P)\cong\OO_E(1)\) therefore gives a section of \(\OO_E(1)\) vanishing exactly to order three at \(P\).  Degree-one sections of a plane cubic are restrictions of linear forms, so this section is cut out by a line.  That line has intersection divisor \(3P\), hence it is the tangent line and \(P\) is a flex.
+\end{proof}
+
+When \(\operatorname{char}k\neq3\), a smooth cubic over an algebraically closed field has nine geometric flexes, matching
+\[
+  E[3]\cong(\mathbb Z/3\mathbb Z)^2.
+\]
+In characteristic \(3\), the group scheme \(E[3]\) need not have nine distinct geometric points, so the naive count of flexes must be modified.
+
+\section{Singular cubics as degenerations}
+
+Smoothness is essential for the elliptic-curve picture.  An irreducible singular plane cubic has normalization \(\PP^1\); in characteristic away from the small exceptional cases, the singularity is either a node or a cusp.
+
+The smooth locus still carries a natural algebraic group structure after choosing an identity, but the group changes type:
+\[
+  \text{nodal cubic smooth locus}\sim \mathbb G_m,
+  \qquad
+  \text{cuspidal cubic smooth locus}\sim \mathbb G_a.
+\]
+This is the simplest geometric explanation for why multiplicative and additive groups occur as boundary degenerations of elliptic curves.
+
+\begin{example}[Nodal parameter]
+For a nodal cubic, normalization separates the two branches above the node.  After choosing coordinates on \(\PP^1\) sending the two preimages to \(0\) and \(\infty\), the smooth locus corresponds to
+\[
+  \PP^1\setminus\{0,\infty\}=\mathbb G_m.
+\]
+The chord law becomes multiplication in a suitable parameter.
+\end{example}
+
+\begin{example}[Cuspidal parameter]
+For a cuspidal cubic, the normalization has one point lying above the cusp.  Removing it gives
+\[
+  \PP^1\setminus\{\infty\}=\mathbb A^1=\mathbb G_a,
+\]
+and the chord law becomes addition in a suitable parameter.
+\end{example}
+
+\input{chapters/ch43_plane_cubics/figures/figure_07}
+
+\section{Over a nonclosed field}
+
+Let now \(k\) be arbitrary and suppose \(E/k\) is a smooth plane cubic with a rational point \(O\in E(k)\).  For rational points \(P,Q\in E(k)\), the line through them is defined over \(k\).  Its intersection polynomial with \(E\) has two known \(k\)-rational roots counted with multiplicity, so the residual third point is again \(k\)-rational.  The same applies to tangent lines.  Consequently the chord-and-tangent construction closes on \(E(k)\).
+
+The correct scheme-level statement is that \(E\) with a chosen rational origin is an elliptic curve: a smooth proper geometrically connected genus-one curve together with a rational point.  Its group law is defined over \(k\), and the Abel--Picard identification is defined over \(k\).  In Picard-scheme notation,
+\[
+  E(k)\cong \operatorname{Pic}^0_{E/k}(k).
+\]
+Because the chosen rational point rigidifies the degree-zero Picard functor, these points correspond to the expected degree-zero line-bundle classes.  Without a rational base point, one must distinguish rational divisor classes, Galois-fixed geometric classes, and the Picard variety; descent can matter.
+
+If \(E(k)\) contains a rational flex, the plane embedding may be arranged in Weierstrass form over \(k\).  More generally a rational point can be chosen as the identity even if it is not a flex; the two-line construction from the arbitrary-origin section remains valid.
+
+\section{A practical divisor dictionary for cubics}
+
+For a smooth cubic \(E\) and a chosen flex origin \(O\):
+\[
+\begin{array}{c|c}
+\text{geometry} & \text{divisor/Picard statement}\\
+\hline
+L\cap E=P+Q+R & P+Q+R\sim H\sim3O\\
+T_PE=2P+R & 2P+R\sim3O\\
+P\text{ flex} & 3P\sim3O\\
+P\oplus Q=S & P+Q\sim O+S\\
+-P=R & P+R\sim2O\\
+3P=O & P\text{ is a flex}
+\end{array}
+\]
+The entire group law is encoded by linear equivalence of degree-three line sections.
+
+\input{chapters/ch43_plane_cubics/figures/figure_08}
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vi43-01}
+Let \(F\) be a homogeneous cubic.  State the projective Jacobian criterion for singular points of \(V_+(F)\).
+\end{exercise}
+\begin{hint}Use \(F_x,F_y,F_z\) at geometric points.\end{hint}
+\begin{solution}A point \(P\in V_+(F)(\bar k)\) is singular exactly when \(F(P)=F_x(P)=F_y(P)=F_z(P)=0\).  The cubic is smooth if no such projective point exists.\end{solution}
+
+\begin{exercise}\label{exr:vi43-02}
+Assume \(\operatorname{char}k\neq3\).  Prove that \(x^3+y^3+z^3=0\) is smooth.
+\end{exercise}
+\begin{hint}Differentiate.\end{hint}
+\begin{solution}The partials are \(3x^2,3y^2,3z^2\).  Simultaneous vanishing forces \(x=y=z=0\), not a projective point.\end{solution}
+
+\begin{exercise}\label{exr:vi43-03}
+Why must a reducible plane cubic over an algebraically closed field be singular somewhere?
+\end{exercise}
+\begin{hint}Distinct positive-degree plane curves meet.\end{hint}
+\begin{solution}Write the cubic as a union of positive-degree components.  B\'ezout forces two distinct components to intersect, and at an intersection the union has at least two local branches, hence is singular.\end{solution}
+
+\begin{exercise}\label{exr:vi43-04}
+Show that a line not contained in a cubic meets it in total intersection multiplicity \(3\).
+\end{exercise}
+\begin{hint}Apply B\'ezout with degrees \(1\) and \(3\).\end{hint}
+\begin{solution}B\'ezout gives total intersection number \(1\cdot3=3\), counted over the algebraic closure with multiplicities.\end{solution}
+
+\begin{exercise}\label{exr:vi43-05}
+If two lines \(L,M\) cut divisors \(D_L,D_M\) on \(E\), prove \(D_L\sim D_M\).
+\end{exercise}
+\begin{hint}Use the ratio of their linear equations.\end{hint}
+\begin{solution}If \(L=(\ell=0)\) and \(M=(m=0)\), then \(\operatorname{div}_E(\ell/m)=D_L-D_M\), so the divisors are linearly equivalent.\end{solution}
+
+\begin{exercise}\label{exr:vi43-06}
+Prove that the hyperplane class on a plane cubic has degree \(3\).
+\end{exercise}
+\begin{hint}Intersect with a general line.\end{hint}
+\begin{solution}A general line meets the cubic transversely in three points, so its section divisor has degree three.\end{solution}
+
+\begin{exercise}\label{exr:vi43-07}
+If \(O\) is a flex, prove \(\OO_E(1)\cong\OO_E(3O)\).
+\end{exercise}
+\begin{hint}Use the tangent line at \(O\).\end{hint}
+\begin{solution}The tangent section at a flex is exactly \(3O\), while every line section represents \(\OO_E(1)\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-08}
+Let \(P,Q,R\) be collinear and let \(O\) be a flex origin.  Show that \([P-O]+[Q-O]+[R-O]=0\) in \(\Pic^0(E)\).
+\end{exercise}
+\begin{hint}Subtract \(3O\) from the line-section relation.\end{hint}
+\begin{solution}Collinearity gives \(P+Q+R\sim H\sim3O\).  Therefore \((P-O)+(Q-O)+(R-O)\sim0\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-09}
+Explain why \(P\mapsto[\OO_E(P-O)]\) is injective once degree-one rigidity is known.
+\end{exercise}
+\begin{hint}Cancel \(-O\).\end{hint}
+\begin{solution}Equality of the two Picard classes gives \(P-O\sim Q-O\), hence \(P\sim Q\).  Degree-one rigidity gives \(P=Q\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-10}
+Carry out the two-line construction and prove directly that its output \(S\) satisfies \(P+Q\sim O+S\).
+\end{exercise}
+\begin{hint}Subtract two hyperplane-section relations.\end{hint}
+\begin{solution}If the first line gives \(P+Q+R\sim H\) and the second \(R+O+S\sim H\), subtraction yields \(P+Q\sim O+S\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-11}
+Using the Picard description, prove that \(O\) is the identity for \(\oplus\).
+\end{exercise}
+\begin{hint}\(\alpha_O(O)=0\).\end{hint}
+\begin{solution}\(\alpha_O(P\oplus O)=\alpha_O(P)+\alpha_O(O)=\alpha_O(P)\).  Injectivity of \(\alpha_O\) gives \(P\oplus O=P\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-12}
+Prove commutativity of the chord law without referring to a picture.
+\end{exercise}
+\begin{hint}Use tensor product in \(\Pic^0(E)\).\end{hint}
+\begin{solution}\(\alpha_O(P\oplus Q)=\alpha_O(P)+\alpha_O(Q)=\alpha_O(Q)+\alpha_O(P)=\alpha_O(Q\oplus P)\); injectivity gives equality.\end{solution}
+
+\begin{exercise}\label{exr:vi43-13}
+Prove associativity of the chord law using \(\Pic^0(E)\).
+\end{exercise}
+\begin{hint}Transport associativity through \(\alpha_O\).\end{hint}
+\begin{solution}Both \((P\oplus Q)\oplus R\) and \(P\oplus(Q\oplus R)\) map to \(\alpha_O(P)+\alpha_O(Q)+\alpha_O(R)\).  Injectivity gives equality.\end{solution}
+
+\begin{exercise}\label{exr:vi43-14}
+For a flex origin, show that the inverse of \(P\) is the residual point on the line through \(P\) and \(O\).
+\end{exercise}
+\begin{hint}A line through \(P,O\) cuts \(P+O+R\sim3O\).\end{hint}
+\begin{solution}The relation gives \(P+R\sim2O\), hence \([R-O]=-[P-O]\), so \(R=-P\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-15}
+In short Weierstrass form, show that \(-(x,y)=(x,-y)\).
+\end{exercise}
+\begin{hint}Use the vertical line.\end{hint}
+\begin{solution}The vertical line through \((x,y)\) also contains \((x,-y)\) and meets the cubic at \(O\) at infinity, so the three points sum to \(O\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-16}
+Derive \(x_3=m^2-x_1-x_2\) for the sum of two affine points in short Weierstrass form.
+\end{exercise}
+\begin{hint}Substitute the secant equation into the cubic and compare the sum of roots.\end{hint}
+\begin{solution}Substituting \(y=m(x-x_1)+y_1\) produces a monic cubic in \(x\) whose \(x^2\)-coefficient is \(-m^2\).  Its roots are \(x_1,x_2,x_R\), so \(x_1+x_2+x_R=m^2\).  Reflection does not change the \(x\)-coordinate, hence \(x_3=x_R=m^2-x_1-x_2\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-17}
+Derive the tangent slope \(m=(3x_1^2+A)/(2y_1)\).
+\end{exercise}
+\begin{hint}Implicitly differentiate \(y^2=x^3+Ax+B\).\end{hint}
+\begin{solution}Differentiation gives \(2y\,dy/dx=3x^2+A\).  At \((x_1,y_1)\) with \(y_1\neq0\), this gives the stated slope.\end{solution}
+
+\begin{exercise}\label{exr:vi43-18}
+Show that a finite point in short Weierstrass form has order two exactly when \(y=0\).
+\end{exercise}
+\begin{hint}Use \(P=-P\).\end{hint}
+\begin{solution}Order dividing two means \(P=-P\).  Since inversion sends \((x,y)\) to \((x,-y)\), this is equivalent to \(y=-y\), hence \(y=0\) because the characteristic is not two.\end{solution}
+
+\begin{exercise}\label{exr:vi43-19}
+With flex origin \(O\), prove that every flex is a \(3\)-torsion point.
+\end{exercise}
+\begin{hint}Compare \(3P\) with the hyperplane class.\end{hint}
+\begin{solution}At a flex, the tangent cuts \(3P\sim H\sim3O\).  Hence \(3[P-O]=0\), so \(3P=O\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-20}
+Assume \(\operatorname{char}k\neq2,3\).  Verify that \(y^2=x^3+Ax+B\) is singular exactly when \(4A^3+27B^2=0\).
+\end{exercise}
+\begin{hint}A singular affine point has \(y=0\) and is a repeated root of \(x^3+Ax+B\).\end{hint}
+\begin{solution}The singularity equations are \(y=0\), \(3x^2+A=0\), and \(x^3+Ax+B=0\).  They have a solution exactly when the cubic polynomial has a repeated root, equivalently when its discriminant \(-4A^3-27B^2\) vanishes.\end{solution}
+
+\begin{exercise}\label{exr:vi43-21}
+Explain why the residual third point of a line through two \(k\)-rational points is again \(k\)-rational.
+\end{exercise}
+\begin{hint}Restrict the cubic equation to the \(k\)-rational line.\end{hint}
+\begin{solution}The restricted homogeneous cubic polynomial on \(\PP^1_k\) already has two linear factors over \(k\), counted with multiplicity.  The remaining degree-one factor is therefore defined over \(k\), giving a \(k\)-rational residual point.\end{solution}
+
+\begin{exercise}\label{exr:vi43-22}
+Show that the normalization of a nodal cubic has two points above the node, while the normalization of a cuspidal cubic has one.
+\end{exercise}
+\begin{hint}Compare the number of branches.\end{hint}
+\begin{solution}A node has two distinct analytic/algebraic branches, which normalization separates into two points.  A cusp is unibranch, so normalization has one point above it.\end{solution}
+
+\begin{exercise}\label{exr:vi43-23}
+Why does removing the two points above a node from \(\PP^1\) produce \(\mathbb G_m\)?
+\end{exercise}
+\begin{hint}Send the two points to \(0\) and \(\infty\).\end{hint}
+\begin{solution}An automorphism of \(\PP^1\) sends the two distinct points to \(0\) and \(\infty\); the complement is \(\Spec k[t,t^{-1}]=\mathbb G_m\).\end{solution}
+
+\begin{exercise}\label{exr:vi43-24}
+Why does removing one point from \(\PP^1\) produce \(\mathbb A^1\), the underlying variety of \(\mathbb G_a\)?
+\end{exercise}
+\begin{hint}Move the point to infinity.\end{hint}
+\begin{solution}After a projective automorphism the removed point is \([1:0]\), and the complementary affine chart is \(\Spec k[t]=\mathbb A^1\).\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[A line divisor from a rational function]\label{prob:vi43-01}
+Let \(L=(\ell=0)\) and \(M=(m=0)\) be lines meeting \(E\) properly.  Compute \(\operatorname{div}_E(\ell/m)\).
+\end{problem}
+\begin{solution}
+Zeros occur with exactly the intersection multiplicities of \(L\) with \(E\), while poles occur with those of \(M\).  Therefore
+\[
+  \operatorname{div}_E(\ell/m)=(L\cdot E)-(M\cdot E).
+\]
+In particular all line sections represent the same class \(H\).
+\end{solution}
+
+\begin{problem}[Doubling as a tangent construction]\label{prob:vi43-02}
+Let \(O\) be a flex and \(P\in E\).  Describe \(2P\) using only tangent and secant lines.
+\end{problem}
+\begin{solution}
+Take the tangent at \(P\), whose residual third intersection is \(R\).  Then \(2P+R\sim3O\), so \(2P=-R\).  Draw the line through \(R\) and \(O\); its residual point is \(-R=2P\).
+\end{solution}
+
+\begin{problem}[Inverse for a nonflex origin]\label{prob:vi43-03}
+Let \(O\) be any chosen point.  Give a two-line construction of \(-P\).
+\end{problem}
+\begin{solution}
+First let the tangent at \(O\) cut \(2O+A\).  Then draw the line through \(P,A\), with residual point \(B\).  Since
+\[
+  2O+A\sim H\sim P+A+B,
+\]
+we obtain \(P+B\sim2O\).  Hence \(B=-P\) for the group law based at \(O\).
+\end{solution}
+
+\begin{problem}[Why the two-line law is independent of choices]\label{prob:vi43-04}
+Explain why the residual point construction gives a unique output even in tangent cases.
+\end{problem}
+\begin{solution}
+The secant is unique through distinct points and the tangent is unique at a smooth point.  B\'ezout supplies a unique residual degree-one subscheme after the prescribed intersection multiplicities are removed.  The divisor relation then characterizes the output \(S\) by \(P+Q\sim O+S\), and degree-one rigidity makes \(S\) unique.
+\end{solution}
+
+\begin{problem}[Three collinear points and Picard addition]\label{prob:vi43-05}
+Assume \(O\) is a flex.  If \(P,Q,R\) are collinear, compute \(\alpha_O(R)\) in terms of \(\alpha_O(P),\alpha_O(Q)\).
+\end{problem}
+\begin{solution}
+The line relation gives
+\[
+  (P-O)+(Q-O)+(R-O)\sim0.
+\]
+Therefore
+\[
+  \alpha_O(R)=-\alpha_O(P)-\alpha_O(Q).
+\]
+Thus the third collinear point is the inverse of the group sum of the first two.
+\end{solution}
+
+\begin{problem}[Concrete addition on \(y^2=x^3-x\)]\label{prob:vi43-06}
+Over a field of characteristic different from \(2\), compute the nontrivial \(2\)-torsion points on
+\[
+  y^2=x^3-x.
+\]
+\end{problem}
+\begin{solution}
+Two-torsion requires \(y=0\), so solve
+\[
+  x^3-x=x(x-1)(x+1)=0.
+\]
+The three nontrivial points are
+\[
+  (0,0),\qquad(1,0),\qquad(-1,0).
+\]
+Together with \(O\), they form \(E[2]\cong(\mathbb Z/2\mathbb Z)^2\) over an algebraically closed field of characteristic not two.
+\end{solution}
+
+\begin{problem}[A doubling formula]\label{prob:vi43-07}
+On \(E:y^2=x^3+Ax+B\), derive the coordinates of \(2P\) for \(P=(x,y)\) with \(y\neq0\).
+\end{problem}
+\begin{solution}
+Set
+\[
+  m=\frac{3x^2+A}{2y}.
+\]
+Then
+\[
+  x(2P)=m^2-2x,
+\]
+and
+\[
+  y(2P)=m\bigl(x-x(2P)\bigr)-y.
+\]
+These are the secant formulas specialized to the tangent limit.
+\end{solution}
+
+\begin{problem}[Flexes as three-torsion]\label{prob:vi43-08}
+Assume \(\operatorname{char}k\neq3\).  Explain conceptually why a smooth cubic has nine flexes over \(\bar k\).
+\end{problem}
+\begin{solution}
+Choose one flex as the origin.  Proposition~\ref{prop:vi43-flex-three-torsion} identifies flexes with \(E[3](\bar k)\).  Since multiplication by \(3\) is separable of degree \(9\) when the characteristic is not \(3\), its kernel has nine geometric points.
+\end{solution}
+
+\begin{problem}[Degree-zero divisor reduction]\label{prob:vi43-09}
+Let
+\[
+  D=P_1+P_2+P_3-Q_1-Q_2-Q_3.
+\]
+Describe an algorithm using only secants and tangents that produces \(S\) with \(D\sim S-O\).
+\end{problem}
+\begin{solution}
+Use the two-point reduction twice to replace
+\[
+  P_1+P_2+P_3\sim P+2O,
+  \qquad
+  Q_1+Q_2+Q_3\sim Q+2O.
+\]
+Then \(D\sim P-Q\).  Construct \(-Q=B\) geometrically from the tangent at \(O\) as in Problem~\ref{prob:vi43-03}; then reduce \(P+B\sim O+S\).  Since \(B\sim2O-Q\), this gives \(P-Q\sim S-O\).
+\end{solution}
+
+\begin{problem}[Nodal degeneration]\label{prob:vi43-10}
+Why is \(\mathbb G_m\), rather than an elliptic curve, the natural group on the smooth locus of a nodal cubic?
+\end{problem}
+\begin{solution}
+The normalization is \(\PP^1\), and the node has two preimages.  Removing those two points leaves a copy of \(\mathbb G_m\).  The generalized Jacobian of the nodal cubic is multiplicative, and the chord law on the smooth locus becomes multiplication after a suitable normalization parameter is chosen.
+\end{solution}
+
+\begin{problem}[Cuspidal degeneration]\label{prob:vi43-11}
+Give the analogous explanation for \(\mathbb G_a\) on a cuspidal cubic.
+\end{problem}
+\begin{solution}
+The cusp is unibranch, so its normalization \(\PP^1\) has one point above the cusp.  Removing that point leaves \(\mathbb A^1\).  With a suitable parameter, the chord law is addition, giving \(\mathbb G_a\).
+\end{solution}
+
+\begin{problem}[Rational closure of the chord law]\label{prob:vi43-12}
+Let \(E/k\) be a smooth cubic and \(P,Q,O\in E(k)\).  Prove that the chord-and-tangent construction produces a point of \(E(k)\).
+\end{problem}
+\begin{solution}
+The line or tangent used in the first step is defined over \(k\).  Restricting the cubic equation to that line gives a degree-three equation over \(k\) with two roots already defined over \(k\), counted with multiplicity, so the residual root is in \(k\).  The same argument applies to the second line through the residual point and \(O\).  Hence the output lies in \(E(k)\).
+\end{solution}
+
+\section{Challenges}
+
+\begin{problem}[Challenge: associativity without coordinates]\label{chal:vi43-01}
+Starting only from VI/42 divisor and Picard theory, the line-section relation, and degree-one rigidity, give a complete proof that the chord-and-tangent construction is associative.  Your proof should identify exactly where injectivity of \(\alpha_O\) is required.
+\end{problem}
+
+\begin{problem}[Challenge: arbitrary origin versus flex origin]\label{chal:vi43-02}
+Develop the group law first with an arbitrary origin \(O\), then choose a flex \(F\) and compare the two group structures explicitly.  Determine the translation that identifies them and explain why the one-line relation \(P+Q+R\sim3F\) is unavailable for a general origin.
+\end{problem}
+
+\begin{problem}[Challenge: Weierstrass transformation]\label{chal:vi43-03}
+Assume \(\operatorname{char}k\neq2,3\).  Starting from a smooth plane cubic with a chosen flex, carry out the projective coordinate changes leading to
+\[
+  y^2z=x^3+Axz^2+Bz^3,
+\]
+and track the flex and tangent line throughout the transformation.
+\end{problem}
+
+\begin{problem}[Challenge: singular boundary of elliptic addition]\label{chal:vi43-04}
+For explicit one-parameter families of smooth cubics degenerating to a node and to a cusp, follow the discriminant, normalization, and chord law.  Recover multiplicative and additive parameters in the limits and explain the appearance of \(\mathbb G_m\) and \(\mathbb G_a\).
+\end{problem}
+
+\begin{problem}[Challenge: bridge to Cremona transformations]\label{chal:vi43-05}
+Study how a quadratic plane transformation acts on a cubic passing through its base points.  Track degree, multiplicities, and divisor classes carefully enough to predict which parts of the cubic group-law geometry survive birational modification.  Use this as preparation for VI/44.
+\end{problem}
+
+\section*{Bridge to VI/44}
+
+For a smooth plane cubic, a line is no longer just a projective-geometric object.  Its intersection divisor is a degree-three representative of \(\OO_E(1)\), and once a flex origin is chosen,
+\[
+  \OO_E(1)\cong\OO_E(3O).
+\]
+The Picard group then turns the elementary incidence relation
+\[
+  P+Q+R\sim3O
+\]
+into an abelian group law on the curve.  The striking point is that associativity comes from tensor product of line bundles, not from a hidden miracle of Euclidean-looking chord diagrams.
+
+VI/44 changes the ambient geometry rather than the curve.  It studies \emph{Cremona transformations}: birational self-maps of the plane, generated in the basic case by quadratic coordinate functions.  The needed bookkeeping has already appeared here: degree, base points, multiplicities, strict transforms, and divisor classes.  VI/44 uses these data to follow plane curves through birational operations.
