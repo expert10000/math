@@ -1,0 +1,679 @@
+\chapter{Exact Sequences and Cohomology}
+\label{ch:vi48-exact-sequences-and-cohomology}
+
+VI/47 made cohomology computational by organizing local data on overlaps.  The present chapter explains how cohomology behaves when sheaves themselves sit in an exact sequence.  The essential phenomenon is that taking global sections is left exact but need not preserve surjectivity.  The missing surjectivity is measured by a connecting class, and continuing this construction produces the long exact sequence in cohomology.
+
+The first boundary map has a concrete geometric meaning.  Given
+\[
+0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0
+\]
+and a global section $s$ of $\mathcal F''$, choose local lifts $t_i$ to $\mathcal F$.  Their differences $t_j-t_i$ lie in $\mathcal F'$ on overlaps.  Those differences form a \v{C}ech cocycle, and its class is precisely the obstruction to gluing the local lifts into one global lift.
+
+\[
+\boxed{\text{local lifts}\Longrightarrow\text{overlap cocycle}\Longrightarrow\delta(s)\Longrightarrow\text{long exact sequence}}
+\]
+
+\section*{Standing conventions}
+All sheaves are sheaves of abelian groups unless stated otherwise.  The notation $H^q(X,-)$ denotes sheaf cohomology.  When a \v{C}ech representative is used, the hypotheses needed for comparison with sheaf cohomology are stated explicitly.  When $X$ is fixed, we write $H^q(\mathcal F)$ for $H^q(X,\mathcal F)$.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item explain why global sections are left exact but not generally exact;
+\item construct the connecting homomorphism from local lifts;
+\item state and use the long exact sequence in sheaf cohomology;
+\item prove the lifting criterion $\delta(s)=0$;
+\item use naturality and split exact sequences;
+\item distinguish a sheaf epimorphism from surjectivity on sections of a fixed open set;
+\item derive long exact sequences from effective Cartier divisor sequences;
+\item recover the cohomology of $\mathcal O_{\PP^1}(n)$ recursively;
+\item perform dimension shifting with flabby sheaves;
+\item use vanishing hypotheses to turn obstruction problems into extension theorems.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_01}
+
+\section{Short exact sequences and the first obstruction}
+\begin{definition}[Short exact sequence of sheaves]\label{def:vi48-short-exact}
+A sequence
+\[
+0\longrightarrow\mathcal F'\xrightarrow{\alpha}\mathcal F\xrightarrow{\beta}\mathcal F''\longrightarrow0
+\]
+is \emph{short exact} if it is exact as a sequence of sheaves: $\alpha$ is a monomorphism, $\beta$ is an epimorphism, and $\ker\beta=\operatorname{im}\alpha$.  Surjectivity of $\beta$ is a stalkwise or local statement; it does not imply that every section of $\mathcal F''$ on a fixed open set lifts on that whole open set.
+\end{definition}
+
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_02}
+\begin{proposition}[Global sections are left exact]\label{prop:vi48-left-exact}
+For every short exact sequence as above and every open $U\subseteq X$, the sequence
+\[
+0\to\Gamma(U,\mathcal F')\to\Gamma(U,\mathcal F)\to\Gamma(U,\mathcal F'')
+\]
+is exact at the first two terms.
+\begin{proof}
+Injectivity is immediate.  A section of $\mathcal F$ maps to zero in $\mathcal F''$ exactly when all of its germs lie in the image of $\mathcal F'$.  Those local preimages glue uniquely because $\mathcal F'\to\mathcal F$ is a monomorphism.
+\end{proof}
+\end{proposition}
+
+\begin{definition}[The connecting homomorphism in degree zero]\label{def:vi48-connecting}
+Given a short exact sequence, the first connecting homomorphism is the map
+\[
+\delta:H^0(X,\mathcal F'')\longrightarrow H^1(X,\mathcal F')
+\]
+that assigns to a quotient section the obstruction to lifting it to a global section of $\mathcal F$.
+\end{definition}
+
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_03}
+\begin{proposition}[Local lifts produce a cocycle]\label{prop:vi48-local-lift}
+Let $s\in\Gamma(X,\mathcal F'')$.  Choose an open cover $\{U_i\}$ and local lifts $t_i\in\Gamma(U_i,\mathcal F)$ of $s|_{U_i}$.  On overlaps,
+\[
+a_{ij}=t_j|_{U_{ij}}-t_i|_{U_{ij}}\in\Gamma(U_{ij},\mathcal F').
+\]
+Then $(a_{ij})$ is a \v{C}ech $1$-cocycle.  Changing the local lifts changes this cocycle by a coboundary.
+\begin{proof}
+On a triple overlap,
+\[
+a_{jk}-a_{ik}+a_{ij}=(t_k-t_j)-(t_k-t_i)+(t_j-t_i)=0.
+\]
+If $t_i$ is replaced by $t_i+b_i$ with $b_i\in\mathcal F'(U_i)$, then $a_{ij}$ changes by $b_j-b_i$, the \v{C}ech coboundary of $(b_i)$.
+\end{proof}
+\end{proposition}
+
+\begin{corollary}[Vanishing of the boundary is the lifting criterion]\label{cor:vi48-lift-criterion}
+For $s\in H^0(X,\mathcal F'')$,
+\[
+\delta(s)=0
+\quad\Longleftrightarrow\quad
+s\ \text{lifts to a section of }\mathcal F\text{ on }X.
+\]
+\begin{proof}
+If a global lift exists, take all local lifts to be its restrictions.  Conversely, if the local-lift cocycle is a coboundary, modify the $t_i$ by kernel-valued $0$-cochains so that the corrected lifts agree on overlaps; they then glue to a global lift.
+\end{proof}
+\end{corollary}
+
+\section{The long exact sequence}
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_04}
+\begin{theorem}[The long exact sequence in sheaf cohomology]\label{thm:vi48-long-exact}
+Every short exact sequence
+\[
+0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0
+\]
+induces a natural long exact sequence
+\[
+\begin{aligned}
+0&\to H^0(X,\mathcal F')\to H^0(X,\mathcal F)\to H^0(X,\mathcal F'')\\
+&\xrightarrow{\delta^0}H^1(X,\mathcal F')\to H^1(X,\mathcal F)\to H^1(X,\mathcal F'')\\
+&\xrightarrow{\delta^1}H^2(X,\mathcal F')\to\cdots .
+\end{aligned}
+\]
+\begin{proof}
+Choose compatible injective resolutions of the three sheaves by the injective horseshoe construction.  Injective sheaves are flabby, so global sections preserve the resulting short exact sequence of resolution complexes.  The standard connecting-homomorphism construction for a short exact sequence of complexes then gives the displayed long exact sequence.  Independence of the chosen resolutions follows from the usual comparison theorem.
+\end{proof}
+\end{theorem}
+
+\begin{proposition}[What exactness says in every degree]\label{prop:vi48-exactness-mechanism}
+At each degree $q$, exactness gives
+\[
+\ker\!\left(H^q(\mathcal F'')\xrightarrow{\delta^q}H^{q+1}(\mathcal F')\right)
+=
+\operatorname{im}\!\left(H^q(\mathcal F)\to H^q(\mathcal F'')\right).
+\]
+Thus a cohomology class in the quotient sheaf comes from the middle sheaf exactly when its connecting obstruction vanishes.
+\end{proposition}
+
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_05}
+\begin{theorem}[Naturality of the long exact sequence]\label{thm:vi48-naturality}
+A commutative diagram of short exact sequences of sheaves induces a commutative ladder of long exact cohomology sequences.  In particular, for every $q$ the square involving the connecting maps
+\[
+H^q(\mathcal F'')\xrightarrow{\delta^q_{\mathcal F}}H^{q+1}(\mathcal F')
+\]
+and
+\[
+H^q(\mathcal G'')\xrightarrow{\delta^q_{\mathcal G}}H^{q+1}(\mathcal G')
+\]
+commutes.
+\begin{proof}
+Choose compatible maps between injective resolutions.  The connecting maps of a short exact sequence of complexes are natural, hence so are the induced maps in sheaf cohomology.
+\end{proof}
+\end{theorem}
+
+\begin{corollary}[Split exact sequences split in cohomology]\label{cor:vi48-split}
+If the short exact sequence splits as sheaves, so that $\mathcal F\cong\mathcal F'\oplus\mathcal F''$, then every connecting homomorphism is zero and
+\[
+H^q(X,\mathcal F)\cong H^q(X,\mathcal F')\oplus H^q(X,\mathcal F'')
+\]
+for all $q\ge0$.
+\end{corollary}
+
+\begin{proposition}[Vanishing of $H^1$ forces global lifting]\label{prop:vi48-h1-vanish-lifts}
+If $H^1(X,\mathcal F')=0$, then every global section of $\mathcal F''$ lifts to a global section of $\mathcal F$.
+\begin{proof}
+The connecting map\[H^0(X,\mathcal F'')\longrightarrow H^1(X,\mathcal F')\]has zero target.  Exactness therefore makes\[H^0(X,\mathcal F)\longrightarrow H^0(X,\mathcal F'')\]surjective.
+\end{proof}
+\end{proposition}
+
+\section{The \v{C}ech realization of the boundary}
+\begin{proposition}[When a cover gives a short exact sequence of \v{C}ech complexes]\label{prop:vi48-cech-short-exact}
+Let $\mathfrak U=\{U_i\}$ be a cover such that for every nonempty finite intersection $U_I$ the map
+\[
+\Gamma(U_I,\mathcal F)\longrightarrow\Gamma(U_I,\mathcal F'')
+\]
+is surjective.  Then
+\[
+0\to C^\bullet(\mathfrak U,\mathcal F')\to C^\bullet(\mathfrak U,\mathcal F)\to C^\bullet(\mathfrak U,\mathcal F'')\to0
+\]
+is a short exact sequence of cochain complexes.
+\begin{proof}
+Left exactness holds on every intersection.  The stated lifting hypothesis supplies termwise surjectivity, and restriction maps commute with the \v{C}ech differential.
+\end{proof}
+\end{proposition}
+
+\begin{theorem}[The \v{C}ech boundary agrees with the cohomological boundary]\label{thm:vi48-cech-boundary}
+Under the hypotheses of the previous proposition, the connecting map of the short exact sequence of \v{C}ech complexes sends a $q$-cocycle in $\mathcal F''$ to the class obtained by lifting it to an $\mathcal F$-cochain, applying the \v{C}ech differential, and viewing the result as an $\mathcal F'$-cocycle.  If the cover is Leray for the three sheaves, this connecting map identifies with the connecting homomorphism in sheaf cohomology.
+\begin{proof}
+This is precisely the standard boundary construction for a short exact sequence of cochain complexes.  Leray comparison identifies the three \v{C}ech cohomology groups with the corresponding sheaf cohomology groups, and naturality identifies the boundary maps.
+\end{proof}
+\end{theorem}
+
+\begin{warning}[Do not assume termwise surjectivity on an arbitrary cover]\label{warning:vi48-cover-caveat}
+An epimorphism of sheaves $\mathcal F\to\mathcal F''$ need not make
+\[
+\Gamma(U,\mathcal F)\to\Gamma(U,\mathcal F'')
+\]
+surjective for every open $U$.  Therefore an arbitrary short exact sequence of sheaves does not automatically give a short exact sequence of \v{C}ech cochain complexes for a fixed cover.  One must either refine to obtain local lifts or use resolutions.
+\end{warning}
+
+\section{Divisor sequences and geometric restriction}
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_06}
+\begin{definition}[The sequence attached to an effective Cartier divisor]\label{def:vi48-effective-cartier}
+Let $D\subseteq X$ be an effective Cartier divisor with invertible ideal sheaf $\mathcal I_D\cong\mathcal O_X(-D)$.  The quotient sheaf $\mathcal O_D=\mathcal O_X/\mathcal I_D$ records functions on the divisor.
+\end{definition}
+
+\begin{proposition}[The basic divisor exact sequence]\label{prop:vi48-divisor-sequence}
+For an effective Cartier divisor $D$ there is a canonical short exact sequence
+\[
+0\longrightarrow\mathcal O_X(-D)\longrightarrow\mathcal O_X\longrightarrow\mathcal O_D\longrightarrow0.
+\]
+More generally, tensoring by a line bundle $\mathcal L$ gives
+\[
+0\longrightarrow\mathcal L(-D)\longrightarrow\mathcal L\longrightarrow\mathcal L|_D\longrightarrow0.
+\]
+\begin{proof}
+The first sequence is the defining ideal sequence.  Since $\mathcal L$ is locally free of rank one, tensoring by $\mathcal L$ preserves exactness.
+\end{proof}
+\end{proposition}
+
+\begin{corollary}[The divisor sequence produces restriction obstructions]\label{cor:vi48-divisor-les}
+The twisted divisor sequence yields
+\[
+0\to H^0(X,\mathcal L(-D))\to H^0(X,\mathcal L)\to H^0(D,\mathcal L|_D)
+\to H^1(X,\mathcal L(-D))\to\cdots .
+\]
+Hence a section prescribed on $D$ extends to a global section of $\mathcal L$ whenever $H^1(X,\mathcal L(-D))=0$.
+\end{corollary}
+
+\section{A recursive calculation on \texorpdfstring{$\PP^1$}{P1}}
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_07}
+\begin{example}[A point on $\PP^1$]\label{ex:vi48-p1-point}
+Let $p\in\PP^1_k$ be a $k$-rational point.  Since $\mathcal O_{\PP^1}(-p)\cong\mathcal O_{\PP^1}(-1)$, tensoring the point sequence by $\mathcal O(n)$ gives
+\[
+0\to\mathcal O(n-1)\to\mathcal O(n)\to k_p\to0,
+\]
+where $k_p$ is the skyscraper sheaf with fiber $k$ at $p$.
+\end{example}
+
+\begin{proposition}[The $\PP^1$ recurrence in degrees zero and one]\label{prop:vi48-p1-recurrence}
+For the point sequence on $\PP^1$ the long exact sequence begins
+\[
+0\to H^0(\mathcal O(n-1))\to H^0(\mathcal O(n))\to k
+\to H^1(\mathcal O(n-1))\to H^1(\mathcal O(n))\to0.
+\]
+The terminal zero follows from $H^1(\PP^1,k_p)=0$.
+\begin{proof}
+The displayed segment is the long exact sequence.  A skyscraper sheaf is flabby, hence acyclic by VI/46.
+\end{proof}
+\end{proposition}
+
+\begin{corollary}[Cohomology dimensions on $\PP^1$]\label{cor:vi48-p1-dimensions}
+Using $H^1(\mathcal O(-1))=0$ from the \v{C}ech calculation in VI/47, the recurrence gives
+\[
+H^1(\PP^1,\mathcal O(n))=0\quad(n\ge-1),
+\]
+and for $n\le-2$,
+\[
+\dim_k H^1(\PP^1,\mathcal O(n))=-n-1.
+\]
+\begin{proof}
+For $n\ge0$, evaluation $H^0(\mathcal O(n))\to k$ is surjective, so $H^1(\mathcal O(n-1))\cong H^1(\mathcal O(n))$.  For $n<0$, both adjacent $H^0$ groups vanish and the exact sequence becomes
+\[
+0\to k\to H^1(\mathcal O(n-1))\to H^1(\mathcal O(n))\to0,
+\]
+which increases the dimension by one as $n$ decreases.
+\end{proof}
+\end{corollary}
+
+\begin{example}[Evaluation as an exact-sequence map]\label{ex:vi48-skyscraper-evaluation}
+For $n\ge0$, the map
+\[
+H^0(\PP^1,\mathcal O(n))\longrightarrow k_p
+\]
+is evaluation at $p$ after choosing a trivialization of the fiber.  Its surjectivity is the elementary geometric fact that a degree-$n$ homogeneous polynomial can be chosen with any prescribed value at a single point.
+\end{example}
+
+\section{Dimension shifting and obstruction calculus}
+\input{chapters/ch48_exact_sequences_and_cohomology/figures/figure_08}
+\begin{proposition}[Dimension shifting with a flabby sheaf]\label{prop:vi48-dimension-shift}
+Let
+\[
+0\to\mathcal F\to\mathcal I\to\mathcal Q\to0
+\]
+be exact with $\mathcal I$ flabby.  Then for every $q\ge1$ the connecting map gives a canonical isomorphism
+\[
+H^q(X,\mathcal Q)\xrightarrow{\sim}H^{q+1}(X,\mathcal F).
+\]
+\begin{proof}
+Since $H^q(X,\mathcal I)=H^{q+1}(X,\mathcal I)=0$ for $q\ge1$, the relevant part of the long exact sequence has zero terms on both sides of the connecting map.
+\end{proof}
+\end{proposition}
+
+\begin{corollary}[The first obstruction from a flabby embedding]\label{cor:vi48-dimension-shift-h1}
+In the same situation there is an exact sequence
+\[
+0\to H^0(X,\mathcal F)\to H^0(X,\mathcal I)\to H^0(X,\mathcal Q)
+\to H^1(X,\mathcal F)\to0.
+\]
+Thus $H^1(X,\mathcal F)$ is the cokernel of the global lifting map into the first flabby quotient.
+\end{corollary}
+
+\begin{definition}[Cohomology as an obstruction space]\label{def:vi48-obstruction}
+In this chapter, an \emph{obstruction class} means a cohomology class produced by a connecting homomorphism.  Its vanishing is equivalent to solving the corresponding lifting or extension problem one step earlier in the long exact sequence.
+\end{definition}
+
+\begin{proposition}[Euler-characteristic additivity]\label{prop:vi48-euler-additivity}
+Assume the cohomology groups of $\mathcal F'$, $\mathcal F$, and $\mathcal F''$ are finite-dimensional over a field and vanish for $q\gg0$.  Define
+\[
+\chi(X,\mathcal G)=\sum_q(-1)^q\dim H^q(X,\mathcal G).
+\]
+Then every short exact sequence gives
+\[
+\chi(X,\mathcal F)=\chi(X,\mathcal F')+\chi(X,\mathcal F'').
+\]
+\begin{proof}
+The long exact cohomology sequence is a finite exact sequence of finite-dimensional vector spaces after truncation.  The alternating sum of dimensions of an exact sequence is zero, which rearranges to the displayed identity.
+\end{proof}
+\end{proposition}
+
+\begin{example}[Principal parts as quotient data]\label{ex:vi48-principal-parts}
+If $D$ is an effective Cartier divisor, the sequence
+\[
+0\to\mathcal O_X\to\mathcal O_X(D)\to\mathcal O_X(D)|_D\to0
+\]
+interprets the quotient as allowed principal-part data along $D$.  The connecting map sends prescribed polar data to the obstruction to realizing it by a global meromorphic section with poles bounded by $D$.
+\end{example}
+
+\begin{remark}[Bridge to VI/49]\label{remark:vi48-next}
+VI/49 turns these exact-sequence mechanisms into vanishing tools.  Once one knows that certain higher groups vanish, long exact sequences collapse into short exact sequences, restriction maps become surjective, and dimension shifting reduces unfamiliar cohomology groups to familiar ones.
+\end{remark}
+
+\section{Exercises}
+\begin{exercise}\label{exr:vi48-01}
+Prove directly that $\Gamma(U,-)$ is left exact for every open $U$.
+\end{exercise}
+\begin{hint}
+Use the sheaf kernel and the fact that monomorphisms are injective on sections.
+\end{hint}
+\begin{solution}
+Injectivity of the first map is immediate.  If a section of the middle sheaf maps to zero, all its germs lie in the kernel sheaf, so the local kernel sections glue uniquely to a section of the first sheaf.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-02}
+Give an example of an epimorphism of sheaves that is not surjective on global sections.
+\end{exercise}
+\begin{hint}
+Use $\mathcal O_{\PP^1}\to k_p$ or the exponential sequence on a familiar space.
+\end{hint}
+\begin{solution}
+For a suitable line-bundle sequence on $\PP^1$, the quotient map is a sheaf epimorphism although the induced global map can fail to be surjective when the corresponding $H^1$ obstruction is nonzero.  The long exact sequence detects the failure.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-03}
+For local lifts $t_i$ of a quotient section, verify explicitly that $a_{ij}=t_j-t_i$ is a $1$-cocycle.
+\end{exercise}
+\begin{hint}
+Compute on a triple intersection.
+\end{hint}
+\begin{solution}
+One has $a_{jk}-a_{ik}+a_{ij}=(t_k-t_j)-(t_k-t_i)+(t_j-t_i)=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-04}
+Show that changing local lifts changes the local-lift cocycle by a coboundary.
+\end{exercise}
+\begin{hint}
+Write the new lift as $t_i+b_i$ with $b_i$ kernel-valued.
+\end{hint}
+\begin{solution}
+The new difference is $a_{ij}+b_j-b_i$, which differs from the old cocycle by $\delta(b)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-05}
+Prove that $\delta(s)=0$ if a global lift of $s$ exists.
+\end{exercise}
+\begin{hint}
+Restrict one global lift to every member of the cover.
+\end{hint}
+\begin{solution}
+All local differences are then zero, so the representing cocycle is zero.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-06}
+Prove the converse lifting criterion using a vanishing cocycle class.
+\end{exercise}
+\begin{hint}
+Modify local lifts by a kernel-valued $0$-cochain.
+\end{hint}
+\begin{solution}
+If $a_{ij}=b_j-b_i$, replace $t_i$ by $t_i-b_i$.  The corrected lifts agree on overlaps and glue globally.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-07}
+Write the first seven nonzero terms of the long exact sequence attached to a short exact sequence.
+\end{exercise}
+\begin{hint}
+Start in degree zero and include the first connecting map.
+\end{hint}
+\begin{solution}
+They are $0\to H^0(\mathcal F')\to H^0(\mathcal F)\to H^0(\mathcal F'')\to H^1(\mathcal F')\to H^1(\mathcal F)\to H^1(\mathcal F'')$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-08}
+If $H^1(X,\mathcal F')=0$, prove that every quotient section lifts globally.
+\end{exercise}
+\begin{hint}
+Read exactness at $H^0(\mathcal F'')$.
+\end{hint}
+\begin{solution}
+The connecting homomorphism has zero target, hence its kernel is all of $H^0(\mathcal F'')$; exactness identifies this kernel with the image of $H^0(\mathcal F)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-09}
+Show that every connecting map vanishes for a split exact sequence.
+\end{exercise}
+\begin{hint}
+Use the splitting to identify the middle sheaf with a direct sum.
+\end{hint}
+\begin{solution}
+Cohomology is additive on direct sums, so the long exact sequence decomposes degreewise and no boundary is needed.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-10}
+Explain why a fixed \v{C}ech cover may fail to give a short exact sequence of cochain groups.
+\end{exercise}
+\begin{hint}
+A sheaf epimorphism only gives local lifts.
+\end{hint}
+\begin{solution}
+The map on sections over an intersection need not be surjective, so termwise exactness at $C^p$ can fail unless the cover is refined or a lifting hypothesis is imposed.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-11}
+Under the cover-lifting hypothesis, construct the \v{C}ech connecting map in degree $q$.
+\end{exercise}
+\begin{hint}
+Lift a cocycle, apply the differential, then descend to the kernel.
+\end{hint}
+\begin{solution}
+If $c''$ is a cocycle, choose a lift $c$ in the middle cochain group.  Since its image has zero differential, $\delta c$ lies in the kernel complex.  Its cohomology class is the connecting class.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-12}
+Prove naturality of the degree-zero connecting map using local lifts.
+\end{exercise}
+\begin{hint}
+Push the local lifts through a morphism of short exact sequences.
+\end{hint}
+\begin{solution}
+The pushed-forward lifts represent the image quotient section, and their differences are the images of the original kernel-valued differences.  Hence the two boundary classes correspond.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-13}
+Derive the short exact divisor sequence for an effective Cartier divisor.
+\end{exercise}
+\begin{hint}
+Use its invertible ideal sheaf.
+\end{hint}
+\begin{solution}
+The ideal sequence is $0\to\mathcal I_D\to\mathcal O_X\to\mathcal O_D\to0$, and $\mathcal I_D\cong\mathcal O_X(-D)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-14}
+Tensor the divisor sequence by a line bundle and justify exactness.
+\end{exercise}
+\begin{hint}
+Line bundles are locally free, hence flat.
+\end{hint}
+\begin{solution}
+Tensoring by a locally free rank-one sheaf preserves exactness, giving $0\to\mathcal L(-D)\to\mathcal L\to\mathcal L|_D\to0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-15}
+What obstruction controls extension of a section from $D$ to $X$?
+\end{exercise}
+\begin{hint}
+Look at the connecting map after $H^0(D,\mathcal L|_D)$.
+\end{hint}
+\begin{solution}
+The obstruction lies in $H^1(X,\mathcal L(-D))$.  The section extends exactly when its connecting class vanishes.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-16}
+For a $k$-rational point $p\in\PP^1$, derive $0\to\mathcal O(n-1)\to\mathcal O(n)\to k_p\to0$.
+\end{exercise}
+\begin{hint}
+Use $\mathcal O(-p)\cong\mathcal O(-1)$.
+\end{hint}
+\begin{solution}
+The point is an effective Cartier divisor of degree one.  Tensor its ideal sequence by $\mathcal O(n)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-17}
+Why is $H^q(\PP^1,k_p)=0$ for $q>0$?
+\end{exercise}
+\begin{hint}
+Recall VI/46.
+\end{hint}
+\begin{solution}
+A skyscraper sheaf is flabby, and flabby sheaves are acyclic.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-18}
+Use the point sequence to prove $H^1(\PP^1,\mathcal O(n))=0$ for $n\ge-1$, assuming the base case $n=-1$.
+\end{exercise}
+\begin{hint}
+For $n\ge0$, evaluation at $p$ is surjective.
+\end{hint}
+\begin{solution}
+Surjective evaluation kills the connecting map from $k$, so exactness gives $H^1(\mathcal O(n-1))\cong H^1(\mathcal O(n))$.  Induct from $H^1(\mathcal O(-1))=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-19}
+Use the same sequence to compute $\dim H^1(\mathcal O(-m))$ for $m\ge2$.
+\end{exercise}
+\begin{hint}
+For negative twists the $H^0$ groups vanish.
+\end{hint}
+\begin{solution}
+The sequence becomes $0\to k\to H^1(\mathcal O(-m))\to H^1(\mathcal O(-m+1))\to0$.  Starting from dimension zero at $-1$ gives dimension $m-1$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-20}
+Prove the dimension-shifting isomorphism when the middle sheaf is flabby.
+\end{exercise}
+\begin{hint}
+Insert the vanishing of the middle cohomology into the long exact sequence.
+\end{hint}
+\begin{solution}
+For $q\ge1$, the terms $H^q(\mathcal I)$ and $H^{q+1}(\mathcal I)$ vanish, forcing $H^q(\mathcal Q)\xrightarrow{\sim}H^{q+1}(\mathcal F)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-21}
+Interpret $H^1(\mathcal F)$ using a flabby embedding $0\to\mathcal F\to\mathcal I\to\mathcal Q\to0$.
+\end{exercise}
+\begin{hint}
+Read the sequence in degree zero.
+\end{hint}
+\begin{solution}
+One obtains $H^1(\mathcal F)\cong H^0(\mathcal Q)/\operatorname{im}H^0(\mathcal I)$, so first cohomology is a global lifting cokernel.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-22}
+Prove additivity of Euler characteristic from a long exact sequence.
+\end{exercise}
+\begin{hint}
+Use the alternating sum of dimensions in a finite exact sequence.
+\end{hint}
+\begin{solution}
+After truncating beyond the vanishing range, the long exact sequence is finite.  Its alternating dimension sum is zero, which rearranges to $\chi(\mathcal F)=\chi(\mathcal F')+\chi(\mathcal F'')$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-23}
+If two of three sheaves in a short exact sequence are acyclic, what can you infer about the third?
+\end{exercise}
+\begin{hint}
+Use the long exact sequence degree by degree; distinguish the possible pairs.
+\end{hint}
+\begin{solution}
+If the kernel and middle sheaves are acyclic, then the quotient is acyclic.  If the middle and quotient are acyclic, the kernel has vanishing cohomology in degrees $\ge2$, while $H^1$ is controlled by failure of surjectivity on global sections.  The exact sequence records the precise statement.
+\end{solution}
+
+\begin{exercise}\label{exr:vi48-24}
+Explain why VI/49 can turn a long exact sequence into a practical calculation.
+\end{exercise}
+\begin{hint}
+Vanishing removes many neighboring terms.
+\end{hint}
+\begin{solution}
+When adjacent higher cohomology groups vanish, exactness forces maps to be injective, surjective, or isomorphisms, converting the long sequence into short exact pieces and dimension formulas.
+\end{solution}
+
+\section{Solved problem dossiers}
+\begin{problem}\label{prob:vi48-01}
+A quotient section is locally liftable but not globally liftable.  Show how to construct its obstruction class and prove independence of all choices.
+\end{problem}
+\begin{solution}
+Choose local lifts, take pairwise differences in the kernel, verify the cocycle identity, and compare two choices of lifts.  The difference of the two cocycles is a coboundary, so the class is canonical.  Its vanishing is exactly the condition that corrected local lifts glue globally.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-02}
+Given a morphism between two short exact sequences, prove that the degree-zero connecting homomorphisms commute without using resolutions.
+\end{problem}
+\begin{solution}
+Choose local lifts of a quotient section in the upper sequence.  Apply the middle vertical map to those lifts.  Their differences are carried by the left vertical map to the differences of the pushed-forward lifts, so the resulting \v{C}ech classes commute.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-03}
+Let $D$ be an effective Cartier divisor and $\mathcal L$ a line bundle.  Formulate and prove an extension criterion for a section of $\mathcal L|_D$.
+\end{problem}
+\begin{solution}
+The sequence $0\to\mathcal L(-D)\to\mathcal L\to\mathcal L|_D\to0$ gives a boundary into $H^1(X,\mathcal L(-D))$.  Exactness says the section extends if and only if its boundary is zero.  In particular, vanishing of that $H^1$ makes every section extend.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-04}
+Recover the formula $h^1(\PP^1,\mathcal O(n))=\max\{-n-1,0\}$ using only the point sequence and the base case $H^1(\mathcal O(-1))=0$.
+\end{problem}
+\begin{solution}
+For $n\ge0$, evaluation is onto and $H^1$ is unchanged.  For $n<0$, both $H^0$ groups vanish and each downward step adds a one-dimensional copy of $k$.  This yields zero for $n\ge-1$ and $-n-1$ for $n\le-2$.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-05}
+Show that a split short exact sequence has zero obstruction maps in every degree and identify its long exact sequence.
+\end{problem}
+\begin{solution}
+The splitting identifies $\mathcal F$ with $\mathcal F'\oplus\mathcal F''$.  Cohomology is additive, so each degree gives $0\to H^q(\mathcal F')\to H^q(\mathcal F'\oplus\mathcal F'')\to H^q(\mathcal F'')\to0$, and all connecting maps vanish.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-06}
+Let $0\to\mathcal F\to\mathcal I\to\mathcal Q\to0$ with $\mathcal I$ flabby.  Express all higher cohomology of $\mathcal F$ in terms of $\mathcal Q$.
+\end{problem}
+\begin{solution}
+For $q\ge1$, use $H^q(\mathcal I)=0$ on both sides of the boundary.  One gets $H^{q+1}(\mathcal F)\cong H^q(\mathcal Q)$.  Iterating through a flabby resolution turns higher cohomology into successive global-section cokernels.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-07}
+On a Leray cover for a short exact sequence, show that the connecting map computed in \v{C}ech cohomology agrees with the derived sheaf-cohomology boundary.
+\end{problem}
+\begin{solution}
+Termwise surjectivity gives a short exact sequence of \v{C}ech complexes.  The boundary is therefore the lift--differentiate--descend construction.  Leray comparison gives natural isomorphisms from these \v{C}ech groups to sheaf cohomology, and naturality of comparison makes the square with the two boundaries commute.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-08}
+Assume $H^1(X,\mathcal L(-D))=0$ for an effective Cartier divisor $D$.  Determine the kernel and cokernel of $H^0(X,\mathcal L)\to H^0(D,\mathcal L|_D)$.
+\end{problem}
+\begin{solution}
+The kernel is $H^0(X,\mathcal L(-D))$ by left exactness.  The vanishing hypothesis makes the restriction map surjective, so its cokernel is zero.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-09}
+Let $0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0$ be exact and suppose $\mathcal F'$ and $\mathcal F$ are acyclic.  Prove that $\mathcal F''$ is acyclic and that global sections form a short exact sequence.
+\end{problem}
+\begin{solution}
+The target of the first boundary is $H^1(\mathcal F')=0$, so global sections are surjective.  In every positive degree, the neighboring groups of $\mathcal F'$ and $\mathcal F$ vanish, forcing $H^q(\mathcal F'')=0$.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-10}
+Use Euler-characteristic additivity and the point sequence on $\PP^1$ to show $\chi(\mathcal O(n))=\chi(\mathcal O(n-1))+1$.
+\end{problem}
+\begin{solution}
+The skyscraper sheaf $k_p$ has Euler characteristic one.  Additivity for $0\to\mathcal O(n-1)\to\mathcal O(n)\to k_p\to0$ gives the recurrence immediately.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-11}
+Explain why a sheaf epimorphism can fail to be onto on sections and show how the first connecting homomorphism measures exactly that failure.
+\end{problem}
+\begin{solution}
+A sheaf epimorphism guarantees local, not global, lifts.  Exactness gives $\operatorname{coker}[H^0(\mathcal F)\to H^0(\mathcal F'')]\cong\operatorname{im}\delta\subseteq H^1(\mathcal F')$.  Thus the nonliftable quotient sections are precisely those with nonzero obstruction classes.
+\end{solution}
+
+\begin{problem}\label{prob:vi48-12}
+For the principal-parts sequence $0\to\mathcal O_X\to\mathcal O_X(D)\to\mathcal O_X(D)|_D\to0$, interpret the connecting homomorphism geometrically.
+\end{problem}
+\begin{solution}
+A section of the quotient specifies local polar data along $D$.  Local meromorphic functions realizing those poles differ on overlaps by regular functions.  Their difference cocycle lies in $\mathcal O_X$ and is the obstruction to gluing the local meromorphic functions to one global section of $\mathcal O_X(D)$.
+\end{solution}
+
+\section{Challenges}
+\begin{problem}[Challenge]\label{chal:vi48-01}
+Prove the long exact sequence directly from a short exact sequence of cochain complexes and then explain precisely where injective or flabby resolutions enter for sheaves.
+\end{problem}
+\begin{solution}
+For complexes, define the boundary by lift--differentiate--descend and verify well-definedness, exactness, and naturality.  For sheaves, use compatible injective resolutions so that global sections produce a short exact sequence of complexes; then apply the complex-level theorem.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi48-02}
+Develop the $3\times3$ lemma consequences for cohomology by arranging three compatible short exact sequences and comparing their connecting maps.
+\end{problem}
+\begin{solution}
+Build the induced commutative ladders in cohomology and use naturality.  The compatibility of boundaries is a cohomological shadow of the $3\times3$ diagram and can be checked at the level of chosen resolutions.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi48-03}
+On a smooth projective curve, use the point exact sequence\[0\to\mathcal L(-p)\to\mathcal L\to\mathcal L|_p\to0\]to analyze how $h^0$ and $h^1$ change when one point is added to a divisor.
+\end{problem}
+\begin{solution}
+The long exact sequence shows that adding a point either increases $h^0$ by one or decreases the relevant obstruction dimension by one, depending on whether evaluation at the point is surjective.  Iterating this observation is a precursor to Riemann--Roch arguments.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi48-04}
+Construct an explicit example where a fixed open cover does not give termwise surjectivity for a sheaf epimorphism, then refine the cover until local lifts exist.
+\end{problem}
+\begin{solution}
+Choose a quotient section that has local but no global lift.  On the coarse open containing the obstruction, the section map is not onto.  By the definition of sheaf epimorphism, every point has a neighborhood carrying a lift; these neighborhoods form the required refinement.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi48-05}
+Show how repeated dimension shifting along a flabby resolution identifies $H^n(X,\mathcal F)$ with a first cohomology group of a successive cokernel, and explain why this viewpoint is useful for vanishing proofs.
+\end{problem}
+\begin{solution}
+At each step $0\to\mathcal Q^{r}\to\mathcal I^{r}\to\mathcal Q^{r+1}\to0$, flabbiness yields $H^{q+1}(\mathcal Q^r)\cong H^q(\mathcal Q^{r+1})$ for $q\ge1$.  Iterating reduces $H^n(\mathcal F)$ to $H^1(\mathcal Q^{n-1})$, where a global lifting criterion can sometimes force vanishing.
+\end{solution}
+
