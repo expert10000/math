@@ -1,0 +1,1128 @@
+\chapter{Blow-Ups}
+\label{ch:vi45-blow-ups}
+\providecommand{\Bl}{\operatorname{Bl}}
+\providecommand{\Exc}{\operatorname{Exc}}
+\providecommand{\mult}{\operatorname{mult}}
+\providecommand{\ord}{\operatorname{ord}}
+
+VI/44 ended with a symbolic calculation.  For the standard quadratic Cremona transformation
+\[
+  \begin{aligned}
+  \sigma:\PP^2&\dashrightarrow\PP^2,\\
+  [x:y:z]&\longmapsto[yz:xz:xy].
+  \end{aligned}
+\]
+the pullback of a general target line behaves numerically like
+\[
+  2H-E_1-E_2-E_3.
+\]
+The symbols \(E_i\) were deliberately left unexplained: the plane itself contains no such divisors.  The present chapter constructs the surface on which they become genuine curves.
+
+A \emph{blow-up} replaces a subvariety by the projectivized family of normal directions along it.  For a point on a smooth surface this is especially concrete.  The point disappears and is replaced by a copy of \(\PP^1\), one point for each tangent direction through the original center.  This exceptional curve remembers precisely the directional data that a rational map loses at a base point.
+
+For the origin of \(\mathbb A^2\), the blow-up is the incidence surface
+\[
+  \widetilde{\mathbb A^2}
+  =\bigl\{((x,y),[s:t])\in\mathbb A^2\times\PP^1:xt=ys\bigr\}.
+\]
+Away from \((0,0)\), the direction \([s:t]=[x:y]\) is forced, so the projection to \(\mathbb A^2\) is an isomorphism.  Over the origin, the equation becomes \(0=0\), leaving the whole \(\PP^1\).  The blow-up therefore changes nothing away from the center but separates all directions through it.
+
+The chapter develops this local model first, then gives the intrinsic Rees-algebra construction
+\[
+  \Bl_ZX=\Proj_X\!\left(\bigoplus_{n\ge0}\IIcal_Z^n\right).
+\]
+After that, strict transforms and multiplicities turn local equations into divisor formulas.  For the blow-up of \(\PP^2\) at a point,
+\[
+  \Pic(\Bl_p\PP^2)\cong\ZZ H\oplus\ZZ E,
+\]
+with
+\[
+  H^2=1,\qquad H\cdot E=0,\qquad E^2=-1.
+\]
+Finally we blow up the three base points of \(\sigma\).  The rational map becomes regular, the symbolic classes \(E_i\) become actual exceptional divisors, and the degree formula from VI/44 becomes an intersection calculation on the resolved surface.
+
+\section*{Standing conventions}
+Unless stated otherwise, \(k\) is an algebraically closed field.  Surfaces are integral, separated, and of finite type over \(k\).  When local coordinates at a smooth point are used, the completed or local ring is regular of dimension two.  The blow-up of an ideal sheaf \(\IIcal\) means the relative Proj of its Rees algebra.  For a curve \(C\) through a blown-up point, \(\widetilde C\) denotes its strict transform, while \(\pi^*C\) denotes its total transform as a Cartier divisor whenever this notation is defined.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item construct the blow-up of \(\mathbb A^2\) at the origin as an incidence subvariety of \(\mathbb A^2\times\PP^1\);
+\item compute the two standard affine charts of this blow-up and their transition map;
+\item identify the exceptional divisor with \(\PP^1\) and interpret its points as tangent directions;
+\item define \(\Bl_ZX\) intrinsically using the Rees algebra of the ideal sheaf of \(Z\);
+\item prove that the blow-up is an isomorphism away from its center;
+\item use the universal property of blow-ups when an ideal becomes invertible;
+\item distinguish total transform, strict transform, and exceptional components;
+\item factor a curve equation after blow-up using its multiplicity at the center;
+\item recover tangent-cone directions from the intersection \(\widetilde C\cap E\);
+\item see explicitly how a blow-up separates the two branches of an ordinary node;
+\item compute divisor classes on \(\Bl_p\PP^2\);
+\item derive \(H^2=1\), \(H\cdot E=0\), and \(E^2=-1\);
+\item prove that a degree-\(d\) plane curve of multiplicity \(m\) has strict-transform class \(dH-mE\);
+\item understand the canonical-divisor correction \(K_{\widetilde X}=\pi^*K_X+E\) for a point blow-up of a smooth surface;
+\item compute the Picard group and intersection form after blowing up several distinct points;
+\item resolve the three base points of the standard quadratic Cremona transformation;
+\item identify the strict transforms of the coordinate lines as the curves contracted by the resolved map;
+\item compute the lifted Cremona action on \(H,E_1,E_2,E_3\);
+\item recover the degree and multiplicity formulas of VI/44 from the intersection lattice;
+\item explain how repeated blow-ups create and resolve infinitely near base points.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\begin{gathered}
+\text{point}\rightsquigarrow\PP^1\text{ of directions}
+\Longrightarrow
+\text{strict transforms}\\[0.3em]
+\Longrightarrow
+\Pic\text{ and intersections}
+\Longrightarrow
+\text{resolved Cremona map}
+\end{gathered}}
+\]
+\input{chapters/ch45_blow_ups/figures/figure_01}
+
+\section{Blowing up the affine plane at the origin}
+
+We begin with the local model that controls every blow-up of a smooth surface at a point.
+
+\begin{definition}[Incidence model of the point blow-up]\label{def:vi45-incidence-blowup}
+The blow-up of \(\mathbb A^2=\Spec k[x,y]\) at the origin is
+\[
+  \Bl_0\mathbb A^2
+  :=\bigl\{((x,y),[s:t])\in\mathbb A^2\times\PP^1:xt=ys\bigr\}.
+\]
+The projection onto the first factor is denoted
+\[
+  \pi:\Bl_0\mathbb A^2\longrightarrow\mathbb A^2.
+\]
+\end{definition}
+
+The equation says that \([s:t]\) records the direction of the vector \((x,y)\).  If \((x,y)\neq(0,0)\), then \([s:t]=[x:y]\) is uniquely determined.  Over the origin there is no constraint on \([s:t]\).
+
+\begin{proposition}[The two affine charts]
+The blow-up \(\Bl_0\mathbb A^2\) is covered by two affine planes.
+
+On \(s\neq0\), write \(u=t/s\).  Then
+\[
+  y=xu,
+\]
+so this chart has coordinates \((x,u)\) and projection
+\[
+  (x,u)\longmapsto(x,xu).
+\]
+On \(t\neq0\), write \(v=s/t\).  Then
+\[
+  x=yv,
+\]
+so this chart has coordinates \((v,y)\) and projection
+\[
+  (v,y)\longmapsto(yv,y).
+\]
+On the overlap, \(u=v^{-1}\) and \(y=xu\).
+\end{proposition}
+
+\begin{proof}
+On \(s\neq0\), divide the incidence equation \(xt=ys\) by \(s\) to obtain \(xu=y\).  Thus \(y\) is eliminated and the chart is \(\Spec k[x,u]\).  The second chart is symmetric.  Where both \(s,t\neq0\), one has \(u=t/s\) and \(v=s/t\), hence \(uv=1\).
+\end{proof}
+
+\begin{definition}[Exceptional divisor]\label{def:vi45-exceptional-divisor}
+The inverse image of the center,
+\[
+  E:=\pi^{-1}(0),
+\]
+is the \emph{exceptional divisor}.  In the incidence model it is
+\[
+  E=\{(0,0)\}\times\PP^1\cong\PP^1.
+\]
+\end{definition}
+
+In the \((x,u)\)-chart, \(E\) is the divisor \(x=0\); in the \((v,y)\)-chart, it is \(y=0\).  The coordinate \(u\) records the slope \(y/x\), while \(v\) records the reciprocal slope.  The two charts on \(E\) are exactly the two standard affine charts of \(\PP^1\).
+
+\input{chapters/ch45_blow_ups/figures/figure_02}
+
+\section{Why the exceptional divisor is a space of directions}
+
+Fix a line through the origin,
+\[
+  L_a:\ y=ax.
+\]
+In the \((x,u)\)-chart its inverse image is defined by
+\[
+  x(u-a)=0.
+\]
+This equation has two components: the exceptional divisor \(x=0\) and the closure \(u=a\) of the inverse image of \(L_a\setminus\{0\}\).  The latter is the strict transform of the line.  It meets \(E\) at the single point \((x,u)=(0,a)\), so the point of \(E\) records the direction of \(L_a\).
+
+\begin{proposition}[Blow-up is unchanged off the center]\label{prop:vi45-isomorphism-off-center}
+The restriction
+\[
+  \pi:\Bl_0\mathbb A^2\setminus E\longrightarrow\mathbb A^2\setminus\{0\}
+\]
+is an isomorphism.
+\end{proposition}
+
+\begin{proof}
+The inverse sends \((x,y)\neq(0,0)\) to \(((x,y),[x:y])\).  This map is regular on the standard opens \(x\neq0\) and \(y\neq0\), and the two formulas agree on their overlap.
+\end{proof}
+
+Thus a blow-up is not a local surgery that destroys the surrounding surface.  It is a birational modification supported exactly at the center.
+
+\input{chapters/ch45_blow_ups/figures/figure_03}
+
+\section{The intrinsic Rees-algebra construction}
+
+The incidence equation is not the definition in general.  Let \(X\) be a scheme and \(Z\subset X\) a closed subscheme with quasi-coherent ideal sheaf \(\IIcal\).  The graded \(\OO_X\)-algebra
+\[
+  \mathcal R(\IIcal)
+  :=\OO_X\oplus\IIcal\oplus\IIcal^2\oplus\cdots
+\]
+is the \emph{Rees algebra} of \(\IIcal\).  Here the summand \(\IIcal^n\) is placed in degree \(n\).
+
+\begin{definition}[Blow-up along a closed subscheme]\label{def:vi45-rees-blowup}
+The blow-up of \(X\) along \(Z\) is
+\[
+  \Bl_ZX:=\Proj_X\mathcal R(\IIcal),
+\]
+with its canonical projective morphism
+\[
+  \pi:\Bl_ZX\longrightarrow X.
+\]
+\end{definition}
+
+For an affine scheme \(X=\Spec A\) and ideal \(I\subset A\), this is the ordinary Proj of the graded Rees algebra
+\[
+  A[It]=A\oplus It\oplus I^2t^2\oplus\cdots\subset A[t].
+\]
+If \(I=(f_0,\ldots,f_r)\), the blow-up comes with a natural closed immersion into \(X\times\PP^r\), and the projective coordinates record the ratios of the generators of \(I\).  For \(I=(x,y)\), this recovers \(xt=ys\).
+
+\begin{theorem}[Universal property of the blow-up]\label{thm:vi45-universal-property}
+Let \(\pi:\Bl_ZX\to X\) be the blow-up of the ideal sheaf \(\IIcal\).  If \(f:Y\to X\) is a morphism such that
+\[
+  \IIcal\OO_Y
+\]
+is an invertible ideal sheaf on \(Y\), then there is a unique morphism
+\[
+  \widetilde f:Y\longrightarrow\Bl_ZX
+\]
+with \(f=\pi\circ\widetilde f\).
+\end{theorem}
+
+\begin{proof}
+An invertible quotient of the pullback of the degree-one piece of the Rees algebra determines, by the universal property of relative Proj, a morphism to \(\Proj_X\mathcal R(\IIcal)\).  The construction is forced by the invertible ideal \(\IIcal\OO_Y\), giving uniqueness.
+\end{proof}
+
+This property explains why blow-ups resolve base ideals: after blowing up the ideal, the ideal becomes locally principal and therefore defines a line bundle rather than an indeterminate ratio.
+
+\section{Total transforms and strict transforms}
+
+Let \(\pi:\widetilde X\to X\) be the blow-up of a smooth surface at a point \(p\), with exceptional divisor \(E\).  If \(C\subset X\) is a curve, two different transforms appear.
+
+\begin{definition}[Total and strict transforms]\label{def:vi45-transforms}
+The \emph{total transform} of a Cartier divisor \(C\) is the pullback divisor \(\pi^*C\).  The \emph{strict transform} \(\widetilde C\) is the closure in \(\widetilde X\) of
+\[
+  \pi^{-1}(C\setminus\{p\}).
+\]
+\end{definition}
+
+The total transform usually contains the exceptional divisor; the strict transform removes that forced exceptional component.
+
+Suppose local parameters at \(p\) are \(x,y\), and \(C\) has local equation
+\[
+  f(x,y)=f_m(x,y)+f_{m+1}(x,y)+\cdots,
+\]
+where \(f_j\) is homogeneous of degree \(j\) and \(f_m\neq0\).  Then \(m=\mult_p(C)\).
+
+\begin{proposition}[Multiplicity becomes exceptional multiplicity]\label{prop:vi45-total-transform-formula}
+With the preceding notation,
+\[
+  \boxed{\pi^*C=\widetilde C+mE.}
+\]
+In the chart \(y=xu\), one has
+\[
+  f(x,xu)=x^m\bigl(f_m(1,u)+x f_{m+1}(1,u)+\cdots\bigr).
+\]
+The factor \(x^m\) is the exceptional component of the total transform.
+\end{proposition}
+
+\begin{proof}
+Every monomial of total degree at least \(m\) acquires at least a factor \(x^m\) after substituting \(y=xu\), and the degree-\(m\) part contributes exactly \(x^m f_m(1,u)\).  Since \(x=0\) defines \(E\) in this chart, the order along \(E\) is \(m\).  Removing that factor gives the local equation of the strict transform.
+\end{proof}
+
+\begin{proposition}[Tangent cone on the exceptional divisor]\label{prop:vi45-tangent-cone}
+In the chart \(y=xu\), the intersection \(\widetilde C\cap E\) is cut out by
+\[
+  f_m(1,u)=0.
+\]
+Thus the points where \(\widetilde C\) meets \(E\), counted with multiplicity and completed by the second chart, are exactly the projective tangent directions of \(C\) at \(p\).
+\end{proposition}
+
+\begin{proof}
+The strict-transform equation is the factor in parentheses above.  Restricting to \(E\), where \(x=0\), leaves \(f_m(1,u)=0\).  Homogenizing across the two charts gives the zero scheme of the tangent cone \(f_m(s,t)\) in \(\PP^1\).
+\end{proof}
+
+\input{chapters/ch45_blow_ups/figures/figure_04}
+
+\section{Blowing up singular plane curves}
+
+The tangent-cone proposition gives an immediate geometric use of blow-ups.  If a curve has several tangent directions at a singular point, those directions become different points of the exceptional divisor.
+
+For example, consider an ordinary node whose quadratic tangent cone factors into two distinct lines.  The two branches of the strict transform meet \(E\) at two distinct points, so the blow-up separates them.  For the cusp
+\[
+  C:y^2=x^3,
+\]
+the chart \(y=xu\) gives
+\[
+  x^2(u^2-x)=0.
+\]
+The strict transform \(u^2=x\) is smooth, but it meets \(E:x=0\) with multiplicity two.  Thus one blow-up removes the singularity of the curve while still remembering its high-order tangency to the exceptional divisor.
+
+\begin{proposition}[Ordinary multiple points separate by direction]
+Suppose the tangent cone of a plane curve singularity of multiplicity \(m\) is a product of \(m\) distinct linear forms.  Then after blowing up the singular point, the strict transform meets the exceptional divisor in \(m\) distinct points.  In particular, the local branches are separated at the first blow-up.
+\end{proposition}
+
+\begin{proof}
+By Proposition~\ref{prop:vi45-tangent-cone}, the intersection with \(E\) is the projectivized zero set of the tangent cone.  Distinct linear factors give distinct points of \(\PP^1\).
+\end{proof}
+
+This is the first glimpse of embedded resolution: repeated blow-ups can replace a complicated singular curve by a configuration of smooth strict transforms and exceptional curves with controlled intersections.
+
+\section{The Picard group of the blown-up plane}
+
+Now let
+\[
+  \pi:S=\Bl_p\PP^2\longrightarrow\PP^2
+\]
+be the blow-up of a point.  Write
+\[
+  H:=\pi^*[\text{line}],
+\]
+and let \(E\) be the exceptional divisor.
+
+\begin{theorem}[Picard group after one point blow-up]\label{thm:vi45-picard-one-point}
+There is an isomorphism
+\[
+  \Pic(S)\cong\ZZ H\oplus\ZZ E.
+\]
+Every divisor class on \(S\) can be written uniquely as
+\[
+  dH-mE,
+\qquad d,m\in\ZZ.
+\]
+\end{theorem}
+
+\begin{proof}
+A divisor on \(S\) not supported on \(E\) pushes forward to a divisor on \(\PP^2\), whose class is a multiple of a line.  Subtracting the pullback of that class leaves a divisor supported on \(E\), hence an integral multiple of \(E\).  Uniqueness follows from the intersection numbers computed below: if \(dH+mE\sim0\), intersecting first with \(H\) gives \(d=0\), and then with \(E\) gives \(m=0\).
+\end{proof}
+
+\begin{theorem}[Intersection form]\label{thm:vi45-intersection-form}
+On \(S=\Bl_p\PP^2\),
+\[
+  \boxed{H^2=1,\qquad H\cdot E=0,\qquad E^2=-1.}
+\]
+Consequently
+\[
+  (dH-mE)\cdot(d'H-m'E)=dd'-mm'.
+\]
+\end{theorem}
+
+\begin{proof}
+Choose a line in \(\PP^2\) avoiding \(p\).  Its inverse image is isomorphic to the line and does not meet \(E\), so \(H\cdot E=0\).  Two general such lines meet once, giving \(H^2=1\).
+
+Now choose two distinct lines through \(p\).  Their strict transforms are disjoint because their only intersection downstairs was \(p\), and on the blow-up they meet \(E\) at two different direction points.  Each strict transform has class \(H-E\).  Hence
+\[
+  0=(H-E)^2=H^2-2H\cdot E+E^2=1+E^2,
+\]
+so \(E^2=-1\).
+\end{proof}
+
+\begin{proposition}[Class of a strict transform]\label{prop:vi45-strict-class}
+Let \(C\subset\PP^2\) be a degree-\(d\) curve with multiplicity \(m\) at \(p\), and assume \(C\) does not contain an exceptional artifact because it lives downstairs.  Then
+\[
+  [\widetilde C]=dH-mE.
+\]
+Moreover,
+\[
+  \widetilde C\cdot E=m.
+\]
+\end{proposition}
+
+\begin{proof}
+Downstairs, \([C]=d[\text{line}]\), so \(\pi^*C\sim dH\).  Proposition~\ref{prop:vi45-total-transform-formula} gives \(\pi^*C=\widetilde C+mE\), hence \([\widetilde C]=dH-mE\).  Intersecting with \(E\) yields
+\[
+  (dH-mE)\cdot E=m.
+\]
+\end{proof}
+
+The final equality is a global version of the tangent-cone calculation: the total number of tangent directions, counted with multiplicity, is the multiplicity of the original curve at the blown-up point.
+
+\section{Canonical divisors and the exceptional correction}
+
+Blow-ups also change canonical divisors in a controlled way.  Let \(\pi:\widetilde X\to X\) blow up a smooth point of a smooth surface.
+
+\begin{theorem}[Canonical divisor under a point blow-up]\label{thm:vi45-canonical-class}
+If \(E\) is the exceptional divisor, then
+\[
+  \boxed{K_{\widetilde X}=\pi^*K_X+E.}
+\]
+For \(S=\Bl_p\PP^2\), this becomes
+\[
+  K_S=-3H+E.
+\]
+\end{theorem}
+
+\begin{proof}
+Take local coordinates \((x,y)\) at the center.  On the blow-up chart \(y=xu\),
+\[
+  dx\wedge dy
+  =dx\wedge(u\,dx+x\,du)
+  =x\,dx\wedge du.
+\]
+Thus the pullback of a local generator of the canonical bundle vanishes to order one along \(E:x=0\).  This gives the discrepancy \(+E\).  Since \(K_{\PP^2}=-3[\text{line}]\), the displayed formula follows for the blown-up plane.
+\end{proof}
+
+The coefficient \(+1\) is one of the simplest examples of a discrepancy in birational geometry.  Here it is visible directly from the Jacobian of the chart substitution.
+
+\section{Blowing up three noncollinear points}
+
+Return to the three coordinate points
+\[
+  p_1=[1:0:0],\qquad p_2=[0:1:0],\qquad p_3=[0:0:1].
+\]
+Let
+\[
+  \pi:S=\Bl_{p_1,p_2,p_3}\PP^2\longrightarrow\PP^2
+\]
+be the blow-up of all three points.  Since the centers are distinct, the order of these three blow-ups does not matter up to canonical isomorphism.  Let \(E_i\) be the exceptional divisor over \(p_i\).
+
+\begin{theorem}[Picard lattice after three point blow-ups]\label{thm:vi45-three-point-lattice}
+The Picard group is
+\[
+  \Pic(S)\cong\ZZ H\oplus\ZZ E_1\oplus\ZZ E_2\oplus\ZZ E_3,
+\]
+with intersection form
+\[
+  H^2=1,\qquad H\cdot E_i=0,\qquad E_i\cdot E_j=0\ (i\neq j),
+  \qquad E_i^2=-1.
+\]
+If \(C\) has degree \(d\) and multiplicities \(m_i\) at the three points, then
+\[
+  [\widetilde C]=dH-m_1E_1-m_2E_2-m_3E_3.
+\]
+\end{theorem}
+
+\begin{proof}
+Apply the one-point statement successively.  Because later blow-up centers do not lie on the earlier exceptional divisors, the exceptional curves remain pairwise disjoint and retain self-intersection \(-1\).  The strict-transform formula is likewise obtained by subtracting the multiplicity at each center.
+\end{proof}
+
+Let \(L_x=V_+(x)\), \(L_y=V_+(y)\), \(L_z=V_+(z)\).  Their strict transforms have classes
+\[
+  \widetilde L_x=H-E_2-E_3,
+  \qquad
+  \widetilde L_y=H-E_1-E_3,
+  \qquad
+  \widetilde L_z=H-E_1-E_2.
+\]
+Each has self-intersection \(-1\), and the three are pairwise disjoint on \(S\).
+
+\input{chapters/ch45_blow_ups/figures/figure_05}
+
+\section{Resolving the standard quadratic transformation}
+
+The standard Cremona map is defined by the net
+\[
+  \langle yz,xz,xy\rangle.
+\]
+Every member is a conic through \(p_1,p_2,p_3\), so after blowing up those base points the corresponding divisor class is
+\[
+  D=2H-E_1-E_2-E_3.
+\]
+The key point is that the proper transform of this linear system has no base points.
+
+\begin{theorem}[Resolution of the standard Cremona map]\label{thm:vi45-resolve-cremona}
+Let \(S=\Bl_{p_1,p_2,p_3}\PP^2\).  The rational map
+\[
+  \sigma[x:y:z]=[yz:xz:xy]
+\]
+lifts to a morphism
+\[
+  \widetilde\sigma:S\longrightarrow\PP^2
+\]
+defined by the base-point-free linear system \(|2H-E_1-E_2-E_3|\).
+
+For each \(i\), the exceptional divisor \(E_i\) maps isomorphically onto the coordinate line opposite \(p_i\), while each strict transform \(\widetilde L_x,\widetilde L_y,\widetilde L_z\) is contracted to the corresponding coordinate point.
+\end{theorem}
+
+\begin{proof}
+Near \(p_1\), use affine coordinates \(u=y/x\), \(v=z/x\).  Then
+\[
+  \sigma[1:u:v]=[uv:v:u].
+\]
+On the blow-up chart \(v=ut\), this becomes
+\[
+  [u^2t:ut:u]=[ut:t:1],
+\]
+which is regular even at \(u=0\).  On \(E_1\), where \(u=0\), the image is \([0:t:1]\), varying along the target line \(X=0\).  The complementary blow-up chart covers the missing point of that line.  Thus the indeterminacy at \(p_1\) is removed and \(E_1\) maps isomorphically to \(X=0\).  The same calculation applies cyclically at \(p_2,p_3\).
+
+Away from the base points the blow-up is an isomorphism and the map agrees with \(\sigma\), so these local extensions glue to a global morphism.  Finally, on \(L_x\setminus\{p_2,p_3\}\), one has \(\sigma=[1:0:0]=p_1\), so \(\widetilde L_x\) is contracted to \(p_1\), and similarly for the other two coordinate lines.
+\end{proof}
+
+There is a numerical check.  Since
+\[
+  D\cdot E_i=1,
+\]
+the map has degree one on each \(E_i\).  Meanwhile
+\[
+  D\cdot(H-E_2-E_3)=2-1-1=0,
+\]
+so \(\widetilde L_x\) is contracted, exactly as the coordinate calculation shows.
+
+\input{chapters/ch45_blow_ups/figures/figure_06}
+
+\section{The lifted Cremona involution on the blown-up surface}
+
+The morphism \(\widetilde\sigma:S\to\PP^2\) still contracts three curves.  Blow up the three target coordinate points as well.  Because the original Cremona map is an involution, the source and target blow-ups are naturally isomorphic, and the rational involution becomes a genuine automorphism
+\[
+  \widehat\sigma:S\xrightarrow{\sim}S.
+\]
+It exchanges exceptional divisors with strict transforms of opposite coordinate lines.
+
+\begin{theorem}[Cremona action on the Picard lattice]\label{thm:vi45-cremona-picard-action}
+For the lifted involution \(\widehat\sigma\), the pullback action on \(\Pic(S)\) is
+\[
+\begin{aligned}
+  H&\longmapsto 2H-E_1-E_2-E_3,\\
+  E_1&\longmapsto H-E_2-E_3,\\
+  E_2&\longmapsto H-E_1-E_3,\\
+  E_3&\longmapsto H-E_1-E_2.
+\end{aligned}
+\]
+This linear transformation is an involution and preserves the intersection form.
+\end{theorem}
+
+\begin{proof}
+A general target line pulls back to a conic through all three source base points, giving the first formula.  The target exceptional divisor over \(p_1\) pulls back to the strict transform of the source line \(x=0\), because that line was contracted to \(p_1\); this gives the second formula, and the remaining two are cyclic.
+
+Applying the transformation twice to the basis returns each basis element.  Preservation of the intersection form can be checked on the basis using
+\[
+  H^2=1,\qquad E_i^2=-1,
+\]
+and all mixed products zero.  Geometrically, it must also preserve intersections because \(\widehat\sigma\) is an automorphism.
+\end{proof}
+
+\begin{proposition}[Degree and multiplicity transformation]\label{prop:vi45-degree-multiplicity-action}
+Let a curve have strict-transform class
+\[
+  C\sim dH-m_1E_1-m_2E_2-m_3E_3,
+\]
+and suppose it contains none of the three coordinate lines as a component.  Then its noncontracted Cremona transform has coefficients
+\[
+\boxed{\begin{aligned}
+  d'&=2d-m_1-m_2-m_3,\\
+  m_1'&=d-m_2-m_3,\\
+  m_2'&=d-m_1-m_3,\\
+  m_3'&=d-m_1-m_2.
+\end{aligned}}
+\]
+In particular, the degree formula of VI/44 is the \(H\)-coefficient of the Picard-lattice action.
+\end{proposition}
+
+\begin{proof}
+Apply Theorem~\ref{thm:vi45-cremona-picard-action} to
+\[
+  dH-m_1E_1-m_2E_2-m_3E_3
+\]
+and collect coefficients of \(H,E_1,E_2,E_3\).  Since the transformation is involutive, the same formulas recover \((d,m_1,m_2,m_3)\) from the primed data.
+\end{proof}
+
+\input{chapters/ch45_blow_ups/figures/figure_07}
+
+\section{Blowing up a base ideal resolves a projective rational map}
+
+The Cremona calculation is a special case of a general mechanism.  Suppose \(X\) is integral and
+\[
+  \phi:X\dashrightarrow\PP^r
+\]
+is represented by sections \(f_0,\ldots,f_r\) of a line bundle after choosing a common twist.  Their common vanishing defines a base ideal \(\IIcal\).
+
+\begin{theorem}[Resolution by the base ideal]\label{thm:vi45-base-ideal-resolution}
+Let
+\[
+  \pi:\widetilde X=\Bl_{\IIcal}X\longrightarrow X
+\]
+be the blow-up of the base ideal of \(\phi=[f_0:\cdots:f_r]\).  Then the pullback ideal \(\IIcal\OO_{\widetilde X}\) is invertible, and the ratios of the pulled-back sections define a morphism
+\[
+  \widetilde\phi:\widetilde X\longrightarrow\PP^r
+\]
+that agrees with \(\phi\circ\pi\) over the original domain of definition.
+\end{theorem}
+
+\begin{proof}
+By construction of the blow-up, the pullback of the base ideal becomes the tautological invertible ideal.  Locally one generator of the ideal is chosen as a denominator on each standard Proj chart, and all ratios \(f_i/f_j\) become regular there.  These local projective-coordinate maps agree on overlaps and therefore glue to \(\widetilde\phi\).
+\end{proof}
+
+One should distinguish this statement from a complete resolution theorem.  Blowing up the base ideal resolves the given map to projective space, but when one wants a particularly smooth source or a factorization into point blow-ups, further normalization or repeated blow-ups may be required.
+
+\section{Infinitely near points and repeated blow-ups}
+
+After one blow-up, a transformed linear system can still have a base point on the exceptional divisor.  Such a point represents a direction at the original center and is not a point of the original surface.
+
+\begin{definition}[Infinitely near point]\label{def:vi45-infinitely-near}
+A point on an exceptional divisor created by a blow-up is called a point \emph{infinitely near} to the original center.  More generally, a point appearing on any surface obtained by a sequence of blow-ups is infinitely near to its image on the original surface.
+\end{definition}
+
+If a strict transform still has a singularity or a linear system still has a base point there, one blows up again.  The new exceptional divisor records directions through the infinitely near point.  Iterating produces a tree of exceptional curves whose intersection pattern records the history of the resolution.
+
+For plane curve singularities this process leads toward embedded resolution.  For plane Cremona maps it leads to the complete cluster of proper and infinitely near base points.  The elementary three-proper-point quadratic transformation is the first nontrivial case where the entire process terminates after one blow-up at each base point.
+
+\input{chapters/ch45_blow_ups/figures/figure_08}
+
+\section{Exceptional curves and blow-downs}
+
+A point blow-up introduces a smooth rational curve \(E\cong\PP^1\) with self-intersection \(-1\).  Conversely, under suitable hypotheses a smooth rational \((-1)\)-curve on a smooth surface can be contracted to a smooth point.  This is the geometric inverse of blowing up.
+
+For the resolved Cremona transformation, this inverse viewpoint is essential.  Starting from
+\[
+  S=\Bl_{p_1,p_2,p_3}\PP^2,
+\]
+one can obtain the target plane by contracting the three disjoint \((-1)\)-curves
+\[
+  \widetilde L_x,
+  \qquad
+  \widetilde L_y,
+  \qquad
+  \widetilde L_z.
+\]
+Thus the standard quadratic transformation factors schematically as
+\[
+  \PP^2
+  \xleftarrow{\ \pi\ }
+  S
+  \xrightarrow{\ \widetilde\sigma\ }
+  \PP^2,
+\]
+where the left arrow blows up three points and the right arrow blows down three different curves.
+
+This factorization is the basic pattern of birational surface geometry: replace an indeterminate rational map by a diagram of honest morphisms, then study those morphisms through exceptional curves and the intersection lattice.
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vi45-01}
+Verify directly that \(\Bl_0\mathbb A^2\subset\mathbb A^2\times\PP^1\) is covered by two copies of \(\mathbb A^2\).
+\end{exercise}
+\begin{hint}Use the charts \(s\neq0\) and \(t\neq0\).
+\end{hint}
+\begin{solution}
+On \(s\neq0\), put \(u=t/s\); then the equation \(xt=ys\) becomes \(y=xu\), leaving free coordinates \((x,u)\).  On \(t\neq0\), put \(v=s/t\); then \(x=yv\), leaving \((v,y)\).  Each chart is therefore affine two-space.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-02}
+Show that the exceptional divisor is isomorphic to \(\PP^1\).
+\end{exercise}
+\begin{hint}Set \(x=y=0\) in the incidence equation.
+\end{hint}
+\begin{solution}
+Over the origin the equation \(xt=ys\) becomes \(0=0\), so the fiber is all of \([s:t]\in\PP^1\).  Hence \(E=\{0\}\times\PP^1\cong\PP^1\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-03}
+Find the strict transform of the line \(y=ax\) in the chart \(y=xu\).
+\end{exercise}
+\begin{hint}Factor the total-transform equation.
+\end{hint}
+\begin{solution}
+Substitution gives \(xu=ax\), or \(x(u-a)=0\).  The factor \(x=0\) is exceptional, so the strict transform is \(u=a\).  It meets \(E\) at \((0,a)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-04}
+Show that two distinct lines through the blown-up point have disjoint strict transforms.
+\end{exercise}
+\begin{hint}They met only at the center downstairs and meet different points of \(E\) upstairs.
+\end{hint}
+\begin{solution}
+Away from the center, the blow-up is an isomorphism, so there are no new intersections there.  On \(E\), each strict transform meets the point corresponding to its own tangent direction.  Distinct lines have distinct directions, hence the strict transforms are disjoint.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-05}
+For \(f(x,y)=y^2-x^3\), compute the strict transform in the chart \(y=xu\).
+\end{exercise}
+\begin{hint}Substitute and remove the maximal exceptional factor.
+\end{hint}
+\begin{solution}
+One gets
+\[
+  x^2u^2-x^3=x^2(u^2-x).
+\]
+Thus the total transform contains \(2E\), and the strict transform is \(u^2=x\), which is smooth.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-06}
+Let \(C\) have multiplicity \(m\) at the origin.  Explain why \(\widetilde C\cdot E=m\).
+\end{exercise}
+\begin{hint}Use either the tangent cone or the intersection class \(dH-mE\) in the projective case.
+\end{hint}
+\begin{solution}
+The tangent cone has degree \(m\) on \(\PP^1\), so its zero divisor has total length \(m\).  By the tangent-cone proposition this zero divisor is \(\widetilde C\cap E\), counted with multiplicity.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-07}
+Prove that the blow-up morphism is projective.
+\end{exercise}
+\begin{hint}Use its definition as a relative Proj.
+\end{hint}
+\begin{solution}
+By definition \(\Bl_ZX=\Proj_X\mathcal R(\IIcal)\).  Relative Proj of a finitely generated graded algebra generated in positive degree is projective over the base.  For a coherent ideal on a Noetherian scheme, the Rees algebra is finitely generated.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-08}
+If the center ideal is already invertible, show that blowing it up changes nothing.
+\end{exercise}
+\begin{hint}Apply the universal property to the identity map of \(X\).
+\end{hint}
+\begin{solution}
+If \(\IIcal\) is invertible, the identity \(X\to X\) satisfies the universal property, so it factors as \(X\xrightarrow{g}\Bl_{\IIcal}X\to X\).  Hence \(\pi g=\mathrm{id}_X\).  Applying uniqueness to \(\pi:\Bl_{\IIcal}X\to X\), for which the pulled-back ideal is invertible, gives \(g\pi=\mathrm{id}\).  Thus the blow-up is isomorphic to \(X\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-09}
+Compute the class of the strict transform of a conic through \(p\) with multiplicity one.
+\end{exercise}
+\begin{hint}Use \(dH-mE\).
+\end{hint}
+\begin{solution}
+The class is
+\[
+  2H-E.
+\]
+Its self-intersection is \(4-1=3\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-10}
+Compute the self-intersection of the strict transform of a line through \(p\).
+\end{exercise}
+\begin{hint}Its class is \(H-E\).
+\end{hint}
+\begin{solution}
+Using the intersection form,
+\[
+  (H-E)^2=1-1=0.
+\]
+Geometrically, these strict transforms form the fibers of the pencil of lines through \(p\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-11}
+Compute \(K_S^2\) for \(S=\Bl_p\PP^2\).
+\end{exercise}
+\begin{hint}Use \(K_S=-3H+E\).
+\end{hint}
+\begin{solution}
+One obtains
+\[
+  K_S^2=9H^2+E^2=9-1=8.
+\]
+The mixed term vanishes because \(H\cdot E=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-12}
+Let \(S\) be the blow-up of three distinct points of \(\PP^2\).  Compute \(K_S^2\).
+\end{exercise}
+\begin{hint}Each point blow-up lowers \(K^2\) by one.
+\end{hint}
+\begin{solution}
+Here
+\[
+  K_S=-3H+E_1+E_2+E_3,
+\]
+so
+\[
+  K_S^2=9-1-1-1=6.
+\]
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-13}
+Show that \(H-E_2-E_3\) has self-intersection \(-1\).
+\end{exercise}
+\begin{hint}Use orthogonality of the basis.
+\end{hint}
+\begin{solution}
+We have
+\[
+  (H-E_2-E_3)^2=1-1-1=-1.
+\]
+This is the class of the strict transform of the coordinate line through \(p_2,p_3\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-14}
+Let \(D=2H-E_1-E_2-E_3\).  Compute \(D^2\).
+\end{exercise}
+\begin{hint}Square using the diagonal intersection form.
+\end{hint}
+\begin{solution}
+\[
+  D^2=4-1-1-1=1.
+\]
+This matches the fact that the resolved Cremona morphism is birational onto \(\PP^2\), whose line class has square one.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-15}
+Compute \(D\cdot E_1\) and explain its geometric meaning.
+\end{exercise}
+\begin{hint}Only the \(-E_1\) term contributes.
+\end{hint}
+\begin{solution}
+\[
+  D\cdot E_1=(-E_1)\cdot E_1=1.
+\]
+Thus the resolved map has degree one on \(E_1\), consistent with the fact that \(E_1\) maps isomorphically to a target coordinate line.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-16}
+Compute \(D\cdot(H-E_2-E_3)\).
+\end{exercise}
+\begin{hint}This is the strict transform of \(x=0\).
+\end{hint}
+\begin{solution}
+\[
+  (2H-E_1-E_2-E_3)\cdot(H-E_2-E_3)=2-1-1=0.
+\]
+Hence this curve is contracted by the morphism defined by \(|D|\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-17}
+Apply the Cremona Picard action twice to \(H\) and verify that \(H\) is recovered.
+\end{exercise}
+\begin{hint}Substitute the images of \(H,E_1,E_2,E_3\) into \(2H-E_1-E_2-E_3\).
+\end{hint}
+\begin{solution}
+The second image is
+\[
+2(2H-E_1-E_2-E_3)
+-(H-E_2-E_3)-(H-E_1-E_3)-(H-E_1-E_2)=H.
+\]
+Thus the action squares to the identity on \(H\).
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-18}
+A cubic passes simply through all three Cremona base points.  Compute the transformed degree and transformed multiplicities.
+\end{exercise}
+\begin{hint}Use \((d;m_1,m_2,m_3)=(3;1,1,1)\).
+\end{hint}
+\begin{solution}
+The formulas give
+\[
+  d'=6-3=3,
+\]
+and
+\[
+  m_1'=m_2'=m_3'=3-1-1=1.
+\]
+Thus the type \((3;1,1,1)\) is fixed numerically.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-19}
+A quartic has multiplicities \((2,1,1)\) at the three base points.  Compute its transformed numerical type.
+\end{exercise}
+\begin{hint}Use all four formulas, not only the degree formula.
+\end{hint}
+\begin{solution}
+One finds
+\[
+ d'=8-4=4,
+\quad
+ m_1'=4-1-1=2,
+\quad
+ m_2'=4-2-1=1,
+\quad
+ m_3'=1.
+\]
+Thus \((4;2,1,1)\) is also fixed numerically.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-20}
+Why does a point of \(E\) deserve to be called infinitely near to the original center?
+\end{exercise}
+\begin{hint}Describe what geometric data the point stores.
+\end{hint}
+\begin{solution}
+A point of \(E\) records a first-order tangent direction through the original center.  It is not a point of the original surface, but it lies above the center and can become the center of a subsequent blow-up.  It is therefore a new point visible only after resolving the original one.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-21}
+Show that the strict transforms of the three coordinate lines are pairwise disjoint after blowing up the three vertices.
+\end{exercise}
+\begin{hint}Each pair met at exactly one base point downstairs.
+\end{hint}
+\begin{solution}
+Away from the vertices, distinct coordinate lines do not meet.  At each common vertex, their tangent directions are distinct, so their strict transforms meet different points of the corresponding exceptional divisor.  Hence all pairwise intersections disappear.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-22}
+Let \(C\) be a degree-\(d\) curve with multiplicity \(m\) at \(p\).  Compute \(\widetilde C^2\) on \(\Bl_p\PP^2\).
+\end{exercise}
+\begin{hint}Square \(dH-mE\).
+\end{hint}
+\begin{solution}
+\[
+  \widetilde C^2=(dH-mE)^2=d^2-m^2.
+\]
+Thus blowing up lowers self-intersection by the square of the multiplicity at the center.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-23}
+Explain why blowing up a Cartier divisor is an isomorphism.
+\end{exercise}
+\begin{hint}Its ideal sheaf is invertible.
+\end{hint}
+\begin{solution}
+An effective Cartier divisor is defined by an invertible ideal sheaf.  By Exercise~\ref{exr:vi45-08}, blowing up an invertible ideal does not change the scheme.
+\end{solution}
+
+\begin{exercise}\label{exr:vi45-24}
+In the chart near \(p_1\) where \(v=ut\), compute the image of the exceptional divisor under the resolved Cremona map.
+\end{exercise}
+\begin{hint}Use \([uv:v:u]=[ut:t:1]\) after cancellation.
+\end{hint}
+\begin{solution}
+The resolved formula is
+\[
+  (u,t)\longmapsto[ut:t:1].
+\]
+On \(E_1:u=0\), this becomes \([0:t:1]\), which parametrizes an affine chart of the target line \(X=0\).  The second blow-up chart supplies the point at infinity.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Deriving the incidence equation from the Rees algebra]\label{prob:vi45-01}
+Starting with \(I=(x,y)\subset k[x,y]\), recover the equation \(xt=ys\) for \(\Bl_0\mathbb A^2\).
+\end{problem}
+\begin{solution}
+Write \(A=k[x,y]\) and let \(T\) be the Rees parameter.  Then
+\[
+  A[IT]=A[xT,yT]\subset A[T].
+\]
+Giving degree-one variables \(S,U\) mapping to \(xT,yT\) produces the presentation
+\[
+  A[IT]\cong A[S,U]/(yS-xU).
+\]
+Taking Proj in \(S,U\) gives a closed subscheme of \(\mathbb A^2\times\PP^1_{[S:U]}\) with equation \(yS=xU\).  Renaming \([S:U]=[s:t]\) yields \(xt=ys\).
+\end{solution}
+
+\begin{problem}[The exceptional divisor as projectivized tangent space]\label{prob:vi45-02}
+For a smooth surface \(X\) and point \(p\), identify the exceptional divisor of \(\Bl_pX\) intrinsically.
+\end{problem}
+\begin{solution}
+The maximal ideal \(\mathfrak m_p\) satisfies
+\[
+  \mathfrak m_p/\mathfrak m_p^2\cong T_p^*X.
+\]
+The exceptional fiber of the Rees construction is
+\[
+  \Proj\!\left(\bigoplus_{n\ge0}\mathfrak m_p^n/\mathfrak m_p^{n+1}\right)
+  \cong\Proj\operatorname{Sym}(\mathfrak m_p/\mathfrak m_p^2)
+  \cong\PP(T_pX).
+\]
+For a surface, this is \(\PP^1\).  Hence the exceptional points are tangent directions at \(p\).
+\end{solution}
+
+\begin{problem}[Separating a node]\label{prob:vi45-03}
+Let a plane curve have local equation
+\[
+  y^2-x^2-x^3=0
+\]
+at the origin, in characteristic not two.  Show that one blow-up separates its two tangent branches.
+\end{problem}
+\begin{solution}
+In the chart \(y=xu\),
+\[
+  x^2u^2-x^2-x^3=x^2(u^2-1-x).
+\]
+The strict transform is \(u^2=1+x\).  On \(E:x=0\), it meets at \(u=1\) and \(u=-1\), the two tangent directions.  The derivative with respect to \(u\) is \(2u\), nonzero at both points, so the strict transform is smooth there and the two branches are separated.
+\end{solution}
+
+\begin{problem}[Why the exceptional curve has square minus one]\label{prob:vi45-04}
+Give a geometric derivation of \(E^2=-1\) without using the normal bundle of \(E\).
+\end{problem}
+\begin{solution}
+Take two distinct lines through the blown-up point.  Their strict transforms have class \(H-E\) and are disjoint, so
+\[
+  (H-E)^2=0.
+\]
+A line avoiding the center shows \(H^2=1\) and \(H\cdot E=0\).  Therefore
+\[
+  0=1+E^2,
+\]
+which gives \(E^2=-1\).
+\end{solution}
+
+\begin{problem}[A curve class and its genus bookkeeping]\label{prob:vi45-05}
+Let \(C\subset\PP^2\) be a degree-\(d\) curve with an ordinary point of multiplicity \(m\) at \(p\).  Compute the basic intersection data of its strict transform.
+\end{problem}
+\begin{solution}
+The class is
+\[
+  \widetilde C=dH-mE.
+\]
+Hence
+\[
+  \widetilde C^2=d^2-m^2,
+  \qquad
+  K_S\cdot\widetilde C=(-3H+E)\cdot(dH-mE)=-3d+m.
+\]
+Thus adjunction gives
+\[
+  2p_a(\widetilde C)-2
+  =(d^2-m^2)-3d+m.
+\]
+Relative to the plane arithmetic genus, the correction is exactly the familiar contribution \(m(m-1)/2\) when the ordinary singularity is resolved by this blow-up.
+\end{solution}
+
+\begin{problem}[The conic system that resolves Cremona]\label{prob:vi45-06}
+Show numerically that \(D=2H-E_1-E_2-E_3\) has the behavior required of the pullback of a target line.
+\end{problem}
+\begin{solution}
+First,
+\[
+  D^2=4-1-1-1=1,
+\]
+matching the square of a line on the target plane.  Next,
+\[
+  D\cdot E_i=1,
+\]
+so each exceptional divisor maps with degree one to a target line.  Finally,
+\[
+  D\cdot(H-E_j-E_k)=0
+\]
+for each pair \(\{j,k\}\), so the three strict transforms of coordinate lines are contracted.  These are exactly the geometric properties of the resolved standard Cremona map.
+\end{solution}
+
+\begin{problem}[Local regularity at a Cremona base point]\label{prob:vi45-07}
+Carry out both blow-up charts near \(p_1\) and show that no point of \(E_1\) remains indeterminate.
+\end{problem}
+\begin{solution}
+Write \(u=y/x\), \(v=z/x\).  On the chart \(v=ut\),
+\[
+  [uv:v:u]=[u^2t:ut:u]=[ut:t:1],
+\]
+regular at \(u=0\).  On the chart \(u=vs\),
+\[
+  [uv:v:u]=[v^2s:v:vs]=[vs:1:s],
+\]
+regular at \(v=0\).  On the exceptional divisor the first chart gives \([0:t:1]\) and the second gives \([0:1:s]\); together these cover the entire target line \(X=0\).  Hence the base point is fully resolved.
+\end{solution}
+
+\begin{problem}[Recovering the degree formula by intersection]\label{prob:vi45-08}
+Let \(C\) have class \(dH-m_1E_1-m_2E_2-m_3E_3\).  Derive its Cremona image degree without coordinates.
+\end{problem}
+\begin{solution}
+A general target line pulls back to
+\[
+  D=2H-E_1-E_2-E_3.
+\]
+The degree of the image equals the number of intersections with a general target line, hence
+\[
+  D\cdot C
+  =(2H-E_1-E_2-E_3)\cdot(dH-m_1E_1-m_2E_2-m_3E_3)
+  =2d-m_1-m_2-m_3.
+\]
+This is the VI/44 formula, now obtained as one bilinear intersection product.
+\end{solution}
+
+\begin{problem}[The full Picard action as a matrix]\label{prob:vi45-09}
+Write the lifted Cremona action as a matrix in the ordered basis \((H,E_1,E_2,E_3)\) and verify that its square is the identity.
+\end{problem}
+\begin{solution}
+Using column vectors of images, the matrix is
+\[
+M=
+\begin{pmatrix}
+2&1&1&1\\
+-1&0&-1&-1\\
+-1&-1&0&-1\\
+-1&-1&-1&0
+\end{pmatrix}
+\]
+if divisor classes are written with signed \(E_i\)-coefficients in the basis \((H,E_1,E_2,E_3)\).  Direct multiplication gives \(M^2=I\).  Equivalently, apply the four class formulas twice.  The same matrix preserves \(\operatorname{diag}(1,-1,-1,-1)\).
+\end{solution}
+
+\begin{problem}[Blow-up versus blow-down factorization]\label{prob:vi45-10}
+Describe the standard Cremona transformation as a common resolution diagram and identify all six distinguished \((-1)\)-curves.
+\end{problem}
+\begin{solution}
+Let \(S\) be the blow-up of the three source base points.  The left morphism
+\[
+  \pi:S\to\PP^2
+\]
+contracts \(E_1,E_2,E_3\).  The right morphism
+\[
+  \widetilde\sigma:S\to\PP^2
+\]
+contracts \(\widetilde L_x,\widetilde L_y,\widetilde L_z\).  All six curves have self-intersection \(-1\), but the two triples are different.  The rational map downstairs is
+\[
+  \sigma=\widetilde\sigma\circ\pi^{-1}
+\]
+on the common dense open set where \(\pi^{-1}\) is defined.
+\end{solution}
+
+\begin{problem}[A first infinitely near base point]\label{prob:vi45-11}
+Suppose a pencil of plane curves has multiplicity at least two at \(p\) and, after blowing up \(p\), all strict transforms still pass through one fixed point \(q\in E\).  Explain the next resolution step and its geometric meaning.
+\end{problem}
+\begin{solution}
+The point \(q\) is a common tangent direction of the pencil at \(p\).  Since every strict transform passes through \(q\), the transformed pencil still has a base point.  Blow up \(q\).  The new exceptional divisor parametrizes directions through this infinitely near point, i.e. second-order directional data relative to the original center.  The process is repeated until the transformed system is base-point free.
+\end{solution}
+
+\begin{problem}[Universal resolution of a projective ratio]\label{prob:vi45-12}
+Let \(\phi=[f_0:f_1:f_2]:X\dashrightarrow\PP^2\) with base ideal \(I=(f_0,f_1,f_2)\).  Explain locally why \(\Bl_I X\) carries a regular map to \(\PP^2\).
+\end{problem}
+\begin{solution}
+On the standard blow-up chart where the degree-one generator corresponding to \(f_j\) is nonzero, the ratios
+\[
+  \frac{f_0}{f_j},\qquad \frac{f_1}{f_j},\qquad \frac{f_2}{f_j}
+\]
+are regular by the definition of the Rees-chart coordinate ring.  Thus the projective point
+\[
+  [f_0:f_1:f_2]
+\]
+can be written with \(f_j\) canceled and gives a regular morphism on that chart.  These maps agree on overlaps because they agree on the dense locus where the original rational map is defined.
+\end{solution}
+
+\section{Challenges}
+
+\begin{problem}[Challenge: resolve a cusp to normal crossings]\label{chal:vi45-01}
+Starting from \(y^2=x^3\), continue blowing up after the first blow-up until the total transform has only normal-crossing components.  Record every exceptional divisor, its self-intersection after subsequent blow-ups, and the dual intersection graph.
+\end{problem}
+
+\begin{problem}[Challenge: infinitely near Cremona base points]\label{chal:vi45-02}
+Construct a quadratic or higher-degree plane birational map whose base cluster contains an infinitely near point.  Resolve it by an explicit sequence of point blow-ups and compare the resulting Picard-lattice action with the three-proper-point standard quadratic case.
+\end{problem}
+
+\begin{problem}[Challenge: characterize the six \((-1)\)-curves]\label{chal:vi45-03}
+On the blow-up of three noncollinear points of \(\PP^2\), prove that the three exceptional divisors and the three strict transforms of lines through pairs of points are exactly the six obvious \((-1)\)-curves.  Investigate whether any other effective divisor class can have self-intersection \(-1\) and anticanonical degree one.
+\end{problem}
+
+\begin{problem}[Challenge: Weyl reflection viewpoint]\label{chal:vi45-04}
+Let
+\[
+  \alpha=H-E_1-E_2-E_3.
+\]
+Show that \(\alpha^2=-2\) and reinterpret the Cremona Picard action as the reflection
+\[
+  D\longmapsto D+(D\cdot\alpha)\alpha.
+\]
+Determine which classes are fixed and explain why this reflection preserves both the intersection form and the canonical class.
+\end{problem}
+
+\begin{problem}[Challenge: design a resolution algorithm]\label{chal:vi45-05}
+Given a primitive homogeneous triple defining a rational map \(\PP^2\dashrightarrow\PP^2\), design a symbolic procedure that finds proper base points, blows them up in charts, detects residual infinitely near base points, and outputs a divisor-class description of the resolved map.  Test the procedure first on the standard quadratic involution and then on a nontrivial composition of quadratic maps.
+\end{problem}
+
+\section*{Bridge to VI/46}
+
+The blow-up chapter completes the first birational-geometry arc of Volume VI.  Weil divisors, Cartier divisors, class groups, line bundles, Picard groups, plane cubics, Cremona transformations, and blow-ups now fit into one chain:
+\[
+  \begin{gathered}
+  \text{local equations}\Longrightarrow\text{divisor classes}\\
+  \Longrightarrow\text{birational modifications}\Longrightarrow\text{intersection bookkeeping}.
+  \end{gathered}
+\]
+The symbolic exceptional classes of VI/44 have become actual curves, and the indeterminacy of the standard Cremona map has been replaced by a diagram of morphisms.
+
+The next chapter changes direction.  VI/46 begins the cohomological arc with \emph{flabby sheaves}.  The geometric constructions developed here will later return through line bundles, divisor sequences, and cohomology, but the immediate task is categorical: identify sheaves whose restriction maps are surjective and understand why they are acyclic tools for computing derived invariants.
