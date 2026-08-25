@@ -1,0 +1,634 @@
+\chapter{Flabby Sheaves}
+\label{ch:vi46-flabby-sheaves}
+
+VI/45 completed the birational geometry arc. VI/46 begins the cohomology arc by isolating sheaves whose sections extend across every open inclusion. This elementary condition is strong enough to force higher cohomology to vanish and makes the global section functor computationally useful.
+
+The governing chain is
+\[
+\boxed{
+\begin{gathered}
+\text{surjective restrictions}
+\Longrightarrow
+\text{exact overlap complexes}\\
+\Downarrow\\
+\text{flabby resolutions}
+\Longrightarrow
+H^{>0}=0
+\end{gathered}
+}
+\]
+
+\section*{Standing conventions}
+Unless stated otherwise, $X$ is a topological space and all sheaves are sheaves of abelian groups. For a scheme, the underlying topology is the Zariski topology unless another site is explicitly named.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item define flabby sheaves and use the global-extension criterion;
+\item recognize skyscraper, all-functions, and rational-function examples;
+\item distinguish valid permanence properties from tempting false ones;
+\item prove that direct image preserves flabbiness;
+\item analyze short exact sequences with flabby kernel and middle term;
+\item write the two-open and general \v{C}ech complexes;
+\item construct a Godement-style flabby resolution;
+\item explain why flabby sheaves are acyclic and why injective sheaves are flabby;
+\item prepare for explicit \v{C}ech computations in VI/47.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\input{chapters/ch46_flabby_sheaves/figures/figure_01}
+
+\section{Definition and first examples}
+\begin{definition}[Flabby sheaf]\label{def:vi46-flabby}
+A sheaf $\mathcal F$ of abelian groups on a topological space $X$ is \emph{flabby} (or \emph{flasque}) if for every inclusion of open sets $V\subseteq U\subseteq X$ the restriction map
+\[
+\rho^U_V:\Gamma(U,\mathcal F)\longrightarrow\Gamma(V,\mathcal F)
+\]
+is surjective.
+\end{definition}
+
+\input{chapters/ch46_flabby_sheaves/figures/figure_02}
+\begin{proposition}[Global-extension criterion]\label{prop:vi46-global-criterion}
+A sheaf $\mathcal F$ is flabby if and only if for every open $U\subseteq X$ the map
+\[
+\Gamma(X,\mathcal F)\longrightarrow\Gamma(U,\mathcal F)
+\]
+is surjective.
+\begin{proof}
+The forward implication is the defining property with the larger open equal to $X$. Conversely, if $V\subseteq U$ and $s\in\Gamma(V,\mathcal F)$, extend $s$ first to a global section and then restrict that global extension to $U$.
+\end{proof}
+\end{proposition}
+
+\input{chapters/ch46_flabby_sheaves/figures/figure_03}
+\begin{example}[Skyscraper sheaf]\label{ex:vi46-skyscraper}
+Let $i:\{x\}\hookrightarrow X$ and let $A$ be an abelian group. The skyscraper sheaf $i_*A$ is flabby. A section over an open set containing $x$ is simply an element of $A$, while an open not containing $x$ has only the zero section.
+\end{example}
+
+\begin{example}[Sheaf of all functions]\label{ex:vi46-all-functions}
+Fix an abelian group $A$. The sheaf assigning to $U$ the group of all functions $U\to A$ is flabby: extend any function by choosing arbitrary values, for instance $0$, on the complement inside the larger open.
+\end{example}
+
+\begin{example}[Rational functions on an integral scheme]\label{ex:vi46-rational}
+If $X$ is an integral scheme and $K(X)$ its function field, the sheaf assigning $K(X)$ to every nonempty open set, with identity restrictions, is flabby.
+\end{example}
+
+\begin{example}[A constant-sheaf nonexample]\label{ex:vi46-constant-not}
+Let $X=\mathbb R$ and let $A$ contain two distinct elements $a,b$. On
+\[
+V=(-2,-1)\cup(1,2)
+\]
+the constant sheaf $\underline A$ has the locally constant section equal to $a$ on the first component and $b$ on the second. It cannot extend to a locally constant section on the connected space $\mathbb R$. Hence $\underline A$ is not flabby.
+\end{example}
+
+\section{Permanence and exact sequences}
+\begin{proposition}[Products and finite sums]\label{prop:vi46-product}
+Arbitrary products of flabby sheaves are flabby. Finite direct sums of flabby sheaves are flabby.
+\begin{proof}
+Restrictions are computed componentwise, and products of surjective maps are surjective.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}[Direct images preserve flabbiness]\label{prop:vi46-pushforward}
+Let $f:X\to Y$ be continuous. If $\mathcal F$ is flabby on $X$, then $f_*\mathcal F$ is flabby on $Y$.
+\begin{proof}
+For $V\subseteq U\subseteq Y$,
+\[
+\Gamma(U,f_*\mathcal F)=\Gamma(f^{-1}U,\mathcal F)
+\longrightarrow
+\Gamma(f^{-1}V,\mathcal F)=\Gamma(V,f_*\mathcal F)
+\]
+is surjective because $f^{-1}V\subseteq f^{-1}U$.
+\end{proof}
+\end{proposition}
+
+\begin{warning}[Subobjects and quotients require care]\label{warning:vi46-subquotient}
+A subsheaf of a flabby sheaf need not be flabby. Moreover, from flabbiness of the middle term alone in a short exact sequence one cannot conclude that the quotient is flabby. A useful stable statement requires flabbiness of the kernel as well.
+\end{warning}
+
+\input{chapters/ch46_flabby_sheaves/figures/figure_04}
+\begin{theorem}[Flabby kernel and middle term]\label{thm:vi46-short-exact}
+Suppose
+\[
+0\longrightarrow\mathcal F'\longrightarrow\mathcal F\longrightarrow\mathcal F''\longrightarrow0
+\]
+is exact and both $\mathcal F'$ and $\mathcal F$ are flabby. Then $\mathcal F''$ is flabby, and for every open $U\subseteq X$ the sequence
+\[
+0\to\Gamma(U,\mathcal F')\to\Gamma(U,\mathcal F)\to\Gamma(U,\mathcal F'')\to0
+\]
+is exact.
+\begin{proof}
+The only issue is surjectivity on the right. Start with a section of $\mathcal F''$ over $U$ and a maximal compatible local lift to $\mathcal F$. If the lift is not defined on all of $U$, choose a new local lift near a missing point. The difference of the two lifts on the overlap lies in $\mathcal F'$. Flabbiness of $\mathcal F'$ extends this difference, allowing the two lifts to be modified and glued, contradicting maximality. Thus a global lift over $U$ exists. Flabbiness of $\mathcal F''$ follows from the global-extension criterion.
+\end{proof}
+\end{theorem}
+
+\begin{definition}[Flabby resolution]\label{def:vi46-flabby-resolution}
+A \emph{flabby resolution} of $\mathcal F$ is an exact complex
+\[
+0\to\mathcal F\to\mathcal I^0\to\mathcal I^1\to\mathcal I^2\to\cdots
+\]
+with every $\mathcal I^q$ flabby.
+\end{definition}
+
+\section{Overlaps and \v{C}ech exactness}
+\begin{proposition}[Global sections are left exact]\label{prop:vi46-left-exact}
+For every short exact sequence
+\[
+0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0
+\]
+the sequence
+\[
+0\to\Gamma(X,\mathcal F')\to\Gamma(X,\mathcal F)\to\Gamma(X,\mathcal F'')
+\]
+is exact at the first two terms. Surjectivity of the last map can fail; higher cohomology measures this failure.
+\end{proposition}
+
+\begin{lemma}[Extension across one overlap]\label{lemma:vi46-two-open-surj}
+If $X=U\cup V$ and $\mathcal F$ is flabby, then the map
+\[
+\Gamma(U,\mathcal F)\oplus\Gamma(V,\mathcal F)
+\longrightarrow\Gamma(U\cap V,\mathcal F),
+\quad (s,t)\longmapsto s|_{U\cap V}-t|_{U\cap V}
+\]
+is surjective.
+\begin{proof}
+Extend a prescribed overlap section from $U\cap V$ to $U$ and take the second component to be zero.
+\end{proof}
+\end{lemma}
+
+\input{chapters/ch46_flabby_sheaves/figures/figure_05}
+\begin{proposition}[Two-open-set exact sequence]\label{prop:vi46-two-open}
+If $X=U\cup V$ and $\mathcal F$ is flabby, then
+\[
+0\to\Gamma(X,\mathcal F)
+\to\Gamma(U,\mathcal F)\oplus\Gamma(V,\mathcal F)
+\to\Gamma(U\cap V,\mathcal F)\to0
+\]
+is exact.
+\begin{proof}
+The sheaf axiom gives exactness at the first two terms, and the previous lemma gives surjectivity at the last term.
+\end{proof}
+\end{proposition}
+
+\begin{definition}[The Čech cochain complex]\label{def:vi46-cech}
+For an open cover $\mathfrak U=\{U_i\}_{i\in I}$, define
+\[
+C^p(\mathfrak U,\mathcal F)
+=
+\prod_{i_0<\cdots<i_p}
+\Gamma(U_{i_0}\cap\cdots\cap U_{i_p},\mathcal F),
+\]
+with the usual alternating restriction differential $\delta:C^p\to C^{p+1}$.
+\end{definition}
+
+\input{chapters/ch46_flabby_sheaves/figures/figure_06}
+\begin{theorem}[Flabby sheaves are Čech-acyclic]\label{thm:vi46-cech-vanish}
+If $\mathcal F$ is flabby, then for every open cover $\mathfrak U$,
+\[
+\check H^p(\mathfrak U,\mathcal F)=0
+\qquad (p>0).
+\]
+Equivalently, the augmented \v{C}ech complex is exact.
+\begin{proof}
+Flabbiness lets one extend cochain data from multiple intersections to larger unions of such intersections. Successive extension kills every positive-degree cocycle by a coboundary. The degree-zero exactness is the ordinary sheaf gluing axiom.
+\end{proof}
+\end{theorem}
+
+\section{Flabby resolutions and acyclicity}
+\begin{definition}[The discontinuous-section sheaf]\label{def:vi46-godement-zero}
+For any sheaf $\mathcal F$, define
+\[
+G^0(\mathcal F)(U)=\prod_{x\in U}\mathcal F_x.
+\]
+Restrictions are coordinate projections. The natural map $\mathcal F\to G^0(\mathcal F)$ sends a section to its family of germs.
+\end{definition}
+
+\begin{proposition}[The first Godement term is flabby]\label{prop:vi46-godement-flabby}
+The sheaf $G^0(\mathcal F)$ is flabby, and the germ map $\mathcal F\to G^0(\mathcal F)$ is injective.
+\begin{proof}
+A family indexed by a smaller open extends to a larger open by assigning arbitrary elements, say zeros, at the new points. Injectivity of the germ map is exactly the locality axiom for a sheaf.
+\end{proof}
+\end{proposition}
+
+\input{chapters/ch46_flabby_sheaves/figures/figure_07}
+\begin{proposition}[Existence of flabby resolutions]\label{prop:vi46-resolution-exists}
+Every sheaf of abelian groups admits a flabby resolution.
+\begin{proof}
+Embed $\mathcal F$ into $G^0(\mathcal F)$, take the cokernel $\mathcal Q^1$, embed $\mathcal Q^1$ into $G^0(\mathcal Q^1)$, and continue. The successive $G^0$ terms are flabby.
+\end{proof}
+\end{proposition}
+
+\begin{definition}[Acyclic sheaf]\label{def:vi46-acyclic}
+A sheaf $\mathcal F$ is \emph{$\Gamma$-acyclic} if
+\[
+H^p(X,\mathcal F)=0
+\qquad\text{for all }p>0.
+\]
+\end{definition}
+
+\begin{theorem}[Flabby sheaves are acyclic]\label{thm:vi46-flabby-acyclic}
+Every flabby sheaf is $\Gamma$-acyclic. The same is true after restriction to any open subset.
+\begin{proof}
+The short exact theorem above verifies the standard acyclic resolution criterion for $\Gamma(X,-)$. Thus flabby resolutions compute the derived functors. For a flabby sheaf itself, the resolution may be concentrated in degree zero.
+\end{proof}
+\end{theorem}
+
+\input{chapters/ch46_flabby_sheaves/figures/figure_08}
+\begin{proposition}[Injective sheaves are flabby]\label{prop:vi46-injective}
+Every injective sheaf of abelian groups is flabby.
+\begin{proof}
+A section on $V\subseteq U$ is represented by a morphism from the extension-by-zero free abelian sheaf supported on $V$. Injectivity extends this morphism across the corresponding monomorphism for $V\subseteq U$, producing the desired extension of the section.
+\end{proof}
+\end{proposition}
+
+\begin{corollary}[Flabby resolutions compute sheaf cohomology]\label{cor:vi46-derived}
+If
+\[
+0\to\mathcal F\to\mathcal I^0\to\mathcal I^1\to\cdots
+\]
+is any flabby resolution, then
+\[
+H^p(X,\mathcal F)
+\cong
+H^p\bigl(\Gamma(X,\mathcal I^\bullet)\bigr).
+\]
+\end{corollary}
+
+\begin{proposition}[Higher direct-image preview]\label{prop:vi46-higher-direct-preview}
+If $f:X\to Y$ is a morphism of ringed spaces and $\mathcal F$ is flabby, then
+\[
+R^pf_*\mathcal F=0
+\qquad(p>0).
+\]
+This is the relative analogue of flabby acyclicity and follows because the restriction of a flabby sheaf to $f^{-1}(V)$ is acyclic for every open $V\subseteq Y$.
+\end{proposition}
+
+\begin{remark}[Soft and fine sheaves]\label{remark:vi46-soft-fine}
+Other geometrically important acyclic classes include soft and fine sheaves. Their definitions use additional topology, while flabbiness is expressed purely through restriction maps.
+\end{remark}
+
+\begin{remark}[Bridge to VI/47]\label{remark:vi46-next}
+VI/47 will turn the \v{C}ech complex into a computational tool. The present chapter supplies its easiest vanishing test: whenever the coefficient sheaf is flabby, every positive-degree \v{C}ech class dies.
+\end{remark}
+
+\section{Exercises}
+\begin{exercise}\label{exr:vi46-01}
+Check that the zero sheaf is flabby.
+\end{exercise}
+\begin{hint}
+Every restriction map has zero source and target.
+\end{hint}
+\begin{solution}
+The unique map $0\to0$ is surjective.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-02}
+Prove the global-extension criterion directly from the definition.
+\end{exercise}
+\begin{hint}
+Use $V\subseteq U\subseteq X$ and extend first to $X$.
+\end{hint}
+\begin{solution}
+If global-to-open restrictions are surjective, a section on $V$ extends to $X$ and then restricts to an extension on $U$. The converse is immediate.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-03}
+Verify that a skyscraper sheaf is flabby.
+\end{exercise}
+\begin{hint}
+Separate opens containing the support point from those that do not.
+\end{hint}
+\begin{solution}
+Sections are either $A$ or $0$, and every possible restriction is surjective.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-04}
+Show that the sheaf of all functions $U\to A$ is flabby.
+\end{exercise}
+\begin{hint}
+Extend by zero.
+\end{hint}
+\begin{solution}
+Any function on $V$ extends to $U$ by setting it equal to zero on $U\setminus V$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-05}
+On $X=\mathbb R$, show explicitly that the constant sheaf with at least two values is not flabby.
+\end{exercise}
+\begin{hint}
+Use a disconnected open subset of the connected space.
+\end{hint}
+\begin{solution}
+Give different constant values on the two components of $(-2,-1)\cup(1,2)$. Such a locally constant section cannot extend to all of $\mathbb R$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-06}
+Prove that arbitrary products of flabby sheaves are flabby.
+\end{exercise}
+\begin{hint}
+Restrictions are componentwise.
+\end{hint}
+\begin{solution}
+The product of surjective restriction maps is surjective.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-07}
+Prove that $f_*\mathcal F$ is flabby whenever $\mathcal F$ is flabby.
+\end{exercise}
+\begin{hint}
+Write sections of $f_*\mathcal F$ using inverse images of opens.
+\end{hint}
+\begin{solution}
+The restriction is exactly $\Gamma(f^{-1}U,\mathcal F)\to\Gamma(f^{-1}V,\mathcal F)$, hence is surjective.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-08}
+Why is it unsafe to claim that every quotient of a flabby sheaf is flabby?
+\end{exercise}
+\begin{hint}
+A quotient section need only lift locally to the middle sheaf.
+\end{hint}
+\begin{solution}
+Local lifts may differ by sections of the kernel, and without an extension property for the kernel those differences need not be correctable globally.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-09}
+In a short exact sequence with $\mathcal F'$ and $\mathcal F$ flabby, prove that sections over every open remain exact on the right.
+\end{exercise}
+\begin{hint}
+Use the maximal-lift argument from the theorem.
+\end{hint}
+\begin{solution}
+Flabbiness of $\mathcal F'$ lets one correct differences of local lifts on overlaps, so a maximal lift extends across every missing point.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-10}
+Deduce from the previous exercise that $\mathcal F''$ is flabby.
+\end{exercise}
+\begin{hint}
+Apply the global-extension criterion to $\mathcal F''$.
+\end{hint}
+\begin{solution}
+A section of $\mathcal F''$ on an open lifts to $\mathcal F$; extend that lift globally and descend again.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-11}
+Write out the map in the two-open exact sequence.
+\end{exercise}
+\begin{hint}
+It is a difference of restrictions.
+\end{hint}
+\begin{solution}
+The map sends $(s,t)$ to $s|_{U\cap V}-t|_{U\cap V}$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-12}
+Show directly that the two-open map onto $\Gamma(U\cap V,\mathcal F)$ is surjective for flabby $\mathcal F$.
+\end{exercise}
+\begin{hint}
+Extend the overlap section to $U$.
+\end{hint}
+\begin{solution}
+If $a$ is the overlap section, choose $s\in\Gamma(U,\mathcal F)$ extending $a$ and take $t=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-13}
+Write the \v{C}ech differential $C^0\to C^1$.
+\end{exercise}
+\begin{hint}
+Use alternating restrictions.
+\end{hint}
+\begin{solution}
+For $(s_i)$ one has $(\delta s)_{ij}=s_j|_{U_{ij}}-s_i|_{U_{ij}}$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-14}
+Write the \v{C}ech differential $C^1\to C^2$.
+\end{exercise}
+\begin{hint}
+Use the sign pattern $+,-,+$.
+\end{hint}
+\begin{solution}
+On $U_{ijk}$, $(\delta t)_{ijk}=t_{jk}-t_{ik}+t_{ij}$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-15}
+Explain why a flabby sheaf has zero first \v{C}ech cohomology for a two-open cover.
+\end{exercise}
+\begin{hint}
+Use the two-open exact sequence.
+\end{hint}
+\begin{solution}
+Every overlap section is a coboundary, so the first cohomology vanishes.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-16}
+State the positive-degree \v{C}ech vanishing theorem for a flabby sheaf.
+\end{exercise}
+\begin{hint}
+It holds for every cover.
+\end{hint}
+\begin{solution}
+For all $p>0$, $\check H^p(\mathfrak U,\mathcal F)=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-17}
+Show that $G^0(\mathcal F)$ is flabby.
+\end{exercise}
+\begin{hint}
+Restrictions forget coordinates.
+\end{hint}
+\begin{solution}
+A family indexed by $V$ extends to one indexed by $U$ by choosing arbitrary stalk elements at points in $U\setminus V$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-18}
+Show that the germ map $\mathcal F\to G^0(\mathcal F)$ is injective.
+\end{exercise}
+\begin{hint}
+Use the locality axiom.
+\end{hint}
+\begin{solution}
+If all germs of a section vanish, the section vanishes on a neighborhood of every point and hence vanishes globally on the open.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-19}
+Construct the first two nontrivial terms of a flabby resolution.
+\end{exercise}
+\begin{hint}
+Take a cokernel and apply $G^0$ again.
+\end{hint}
+\begin{solution}
+Start with $\mathcal F\hookrightarrow G^0(\mathcal F)$, let $\mathcal Q^1$ be the cokernel, and embed $\mathcal Q^1\hookrightarrow G^0(\mathcal Q^1)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-20}
+What does it mean for a sheaf to be $\Gamma$-acyclic?
+\end{exercise}
+\begin{hint}
+All higher right derived functors vanish.
+\end{hint}
+\begin{solution}
+It means $H^p(X,\mathcal F)=0$ for every $p>0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-21}
+Show that the restriction of a flabby sheaf to an open subset is flabby.
+\end{exercise}
+\begin{hint}
+Open subsets of the smaller space are open in the original space.
+\end{hint}
+\begin{solution}
+Every restriction map for the restricted sheaf is already a restriction map of the original flabby sheaf.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-22}
+Explain the implication injective $\Rightarrow$ flabby.
+\end{exercise}
+\begin{hint}
+Interpret a section as a morphism from an extension-by-zero free sheaf.
+\end{hint}
+\begin{solution}
+Injectivity extends the morphism across the monomorphism associated to an open inclusion, producing the desired section extension.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-23}
+Why can a flabby resolution be used instead of an injective resolution to compute $H^p$?
+\end{exercise}
+\begin{hint}
+Flabby sheaves form an acyclic resolving class.
+\end{hint}
+\begin{solution}
+Every sheaf admits a flabby resolution and every flabby sheaf is acyclic, so the acyclic-resolution theorem applies.
+\end{solution}
+
+\begin{exercise}\label{exr:vi46-24}
+Show that if $\mathcal F$ is flabby, then $R^pf_*\mathcal F=0$ for $p>0$.
+\end{exercise}
+\begin{hint}
+Evaluate over an open $V\subseteq Y$.
+\end{hint}
+\begin{solution}
+The relevant cohomology is that of $f^{-1}V$ with coefficients in the restricted flabby sheaf, and this vanishes in positive degree.
+\end{solution}
+
+\section{Solved problems}
+\begin{problem}\label{prob:vi46-01}
+Let $X$ be integral. Prove that the rational-function sheaf $\mathcal K_X$ is flabby and determine $H^p(X,\mathcal K_X)$ for $p>0$.
+\end{problem}
+\begin{solution}
+Every nonempty open has the same section group $K(X)$ and identity restrictions, so $\mathcal K_X$ is flabby. Therefore $H^p(X,\mathcal K_X)=0$ for $p>0$.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-02}
+Give a complete proof of the constant-sheaf nonexample on $\mathbb R$.
+\end{problem}
+\begin{solution}
+A locally constant extension to the connected space $\mathbb R$ would have to be constant, contradicting the two different values prescribed on the two components of the smaller open.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-03}
+Prove the short-exact theorem for flabby kernel and middle term using Zorn's lemma.
+\end{problem}
+\begin{solution}
+Partially order compatible local lifts by enlargement of their domains. A maximal lift exists. Any missing point admits a local lift; the difference on the overlap comes from the flabby kernel, can be extended, and can be used to glue a larger lift, contradiction.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-04}
+Show that the direct image under an arbitrary continuous map preserves flabbiness.
+\end{problem}
+\begin{solution}
+For $V\subseteq U$ in the target, inverse images satisfy $f^{-1}V\subseteq f^{-1}U$, so the required restriction is one of the source restriction maps.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-05}
+For $X=U\cup V$, compute the augmented \v{C}ech complex of a flabby sheaf and prove it is exact.
+\end{problem}
+\begin{solution}
+The complex is $0\to\Gamma(X,\mathcal F)\to\Gamma(U,\mathcal F)\oplus\Gamma(V,\mathcal F)\to\Gamma(U\cap V,\mathcal F)\to0$. Sheaf gluing gives exactness at the first two terms and flabbiness gives surjectivity at the last.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-06}
+For a three-open cover, write $C^0$, $C^1$, and $C^2$ explicitly.
+\end{problem}
+\begin{solution}
+One has one factor for each open in $C^0$, one for each pairwise intersection in $C^1$, and one for the triple intersection in $C^2$. The differentials are alternating restrictions.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-07}
+Construct a flabby resolution functorially up to the first two cokernels.
+\end{problem}
+\begin{solution}
+Use $G^0(\mathcal F)$, then the cokernel $\mathcal Q^1$, then $G^0(\mathcal Q^1)$, and continue. A morphism of sheaves induces maps on stalks and hence maps at every stage.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-08}
+Explain carefully why the statement ``quotients of flabby sheaves are flabby'' needs an extra hypothesis.
+\end{problem}
+\begin{solution}
+A section of the quotient only lifts locally; gluing local lifts requires correcting differences in the kernel. Flabbiness of the middle term does not provide those corrections. If the kernel is also flabby, the short-exact theorem supplies them.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-09}
+Prove that injective sheaves are flabby and deduce that enough injectives provide another existence proof for flabby resolutions.
+\end{problem}
+\begin{solution}
+Injectivity extends sections across open inclusions. Since every sheaf embeds in an injective sheaf and injectives are flabby, successive cokernels may be embedded in injectives to obtain a flabby resolution.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-10}
+Explain why flabby acyclicity on every open subset is stronger than merely knowing $H^{>0}(X,\mathcal F)=0$.
+\end{problem}
+\begin{solution}
+The local statement can be applied after restricting to any open and is exactly what is needed for relative constructions such as higher direct images and for cover-by-cover arguments.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-11}
+Show how a flabby resolution produces the cochain complex computing $H^p(X,\mathcal F)$.
+\end{problem}
+\begin{solution}
+Apply $\Gamma(X,-)$ termwise to the resolution and take ordinary cohomology of the resulting complex of abelian groups.
+\end{solution}
+
+\begin{problem}\label{prob:vi46-12}
+Explain the precise bridge from VI/46 to VI/47.
+\end{problem}
+\begin{solution}
+VI/46 proves that a strong extension property annihilates positive Čech classes. VI/47 removes the flabby hypothesis and studies the same overlap complex as an invariant, including refinements and explicit computations.
+\end{solution}
+
+\section{Challenges}
+\begin{problem}[Challenge]\label{chal:vi46-01}
+Compare flabby, soft, and fine sheaves on paracompact spaces, making clear which implications use additional topology.
+\end{problem}
+\begin{solution}
+Flabbiness is defined purely by open-set restrictions. Softness concerns extension from closed subsets, and fineness uses partitions of unity or analogous endomorphism data. Under standard hypotheses soft and fine sheaves are acyclic, but these are different mechanisms from flabbiness.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi46-02}
+Give a complete functorial construction of the Godement resolution and prove each term is flabby.
+\end{problem}
+\begin{solution}
+Iterate the discontinuous-section functor $G^0$ on successive cokernels. Functoriality comes from maps on stalks, and flabbiness comes from coordinate-projection restrictions.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi46-03}
+Prove the arbitrary-cover \v{C}ech vanishing theorem for flabby sheaves without using derived categories.
+\end{problem}
+\begin{solution}
+Use successive extension of cochain components over unions of intersections, or an equivalent contracting-homotopy construction after well-ordering the cover indices.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi46-04}
+Develop the relative statement $R^pf_*\mathcal F=0$ for flabby $\mathcal F$ directly from the definition of higher direct image.
+\end{problem}
+\begin{solution}
+On every open $V\subseteq Y$, the preimage $f^{-1}V$ carries a flabby restriction of $\mathcal F$, whose positive cohomology vanishes. Sheafifying these zero presheaves gives zero higher direct images.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi46-05}
+On an integral curve, compare $\mathcal O_X$ with the flabby rational-function sheaf $\mathcal K_X$ and interpret the quotient $\mathcal K_X/\mathcal O_X$.
+\end{problem}
+\begin{solution}
+The inclusion records regular functions inside rational functions. The quotient measures principal parts or poles; it is a natural starting point for divisor and cohomological exact sequences, connecting the earlier divisor chapters with the present cohomology arc.
+\end{solution}
+
