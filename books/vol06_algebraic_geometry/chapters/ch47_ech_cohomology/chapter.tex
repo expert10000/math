@@ -1,0 +1,732 @@
+\chapter{\v{C}ech Cohomology}
+\label{ch:vi47-cech-cohomology}
+
+VI/46 introduced flabby sheaves and explained why their extension property kills higher cohomology.  The present chapter turns that abstract vanishing mechanism into a computational machine.  Given an open cover, one records sections on the opens, differences on pairwise overlaps, compatibility on triple overlaps, and so on.  The resulting alternating complex is the \v{C}ech complex.
+
+The basic progression is
+\[
+\boxed{\begin{gathered}
+\text{open cover}\Longrightarrow\text{cochains on overlaps}\\
+\Downarrow\\
+\text{cocycles modulo coboundaries}\Longrightarrow\check H^p
+\end{gathered}}
+\]
+and the first major calculation is the standard two-chart cover of $\PP^1$, where line-bundle cohomology becomes a quotient of Laurent polynomials.
+
+\section*{Standing conventions}
+All sheaves are sheaves of abelian groups unless stated otherwise.  Covers are indexed by totally ordered sets so that signs in alternating formulas are unambiguous.  Empty intersections contribute the zero group.  When comparing \v{C}ech and sheaf cohomology, the comparison hypotheses will always be stated explicitly.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item build the \v{C}ech cochain complex of an open cover;
+\item prove $\delta^2=0$ and compute cocycles and coboundaries;
+\item identify degree-zero \v{C}ech cohomology with global sections;
+\item compute two-open and three-open examples explicitly;
+\item use refinements and understand cover dependence;
+\item state the Leray comparison criterion;
+\item recover the flabby-sheaf vanishing result from VI/46;
+\item compute $\check H^0$ and $\check H^1$ of $\mathcal O_{\PP^1}(n)$ on the standard cover;
+\item reinterpret line-bundle transition functions as $\check H^1(\mathcal O_X^\times)$;
+\item prepare for connecting homomorphisms and long exact sequences in VI/48.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\input{chapters/ch47_ech_cohomology/figures/figure_01}
+
+\section{The \v{C}ech cochain complex}
+\begin{definition}[Ordered open cover]\label{def:vi47-cover}
+An \emph{ordered open cover} of a space $X$ is a family $\mathfrak U=\{U_i\}_{i\in I}$ whose union is $X$, together with a total order on $I$.  For $i_0<\cdots<i_p$ write
+\[
+U_{i_0\cdots i_p}=U_{i_0}\cap\cdots\cap U_{i_p}.
+\]
+\end{definition}
+
+\begin{definition}[\v{C}ech cochains]\label{def:vi47-cochains}
+For a sheaf $\mathcal F$ of abelian groups and an ordered open cover $\mathfrak U$, define
+\[
+C^p(\mathfrak U,\mathcal F)
+=
+\prod_{i_0<\cdots<i_p}\Gamma(U_{i_0\cdots i_p},\mathcal F).
+\]
+An element of $C^p$ is called a \emph{$p$-cochain}.
+\end{definition}
+
+\input{chapters/ch47_ech_cohomology/figures/figure_02}
+\begin{proposition}[The alternating differential satisfies $\delta^2=0$]\label{prop:vi47-delta-square}
+Define
+\[
+(\delta c)_{i_0\cdots i_{p+1}}
+=
+\sum_{r=0}^{p+1}(-1)^r
+c_{i_0\cdots\widehat{i_r}\cdots i_{p+1}}
+\big|_{U_{i_0\cdots i_{p+1}}}.
+\]
+Then $\delta^{p+1}\circ\delta^p=0$.
+\begin{proof}
+Every term obtained by deleting indices $i_r$ and $i_s$ occurs twice.  The two occurrences have opposite signs because deleting $i_r$ first shifts the position of $i_s$ by one exactly when $r<s$.  The corresponding restrictions agree by functoriality of restriction maps, so the terms cancel pairwise.
+\end{proof}
+\end{proposition}
+
+\begin{definition}[\v{C}ech cocycles, coboundaries, and cohomology]\label{def:vi47-cohomology}
+Set
+\[
+Z^p(\mathfrak U,\mathcal F)=\ker(\delta:C^p\to C^{p+1}),
+\qquad
+B^p(\mathfrak U,\mathcal F)=\operatorname{im}(\delta:C^{p-1}\to C^p).
+\]
+The $p$th \v{C}ech cohomology group of the cover is
+\[
+\check H^p(\mathfrak U,\mathcal F)=Z^p/B^p.
+\]
+\end{definition}
+
+\begin{proposition}[Degree zero is global sections]\label{prop:vi47-h0}
+For every open cover $\mathfrak U$ there is a canonical isomorphism
+\[
+\check H^0(\mathfrak U,\mathcal F)\cong\Gamma(X,\mathcal F).
+\]
+\begin{proof}
+A zero-cocycle is a family $s_i\in\Gamma(U_i,\mathcal F)$ whose restrictions agree on every pairwise overlap.  The sheaf gluing axiom produces a unique global section, and every global section gives such a compatible family.
+\end{proof}
+\end{proposition}
+
+\section{Two-open and three-open covers}
+\input{chapters/ch47_ech_cohomology/figures/figure_03}
+\begin{proposition}[The two-open complex]\label{prop:vi47-two-open}
+If $X=U\cup V$, then
+\[
+C^0=\Gamma(U,\mathcal F)\oplus\Gamma(V,\mathcal F),
+\qquad
+C^1=\Gamma(U\cap V,\mathcal F),
+\qquad
+C^p=0\ (p\ge2),
+\]
+and
+\[
+\check H^1(\mathfrak U,\mathcal F)
+\cong
+\frac{\Gamma(U\cap V,\mathcal F)}
+{\Gamma(U,\mathcal F)|_{U\cap V}-\Gamma(V,\mathcal F)|_{U\cap V}}.
+\]
+\begin{proof}
+There are only two indices, so no strictly increasing triple exists.  The displayed quotient is therefore $C^1/\operatorname{im}\delta^0$.
+\end{proof}
+\end{proposition}
+
+\begin{example}[An overlap obstruction]\label{ex:vi47-two-open-obstruction}
+A section $g\in\Gamma(U\cap V,\mathcal F)$ determines a class in $\check H^1(\{U,V\},\mathcal F)$.  Its class is zero exactly when
+\[
+g=s_U|_{U\cap V}-s_V|_{U\cap V}
+\]
+for sections $s_U$ and $s_V$ on the two opens.  Thus first \v{C}ech cohomology records whether overlap data can be split into data coming from the members of the cover.
+\end{example}
+
+\input{chapters/ch47_ech_cohomology/figures/figure_04}
+\begin{proposition}[The three-open complex]\label{prop:vi47-three-open}
+For $X=U_0\cup U_1\cup U_2$,
+\[
+C^0=\prod_i\Gamma(U_i,\mathcal F),\qquad
+C^1=\prod_{i<j}\Gamma(U_{ij},\mathcal F),\qquad
+C^2=\Gamma(U_{012},\mathcal F).
+\]
+For $c=(c_{01},c_{02},c_{12})$,
+\[
+(\delta c)_{012}=c_{12}-c_{02}+c_{01}
+\]
+after restriction to the triple overlap.
+\begin{proof}
+This is the general alternating formula specialized to three indices.
+\end{proof}
+\end{proposition}
+
+\section{Refinements and intrinsic \v{C}ech cohomology}
+\input{chapters/ch47_ech_cohomology/figures/figure_05}
+\begin{definition}[Refinement of a cover]\label{def:vi47-refinement}
+A cover $\mathfrak V=\{V_j\}_{j\in J}$ \emph{refines} $\mathfrak U=\{U_i\}_{i\in I}$ if there is a function $\tau:J\to I$ such that
+\[
+V_j\subseteq U_{\tau(j)}
+\]
+for all $j$.  We write $\mathfrak V\prec\mathfrak U$.
+\end{definition}
+
+\begin{theorem}[Refinements induce maps on cohomology]\label{thm:vi47-refinement-map}
+A refinement map $\tau$ induces a cochain map
+\[
+C^\bullet(\mathfrak U,\mathcal F)\longrightarrow C^\bullet(\mathfrak V,\mathcal F)
+\]
+by restriction, hence homomorphisms
+\[
+\check H^p(\mathfrak U,\mathcal F)\longrightarrow\check H^p(\mathfrak V,\mathcal F).
+\]
+Different choices of refinement map induce the same map on cohomology.
+\begin{proof}
+Restriction commutes with the alternating differential.  Two refinement choices are joined by the standard prism cochain homotopy, so their induced maps differ by a coboundary and therefore agree on cohomology.
+\end{proof}
+\end{theorem}
+
+\begin{definition}[Global \v{C}ech cohomology]\label{def:vi47-global-cech}
+The \emph{global \v{C}ech cohomology} of $\mathcal F$ is the filtered colimit over open covers ordered by refinement:
+\[
+\check H^p(X,\mathcal F)
+=
+\varinjlim_{\mathfrak U}\check H^p(\mathfrak U,\mathcal F).
+\]
+\end{definition}
+
+\begin{remark}[Cover dependence before refinement]\label{remark:vi47-cover-dependence}
+The group $\check H^p(\mathfrak U,\mathcal F)$ can depend strongly on the chosen cover.  Passing to refinements separates the intrinsic \v{C}ech theory of the space from artifacts of one coarse cover.
+\end{remark}
+
+\section{Flabby sheaves and Leray covers}
+\input{chapters/ch47_ech_cohomology/figures/figure_06}
+\begin{theorem}[Flabby sheaves are \v{C}ech-acyclic]\label{thm:vi47-flabby-vanish}
+If $\mathcal F$ is flabby, then for every open cover $\mathfrak U$,
+\[
+\check H^p(\mathfrak U,\mathcal F)=0
+\qquad(p>0).
+\]
+\begin{proof}
+This is the exactness theorem developed in VI/46: successive extension of sections from intersections produces a contracting procedure for positive-degree cocycles.
+\end{proof}
+\end{theorem}
+
+\begin{definition}[Acyclic (Leray) cover for a sheaf]\label{def:vi47-leray-cover}
+An open cover $\mathfrak U=\{U_i\}$ is \emph{$\mathcal F$-acyclic} if every nonempty finite intersection $U_{i_0\cdots i_p}$ satisfies
+\[
+H^q(U_{i_0\cdots i_p},\mathcal F)=0
+\qquad(q>0).
+\]
+\end{definition}
+
+\begin{theorem}[Leray comparison criterion]\label{thm:vi47-leray}
+If $\mathfrak U$ is $\mathcal F$-acyclic, then the natural comparison map is an isomorphism
+\[
+\check H^p(\mathfrak U,\mathcal F)\xrightarrow{\sim}H^p(X,\mathcal F)
+\]
+for all $p\ge0$.
+\begin{proof}
+Resolve $\mathcal F$ by flabby sheaves and form the double complex obtained by taking \v{C}ech cochains degreewise.  Exactness in one direction comes from flabbiness, while the acyclicity hypothesis collapses the other spectral filtration to the zeroth row.  Both filtrations therefore compute the same total cohomology.
+\end{proof}
+\end{theorem}
+
+\begin{example}[Affine-cover preview for schemes]\label{ex:vi47-affine-preview}
+If a scheme is covered by affine opens whose finite intersections are affine, then a quasi-coherent sheaf will be acyclic on those intersections once the affine vanishing theorem is available.  Thus the corresponding affine cover becomes a Leray cover.  The required affine vanishing result is proved systematically in VI/49.
+\end{example}
+
+\section{The standard cover of \texorpdfstring{$\PP^1$}{P1}}
+\input{chapters/ch47_ech_cohomology/figures/figure_07}
+\begin{definition}[The standard cover of $\PP^1$]\label{def:vi47-p1-cover}
+Let
+\[
+\PP^1_k=\operatorname{Proj}k[x_0,x_1],
+\qquad
+U_0=D_+(x_0),\quad U_1=D_+(x_1).
+\]
+Writing $t=x_1/x_0$ on $U_0$ and $u=x_0/x_1=t^{-1}$ on $U_1$, we have
+\[
+U_0\cong\mathbb A^1_t,\qquad U_1\cong\mathbb A^1_u,\qquad U_{01}\cong\operatorname{Spec}k[t,t^{-1}].
+\]
+\end{definition}
+
+\begin{proposition}[Transition function for $\mathcal O(n)$]\label{prop:vi47-on-transition}
+Choose the standard trivializing generators $e_0=x_0^n$ on $U_0$ and $e_1=x_1^n$ on $U_1$.  On $U_{01}$,
+\[
+e_1=t^n e_0.
+\]
+Consequently a section $b(u)e_1$ from $U_1$ is represented in the $e_0$ trivialization by
+\[
+t^n b(t^{-1})e_0.
+\]
+\begin{proof}
+The relation follows immediately from $x_1=tx_0$ on $D_+(x_0x_1)$.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}[The two-chart complex for $\mathcal O(n)$]\label{prop:vi47-on-complex}
+With the $e_0$ trivialization on the overlap, the \v{C}ech complex is
+\[
+k[t]\oplus k[t^{-1}]
+\longrightarrow
+k[t,t^{-1}],
+\qquad
+(a(t),b(t^{-1}))\longmapsto t^n b(t^{-1})-a(t).
+\]
+Hence
+\[
+\check H^1(\mathfrak U,\mathcal O(n))
+\cong
+\frac{k[t,t^{-1}]}{k[t]+t^n k[t^{-1}]}.
+\]
+\begin{proof}
+This is Proposition~\ref{prop:vi47-two-open} with the transition function inserted.
+\end{proof}
+\end{proposition}
+
+\begin{theorem}[Degree-zero calculation for $\mathcal O(n)$]\label{thm:vi47-on-h0}
+For the standard cover,
+\[
+\dim_k\check H^0(\mathfrak U,\mathcal O(n))
+=
+\begin{cases}
+n+1,&n\ge0,\\
+0,&n<0.
+\end{cases}
+\]
+For $n\ge0$, a basis corresponds to the Laurent exponents $0,1,\dots,n$, equivalently to the homogeneous monomials
+\[
+x_0^n,x_0^{n-1}x_1,\dots,x_1^n.
+\]
+\begin{proof}
+A zero-cocycle corresponds to an element of the intersection
+\[
+k[t]\cap t^n k[t^{-1}]\subset k[t,t^{-1}].
+\]
+For $n\ge0$ this is spanned by $1,t,\dots,t^n$; for $n<0$ the intersection is zero.
+\end{proof}
+\end{theorem}
+
+\input{chapters/ch47_ech_cohomology/figures/figure_08}
+\begin{theorem}[First \v{C}ech cohomology of $\mathcal O(n)$]\label{thm:vi47-on-h1}
+For the standard cover,
+\[
+\check H^1(\mathfrak U,\mathcal O(n))=0
+\qquad(n\ge-1),
+\]
+while for $n\le-2$ it has basis
+\[
+t^{n+1},t^{n+2},\dots,t^{-1}.
+\]
+Thus
+\[
+\dim_k\check H^1(\mathfrak U,\mathcal O(n))=-n-1
+\qquad(n\le-2).
+\]
+\begin{proof}
+The subspace $k[t]$ contains all Laurent monomials with exponent $\ge0$, while $t^n k[t^{-1}]$ contains all exponents $\le n$.  If $n\ge-1$, these two ranges cover every integer exponent.  If $n\le-2$, the missing exponents are exactly $n+1,\dots,-1$.
+\end{proof}
+\end{theorem}
+
+\begin{corollary}[Dimension pattern]\label{cor:vi47-on-dimensions}
+For the standard cover of $\PP^1$,
+\[
+\dim_k\check H^0(\mathcal O(n))=\max\{n+1,0\},
+\qquad
+\dim_k\check H^1(\mathcal O(n))=\max\{-n-1,0\}.
+\]
+Once affine acyclicity of quasi-coherent sheaves is established in VI/49, the Leray criterion identifies these groups with the sheaf cohomology groups $H^0$ and $H^1$.
+\end{corollary}
+
+\begin{example}[The first negative case]\label{ex:vi47-o-minus-two}
+For $n=-2$,
+\[
+\check H^1(\mathfrak U,\mathcal O(-2))
+\cong
+k\cdot t^{-1}.
+\]
+The single missing Laurent mode $t^{-1}$ is the first nonzero line-bundle cohomology class visible in the standard two-chart calculation.
+\end{example}
+
+\section{Line bundles and comparison issues}
+\begin{proposition}[Line bundles as unit-valued 1-cocycles]\label{prop:vi47-pic-cech}
+For the sheaf of units $\mathcal O_X^\times$, a \v{C}ech 1-cocycle is a family of invertible transition functions $g_{ij}$.  On triple overlaps they satisfy
+\[
+g_{ij}g_{jk}=g_{ik}.
+\]
+Changing local trivializations multiplies the cocycle by a coboundary.  Therefore line bundles trivialized by the cover are classified by
+\[
+\check H^1(\mathfrak U,\mathcal O_X^\times).
+\]
+Passing to refinements recovers the usual \v{C}ech description of $\operatorname{Pic}(X)$.
+\begin{proof}
+This is precisely the gluing construction for line bundles from VI/42, rewritten in cohomological language.
+\end{proof}
+\end{proposition}
+
+\begin{warning}[\v{C}ech and sheaf cohomology need not always coincide]\label{warning:vi47-cech-sheaf}
+For an arbitrary topological space, arbitrary sheaf, and arbitrary cover, the groups $\check H^p(\mathfrak U,\mathcal F)$ need not equal the derived-functor groups $H^p(X,\mathcal F)$.  The Leray criterion gives a clean sufficient hypothesis.  This distinction is essential whenever a computation depends on the choice of cover.
+\end{warning}
+
+\begin{remark}[Bridge to exact sequences]\label{remark:vi47-next}
+VI/48 studies what happens to cohomology under a short exact sequence
+\[
+0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0.
+\]
+The connecting map $H^0(\mathcal F'')\to H^1(\mathcal F')$ will acquire a concrete interpretation: it is the \v{C}ech class of the failure of local lifts of a section of $\mathcal F''$ to glue globally.
+\end{remark}
+
+\section{Exercises}
+\begin{exercise}\label{exr:vi47-01}
+For a two-open cover $X=U\cup V$, write the differential $C^0\to C^1$ with a fixed sign convention.
+\end{exercise}
+\begin{hint}
+With indices $0<1$, use $(s_U,s_V)\mapsto s_V|_{U\cap V}-s_U|_{U\cap V}$.
+\end{hint}
+\begin{solution}
+The general alternating formula gives $(\delta s)_{01}=s_1-s_0$ after both sections are restricted to $U_{01}$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-02}
+Verify directly that $\delta^1\delta^0=0$ for a three-open cover.
+\end{exercise}
+\begin{hint}
+Expand the three terms on $U_{012}$.
+\end{hint}
+\begin{solution}
+For $s=(s_0,s_1,s_2)$, the pairwise differences are $s_1-s_0$, $s_2-s_0$, and $s_2-s_1$.  Therefore $(s_2-s_1)-(s_2-s_0)+(s_1-s_0)=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-03}
+Show that $\check H^0(\mathfrak U,\mathcal F)$ is independent of the cover.
+\end{exercise}
+\begin{hint}
+Use the sheaf gluing axiom.
+\end{hint}
+\begin{solution}
+Every zero-cocycle is a compatible family of local sections and therefore glues uniquely to a global section. Hence $\check H^0\cong\Gamma(X,\mathcal F)$ for every cover.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-04}
+Compute the \v{C}ech groups of the one-set cover $\{X\}$.
+\end{exercise}
+\begin{hint}
+There are no increasing tuples of length at least two.
+\end{hint}
+\begin{solution}
+One has $C^0=\Gamma(X,\mathcal F)$ and $C^p=0$ for $p>0$, so $\check H^0=\Gamma(X,\mathcal F)$ and $\check H^p=0$ for $p>0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-05}
+For a three-open cover, write the 1-cocycle condition explicitly.
+\end{exercise}
+\begin{hint}
+Use $c_{12}-c_{02}+c_{01}=0$.
+\end{hint}
+\begin{solution}
+A 1-cochain $(c_{01},c_{02},c_{12})$ is a cocycle exactly when the three restricted sections satisfy $c_{12}-c_{02}+c_{01}=0$ on $U_{012}$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-06}
+Show that if $U\cap V=\varnothing$, then the two-open cover has $\check H^1=0$.
+\end{exercise}
+\begin{hint}
+The group of sections over the empty set is zero.
+\end{hint}
+\begin{solution}
+Here $C^1=\Gamma(\varnothing,\mathcal F)=0$, so the first cohomology group is zero.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-07}
+Show that a refinement induces the identity map on $\check H^0$ under the identification with global sections.
+\end{exercise}
+\begin{hint}
+Track a global section through restrictions.
+\end{hint}
+\begin{solution}
+A global section restricts to every member of either cover. Refinement merely restricts the same section further, so the induced map corresponds to the identity of $\Gamma(X,\mathcal F)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-08}
+Explain why the direct limit over refinements removes dependence on a single coarse cover.
+\end{exercise}
+\begin{hint}
+Any two covers admit a common refinement.
+\end{hint}
+\begin{solution}
+The cover by all intersections $U_i\cap V_j$ refines both covers. Thus classes can be compared after passing to a common refinement, exactly what the filtered colimit records.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-09}
+Prove that a flabby sheaf has zero $\check H^1$ on a two-open cover.
+\end{exercise}
+\begin{hint}
+Every overlap section extends to one of the opens.
+\end{hint}
+\begin{solution}
+Given $g\in\Gamma(U\cap V,\mathcal F)$, extend it to $s_U\in\Gamma(U,\mathcal F)$ and take $s_V=0$. Then $g$ is a coboundary up to the chosen sign convention.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-10}
+State the condition that makes a cover Leray for $\mathcal F$.
+\end{exercise}
+\begin{hint}
+Look at all finite intersections.
+\end{hint}
+\begin{solution}
+Every nonempty finite intersection of members of the cover must have vanishing $H^q(-,\mathcal F)$ for all $q>0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-11}
+On $\PP^1$, verify $U_0\cap U_1\cong\operatorname{Spec}k[t,t^{-1}]$.
+\end{exercise}
+\begin{hint}
+Both $t$ and $t^{-1}$ are regular on the overlap.
+\end{hint}
+\begin{solution}
+The overlap is $D_+(x_0x_1)$. Its degree-zero coordinate ring is generated by $t=x_1/x_0$ and $t^{-1}=x_0/x_1$, hence is $k[t,t^{-1}]$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-12}
+For $\mathcal O(2)$, list a basis of $\check H^0$ on the standard cover.
+\end{exercise}
+\begin{hint}
+Use exponents $0,1,2$.
+\end{hint}
+\begin{solution}
+In the $e_0$ trivialization the basis is $1,t,t^2$.  Equivalently, the homogeneous basis is
+\[
+x_0^2,\quad x_0x_1,\quad x_1^2.
+\]
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-13}
+Compute $\check H^1(\PP^1,\mathcal O(-1))$ on the standard cover.
+\end{exercise}
+\begin{hint}
+The ranges of exponents are $\ge0$ and $\le-1$.
+\end{hint}
+\begin{solution}
+Those two ranges cover every Laurent monomial, so the quotient $k[t,t^{-1}]/(k[t]+t^{-1}k[t^{-1}])$ is zero.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-14}
+Compute $\check H^1(\PP^1,\mathcal O(-3))$ and give a basis.
+\end{exercise}
+\begin{hint}
+The missing exponents are $-2,-1$.
+\end{hint}
+\begin{solution}
+The quotient has basis $t^{-2},t^{-1}$ and therefore dimension $2$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-15}
+Compute $\check H^0(\PP^1,\mathcal O(-2))$.
+\end{exercise}
+\begin{hint}
+Intersect $k[t]$ with $t^{-2}k[t^{-1}]$.
+\end{hint}
+\begin{solution}
+The first space has exponents $\ge0$ and the second has exponents $\le-2$, so the intersection is zero.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-16}
+For $n=0$, compute both \v{C}ech groups of $\mathcal O$ on the standard cover.
+\end{exercise}
+\begin{hint}
+Use the general formulas.
+\end{hint}
+\begin{solution}
+One gets $\check H^0\cong k$ and $\check H^1=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-17}
+Explain why $\check H^1(\mathfrak U,\mathcal O_X^\times)$ describes line bundles trivial on the cover.
+\end{exercise}
+\begin{hint}
+A 1-cocycle is a family of transition functions.
+\end{hint}
+\begin{solution}
+The cocycle identity is precisely the compatibility condition for gluing trivial line bundles, while multiplying by a coboundary corresponds to changing local trivializations. Thus cohomology classes classify the resulting line bundles.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-18}
+Show that the transition function for $\mathcal O(n+m)$ is the product of those for $\mathcal O(n)$ and $\mathcal O(m)$.
+\end{exercise}
+\begin{hint}
+Use $t^{n+m}=t^nt^m$.
+\end{hint}
+\begin{solution}
+On the overlap the transition functions are $t^n$ and $t^m$, so tensor product multiplies them to $t^{n+m}$, the transition for $\mathcal O(n+m)$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-19}
+Why is the Leray criterion only a sufficient condition in the form stated?
+\end{exercise}
+\begin{hint}
+A cover can compute correctly even if some intersections have higher cohomology.
+\end{hint}
+\begin{solution}
+The criterion guarantees collapse of the comparison double complex. Failure of the hypothesis does not force failure of the comparison; it merely removes this easy proof of isomorphism.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-20}
+Give a common refinement of two covers $\{U_i\}$ and $\{V_j\}$.
+\end{exercise}
+\begin{hint}
+Use pairwise intersections.
+\end{hint}
+\begin{solution}
+The nonempty opens $U_i\cap V_j$ cover $X$ and each lies in both $U_i$ and $V_j$, so they form a common refinement.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-21}
+For $n=-4$, identify the missing Laurent modes in
+\[
+\check H^1(\mathcal O(n)).
+\]
+\end{exercise}
+\begin{hint}
+They run from $n+1$ to $-1$.
+\end{hint}
+\begin{solution}
+The missing modes are $t^{-3},t^{-2},t^{-1}$, so the dimension is $3$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-22}
+Check the dimension identity
+\[
+\dim\check H^0(\mathcal O(n))-\dim\check H^1(\mathcal O(n))=n+1.
+\]
+\end{exercise}
+\begin{hint}
+Separate $n\ge-1$ and $n\le-2$.
+\end{hint}
+\begin{solution}
+If $n\ge0$, the difference is $n+1$; for $n=-1$ both groups vanish and the difference is $0=n+1$; for $n\le-2$ the difference is $0-(-n-1)=n+1$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-23}
+Explain why one should not automatically replace $\check H^p(\mathfrak U,\mathcal F)$ by $H^p(X,\mathcal F)$ in an arbitrary computation.
+\end{exercise}
+\begin{hint}
+Recall the comparison warning.
+\end{hint}
+\begin{solution}
+The fixed-cover \v{C}ech groups depend on overlap data and need not coincide with derived-functor sheaf cohomology unless an appropriate comparison theorem applies, for example the Leray criterion.
+\end{solution}
+
+\begin{exercise}\label{exr:vi47-24}
+Describe the future connecting class of local lifts in \v{C}ech language.
+\end{exercise}
+\begin{hint}
+Lift a global section of a quotient locally and subtract lifts on overlaps.
+\end{hint}
+\begin{solution}
+If $s\in\Gamma(X,\mathcal F'')$ lifts locally to $t_i\in\Gamma(U_i,\mathcal F)$, then $t_j-t_i$ lies in $\mathcal F'$ on $U_{ij}$ and forms a 1-cocycle. Its class is the connecting obstruction developed in VI/48.
+\end{solution}
+
+\section{Solved problem dossiers}
+\begin{problem}\label{prob:vi47-01}
+Derive the quotient formula for $\check H^1$ of a two-open cover and interpret its zero class geometrically.
+\end{problem}
+\begin{solution}
+Because $C^2=0$, every 1-cochain is a cocycle.  Coboundaries are exactly differences $s_V-s_U$ restricted from the two opens.  Therefore $\check H^1=C^1/\operatorname{im}\delta^0$.  The zero class means the overlap datum splits into local pieces, so there is no gluing obstruction.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-02}
+For a three-open cover, prove directly that the coboundary of every zero-cochain satisfies the triangle cocycle condition.
+\end{problem}
+\begin{solution}
+If $c_{ij}=s_j-s_i$, then on the triple overlap $c_{12}-c_{02}+c_{01}=(s_2-s_1)-(s_2-s_0)+(s_1-s_0)=0$.  This is the degree-zero instance of $\delta^2=0$.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-03}
+Show that two refinement maps between the same covers induce the same map on cohomology.
+\end{problem}
+\begin{solution}
+The standard prism operator inserts the two chosen containing indices in all possible positions, with alternating signs. Its coboundary is the difference of the two induced cochain maps. Hence those maps are cochain-homotopic and act identically on cohomology.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-04}
+Explain in detail how flabbiness kills a Čech 1-cocycle.
+\end{problem}
+\begin{solution}
+For a 1-cocycle $c_{ij}$, choose an ordering and extend appropriate overlap sections successively to the opens.  Subtracting the resulting zero-cochain changes $c$ by a coboundary and eliminates its components one at a time.  The cocycle identities ensure previously eliminated components stay zero.  Thus $c$ is a coboundary.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-05}
+Compute $\check H^0$ and $\check H^1$ of $\mathcal O(3)$ on the standard cover of $\PP^1$.
+\end{problem}
+\begin{solution}
+The zero-cohomology intersection is spanned by $1,t,t^2,t^3$, giving dimension $4$.  For first cohomology, $k[t]$ contains all exponents $\ge0$ and $t^3k[t^{-1}]$ all exponents $\le3$; together they span every Laurent monomial, so $\check H^1=0$.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-06}
+Compute $\check H^0$ and $\check H^1$ of $\mathcal O(-5)$ on the standard cover.
+\end{problem}
+\begin{solution}
+The zero-cohomology intersection is zero. The missing Laurent exponents between the ranges $\le-5$ and $\ge0$ are $-4,-3,-2,-1$, so $\check H^1$ has basis $t^{-4},t^{-3},t^{-2},t^{-1}$ and dimension $4$.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-07}
+Recover the familiar $n+1$ homogeneous polynomials as Čech zero-cocycles of $\mathcal O(n)$ for $n\ge0$.
+\end{problem}
+\begin{solution}
+A zero-cocycle is a Laurent polynomial lying in both $k[t]$ and $t^nk[t^{-1}]$, hence a linear combination of $1,t,\dots,t^n$. Multiplying by the local frame $x_0^n$ sends $t^j$ to $x_0^{n-j}x_1^j$, giving all homogeneous polynomials of degree $n$.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-08}
+Use transition functions to show $\mathcal O(n)\otimes\mathcal O(m)\cong\mathcal O(n+m)$ from the Čech viewpoint.
+\end{problem}
+\begin{solution}
+The respective cocycles on the standard cover are $t^n$ and $t^m$. Tensor product multiplies transition functions, producing $t^{n+m}$, which is the cocycle of $\mathcal O(n+m)$.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-09}
+Explain why the standard cover of $\PP^1$ is expected to compute sheaf cohomology of $\mathcal O(n)$ once affine vanishing is known.
+\end{problem}
+\begin{solution}
+The opens $U_0$, $U_1$, and their nonempty intersection $U_{01}$ are affine.  The sheaves $\mathcal O(n)$ are quasi-coherent.  Affine vanishing therefore makes every finite intersection acyclic, so the cover satisfies the Leray criterion and its Čech groups equal the sheaf cohomology groups.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-10}
+Construct the Čech 1-cocycle measuring failure of local lifts in a short exact sequence.
+\end{problem}
+\begin{solution}
+Given $0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0$ and $s\in\Gamma(X,\mathcal F'')$, choose local lifts $t_i$.  On overlaps, $t_j-t_i$ maps to zero in $\mathcal F''$, so it lies in $\mathcal F'$.  The identity $(t_k-t_j)-(t_k-t_i)+(t_j-t_i)=0$ makes these differences a 1-cocycle.  Changing the lifts alters it by a coboundary.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-11}
+Compare the one-set cover and a nontrivial cover of the same space and explain why fixed-cover Čech cohomology can behave differently.
+\end{problem}
+\begin{solution}
+The one-set cover has no positive cochains and therefore no positive Čech cohomology. A finer cover can have nontrivial overlap groups and nonzero cocycles.  This demonstrates why a fixed cover is not intrinsically the sheaf cohomology of the space and motivates refinement or Leray hypotheses.
+\end{solution}
+
+\begin{problem}\label{prob:vi47-12}
+Show how the line-bundle discussion reconnects VI/47 to the Picard group of VI/42.
+\end{problem}
+\begin{solution}
+A line bundle trivialized on a cover is described by unit-valued transition functions $g_{ij}$ satisfying the cocycle relation. Changing local frames multiplies $g_{ij}$ by a coboundary. Therefore its isomorphism class is a class in $\check H^1(\mathfrak U,\mathcal O_X^\times)$. Refining until a line bundle is trivial on the cover gives the intrinsic identification with $\operatorname{Pic}(X)$.
+\end{solution}
+
+\section{Challenges}
+\begin{problem}[Challenge]\label{chal:vi47-01}
+Prove the refinement-independence theorem by writing an explicit prism cochain homotopy.
+\end{problem}
+\begin{solution}
+For two refinement maps $\tau,\sigma:J\to I$, define the homotopy by alternatingly inserting the sequence of $\tau$-indices followed by $\sigma$-indices and restricting to the common refined intersection.  A direct cancellation calculation gives $dK+Kd=\tau^*-\sigma^*$, proving equality on cohomology.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi47-02}
+Generalize the $\PP^1$ Laurent-polynomial calculation to the standard affine cover of projective space and identify what combinatorial object replaces the one-dimensional exponent interval.
+\end{problem}
+\begin{solution}
+The intersections are algebraic tori times affine spaces, so cochains are multivariable Laurent monomials.  Surviving cohomology classes are indexed by exponent vectors excluded by the polynomial subspaces contributed by the affine charts.  The resulting combinatorics is a lattice-polytope version of the missing-exponent argument on $\PP^1$.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi47-03}
+Work out $\check H^1$ of the constant sheaf $\mathbb Z$ on a good cover of the circle and compare it with a bad one-set cover.
+\end{problem}
+\begin{solution}
+A good cyclic cover has contractible nonempty intersections and its nerve is homotopy equivalent to $S^1$, giving $\check H^1\cong\mathbb Z$.  The one-set cover has zero positive fixed-cover Čech cohomology.  Refinements reveal why the intrinsic Čech group agrees with the topology while one coarse cover need not.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi47-04}
+Prove the Leray comparison criterion using a double complex built from a flabby resolution.
+\end{problem}
+\begin{solution}
+Take a flabby resolution $\mathcal F\to\mathcal I^\bullet$ and the double complex
+\[
+C^p(\mathfrak U,\mathcal I^q).
+\]
+Horizontal cohomology vanishes in positive degree because every $\mathcal I^q$ is flabby.  Vertical cohomology on each finite intersection vanishes in positive degree by the Leray hypothesis.  The two spectral sequences therefore collapse to sheaf cohomology and Čech cohomology respectively, identifying them.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi47-05}
+Use the calculation of $\mathcal O(n)$ to conjecture and then verify the Euler characteristic formula on $\PP^1$.
+\end{problem}
+\begin{solution}
+The computed dimensions give $\chi(\mathcal O(n))=\dim H^0-\dim H^1=n+1$ in every integer degree.  Once the Leray identification is invoked, this is the genus-zero Riemann--Roch formula for line bundles on $\PP^1$.
+\end{solution}
+
