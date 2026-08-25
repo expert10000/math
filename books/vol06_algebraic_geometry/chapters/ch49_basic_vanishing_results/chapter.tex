@@ -1,0 +1,689 @@
+\chapter{Basic Vanishing Results}
+\label{ch:vi49-basic-vanishing-results}
+
+VI/46 introduced flabby sheaves, VI/47 made cohomology computable by \v{C}ech complexes, and VI/48 showed how exact sequences transport cohomological information.  This final chapter of Volume VI turns those tools into vanishing theorems.  The central geometric fact is that quasi-coherent sheaves on affine schemes have no higher cohomology.
+
+\[
+\boxed{
+X=\operatorname{Spec}A,\ \mathcal F\ \text{quasi-coherent}
+\quad\Longrightarrow\quad
+H^q(X,\mathcal F)=0\ (q>0)
+}
+\]
+
+Once affine vanishing is known, affine covers become computational engines.  On separated schemes their finite intersections remain affine, so the \v{C}ech groups of an affine cover compute actual sheaf cohomology.  The line-bundle calculation on $\PP^1$ from VI/47 therefore becomes a genuine sheaf-cohomology theorem rather than merely a fixed-cover calculation.
+
+\section*{Standing conventions}
+Cohomology means sheaf cohomology on the Zariski topology.  Unless stated otherwise, schemes are schemes over a fixed base and quasi-coherent sheaves are $\mathcal O_X$-modules.  We use the results on flabby resolutions, \v{C}ech comparison, and long exact sequences established in VI/46--VI/48.
+
+\section*{Learning goals}
+By the end of the chapter, the reader should be able to:
+\begin{itemize}
+\item recognize flabby and injective sheaves as acyclic objects;
+\item prove exactness of the localization \v{C}ech complex for a principal affine cover;
+\item state and use affine vanishing for quasi-coherent sheaves;
+\item identify affine covers of separated schemes as Leray covers;
+\item derive cohomological bounds from the number of affine opens in a cover;
+\item compute the complete cohomology of $\mathcal O_{\PP^1}(n)$;
+\item propagate vanishing through long exact sequences;
+\item use divisor sequences and dimension shifting;
+\item distinguish basic affine vanishing from deeper projective vanishing theorems.
+\end{itemize}
+
+\section*{Conceptual roadmap}
+\input{chapters/ch49_basic_vanishing_results/figures/figure_01}
+
+\section{Acyclic sheaves revisited}
+\begin{definition}[Acyclic sheaf]\label{def:vi49-acyclic}
+A sheaf $\mathcal F$ on $X$ is called \emph{$\Gamma$-acyclic} if
+\[
+H^q(X,\mathcal F)=0\qquad(q>0).
+\]
+Acyclicity depends on the space on which the sheaf is considered; when necessary we say ``acyclic on $X$.'' 
+\end{definition}
+
+\input{chapters/ch49_basic_vanishing_results/figures/figure_02}
+\begin{theorem}[Flabby vanishing]\label{thm:vi49-flabby-vanish}
+Every flabby sheaf is $\Gamma$-acyclic. More generally, the restriction of a flabby sheaf to any open subset is flabby and hence acyclic.
+\begin{proof}
+VI/46 constructed flabby resolutions and proved that global sections applied to a flabby sheaf already have no positive derived cohomology. Restriction preserves the surjectivity of restriction maps, so the same argument applies on every open subset.
+\end{proof}
+\end{theorem}
+
+\begin{corollary}[Injective vanishing]\label{cor:vi49-injective-vanish}
+Every injective sheaf of abelian groups is acyclic.
+\begin{proof}
+Injective sheaves are flabby by VI/46, so the previous theorem applies.
+\end{proof}
+\end{corollary}
+
+\begin{example}[Skyscraper sheaves]\label{ex:vi49-skyscraper-vanish}
+A skyscraper sheaf $i_{x,*}A$ is flabby, hence
+\[
+H^q(X,i_{x,*}A)=0\qquad(q>0).
+\]
+Finite direct sums of skyscraper sheaves are therefore acyclic as well.
+\end{example}
+
+\begin{definition}[Affine quasi-coherent situation]\label{def:vi49-affine-qc}
+Let $X=\operatorname{Spec}A$ and let $M$ be an $A$-module. We write $\widetilde M$ for the associated quasi-coherent sheaf. On a principal open $D(f)$,
+\[
+\Gamma(D(f),\widetilde M)\cong M_f.
+\]
+\end{definition}
+
+\section{Affine vanishing}
+\input{chapters/ch49_basic_vanishing_results/figures/figure_03}
+\begin{proposition}[Exact localization Čech complex]\label{prop:vi49-localization-cech}
+Suppose $f_1,\ldots,f_r\in A$ generate the unit ideal. For every $A$-module $M$, the augmented localization complex
+\[
+0\to M\to\prod_i M_{f_i}\to\prod_{i<j}M_{f_if_j}\to\cdots\to M_{f_1\cdots f_r}\to0
+\]
+with the alternating Čech differential is exact.
+\begin{proof}
+Exactness may be checked after localizing at each $f_i$, because the principal opens $D(f_i)$ cover $\operatorname{Spec}A$. After localizing at $f_i$, one member of the induced cover is the whole space, and the resulting augmented Čech complex admits the standard contracting homotopy obtained by inserting the distinguished index $i$. Hence every localized homology module vanishes. Since the $D(f_i)$ cover, the original homology modules vanish as well.
+\end{proof}
+\end{proposition}
+
+\input{chapters/ch49_basic_vanishing_results/figures/figure_04}
+\begin{theorem}[Affine vanishing theorem]\label{thm:vi49-affine-vanishing}
+Let $X=\operatorname{Spec}A$ be affine and let $\mathcal F$ be quasi-coherent. Then
+\[
+\boxed{H^q(X,\mathcal F)=0\qquad(q>0).}
+\]
+\begin{proof}
+Write $\mathcal F\cong\widetilde M$. A finite principal cover of $X$ gives the exact localization Čech complex of the preceding proposition. The standard Čech-to-derived comparison on the principal affine basis identifies this exact complex with the cohomology of $\widetilde M$. Thus all positive cohomology groups vanish.
+\end{proof}
+\end{theorem}
+
+\begin{corollary}[Principal opens are acyclic]\label{cor:vi49-basic-open}
+If $X=\operatorname{Spec}A$, $f\in A$, and $\mathcal F$ is quasi-coherent, then
+\[
+H^q(D(f),\mathcal F|_{D(f)})=0\qquad(q>0).
+\]
+\begin{proof}
+The principal open $D(f)$ is affine and the restriction of a quasi-coherent sheaf is quasi-coherent.
+\end{proof}
+\end{corollary}
+
+\begin{proposition}[Čech exactness on a principal cover]\label{prop:vi49-affine-cech}
+Let $X=\operatorname{Spec}A$ and let $\mathfrak U=\{D(f_i)\}$ be a finite principal cover. For every quasi-coherent $\mathcal F$, the augmented Čech complex of $\mathfrak U$ is exact in positive degree.
+\begin{proof}
+If $\mathcal F=\widetilde M$, its Čech terms are precisely the localizations $M_{f_{i_0}\cdots f_{i_p}}$, so this is the localization proposition.
+\end{proof}
+\end{proposition}
+
+\begin{definition}[Acyclic cover]\label{def:vi49-leray}
+An open cover $\mathfrak U=\{U_i\}$ is \emph{$\mathcal F$-acyclic} (or Leray for $\mathcal F$) if every nonempty finite intersection satisfies
+\[
+H^q(U_{i_0\cdots i_p},\mathcal F)=0\qquad(q>0).
+\]
+\end{definition}
+
+\section{Affine covers and Leray comparison}
+\begin{theorem}[Affine Leray covers]\label{thm:vi49-affine-leray}
+Let $X$ be a separated scheme and let $\mathfrak U=\{U_i\}$ be an affine open cover. For every quasi-coherent sheaf $\mathcal F$, the cover is Leray, and hence
+\[
+\check H^q(\mathfrak U,\mathcal F)\cong H^q(X,\mathcal F).
+\]
+\begin{proof}
+On a separated scheme, every finite intersection of affine opens is affine. The restriction of $\mathcal F$ to such an intersection is quasi-coherent, so affine vanishing applies. VI/47's Leray comparison theorem now identifies Čech and sheaf cohomology.
+\end{proof}
+\end{theorem}
+
+\begin{proposition}[Why separatedness matters]\label{prop:vi49-separated-intersections}
+If $X$ is separated and $U,V\subseteq X$ are affine opens, then $U\cap V$ is affine.
+\begin{proof}
+The intersection is the inverse image of $U\times V$ under the diagonal $\Delta_X:X\to X\times X$. For a separated scheme the diagonal is a closed immersion, hence affine; therefore its inverse image over the affine scheme $U\times V$ is affine.
+\end{proof}
+\end{proposition}
+
+\input{chapters/ch49_basic_vanishing_results/figures/figure_05}
+\begin{corollary}[Cover-length vanishing bound]\label{cor:vi49-cover-length}
+Let $X$ be separated and covered by $r$ affine opens. For every quasi-coherent sheaf $\mathcal F$ one has
+\[
+H^q(X,\mathcal F)=0\qquad(q\ge r).
+\]
+\begin{proof}
+The affine cover is Leray. Its Čech complex has no terms in degrees $q\ge r$, because there are no strictly increasing $(q+1)$-tuples of indices.
+\end{proof}
+\end{corollary}
+
+\begin{corollary}[Two-affine vanishing]\label{cor:vi49-two-affine}
+If a separated scheme is the union of two affine opens, then every quasi-coherent sheaf $\mathcal F$ satisfies
+\[
+H^q(X,\mathcal F)=0\qquad(q\ge2).
+\]
+\end{corollary}
+
+\begin{proposition}[Global sections of $\mathcal O_{\PP^1}(n)$]\label{prop:vi49-p1-h0}
+For the projective line over a field $k$,
+\[
+\dim_k H^0(\PP^1,\mathcal O(n))=
+\begin{cases}
+n+1,&n\ge0,\\
+0,&n<0.
+\end{cases}
+\]
+For $n\ge0$, the homogeneous monomials $x_0^{n-j}x_1^j$, $0\le j\le n$, form a basis.
+\begin{proof}
+Use the standard affine cover $U_0\cup U_1$ and write a section as compatible polynomials in $t$ and $u=t^{-1}$. Compatibility forces a Laurent polynomial to have exponents between $0$ and $n$. Such exponents exist exactly when $n\ge0$.
+\end{proof}
+\end{proposition}
+
+\section{The complete cohomology of line bundles on \texorpdfstring{$\PP^1$}{P1}}
+\input{chapters/ch49_basic_vanishing_results/figures/figure_06}
+\begin{theorem}[First cohomology of $\mathcal O_{\PP^1}(n)$]\label{thm:vi49-p1-h1}
+For every integer $n$,
+\[
+H^1(\PP^1,\mathcal O(n))\cong
+\frac{k[t,t^{-1}]}{k[t]+t^n k[t^{-1}]}.
+\]
+Consequently,
+\[
+\dim_k H^1(\PP^1,\mathcal O(n))=
+\begin{cases}
+0,&n\ge-1,\\
+-n-1,&n\le-2.
+\end{cases}
+\]
+\begin{proof}
+The standard cover consists of two affine opens, and their intersection is affine, so the cover is Leray by affine vanishing. The Čech computation from VI/47 therefore computes actual sheaf cohomology. The quotient leaves precisely the Laurent monomials $t^{n+1},\ldots,t^{-1}$ when $n\le-2$.
+\end{proof}
+\end{theorem}
+
+\begin{corollary}[Higher cohomology on $\PP^1$]\label{cor:vi49-p1-higher}
+For every integer $n$,
+\[
+H^q(\PP^1,\mathcal O(n))=0\qquad(q\ge2).
+\]
+\begin{proof}
+The projective line is separated and covered by two affine opens, so the two-affine vanishing result applies.
+\end{proof}
+\end{corollary}
+
+\begin{proposition}[Euler characteristic on $\PP^1$]\label{prop:vi49-p1-euler}
+For every integer $n$,
+\[
+\chi(\PP^1,\mathcal O(n))
+=\dim H^0-\dim H^1
+=n+1.
+\]
+\begin{proof}
+Combine the two preceding formulas in the cases $n\ge0$, $n=-1$, and $n\le-2$.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}[Acyclic kernel and middle term]\label{prop:vi49-acyclic-quotient}
+Suppose
+\[
+0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0
+\]
+is exact. If $\mathcal F'$ and $\mathcal F$ are acyclic, then $\mathcal F''$ is acyclic and
+\[
+\Gamma(X,\mathcal F)\twoheadrightarrow\Gamma(X,\mathcal F'').
+\]
+\begin{proof}
+Read the statement directly from the long exact cohomology sequence of VI/48.
+\end{proof}
+\end{proposition}
+
+\section{Vanishing and exact sequences}
+\input{chapters/ch49_basic_vanishing_results/figures/figure_07}
+\begin{proposition}[Recovering acyclicity of a kernel]\label{prop:vi49-acyclic-subobject}
+In the same short exact sequence, assume $\mathcal F$ and $\mathcal F''$ are acyclic and that
+\[
+\Gamma(X,\mathcal F)\to\Gamma(X,\mathcal F'')
+\]
+is surjective. Then $\mathcal F'$ is acyclic.
+\begin{proof}
+Surjectivity forces $H^1(X,\mathcal F')=0$. For $q\ge2$, exactness places $H^q(X,\mathcal F')$ between two zero groups coming from $\mathcal F''$ and $\mathcal F$.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}[Dimension shifting]\label{prop:vi49-dimension-shift}
+If
+\[
+0\to\mathcal F'\to\mathcal I\to\mathcal F''\to0
+\]
+is exact and $\mathcal I$ is acyclic, then for every $q\ge1$ there are natural isomorphisms
+\[
+H^q(X,\mathcal F'')\cong H^{q+1}(X,\mathcal F').
+\]
+\begin{proof}
+The relevant portion of the long exact sequence has zero middle terms $H^q(X,\mathcal I)$ and $H^{q+1}(X,\mathcal I)$.
+\end{proof}
+\end{proposition}
+
+\begin{proposition}[Vanishing in the divisor sequence]\label{prop:vi49-divisor-consequence}
+Let $D$ be an effective Cartier divisor on $X$ and $\mathcal L$ a line bundle. Assume
+\[
+H^q(D,\mathcal L|_D)=0\qquad(q>0),
+\]
+for example when $D$ is a finite scheme over a field. Then the exact sequence
+\[
+0\to\mathcal L(-D)\to\mathcal L\to i_*(\mathcal L|_D)\to0
+\]
+gives isomorphisms
+\[
+H^q(X,\mathcal L(-D))\xrightarrow{\sim}H^q(X,\mathcal L)
+\qquad(q\ge2),
+\]
+and the low-degree exact sequence controls the difference between $H^0$ and $H^1$.
+\begin{proof}
+Closed-immersion pushforward preserves cohomology, so the higher cohomology of the quotient term vanishes. Apply the long exact sequence.
+\end{proof}
+\end{proposition}
+
+\begin{corollary}[Point recurrence on $\PP^1$]\label{cor:vi49-p1-point}
+For a $k$-rational point $p\in\PP^1$,
+\[
+0\to\mathcal O(n-1)\to\mathcal O(n)\to k_p\to0
+\]
+relates the cohomology of adjacent twists. Since $k_p$ is acyclic, this sequence recursively recovers the formulas for $H^0$ and $H^1$ of $\mathcal O(n)$.
+\end{corollary}
+
+\begin{remark}[What is not proved here: Serre vanishing]\label{remark:vi49-serre-preview}
+A deeper projective theorem says that for a coherent sheaf $\mathcal F$ on a projective scheme and a sufficiently positive twist, $H^q(X,\mathcal F(n))=0$ for $q>0$ and $n\gg0$. That theorem requires substantially more projective machinery than the basic affine, Leray, and exact-sequence vanishing principles developed here.
+\end{remark}
+
+\section{Synthesis and limits of the basic theory}
+\input{chapters/ch49_basic_vanishing_results/figures/figure_08}
+\begin{theorem}[Part IX synthesis]\label{thm:vi49-part-ix-synthesis}
+Let $X$ be a separated scheme with a finite affine open cover $\mathfrak U$ of size $r$, and let $\mathcal F$ be quasi-coherent. Then
+\[
+H^q(X,\mathcal F)\cong\check H^q(\mathfrak U,\mathcal F)
+\]
+for all $q$, and
+\[
+H^q(X,\mathcal F)=0\qquad(q\ge r).
+\]
+In particular, affine schemes have no positive quasi-coherent cohomology, while two-affine schemes have no cohomology in degrees at least two.
+\begin{proof}
+Finite intersections of members of $\mathfrak U$ are affine by separatedness. Affine vanishing makes the cover Leray, so VI/47 identifies Čech and sheaf cohomology. The Čech complex has length at most $r-1$.
+\end{proof}
+\end{theorem}
+
+\begin{remark}[Closing Volume VI]\label{remark:vi49-volume-close}
+The route from affine algebraic sets to schemes, divisors, line bundles, blow-ups, and sheaf cohomology is now complete. The final lesson is structural: local algebra supplies the sections, sheaves organize their compatibility, exact sequences measure obstructions, and vanishing theorems identify the situations in which those obstructions disappear.
+\end{remark}
+
+\section{Exercises}
+\begin{exercise}\label{exr:vi49-01}
+Show directly from the definition that a flabby sheaf is acyclic on every open subset.
+\end{exercise}
+\begin{hint}
+Restriction of a flabby sheaf is flabby.
+\end{hint}
+\begin{solution}
+For an open $U$, the restriction maps of $\mathcal F|_U$ are the same restriction maps already known to be surjective. Thus $\mathcal F|_U$ is flabby, and VI/46 gives $H^q(U,\mathcal F|_U)=0$ for $q>0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-02}
+Why is every skyscraper sheaf acyclic?
+\end{exercise}
+\begin{hint}
+Use the implication flabby $\Rightarrow$ acyclic.
+\end{hint}
+\begin{solution}
+Skyscraper sheaves are flabby, so their positive cohomology groups vanish.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-03}
+Let $f_1,\dots,f_r$ generate the unit ideal. Explain why a module $N$ with $N_{f_i}=0$ for all $i$ must be zero.
+\end{exercise}
+\begin{hint}
+Use $1=\sum a_i f_i^N$ after choosing a common power.
+\end{hint}
+\begin{solution}
+For $n\in N$, each localization equality gives a power $f_i^{N_i}n=0$. Choose a common large $N$ and write $1$ as a combination of the $f_i^N$; multiplying by $n$ gives $n=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-04}
+Write the localization Čech complex for a two-element principal cover $D(f)\cup D(g)$.
+\end{exercise}
+\begin{hint}
+There are terms only through degree one.
+\end{hint}
+\begin{solution}
+It is $0\to M\to M_f\oplus M_g\to M_{fg}\to0$, with $(a,b)\mapsto a|_{fg}-b|_{fg}$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-05}
+Prove the two-element localization complex is exact when $(f,g)=A$.
+\end{exercise}
+\begin{hint}
+Localize at $f$ and at $g$.
+\end{hint}
+\begin{solution}
+After localizing at $f$, the cover contains the whole space $D(f)$ and the augmented complex contracts; similarly after localizing at $g$. The homology localizes to zero at both $f$ and $g$, hence is zero because $D(f)\cup D(g)=\operatorname{Spec}A$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-06}
+Let $X=\operatorname{Spec}A$ and $\mathcal F=\widetilde M$. Compute $H^q(X,\mathcal F)$ for $q>0$.
+\end{exercise}
+\begin{hint}
+Apply affine vanishing.
+\end{hint}
+\begin{solution}
+All positive cohomology groups vanish: $H^q(X,\widetilde M)=0$ for $q>0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-07}
+Show that $D(f_1)\cap\cdots\cap D(f_p)=D(f_1\cdots f_p)$.
+\end{exercise}
+\begin{hint}
+Use prime ideals.
+\end{hint}
+\begin{solution}
+A prime avoids every $f_i$ exactly when it avoids their product, so the two subsets coincide.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-08}
+Why does a principal affine cover of an affine scheme automatically form a Leray cover for a quasi-coherent sheaf?
+\end{exercise}
+\begin{hint}
+All finite intersections are principal affine opens.
+\end{hint}
+\begin{solution}
+Finite intersections are $D(f_{i_0}\cdots f_{i_p})$, hence affine. Affine vanishing kills all positive cohomology on them.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-09}
+Prove that the intersection of two affine opens in a separated scheme is affine.
+\end{exercise}
+\begin{hint}
+Use the diagonal.
+\end{hint}
+\begin{solution}
+The intersection is the inverse image of $U\times V$ under the diagonal. Since the diagonal of a separated scheme is a closed immersion and $U\times V$ is affine, the inverse image is affine.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-10}
+A separated scheme is covered by three affine opens. What cohomology groups of a quasi-coherent sheaf vanish for degree reasons?
+\end{exercise}
+\begin{hint}
+The Čech complex stops in degree two.
+\end{hint}
+\begin{solution}
+The affine cover is Leray and has three members, so $H^q(X,\mathcal F)=0$ for all $q\ge3$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-11}
+A separated scheme is the union of two affine opens. Show $H^2(X,\mathcal F)=0$ for every quasi-coherent $\mathcal F$.
+\end{exercise}
+\begin{hint}
+Use the two-affine corollary.
+\end{hint}
+\begin{solution}
+The Leray Čech complex has only degrees zero and one, hence there is no cohomology in degree two or above.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-12}
+Compute $H^0(\PP^1,\mathcal O(2))$ and give a basis.
+\end{exercise}
+\begin{hint}
+Use homogeneous quadrics.
+\end{hint}
+\begin{solution}
+It has dimension $3$ with basis $x_0^2,x_0x_1,x_1^2$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-13}
+Compute $H^0(\PP^1,\mathcal O(-1))$.
+\end{exercise}
+\begin{hint}
+There are no compatible Laurent exponents.
+\end{hint}
+\begin{solution}
+The group is zero.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-14}
+Compute $H^1(\PP^1,\mathcal O(-1))$.
+\end{exercise}
+\begin{hint}
+Use the quotient from VI/47.
+\end{hint}
+\begin{solution}
+The quotient $k[t,t^{-1}]/(k[t]+t^{-1}k[t^{-1}])$ is zero, so $H^1=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-15}
+Compute a basis of $H^1(\PP^1,\mathcal O(-4))$.
+\end{exercise}
+\begin{hint}
+The surviving exponents are $n+1,\ldots,-1$.
+\end{hint}
+\begin{solution}
+For $n=-4$ the basis is represented by $t^{-3},t^{-2},t^{-1}$, so the dimension is $3$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-16}
+Verify $\chi(\PP^1,\mathcal O(-4))=-3$.
+\end{exercise}
+\begin{hint}
+Use $h^0=0$ and $h^1=3$.
+\end{hint}
+\begin{solution}
+Thus $\chi=0-3=-3$, agreeing with $n+1=-3$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-17}
+Show that if $\mathcal F'$ and $\mathcal F$ are acyclic in a short exact sequence, then the quotient is acyclic.
+\end{exercise}
+\begin{hint}
+Read the long exact sequence.
+\end{hint}
+\begin{solution}
+The map on global sections is surjective because $H^1(\mathcal F')=0$, and every positive $H^q(\mathcal F'')$ lies between zero groups, hence vanishes.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-18}
+Give the extra hypothesis needed to conclude that a kernel is acyclic when the middle and quotient sheaves are acyclic.
+\end{exercise}
+\begin{hint}
+Look at $H^1$ of the kernel.
+\end{hint}
+\begin{solution}
+One must also require $\Gamma(\mathcal F)\to\Gamma(\mathcal F'')$ to be surjective. Then the connecting map gives $H^1(\mathcal F')=0$, and higher groups vanish by exactness.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-19}
+Derive the dimension-shifting isomorphism when the middle sheaf is acyclic.
+\end{exercise}
+\begin{hint}
+Use four consecutive terms of the long exact sequence.
+\end{hint}
+\begin{solution}
+For $q\ge1$, exactness gives $0\to H^q(\mathcal F'')\to H^{q+1}(\mathcal F')\to0$, hence the desired natural isomorphism.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-20}
+Why is a coherent sheaf supported on finitely many closed points of a variety over a field acyclic?
+\end{exercise}
+\begin{hint}
+Filter it by skyscraper sheaves.
+\end{hint}
+\begin{solution}
+A finite-length sheaf admits a finite filtration with skyscraper quotients. Skyscraper sheaves are acyclic, and the long exact sequence propagates acyclicity through the filtration.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-21}
+Use $0\to\mathcal O(n-1)\to\mathcal O(n)\to k_p\to0$ to compare $H^1(\mathcal O(n-1))$ and $H^1(\mathcal O(n))$.
+\end{exercise}
+\begin{hint}
+The quotient is acyclic.
+\end{hint}
+\begin{solution}
+The long exact sequence is exact through $H^1$ and has no higher quotient cohomology; it gives a surjection $H^1(\mathcal O(n-1))\to H^1(\mathcal O(n))$ and identifies the kernel with the cokernel of the evaluation map on $H^0$.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-22}
+Why does affine vanishing not imply that every sheaf on an affine scheme is acyclic?
+\end{exercise}
+\begin{hint}
+The theorem assumes quasi-coherence.
+\end{hint}
+\begin{solution}
+Arbitrary sheaves need not be controlled by module localization. Affine vanishing is a theorem for quasi-coherent sheaves, not for all sheaves of abelian groups or all $\mathcal O_X$-modules.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-23}
+Explain why separatedness appears in the affine-cover theorem.
+\end{exercise}
+\begin{hint}
+Intersections of affine opens must remain affine.
+\end{hint}
+\begin{solution}
+Separatedness makes the diagonal closed, which forces intersections of affine opens to be affine. Without it, an affine cover need not be Leray for quasi-coherent sheaves.
+\end{solution}
+
+\begin{exercise}\label{exr:vi49-24}
+Distinguish affine vanishing from Serre vanishing.
+\end{exercise}
+\begin{hint}
+One concerns affine spaces, the other positive twists on projective schemes.
+\end{hint}
+\begin{solution}
+Affine vanishing concerns affine schemes. For a quasi-coherent sheaf, all positive cohomology vanishes.
+
+Serre vanishing is different: it concerns sufficiently positive twists of coherent sheaves on projective schemes, and is a deeper theorem.
+\end{solution}
+
+\section{Solved problems}
+\begin{problem}\label{prob:vi49-01}
+Prove the exactness of the augmented localization Čech complex by checking it after localization at each member of the cover.
+\end{problem}
+\begin{solution}
+Let $H^q$ denote a homology module of the complex. Localizing at $f_i$ produces a Čech complex whose cover contains the whole affine $D(f_i)$, hence a contracting homotopy obtained by inserting the index $i$. Thus $(H^q)_{f_i}=0$ for all $i$. Since the $D(f_i)$ cover $\operatorname{Spec}A$, $H^q=0$.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-02}
+Let $X$ be separated and covered by affine opens $U,V$. Express $H^1(X,\mathcal F)$ for a quasi-coherent sheaf in terms of sections.
+\end{problem}
+\begin{solution}
+The cover is Leray and has two members. Therefore $H^1$ is the cokernel of $\Gamma(U,\mathcal F)\oplus\Gamma(V,\mathcal F)\to\Gamma(U\cap V,\mathcal F)$. Explicitly, $H^1\cong \Gamma(U\cap V,\mathcal F)/(\Gamma(U,\mathcal F)|-\Gamma(V,\mathcal F)|)$.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-03}
+Compute the cohomology of $\mathcal O_{\PP^1}(-3)$ in all degrees.
+\end{problem}
+\begin{solution}
+$H^0=0$. The standard cover is Leray; the Laurent quotient leaves $t^{-2},t^{-1}$, so $H^1\cong k^2$. Two-affine vanishing gives $H^q=0$ for $q\ge2$.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-04}
+Compute the cohomology of $\mathcal O_{\PP^1}(3)$ in all degrees.
+\end{problem}
+\begin{solution}
+$H^0$ has basis $x_0^3,x_0^2x_1,x_0x_1^2,x_1^3$, so dimension $4$. The $H^1$ quotient vanishes because $3\ge-1$, and $H^q=0$ for $q\ge2$.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-05}
+Use the point exact sequence on $\PP^1$ to prove $\chi(\mathcal O(n))=\chi(\mathcal O(n-1))+1$.
+\end{problem}
+\begin{solution}
+In $0\to\mathcal O(n-1)\to\mathcal O(n)\to k_p\to0$, Euler characteristic is additive and $\chi(k_p)=1$. Hence $\chi(\mathcal O(n))=\chi(\mathcal O(n-1))+1$. Starting from $\chi(\mathcal O)=1$ gives $\chi(\mathcal O(n))=n+1$.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-06}
+Let $X$ be a separated scheme covered by four affine opens. Give the strongest degree-only vanishing conclusion supplied by this chapter.
+\end{problem}
+\begin{solution}
+The four-member affine cover is Leray, and its Čech complex has degrees $0,1,2,3$. Hence $H^q(X,\mathcal F)=0$ for all quasi-coherent $\mathcal F$ and all $q\ge4$.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-07}
+Suppose $0\to\mathcal F'\to\mathcal I\to\mathcal F''\to0$ with $\mathcal I$ flabby. Show $H^2(X,\mathcal F')\cong H^1(X,\mathcal F'')$.
+\end{problem}
+\begin{solution}
+Flabbiness makes $\mathcal I$ acyclic. The long exact sequence contains $0=H^1(\mathcal I)\to H^1(\mathcal F'')\to H^2(\mathcal F')\to H^2(\mathcal I)=0$, giving the isomorphism.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-08}
+Let $D$ be a finite effective Cartier divisor on a projective curve and $\mathcal L$ a line bundle. Explain the effect of twisting by $-D$ on $H^q$ for $q\ge2$.
+\end{problem}
+\begin{solution}
+$\mathcal L|_D$ is supported on a finite scheme, hence acyclic. The divisor exact sequence therefore gives $H^q(X,\mathcal L(-D))\cong H^q(X,\mathcal L)$ for every $q\ge2$. On a curve both sides are in fact zero once a two-affine Leray cover is available.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-09}
+Let $X$ be affine. Prove that global sections are exact on short exact sequences of quasi-coherent sheaves.
+\end{problem}
+\begin{solution}
+For $0\to\mathcal F'\to\mathcal F\to\mathcal F''\to0$, the long exact sequence has $H^1(X,\mathcal F')=0$. Therefore $\Gamma(X,\mathcal F)\to\Gamma(X,\mathcal F'')$ is surjective, so global sections are exact.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-10}
+Let $X=\operatorname{Spec}A$ and $M$ an $A$-module. Show that the sheaf-cohomological vanishing is compatible with localization to $D(f)$.
+\end{problem}
+\begin{solution}
+We have
+\[
+D(f)=\operatorname{Spec}A_f,
+\qquad
+\widetilde M|_{D(f)}\cong\widetilde{M_f}.
+\]
+Hence
+\[
+H^q(D(f),\widetilde{M_f})=0\quad(q>0),
+\qquad
+H^0(D(f),\widetilde M)=M_f.
+\]
+\end{solution}
+
+\begin{problem}\label{prob:vi49-11}
+Explain how the separated affine-cover theorem converts VI/47's fixed-cover calculation on $\PP^1$ into actual sheaf cohomology.
+\end{problem}
+\begin{solution}
+The two standard charts and their intersection are affine, and $\mathcal O(n)$ is quasi-coherent. Affine vanishing makes the cover Leray. The Leray comparison theorem then identifies the Čech groups computed in VI/47 with $H^q(\PP^1,\mathcal O(n))$.
+\end{solution}
+
+\begin{problem}\label{prob:vi49-12}
+Summarize the three main vanishing mechanisms of Part IX and state when each applies.
+\end{problem}
+\begin{solution}
+Flabby vanishing applies to flabby sheaves on arbitrary spaces. Affine vanishing applies to quasi-coherent sheaves on affine schemes. Cover-length vanishing applies to quasi-coherent sheaves on separated schemes admitting a finite affine cover; its bound is controlled by the number of opens. Exact sequences then transfer these vanishings to related sheaves.
+\end{solution}
+
+\section{Challenges}
+\begin{problem}[Challenge]\label{chal:vi49-01}
+Prove carefully that the standard contracting homotopy makes a Čech complex exact whenever one member of the cover is the entire space.
+\end{problem}
+\begin{solution}
+Fix the distinguished index corresponding to the whole space. Define the homotopy by inserting that index into each cochain with the appropriate sign. A direct alternating-sum computation gives $\delta h+h\delta=\mathrm{id}$ in positive degrees and yields exactness of the augmentation in degree zero.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi49-02}
+Investigate what can fail for an affine cover on a nonseparated scheme and give a concrete nonseparated example where an intersection of affine opens is not affine.
+\end{problem}
+\begin{solution}
+A concrete example is obtained by gluing two copies of $\mathbb A^2$ along
+\[
+\mathbb A^2\setminus\{0\}
+\]
+by the identity. The two copies of $\mathbb A^2$ are affine opens, but their intersection is the punctured affine plane, which is not affine. The resulting scheme is nonseparated, showing exactly why separatedness is needed in the affine-intersection theorem.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi49-03}
+Generalize the $\PP^1$ line-bundle calculation to predict the shape of $H^q(\PP^n,\mathcal O(d))$.
+\end{problem}
+\begin{solution}
+The standard affine cover has $n+1$ members and all finite intersections are affine, so Čech cohomology computes sheaf cohomology and vanishes above degree $n$. A detailed monomial analysis suggests that intermediate groups vanish and that only $H^0$ and the top group can survive for line bundles; proving the complete formula is a natural next project.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi49-04}
+Use repeated dimension shifting to express $H^q(X,\mathcal F)$ as an $H^1$ group of a successive cokernel in a flabby resolution.
+\end{problem}
+\begin{solution}
+Starting from $0\to\mathcal F\to\mathcal I^0\to\mathcal Q^1\to0$, dimension shifting gives $H^q(\mathcal F)\cong H^{q-1}(\mathcal Q^1)$ for $q\ge2$. Iterate through the resolution until only $H^1$ remains.
+\end{solution}
+
+\begin{problem}[Challenge]\label{chal:vi49-05}
+Formulate a precise boundary between the basic vanishing theorems of this chapter and Serre vanishing on projective schemes.
+\end{problem}
+\begin{solution}
+Basic affine vanishing is local-to-global through affine/Leray covers and requires no positivity. Serre vanishing is global and asymptotic: positivity of twisting eventually kills higher cohomology for coherent sheaves on projective schemes. Its proof needs finite generation and projective graded-module methods beyond the present chapter.
+\end{solution}
+
