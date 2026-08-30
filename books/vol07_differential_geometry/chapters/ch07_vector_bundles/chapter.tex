@@ -1,0 +1,512 @@
+\chapter{Vector Bundles}
+\label{ch:vii07-vector-bundles}
+
+A vector bundle is a smoothly varying family of vector spaces. Tangent and cotangent spaces are the motivating examples, but the abstraction is broader: local triviality lets one do linear algebra fiberwise while transition functions record the global twisting.
+\[
+\boxed{\pi:E\to M,\qquad \pi^{-1}(U)\cong U\times\mathbb R^r,\qquad
+(p,v)_\beta=(p,g_{\beta\alpha}(p)v)_\alpha.}
+\]
+
+\section{Vector bundles and local triviality}
+\begin{definition}[Smooth vector bundle]\label{def:vii07-vector-bundle}
+A smooth real vector bundle of rank \(r\) over a smooth manifold \(M\) is a smooth manifold \(E\), a smooth surjection \(\pi:E\to M\), and a vector-space structure on each fiber \(E_p=\pi^{-1}(p)\), such that every \(p\in M\) has an open neighborhood \(U\) and a diffeomorphism
+\[
+\Phi:\pi^{-1}(U)\longrightarrow U\times\mathbb R^r
+\]
+with \(\operatorname{pr}_1\circ\Phi=\pi\), and whose restriction to each fiber is linear.
+\end{definition}
+
+\begin{definition}[Bundle chart and local frame]\label{def:vii07-bundle-chart}
+A pair \((U,\Phi)\) as above is a bundle chart or local trivialization. Writing
+\[
+\Phi(e)=(p,(a^1,\ldots,a^r)),
+\]
+the inverse images of the standard basis define smooth local sections \(e_1,\ldots,e_r\), called a local frame.
+\end{definition}
+
+\begin{proposition}[Dimension of the total space]\label{prop:vii07-total-dim}
+If \(M\) has dimension \(n\) and \(E\to M\) has rank \(r\), then \(E\) is a smooth manifold of dimension \(n+r\).
+\end{proposition}
+\begin{proof}
+Every bundle chart identifies an open subset of \(E\) with an open subset of \(M\times\mathbb R^r\), whose dimension is \(n+r\).
+\end{proof}
+
+\section{Transition functions}
+Let \((U_\alpha,\Phi_\alpha)\) and \((U_\beta,\Phi_\beta)\) be bundle charts. On an overlap, fiberwise linearity forces
+\[
+\Phi_\beta\Phi_\alpha^{-1}(p,v)=(p,g_{\beta\alpha}(p)v)
+\]
+for a smooth map \(g_{\beta\alpha}:U_\alpha\cap U_\beta\to GL(r,\mathbb R)\).
+
+\begin{theorem}[Cocycle identities]\label{thm:vii07-cocycle}
+Transition functions satisfy
+\[
+g_{\alpha\alpha}=I,\qquad
+g_{\alpha\beta}=g_{\beta\alpha}^{-1},\qquad
+g_{\gamma\beta}g_{\beta\alpha}=g_{\gamma\alpha}
+\]
+on all relevant overlaps.
+\end{theorem}
+\begin{proof}
+These identities are obtained by composing the corresponding changes of bundle coordinates.
+\end{proof}
+
+\begin{theorem}[Bundles from transition data]\label{thm:vii07-gluing}
+Given an open cover \(\{U_\alpha\}\) and smooth maps \(g_{\beta\alpha}:U_\alpha\cap U_\beta\to GL(r,\mathbb R)\) satisfying the cocycle identities, one obtains a rank-\(r\) vector bundle by gluing the products \(U_\alpha\times\mathbb R^r\) using
+\((p,v)_\alpha\sim(p,g_{\beta\alpha}(p)v)_\beta\).
+\end{theorem}
+
+\section{Basic examples}
+\begin{example}[Trivial bundle]\label{ex:vii07-trivial}
+For any manifold \(M\), projection \(M\times\mathbb R^r\to M\) is a rank-\(r\) vector bundle. A bundle is trivial if it is isomorphic to one of this form.
+\end{example}
+
+\begin{example}[Tangent and cotangent bundles]\label{ex:vii07-tangent-cotangent}
+The disjoint unions
+\[
+TM=\coprod_{p\in M}T_pM,\qquad T^*M=\coprod_{p\in M}T_p^*M
+\]
+carry canonical smooth vector-bundle structures of rank \(\dim M\). In a chart \(x=(x^1,\ldots,x^n)\), the coordinate vector fields and coordinate covectors provide local frames.
+\end{example}
+
+\begin{example}[Möbius line bundle]\label{ex:vii07-mobius}
+Take \([0,1]\times\mathbb R\) and identify \((0,t)\sim(1,-t)\). The quotient is a line bundle over \(S^1\), but it is not trivial. Its sign-changing transition function records the twist.
+\end{example}
+
+\section{Sections}
+\begin{definition}[Smooth section]\label{def:vii07-section}
+A smooth section of \(E\to M\) is a smooth map \(s:M\to E\) satisfying \(\pi\circ s=\operatorname{id}_M\). The vector space of smooth sections is denoted \(\Gamma(E)\).
+\end{definition}
+
+\begin{proposition}[Local coordinate description]\label{prop:vii07-section-local}
+In a local frame \(e_1,\ldots,e_r\), every section has a unique expression
+\[
+s=\sum_{i=1}^r s^i e_i
+\]
+with smooth coefficient functions \(s^i\). On overlaps the column of coefficients transforms by the inverse frame-change matrix.
+\end{proposition}
+
+\begin{proposition}[Global frame criterion]\label{prop:vii07-global-frame}
+A rank-\(r\) bundle is trivial if and only if it admits \(r\) smooth sections that form a basis of every fiber.
+\end{proposition}
+\begin{proof}
+A global frame defines a trivialization by \((p,a)\mapsto\sum_i a^i e_i(p)\). Conversely a trivialization pulls back the standard basis to a global frame.
+\end{proof}
+
+\section{Bundle maps and isomorphisms}
+\begin{definition}[Vector-bundle morphism]\label{def:vii07-bundle-map}
+For bundles \(E\to M\) and \(F\to N\), a vector-bundle morphism over \(f:M\to N\) is a smooth map \(\widetilde f:E\to F\) such that \(\pi_F\widetilde f=f\pi_E\) and each fiber map \(E_p\to F_{f(p)}\) is linear.
+\end{definition}
+
+\begin{example}[Differential as a bundle map]\label{ex:vii07-differential-bundle-map}
+For smooth \(f:M\to N\), the differential assembles into
+\[
+df:TM\to TN,\qquad v_p\mapsto d f_p(v_p),
+\]
+a vector-bundle morphism covering \(f\).
+\end{example}
+
+\section{Standard bundle constructions}
+\begin{proposition}[Direct sum and dual]\label{prop:vii07-direct-dual}
+For bundles \(E,F\to M\), the fibers
+\[
+(E\oplus F)_p=E_p\oplus F_p,\qquad (E^*)_p=E_p^*
+\]
+define smooth vector bundles. In local frames their transition functions are respectively block diagonal \(g_E\oplus g_F\) and \((g_E^{-1})^{\!T}\).
+\end{proposition}
+
+\begin{proposition}[Tensor and Hom bundles]\label{prop:vii07-tensor-hom}
+Fiberwise tensor products and linear maps define bundles \(E\otimes F\) and \(\operatorname{Hom}(E,F)\). Their local trivializations are obtained by applying the corresponding finite-dimensional linear-algebra constructions to bundle charts.
+\end{proposition}
+
+\section{Subbundles and quotient bundles}
+\begin{definition}[Vector subbundle]\label{def:vii07-subbundle}
+A subset \(S\subset E\) is a rank-\(k\) vector subbundle if each \(S_p=S\cap E_p\) is a \(k\)-dimensional linear subspace and locally there exists a frame of \(E\) whose first \(k\) vectors frame \(S\).
+\end{definition}
+
+\begin{proposition}[Kernel of constant-rank bundle map]\label{prop:vii07-kernel-subbundle}
+If \(A:E\to F\) is a bundle map over \(\operatorname{id}_M\) and \(\operatorname{rank}A_p\) is constant, then \(\ker A=\coprod_p\ker A_p\) and \(\operatorname{im}A=\coprod_p\operatorname{im}A_p\) are vector subbundles.
+\end{proposition}
+
+\section{Pullback bundles}
+\begin{theorem}[Pullback bundle]\label{thm:vii07-pullback}
+For \(f:N\to M\) and a vector bundle \(\pi:E\to M\), the set
+\[
+f^*E=\{(q,e)\in N\times E:f(q)=\pi(e)\}
+\]
+forms a vector bundle over \(N\) with fiber \((f^*E)_q\cong E_{f(q)}\). If \(g_{\beta\alpha}\) are transition functions of \(E\), then \(g_{\beta\alpha}\circ f\) are transition functions of \(f^*E\).
+\end{theorem}
+
+\begin{example}[Restriction]\label{ex:vii07-restriction}
+If \(i:S\hookrightarrow M\) is an embedded submanifold, then \(i^*E\) is the restriction \(E|_S\). In particular \(TM|_S\) is an ambient tangent bundle over \(S\), while \(TS\) is a generally smaller subbundle of it.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii07-01}
+Show that every fiber of a rank-\(r\) vector bundle is isomorphic to \(\mathbb R^r\).
+\end{exercise}
+\begin{hint}
+Restrict a bundle chart to one fiber.
+\end{hint}
+\begin{solution}
+A local trivialization sends \(E_p\) linearly and bijectively to \(\{p\}\times\mathbb R^r\), hence to \(\mathbb R^r\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-02}
+Prove that the bundle projection \(\pi:E\to M\) is a submersion.
+\end{exercise}
+\begin{hint}
+Write \(\pi\) in a bundle chart.
+\end{hint}
+\begin{solution}
+Locally \(\pi\) is \((x,v)\mapsto x\), whose derivative is surjective.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-03}
+Compute the dimension of the total space of a rank-\(r\) bundle over an \(n\)-manifold.
+\end{exercise}
+\begin{hint}
+Use local triviality.
+\end{hint}
+\begin{solution}
+Each bundle chart is modeled on \(\mathbb R^n\times\mathbb R^r\), so \(\dim E=n+r\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-04}
+Derive the cocycle identity for three bundle charts.
+\end{exercise}
+\begin{hint}
+Compose two coordinate changes.
+\end{hint}
+\begin{solution}
+The equality \(\Phi_\gamma\Phi_\alpha^{-1}=(\Phi_\gamma\Phi_\beta^{-1})(\Phi_\beta\Phi_\alpha^{-1})\) gives \(g_{\gamma\alpha}=g_{\gamma\beta}g_{\beta\alpha}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-05}
+Show that a rank-zero vector bundle is canonically its base manifold.
+\end{exercise}
+\begin{hint}
+Each fiber is the zero vector space.
+\end{hint}
+\begin{solution}
+Local products are \(U\times\{0\}\cong U\), and these identifications glue canonically.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-06}
+Show that \(M\times\mathbb R^r\) has the constant global frame.
+\end{exercise}
+\begin{hint}
+Use the standard basis of \(\mathbb R^r\).
+\end{hint}
+\begin{solution}
+The sections \(e_i(p)=(p,\mathbf e_i)\) are smooth and form a basis of each fiber.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-07}
+Write the tangent-bundle transition matrix under a change of coordinates.
+\end{exercise}
+\begin{hint}
+Differentiate the coordinate change.
+\end{hint}
+\begin{solution}
+If \(y=y(x)\), the tangent frame transforms by the Jacobian \((\partial y^a/\partial x^i)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-08}
+Write the cotangent-bundle transition matrix.
+\end{exercise}
+\begin{hint}
+Dualize the tangent transformation.
+\end{hint}
+\begin{solution}
+Covectors transform by the inverse transpose of the tangent transition matrix.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-09}
+Show that sections of the trivial line bundle are the same as smooth functions.
+\end{exercise}
+\begin{hint}
+A section has the form \(p\mapsto(p,f(p))\).
+\end{hint}
+\begin{solution}
+Projection forces exactly that form, and smoothness is equivalent to smoothness of \(f\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-10}
+Prove that the zero section of any vector bundle is smooth.
+\end{exercise}
+\begin{hint}
+Use bundle coordinates.
+\end{hint}
+\begin{solution}
+In a trivialization it is \(p\mapsto(p,0)\), hence smooth.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-11}
+Show that pointwise sums and smooth-function multiples of sections are sections.
+\end{exercise}
+\begin{hint}
+Check in a local frame.
+\end{hint}
+\begin{solution}
+Local coefficient functions add and multiply smoothly, so \(\Gamma(E)\) is a \(C^\infty(M)\)-module.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-12}
+Prove the global-frame criterion for triviality.
+\end{exercise}
+\begin{hint}
+Construct a map from \(M\times\mathbb R^r\).
+\end{hint}
+\begin{solution}
+Send \((p,a)\) to \(\sum a^ie_i(p)\); fiberwise invertibility and smooth local matrices give a bundle isomorphism.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-13}
+Show that \(df:TM\to TN\) is a bundle morphism over \(f\).
+\end{exercise}
+\begin{hint}
+Use the chain-rule definition of \(df\).
+\end{hint}
+\begin{solution}
+It maps \(T_pM\) linearly to \(T_{f(p)}N\) and satisfies \(\pi_{TN}\circ df=f\circ\pi_{TM}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-14}
+Describe the transition functions of \(E\oplus F\).
+\end{exercise}
+\begin{hint}
+Use direct-sum frames.
+\end{hint}
+\begin{solution}
+They are block-diagonal matrices \(\operatorname{diag}(g_E,g_F)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-15}
+Describe the transition functions of the dual bundle.
+\end{exercise}
+\begin{hint}
+Require evaluation to be invariant.
+\end{hint}
+\begin{solution}
+If vectors transform by \(g\), dual coordinates transform by \((g^{-1})^T\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-16}
+Show that \(\operatorname{Hom}(E,F)\cong E^*\otimes F\) fiberwise defines a bundle isomorphism.
+\end{exercise}
+\begin{hint}
+Use the canonical finite-dimensional isomorphism.
+\end{hint}
+\begin{solution}
+The standard map \(\lambda\otimes w\mapsto(v\mapsto\lambda(v)w)\) is natural under changes of frames, so it glues.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-17}
+Give a local criterion for a family of subspaces \(S_p\subset E_p\) to be a subbundle.
+\end{exercise}
+\begin{hint}
+Look for a frame adapted to the family.
+\end{hint}
+\begin{solution}
+It is enough that locally smooth sections \(s_1,\ldots,s_k\) span \(S_p\) and are linearly independent at every point.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-18}
+Explain why a varying-dimensional kernel need not be a subbundle.
+\end{exercise}
+\begin{hint}
+Rank is locally constant for a vector bundle.
+\end{hint}
+\begin{solution}
+A subbundle has fixed rank on each connected trivializing neighborhood, so a dimension jump in \(\ker A_p\) prevents local triviality.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-19}
+Compute the pullback of a trivial bundle.
+\end{exercise}
+\begin{hint}
+Use the defining fiber product.
+\end{hint}
+\begin{solution}
+For \(E=M\times\mathbb R^r\), \(f^*E\cong N\times\mathbb R^r\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-20}
+Show \((g\circ f)^*E\cong f^*(g^*E)\).
+\end{exercise}
+\begin{hint}
+Compare fibers.
+\end{hint}
+\begin{solution}
+Both have fiber \(E_{g(f(q))}\) over \(q\), and the defining fiber-product identifications give a canonical bundle isomorphism.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-21}
+Identify \(i^*TM\) for an inclusion \(i:S\hookrightarrow M\).
+\end{exercise}
+\begin{hint}
+Use the pullback definition.
+\end{hint}
+\begin{solution}
+Its fiber at \(p\in S\) is the ambient tangent space \(T_pM\); thus it is \(TM|_S\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-22}
+Show \(TS\) embeds as a subbundle of \(TM|_S\) for an embedded submanifold.
+\end{exercise}
+\begin{hint}
+Assemble the tangent inclusions from VII/06.
+\end{hint}
+\begin{solution}
+The maps \(di_p:T_pS\hookrightarrow T_pM\) vary smoothly in adapted coordinates and identify \(TS\) with a rank-\(\dim S\) subbundle.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-23}
+For the Möbius line bundle, explain why a nowhere-zero section would trivialize it.
+\end{exercise}
+\begin{hint}
+Use the rank-one global-frame criterion.
+\end{hint}
+\begin{solution}
+A nowhere-zero section is a basis of every one-dimensional fiber, hence a global frame and therefore a trivialization.
+\end{solution}
+
+\begin{exercise}\label{exr:vii07-24}
+State what extra object VII/08 obtains by taking all ordered bases of the fibers.
+\end{exercise}
+\begin{hint}
+Think of frames and the action of \(GL(r)\).
+\end{hint}
+\begin{solution}
+The set of ordered bases forms the frame bundle, a principal \(GL(r,\mathbb R)\)-bundle.
+\end{solution}
+
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Legacy vector-bundle problem: local triviality]\label{prob:vii07-01}
+Starting from bundle charts, prove that the change of trivialization is encoded by a smooth \(GL(r,\mathbb R)\)-valued function.
+\end{problem}
+\begin{solution}
+The overlap map fixes the base point and is linear on each fiber, so it has the form \((p,v)\mapsto(p,g(p)v)\). Smoothness of the overlap and its inverse implies both \(g\) and \(g^{-1}\) vary smoothly, hence \(g(p)\in GL(r)\).
+\end{solution}
+
+\begin{problem}[Legacy vector-bundle problem: cocycles]\label{prob:vii07-02}
+Prove the three cocycle identities and explain why they are exactly the consistency conditions for gluing.
+\end{problem}
+\begin{solution}
+Identity and inverse changes give the first two identities. Equality of direct and two-step coordinate changes gives the third. These ensure the equivalence relation used in gluing is reflexive, symmetric, and transitive and that bundle charts agree smoothly.
+\end{solution}
+
+\begin{problem}[Legacy tangent-bundle problem]\label{prob:vii07-03}
+Construct the smooth structure on \(TM\) from manifold charts and identify its transition functions.
+\end{problem}
+\begin{solution}
+A chart \(x:U\to\mathbb R^n\) sends \(v_p\) to \((x(p),dx_pv_p)\). On overlaps the fiber coordinate changes by the Jacobian of \(y\circ x^{-1}\), which is smooth and invertible.
+\end{solution}
+
+\begin{problem}[Legacy cotangent-bundle problem]\label{prob:vii07-04}
+Construct \(T^*M\) and derive the inverse-transpose transition law.
+\end{problem}
+\begin{solution}
+Dual coordinate frames give local products. Preservation of the pairing \(\alpha(v)\) forces the covector matrix to be the inverse transpose of the tangent matrix.
+\end{solution}
+
+\begin{problem}[Legacy sections problem]\label{prob:vii07-05}
+Prove that a section is smooth exactly when its local coefficient functions are smooth.
+\end{problem}
+\begin{solution}
+Under a bundle chart, a section is \(p\mapsto(p,s^1(p),\ldots,s^r(p))\). Smoothness of this map is equivalent to smoothness of all coefficients.
+\end{solution}
+
+\begin{problem}[Legacy triviality problem]\label{prob:vii07-06}
+Prove that a vector bundle is trivial exactly when it possesses a global frame.
+\end{problem}
+\begin{solution}
+A trivialization yields the standard global frame. Conversely, a global frame defines a fiberwise linear bijection from \(M\times\mathbb R^r\) whose local matrix and inverse matrix are smooth.
+\end{solution}
+
+\begin{problem}[Möbius bundle dossier]\label{prob:vii07-07}
+Describe the Möbius line bundle using transition functions and isolate the obstruction visible in a loop around the base.
+\end{problem}
+\begin{solution}
+Cover \(S^1\) by two arcs with disconnected overlap and choose transitions whose sign product records one reversal. Going once around the circle reverses a local basis; this cannot occur for a globally chosen nonzero frame.
+\end{solution}
+
+\begin{problem}[Bundle-map dossier]\label{prob:vii07-08}
+Show that a fiberwise linear smooth map over the identity has locally a matrix of smooth functions.
+\end{problem}
+\begin{solution}
+Choose local frames in source and target. Apply the map to each source frame vector and expand in the target frame; the resulting coefficient functions are smooth because the bundle map is smooth.
+\end{solution}
+
+\begin{problem}[Constant-rank kernel dossier]\label{prob:vii07-09}
+Prove that the kernel of a constant-rank bundle endomorphism is a vector subbundle.
+\end{problem}
+\begin{solution}
+In local frames the map is a smooth matrix of constant rank. The constant-rank normal form provides smooth local bases adapted to kernel and image, yielding a local frame for the kernel.
+\end{solution}
+
+\begin{problem}[Dual-bundle dossier]\label{prob:vii07-10}
+Explain intrinsically why dual transition functions are inverse transposes.
+\end{problem}
+\begin{solution}
+A change of frame is an isomorphism \(g:V\to V\). The induced change on \(V^*\) is pullback by \(g^{-1}\), represented by \((g^{-1})^T\).
+\end{solution}
+
+\begin{problem}[Pullback dossier]\label{prob:vii07-11}
+Construct the pullback bundle and verify local triviality.
+\end{problem}
+\begin{solution}
+Over \(f^{-1}(U)\), where \(E|_U\cong U\times\mathbb R^r\), map \((q,e)\) to \((q,v)\) using the fiber coordinate of \(e\). This is a local trivialization, with transitions \(g_{\beta\alpha}\circ f\).
+\end{solution}
+
+\begin{problem}[Tangent subbundle dossier]\label{prob:vii07-12}
+For an embedded submanifold \(S\subset M\), prove \(TS\subset TM|_S\) is a vector subbundle.
+\end{problem}
+\begin{solution}
+In an adapted chart, the first \(k\) coordinate vector fields span \(TS\), while all \(n\) coordinate vector fields frame \(TM|_S\). Thus the inclusion is locally a standard coordinate subbundle.
+\end{solution}
+
+
+\section{Challenge problems}
+
+\begin{problem}[Bundles from cocycles]\label{prob:vii07-ch01}
+Give the full gluing construction from a \(GL(r)\)-valued cocycle and prove the resulting quotient is a smooth vector bundle.
+\end{problem}
+\begin{solution}
+Take the disjoint union of \(U_\alpha\times\mathbb R^r\) and quotient by the cocycle relation. The cocycle identities make this an equivalence relation. The natural images of the products provide compatible charts; on overlaps their transitions are exactly \((p,v)\mapsto(p,g_{\beta\alpha}(p)v)\), hence smooth. Fiberwise vector operations are well defined because the transition maps are linear.
+\end{solution}
+
+\begin{problem}[Determinant line bundle]\label{prob:vii07-ch02}
+For a rank-\(r\) bundle \(E\), construct \(\det E=\Lambda^rE\) and determine its transition functions.
+\end{problem}
+\begin{solution}
+In a local frame, the top exterior power has basis \(e_1\wedge\cdots\wedge e_r\). A frame change by \(g\) multiplies this basis by \(\det g\), so \(\det E\) is a line bundle with transition functions \(\det g_{\beta\alpha}\).
+\end{solution}
+
+\begin{problem}[Short exact sequence of bundles]\label{prob:vii07-ch03}
+Suppose \(A:E\to F\) has constant rank. Show locally that \(0\to\ker A\to E\to\operatorname{im}A\to0\) is a short exact sequence of vector bundles.
+\end{problem}
+\begin{solution}
+Constant rank gives frames in which \(A\) is represented by a fixed block matrix \(\begin{pmatrix}I_k&0\\0&0\end{pmatrix}\). In those frames the kernel and image are coordinate subbundles and the displayed sequence is fiberwise exact, hence a short exact sequence of bundles.
+\end{solution}
+
+\begin{problem}[Functoriality of pullback]\label{prob:vii07-ch04}
+Prove that pullback respects direct sums and duals: \(f^*(E\oplus F)\cong f^*E\oplus f^*F\) and \(f^*(E^*)\cong(f^*E)^*\).
+\end{problem}
+\begin{solution}
+Both statements are canonical fiberwise identifications. Local transition functions verify smoothness: pullback replaces each \(g\) by \(g\circ f\), while direct sum and dual are algebraic operations commuting with composition by \(f\).
+\end{solution}
+
+\begin{problem}[Frame-bundle preview]\label{prob:vii07-ch05}
+Let \(E\to M\) have rank \(r\). Show that changing a frame by a matrix in \(GL(r)\) is free and transitive on each set of frames.
+\end{problem}
+\begin{solution}
+Given a frame \(u:\mathbb R^r\to E_p\), right multiplication by \(g\) gives \(u\circ g\). If \(u\circ g=u\), injectivity gives \(g=I\); given another frame \(v\), the unique element \(g=u^{-1}v\) satisfies \(v=u\circ g\). This is the principal-bundle structure developed in VII/08.
+\end{solution}
+
+\section*{Bridge to VII/08}
+A rank-\(r\) vector bundle can be studied either through its vectors or through all ordered bases of its fibers. VII/08 passes to the latter viewpoint: frames carry a free and transitive \(GL(r,\mathbb R)\)-action and lead naturally to principal bundles, transition functions, and associated bundles.
