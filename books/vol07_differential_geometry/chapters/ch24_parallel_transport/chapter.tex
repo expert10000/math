@@ -1,0 +1,652 @@
+\chapter{Parallel Transport}
+\label{ch:vii24-parallel-transport}
+
+A connection tells us how to differentiate a vector field along a curve.  Parallel
+transport solves the inverse problem: start with one vector and extend it along the
+curve so that its covariant derivative vanishes.
+\[
+\boxed{\frac{DV}{dt}=0.}
+\]
+For the Levi--Civita connection, this extension preserves lengths and angles.
+
+\section{Parallel vector fields}
+
+\begin{definition}[Parallel field]\label{def:vii24-parallel}
+Let \(\gamma:I\to M\) be smooth.  A vector field \(V(t)\in T_{\gamma(t)}M\) is
+parallel along \(\gamma\) if
+\[
+\frac{DV}{dt}
+=
+\nabla_{\dot\gamma}V
+=
+0.
+\]
+\end{definition}
+
+In coordinates,
+\[
+V=V^k\partial_k,
+\]
+so the equation becomes
+\[
+\dot V^k
++
+\Gamma^k_{ij}(\gamma(t))\dot x^iV^j
+=
+0.
+\]
+
+\section{Existence and uniqueness}
+
+\begin{theorem}[Parallel initial-value problem]\label{thm:vii24-ivp}
+Given a smooth curve \(\gamma:[a,b]\to M\), a time \(t_0\in[a,b]\), and a vector
+\(v\in T_{\gamma(t_0)}M\), there exists a unique parallel field \(V\) along
+\(\gamma\) satisfying
+\[
+V(t_0)=v.
+\]
+\end{theorem}
+
+\begin{proof}
+The coordinate equation is a linear first-order ODE for the component vector
+\(V(t)\). Standard linear ODE theory gives existence and uniqueness.
+\end{proof}
+
+\section{The transport map}
+
+\begin{definition}[Parallel transport]\label{def:vii24-map}
+The parallel transport map along \(\gamma\) from \(a\) to \(b\) is
+\[
+P_\gamma:T_{\gamma(a)}M\to T_{\gamma(b)}M,
+\qquad
+P_\gamma(v)=V(b),
+\]
+where \(V\) is the unique parallel field with \(V(a)=v\).
+\end{definition}
+
+\begin{proposition}[Linearity and invertibility]\label{prop:vii24-linear}
+\(P_\gamma\) is a linear isomorphism.
+\end{proposition}
+
+\begin{proof}
+Linearity follows from linearity of the parallel ODE.  Reversing the curve solves
+the inverse problem, so
+\[
+P_{\gamma^{-1}}=P_\gamma^{-1}.
+\]
+\end{proof}
+
+\begin{proposition}[Concatenation]\label{prop:vii24-concat}
+If \(\gamma_1\) ends where \(\gamma_2\) begins, then
+\[
+P_{\gamma_2*\gamma_1}
+=
+P_{\gamma_2}\circ P_{\gamma_1}.
+\]
+\end{proposition}
+
+\section{Levi--Civita transport is orthogonal}
+
+\begin{theorem}[Metric preservation]\label{thm:vii24-metric}
+For the Levi--Civita connection, if \(V,W\) are parallel along \(\gamma\), then
+\[
+g(V(t),W(t))
+\]
+is constant. Consequently
+\[
+P_\gamma:T_{\gamma(a)}M\to T_{\gamma(b)}M
+\]
+is an inner-product isometry.
+\end{theorem}
+
+\begin{proof}
+Metric compatibility gives
+\[
+\frac d{dt}g(V,W)
+=
+g(DV/dt,W)+g(V,DW/dt)=0.
+\]
+\end{proof}
+
+\begin{corollary}[Orthonormal frames remain orthonormal]\label{cor:vii24-frames}
+Parallel transport of an orthonormal basis along a curve produces an orthonormal
+frame along that curve.
+\end{corollary}
+
+\section{Geodesics revisited}
+
+\begin{proposition}[Geodesic tangent]\label{prop:vii24-geodesic}
+A curve is an affinely parametrized geodesic exactly when its tangent vector is
+parallel along itself:
+\[
+P_{\gamma|[a,t]}(\dot\gamma(a))=\dot\gamma(t).
+\]
+\end{proposition}
+
+\section{Transport in a local frame}
+
+Let \(e_1,\dots,e_n\) be a local frame with connection one-form matrix
+\(\omega=(\omega^a{}_b)\).  If \(V=V^ae_a\), then parallelism is
+\[
+\dot V^a
++
+\omega^a{}_b(\dot\gamma)V^b
+=
+0.
+\]
+
+\begin{proposition}[Fundamental matrix]\label{prop:vii24-fundamental-matrix}
+If \(U(t)\) is the matrix transporting frame components, then
+\[
+\dot U(t)
+=
+-A(t)U(t),
+\qquad
+A^a{}_b(t)=\omega^a{}_b(\dot\gamma(t)),
+\qquad
+U(a)=I.
+\]
+Thus \(P_\gamma\) is represented by the endpoint value \(U(b)\).
+\end{proposition}
+
+\begin{remark}[Path ordering]\label{rem:vii24-path-order}
+If the matrices \(A(t)\) fail to commute at different times, one cannot replace the
+solution by an ordinary exponential of \(-\int A\,dt\).  The correct object is the
+path-ordered exponential, or equivalently the fundamental solution of the ODE.
+\end{remark}
+
+\section{Euclidean examples}
+
+\begin{example}[Cartesian Euclidean transport]\label{ex:vii24-euclidean}
+In \(\mathbb R^n\) with Cartesian coordinates, \(\Gamma^k_{ij}=0\). Parallel fields
+have constant components, so parallel transport is ordinary translation of
+vectors.
+\end{example}
+
+\begin{example}[Polar frame warning]\label{ex:vii24-polar}
+In Euclidean polar coordinates, a vector with constant \((r,\theta)\)-coordinate
+components is generally not parallel because the coordinate frame varies.
+Parallelism must be tested with the Christoffel terms.
+\end{example}
+
+\section{Parallel transport on a sphere}
+
+Consider the round sphere.  Along a great circle, the tangent vector of the great
+circle is parallel. A second parallel vector can be chosen orthogonal to it within
+the tangent plane, producing a parallel orthonormal frame along the arc.
+
+\begin{example}[Meridian]\label{ex:vii24-meridian}
+Along a meridian on the unit sphere, the unit tangent to the meridian is parallel,
+as is the east--west tangent vector obtained by the corresponding Levi--Civita
+parallel ODE along that meridian.
+\end{example}
+
+\begin{warning}[Transport depends on the path]\label{warn:vii24-path}
+On a curved manifold, parallel transport between the same endpoints can depend on
+the chosen path.  The systematic study of transport around closed loops is
+holonomy, the subject of VII/25.
+\end{warning}
+
+\section{Covectors and tensors}
+
+A connection on \(TM\) induces connections on \(T^*M\) and all tensor bundles.
+
+\begin{definition}[Parallel covector]\label{def:vii24-covector}
+A covector field \(\alpha(t)\in T^*_{\gamma(t)}M\) is parallel if
+\[
+\frac{D\alpha}{dt}=0.
+\]
+Equivalently, for every parallel vector field \(V\),
+\[
+\alpha(V)
+\]
+is constant.
+\end{definition}
+
+\begin{proposition}[Metric duals]\label{prop:vii24-musical}
+For the Levi--Civita connection, \(V\) is parallel if and only if \(V^\flat\) is
+parallel.
+\end{proposition}
+
+\section{Principal-bundle horizontal lifts}
+
+Let \(P\to M\) be a principal bundle with a principal connection.
+
+\begin{definition}[Horizontal lift of a curve]\label{def:vii24-horizontal-lift}
+A curve \(\widetilde\gamma(t)\in P\) above \(\gamma(t)\) is horizontal if
+\[
+\pi(\widetilde\gamma(t))=\gamma(t),
+\qquad
+\dot{\widetilde\gamma}(t)\in H_{\widetilde\gamma(t)}P.
+\]
+\end{definition}
+
+\begin{theorem}[Horizontal lift]\label{thm:vii24-horizontal-lift}
+Given \(\gamma\) and an initial point \(p_0\in P_{\gamma(a)}\), there is a unique
+horizontal lift \(\widetilde\gamma\) with
+\(\widetilde\gamma(a)=p_0\).
+\end{theorem}
+
+\begin{remark}
+For the frame bundle, horizontal lifting of a frame is precisely parallel
+transport of that frame. This unifies the vector-bundle and principal-bundle
+pictures developed in VII/08 and VII/21.
+\end{remark}
+
+\section{Reparametrization}
+
+\begin{proposition}[Orientation-preserving reparametrization]\label{prop:vii24-reparam}
+Parallel transport depends on the oriented image of the curve, not on its regular
+orientation-preserving parametrization.
+\end{proposition}
+
+\begin{proof}
+Under \(t=\phi(s)\), the covariant derivative along the reparametrized curve gains
+the scalar factor \(\phi'(s)\), so the zero equation remains zero.
+\end{proof}
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii24-01}
+Define a parallel vector field along a curve.
+\end{exercise}
+\begin{hint}
+Set covariant derivative to zero.
+\end{hint}
+\begin{solution}
+It satisfies \(DV/dt=0\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-02}
+Write the coordinate parallel-transport ODE.
+\end{exercise}
+\begin{hint}
+Expand \(V=V^k\partial_k\).
+\end{hint}
+\begin{solution}
+\(\dot V^k+\Gamma^k_{ij}\dot x^iV^j=0\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-03}
+Why does a unique parallel field exist for prescribed initial data?
+\end{exercise}
+\begin{hint}
+Use linear ODE theory.
+\end{hint}
+\begin{solution}
+The component equation is a smooth linear first-order system.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-04}
+Define the parallel transport map \(P_\gamma\).
+\end{exercise}
+\begin{hint}
+Use the endpoint of the unique parallel extension.
+\end{hint}
+\begin{solution}
+\(P_\gamma(v)=V(b)\) for the parallel field with \(V(a)=v\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-05}
+Why is \(P_\gamma\) linear?
+\end{exercise}
+\begin{hint}
+The ODE is linear in \(V\).
+\end{hint}
+\begin{solution}
+Linear combinations of parallel solutions are parallel with the corresponding initial data.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-06}
+Why is \(P_\gamma\) invertible?
+\end{exercise}
+\begin{hint}
+Reverse the curve.
+\end{hint}
+\begin{solution}
+Transport along the reversed curve is the inverse map.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-07}
+State the concatenation law.
+\end{exercise}
+\begin{hint}
+Transport in two stages.
+\end{hint}
+\begin{solution}
+\(P_{\gamma_2*\gamma_1}=P_{\gamma_2}\circ P_{\gamma_1}\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-08}
+Show Levi--Civita transport preserves vector lengths.
+\end{exercise}
+\begin{hint}
+Differentiate \(g(V,V)\).
+\end{hint}
+\begin{solution}
+Parallelism and metric compatibility make the derivative zero.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-09}
+Show Levi--Civita transport preserves angles.
+\end{exercise}
+\begin{hint}
+Preserve all pairwise inner products.
+\end{hint}
+\begin{solution}
+Inner products and norms are constant, hence the angle formula is unchanged.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-10}
+What happens to an orthonormal basis under Levi--Civita transport?
+\end{exercise}
+\begin{hint}
+Use metric preservation.
+\end{hint}
+\begin{solution}
+It remains an orthonormal basis along the curve.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-11}
+How is a geodesic characterized by parallel transport?
+\end{exercise}
+\begin{hint}
+Look at its tangent field.
+\end{hint}
+\begin{solution}
+Its tangent vector is parallel along the curve.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-12}
+Write parallel transport in a local frame.
+\end{exercise}
+\begin{hint}
+Use connection one-forms.
+\end{hint}
+\begin{solution}
+\(\dot V^a+\omega^a{}_b(\dot\gamma)V^b=0\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-13}
+Write the fundamental-matrix equation.
+\end{exercise}
+\begin{hint}
+Collect the linear system.
+\end{hint}
+\begin{solution}
+\(\dot U=-A(t)U\) with \(A^a{}_b=\omega^a{}_b(\dot\gamma)\) and \(U(a)=I\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-14}
+When can the transport matrix be written as an ordinary exponential?
+\end{exercise}
+\begin{hint}
+Require commutation in time.
+\end{hint}
+\begin{solution}
+If \(A(t_1)\) and \(A(t_2)\) commute for all times, then \(U(b)=\exp(-\int_a^bA(t)\,dt)\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-15}
+Describe Euclidean Cartesian parallel transport.
+\end{exercise}
+\begin{hint}
+All Christoffel symbols vanish.
+\end{hint}
+\begin{solution}
+Vector components stay constant.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-16}
+Why are constant polar-coordinate components not necessarily parallel in the Euclidean plane?
+\end{exercise}
+\begin{hint}
+The polar frame varies.
+\end{hint}
+\begin{solution}
+Nonzero Christoffel symbols contribute to the covariant derivative.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-17}
+Along a geodesic, is the tangent field parallel?
+\end{exercise}
+\begin{hint}
+Use the geodesic equation.
+\end{hint}
+\begin{solution}
+Yes: \(D\dot\gamma/dt=0\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-18}
+Define a parallel covector.
+\end{exercise}
+\begin{hint}
+Use the induced dual connection.
+\end{hint}
+\begin{solution}
+It satisfies \(D\alpha/dt=0\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-19}
+How can parallel covectors be characterized using parallel vectors?
+\end{exercise}
+\begin{hint}
+Pair them.
+\end{hint}
+\begin{solution}
+\(\alpha(V)\) is constant for every parallel \(V\).
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-20}
+Why does \(\flat\) carry parallel vectors to parallel covectors for Levi--Civita?
+\end{exercise}
+\begin{hint}
+Use \(\nabla g=0\).
+\end{hint}
+\begin{solution}
+Metric compatibility says covariant differentiation commutes with lowering indices.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-21}
+Define a horizontal lift in a principal bundle.
+\end{exercise}
+\begin{hint}
+Lift the curve with horizontal velocity.
+\end{hint}
+\begin{solution}
+It projects to the base curve and has velocity in the horizontal distribution.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-22}
+What is the frame-bundle meaning of parallel transport?
+\end{exercise}
+\begin{hint}
+Lift a frame horizontally.
+\end{hint}
+\begin{solution}
+A horizontal frame lift is exactly a frame whose vectors are parallel along the base curve.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-23}
+Does parallel transport depend on speed of parametrization?
+\end{exercise}
+\begin{hint}
+Use orientation-preserving reparametrization.
+\end{hint}
+\begin{solution}
+No; regular orientation-preserving reparametrization leaves the zero covariant-derivative equation unchanged.
+\end{solution}
+
+
+\begin{exercise}\label{exr:vii24-24}
+State the bridge to holonomy.
+\end{exercise}
+\begin{hint}
+Close the curve.
+\end{hint}
+\begin{solution}
+VII/25 studies the transformations obtained by parallel transport around loops and the groups they generate.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Parallel-ODE problem]\label{prob:vii24-01}
+Derive the coordinate ODE for a parallel vector field.
+\end{problem}
+\begin{solution}
+Substitute \(V=V^j\partial_j\) and \(\dot\gamma=\dot x^i\partial_i\) into \(\nabla_{\dot\gamma}V=0\) and apply the connection Leibniz rule.
+\end{solution}
+
+
+\begin{problem}[Existence-uniqueness problem]\label{prob:vii24-02}
+Prove the parallel transport map is well defined.
+\end{problem}
+\begin{solution}
+The coordinate equation is a linear ODE with smooth coefficients, so each initial vector has a unique solution along the curve.
+\end{solution}
+
+
+\begin{problem}[Composition problem]\label{prob:vii24-03}
+Prove the concatenation law for parallel transport.
+\end{problem}
+\begin{solution}
+Transport the initial vector along the first curve, then use that endpoint as initial data on the second. Uniqueness identifies the piecewise field with transport along the concatenation.
+\end{solution}
+
+
+\begin{problem}[Inverse problem]\label{prob:vii24-04}
+Prove transport along the reversed path is the inverse.
+\end{problem}
+\begin{solution}
+Reverse a parallel field in parameter. The reversed field remains parallel, so transporting out and back returns the initial vector.
+\end{solution}
+
+
+\begin{problem}[Metric-preservation problem]\label{prob:vii24-05}
+Prove Levi--Civita parallel transport is an isometry.
+\end{problem}
+\begin{solution}
+For two parallel fields \(V,W\), differentiate \(g(V,W)\) and use metric compatibility.
+\end{solution}
+
+
+\begin{problem}[Geodesic problem]\label{prob:vii24-06}
+Relate the geodesic equation to parallel transport.
+\end{problem}
+\begin{solution}
+A curve is geodesic precisely when its tangent field solves the parallel ODE along the same curve.
+\end{solution}
+
+
+\begin{problem}[Fundamental-matrix problem]\label{prob:vii24-07}
+Represent parallel transport in a moving frame.
+\end{problem}
+\begin{solution}
+The connection matrix evaluated on \(\dot\gamma\) gives \(A(t)\), and the transport matrix solves \(\dot U=-AU\), \(U(a)=I\).
+\end{solution}
+
+
+\begin{problem}[Euclidean polar problem]\label{prob:vii24-08}
+Explain how a constant Euclidean vector acquires changing polar components while remaining parallel.
+\end{problem}
+\begin{solution}
+The vector itself is fixed in Cartesian space, but the polar coordinate basis rotates and rescales. Its changing components exactly cancel the Christoffel terms in the parallel ODE.
+\end{solution}
+
+
+\begin{problem}[Sphere problem]\label{prob:vii24-09}
+Construct a parallel orthonormal frame along a great-circle arc.
+\end{problem}
+\begin{solution}
+The unit tangent is parallel because the arc is geodesic. Choose an orthogonal unit tangent vector at the start and parallel transport it; metric preservation keeps the frame orthonormal.
+\end{solution}
+
+
+\begin{problem}[Dual-transport problem]\label{prob:vii24-10}
+Describe transport on covectors.
+\end{problem}
+\begin{solution}
+Define \(P_\gamma^*\) contragrediently so pairings with transported vectors remain constant; this agrees with parallel transport for the induced dual connection.
+\end{solution}
+
+
+\begin{problem}[Horizontal-lift problem]\label{prob:vii24-11}
+Explain how a principal connection produces transport.
+\end{problem}
+\begin{solution}
+Lift the base curve horizontally from a chosen point in the initial fiber. The endpoint defines an equivariant map between fibers, and associated-bundle representations turn it into vector transport.
+\end{solution}
+
+
+\begin{problem}[Path-dependence problem]\label{prob:vii24-12}
+Why can two paths with the same endpoints produce different transport maps?
+\end{problem}
+\begin{solution}
+The connection prescribes infinitesimal comparison, but curvature can make the accumulated comparison path dependent. Closed-loop discrepancies are organized by holonomy.
+\end{solution}
+
+\section{Challenge problems}
+
+\begin{problem}[Path-ordered exponential]\label{prob:vii24-ch01}
+Explain why noncommuting connection matrices require path ordering.
+\end{problem}
+\begin{solution}
+For \(\dot U=-A(t)U\), successive infinitesimal factors occur in chronological order. If \(A(t_1)A(t_2)\neq A(t_2)A(t_1)\), rearranging them changes the product, so the solution is a time/path-ordered exponential rather than \(\exp(-\int A)\).
+\end{solution}
+
+
+\begin{problem}[Gauge covariance of transport]\label{prob:vii24-ch02}
+How does the matrix of parallel transport change under a frame change \(e'=eA\)?
+\end{problem}
+\begin{solution}
+If endpoint frames change by \(A(a)\) and \(A(b)\), the transport matrix changes by \(U'\!=A(b)^{-1}UA(a)\). Thus the underlying linear map is frame independent.
+\end{solution}
+
+
+\begin{problem}[Flat connection and path independence]\label{prob:vii24-ch03}
+On a simply connected domain with a globally trivial flat connection that admits a parallel frame, why is transport path independent?
+\end{problem}
+\begin{solution}
+In a global parallel frame the connection matrix vanishes, so parallel components are constant. The transport map then depends only on the endpoint frame identification, not on the chosen path.
+\end{solution}
+
+
+\begin{problem}[Parallel tensors]\label{prob:vii24-ch04}
+Show that tensor products and contractions of parallel tensor fields remain parallel.
+\end{problem}
+\begin{solution}
+The induced connection obeys a Leibniz rule on tensor products and commutes with contractions. If each factor has zero covariant derivative, so does the tensor product, and contraction preserves zero.
+\end{solution}
+
+
+\begin{problem}[Holonomy preview]\label{prob:vii24-ch05}
+Why does transport around loops based at \(p\) naturally form a subgroup of the orthogonal group \(O(T_pM,g_p)\)?
+\end{problem}
+\begin{solution}
+Each loop gives a Levi--Civita transport isometry \(T_pM\to T_pM\). Concatenation gives composition, reversal gives inverses, and the constant loop gives the identity. VII/25 studies this group in detail.
+\end{solution}
+
+\section*{Bridge to VII/25}
+Parallel transport around closed loops need not return a vector unchanged. VII/25 organizes these loop transports into holonomy groups and relates them to curvature and global geometry.
