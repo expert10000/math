@@ -1,0 +1,632 @@
+\chapter{Connections}
+\label{ch:vii21-connections}
+
+A vector field assigns vectors in different tangent spaces, so ordinary subtraction
+at nearby points is meaningless.  A connection supplies a derivative that respects
+the bundle structure:
+\[
+\boxed{\nabla_XY.}
+\]
+This chapter develops general connections.  VII/22 will single out the unique
+Levi--Civita connection associated with a Riemannian metric.
+
+\section{Affine connections on the tangent bundle}
+
+\begin{definition}[Affine connection]\label{def:vii21-affine}
+An affine connection on \(TM\) is a map
+\[
+\nabla:\mathfrak X(M)\times\mathfrak X(M)\to\mathfrak X(M),
+\qquad
+(X,Y)\mapsto\nabla_XY,
+\]
+such that for \(f,g\in C^\infty(M)\),
+\[
+\nabla_{fX+gY}Z=f\nabla_XZ+g\nabla_YZ,
+\]
+\[
+\nabla_X(Y+Z)=\nabla_XY+\nabla_XZ,
+\]
+and
+\[
+\nabla_X(fY)=X(f)Y+f\nabla_XY.
+\]
+\end{definition}
+
+\begin{remark}[Asymmetry of the two slots]\label{rem:vii21-slots}
+A connection is \(C^\infty(M)\)-linear in the direction field \(X\), but only
+\(\mathbb R\)-linear in the differentiated field \(Y\); the second slot obeys a
+Leibniz rule.
+\end{remark}
+
+\section{Local connection coefficients}
+
+In coordinates \(x^1,\dots,x^n\), define
+\[
+\nabla_{\partial_i}\partial_j
+=
+\Gamma^k_{ij}\partial_k.
+\]
+
+\begin{definition}[Connection coefficients]\label{def:vii21-christoffel-general}
+The functions \(\Gamma^k_{ij}\) are the connection coefficients in the chosen
+coordinate frame.
+\end{definition}
+
+\begin{proposition}[Coordinate formula]\label{prop:vii21-coordinate}
+For
+\[
+X=X^i\partial_i,\qquad Y=Y^j\partial_j,
+\]
+\[
+\nabla_XY
+=
+X^i\left(\partial_iY^k+\Gamma^k_{ij}Y^j\right)\partial_k.
+\]
+\end{proposition}
+
+\begin{warning}[Coefficients are not tensor components]\label{warn:vii21-not-tensor}
+The \(\Gamma^k_{ij}\) do not transform tensorially.  Their transformation law
+contains second derivatives of the coordinate change.  A connection itself is
+geometric even though its coefficient array is not a tensor.
+\end{warning}
+
+\section{Connections on vector bundles}
+
+\begin{definition}[Vector-bundle connection]\label{def:vii21-bundle-connection}
+For a vector bundle \(\pi:E\to M\), a connection is an \(\mathbb R\)-linear map
+\[
+\nabla:\Gamma(E)\to\Omega^1(M;E)
+\]
+satisfying
+\[
+\nabla(fs)=df\otimes s+f\nabla s.
+\]
+Equivalently, for each vector field \(X\),
+\[
+\nabla_X(fs)=X(f)s+f\nabla_Xs.
+\]
+\end{definition}
+
+If \(e_1,\dots,e_r\) is a local frame, write
+\[
+\nabla e_b=\omega^a{}_b\otimes e_a.
+\]
+
+\begin{definition}[Connection one-form matrix]\label{def:vii21-connection-forms}
+The matrix
+\[
+\omega=(\omega^a{}_b)
+\]
+of one-forms is the connection form in the chosen local frame.
+\end{definition}
+
+For \(s=s^be_b\),
+\[
+\nabla s
+=
+(ds^a+\omega^a{}_b s^b)\otimes e_a.
+\]
+
+\section{Change of frame}
+
+Let \(e'=eA\), where \(A:U\to GL(r,\mathbb R)\).
+
+\begin{theorem}[Gauge transformation law]\label{thm:vii21-gauge-law}
+The connection-form matrices satisfy
+\[
+\omega'
+=
+A^{-1}\omega A+A^{-1}dA.
+\]
+\end{theorem}
+
+\begin{proof}
+Differentiate \(e'=eA\) using the Leibniz rule and rewrite the result in the new
+frame.
+\end{proof}
+
+\begin{remark}
+The inhomogeneous term \(A^{-1}dA\) is the bundle analogue of the non-tensorial
+coordinate transformation law for connection coefficients.
+\end{remark}
+
+\section{Covariant derivative along a curve}
+
+\begin{definition}[Covariant derivative along a curve]\label{def:vii21-along-curve}
+Let \(\gamma:I\to M\) and let \(V(t)\in E_{\gamma(t)}\) be a smooth vector field
+along \(\gamma\).  A connection induces
+\[
+\frac{DV}{dt}=\nabla_{\dot\gamma}V.
+\]
+\end{definition}
+
+In a local frame \(V=V^ae_a\),
+\[
+\frac{DV^a}{dt}
+=
+\frac{dV^a}{dt}
++
+\omega^a{}_b(\dot\gamma)V^b.
+\]
+
+\begin{definition}[Parallel field]\label{def:vii21-parallel-field}
+A field \(V\) along \(\gamma\) is parallel if
+\[
+\frac{DV}{dt}=0.
+\]
+\end{definition}
+
+\begin{remark}
+Existence, uniqueness, and geometric consequences of parallel transport are
+developed systematically in VII/24.
+\end{remark}
+
+\section{Difference of two connections}
+
+\begin{theorem}[Affine space of connections]\label{thm:vii21-affine-space}
+If \(\nabla\) and \(\widetilde\nabla\) are two connections on a vector bundle \(E\),
+then
+\[
+A(X)s
+=
+\widetilde\nabla_Xs-\nabla_Xs
+\]
+is \(C^\infty(M)\)-linear in both \(X\) and \(s\). Hence
+\[
+A\in\Omega^1(M;\operatorname{End}E).
+\]
+Conversely, adding any such \(A\) to a connection produces another connection.
+\end{theorem}
+
+\section{Torsion of an affine connection}
+
+\begin{definition}[Torsion]\label{def:vii21-torsion}
+For a connection on \(TM\),
+\[
+T(X,Y)
+=
+\nabla_XY-\nabla_YX-[X,Y].
+\]
+\end{definition}
+
+\begin{proposition}[Torsion is tensorial]\label{prop:vii21-torsion-tensor}
+\(T\) is \(C^\infty(M)\)-linear in both arguments, hence a vector-valued
+two-form.
+\end{proposition}
+
+\begin{remark}
+VII/22 will impose the special condition \(T=0\), together with metric
+compatibility, to characterize the Levi--Civita connection.
+\end{remark}
+
+\section{Principal connections}
+
+Let \(\pi:P\to M\) be a principal \(G\)-bundle with Lie algebra \(\mathfrak g\).
+
+\begin{definition}[Horizontal distribution]\label{def:vii21-horizontal}
+A principal connection may be specified by a smooth \(G\)-equivariant choice of
+horizontal subspaces
+\[
+T_pP=H_pP\oplus V_pP,
+\]
+where \(V_pP=\ker d\pi_p\) is the vertical space.
+\end{definition}
+
+\begin{definition}[Principal connection form]\label{def:vii21-principal-form}
+Equivalently, a principal connection is encoded by a
+\(\mathfrak g\)-valued one-form
+\[
+\omega\in\Omega^1(P;\mathfrak g)
+\]
+which reproduces fundamental vertical vector fields and is equivariant under the
+right \(G\)-action.
+\end{definition}
+
+\begin{proposition}[Horizontal kernel]\label{prop:vii21-horizontal-kernel}
+The horizontal distribution is
+\[
+H_pP=\ker\omega_p.
+\]
+\end{proposition}
+
+\section{Induced connections}
+
+\begin{proposition}[Associated bundles]\label{prop:vii21-associated}
+A principal connection on \(P\) induces connections on every associated vector
+bundle \(P\times_\rho V\).
+\end{proposition}
+
+\begin{remark}
+This links the principal/frame-bundle language of VII/08 to covariant
+differentiation on tangent and tensor bundles.
+\end{remark}
+
+\section{Examples}
+
+\begin{example}[Flat connection on \(\mathbb R^n\)]\label{ex:vii21-flat}
+In standard Cartesian coordinates,
+\[
+\nabla_{\partial_i}\partial_j=0.
+\]
+Thus
+\[
+\nabla_XY=X^i\partial_iY^k\,\partial_k.
+\]
+\end{example}
+
+\begin{example}[A connection on a trivial line bundle]\label{ex:vii21-line}
+On \(M\times\mathbb R\), any one-form \(A\) defines
+\[
+\nabla s=ds+A\,s.
+\]
+Under a change of nonvanishing frame, \(A\) acquires the expected inhomogeneous
+gauge term.
+\end{example}
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii21-01}
+State the three defining algebraic rules for an affine connection.
+\end{exercise}
+\begin{hint}
+Compare the two slots.
+\end{hint}
+\begin{solution}
+It is \(C^\infty\)-linear in the first slot, additive in the second, and obeys the Leibniz rule \(\nabla_X(fY)=X(f)Y+f\nabla_XY\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-02}
+Why is \(\nabla_XY\) not \(C^\infty\)-linear in \(Y\)?
+\end{exercise}
+\begin{hint}
+Use the Leibniz rule.
+\end{hint}
+\begin{solution}
+The derivative term \(X(f)Y\) prevents \(C^\infty\)-linearity.
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-03}
+Define the local coefficients \(\Gamma^k_{ij}\).
+\end{exercise}
+\begin{hint}
+Differentiate the coordinate frame.
+\end{hint}
+\begin{solution}
+They are defined by \(\nabla_{\partial_i}\partial_j=\Gamma^k_{ij}\partial_k\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-04}
+Derive the coordinate formula for \(\nabla_XY\).
+\end{exercise}
+\begin{hint}
+Expand \(X,Y\) in the coordinate frame.
+\end{hint}
+\begin{solution}
+Using the axioms gives \(X^i(\partial_iY^k+\Gamma^k_{ij}Y^j)\partial_k\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-05}
+Why are connection coefficients not tensor components?
+\end{exercise}
+\begin{hint}
+Change coordinates.
+\end{hint}
+\begin{solution}
+Their transformation law contains second derivatives of the coordinate change, unlike a tensorial law.
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-06}
+State the vector-bundle connection Leibniz rule.
+\end{exercise}
+\begin{hint}
+Use a section \(s\) and function \(f\).
+\end{hint}
+\begin{solution}
+\(\nabla(fs)=df\otimes s+f\nabla s\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-07}
+Write a connection in a local frame \(e_a\).
+\end{exercise}
+\begin{hint}
+Differentiate the frame vectors.
+\end{hint}
+\begin{solution}
+\(\nabla e_b=\omega^a{}_b\otimes e_a\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-08}
+Compute \(\nabla(s^be_b)\).
+\end{exercise}
+\begin{hint}
+Apply Leibniz.
+\end{hint}
+\begin{solution}
+\(\nabla s=(ds^a+\omega^a{}_b s^b)\otimes e_a\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-09}
+State the gauge transformation law for connection forms.
+\end{exercise}
+\begin{hint}
+Use \(e'=eA\).
+\end{hint}
+\begin{solution}
+\(\omega'=A^{-1}\omega A+A^{-1}dA\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-10}
+Identify the inhomogeneous part of the gauge law.
+\end{exercise}
+\begin{hint}
+Look for the term independent of \(\omega\).
+\end{hint}
+\begin{solution}
+It is \(A^{-1}dA\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-11}
+Define covariant differentiation along a curve.
+\end{exercise}
+\begin{hint}
+Insert the curve velocity.
+\end{hint}
+\begin{solution}
+\(DV/dt=\nabla_{\dot\gamma}V\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-12}
+Write the local ODE for a parallel field.
+\end{exercise}
+\begin{hint}
+Set \(DV/dt=0\).
+\end{hint}
+\begin{solution}
+\(\dot V^a+\omega^a{}_b(\dot\gamma)V^b=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-13}
+Define a parallel field along a curve.
+\end{exercise}
+\begin{hint}
+Set its covariant derivative to zero.
+\end{hint}
+\begin{solution}
+A field is parallel when \(DV/dt=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-14}
+Show the difference of two connections is \(C^\infty\)-linear in the section.
+\end{exercise}
+\begin{hint}
+Subtract the two Leibniz rules.
+\end{hint}
+\begin{solution}
+The derivative terms \(X(f)s\) cancel, leaving \(f(\widetilde\nabla_Xs-\nabla_Xs)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-15}
+Where does the difference of two bundle connections live?
+\end{exercise}
+\begin{hint}
+Use linearity in \(X\) and \(s\).
+\end{hint}
+\begin{solution}
+It is an \(\operatorname{End}(E)\)-valued one-form.
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-16}
+Define torsion.
+\end{exercise}
+\begin{hint}
+Compare covariant derivatives and the Lie bracket.
+\end{hint}
+\begin{solution}
+\(T(X,Y)=\nabla_XY-\nabla_YX-[X,Y]\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-17}
+Why is torsion tensorial?
+\end{exercise}
+\begin{hint}
+Expand \(T(fX,Y)\) and \(T(X,fY)\).
+\end{hint}
+\begin{solution}
+Leibniz terms cancel against those from the Lie bracket, leaving \(C^\infty\)-linearity.
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-18}
+What does torsion-free mean?
+\end{exercise}
+\begin{hint}
+Set the torsion tensor to zero.
+\end{hint}
+\begin{solution}
+It means \(\nabla_XY-\nabla_YX=[X,Y]\) for all vector fields.
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-19}
+Define the vertical space of a principal bundle.
+\end{exercise}
+\begin{hint}
+Use \(d\pi\).
+\end{hint}
+\begin{solution}
+\(V_pP=\ker d\pi_p\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-20}
+Define a horizontal distribution for a principal connection.
+\end{exercise}
+\begin{hint}
+Split the tangent space.
+\end{hint}
+\begin{solution}
+It is an equivariant choice \(T_pP=H_pP\oplus V_pP\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-21}
+State the connection-form description on a principal bundle.
+\end{exercise}
+\begin{hint}
+Use a Lie-algebra-valued one-form.
+\end{hint}
+\begin{solution}
+A principal connection is encoded by \(\omega\in\Omega^1(P;\mathfrak g)\) with reproduction and equivariance properties.
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-22}
+How is the horizontal space recovered from the principal connection form?
+\end{exercise}
+\begin{hint}
+Take the kernel.
+\end{hint}
+\begin{solution}
+\(H_pP=\ker\omega_p\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-23}
+Give the standard flat connection on \(\mathbb R^n\).
+\end{exercise}
+\begin{hint}
+Use Cartesian coordinates.
+\end{hint}
+\begin{solution}
+Set all \(\Gamma^k_{ij}=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii21-24}
+State the bridge to VII/22.
+\end{exercise}
+\begin{hint}
+Add metric structure and a normalization.
+\end{hint}
+\begin{solution}
+VII/22 proves that a Riemannian metric determines a unique connection that is metric compatible and torsion free.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Legacy connection problem]\label{prob:vii21-01}
+Verify the coordinate formula for an affine connection from its coefficients.
+\end{problem}
+\begin{solution}
+Expand \(X=X^i\partial_i\), \(Y=Y^j\partial_j\), use \(C^\infty\)-linearity in \(X\) and the Leibniz rule in \(Y\), then collect coefficients.
+\end{solution}
+
+\begin{problem}[Non-tensorial coefficient problem]\label{prob:vii21-02}
+Explain why vanishing connection coefficients in one coordinate system need not imply vanishing in another.
+\end{problem}
+\begin{solution}
+The transformation law contains second derivatives of the coordinate change. Even the flat Cartesian connection acquires nonzero coefficients in curvilinear coordinates.
+\end{solution}
+
+\begin{problem}[Bundle-connection problem]\label{prob:vii21-03}
+Derive the local formula \(\nabla s=ds+\omega s\).
+\end{problem}
+\begin{solution}
+Write \(s=s^be_b\), apply the Leibniz rule, and substitute \(\nabla e_b=\omega^a{}_b e_a\).
+\end{solution}
+
+\begin{problem}[Gauge-law problem]\label{prob:vii21-04}
+Derive \(\omega'=A^{-1}\omega A+A^{-1}dA\).
+\end{problem}
+\begin{solution}
+Differentiate the new frame \(e'=eA\), rewrite the result in the new frame, and compare coefficients.
+\end{solution}
+
+\begin{problem}[Along-curve problem]\label{prob:vii21-05}
+Derive the linear ODE governing parallel sections.
+\end{problem}
+\begin{solution}
+Substitute \(V=V^ae_a\) into \(DV/dt=0\). The equation is \(\dot V^a+\omega^a{}_b(\dot\gamma)V^b=0\).
+\end{solution}
+
+\begin{problem}[Difference-tensor problem]\label{prob:vii21-06}
+Prove the space of connections is affine over \(\Omega^1(\operatorname{End}E)\).
+\end{problem}
+\begin{solution}
+The difference of two connections is tensorial; conversely adding an endomorphism-valued one-form preserves the connection Leibniz rule.
+\end{solution}
+
+\begin{problem}[Torsion problem]\label{prob:vii21-07}
+Prove torsion is a tensor.
+\end{problem}
+\begin{solution}
+Expand with multiplied arguments and use \([fX,Y]=f[X,Y]-Y(f)X\); derivative terms cancel.
+\end{solution}
+
+\begin{problem}[Coordinate torsion problem]\label{prob:vii21-08}
+Compute torsion coefficients in a coordinate frame.
+\end{problem}
+\begin{solution}
+Because \([\partial_i,\partial_j]=0\), \(T^k{}_{ij}=\Gamma^k_{ij}-\Gamma^k_{ji}\).
+\end{solution}
+
+\begin{problem}[Flat-space problem]\label{prob:vii21-09}
+Show the standard connection on \(\mathbb R^n\) differentiates vector components ordinarily.
+\end{problem}
+\begin{solution}
+With \(\Gamma^k_{ij}=0\), the coordinate formula reduces to \(\nabla_XY=X^i\partial_iY^k\partial_k\).
+\end{solution}
+
+\begin{problem}[Principal-horizontal problem]\label{prob:vii21-10}
+Explain the equivalence between a horizontal distribution and a principal connection form.
+\end{problem}
+\begin{solution}
+The form projects a tangent vector onto its vertical Lie-algebra component. Its kernel is horizontal; conversely an equivariant horizontal splitting defines that projection.
+\end{solution}
+
+\begin{problem}[Associated-bundle problem]\label{prob:vii21-11}
+Explain how a principal connection induces covariant differentiation on an associated vector bundle.
+\end{problem}
+\begin{solution}
+Lift directions horizontally to the principal bundle, differentiate equivariant representative functions along those lifts, and descend the result through the representation.
+\end{solution}
+
+\begin{problem}[Levi--Civita boundary problem]\label{prob:vii21-12}
+Which facts should be deferred to VII/22?
+\end{problem}
+\begin{solution}
+The formula determined by \(g\), uniqueness, metric compatibility, torsion-free characterization, and the explicit Christoffel-symbol formula belong to VII/22.
+\end{solution}
+
+\section{Challenge problems}
+
+\begin{problem}[Coordinate transformation law]\label{prob:vii21-ch01}
+Derive the full transformation law for affine connection coefficients under \(x=x(y)\).
+\end{problem}
+\begin{solution}
+Apply \(\nabla_{\partial/\partial y^a}(\partial/\partial y^b)\), express both \(y\)-basis fields through the \(x\)-basis, and use the Leibniz rule. The resulting law consists of the tensor-like conjugation term plus a term containing second derivatives \(\partial^2x/\partial y^a\partial y^b\).
+\end{solution}
+
+\begin{problem}[Connection from a projection]\label{prob:vii21-ch02}
+Let \(E\subset M\times\mathbb R^N\) be a vector subbundle with orthogonal projection \(P_x\). Show \(\nabla_Xs=P(ds(X))\) defines a connection.
+\end{problem}
+\begin{solution}
+Linearity in \(X\) is immediate. For \(fs\), \(d(fs)(X)=X(f)s+f\,ds(X)\); since \(s(x)\in E_x\), \(P(s)=s\), yielding the required Leibniz rule.
+\end{solution}
+
+\begin{problem}[Gauge covariance]\label{prob:vii21-ch03}
+Show the covariant derivative of section components transforms homogeneously although \(\omega\) transforms inhomogeneously.
+\end{problem}
+\begin{solution}
+Under \(s'=A^{-1}s\) and \(\omega'=A^{-1}\omega A+A^{-1}dA\), direct substitution shows \(ds'+\omega's'=A^{-1}(ds+\omega s)\). The derivative of \(A^{-1}\) cancels the inhomogeneous term.
+\end{solution}
+
+\begin{problem}[Principal connection and local gauge potential]\label{prob:vii21-ch04}
+Given a local section \(\sigma:U\to P\), define the local gauge potential and describe its change under another section.
+\end{problem}
+\begin{solution}
+Set \(A=\sigma^*\omega\). If \(\sigma'=\sigma g\) for \(g:U\to G\), then \(A'=\operatorname{Ad}_{g^{-1}}A+g^{-1}dg\), the principal-bundle version of the frame gauge law.
+\end{solution}
+
+\begin{problem}[Why a metric does not itself differentiate]\label{prob:vii21-ch05}
+Explain conceptually why VII/20's metric is insufficient to define \(\nabla_XY\) until an additional characterization is imposed.
+\end{problem}
+\begin{solution}
+A metric compares vectors only inside one tangent space. Infinitely many connections can coexist with the same smooth manifold and metric. VII/22 adds metric compatibility and zero torsion, which uniquely select the Levi--Civita connection.
+\end{solution}
+
+\section*{Bridge to VII/22}
+VII/22 combines the general connection formalism with a Riemannian metric and proves the existence and uniqueness of the Levi--Civita connection.
