@@ -1,0 +1,576 @@
+\chapter{Tangent Spaces}
+\label{ch:vii04-tangent-spaces}
+
+A smooth manifold has no preferred ambient vector space, but every point carries an intrinsic first-order linear space. The tangent space turns derivatives of coordinate expressions into coordinate-free geometry:
+\[
+\boxed{T_pM=\{\text{first-order derivations at }p\},\qquad dF_p:T_pM\to T_{F(p)}N.}
+\]
+
+\section{Derivations at a point}
+\begin{definition}[Derivation at a point]\label{def:vii04-derivation}
+A derivation at \(p\in M\) is a linear map \(v:C^\infty(M)\to\mathbb R\) satisfying
+\[
+v(fg)=f(p)v(g)+g(p)v(f).
+\]
+\end{definition}
+
+\begin{definition}[Tangent space]\label{def:vii04-tangent-space}
+The tangent space \(T_pM\) is the vector space of all derivations at \(p\).
+\end{definition}
+
+\begin{proposition}[Constants vanish]\label{prop:vii04-constants}
+Every \(v\in T_pM\) annihilates constant functions.
+\end{proposition}
+\begin{proof}
+Since \(v(1)=v(1\cdot1)=2v(1)\), one has \(v(1)=0\); linearity gives the result.
+\end{proof}
+
+\begin{proposition}[First-order locality]\label{prop:vii04-locality}
+A derivation depends only on the germ of a smooth function at \(p\).
+\end{proposition}
+\begin{proof}
+If \(f\) vanishes near \(p\), choose a smooth cutoff \(\chi\) equal to \(1\) near \(p\) and supported where \(f=0\). Then \(0=v(f\chi)=v(f)\).
+\end{proof}
+
+\section{Coordinate tangent vectors}
+Let \((U,x)\) be a chart around \(p\), with coordinates \(x^1,\dots,x^n\).
+
+\begin{definition}[Coordinate derivations]\label{def:vii04-coordinate-derivations}
+\[
+\left.\frac{\partial}{\partial x^i}\right|_p f
+=
+\frac{\partial(f\circ x^{-1})}{\partial u^i}\bigg|_{u=x(p)}.
+\]
+\end{definition}
+
+\begin{theorem}[Coordinate basis theorem]\label{thm:vii04-coordinate-basis}
+The vectors
+\[
+\left.\frac{\partial}{\partial x^1}\right|_p,\dots,
+\left.\frac{\partial}{\partial x^n}\right|_p
+\]
+form a basis of \(T_pM\), and every \(v\in T_pM\) has the unique expansion
+\[
+v=\sum_{i=1}^n v(x^i)\left.\frac{\partial}{\partial x^i}\right|_p.
+\]
+Consequently \(\dim T_pM=n\).
+\end{theorem}
+\begin{proof}
+In coordinates, subtract the affine first-order part of a smooth function. The remainder has zero value and first derivatives at \(x(p)\), hence is a sum of products of functions vanishing at \(p\). The Leibniz rule kills such products. Thus a derivation is determined by its values on the coordinate functions. Evaluation on \(x^j\) proves linear independence.
+\end{proof}
+
+\begin{corollary}[Euclidean tangent space]\label{cor:vii04-euclidean}
+The standard coordinates identify \(T_p\mathbb R^n\) canonically with \(\mathbb R^n\).
+\end{corollary}
+
+\section{Change of coordinates}
+\begin{theorem}[Transformation law]\label{thm:vii04-transformation}
+If \(x\) and \(y\) are charts at \(p\), then
+\[
+\left.\frac{\partial}{\partial x^i}\right|_p
+=
+\sum_{a=1}^n
+\frac{\partial y^a}{\partial x^i}(p)
+\left.\frac{\partial}{\partial y^a}\right|_p.
+\]
+\end{theorem}
+\begin{proof}
+Apply both sides to an arbitrary smooth function and use the Euclidean chain rule.
+\end{proof}
+
+\begin{remark}[Intrinsic vector, coordinate components]\label{rem:vii04-intrinsic}
+A tangent vector is not a coordinate list. Its components transform by a transition Jacobian while the derivation itself is unchanged.
+\end{remark}
+
+\section{Velocities of curves}
+\begin{definition}[Velocity derivation]\label{def:vii04-curve-velocity}
+For a smooth curve \(\gamma:(-\varepsilon,\varepsilon)\to M\) with \(\gamma(0)=p\), define
+\[
+\dot\gamma(0)(f)=\frac{d}{dt}\bigg|_0 f(\gamma(t)).
+\]
+\end{definition}
+
+\begin{theorem}[Curve realization]\label{thm:vii04-curve-realization}
+Every \(v\in T_pM\) is the velocity of a smooth curve through \(p\).
+\end{theorem}
+\begin{proof}
+Write \(v=\sum v^i\partial_{x^i}|_p\). For small \(t\), put
+\[
+\gamma(t)=x^{-1}\bigl(x(p)+t(v^1,\dots,v^n)\bigr).
+\]
+Its coordinate velocity is \((v^1,\dots,v^n)\).
+\end{proof}
+
+\begin{corollary}[Equivalent curve model]\label{cor:vii04-curve-model}
+Two smooth curves through \(p\) determine the same tangent vector exactly when their coordinate velocities agree in one, equivalently every, chart.
+\end{corollary}
+
+\section{The differential of a smooth map}
+\begin{definition}[Differential or pushforward]\label{def:vii04-differential}
+For a smooth map \(F:M\to N\), define
+\[
+(dF_pv)(g)=v(g\circ F),\qquad
+dF_p:T_pM\to T_{F(p)}N.
+\]
+\end{definition}
+
+\begin{proposition}[Well-defined linear map]\label{prop:vii04-differential-linear}
+The differential is linear and sends derivations at \(p\) to derivations at \(F(p)\).
+\end{proposition}
+\begin{proof}
+Linearity is immediate. For a product \(gh\), pull back to \((g\circ F)(h\circ F)\) and apply Leibniz.
+\end{proof}
+
+\begin{theorem}[Jacobian formula]\label{thm:vii04-jacobian}
+For source coordinates \(x^i\), target coordinates \(y^a\), and
+\(F^a=y^a\circ F\circ x^{-1}\),
+\[
+dF_p\left(\left.\frac{\partial}{\partial x^i}\right|_p\right)
+=
+\sum_{a=1}^m
+\frac{\partial F^a}{\partial x^i}(p)
+\left.\frac{\partial}{\partial y^a}\right|_{F(p)}.
+\]
+Thus the coordinate matrix of \(dF_p\) is the ordinary Jacobian.
+\end{theorem}
+
+\begin{theorem}[Compatibility with curves]\label{thm:vii04-curve-pushforward}
+For every smooth curve \(\gamma\) through \(p\),
+\[
+dF_p(\dot\gamma(0))=(F\circ\gamma)^{\boldsymbol\cdot}(0).
+\]
+\end{theorem}
+\begin{proof}
+Apply both derivations to a test function \(g\in C^\infty(N)\).
+\end{proof}
+
+\section{Functorial rules}
+\begin{theorem}[Chain rule]\label{thm:vii04-chain-rule}
+For smooth \(F:M\to N\) and \(G:N\to P\),
+\[
+d(G\circ F)_p=dG_{F(p)}\circ dF_p.
+\]
+\end{theorem}
+\begin{proof}
+Both sides, after evaluation on \(v\) and \(h\in C^\infty(P)\), give \(v(h\circ G\circ F)\).
+\end{proof}
+
+\begin{proposition}[Identity and constants]\label{prop:vii04-identity-constant}
+\[
+d(\operatorname{id}_M)_p=\operatorname{id}_{T_pM},
+\qquad
+dC_p=0
+\]
+for a constant map \(C\).
+\end{proposition}
+
+\begin{corollary}[Diffeomorphisms]\label{cor:vii04-diffeomorphism}
+If \(F:M\to N\) is a diffeomorphism, then \(dF_p\) is a linear isomorphism and
+\[
+(dF_p)^{-1}=d(F^{-1})_{F(p)}.
+\]
+\end{corollary}
+
+\section{Rank and first-order geometry}
+\begin{definition}[Rank]\label{def:vii04-rank}
+The rank of \(F\) at \(p\) is \(\operatorname{rank}(dF_p)\).
+\end{definition}
+
+\begin{definition}[Immersion and submersion at a point]\label{def:vii04-immersion-submersion}
+A smooth map is an immersion at \(p\) if \(dF_p\) is injective and a submersion at \(p\) if \(dF_p\) is surjective.
+\end{definition}
+
+\begin{warning}[Local versus global]\label{warning:vii04-local-global}
+Injectivity or surjectivity of \(dF_p\) is first-order local information; it does not imply global injectivity or surjectivity of \(F\).
+\end{warning}
+
+\section{Examples}
+\begin{example}[Projection]\label{ex:vii04-projection}
+For \(\pi:\mathbb R^{n+k}\to\mathbb R^n\), \(d\pi(v,w)=v\), so \(\pi\) is a submersion.
+\end{example}
+
+\begin{example}[Polar map]\label{ex:vii04-polar}
+For \(F(r,\theta)=(r\cos\theta,r\sin\theta)\),
+\[
+[dF]=
+\begin{pmatrix}
+\cos\theta&-r\sin\theta\\
+\sin\theta&r\cos\theta
+\end{pmatrix},
+\]
+whose determinant is \(r\). Rank drops at \(r=0\).
+\end{example}
+
+\begin{example}[A Euclidean curve]\label{ex:vii04-curve}
+If \(\gamma(t)=(\gamma^1(t),\dots,\gamma^n(t))\), then
+\[
+\dot\gamma(t)=\sum_i\dot\gamma^i(t)
+\left.\frac{\partial}{\partial x^i}\right|_{\gamma(t)}.
+\]
+\end{example}
+
+\section{Exercises}
+\begin{exercise}\label{exr:vii04-01}
+Prove that every derivation annihilates constants.
+\end{exercise}
+\begin{hint}
+Apply Leibniz to \(1\cdot1\).
+\end{hint}
+\begin{solution}
+\(v(1)=2v(1)\), so \(v(1)=0\); linearity handles all constants.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-02}
+Show sums and scalar multiples of derivations are derivations.
+\end{exercise}
+\begin{hint}
+Check linearity and Leibniz.
+\end{hint}
+\begin{solution}
+Both defining identities are preserved by linear combinations.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-03}
+Verify that \(\partial/\partial x^i|_p\) is a derivation.
+\end{exercise}
+\begin{hint}
+Use the ordinary product rule.
+\end{hint}
+\begin{solution}
+The Euclidean partial derivative is linear and satisfies the product rule after evaluation at the point.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-04}
+Compute \((\partial/\partial x^i|_p)(x^j)\).
+\end{exercise}
+\begin{hint}
+Differentiate a coordinate function.
+\end{hint}
+\begin{solution}
+It equals \(\delta_i^j\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-05}
+Prove uniqueness in the coordinate expansion of a tangent vector.
+\end{exercise}
+\begin{hint}
+Evaluate on every \(x^j\).
+\end{hint}
+\begin{solution}
+If \(\sum a^i\partial_{x^i}|_p=0\), evaluation on \(x^j\) gives \(a^j=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-06}
+Show \(\dim T_pM=\dim M\).
+\end{exercise}
+\begin{hint}
+Use a coordinate basis.
+\end{hint}
+\begin{solution}
+An \(n\)-chart supplies exactly \(n\) basis derivations.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-07}
+Derive the coordinate-change formula for tangent bases.
+\end{exercise}
+\begin{hint}
+Differentiate the transition map.
+\end{hint}
+\begin{solution}
+The chain rule gives \(\partial_{x^i}=\sum_a(\partial y^a/\partial x^i)\partial_{y^a}\) at \(p\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-08}
+Show equality of curve velocities in one chart is chart independent.
+\end{exercise}
+\begin{hint}
+Differentiate the transition map.
+\end{hint}
+\begin{solution}
+Both velocities are multiplied by the same invertible transition Jacobian.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-09}
+Prove that a smooth curve velocity defines a derivation.
+\end{exercise}
+\begin{hint}
+Differentiate \((fg)\circ\gamma\).
+\end{hint}
+\begin{solution}
+The one-variable product rule gives the Leibniz identity.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-10}
+Construct a curve realizing \(v=a^i\partial_{x^i}|_p\).
+\end{exercise}
+\begin{hint}
+Use a straight line in coordinates.
+\end{hint}
+\begin{solution}
+For small \(t\), take \(\gamma(t)=x^{-1}(x(p)+ta)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-11}
+For \(F(x,y)=(x^2-y,xy)\), compute \(dF_{(1,2)}\).
+\end{exercise}
+\begin{hint}
+Compute the Jacobian.
+\end{hint}
+\begin{solution}
+The matrix is \(\begin{pmatrix}2&-1\\2&1\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-12}
+Prove directly from the definition that \(dF_p\) is linear.
+\end{exercise}
+\begin{hint}
+Evaluate on a test function.
+\end{hint}
+\begin{solution}
+\(dF_p(av+bw)(g)=(av+bw)(g\circ F)\), which splits linearly.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-13}
+Prove that \(dF_pv\) satisfies Leibniz.
+\end{exercise}
+\begin{hint}
+Pull products back by \(F\).
+\end{hint}
+\begin{solution}
+Apply Leibniz to \((g\circ F)(h\circ F)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-14}
+Prove the chain rule without coordinates.
+\end{exercise}
+\begin{hint}
+Test both sides on a smooth function.
+\end{hint}
+\begin{solution}
+Both sides evaluate to \(v(h\circ G\circ F)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-15}
+Show the differential of a constant map is zero.
+\end{exercise}
+\begin{hint}
+Pulled-back functions are constant.
+\end{hint}
+\begin{solution}
+Derivations annihilate every pulled-back test function.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-16}
+Show \(d(\operatorname{id}_M)_p\) is the identity.
+\end{exercise}
+\begin{hint}
+Evaluate on test functions.
+\end{hint}
+\begin{solution}
+\((d\operatorname{id}_p v)(f)=v(f)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-17}
+Prove a diffeomorphism induces tangent-space isomorphisms.
+\end{exercise}
+\begin{hint}
+Differentiate both inverse identities.
+\end{hint}
+\begin{solution}
+The chain rule gives mutually inverse differentials.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-18}
+Compute the rank of the polar map.
+\end{exercise}
+\begin{hint}
+Use \(\det[dF]=r\).
+\end{hint}
+\begin{solution}
+The rank is \(2\) for \(r\ne0\) and \(1\) at \(r=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-19}
+Show \(i:\mathbb R^k\hookrightarrow\mathbb R^n\), \(i(x)=(x,0)\), is an immersion.
+\end{exercise}
+\begin{hint}
+Differentiate the inclusion.
+\end{hint}
+\begin{solution}
+\(di(v)=(v,0)\), which is injective.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-20}
+Show \(\pi:\mathbb R^{n+k}\to\mathbb R^n\) is a submersion.
+\end{exercise}
+\begin{hint}
+Differentiate the projection.
+\end{hint}
+\begin{solution}
+\(d\pi(v,w)=v\), which is surjective.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-21}
+Give an immersion that is not globally injective.
+\end{exercise}
+\begin{hint}
+Use a periodic parametrization.
+\end{hint}
+\begin{solution}
+\(t\mapsto(\cos t,\sin t)\) has nonzero derivative everywhere but is periodic.
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-22}
+If \(dF_p=0\), show every curve through \(p\) maps to a curve with zero velocity.
+\end{exercise}
+\begin{hint}
+Use curve compatibility.
+\end{hint}
+\begin{solution}
+\((F\circ\gamma)^{\boldsymbol\cdot}(0)=dF_p\dot\gamma(0)=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-23}
+For \(f:M\to\mathbb R\), identify \(df_p(v)\) under \(T_{f(p)}\mathbb R\cong\mathbb R\).
+\end{exercise}
+\begin{hint}
+Use the differential definition.
+\end{hint}
+\begin{solution}
+\(df_p(v)=v(f)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii04-24}
+Explain why the coordinate matrix of \(dF_p\) depends on charts but its rank does not.
+\end{exercise}
+\begin{hint}
+Coordinate changes give invertible factors.
+\end{hint}
+\begin{solution}
+Left and right multiplication by invertible transition Jacobians preserves rank.
+\end{solution}
+
+
+\section{Solved problem dossiers}
+\begin{problem}[Legacy tangent-space problem: derivations]\label{prob:vii04-01}
+Starting from Leibniz, prove that derivations at a point of an \(n\)-manifold form an \(n\)-dimensional vector space.
+\end{problem}
+\begin{solution}
+A chart gives coordinate derivations. First-order Taylor decomposition shows every derivation is \(\sum_i v(x^i)\partial_{x^i}|_p\), and evaluation on coordinates proves uniqueness.
+\end{solution}
+
+\begin{problem}[Legacy tangent-space problem: curve classes]\label{prob:vii04-02}
+Identify tangent vectors with equivalence classes of curves through \(p\) having equal coordinate velocities.
+\end{problem}
+\begin{solution}
+Each curve differentiates test functions to give a derivation; equal coordinate velocities give equal derivations. Every derivation is realized by a coordinate straight line.
+\end{solution}
+
+\begin{problem}[Legacy differential problem]\label{prob:vii04-03}
+Construct \(dF_p\) intrinsically and prove its coordinate matrix is the Jacobian.
+\end{problem}
+\begin{solution}
+Define \((dF_pv)(g)=v(g\circ F)\) and apply it to target coordinates and source coordinate basis vectors.
+\end{solution}
+
+\begin{problem}[Coordinate basis reconstruction]\label{prob:vii04-04}
+Prove a tangent vector is determined by its values on local coordinate functions.
+\end{problem}
+\begin{solution}
+Modulo products of germs vanishing at the point, every germ is its value plus its first-order coordinate part; derivations kill the constant and quadratic remainder.
+\end{solution}
+
+\begin{problem}[Change-of-chart covariance]\label{prob:vii04-05}
+Derive the tangent-component transformation law.
+\end{problem}
+\begin{solution}
+Differentiate the chart transition; the inverse transition supplies the inverse matrix.
+\end{solution}
+
+\begin{problem}[Differential chain rule]\label{prob:vii04-06}
+Prove the chain rule without coordinates.
+\end{problem}
+\begin{solution}
+After evaluation on \(v\) and a test function \(h\), both sides are \(v(h\circ G\circ F)\).
+\end{solution}
+
+\begin{problem}[Diffeomorphism invariance]\label{prob:vii04-07}
+Show a diffeomorphism induces tangent-space isomorphisms.
+\end{problem}
+\begin{solution}
+Differentiate the two inverse identities.
+\end{solution}
+
+\begin{problem}[Rank in coordinates]\label{prob:vii04-08}
+Show Jacobian rank is independent of the chosen charts.
+\end{problem}
+\begin{solution}
+Coordinate matrices differ by invertible transition Jacobians on the left and right.
+\end{solution}
+
+\begin{problem}[Velocity and pushforward]\label{prob:vii04-09}
+Prove \(dF_p\dot\gamma(0)=(F\circ\gamma)^{\boldsymbol\cdot}(0)\).
+\end{problem}
+\begin{solution}
+Both derivations return \(\frac d{dt}|_0g(F(\gamma(t)))\) on each test function \(g\).
+\end{solution}
+
+\begin{problem}[Critical point criterion]\label{prob:vii04-10}
+For \(f:M\to\mathbb R\), prove \(df_p=0\) iff \(v(f)=0\) for every \(v\in T_pM\).
+\end{problem}
+\begin{solution}
+Under \(T_{f(p)}\mathbb R\cong\mathbb R\), \(df_p\) is precisely \(v\mapsto v(f)\).
+\end{solution}
+
+\begin{problem}[Product preview]\label{prob:vii04-11}
+For Euclidean product projections, recover \(T_{(p,q)}(\mathbb R^m\times\mathbb R^n)\cong T_p\mathbb R^m\oplus T_q\mathbb R^n\).
+\end{problem}
+\begin{solution}
+In standard coordinates this is \(\mathbb R^{m+n}=\mathbb R^m\oplus\mathbb R^n\); VII/06 globalizes it.
+\end{solution}
+
+\begin{problem}[Immersion versus injection]\label{prob:vii04-12}
+Explain why \(t\mapsto(\cos t,\sin t)\) is an immersion but not injective.
+\end{problem}
+\begin{solution}
+Its derivative never vanishes, but the map is periodic.
+\end{solution}
+
+\section{Challenge problems}
+\begin{problem}[Tangent space from the maximal ideal]\label{prob:vii04-ch01}
+Let \(\mathfrak m_p\) be germs vanishing at \(p\). Show \(T_pM\cong(\mathfrak m_p/\mathfrak m_p^2)^*\).
+\end{problem}
+\begin{solution}
+A derivation kills constants and products of two germs vanishing at the point, hence descends to the quotient. Conversely a functional on the quotient defines a first-order derivation; coordinate germs prove the constructions are inverse.
+\end{solution}
+
+\begin{problem}[Naturality of tangent spaces]\label{prob:vii04-ch02}
+Show identities and compositions are preserved by the tangent construction.
+\end{problem}
+\begin{solution}
+The identity rule and chain rule are exactly the functorial axioms pointwise.
+\end{solution}
+
+\begin{problem}[Rank under diffeomorphic conjugacy]\label{prob:vii04-ch03}
+If \(\widetilde F=H\circ F\circ K^{-1}\) with \(H,K\) diffeomorphisms, prove corresponding ranks agree.
+\end{problem}
+\begin{solution}
+\(d\widetilde F=dH\,dF\,(dK)^{-1}\), and the outer factors are isomorphisms.
+\end{solution}
+
+\begin{problem}[Zero differential need not mean local constancy]\label{prob:vii04-ch04}
+Give a smooth function with zero differential at one point but not locally constant there.
+\end{problem}
+\begin{solution}
+\(f(x)=x^2\) has \(df_0=0\) and is not locally constant at \(0\).
+\end{solution}
+
+\begin{problem}[First-order equivalence of maps]\label{prob:vii04-ch05}
+For \(F,G:M\to N\) with \(F(p)=G(p)\), give a coordinate-independent criterion for equal first-order behavior.
+\end{problem}
+\begin{solution}
+The criterion is \(dF_p=dG_p\). In one chart pair this is equality of Jacobians; transition Jacobians make the statement intrinsic.
+\end{solution}
+
+\section*{Bridge to VII/05}
+For a real-valued function, \(df_p\) is a linear functional on \(T_pM\). VII/05 abstracts these functionals as \(T_p^*M\), develops coordinate coframes, pullbacks, annihilators, and the intrinsic meaning of differentials of functions.
