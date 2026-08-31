@@ -1,29 +1,35 @@
-param(
+﻿param(
     [Parameter(Mandatory=$false)]
-    [string]$Repo = "C:\Users\janko\Documents\MATH\math",
+    [string]$Repo = "",
 
-    [switch]$Clean
+    [switch]$Clean,
+
+    [switch]$SkipAudit
 )
 
 $ErrorActionPreference = "Stop"
 
-$vol = Join-Path $Repo "books/vol07_differential_geometry"
-$book = Join-Path $vol "book.tex"
-
-if (-not (Test-Path $book)) {
-    throw "Missing Volume VII wrapper: $book"
+if ([string]::IsNullOrWhiteSpace($Repo)) {
+    $Repo = (Resolve-Path (Join-Path $PSScriptRoot "../..")).Path
+} else {
+    $Repo = (Resolve-Path $Repo).Path
 }
 
-$required = @(
-    "chapters/ch01_topological_manifolds/chapter.tex",
-    "chapters/ch02_smooth_structures_and_atlases/chapter.tex",
-    "chapters/ch03_smooth_maps_and_diffeomorphisms/chapter.tex"
-)
+$vol = Join-Path $Repo "books/vol07_differential_geometry"
+$book = Join-Path $vol "book.tex"
+$audit = Join-Path $vol "AUDIT_VOLUME07.ps1"
 
-foreach ($rel in $required) {
-    $path = Join-Path $vol $rel
-    if (-not (Test-Path $path)) {
-        throw "Missing reconstructed Volume VII chapter: $path"
+if (-not (Test-Path -LiteralPath $book)) {
+    throw "Missing Volume VII wrapper: $book"
+}
+if (-not (Test-Path -LiteralPath $audit)) {
+    throw "Missing Volume VII audit script: $audit"
+}
+
+if (-not $SkipAudit) {
+    & powershell -NoProfile -ExecutionPolicy Bypass -File $audit -Repo $Repo
+    if ($LASTEXITCODE -ne 0) {
+        throw "Volume VII pre-build corpus audit failed."
     }
 }
 
@@ -46,9 +52,38 @@ try {
         throw "Volume VII latexmk build failed with exit code $LASTEXITCODE"
     }
 
+    $logPath = Join-Path $vol "book.log"
+    if (-not (Test-Path -LiteralPath $logPath)) {
+        throw "Volume VII build completed without expected book.log."
+    }
+
+    $badPatterns = @(
+        "LaTeX Warning: There were undefined references",
+        "LaTeX Warning: Label(s) may have changed",
+        "multiply defined",
+        "There were undefined citations"
+    )
+
+    $logText = [System.IO.File]::ReadAllText($logPath)
+    $bad = @()
+    foreach ($pattern in $badPatterns) {
+        if ($logText.IndexOf($pattern, [System.StringComparison]::OrdinalIgnoreCase) -ge 0) {
+            $bad += $pattern
+        }
+    }
+
+    if ($bad.Count -gt 0) {
+        throw ("Volume VII post-build reference regression failed: " + ($bad -join "; "))
+    }
+
+    $pdfPath = Join-Path $vol "book.pdf"
+    if (-not (Test-Path -LiteralPath $pdfPath)) {
+        throw "Volume VII PDF was not produced: $pdfPath"
+    }
+
     Write-Host ""
     Write-Host "VOLUME VII BUILD PASSED" -ForegroundColor Green
-    Write-Host ("PDF: " + (Join-Path $vol "book.pdf"))
+    Write-Host ("PDF: " + $pdfPath)
 }
 finally {
     Pop-Location
