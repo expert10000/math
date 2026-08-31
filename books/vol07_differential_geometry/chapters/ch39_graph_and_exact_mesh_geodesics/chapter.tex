@@ -1,0 +1,655 @@
+\chapter{Graph and Exact Mesh Geodesics}
+\label{ch:vii39}
+
+The first computational reduction of a mesh geodesic problem is to a weighted
+graph.  The reduction is powerful because shortest paths on nonnegative weighted
+graphs are algorithmically mature.  It is also a geometric approximation because
+the true piecewise-Euclidean shortest path is not generally constrained to mesh
+edges.
+
+\section{Weighted edge graphs}
+
+Let \(G=(V,E,w)\) be the mesh one-skeleton with
+\[
+w_{ij}=\|v_i-v_j\|
+\]
+equal to the intrinsic length of the edge \((i,j)\).
+
+\begin{definition}[Graph geodesic]\label{def:vii39-graph}
+A graph geodesic from \(s\) to \(t\) is a minimum-weight edge path
+\[
+s=v_{i_0},v_{i_1},\ldots,v_{i_k}=t,
+\qquad
+L=\sum_{r=0}^{k-1}w_{i_r i_{r+1}}.
+\]
+\end{definition}
+
+For vertex endpoints,
+\[
+d_M(s,t)\le d_G(s,t),
+\]
+because every graph path is a valid surface path.
+
+\section{Dijkstra's algorithm}
+
+\begin{theorem}[Dijkstra correctness]\label{thm:vii39-dijkstra}
+For a graph with nonnegative edge weights, Dijkstra's algorithm permanently
+settles vertices in nondecreasing shortest-path distance from the source.  When a
+vertex \(u\) is settled, its tentative label equals the true graph distance
+\(d_G(s,u)\).
+\end{theorem}
+
+The proof is a greedy cut argument: if a shorter unsettled route existed, the
+first edge crossing from settled to unsettled vertices would have produced a
+smaller tentative label.
+
+With a binary heap, a standard implementation runs in
+\[
+O((|V|+|E|)\log |V|),
+\]
+which is \(O(|V|\log |V|)\) for a triangular manifold mesh because
+\(|E|=O(|V|)\).
+
+\section{Multi-source propagation and Voronoi labels}
+
+Multiple sources can be handled by initializing every source with distance zero.
+
+\begin{proposition}[Multi-source Dijkstra]\label{prop:vii39-multisource}
+If all sources \(S\subset V\) are inserted into the priority queue with label
+zero, Dijkstra computes
+\[
+d_G(S,v)=\min_{s\in S}d_G(s,v)
+\]
+for all vertices \(v\).
+\end{proposition}
+
+Recording which source first attains each optimum yields a graph Voronoi
+partition.
+
+\section{\(A^\ast\) search}
+
+For a fixed target \(t\), \(A^\ast\) orders states by
+\[
+f(v)=g(v)+h(v),
+\]
+where \(g(v)\) is the best known source-to-\(v\) cost and \(h(v)\) estimates the
+remaining cost to \(t\).
+
+\begin{definition}[Admissible and consistent heuristics]\label{def:vii39-astar}
+A heuristic is admissible if
+\[
+0\le h(v)\le d_G(v,t).
+\]
+It is consistent if for every edge \((u,v)\),
+\[
+h(u)\le w_{uv}+h(v).
+\]
+\end{definition}
+
+A consistent heuristic is admissible when \(h(t)=0\), and it makes the \(f\)-value
+nondecreasing along an optimal search frontier.
+
+\begin{example}[Euclidean chord heuristic]\label{ex:vii39-chord}
+For a mesh embedded in Euclidean space,
+\[
+h(v)=\|v-t\|_{\mathbb R^3}
+\]
+is a lower bound on any surface or edge path length, hence is admissible for the
+edge graph.
+\end{example}
+
+\section{Limits of edge restriction}
+
+Increasing graph-search sophistication does not remove geometric bias introduced
+by the edge graph.  Dijkstra and \(A^\ast\) solve the same discrete graph problem
+exactly; they differ only in how much of the graph they explore.
+
+\begin{warning}[Exact graph search is not exact surface geodesy]\label{warn:vii39-graph}
+An exact answer for the edge graph can still be a poor approximation to the
+continuous polyhedral distance if the triangulation directions force a
+zigzagging path.
+\end{warning}
+
+Adding Steiner points or denser directional connections can reduce this bias, but
+also enlarges the graph.
+
+\section{Face sequences and unfolding}
+
+To compute continuous polyhedral geodesics, one must allow a path to cross face
+interiors.  Suppose a candidate path crosses a sequence of faces
+\[
+f_1,f_2,\ldots,f_k
+\]
+without passing through a mesh vertex.  Successively unfold these faces into the
+plane.
+
+\begin{theorem}[Straight line in an unfolded strip]\label{thm:vii39-strip}
+A locally shortest path whose combinatorial face sequence is fixed unfolds to a
+straight line segment across the planar strip of unfolded triangles.
+\end{theorem}
+
+Thus, if the face sequence were known, the geometric path could be recovered by a
+planar straight-line construction and folded back to the surface.  The hard part
+is discovering which face sequences can contain a globally shortest path.
+
+\section{Vertex events and pseudo-sources}
+
+At a saddle vertex, shortest-path wavefronts can create new branches.  Exact
+algorithms account for such events rather than treating every path as a simple
+sequence of generic edge crossings.
+
+\begin{definition}[Pseudo-source, conceptual]\label{def:vii39-pseudosource}
+A pseudo-source is a mesh vertex at which an exact wavefront representation
+creates new locally valid propagation branches, typically because the total
+incident angle permits shortest paths to pass through the vertex.
+\end{definition}
+
+Positive-curvature vertices do not admit a locally minimizing path through the
+tip under the two-sided angle criterion from VII/38.
+
+\section{Windows on edges}
+
+Exact polyhedral methods propagate not merely one scalar label per vertex but
+continuous distance information along edge intervals.
+
+\begin{definition}[Window]\label{def:vii39-window}
+A window is an interval on a mesh edge together with sufficient data to express
+the distance to points of that interval through one unfolded source image or
+pseudo-source branch.
+\end{definition}
+
+Inside one unfolded configuration, the distance typically has the Euclidean form
+\[
+d(x)=d_0+\|x-\widetilde s\|,
+\]
+where \(\widetilde s\) is an unfolded source image and \(d_0\) is the already
+accumulated distance to a pseudo-source when present.
+
+Competing windows can overlap.  Dominated portions are trimmed because only the
+lower envelope can contribute to the exact distance field.
+
+\section{Exact wavefront algorithms}
+
+Classical exact algorithms such as the Mitchell--Mount--Papadimitriou framework
+and the Chen--Han framework differ in data structures and propagation details,
+but share core geometry:
+\begin{enumerate}[label=(\roman*)]
+\item propagate continuous intervals across edges;
+\item unfold local face configurations;
+\item keep distance formulas attached to source images or pseudo-sources;
+\item prune dominated information;
+\item backtrack through the winning propagation chain to recover a path.
+\end{enumerate}
+
+The important conceptual contrast with Dijkstra is that an exact continuous
+solver stores enough information to represent where the wavefront crosses an
+edge, not only which mesh vertex has been reached.
+
+\section{Boundary, degeneracy, and robustness}
+
+A shortest path may run along a boundary edge, hit an edge endpoint, or encounter
+nearly simultaneous window events.  Exact combinatorial decisions can therefore
+be sensitive to floating-point error.
+
+\begin{warning}[Robust predicates]\label{warn:vii39-robust}
+A mathematically exact algorithm is not automatically numerically robust.
+Implementations need consistent orientation tests, tolerances or exact
+predicates, and deterministic tie handling for degenerate configurations.
+\end{warning}
+
+\section{Graph versus exact polyhedral methods}
+
+\begin{center}
+\begin{tabular}{lll}
+\toprule
+Feature & Edge graph & Exact polyhedral \\
+\midrule
+Path locations & mesh edges & face interiors allowed \\
+Core state & vertex labels & edge intervals/windows \\
+Typical implementation & simple & substantially more complex \\
+Distance on mesh metric & upper approximation & exact in principle \\
+Path recovery & predecessor vertices & unfolded propagation chain \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+For many interactive applications the graph method is an excellent baseline.
+When exact intrinsic distances matter, however, continuous propagation is the
+correct reference.
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii39-01}
+What weights should the mesh edge graph use for intrinsic shortest paths?
+\end{exercise}
+
+\begin{hint}
+Use the intrinsic length of each edge.
+\end{hint}
+
+\begin{solution}
+Assign each edge \((i,j)\) the piecewise-Euclidean edge length \(w_{ij}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-02}
+What assumption on edge weights is needed by Dijkstra's algorithm?
+\end{exercise}
+
+\begin{hint}
+Negative edges break the greedy settling argument.
+\end{hint}
+
+\begin{solution}
+All edge weights must be nonnegative.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-03}
+What does it mean when Dijkstra settles a vertex?
+\end{exercise}
+
+\begin{hint}
+Its tentative label becomes final.
+\end{hint}
+
+\begin{solution}
+The settled label equals the true shortest graph distance from the source.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-04}
+Give the standard binary-heap complexity of Dijkstra.
+\end{exercise}
+
+\begin{hint}
+Include both vertices and edges.
+\end{hint}
+
+\begin{solution}
+\(O((|V|+|E|)\log |V|)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-05}
+Why is this \(O(|V|\log|V|)\) on a triangular manifold mesh?
+\end{exercise}
+
+\begin{hint}
+Use sparsity of the one-skeleton.
+\end{hint}
+
+\begin{solution}
+Such meshes have \(|E|=O(|V|)\), so the edge term is linear in the number of vertices.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-06}
+How do you initialize multi-source Dijkstra?
+\end{exercise}
+
+\begin{hint}
+All sources start equally close.
+\end{hint}
+
+\begin{solution}
+Set every source label to zero and insert all sources into the priority queue initially.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-07}
+What additional data gives a graph Voronoi partition?
+\end{exercise}
+
+\begin{hint}
+Track provenance.
+\end{hint}
+
+\begin{solution}
+Store the source label or source identifier from which each winning shortest path originates.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-08}
+Define the \(A^\ast\) priority key.
+\end{exercise}
+
+\begin{hint}
+Add known and estimated remaining cost.
+\end{hint}
+
+\begin{solution}
+\(f(v)=g(v)+h(v)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-09}
+What is an admissible heuristic?
+\end{exercise}
+
+\begin{hint}
+It must not overestimate.
+\end{hint}
+
+\begin{solution}
+A heuristic satisfying \(0\le h(v)\le d_G(v,t)\) for every \(v\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-10}
+What is a consistent heuristic?
+\end{exercise}
+
+\begin{hint}
+Use the edge triangle inequality.
+\end{hint}
+
+\begin{solution}
+It satisfies \(h(u)\le w_{uv}+h(v)\) on every edge.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-11}
+Why is ambient Euclidean distance to the target admissible?
+\end{exercise}
+
+\begin{hint}
+A surface path cannot be shorter than its straight spatial chord.
+\end{hint}
+
+\begin{solution}
+Every edge path has length at least the Euclidean chord distance between its endpoints.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-12}
+Do Dijkstra and \(A^\ast\) compute different graph distances?
+\end{exercise}
+
+\begin{hint}
+Assume an admissible heuristic and correct implementations.
+\end{hint}
+
+\begin{solution}
+No.  They compute the same optimal graph distance; \(A^\ast\) can explore fewer states for a fixed target.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-13}
+Why can exact graph search overestimate the surface distance?
+\end{exercise}
+
+\begin{hint}
+The admissible path class is smaller.
+\end{hint}
+
+\begin{solution}
+The graph solver only uses edge paths, whereas the continuous surface solver may cross face interiors.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-14}
+What is a face sequence of a surface path?
+\end{exercise}
+
+\begin{hint}
+List the triangles traversed in order.
+\end{hint}
+
+\begin{solution}
+It is the ordered sequence of mesh faces crossed by the path.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-15}
+How does a locally shortest path look after unfolding a fixed face sequence?
+\end{exercise}
+
+\begin{hint}
+Use VII/38's edge-crossing condition repeatedly.
+\end{hint}
+
+\begin{solution}
+It becomes one straight line segment through the unfolded planar strip.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-16}
+Why is knowing the face sequence not enough for a complete algorithm?
+\end{exercise}
+
+\begin{hint}
+There are many possible sequences.
+\end{hint}
+
+\begin{solution}
+The global problem must discover which combinatorial sequence or propagation branch actually realizes the shortest path.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-17}
+What geometric role can a saddle vertex play?
+\end{exercise}
+
+\begin{hint}
+Recall the two-sided angle criterion.
+\end{hint}
+
+\begin{solution}
+It can act as a branching event or pseudo-source for valid shortest-path propagation.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-18}
+Define an edge window conceptually.
+\end{exercise}
+
+\begin{hint}
+It represents a continuous interval, not one vertex.
+\end{hint}
+
+\begin{solution}
+A window is an edge interval carrying a distance formula and propagation data for one unfolded source or pseudo-source branch.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-19}
+Give the typical distance formula inside one unfolded window.
+\end{exercise}
+
+\begin{hint}
+Use an unfolded source image.
+\end{hint}
+
+\begin{solution}
+\(d(x)=d_0+\|x-\widetilde s\|\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-20}
+Why can overlapping windows be trimmed?
+\end{exercise}
+
+\begin{hint}
+Only the lower envelope can be shortest.
+\end{hint}
+
+\begin{solution}
+Where one window gives strictly larger distance than another, that dominated portion cannot contribute to the exact distance field.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-21}
+What extra information does an exact continuous solver store compared with Dijkstra?
+\end{exercise}
+
+\begin{hint}
+Think edge intervals.
+\end{hint}
+
+\begin{solution}
+It stores continuous wavefront information along edges, including source-image or pseudo-source geometry, rather than only scalar vertex labels.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-22}
+Why are degeneracies difficult in exact mesh geodesic codes?
+\end{exercise}
+
+\begin{hint}
+Events can coincide or nearly coincide.
+\end{hint}
+
+\begin{solution}
+Floating-point error can change ordering, intersection, and dominance decisions for nearly simultaneous or boundary events.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-23}
+What is path recovery in a graph solver?
+\end{exercise}
+
+\begin{hint}
+Store one predecessor.
+\end{hint}
+
+\begin{solution}
+Backtrack predecessor vertices from the target to the source.
+\end{solution}
+
+\begin{exercise}\label{exr:vii39-24}
+What does VII/40 trade away relative to exact polyhedral propagation?
+\end{exercise}
+
+\begin{hint}
+It uses PDE solves.
+\end{hint}
+
+\begin{solution}
+The heat method gives a fast smooth approximation rather than exact continuous polyhedral distances.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Dijkstra on a four-vertex graph]\label{prob:vii39-01}
+Edges have weights \(s\!-\!a=1\), \(s\!-\!b=4\), \(a\!-\!b=1\), and \(b\!-\!t=2\).  Compute \(d_G(s,t)\).
+\end{problem}
+
+\begin{solution}
+Dijkstra settles \(a\) at distance \(1\), improves \(b\) to \(2\), then reaches \(t\) with distance \(4\).  The shortest path is \(s\to a\to b\to t\).
+\end{solution}
+
+\begin{problem}[Multi-source initialization]\label{prob:vii39-02}
+Sources \(s_1,s_2\) both receive label zero.  A vertex \(v\) is reached from \(s_1\) with cost \(5\) and from \(s_2\) with cost \(3\).  What distance and source label should remain?
+\end{problem}
+
+\begin{solution}
+The distance is \(3\), and the provenance label is \(s_2\).  Multi-source Dijkstra computes the lower envelope of all source distance functions.
+\end{solution}
+
+\begin{problem}[An admissible \(A^\ast\) heuristic]\label{prob:vii39-03}
+A target is embedded in \(\mathbb R^3\).  Explain why \(h(v)=\|v-t\|\) cannot overestimate the remaining graph distance.
+\end{problem}
+
+\begin{solution}
+Each graph path from \(v\) to \(t\) is a polygonal spatial curve.  Its length is at least the straight Euclidean chord between its endpoints.  Therefore \(\|v-t\|\le d_G(v,t)\).
+\end{solution}
+
+\begin{problem}[Graph versus continuous distance]\label{prob:vii39-04}
+A graph path has length \(12\), while unfolding reveals a valid continuous face-interior path of length \(10.7\).  What can be concluded about the exact intrinsic distance?
+\end{problem}
+
+\begin{solution}
+It is at most \(10.7\).  The graph value \(12\) remains an upper bound.  Additional continuous candidates could reduce the exact value below \(10.7\).
+\end{solution}
+
+\begin{problem}[Two-face exact crossing]\label{prob:vii39-05}
+Two adjacent triangles are unfolded and the source and target images are joined by a straight segment crossing the common edge in its interior.  Why is this the shortest path constrained to those two faces?
+\end{problem}
+
+\begin{solution}
+After unfolding, all paths through those faces have ordinary Euclidean length.  The straight segment minimizes Euclidean length, and folding preserves lengths.
+\end{solution}
+
+\begin{problem}[Invalid unfolded candidate]\label{prob:vii39-06}
+An unfolded source-target segment crosses the extension of the shared edge outside the actual edge interval.  Can it represent a path with the proposed two-face sequence?
+\end{problem}
+
+\begin{solution}
+No.  Folding the segment would leave the specified triangles.  A valid candidate must cross every shared edge inside the corresponding edge segment.
+\end{solution}
+
+\begin{problem}[A convex vertex]\label{prob:vii39-07}
+At a vertex the total incident angle is \(1.8\pi\).  Can a locally minimizing path pass through the tip with at least \(\pi\) of angle on both sides?
+\end{problem}
+
+\begin{solution}
+No.  The two sides would require total available angle at least \(2\pi\), but only \(1.8\pi\) is available.  A path through this positive-curvature tip can therefore be shortened locally.
+\end{solution}
+
+\begin{problem}[A saddle pseudo-source]\label{prob:vii39-08}
+A vertex has total angle \(2.6\pi\).  Explain why an exact propagation method may need to create new wavefront branches there.
+\end{problem}
+
+\begin{solution}
+There is more than \(2\pi\) of angular room, so some through-vertex paths can satisfy the local two-sided \(\pi\) condition.  The vertex can therefore transmit shortest-path information in multiple directions, motivating pseudo-source branches.
+\end{solution}
+
+\begin{problem}[Window dominance]\label{prob:vii39-09}
+Two windows overlap on an edge interval.  Window \(A\) gives distance \(d_A(x)\) and \(B\) gives \(d_B(x)\).  On a subinterval \(d_A(x)<d_B(x)\) everywhere.  What should an exact lower-envelope implementation do?
+\end{problem}
+
+\begin{solution}
+Discard or trim the dominated part of \(B\) on that subinterval, because it can never be the shortest arrival there.
+\end{solution}
+
+\begin{problem}[Boundary path]\label{prob:vii39-10}
+A target lies on a boundary edge and the shortest route approaches along the boundary.  Why must a robust solver treat boundary edges differently from ordinary interior edges?
+\end{problem}
+
+\begin{solution}
+An interior edge has two incident faces and supports propagation across both sides.  A boundary edge has only one surface side, so propagation cannot continue through it as though a second triangle existed.
+\end{solution}
+
+\begin{problem}[Graph refinement]\label{prob:vii39-11}
+Steiner points are inserted on every edge and connected within faces.  What is the intended effect on graph geodesics?
+\end{problem}
+
+\begin{solution}
+The enriched graph offers more directions and more opportunities to cut across the original coarse edge pattern, so its shortest paths can better approximate continuous surface geodesics, at the cost of a larger graph.
+\end{solution}
+
+\begin{problem}[Choosing \(A^\ast\) or Dijkstra]\label{prob:vii39-12}
+A single target is known and a good admissible spatial heuristic is available.  Which search is likely preferable, and when would Dijkstra still be attractive?
+\end{problem}
+
+\begin{solution}
+\(A^\ast\) is likely preferable for one target because the heuristic focuses exploration.  Dijkstra is attractive for complete single-source fields, multi-source propagation, or when no useful heuristic is available.
+\end{solution}
+
+\section{Challenge problems}
+
+\begin{problem}[Consistency implies monotone \(f\)]\label{prob:vii39-ch01}
+Show that if \(h\) is consistent, then along an edge relaxation from \(u\) to \(v\) on an optimal-prefix path, the \(A^\ast\) key cannot decrease.
+\end{problem}
+
+\begin{solution}
+Consistency gives \(h(u)\le w_{uv}+h(v)\).  If \(g(v)=g(u)+w_{uv}\) on the path, then \(f(u)=g(u)+h(u)\le g(u)+w_{uv}+h(v)=g(v)+h(v)=f(v)\).  Thus \(f\) is nondecreasing along that path.
+\end{solution}
+
+\begin{problem}[Unfolding a triangle strip]\label{prob:vii39-ch02}
+Give an algorithm for testing a proposed face sequence \(f_1,\ldots,f_k\) for a source-target geodesic that avoids vertices.
+\end{problem}
+
+\begin{solution}
+Successively rigidly unfold the faces into one plane, preserving each shared edge.  Join the unfolded source to the unfolded target by a straight segment.  Check that the segment crosses the shared edges in the prescribed order and inside their edge intervals.  If it does, folding back yields the unique shortest path within that fixed sequence; otherwise the sequence is invalid.
+\end{solution}
+
+\begin{problem}[Why one label per vertex is insufficient]\label{prob:vii39-ch03}
+Explain geometrically why an exact polyhedral single-source method cannot in general summarize its whole state by one scalar distance per mesh vertex.
+\end{problem}
+
+\begin{solution}
+A shortest wavefront crosses edges at continuously varying points, and different source images can be optimal on different subintervals of the same edge.  Vertex distances do not encode these crossing locations or the lower envelope between vertices.  Exact propagation therefore needs interval-valued state such as windows.
+\end{solution}
+
+\begin{problem}[Numerical exactness]\label{prob:vii39-ch04}
+An algorithm has a proof of exactness over real arithmetic.  Explain why a floating-point implementation can nevertheless return the wrong combinatorial path.
+\end{problem}
+
+\begin{solution}
+The proof assumes exact comparisons of event times, intersections, and window dominance.  Near degeneracies, floating-point rounding can reverse such comparisons, clip a valid interval, or choose the wrong branch.  Robust predicates, controlled tolerances, and deterministic tie rules are needed to preserve the intended combinatorics.
+\end{solution}
+
+\begin{problem}[Hybrid validation strategy]\label{prob:vii39-ch05}
+Design a practical workflow that uses graph, exact, and approximate methods together rather than treating them as competitors.
+\end{problem}
+
+\begin{solution}
+Use Dijkstra or \(A^\ast\) as a cheap robust baseline and upper bound.  Use an exact polyhedral solver on a smaller benchmark set to establish reference distances and difficult path cases.  Then tune or validate an approximate global method such as the heat method against those references.  This separates implementation bugs from approximation error and gives useful speed-accuracy tradeoffs.
+\end{solution}
+
+\section{Bridge to the next chapter}
+
+Exact wavefront propagation follows the metric faithfully but carries substantial
+combinatorial state.  VII/40 takes a different route: diffuse heat for a short
+time, normalize the resulting gradient to estimate distance directions, and
+recover a scalar distance by one Poisson solve.
