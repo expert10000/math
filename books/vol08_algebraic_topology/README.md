@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/10`.
+**Status:** Canonical reconstruction underway through `VIII/11`.
 
 Canonical chapter codes: `VIII/01`–`VIII/35`.
 
@@ -74,6 +74,7 @@ after VIII/35, when every legacy problem block has a stable chapter destination.
 
 Current reconstructed batch:
 - VIII/10: **24 solved dossiers**
+- VIII/11: **22 solved dossiers**
 
 Each reconstructed chapter also has **24 exercises and 24 hints**.
 
@@ -88,7 +89,7 @@ Each reconstructed chapter also has **24 exercises and 24 hints**.
 - VIII/08: DRAFTED
 - VIII/09: DRAFTED
 - VIII/10: DRAFTED
-- VIII/11: PLANNED
+- VIII/11: DRAFTED
 - VIII/12: PLANNED
 - VIII/13: PLANNED
 - VIII/14: PLANNED
