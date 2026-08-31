@@ -1,0 +1,661 @@
+\chapter{The Heat Method}
+\label{ch:vii40}
+
+The heat method replaces explicit shortest-path combinatorics by two sparse
+elliptic solves and one local vector-field normalization.  Its central insight is
+that very short-time heat flow contains the direction of geodesic distance even
+though the heat values themselves are not distances.
+
+\section{Short-time heat and distance}
+
+On a Riemannian surface, let \(k_t(x,s)\) be the heat kernel.  Short-time
+asymptotics have the schematic form
+\[
+k_t(x,s)\approx C(t,x,s)\exp\!\left(-\frac{d(x,s)^2}{4t}\right).
+\]
+Consequently,
+\[
+-4t\log k_t(x,s)\longrightarrow d(x,s)^2
+\qquad (t\downarrow0)
+\]
+away from technical singularities.  The heat method does not directly use this
+logarithmic formula.  Instead it extracts the direction of increasing distance.
+
+\section{Step 1: diffuse heat}
+
+Fix the sign convention that the smooth Laplace--Beltrami operator
+\(\Delta=\operatorname{div}\nabla\) is nonpositive on closed manifolds.  A
+backward-Euler heat step solves
+\[
+(I-t\Delta)u=\delta_s.
+\]
+
+For a finite-element mesh, let \(M\) be a mass matrix and let \(L\) be the
+positive-semidefinite stiffness matrix representing \(-\Delta\) weakly.  Then a
+standard discrete system is
+\[
+(M+tL)u=M\delta_s.
+\]
+
+\begin{remark}[Sign conventions]\label{rem:vii40-sign}
+Some libraries define their discrete Laplacian with the opposite sign.  The
+implementation equations must be changed consistently; copying formulas without
+checking the sign convention is a common source of errors.
+\end{remark}
+
+\section{Step 2: normalize the negative heat gradient}
+
+Immediately after diffusion, heat decreases away from the source.  Therefore
+\(-\nabla u\) points approximately in the direction of increasing distance.
+
+\begin{definition}[Normalized direction field]\label{def:vii40-X}
+On each face where \(\nabla u\ne0\), define
+\[
+X=-\frac{\nabla u}{\|\nabla u\|}.
+\]
+\end{definition}
+
+For piecewise-linear finite elements, \(u\) is affine on each triangle, so
+\(\nabla u\) is constant on each face.  In practice one regularizes the
+normalization when \(\|\nabla u\|\) is extremely small.
+
+\begin{warning}[Do not use heat magnitude as distance]\label{warn:vii40-mag}
+The scalar \(u\) decays roughly exponentially with squared distance and time.  It
+is the normalized gradient direction, not the raw heat value, that the standard
+heat method feeds into the reconstruction step.
+\end{warning}
+
+\section{Step 3: integrate the direction field}
+
+The normalized field is generally not exactly a gradient because of
+discretization and finite time.  The method therefore finds the scalar function
+whose gradient best matches \(X\) in a least-squares sense.
+
+\begin{theorem}[Poisson reconstruction]\label{thm:vii40-poisson}
+A minimizer of
+\[
+E(\phi)=\frac12\int_M\|\nabla\phi-X\|^2\,dA
+\]
+satisfies, in the weak interior sense,
+\[
+\Delta\phi=\operatorname{div}X.
+\]
+\end{theorem}
+
+\begin{proof}
+Vary \(\phi\mapsto\phi+\varepsilon\eta\), differentiate at zero, and integrate
+the term \(\langle X,\nabla\eta\rangle\) by parts.  The resulting Euler--Lagrange
+equation is the Poisson equation.
+\end{proof}
+
+With the positive stiffness matrix \(L\), define
+\[
+b_i=\int_M\langle\nabla\varphi_i,X\rangle\,dA.
+\]
+Then the discrete Poisson equation is
+\[
+L\phi=b,
+\]
+up to the usual additive constant.
+
+\section{Gauge fixing}
+
+On a connected closed mesh,
+\[
+L\mathbf 1=0.
+\]
+Therefore \(\phi\) is determined only up to an additive constant.
+
+\begin{definition}[Distance normalization]\label{def:vii40-gauge}
+After solving the Poisson equation, fix the constant by imposing
+\[
+\phi(s)=0
+\]
+for a vertex source, or by subtracting the minimum value when a source set is
+used.
+\end{definition}
+
+Pinning one degree of freedom or solving in the mean-zero subspace are standard
+linear-algebra choices.
+
+\section{Choosing the heat time}
+
+A common mesh-scale choice is
+\[
+t=m h^2,
+\]
+where \(h\) is a representative edge length and \(m\) is a dimensionless constant
+of order one.
+
+Too small a time makes the discrete heat field highly localized and sensitive to
+mesh resolution and roundoff.  Too large a time oversmooths directional
+information and introduces global bias.
+
+\begin{remark}[Time-scale invariance]\label{rem:vii40-time}
+The square scaling is dimensionally natural: diffusion distance grows like
+\(\sqrt t\), so choosing \(t\propto h^2\) diffuses over a length comparable with
+the local mesh scale.
+\end{remark}
+
+\section{Multiple sources}
+
+For a source set \(S\), initialize heat on all sources and perform the same three
+steps.  The recovered scalar approximates distance to the nearest source.
+
+The method naturally computes a global field rather than an isolated path.  A
+path can be recovered afterward by descending the distance field from target to
+source, with suitable handling near vertices and nondifferentiable regions.
+
+\section{Boundary conditions}
+
+On a surface with boundary, the heat and Poisson solves require boundary
+conditions.  Homogeneous Neumann conditions keep flux normal to the boundary
+zero and are common when geodesics are meant to remain on the surface without
+prescribed boundary values.  Dirichlet conditions solve a different problem and
+should not be introduced accidentally.
+
+\section{Sparse factorization reuse}
+
+For fixed mesh geometry and fixed \(t\), the matrices
+\[
+M+tL
+\qquad\text{and}\qquad
+L
+\]
+do not depend on the source.  Their sparse factorizations can therefore be reused
+for many source queries.
+
+\begin{proposition}[Amortized query structure]\label{prop:vii40-reuse}
+After matrix assembly and factorization, changing the source mainly changes the
+right-hand sides, the facewise gradient normalization, and the back substitutions.
+\end{proposition}
+
+This is one reason the heat method is attractive for interactive geometry
+processing and repeated distance-field computation.
+
+\section{Accuracy and failure modes}
+
+The heat method is approximate.  Error depends on mesh resolution, element
+quality, Laplacian discretization, time step, boundary treatment, and the
+normalization of small gradients.
+
+Distance values can be accurate even when the field is less reliable very close
+to the source or near the cut locus.  As in VII/38, path identity is a more
+sensitive diagnostic than scalar distance.
+
+\begin{warning}[Disconnected meshes]\label{warn:vii40-disconnected}
+A source only heats its connected component.  Solvers should process components
+explicitly; otherwise null spaces and unreachable vertices can be mistaken for
+numerical failures.
+\end{warning}
+
+\section{Spectral viewpoint}
+
+Let generalized eigenpairs satisfy
+\[
+L\psi_k=\lambda_k M\psi_k,
+\qquad
+0=\lambda_0\le\lambda_1\le\cdots.
+\]
+The backward-Euler heat solve damps mode \(k\) by approximately
+\[
+\frac{1}{1+t\lambda_k}.
+\]
+High-frequency modes are damped more strongly.  This explains both the numerical
+stability of diffusion and the oversmoothing that appears when \(t\) is chosen
+too large.
+
+\section{Relation to exact geodesics}
+
+The method never enumerates face sequences or edge windows.  It replaces
+combinatorial wavefront tracking by globally coupled linear algebra:
+\[
+\text{heat solve}
+\;\longrightarrow\;
+\text{normalized directions}
+\;\longrightarrow\;
+\text{Poisson solve}.
+\]
+The price is approximation; the benefit is simplicity, parallel local
+operations, and reusable sparse factorizations.
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii40-01}
+What short-time quantity of the heat kernel encodes squared distance?
+\end{exercise}
+
+\begin{hint}
+Take a logarithm.
+\end{hint}
+
+\begin{solution}
+\(-4t\log k_t(x,s)\) tends to \(d(x,s)^2\) as \(t\downarrow0\), under the usual short-time assumptions.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-02}
+With \(\Delta=\operatorname{div}
+abla\) nonpositive, write one backward-Euler heat step.
+\end{exercise}
+
+\begin{hint}
+Move the Laplacian to the left.
+\end{hint}
+
+\begin{solution}
+\((I-t\Delta)u=\delta_s\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-03}
+Write the standard finite-element heat system with positive stiffness matrix \(L\).
+\end{exercise}
+
+\begin{hint}
+Include the mass matrix.
+\end{hint}
+
+\begin{solution}
+\((M+tL)u=M\delta_s\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-04}
+Why must an implementation check its Laplacian sign convention?
+\end{exercise}
+
+\begin{hint}
+Libraries differ.
+\end{hint}
+
+\begin{solution}
+Using a formula derived for the opposite sign can turn a positive heat solve into the wrong operator or reverse the Poisson reconstruction.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-05}
+Define the heat-method direction field \(X\).
+\end{exercise}
+
+\begin{hint}
+Normalize the negative gradient.
+\end{hint}
+
+\begin{solution}
+\(X=-\nabla u/\|\nabla u\|\) wherever the gradient is nonzero.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-06}
+Why is \(
+abla u\) constant on each triangle for piecewise-linear finite elements?
+\end{exercise}
+
+\begin{hint}
+An affine function has constant gradient.
+\end{hint}
+
+\begin{solution}
+The nodal interpolant is affine on each face, hence its gradient is a constant face vector.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-07}
+Why should very small \(\|
+abla u\|\) be regularized?
+\end{exercise}
+
+\begin{hint}
+Division amplifies noise.
+\end{hint}
+
+\begin{solution}
+Normalization can become unstable or undefined when the gradient magnitude is near zero.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-08}
+Why is raw heat \(u\) not the distance?
+\end{exercise}
+
+\begin{hint}
+Recall the heat-kernel asymptotic.
+\end{hint}
+
+\begin{solution}
+Heat decays roughly exponentially with squared distance divided by time, so its magnitude is not linearly proportional to distance.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-09}
+What energy is minimized in the integration step?
+\end{exercise}
+
+\begin{hint}
+Match a scalar gradient to \(X\).
+\end{hint}
+
+\begin{solution}
+\(E(\phi)=\frac12\int_M\|\nabla\phi-X\|^2\,dA\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-10}
+What Poisson equation follows from that energy?
+\end{exercise}
+
+\begin{hint}
+Use the Euler--Lagrange equation.
+\end{hint}
+
+\begin{solution}
+\(\Delta\phi=\operatorname{div}X\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-11}
+With positive stiffness \(L\), define the standard load entry \(b_i\).
+\end{exercise}
+
+\begin{hint}
+Test against a basis gradient.
+\end{hint}
+
+\begin{solution}
+\(b_i=\int_M\langle\nabla\varphi_i,X\rangle\,dA\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-12}
+What linear system reconstructs \(\phi\)?
+\end{exercise}
+
+\begin{hint}
+Use the stiffness matrix.
+\end{hint}
+
+\begin{solution}
+\(L\phi=b\), together with a gauge condition.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-13}
+Why is the Poisson solution not unique on a connected closed mesh?
+\end{exercise}
+
+\begin{hint}
+Constants have zero gradient.
+\end{hint}
+
+\begin{solution}
+Because \(L\mathbf1=0\); adding a constant to \(\phi\) leaves its gradient unchanged.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-14}
+Give one way to fix the additive constant.
+\end{exercise}
+
+\begin{hint}
+Pin the source.
+\end{hint}
+
+\begin{solution}
+Impose \(\phi(s)=0\), or equivalently pin one degree of freedom and then normalize.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-15}
+What common time-step scaling is used on a mesh?
+\end{exercise}
+
+\begin{hint}
+Diffusion length scales like square root of time.
+\end{hint}
+
+\begin{solution}
+\(t=m h^2\), where \(h\) is a representative edge length.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-16}
+What happens if \(t\) is too small?
+\end{exercise}
+
+\begin{hint}
+The heat remains extremely localized.
+\end{hint}
+
+\begin{solution}
+The direction field becomes sensitive to discretization, resolution, and roundoff near the source.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-17}
+What happens if \(t\) is too large?
+\end{exercise}
+
+\begin{hint}
+Diffusion smooths too broadly.
+\end{hint}
+
+\begin{solution}
+Directional information is oversmoothed and the recovered distance can acquire global bias.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-18}
+How is a multi-source heat query initialized?
+\end{exercise}
+
+\begin{hint}
+Heat every source simultaneously.
+\end{hint}
+
+\begin{solution}
+Place the initial impulse or source weight on all sources and perform the same heat, normalization, and Poisson steps.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-19}
+How can a path be recovered after computing a distance field?
+\end{exercise}
+
+\begin{hint}
+Move downhill.
+\end{hint}
+
+\begin{solution}
+Trace a curve from target toward decreasing \(\phi\), with mesh-aware handling of face crossings and singular regions.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-20}
+Why are homogeneous Neumann boundary conditions natural in many surface-distance applications?
+\end{exercise}
+
+\begin{hint}
+They impose no normal flux.
+\end{hint}
+
+\begin{solution}
+They keep the PDE on the surface without prescribing artificial distance values along the boundary.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-21}
+Which matrices can be factorized once and reused for many sources?
+\end{exercise}
+
+\begin{hint}
+Geometry and \(t\) stay fixed.
+\end{hint}
+
+\begin{solution}
+\(M+tL\) and the gauge-fixed Poisson matrix derived from \(L\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-22}
+What changes when the source changes after factorization?
+\end{exercise}
+
+\begin{hint}
+Mostly right-hand sides and local field operations.
+\end{hint}
+
+\begin{solution}
+The source vector changes, then heat back substitution, face gradients, normalization, divergence assembly, and Poisson back substitution are recomputed.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-23}
+What does the spectral factor \(1/(1+t\lambda_k)\) do to large \(\lambda_k\)?
+\end{exercise}
+
+\begin{hint}
+Large eigenvalues are high frequency.
+\end{hint}
+
+\begin{solution}
+It strongly damps high-frequency modes.
+\end{solution}
+
+\begin{exercise}\label{exr:vii40-24}
+What topic does VII/41 supply in detail?
+\end{exercise}
+
+\begin{hint}
+The heat method relies on one central discrete operator.
+\end{hint}
+
+\begin{solution}
+VII/41 develops discrete Laplacians, especially the cotangent stiffness operator and mass matrices used in these solves.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[One-dimensional sign check]\label{prob:vii40-01}
+Suppose \(\Delta\) is nonpositive.  Explain why \(I-t\Delta\) is positive for \(t>0\) on every Laplacian eigenmode.
+\end{problem}
+
+\begin{solution}
+If \(\Delta\psi=-\lambda\psi\) with \(\lambda\ge0\), then \((I-t\Delta)\psi=(1+t\lambda)\psi\).  Every eigenvalue is at least \(1\), so the backward-Euler operator is positive and invertible.
+\end{solution}
+
+\begin{problem}[Mesh matrix sign check]\label{prob:vii40-02}
+The stiffness matrix satisfies \(v^T L v\ge0\).  Which smooth operator does \(L\) represent under the convention of this chapter?
+\end{problem}
+
+\begin{solution}
+It represents \(-\Delta\) weakly.  This is why the heat matrix is \(M+tL\), matching \(I-t\Delta\).
+\end{solution}
+
+\begin{problem}[Facewise gradient]\label{prob:vii40-03}
+On one triangle, \(u=\sum_{i=1}^3u_i\varphi_i\).  Express its gradient.
+\end{problem}
+
+\begin{solution}
+Because the basis functions are affine on the face, \(\nabla u=\sum_i u_i\nabla\varphi_i\), and each \(\nabla\varphi_i\) is constant on the triangle.  Hence \(\nabla u\) is constant there.
+\end{solution}
+
+\begin{problem}[Normalization safeguard]\label{prob:vii40-04}
+A face has \(\|\nabla u\|=10^{-15}\).  Why is blindly dividing by this value dangerous, and what is a standard policy?
+\end{problem}
+
+\begin{solution}
+Roundoff in the gradient direction would be magnified enormously.  One can skip or regularize the face, for example normalize by \(\max(\|\nabla u\|,\varepsilon)\) with a scale-aware \(\varepsilon\), while documenting the policy.
+\end{solution}
+
+\begin{problem}[Poisson gauge]\label{prob:vii40-05}
+A numerical solver reports that \(L\phi=b\) is singular on a closed connected mesh.  Is this necessarily a bug?
+\end{problem}
+
+\begin{solution}
+No.  Constants lie in the null space of the Laplacian.  Pinning one vertex, imposing a mean-zero constraint, or using a compatible null-space solver removes the expected gauge freedom.
+\end{solution}
+
+\begin{problem}[Time-step dimensional analysis]\label{prob:vii40-06}
+If all mesh lengths are scaled by a factor \(c\), how should a mesh-scale heat time \(t=m h^2\) change?
+\end{problem}
+
+\begin{solution}
+The representative length becomes \(ch\), so the time becomes \(m(ch)^2=c^2t\).  This matches diffusion's length-squared scaling.
+\end{solution}
+
+\begin{problem}[Too-large heat time]\label{prob:vii40-07}
+Why can an extremely large \(t\) produce a smooth but inaccurate distance field?
+\end{problem}
+
+\begin{solution}
+Large \(t\) suppresses many spatial modes before the direction field is extracted.  The resulting gradient reflects broad global diffusion rather than the short-time local geometry tied closely to geodesic distance.
+\end{solution}
+
+\begin{problem}[Multiple sources]\label{prob:vii40-08}
+Two source sets are activated.  What geometric scalar should the final field approximate after normalization?
+\end{problem}
+
+\begin{solution}
+It should approximate distance to the nearest activated source, i.e. the lower envelope of their individual geodesic distance functions.
+\end{solution}
+
+\begin{problem}[Factorization reuse]\label{prob:vii40-09}
+A mesh is fixed and 10,000 source queries are required.  Explain where the main amortization comes from.
+\end{problem}
+
+\begin{solution}
+The expensive sparse factorizations of \(M+tL\) and the gauge-fixed Poisson matrix are performed once.  Each new query then uses new right-hand sides plus triangular solves and local face operations.
+\end{solution}
+
+\begin{problem}[Disconnected components]\label{prob:vii40-10}
+A source lies on component \(A\) and component \(B\) has no source.  What should the final distance on \(B\) mean?
+\end{problem}
+
+\begin{solution}
+Geodesic distance to the source is infinite on \(B\).  The algorithm should mark the component unreachable rather than interpret an arbitrary Poisson null-space value as a finite distance.
+\end{solution}
+
+\begin{problem}[Spectral damping]\label{prob:vii40-11}
+For \(t=0.01\), compare the backward-Euler factors of modes with \(\lambda=1\) and \(\lambda=1000\).
+\end{problem}
+
+\begin{solution}
+The factors are \(1/(1.01)\approx0.9901\) and \(1/11\approx0.0909\).  The high-frequency mode is damped far more strongly.
+\end{solution}
+
+\begin{problem}[Exact versus heat method]\label{prob:vii40-12}
+An application needs a visually smooth distance field every frame but only occasionally needs a certified shortest path.  Propose a division of labor.
+\end{problem}
+
+\begin{solution}
+Use the heat method for frequent interactive global fields and an exact polyhedral solver for occasional validation or certified path queries.  This uses each method where its computational strengths matter most.
+\end{solution}
+
+\section{Challenge problems}
+
+\begin{problem}[Derive the Poisson equation]\label{prob:vii40-ch01}
+Starting from \(E(\phi)=\frac12\int\|\nabla\phi-X\|^2\,dA\), derive the Euler--Lagrange equation including the sign carefully.
+\end{problem}
+
+\begin{solution}
+For a variation \(\phi+\varepsilon\eta\), \(\frac{dE}{d\varepsilon}|_0=\int\langle\nabla\phi-X,\nabla\eta\rangle dA\).  Integration by parts gives \(-\int(\Delta\phi-\operatorname{div}X)\eta\,dA\) plus the boundary term.  Under compatible natural boundary conditions, stationarity for all \(\eta\) yields \(\Delta\phi=\operatorname{div}X\).
+\end{solution}
+
+\begin{problem}[Discrete weak right-hand side]\label{prob:vii40-ch02}
+Under the positive stiffness convention \(L_{ij}=\int\langle\nabla\varphi_i,\nabla\varphi_j\rangle dA\), show why the Poisson load can be assembled as \(b_i=\int\langle\nabla\varphi_i,X\rangle dA\).
+\end{problem}
+
+\begin{solution}
+Testing \(\Delta\phi=\operatorname{div}X\) by \(\varphi_i\) and integrating both sides by parts gives \(-\int\langle\nabla\varphi_i,\nabla\phi\rangle=-\int\langle\nabla\varphi_i,X\rangle\).  Cancelling the minus signs yields \(\sum_jL_{ij}\phi_j=b_i\) with the stated \(b_i\).
+\end{solution}
+
+\begin{problem}[Scaling experiment]\label{prob:vii40-ch03}
+Predict what should happen if a mesh is uniformly scaled by \(c\), the heat time is scaled by \(c^2\), and the same dimensionless algorithm is rerun.
+\end{problem}
+
+\begin{solution}
+The recovered distances should scale approximately by \(c\), while normalized direction fields should be unchanged after identifying corresponding points.  The heat-time scaling preserves the diffusion length relative to the mesh.
+\end{solution}
+
+\begin{problem}[Failure near a cut locus]\label{prob:vii40-ch04}
+Explain why the heat method can return an accurate scalar field but a gradient-descent path can still be unstable near a cut-locus branch.
+\end{problem}
+
+\begin{solution}
+Distance is continuous across the cut locus but its minimizing direction is multivalued or discontinuous there.  A small approximation error can tilt the numerical gradient toward a different valid branch, changing the recovered path substantially while barely changing scalar distance.
+\end{solution}
+
+\begin{problem}[Production implementation checklist]\label{prob:vii40-ch05}
+Give a compact checklist for a robust repeated-query heat-method implementation on triangle meshes.
+\end{problem}
+
+\begin{solution}
+Validate connectivity and source locations; assemble a consistent mass matrix and positive stiffness matrix; choose and document \(t=m h^2\); factor \(M+tL\) and a gauge-fixed Poisson system; regularize tiny heat gradients; assemble divergence with the matching sign convention; normalize the final field at the source set; handle boundaries and unreachable components explicitly; and compare against graph and exact references on regression meshes.
+\end{solution}
+
+\section{Bridge to the next chapter}
+
+The heat method has deliberately treated \(L\) and \(M\) as trusted geometric
+operators.  VII/41 opens that black box: it derives the cotangent stiffness
+matrix, mass matrices, boundary behavior, null spaces, energy identities, and
+the numerical conditions under which a discrete Laplacian is a faithful
+geometric operator.
