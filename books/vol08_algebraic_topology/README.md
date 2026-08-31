@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/04`.
+**Status:** Canonical reconstruction underway through `VIII/07`.
 
 Canonical chapter codes: `VIII/01`–`VIII/35`.
 
@@ -51,35 +51,43 @@ Canonical chapter codes: `VIII/01`–`VIII/35`.
 - **VIII/34** — Intersection Forms
 - **VIII/35** — Lefschetz Theory
 
-## Source and dossier rule
+## Source rule for VIII/07–VIII/09
 
-Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
+Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`:
 
-For this batch:
-- VIII/04 follows the `sphere|antipodal` stream from
-  `theory-of-algebraic-topology-1.tex` and inherited descendants.
-- VIII/05 merges the primary cell-attachment stream from
-  `theory-of-algebraic-topology-2.tex` with relevant attachment/CW overlap
-  from `theory-of-algebraic-topology-11.tex`. Higher-precedence material
-  explicitly assigned to VIII/08 stays in VIII/08.
-- VIII/06 follows the explicit CW-complex stream and inherited descendants.
+- VIII/07: `theory-of-algebraic-topology-10.tex`, explicit `mapping cone`
+  selector plus inherited theorem/problem descendants; unmatched fallback is
+  reviewed for false positives before migration.
+- VIII/08: `theory-of-algebraic-topology-11.tex`, explicit
+  `homotopic attaching` selector plus inherited descendants.
+- VIII/09: `theory-of-algebraic-topology-4.tex`, explicit
+  `fundamental group|pi_1` selector plus inherited descendants; unmatched
+  fallback is reviewed for false positives before migration.
 
-Solved dossiers are not capped at 12. Current coverage:
-- VIII/04: **20 dossiers**
-- VIII/05: **24 dossiers**
-- VIII/06: **20 dossiers**
+## Dossier policy
 
-Each chapter also contains **24 exercises and 24 hints**.
+During chapter creation, solved dossiers are expanded by subject coverage rather
+than fixed to twelve.  The definitive **one-to-one legacy dossier reconciliation**
+will be performed after all Volume VIII chapters are reconstructed, when every
+source block has a stable destination.
+
+Current reconstructed batch:
+- VIII/07: **20 solved dossiers**
+
+Each reconstructed chapter also has **24 exercises and 24 hints**.
 
 ## Reconstruction status
 - VIII/01: DRAFTED
 - VIII/02: DRAFTED
 - VIII/03: DRAFTED
 - VIII/04: DRAFTED
-- VIII/05: PLANNED
-- VIII/06: PLANNED
-- VIII/07: PLANNED
+- VIII/05: DRAFTED
+- VIII/06: DRAFTED
+- VIII/07: DRAFTED
 - VIII/08: PLANNED
+- VIII/09: PLANNED
+- VIII/10: PLANNED
+- VIII/11: PLANNED
 
 ## Build
 ```powershell
