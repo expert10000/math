@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/09`.
+**Status:** Canonical reconstruction underway through `VIII/10`.
 
 Canonical chapter codes: `VIII/01`–`VIII/35`.
 
@@ -51,30 +51,29 @@ Canonical chapter codes: `VIII/01`–`VIII/35`.
 - **VIII/34** — Intersection Forms
 - **VIII/35** — Lefschetz Theory
 
-## Source rule for VIII/07–VIII/09
+## Source rule for VIII/10–VIII/12
 
-Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`:
+Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
 
-- VIII/07: `theory-of-algebraic-topology-10.tex`, explicit `mapping cone`
-  selector plus inherited theorem/problem descendants; unmatched fallback is
-  reviewed for false positives before migration.
-- VIII/08: `theory-of-algebraic-topology-11.tex`, explicit
-  `homotopic attaching` selector plus inherited descendants.
-- VIII/09: `theory-of-algebraic-topology-4.tex`, explicit
-  `fundamental group|pi_1` selector plus inherited descendants; unmatched
-  fallback is reviewed for false positives before migration.
+- VIII/10 merges the explicit `covering space|covering map` stream from
+  `theory-of-algebraic-topology-3.tex` with the explicit `covering` stream from
+  `theory-of-algebraic-topology-4.tex`, including inherited theorem/problem
+  descendants.  Unmatched file fallback is reviewed for false positives.
+- VIII/11 follows the explicit `lift|lifting property` stream from
+  `theory-of-algebraic-topology-3.tex` with inherited descendants.
+- VIII/12 merges the explicit `deck transformation` stream from
+  `theory-of-algebraic-topology-3.tex` with the explicit `deck|group action`
+  stream from `theory-of-algebraic-topology-4.tex`, including inherited
+  descendants.
 
 ## Dossier policy
 
-During chapter creation, solved dossiers are expanded by subject coverage rather
-than fixed to twelve.  The definitive **one-to-one legacy dossier reconciliation**
-will be performed after all Volume VIII chapters are reconstructed, when every
-source block has a stable destination.
+Solved dossiers are expanded during reconstruction by subject coverage.  The
+definitive one-to-one source-instance dossier reconciliation remains scheduled
+after VIII/35, when every legacy problem block has a stable chapter destination.
 
 Current reconstructed batch:
-- VIII/07: **20 solved dossiers**
-- VIII/08: **20 solved dossiers**
-- VIII/09: **24 solved dossiers**
+- VIII/10: **24 solved dossiers**
 
 Each reconstructed chapter also has **24 exercises and 24 hints**.
 
@@ -88,8 +87,11 @@ Each reconstructed chapter also has **24 exercises and 24 hints**.
 - VIII/07: DRAFTED
 - VIII/08: DRAFTED
 - VIII/09: DRAFTED
-- VIII/10: PLANNED
+- VIII/10: DRAFTED
 - VIII/11: PLANNED
+- VIII/12: PLANNED
+- VIII/13: PLANNED
+- VIII/14: PLANNED
 
 ## Build
 ```powershell
