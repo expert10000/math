@@ -1,0 +1,762 @@
+\chapter{Curvature Lines, Ridges and Valleys}
+\label{ch:vii42}
+
+The smooth theory of VII/16--VII/17 associates to every nonumbilic point two
+principal directions and two principal curvatures.  Those directions form line
+fields whose integral curves are curvature lines.  In applications, derivatives
+of the principal curvatures along these lines identify ridge and valley
+features.  This final chapter joins the smooth definitions to the estimation,
+scale selection, and tracing problems that arise on triangle meshes.
+
+\section{Principal directions revisited}
+
+Let \(S:T_pM\to T_pM\) be the shape operator of an oriented smooth surface.  At
+a nonumbilic point it has distinct eigenvalues \(k_1,k_2\) and orthogonal unit
+eigenvectors \(e_1,e_2\):
+\[
+Se_i=k_i e_i,
+\qquad
+\langle e_1,e_2\rangle=0.
+\]
+We locally order the eigenvalues as \(k_1>k_2\) when convenient.
+
+\begin{warning}[Directions are lines, not arrows]\label{warn:vii42-linefield}
+The eigenvectors \(e_i\) and \(-e_i\) represent the same principal direction.
+A principal-direction field is therefore naturally a line field.  Numerical
+algorithms that treat it as an ordinary oriented vector field can introduce
+spurious sign flips.
+\end{warning}
+
+\section{Euler's normal-curvature formula}
+
+If a unit tangent vector makes angle \(\theta\) with \(e_1\), Euler's formula is
+\[
+k_n(\theta)=k_1\cos^2\theta+k_2\sin^2\theta.
+\]
+Thus the principal directions are exactly the directions in which normal
+curvature is extremal.  This gives a geometric interpretation of the eigenvectors
+that does not depend on a particular parameterization.
+
+\section{Curvature lines}
+
+\begin{definition}[Line of curvature]\label{def:vii42-curvature-line}
+A regular surface curve \(\gamma\) is a line of curvature if its tangent is a
+principal direction at every nonumbilic point of the curve:
+\[
+\gamma'(s)\parallel e_i(\gamma(s))
+\]
+for one principal line field \(i\in\{1,2\}\).
+\end{definition}
+
+Away from umbilics and points where the chosen field loses regularity, ordinary
+differential-equation theory gives local integral curves.  Since \(e_1\perp
+e_2\), the two curvature-line families cross orthogonally wherever the
+principal curvatures are distinct.
+
+\begin{proposition}[Normal derivative along a curvature line]\label{prop:vii42-normal}
+If \(\gamma\) is a unit-speed curvature line with tangent \(e_i\), then, under
+the convention \(S=-dN\),
+\[
+\frac{d}{ds}N(\gamma(s))=-k_i e_i.
+\]
+\end{proposition}
+
+\section{Umbilics and singular line fields}
+
+At an umbilic,
+\[
+k_1=k_2,
+\qquad
+S=kI,
+\]
+so every tangent direction is principal and no distinguished principal line
+field exists.  Umbilics are therefore genuine singularities for curvature-line
+tracing, not merely numerical nuisances.
+
+On a round sphere every point is umbilic.  On a circular cylinder there are no
+umbilics: one principal family follows the generators and the other follows the
+circles.
+
+\begin{remark}[Topology enters through singularities]\label{rem:vii42-topology}
+On a closed surface, principal line fields cannot generally be made globally
+nonsingular.  The arrangement and indices of umbilic singularities are tied to
+global topology, foreshadowing the homotopy and homology viewpoint of Volume
+VIII.
+\end{remark}
+
+\section{Directional derivatives of principal curvature}
+
+For a principal curvature \(k_i\), define
+\[
+D_{e_i}k_i=\langle\nabla k_i,e_i\rangle.
+\]
+A zero of this derivative means that \(k_i\) is stationary to first order when
+moving in its own principal direction.  This is the basic differential signal
+used by many ridge and valley definitions.
+
+\section{A declared ridge--valley convention}
+
+Terminology varies across geometry processing and computer vision, so we make a
+specific local convention.
+
+\begin{definition}[Principal ridge candidate]\label{def:vii42-ridge}
+On an oriented patch with \(k_1>k_2\), a \(k_1\)-ridge candidate is a nonumbilic
+point satisfying
+\[
+D_{e_1}k_1=0.
+\]
+It is a strict ridge point for this convention when additionally
+\[
+D_{e_1}^2k_1<0.
+\]
+\end{definition}
+
+\begin{definition}[Principal valley candidate]\label{def:vii42-valley}
+A \(k_2\)-valley candidate satisfies
+\[
+D_{e_2}k_2=0,
+\]
+and is strict when
+\[
+D_{e_2}^2k_2>0.
+\]
+\end{definition}
+
+These definitions encode maxima of the larger principal curvature along its
+principal direction and minima of the smaller principal curvature along its
+principal direction.
+
+\begin{warning}[Orientation and convention dependence]\label{warn:vii42-orientation}
+Reversing the surface normal changes \(S\) to \(-S\) and flips principal
+curvature signs.  It can also change how an ordering such as \(k_1>k_2\) is
+named.  A ridge/valley implementation must therefore document its normal,
+ordering, and sign conventions.  Some applications instead use absolute
+curvature or other orientation-insensitive feature measures.
+\end{warning}
+
+\section{Ridges are not curvature lines}
+
+A curvature line is an integral curve of a principal direction field.  A ridge
+or valley is a locus where a directional derivative of principal curvature
+vanishes and a second-derivative test selects an extremum.  A ridge curve may be
+traced across the surface, but its tangent need not itself equal the principal
+direction used in the defining derivative.
+
+\begin{warning}[Common conceptual error]\label{warn:vii42-ridge-line}
+Do not identify ``ridge curve'' with ``line of curvature.''  The first is an
+implicit feature locus; the second is an integral curve of an eigenline field.
+They coincide only under additional geometry.
+\end{warning}
+
+\section{Estimating curvature on triangle meshes}
+
+A triangle mesh has no classical pointwise second fundamental form at a vertex.
+One therefore estimates smooth local geometry.  A common pipeline is:
+\[
+\text{neighborhood}
+\to
+\text{normal/tangent frame}
+\to
+\text{local surface fit}
+\to
+\text{shape operator}
+\to
+(k_i,e_i).
+\]
+
+For example, in a local tangent frame \((x,y,z)\), fit a Monge patch
+\[
+z(x,y)
+\approx
+\frac12\bigl(ax^2+2bxy+cy^2\bigr)
++
+\text{lower/higher-order terms}.
+\]
+At small slope, the Hessian
+\[
+\begin{pmatrix}a&b\\b&c\end{pmatrix}
+\]
+approximates the shape operator in that frame.  More complete fits account for
+first derivatives, metric effects, and weighting.
+
+\section{Neighborhood and scale selection}
+
+Curvature is a second-derivative quantity and is therefore sensitive to noise.
+A one-ring fit may be too noisy, while a very large neighborhood can erase
+narrow features.  Robust implementations expose a physical or intrinsic scale,
+use weighted least squares, reject degenerate neighborhoods, and compare
+features across multiple scales.
+
+\begin{definition}[Umbilic tolerance]\label{def:vii42-umbilic-tol}
+A practical tracer treats a vertex as numerically near-umbilic when
+\[
+|k_1-k_2|<\varepsilon_k
+\]
+for a scale-aware tolerance \(\varepsilon_k\).
+\end{definition}
+
+Near this set, principal directions are ill-conditioned: a small perturbation of
+the estimated shape operator can rotate the eigenvectors substantially.
+
+\section{Cohering a principal line field}
+
+Since \(e\) and \(-e\) are equivalent, neighboring estimates should be compared
+by their unoriented angle.  When a temporary orientation is required for
+interpolation, choose the sign that maximizes the dot product with a previously
+oriented neighbor.  This creates local coherence but must not be mistaken for a
+global orientation across line-field singularities.
+
+\section{Extracting ridge and valley loci}
+
+Suppose a scalar estimate
+\[
+r_1=D_{e_1}k_1
+\]
+is available at mesh vertices.  A standard first step is to detect sign changes
+of \(r_1\) along edges and linearly interpolate candidate zero crossings within
+triangles.  Candidates are then filtered by the second-directional-derivative
+criterion, curvature strength, confidence, and proximity to umbilics.
+
+\begin{remark}[Zero crossing is only a candidate test]\label{rem:vii42-zero}
+A sign change in a noisy first derivative can create a false feature.  Stable
+feature extraction generally combines derivative tests with strength and
+persistence thresholds and with geometric continuity across neighboring faces.
+\end{remark}
+
+\section{Tracing curvature lines on a mesh}
+
+To trace a curvature line, start from a seed and integrate an estimated principal
+line field in the tangent plane.  Within a triangle, interpolate a representation
+that respects the sign ambiguity, advance to the next edge, transport the local
+frame as needed, and stop at boundaries, singular regions, low-confidence zones,
+or after closing a loop.
+
+Naively interpolating signed eigenvectors can cause cancellation when two
+vertices store opposite representatives of the same line.  Line-field-aware
+interpolation or local sign alignment is essential.
+
+\section{Canonical examples}
+
+\begin{example}[Round sphere]\label{ex:vii42-sphere}
+For a round sphere, \(k_1=k_2\) everywhere.  Every direction is principal, so a
+principal-direction tracer has no unique field to follow.  The sphere is a
+useful regression test for correct umbilic detection.
+\end{example}
+
+\begin{example}[Circular cylinder]\label{ex:vii42-cylinder}
+For a cylinder of radius \(R\), the principal curvatures are \(1/R\) and \(0\)
+up to orientation.  Their principal directions are circumferential and axial.
+Both curvatures are constant, so the directional derivative ridge tests vanish
+everywhere; this illustrates why derivative zero alone is insufficient for
+selecting salient ridges.
+\end{example}
+
+\begin{example}[Noisy scan]\label{ex:vii42-noisy}
+On a noisy triangulated scan, raw one-ring curvature derivatives can oscillate in
+sign at nearly every edge.  Increasing the fit scale or smoothing the estimated
+shape operator can reveal persistent feature curves that survive across a range
+of scales.
+\end{example}
+
+\section{Validation and regression geometry}
+
+Feature-line code should be tested on analytic surfaces with known principal
+geometry before it is trusted on arbitrary meshes.  Useful tests include a
+plane, sphere, cylinder, torus patches, and synthetic Monge surfaces.  Numerical
+checks should distinguish errors in normals, curvature magnitudes, principal
+directions, directional derivatives, and final line extraction.
+
+For a direction estimate, compare lines rather than oriented vectors.  If
+\(e\) is estimated and \(e_*\) exact, a suitable error is
+\[
+\theta_{\rm line}
+=
+\arccos\bigl(|\langle e,e_*\rangle|\bigr),
+\qquad
+0\le\theta_{\rm line}\le\frac\pi2.
+\]
+
+\section{Relationship to the discrete Laplacian}
+
+VII/41 showed that \(M^{-1}KX\) supplies a mean-curvature-normal estimate.
+Principal curvatures require more information: mean curvature alone gives only
+\(k_1+k_2\).  Recovering directions and separating \(k_1\) from \(k_2\) needs a
+shape-operator or equivalent second-order estimate.  The Laplacian is therefore
+one useful ingredient, not a complete ridge detector.
+
+\section{A production feature-line pipeline}
+
+A robust pipeline typically performs the following conceptual steps:
+\[
+\begin{aligned}
+&\text{mesh validation and scale choice}\\
+&\to \text{normal and tangent-frame estimation}\\
+&\to \text{local shape-operator fitting}\\
+&\to \text{principal curvature/direction estimation}\\
+&\to \text{line-field coherence and umbilic masking}\\
+&\to \text{directional curvature derivatives}\\
+&\to \text{zero-crossing candidates and extremum tests}\\
+&\to \text{connectivity, pruning, and multiscale validation}.
+\end{aligned}
+\]
+Each stage should expose confidence diagnostics rather than silently passing
+ill-conditioned data downstream.
+
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii42-01}
+What are principal directions at a nonumbilic point?
+\end{exercise}
+
+\begin{hint}
+Use the shape operator.
+\end{hint}
+
+\begin{solution}
+They are the two orthogonal eigenlines of the self-adjoint shape operator \(S\), with eigenvalues equal to the principal curvatures.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-02}
+Why is a principal direction naturally a line rather than an oriented vector?
+\end{exercise}
+
+\begin{hint}
+Compare \(e\) and \(-e\).
+\end{hint}
+
+\begin{solution}
+If \(Se=ke\), then \(S(-e)=k(-e)\); the two vectors represent the same one-dimensional eigenspace.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-03}
+State Euler's formula for normal curvature.
+\end{exercise}
+
+\begin{hint}
+Measure angle from \(e_1\).
+\end{hint}
+
+\begin{solution}
+\(k_n(\theta)=k_1\cos^2\theta+k_2\sin^2\theta\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-04}
+Define a line of curvature.
+\end{exercise}
+
+\begin{hint}
+Its tangent follows an eigendirection.
+\end{hint}
+
+\begin{solution}
+It is a regular surface curve whose tangent is parallel to one principal direction at each nonumbilic point.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-05}
+How do the two curvature-line families meet at a nonumbilic point?
+\end{exercise}
+
+\begin{hint}
+The shape operator is self-adjoint.
+\end{hint}
+
+\begin{solution}
+They meet orthogonally because eigenvectors for distinct eigenvalues of a self-adjoint operator are orthogonal.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-06}
+What happens to principal directions at an umbilic?
+\end{exercise}
+
+\begin{hint}
+The eigenvalues coincide.
+\end{hint}
+
+\begin{solution}
+The shape operator is a scalar multiple of the identity, so every tangent direction is principal and no distinguished principal line field exists.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-07}
+Give an analytic surface that is umbilic everywhere.
+\end{exercise}
+
+\begin{hint}
+Think constant positive curvature.
+\end{hint}
+
+\begin{solution}
+A round sphere.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-08}
+Give the two principal-direction families on a circular cylinder.
+\end{exercise}
+
+\begin{hint}
+One bends; one does not.
+\end{hint}
+
+\begin{solution}
+The circumferential circles and the axial generators.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-09}
+Define \(D_{e_i}k_i\).
+\end{exercise}
+
+\begin{hint}
+It is a directional derivative.
+\end{hint}
+
+\begin{solution}
+\(D_{e_i}k_i=\langle\nabla k_i,e_i\rangle\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-10}
+Under the convention of this chapter, what first-order equation defines a \(k_1\)-ridge candidate?
+\end{exercise}
+
+\begin{hint}
+Stationarity along the first principal direction.
+\end{hint}
+
+\begin{solution}
+\(D_{e_1}k_1=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-11}
+What second-order sign selects a strict \(k_1\)-ridge in this convention?
+\end{exercise}
+
+\begin{hint}
+A ridge is a local maximum along \(e_1\).
+\end{hint}
+
+\begin{solution}
+\(D_{e_1}^2k_1<0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-12}
+What equations select a strict \(k_2\)-valley in this convention?
+\end{exercise}
+
+\begin{hint}
+Use a local minimum along \(e_2\).
+\end{hint}
+
+\begin{solution}
+\(D_{e_2}k_2=0\) and \(D_{e_2}^2k_2>0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-13}
+Why must ridge/valley code document its normal convention?
+\end{exercise}
+
+\begin{hint}
+Reverse the normal.
+\end{hint}
+
+\begin{solution}
+Reversing the normal flips the shape operator and principal-curvature signs, which can change signed ridge/valley naming and curvature ordering.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-14}
+Are ridge curves necessarily lines of curvature?
+\end{exercise}
+
+\begin{hint}
+Compare an implicit locus with an integral curve.
+\end{hint}
+
+\begin{solution}
+No.  A ridge is a zero/extremum locus of a directional curvature derivative; its tangent need not equal the principal direction used in that derivative.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-15}
+What local polynomial model is commonly used to estimate curvature on a mesh?
+\end{exercise}
+
+\begin{hint}
+Use a tangent-frame height graph.
+\end{hint}
+
+\begin{solution}
+A local Monge patch, for example \(z\approx\frac12(ax^2+2bxy+cy^2)+\cdots\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-16}
+Why is one-ring curvature estimation often noisy?
+\end{exercise}
+
+\begin{hint}
+Curvature uses second derivatives.
+\end{hint}
+
+\begin{solution}
+Second derivatives amplify positional and normal noise, and a small irregular neighborhood provides little averaging or conditioning.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-17}
+Give a practical numerical test for a near-umbilic vertex.
+\end{exercise}
+
+\begin{hint}
+Compare the two estimated principal curvatures.
+\end{hint}
+
+\begin{solution}
+Mark it near-umbilic when \(|k_1-k_2|<\varepsilon_k\) for a scale-aware tolerance.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-18}
+Why are principal directions ill-conditioned near an umbilic?
+\end{exercise}
+
+\begin{hint}
+Eigenvalues nearly coincide.
+\end{hint}
+
+\begin{solution}
+When the eigenvalue gap is small, small perturbations of the estimated shape operator can cause large rotations of its eigenvectors.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-19}
+How can neighboring representatives of the same principal line be locally sign-aligned?
+\end{exercise}
+
+\begin{hint}
+Use a dot product.
+\end{hint}
+
+\begin{solution}
+Replace one vector by its negative when necessary so its dot product with the chosen neighboring representative is nonnegative or maximal.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-20}
+How can a mesh locate first-order ridge candidates from a sampled derivative scalar \(r_1\)?
+\end{exercise}
+
+\begin{hint}
+Look along edges.
+\end{hint}
+
+\begin{solution}
+Detect sign changes of \(r_1\) across edges and interpolate zero crossings within incident triangles.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-21}
+Why is a derivative zero crossing alone insufficient for a stable ridge?
+\end{exercise}
+
+\begin{hint}
+Noise can create many sign changes.
+\end{hint}
+
+\begin{solution}
+It must be filtered by the appropriate second-derivative sign, feature strength, confidence, scale persistence, and singularity handling.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-22}
+Give a line-field-aware angular error between estimated and exact unit directions.
+\end{exercise}
+
+\begin{hint}
+Remove the sign ambiguity.
+\end{hint}
+
+\begin{solution}
+\(\theta=\arccos(|\langle e,e_*\rangle|)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-23}
+Why does mean curvature alone not determine principal directions?
+\end{exercise}
+
+\begin{hint}
+Mean curvature is only one scalar combination.
+\end{hint}
+
+\begin{solution}
+It supplies essentially \((k_1+k_2)/2\) but not the eigenvectors or the separation of the two principal curvatures; a fuller shape-operator estimate is required.
+\end{solution}
+
+\begin{exercise}\label{exr:vii42-24}
+What global subject naturally follows the singular line-field phenomena seen here?
+\end{exercise}
+
+\begin{hint}
+The next volume studies global deformation and invariants.
+\end{hint}
+
+\begin{solution}
+Algebraic topology: homotopy and homology provide tools for understanding global topological constraints beyond local differential geometry.
+\end{solution}
+
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Euler extrema]\label{prob:vii42-01}
+Using Euler's formula with \(k_1>k_2\), show that the maximum and minimum normal curvatures occur in the principal directions.
+\end{problem}
+
+\begin{solution}
+Write \(k_n(\theta)=k_2+(k_1-k_2)\cos^2\theta\).  Since \(0\le\cos^2\theta\le1\), the maximum \(k_1\) occurs for \(\theta=0\) modulo \(\pi\), and the minimum \(k_2\) for \(\theta=\pi/2\) modulo \(\pi\).
+\end{solution}
+
+\begin{problem}[Sphere regression]\label{prob:vii42-02}
+A curvature estimator on a round sphere reports stable, highly anisotropic principal directions.  Why is this suspicious?
+\end{problem}
+
+\begin{solution}
+A sphere is umbilic everywhere, so the principal eigenvalue gap should vanish.  The directions are mathematically undetermined; stable anisotropy is likely coming from triangulation bias, noise, or the estimator rather than the smooth surface.
+\end{solution}
+
+\begin{problem}[Cylinder ridge test]\label{prob:vii42-03}
+On an ideal cylinder, \(k_1=1/R\) and \(k_2=0\) are constant.  Why does the first-order ridge equation hold everywhere, and why should a feature extractor not label the entire cylinder a sharp ridge?
+\end{problem}
+
+\begin{solution}
+All directional derivatives of the constant principal curvatures vanish, so the stationarity equations hold identically.  But the second derivative also vanishes and there is no strict local extremum; strength and strictness criteria prevent the whole cylinder from becoming a ridge.
+\end{solution}
+
+\begin{problem}[Normal reversal]\label{prob:vii42-04}
+Suppose an algorithm uses outward normals and finds principal curvatures \(k_1,k_2\).  What happens after all normals are reversed?
+\end{problem}
+
+\begin{solution}
+With \(S=-dN\), reversing \(N\) changes \(S\) to \(-S\), so the same principal lines remain but both eigenvalues change sign.  If the code reorders eigenvalues afterward, their labels may also swap.
+\end{solution}
+
+\begin{problem}[Line-angle metric]\label{prob:vii42-05}
+An exact principal direction is \(e_*=(1,0)\), while an estimator returns \(e=(-\cos5^\circ,-\sin5^\circ)\).  What is the line-field angular error?
+\end{problem}
+
+\begin{solution}
+The sign is irrelevant.  The absolute dot product is \(\cos5^\circ\), so \(\theta_{\rm line}=5^\circ\), not \(175^\circ\).
+\end{solution}
+
+\begin{problem}[Near-umbilic conditioning]\label{prob:vii42-06}
+Two estimated principal curvatures are \(1.0000\) and \(0.9999\).  Explain why a principal-direction feature may be unreliable even if the curvature values themselves look accurate.
+\end{problem}
+
+\begin{solution}
+The eigenvalue gap is only \(10^{-4}\).  Eigenvectors of a symmetric matrix become highly sensitive to perturbations when eigenvalues nearly coincide, so the direction can rotate substantially under tiny fitting errors.
+\end{solution}
+
+\begin{problem}[Monge patch eigenvectors]\label{prob:vii42-07}
+A small-slope quadratic fit has Hessian \(\begin{pmatrix}3&0\\0&1\end{pmatrix}\).  What are the approximate principal curvatures and directions in the local frame?
+\end{problem}
+
+\begin{solution}
+The eigenvalues are approximately \(3\) and \(1\), with eigenvectors along the local \(x\)- and \(y\)-axes, respectively.
+\end{solution}
+
+\begin{problem}[Sign-coherent interpolation]\label{prob:vii42-08}
+Two adjacent vertices store eigenvectors \(e\) and approximately \(-e\) for the same smooth principal line.  What goes wrong if they are linearly interpolated without sign alignment?
+\end{problem}
+
+\begin{solution}
+They can cancel near the midpoint, creating an artificial near-zero vector and an unstable normalized direction.  Flipping one representative first avoids the spurious cancellation locally.
+\end{solution}
+
+\begin{problem}[Zero-crossing interpolation]\label{prob:vii42-09}
+Along an edge, a ridge derivative estimate has values \(r(a)=-2\) and \(r(b)=6\).  Under linear interpolation, at what fraction from \(a\) does the zero occur?
+\end{problem}
+
+\begin{solution}
+Solve \(-2+t(6-(-2))=0\), giving \(t=2/8=1/4\).  The candidate lies one quarter of the way from \(a\) to \(b\).
+\end{solution}
+
+\begin{problem}[Multiscale persistence]\label{prob:vii42-10}
+A feature appears at one-ring scale but disappears for every moderately larger fitting radius.  How should this affect confidence?
+\end{problem}
+
+\begin{solution}
+Confidence should decrease.  A feature that exists only at the smallest, noise-sensitive scale is less likely to represent persistent surface geometry than one that survives across a reasonable scale interval.
+\end{solution}
+
+\begin{problem}[Laplacian versus principal data]\label{prob:vii42-11}
+A program knows only a reliable mean-curvature normal vector at each vertex.  Can it reconstruct both principal directions uniquely?
+\end{problem}
+
+\begin{solution}
+Not in general.  Mean curvature gives only the sum of principal curvatures (with normal direction) and lacks the anisotropic second-fundamental-form information needed to recover the two eigenlines.
+\end{solution}
+
+\begin{problem}[Tracing stop condition]\label{prob:vii42-12}
+A curvature-line tracer approaches a region where \(|k_1-k_2|\) falls below tolerance.  Why is stopping or reducing confidence preferable to forcing a direction through it?
+\end{problem}
+
+\begin{solution}
+The principal line becomes ill-conditioned near an umbilic.  Forcing a direction lets numerical noise choose an arbitrary continuation and can create visually plausible but geometrically unsupported curves.
+\end{solution}
+
+
+\section{Challenge problems}
+
+\begin{problem}[Orthogonality of curvature lines]\label{prob:vii42-ch01}
+Prove that at a nonumbilic point the two curvature-line families meet orthogonally, starting only from self-adjointness of the shape operator.
+\end{problem}
+
+\begin{solution}
+Let \(Se_1=k_1e_1\) and \(Se_2=k_2e_2\) with \(k_1\ne k_2\).  Self-adjointness gives \(k_1\langle e_1,e_2\rangle=\langle Se_1,e_2\rangle=\langle e_1,Se_2\rangle=k_2\langle e_1,e_2\rangle\).  Hence \((k_1-k_2)\langle e_1,e_2\rangle=0\), so the inner product vanishes.
+\end{solution}
+
+\begin{problem}[Why ridge tangents differ]\label{prob:vii42-ch02}
+Let \(r=D_{e_1}k_1\).  At a regular ridge point where \(r=0\) and \(\nabla r\ne0\), what determines the tangent to the ridge locus, and why need it not be \(e_1\)?
+\end{problem}
+
+\begin{solution}
+The ridge is locally the level set \(r=0\), so its tangent vectors are orthogonal to \(\nabla r\).  The defining principal direction \(e_1\) appears inside the scalar \(r\), but there is no general reason for \(e_1\) to be orthogonal to \(\nabla r\); hence the ridge tangent need not equal \(e_1\).
+\end{solution}
+
+\begin{problem}[Perturbation near an umbilic]\label{prob:vii42-ch03}
+Consider symmetric matrices \(S_\varepsilon=\begin{pmatrix}1&\varepsilon\\\varepsilon&1\end{pmatrix}\).  Compare their eigenvectors with those of \(S_0=I\) and explain the numerical lesson for principal-direction tracing.
+\end{problem}
+
+\begin{solution}
+For every nonzero \(\varepsilon\), the eigenvectors are the diagonal directions \((1,1)\) and \((1,-1)\), while for \(\varepsilon=0\) every direction is an eigenvector.  An arbitrarily small perturbation selects specific directions out of a completely degenerate eigenspace, illustrating why directions near umbilics are intrinsically unstable.
+\end{solution}
+
+\begin{problem}[Orientation-invariant feature proposal]\label{prob:vii42-ch04}
+Design an orientation-insensitive scalar candidate for strong anisotropic bending using the principal curvatures, and explain one advantage and one limitation compared with signed ridge/valley labels.
+\end{problem}
+
+\begin{solution}
+One example is \(|k_1-k_2|\), or a normalized variant such as \(|k_1-k_2|/(|k_1|+|k_2|+\varepsilon)\).  It is unchanged when the normal is reversed and highlights anisotropy, but it does not distinguish maxima from minima along principal directions and therefore is not itself a signed ridge/valley definition.
+\end{solution}
+
+\begin{problem}[End-to-end validation design]\label{prob:vii42-ch05}
+Design an end-to-end regression suite for curvature-line and ridge extraction that separates estimator error from tracer error and from feature-selection error.
+\end{problem}
+
+\begin{solution}
+First use analytic surfaces to compare estimated \(k_i\) and principal lines against ground truth using sign-invariant angular error.  Next feed exact or synthetic principal line fields to the tracer to isolate integration and face-crossing behavior.  Then feed analytic curvature and derivative samples to zero-crossing/selection code to test ridge logic.  Finally run the complete pipeline over meshes at multiple resolutions, noise levels, and scales, checking sphere umbilics, cylinder line families, known torus/Monge features, continuity, and persistence.
+\end{solution}
+
+
+\section{Volume VII synthesis}
+
+Volume VII began with topological and smooth manifolds, built tangent and
+cotangent geometry, developed bundles and differential forms, passed through the
+classical geometry of curves and surfaces, and then constructed Riemannian,
+Lorentzian, and hyperbolic geometry.  The final computational arc translated
+geodesic distance, heat flow, Laplace--Beltrami operators, and curvature features
+into algorithms on meshes.
+
+The recurring theme is that local differential data and global structure must be
+kept distinct but compatible.  Metrics produce lengths and geodesics; connections
+produce parallel transport and curvature; shape operators produce principal
+geometry; discrete operators approximate these objects only after choices of
+mesh, mass, scale, and numerical convention are made explicit.
+
+\section{Bridge to Volume VIII}
+
+Principal line fields become singular at umbilics, geodesics interact with
+nontrivial topology, and global geometry cannot be understood from local
+coordinates alone.  Volume VIII begins with homotopies of maps and develops the
+algebraic-topological invariants that measure global deformation, loops, cells,
+and homology.  The passage is therefore natural: differential geometry describes
+local geometric structure, while algebraic topology organizes the global
+constraints that local geometry must obey.
