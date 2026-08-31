@@ -1,0 +1,638 @@
+\chapter{Discrete Geodesic Problems}
+\label{ch:vii38}
+
+A smooth geodesic is defined by a differential equation, but a triangular mesh is
+only piecewise smooth.  The computational problem is therefore not to discretize
+the geodesic equation blindly.  One first decides what metric the mesh carries,
+what class of paths is admissible, and what notion of accuracy is required.
+
+\section{Triangulated piecewise-Euclidean surfaces}
+
+\begin{definition}[Triangulated surface]\label{def:vii38-tri}
+A triangulated surface is a two-dimensional simplicial complex \(M=(V,E,F)\)
+whose triangles are assigned Euclidean edge lengths compatible on shared edges.
+Each face is therefore a Euclidean triangle, while curvature is concentrated at
+vertices.
+\end{definition}
+
+The metric is \emph{intrinsic}: once all edge lengths are fixed, distances can be
+measured without referring to an embedding in \(\mathbb R^3\).  Two bent
+realizations of the same intrinsically isometric mesh have the same intrinsic
+distance function.
+
+\begin{definition}[Piecewise-Euclidean path length]\label{def:vii38-length}
+For a rectifiable path \(\gamma\) crossing finitely many faces, its length is the
+sum of the Euclidean lengths of its facewise pieces.  The intrinsic distance is
+\[
+d_M(p,q)=\inf_\gamma L(\gamma),
+\]
+where the infimum runs over all admissible surface paths from \(p\) to \(q\).
+\end{definition}
+
+\begin{proposition}[Metric property]\label{prop:vii38-metric}
+On a connected piecewise-Euclidean surface, \(d_M\) is a metric.  If boundary is
+present, paths are constrained to remain on the surface, including its boundary.
+\end{proposition}
+
+\section{Continuous geodesics versus edge-graph paths}
+
+A crucial distinction is between the continuous surface distance and the
+shortest path in the mesh edge graph.
+
+\begin{definition}[Edge-graph distance]\label{def:vii38-graphdist}
+For vertices \(u,v\in V\), the edge-graph distance \(d_E(u,v)\) is the minimum
+sum of edge lengths over edge paths from \(u\) to \(v\).
+\end{definition}
+
+Every edge path is a valid surface path, hence
+\[
+d_M(u,v)\le d_E(u,v).
+\]
+The inequality can be strict because a shortest surface path may cut through
+triangle interiors.  Thus graph shortest paths provide an upper bound, not in
+general the exact polyhedral distance.
+
+\begin{example}[A diagonal shortcut]\label{ex:vii38-diagonal}
+If two vertices lie opposite one another across a nearly flat strip of triangles,
+a surface geodesic can cross face interiors almost as a straight Euclidean
+segment, while an edge-only path zigzags along the triangulation.
+\end{example}
+
+\section{Local structure away from vertices}
+
+Inside one face, a locally shortest path is a straight segment.  Across an
+interior edge, the corresponding statement is obtained by unfolding.
+
+\begin{theorem}[Unfolding condition]\label{thm:vii38-unfold}
+Suppose a locally shortest path crosses an interior edge at a point that is not a
+vertex.  Rotate one incident triangle into the plane of the other around the
+shared edge.  The two facewise path segments become one straight segment in the
+unfolded plane.
+\end{theorem}
+
+\begin{proof}
+If the unfolded segments met with a nonzero turning angle, replacing them by the
+straight chord would shorten the path while remaining in the same two faces.
+\end{proof}
+
+This gives the polyhedral analogue of zero geodesic curvature away from mesh
+vertices.
+
+\section{Vertices, cone angles, and discrete curvature}
+
+For an interior vertex \(v\), let
+\[
+\Theta_v=\sum_{f\ni v}\theta_f(v)
+\]
+be the total incident angle.
+
+\begin{definition}[Angle defect]\label{def:vii38-defect}
+The discrete Gaussian curvature at an interior vertex is the angle defect
+\[
+K_v=2\pi-\Theta_v.
+\]
+A vertex is called positive, flat, or saddle according as
+\(\Theta_v<2\pi\), \(\Theta_v=2\pi\), or \(\Theta_v>2\pi\).
+\end{definition}
+
+The local geometry is that of a Euclidean cone.  Shortest paths generally avoid
+positive-curvature cone tips.  Saddle vertices can play a different role:
+multiple locally shortest continuations may emanate from them after sufficient
+angle is available on both sides of the path.
+
+\begin{warning}[Do not impose a smooth geodesic equation at vertices]\label{warn:vii38-vertex}
+Christoffel symbols are not defined at a cone singularity.  Vertex behavior must
+be analyzed by cone geometry and unfolding, not by differentiating a smooth
+metric that the mesh does not possess.
+\end{warning}
+
+\section{Source and query models}
+
+Algorithms differ substantially depending on the query.
+
+\begin{definition}[Geodesic query types]\label{def:vii38-query}
+Common tasks include:
+\begin{enumerate}[label=(\roman*)]
+\item point-to-point distance and path recovery;
+\item single-source distances to all vertices or all surface points;
+\item multi-source distance \(d_S(x)=\min_{s\in S}d_M(s,x)\);
+\item repeated queries after preprocessing;
+\item a full distance field for downstream optimization or geometry processing.
+\end{enumerate}
+\end{definition}
+
+Sources and targets need not be vertices.  A point in a triangle may be stored by
+barycentric coordinates, and an edge point by one scalar parameter.  Forcing all
+queries to the nearest vertex changes the problem before the solver even starts.
+
+\section{Wavefronts and the cut locus}
+
+For a fixed source \(s\), level sets
+\[
+W_r=\{x\in M:d_M(s,x)=r\}
+\]
+behave like expanding wavefronts.  On a flat region they are locally circular.
+They bend when they encounter cone curvature and can split or collide because of
+topology.
+
+\begin{definition}[Cut locus, computational viewpoint]\label{def:vii38-cut}
+The cut locus of \(s\) is the set where the minimizing geodesic from \(s\) ceases
+to be locally unique or ceases to remain minimizing beyond that point.
+\end{definition}
+
+Distance is continuous everywhere but is generally not differentiable on the cut
+locus.  This matters numerically: a distance algorithm may have small scalar
+error while the recovered path direction changes abruptly near a cut-locus
+branch.
+
+\section{Exact and approximate problem statements}
+
+\begin{definition}[Additive and relative error]\label{def:vii38-error}
+For an estimate \(\widetilde d\) of a true distance \(d>0\), common scalar errors
+are
+\[
+|\widetilde d-d|,
+\qquad
+\frac{|\widetilde d-d|}{d}.
+\]
+A multiplicative \((1+\varepsilon)\)-upper approximation satisfies
+\[
+d\le \widetilde d\le(1+\varepsilon)d.
+\]
+\end{definition}
+
+Path error is subtler than distance error.  Two geometrically different paths can
+have almost the same length, especially near the cut locus.  A useful benchmark
+therefore reports both length error and a geometric discrepancy such as Hausdorff
+distance after suitable sampling.
+
+\section{Triangulation dependence and convergence}
+
+The piecewise-Euclidean metric is itself a geometric model.  Refining a mesh does
+not automatically guarantee convergence to a smooth surface metric; the vertices,
+edge lengths, and shape quality must approximate the intended smooth geometry.
+
+\begin{proposition}[Intrinsic invariance]\label{prop:vii38-intrinsic}
+If two triangulated surfaces are related by an intrinsic simplicial isometry that
+preserves every face edge length, then all piecewise-Euclidean geodesic distances
+correspond exactly, even if the two surfaces have different embeddings.
+\end{proposition}
+
+\begin{remark}
+Skinny triangles can amplify numerical error in gradients, unfoldings, and
+discrete differential operators.  Mesh quality is therefore both a geometric and
+an algorithmic issue.
+\end{remark}
+
+\section{Algorithmic design axes}
+
+A geodesic solver should be described along several independent axes:
+\begin{enumerate}[label=(\arabic*)]
+\item exact versus approximate;
+\item edge-restricted versus continuous-on-faces;
+\item point-to-point versus single-source versus multi-source;
+\item preprocessing cost versus per-query cost;
+\item scalar distances only versus explicit path recovery;
+\item worst-case guarantees versus practical performance.
+\end{enumerate}
+
+No single method dominates every axis.  Edge-graph algorithms are simple and
+robust, exact polyhedral algorithms preserve the continuous mesh metric, and PDE
+methods trade exactness for smooth global computations and sparse linear algebra.
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii38-01}
+Why is the metric of a triangle mesh called intrinsic?
+\end{exercise}
+
+\begin{hint}
+Ask which data determine lengths after the mesh is bent in space.
+\end{hint}
+
+\begin{solution}
+Because the piecewise-Euclidean metric is determined by the face edge lengths and gluings, not by the particular embedding in ambient space.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-02}
+Define the intrinsic distance \(d_M(p,q)\).
+\end{exercise}
+
+\begin{hint}
+Use an infimum over surface paths.
+\end{hint}
+
+\begin{solution}
+\(d_M(p,q)=\inf_\gamma L(\gamma)\), where \(\gamma\) ranges over admissible surface paths joining \(p\) to \(q\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-03}
+Why is a shortest path inside one face a straight segment?
+\end{exercise}
+
+\begin{hint}
+Compare any bent planar curve with its chord.
+\end{hint}
+
+\begin{solution}
+Each face is Euclidean, and the straight chord is no longer than any other curve with the same endpoints.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-04}
+State the unfolding condition at an interior edge.
+\end{exercise}
+
+\begin{hint}
+Flatten the two incident triangles into one plane.
+\end{hint}
+
+\begin{solution}
+After one incident face is rotated into the plane of the other, the two path segments of a locally shortest crossing form one straight segment.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-05}
+For vertices \(u,v\), compare \(d_M(u,v)\) and \(d_E(u,v)\).
+\end{exercise}
+
+\begin{hint}
+Every graph path is also a surface path.
+\end{hint}
+
+\begin{solution}
+\(d_M(u,v)\le d_E(u,v)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-06}
+Why can the graph inequality be strict?
+\end{exercise}
+
+\begin{hint}
+An intrinsic path is not required to follow edges.
+\end{hint}
+
+\begin{solution}
+A continuous shortest path may cross triangle interiors and cut across a zigzagging edge graph.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-07}
+Define the total angle \(\Theta_v\) at an interior vertex.
+\end{exercise}
+
+\begin{hint}
+Sum all incident face angles.
+\end{hint}
+
+\begin{solution}
+\(\Theta_v=\sum_{f\ni v}\theta_f(v)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-08}
+Define the angle defect at an interior vertex.
+\end{exercise}
+
+\begin{hint}
+Compare the total angle with \(2\pi\).
+\end{hint}
+
+\begin{solution}
+\(K_v=2\pi-\Theta_v\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-09}
+What is a saddle vertex in the piecewise-Euclidean sense?
+\end{exercise}
+
+\begin{hint}
+Look for more than one full turn of incident angle.
+\end{hint}
+
+\begin{solution}
+It is an interior vertex with \(\Theta_v>2\pi\), equivalently negative angle defect.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-10}
+Why should one not write the smooth geodesic equation at a cone vertex?
+\end{exercise}
+
+\begin{hint}
+The metric is not smooth there.
+\end{hint}
+
+\begin{solution}
+The cone tip is a metric singularity, so smooth Christoffel-symbol calculus does not apply at the vertex.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-11}
+What is a point-to-point geodesic query?
+\end{exercise}
+
+\begin{hint}
+Specify both output types that may be requested.
+\end{hint}
+
+\begin{solution}
+It asks for the intrinsic distance between two specified surface points and often also an explicit minimizing path.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-12}
+What is a single-source query?
+\end{exercise}
+
+\begin{hint}
+Fix one source and vary the target.
+\end{hint}
+
+\begin{solution}
+It computes distances from one fixed source to many or all target locations, often producing a distance field.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-13}
+Define multi-source distance.
+\end{exercise}
+
+\begin{hint}
+Take the nearest source.
+\end{hint}
+
+\begin{solution}
+For a source set \(S\), \(d_S(x)=\min_{s\in S}d_M(s,x)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-14}
+Why are barycentric coordinates useful for geodesic queries?
+\end{exercise}
+
+\begin{hint}
+A source may lie in a face interior.
+\end{hint}
+
+\begin{solution}
+They represent arbitrary points inside a triangle without snapping them to mesh vertices.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-15}
+What is a distance wavefront?
+\end{exercise}
+
+\begin{hint}
+Use a level set of the distance function.
+\end{hint}
+
+\begin{solution}
+It is \(W_r=\{x:d_M(s,x)=r\}\) for a fixed source \(s\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-16}
+What computational phenomenon occurs at the cut locus?
+\end{exercise}
+
+\begin{hint}
+Think about uniqueness of minimizing paths.
+\end{hint}
+
+\begin{solution}
+The minimizing path can cease to be unique, and the distance field can lose differentiability there.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-17}
+Give an additive distance error.
+\end{exercise}
+
+\begin{hint}
+Subtract estimate and truth.
+\end{hint}
+
+\begin{solution}
+\(|\widetilde d-d|\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-18}
+Give a relative distance error.
+\end{exercise}
+
+\begin{hint}
+Normalize the additive error.
+\end{hint}
+
+\begin{solution}
+\(|\widetilde d-d|/d\) for \(d>0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-19}
+What does a \((1+\varepsilon)\)-upper approximation guarantee?
+\end{exercise}
+
+\begin{hint}
+It should never underestimate.
+\end{hint}
+
+\begin{solution}
+\(d\le\widetilde d\le(1+\varepsilon)d\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-20}
+Why can path geometry be unstable even when distance error is tiny?
+\end{exercise}
+
+\begin{hint}
+Consider nearly equal competing geodesics.
+\end{hint}
+
+\begin{solution}
+Near the cut locus, distinct paths can have almost equal lengths, so a small scalar perturbation can switch which path is selected.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-21}
+What does intrinsic isometry preserve for a triangulated surface?
+\end{exercise}
+
+\begin{hint}
+Preserve the piecewise-Euclidean metric.
+\end{hint}
+
+\begin{solution}
+It preserves every intrinsic path length and hence every intrinsic geodesic distance.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-22}
+Why can poor triangle quality hurt a numerical geodesic method?
+\end{exercise}
+
+\begin{hint}
+Think of conditioning and geometric reconstruction.
+\end{hint}
+
+\begin{solution}
+Very skinny triangles can make gradients, unfoldings, and discrete operators ill-conditioned or sensitive to roundoff.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-23}
+Name two distinct algorithmic design axes for a geodesic solver.
+\end{exercise}
+
+\begin{hint}
+Examples include exactness and query model.
+\end{hint}
+
+\begin{solution}
+For example: exact versus approximate, and point-to-point versus single-source; preprocessing and path recovery are additional independent axes.
+\end{solution}
+
+\begin{exercise}\label{exr:vii38-24}
+What is the main conceptual distinction that VII/39 will exploit?
+\end{exercise}
+
+\begin{hint}
+Separate graph restriction from continuous face geometry.
+\end{hint}
+
+\begin{solution}
+VII/39 compares edge-graph shortest paths with algorithms that compute exact continuous geodesics on a polyhedral mesh.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[A shortcut across two triangles]\label{prob:vii38-01}
+Two coplanar triangles form a square of side \(1\) split by a diagonal.  Compute the intrinsic distance between opposite square corners and compare it with a boundary-edge path.
+\end{problem}
+
+\begin{solution}
+The intrinsic surface is the Euclidean square, so the distance is the diagonal length \(\sqrt2\).  A boundary-edge path has length \(2\).  This simple example shows why restricting paths to selected mesh edges can overestimate the continuous distance.
+\end{solution}
+
+\begin{problem}[Unfolding an edge crossing]\label{prob:vii38-02}
+A path crosses the common edge of two triangles.  Explain how to test whether the crossing can be locally shortest.
+\end{problem}
+
+\begin{solution}
+Rigidly rotate one triangle around the shared edge until both triangles lie in one plane.  If the two path pieces do not form one straight segment after unfolding, replacing them by the straight segment shortens the path.  Straightness in the unfolded plane is therefore the local optimality test.
+\end{solution}
+
+\begin{problem}[Positive cone curvature]\label{prob:vii38-03}
+An interior vertex has total angle \(3\pi/2\).  Compute its angle defect and classify the vertex.
+\end{problem}
+
+\begin{solution}
+The defect is \(2\pi-3\pi/2=\pi/2>0\).  It is a positive-curvature cone vertex.
+\end{solution}
+
+\begin{problem}[A saddle cone]\label{prob:vii38-04}
+An interior vertex has total angle \(5\pi/2\).  Compute the angle defect and explain why the local geometry differs from a convex cone tip.
+\end{problem}
+
+\begin{solution}
+The defect is \(2\pi-5\pi/2=-\pi/2\).  There is more than a full \(2\pi\) of angle around the vertex, so the cone is saddle-like; shortest-path continuations can have angular room unavailable at a positive-curvature tip.
+\end{solution}
+
+\begin{problem}[A face-interior source]\label{prob:vii38-05}
+A solver accepts only vertex sources, but the desired source lies at barycentric coordinates \((1/4,1/4,1/2)\) in a triangle.  Why is snapping to the nearest vertex a modeling error rather than merely an implementation detail?
+\end{problem}
+
+\begin{solution}
+Snapping changes the source point and therefore changes the distance function being computed.  The resulting error is not the numerical error of the geodesic algorithm; it is an error introduced before the intended problem is solved.
+\end{solution}
+
+\begin{problem}[Disconnected input]\label{prob:vii38-06}
+A mesh has two connected components and the source and target lie on different components.  What should a geodesic-distance routine report?
+\end{problem}
+
+\begin{solution}
+No admissible surface path joins the points, so the intrinsic distance is \(+\infty\) or an explicit unreachable status.  Returning a large finite number would confuse topology with distance.
+\end{solution}
+
+\begin{problem}[Graph upper bound]\label{prob:vii38-07}
+A graph solver returns length \(8.4\) between two vertices.  An exact continuous solver returns \(7.9\).  Is this ordering theoretically consistent?
+\end{problem}
+
+\begin{solution}
+Yes.  Edge paths form a subset of all surface paths, so the graph optimum cannot be smaller than the continuous optimum.  Here \(7.9\le8.4\), exactly as expected.
+\end{solution}
+
+\begin{problem}[Multi-source Voronoi distance]\label{prob:vii38-08}
+For sources \(s_1,s_2,s_3\), define the scalar field used to assign each point to its nearest source and describe where assignment ambiguity occurs.
+\end{problem}
+
+\begin{solution}
+Use \(d_S(x)=\min_i d_M(s_i,x)\).  Ambiguity occurs on loci where two or more source distances tie; these loci form intrinsic Voronoi boundaries.
+\end{solution}
+
+\begin{problem}[Cut-locus sensitivity]\label{prob:vii38-09}
+Two minimizing geodesics from \(s\) to \(x\) have equal length.  What should one expect from a small perturbation of \(x\)?
+\end{problem}
+
+\begin{solution}
+The tie can break immediately, selecting one branch or the other.  The distance remains continuous, but its gradient need not be continuous or even uniquely defined at the original point.
+\end{solution}
+
+\begin{problem}[Embedding versus metric]\label{prob:vii38-10}
+A triangulated sheet is bent isometrically in \(\mathbb R^3\) without stretching any triangle.  What happens to its intrinsic geodesic distances?
+\end{problem}
+
+\begin{solution}
+They remain unchanged.  The bending modifies extrinsic geometry but preserves all face edge lengths and gluings, hence the intrinsic piecewise-Euclidean metric.
+\end{solution}
+
+\begin{problem}[Relative-error interpretation]\label{prob:vii38-11}
+The true distance is \(20\) and an approximation returns \(20.3\).  Compute the additive and relative errors.
+\end{problem}
+
+\begin{solution}
+The additive error is \(0.3\).  The relative error is \(0.3/20=0.015\), or \(1.5\%\).
+\end{solution}
+
+\begin{problem}[Choosing a solver]\label{prob:vii38-12}
+A pipeline needs thousands of approximate single-source distance fields on one fixed mesh and can tolerate small error.  Why might an exact point-to-point method be a poor default?
+\end{problem}
+
+\begin{solution}
+The required output is a global field and the query is repeated.  Methods based on sparse factorization or other reusable preprocessing can amortize setup cost, whereas an exact path algorithm optimized for isolated queries may spend unnecessary work recovering combinatorial path structure.
+\end{solution}
+
+\section{Challenge problems}
+
+\begin{problem}[Local vertex criterion]\label{prob:vii38-ch01}
+Unfold a neighborhood of a cone vertex to a planar sector of angle \(\Theta\).  Explain why a path through the tip can be locally minimizing only if each side of the path has unfolded angle at least \(\pi\).
+\end{problem}
+
+\begin{solution}
+Cut the cone along the candidate path and develop the two sides into planar sectors.  If one side has angle \(<\pi\), then in that sector a small shortcut joining points on the incoming and outgoing rays avoids the tip and is shorter.  Thus each side must contribute at least \(\pi\).  In particular a positive-curvature vertex with total angle \(<2\pi\) cannot satisfy the condition.
+\end{solution}
+
+\begin{problem}[Distance versus path convergence]\label{prob:vii38-ch02}
+Construct the qualitative argument for why convergence of scalar distances under mesh refinement does not by itself imply convergence of a chosen minimizing path near a cut locus.
+\end{problem}
+
+\begin{solution}
+Near a cut locus there are at least two competing geodesic branches with equal or nearly equal length.  A sequence of refined meshes can approximate the common distance increasingly well while alternating which branch is microscopically shorter.  Scalar values converge, yet the selected paths can jump between macroscopically different branches.
+\end{solution}
+
+\begin{problem}[A benchmark protocol]\label{prob:vii38-ch03}
+Design a minimal benchmark for a mesh geodesic solver that separates modeling error, numerical distance error, and path-recovery error.
+\end{problem}
+
+\begin{solution}
+Use a mesh with a known piecewise-Euclidean reference solution and keep the query points fixed without snapping.  Report the reference metric and mesh resolution first; then compare scalar distance error against an exact or certified solution; finally compare recovered paths by length and a geometric discrepancy such as sampled Hausdorff distance.  Repeating under controlled refinement separates discretization/modeling effects from solver error.
+\end{solution}
+
+\begin{problem}[Refinement does not automatically help]\label{prob:vii38-ch04}
+Explain why subdividing every triangle by inserting poorly placed vertices can fail to improve a geodesic computation in practice even though the mesh has more triangles.
+\end{problem}
+
+\begin{solution}
+Triangle count alone is not a convergence hypothesis.  Poorly placed vertices can create extreme aspect ratios and ill-conditioned local geometry; if the intrinsic metric is also perturbed, the modeled surface may not approach the intended target.  Useful refinement controls both geometric approximation and element quality.
+\end{solution}
+
+\begin{problem}[Solver decision tree]\label{prob:vii38-ch05}
+Give a principled decision tree for choosing among edge-graph, exact polyhedral, and PDE-style geodesic methods.
+\end{problem}
+
+\begin{solution}
+First decide whether the continuous piecewise-Euclidean metric or an edge-restricted approximation is required.  If exact continuous distances or certified paths are essential, choose an exact polyhedral method.  If robustness and simplicity dominate and graph error is acceptable, use graph search.  If many smooth global distance fields are needed and approximation is acceptable, a PDE method is attractive, especially when sparse factorizations can be reused.  Then refine the choice by source type, preprocessing budget, path-recovery need, and error tolerance.
+\end{solution}
+
+\section{Bridge to the next chapter}
+
+VII/39 turns the problem taxonomy into algorithms.  It begins with weighted
+edge graphs, Dijkstra's algorithm, and admissible \(A^\ast\) heuristics, then
+returns to the continuous polyhedral metric through unfolding, face sequences,
+and exact wavefront propagation.
