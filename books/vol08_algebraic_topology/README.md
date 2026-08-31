@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Architecture frozen; canonical reconstruction not yet started.
+**Status:** Canonical reconstruction underway through `VIII/01`.
 
 Canonical chapter codes: `VIII/01`–`VIII/35`.
 
@@ -57,6 +57,34 @@ Canonical chapter codes: `VIII/01`–`VIII/35`.
 - **VIII/34** — Intersection Forms
 - **VIII/35** — Lefschetz Theory
 
-## Reconstruction rule
+## Canonical source rule
 
-Before creating a chapter, filter `../../editorial/SOURCE_MIGRATION.tsv` by its `VIII/NN` destination and inspect all higher-precedence overrides. Update `../../editorial/CHAPTER_STATUS.tsv` when work starts.
+Before reconstructing a chapter, filter `../../editorial/SOURCE_MIGRATION.tsv`
+by its `VIII/NN` destination and honor higher-precedence selectors before the
+file fallback.  For VIII/01–VIII/04 the primary source is
+`theory-of-algebraic-topology-1.tex`.
+
+## Current build
+
+The Volume VIII wrapper activates only reconstructed chapters.  Build on Windows
+from the repository root with:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass `
+  -File .\books\vol08_algebraic_topology\BUILD_WINDOWS.ps1 `
+  -Repo $PWD `
+  -Clean
+```
+
+Canonical output:
+
+```text
+books/vol08_algebraic_topology/book.pdf
+```
+
+## Reconstruction status
+
+- VIII/01: DRAFTED
+- VIII/02: PLANNED
+- VIII/03: PLANNED
+- VIII/04: PLANNED

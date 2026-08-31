@@ -1,0 +1,644 @@
+﻿\chapter{Homotopies of Maps}
+\label{ch:viii01-homotopies}
+
+Algebraic topology begins by weakening the notion of equality of maps.  Two
+continuous maps need not agree pointwise to carry the same large-scale
+topological information.  The basic relation is \emph{homotopy}: one map may be
+continuously deformed into the other while the domain and target remain fixed.
+This chapter develops the definition, the elementary calculus of homotopies,
+relative and based variants, and the first explicit deformation formulas.
+
+\section{The unit interval as a deformation parameter}
+
+Write
+\[
+I=[0,1].
+\]
+A point of \(X\times I\) is written \((x,t)\), with \(t\) interpreted as time.
+At \(t=0\) we see the initial map and at \(t=1\) the final map.
+
+\begin{definition}[Homotopy]
+\label{def:viii01-homotopy}
+Let \(f,g:X\to Y\) be continuous maps.  A \emph{homotopy from \(f\) to \(g\)}
+is a continuous map
+\[
+H:X\times I\longrightarrow Y
+\]
+such that
+\[
+H(x,0)=f(x),
+\qquad
+H(x,1)=g(x)
+\]
+for every \(x\in X\).  We write
+\[
+f\simeq g.
+\]
+\end{definition}
+
+For each fixed \(t\), the map
+\[
+H_t:X\to Y,
+\qquad
+H_t(x)=H(x,t),
+\]
+is a time slice of the deformation.
+
+\begin{warning}[Pointwise paths are not enough]
+\label{warn:viii01-pointwise}
+For every \(x\), the curve \(t\mapsto H(x,t)\) is a path in \(Y\), but choosing
+an arbitrary path from \(f(x)\) to \(g(x)\) for each \(x\) does not automatically
+produce a homotopy.  The dependence on \(x\) and \(t\) must be jointly continuous.
+\end{warning}
+
+\section{First explicit homotopies}
+
+\begin{example}[Straight-line homotopy]
+\label{ex:viii01-straight}
+If \(Y\) is a convex subset of a real topological vector space and
+\(f,g:X\to Y\) are continuous, then
+\[
+H(x,t)=(1-t)f(x)+tg(x)
+\]
+is a homotopy from \(f\) to \(g\).
+\end{example}
+
+\begin{example}[Maps into an interval]
+\label{ex:viii01-interval-target}
+Any two continuous maps \(f,g:X\to [a,b]\) are homotopic by the straight-line
+formula.  Thus the interval has no obstruction to deforming one incoming map
+into another.
+\end{example}
+
+\begin{example}[Rotation of the circle]
+\label{ex:viii01-circle-rotation}
+For a fixed angle \(\alpha\), the identity map on \(S^1\subset\mathbb C\) is
+homotopic to the rotation \(R_\alpha(z)=e^{i\alpha}z\) via
+\[
+H(z,t)=e^{it\alpha}z.
+\]
+\end{example}
+
+\section{Homotopy is an equivalence relation}
+
+\begin{theorem}[Equivalence relation]
+\label{thm:viii01-equivalence}
+Homotopy is reflexive, symmetric, and transitive on the set of continuous maps
+\(X\to Y\).
+\end{theorem}
+
+\begin{proof}
+Reflexivity is given by the constant homotopy \(H(x,t)=f(x)\).
+If \(H\) runs from \(f\) to \(g\), then
+\[
+\overline H(x,t)=H(x,1-t)
+\]
+runs from \(g\) to \(f\).  For transitivity, suppose \(H:f\simeq g\) and
+\(K:g\simeq h\).  Define
+\[
+L(x,t)=
+\begin{cases}
+H(x,2t),&0\le t\le \frac12,\\[2mm]
+K(x,2t-1),&\frac12\le t\le1.
+\end{cases}
+\]
+The two formulas agree at \(t=\frac12\), where both equal \(g(x)\).  The gluing
+lemma gives continuity.
+\end{proof}
+
+\begin{remark}[Homotopy classes]
+\label{rem:viii01-classes}
+The equivalence class of \(f:X\to Y\) is denoted \([f]\).  The set of homotopy
+classes is often written
+\[
+[X,Y].
+\]
+At this stage it is only a set; later chapters supply algebraic structure in
+important cases.
+\end{remark}
+
+\section{Compatibility with composition}
+
+\begin{proposition}[Postcomposition]
+\label{prop:viii01-postcomposition}
+If \(f\simeq g:X\to Y\) and \(u:Y\to Z\) is continuous, then
+\[
+u\circ f\simeq u\circ g.
+\]
+\end{proposition}
+
+\begin{proof}
+If \(H\) is a homotopy from \(f\) to \(g\), use
+\[
+(x,t)\longmapsto u(H(x,t)).
+\]
+\end{proof}
+
+\begin{proposition}[Precomposition]
+\label{prop:viii01-precomposition}
+If \(f\simeq g:X\to Y\) and \(v:W\to X\) is continuous, then
+\[
+f\circ v\simeq g\circ v.
+\]
+\end{proposition}
+
+\begin{proof}
+Use
+\[
+(w,t)\longmapsto H(v(w),t).
+\]
+\end{proof}
+
+\begin{corollary}[Two-sided compatibility]
+\label{cor:viii01-two-sided}
+If \(f_0\simeq f_1:X\to Y\) and \(g_0\simeq g_1:Y\to Z\), then
+\[
+g_0\circ f_0\simeq g_1\circ f_1.
+\]
+\end{corollary}
+
+\section{Null-homotopic maps}
+
+\begin{definition}[Null-homotopic map]
+\label{def:viii01-null}
+A map \(f:X\to Y\) is \emph{null-homotopic} if it is homotopic to a constant
+map.
+\end{definition}
+
+\begin{example}[Maps into a convex set]
+\label{ex:viii01-convex-null}
+Every map into a convex subset \(C\subset\mathbb R^n\) is null-homotopic:
+choose \(c_0\in C\) and use
+\[
+H(x,t)=(1-t)f(x)+tc_0.
+\]
+\end{example}
+
+\begin{proposition}[Factorization through a point]
+\label{prop:viii01-point-factor}
+A map is null-homotopic precisely when it is homotopic to a map factoring as
+\[
+X\longrightarrow \{*\}\longrightarrow Y.
+\]
+\end{proposition}
+
+\section{Homotopies relative to a subspace}
+
+Often a deformation must leave part of the domain fixed.
+
+\begin{definition}[Homotopy relative to \(A\)]
+\label{def:viii01-relative}
+Let \(A\subset X\).  A homotopy \(H:f\simeq g\) is a \emph{homotopy relative to
+\(A\)}, written
+\[
+f\simeq g\pmod A,
+\]
+if
+\[
+H(a,t)=f(a)=g(a)
+\]
+for all \(a\in A\) and \(t\in I\).
+\end{definition}
+
+\begin{remark}
+A relative homotopy can exist only if \(f|_A=g|_A\).  The condition says more:
+the common restriction is fixed throughout the deformation.
+\end{remark}
+
+\begin{example}[Fixing endpoints]
+\label{ex:viii01-fixed-endpoints}
+For paths \(\alpha,\beta:I\to Y\) with common endpoints, a homotopy relative to
+\(\{0,1\}\) is exactly an endpoint-fixing deformation of one path into the other.
+This is the relation used later in the fundamental group.
+\end{example}
+
+\section{Based homotopy}
+
+Let \((X,x_0)\) and \((Y,y_0)\) be pointed spaces.
+
+\begin{definition}[Based map and based homotopy]
+\label{def:viii01-based}
+A map \(f:(X,x_0)\to(Y,y_0)\) is based if \(f(x_0)=y_0\).  A homotopy through
+based maps is a homotopy relative to \(\{x_0\}\):
+\[
+H(x_0,t)=y_0
+\qquad\text{for all }t.
+\]
+\end{definition}
+
+\begin{warning}[Free versus based homotopy]
+\label{warn:viii01-free-based}
+Two based maps can be freely homotopic without being based-homotopic.  The
+distinction becomes essential when loops and fundamental groups enter.
+\end{warning}
+
+\section{Reparameterizing a homotopy}
+
+\begin{lemma}[Monotone reparameterization]
+\label{lem:viii01-reparam}
+If \(H:f\simeq g\) and \(\rho:I\to I\) is continuous with
+\(\rho(0)=0\) and \(\rho(1)=1\), then
+\[
+K(x,t)=H(x,\rho(t))
+\]
+is another homotopy from \(f\) to \(g\).
+\end{lemma}
+
+This permits slowing, speeding, or pausing a deformation without changing its
+homotopy class.
+
+\section{Homotopy through a subspace}
+
+\begin{proposition}[Image control]
+\label{prop:viii01-image-control}
+Suppose \(A\subset Y\), and a homotopy \(H:X\times I\to Y\) satisfies
+\(H(X\times I)\subset A\).  Then \(H\), regarded as a map into \(A\), is a
+homotopy in the subspace \(A\).
+\end{proposition}
+
+The proposition is elementary, but important: whether a deformation is allowed
+depends on the target in which the deformation is required to live.
+
+\section{A punctured-plane obstruction preview}
+
+The straight-line formula can fail when the target is not convex.
+
+\begin{example}[Why the ambient target matters]
+\label{ex:viii01-punctured}
+In \(\mathbb R^2\setminus\{0\}\), the formula
+\[
+H(x,t)=(1-t)x+t(-x)
+\]
+passes through \(0\) at \(t=\frac12\).  Therefore it is not a homotopy in the
+punctured plane.  Later invariants will explain why certain maps cannot be
+deformed while avoiding the missing point.
+\end{example}
+
+\section{Cylinder viewpoint}
+
+A homotopy \(H:X\times I\to Y\) is simply a map out of the cylinder on \(X\),
+with prescribed values on the two ends
+\[
+X\times\{0\},
+\qquad
+X\times\{1\}.
+\]
+This point of view anticipates mapping cylinders, cofibrations, and relative
+homotopy constructions.
+
+\begin{proposition}[Restriction to time intervals]
+\label{prop:viii01-restrict-time}
+If \(H:f\simeq g\) and \(0\le a<b\le1\), then after affine reparameterization
+the restriction of \(H\) to \(X\times[a,b]\) is a homotopy from \(H_a\) to
+\(H_b\).
+\end{proposition}
+
+\section{Products of homotopies}
+
+\begin{proposition}[Product homotopy]
+\label{prop:viii01-product}
+If \(f_0\simeq f_1:X\to Y\) and \(g_0\simeq g_1:W\to Z\), then
+\[
+f_0\times g_0\simeq f_1\times g_1:X\times W\to Y\times Z.
+\]
+\end{proposition}
+
+\begin{proof}
+For homotopies \(H\) and \(K\), set
+\[
+L((x,w),t)=\bigl(H(x,t),K(w,t)\bigr).
+\]
+\end{proof}
+
+\section{What a homotopy does not claim}
+
+A homotopy does not assert that any \(H_t\) is injective, surjective, an
+embedding, a homeomorphism, or a diffeomorphism.  It is a deformation in the
+space of continuous maps.  If every time slice is required to be an embedding
+or homeomorphism, one obtains stronger notions such as isotopy.
+
+\begin{warning}[Homotopy is weaker than isotopy]
+\label{warn:viii01-isotopy}
+Do not infer geometric rigidity from a homotopy.  Intermediate maps may fold,
+collapse, or identify points unless additional hypotheses prohibit this.
+\end{warning}
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:viii01-01}
+Write the defining endpoint equations for a homotopy \(H:f\simeq g\).
+\end{exercise}
+\begin{hint}Evaluate at \(t=0\) and \(t=1\).\end{hint}
+\begin{solution}
+They are \(H(x,0)=f(x)\) and \(H(x,1)=g(x)\) for every \(x\in X\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-02}
+Show that every map is homotopic to itself.
+\end{exercise}
+\begin{hint}Do not move the map in time.\end{hint}
+\begin{solution}
+Use \(H(x,t)=f(x)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-03}
+Reverse a given homotopy \(H:f\simeq g\).
+\end{exercise}
+\begin{hint}Reverse the interval parameter.\end{hint}
+\begin{solution}
+Set \(\overline H(x,t)=H(x,1-t)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-04}
+Concatenate homotopies \(H:f\simeq g\) and \(K:g\simeq h\).
+\end{exercise}
+\begin{hint}Give each homotopy half the time interval.\end{hint}
+\begin{solution}
+Use \(H(x,2t)\) for \(t\le1/2\) and \(K(x,2t-1)\) for \(t\ge1/2\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-05}
+Why is the concatenated homotopy continuous at \(t=1/2\)?
+\end{exercise}
+\begin{hint}Compare the two values there.\end{hint}
+\begin{solution}
+Both pieces equal \(g(x)\) at the joining time, so the gluing lemma applies.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-06}
+Give a homotopy from \(f(x)=x\) to \(g(x)=0\) on \(\mathbb R^n\).
+\end{exercise}
+\begin{hint}Use scalar multiplication.\end{hint}
+\begin{solution}
+\(H(x,t)=(1-t)x\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-07}
+Show that two maps \(X\to[a,b]\) are homotopic.
+\end{exercise}
+\begin{hint}The interval is convex.\end{hint}
+\begin{solution}
+Use \(H(x,t)=(1-t)f(x)+tg(x)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-08}
+Construct a homotopy from the identity of \(S^1\) to rotation by angle \(\pi/3\).
+\end{exercise}
+\begin{hint}Rotate gradually.\end{hint}
+\begin{solution}
+\(H(z,t)=e^{it\pi/3}z\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-09}
+If \(f\simeq g\), prove \(u\circ f\simeq u\circ g\).
+\end{exercise}
+\begin{hint}Postcompose the homotopy.\end{hint}
+\begin{solution}
+For \(H:f\simeq g\), use \(K(x,t)=u(H(x,t))\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-10}
+If \(f\simeq g\), prove \(f\circ v\simeq g\circ v\).
+\end{exercise}
+\begin{hint}Precompose the homotopy.\end{hint}
+\begin{solution}
+Use \(K(w,t)=H(v(w),t)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-11}
+Define a null-homotopic map.
+\end{exercise}
+\begin{hint}Compare with a constant map.\end{hint}
+\begin{solution}
+It is a map homotopic to a constant map.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-12}
+Show every map into a convex subset of \(\mathbb R^n\) is null-homotopic.
+\end{exercise}
+\begin{hint}Choose a point in the convex set.\end{hint}
+\begin{solution}
+For \(c_0\) in the target, \(H(x,t)=(1-t)f(x)+tc_0\) remains in the convex set.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-13}
+State what \(f\simeq g\pmod A\) means.
+\end{exercise}
+\begin{hint}The subspace must not move.\end{hint}
+\begin{solution}
+It means there is a homotopy \(H:f\simeq g\) with
+\(H(a,t)=f(a)=g(a)\) for all \(a\in A\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-14}
+What preliminary condition on \(f\) and \(g\) is necessary for a homotopy rel \(A\)?
+\end{exercise}
+\begin{hint}Set \(t=0,1\) on \(A\).\end{hint}
+\begin{solution}
+They must agree on \(A\): \(f|_A=g|_A\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-15}
+Interpret homotopy rel \(\{0,1\}\) for paths.
+\end{exercise}
+\begin{hint}The endpoints are the chosen subspace.\end{hint}
+\begin{solution}
+It is a deformation of paths that keeps both endpoints fixed at all times.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-16}
+What is a based homotopy?
+\end{exercise}
+\begin{hint}Fix the basepoint throughout time.\end{hint}
+\begin{solution}
+It is a homotopy \(H\) satisfying \(H(x_0,t)=y_0\) for every \(t\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-17}
+Why can an arbitrary collection of paths from \(f(x)\) to \(g(x)\) fail to be a homotopy?
+\end{exercise}
+\begin{hint}Continuity has two variables.\end{hint}
+\begin{solution}
+The chosen paths may fail to depend continuously on \(x\), so the resulting
+map \(X\times I\to Y\) need not be continuous.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-18}
+Reparameterize a homotopy so that it pauses at \(t=1/2\).
+\end{exercise}
+\begin{hint}Choose a continuous \(\rho:I\to I\) that is constant on a small interval.\end{hint}
+\begin{solution}
+Choose any continuous endpoint-preserving \(\rho\) that is constant near
+\(1/2\), and use \(K(x,t)=H(x,\rho(t))\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-19}
+Show that the product of two null-homotopic maps is null-homotopic.
+\end{exercise}
+\begin{hint}Take the product of their homotopies.\end{hint}
+\begin{solution}
+If \(H\) and \(K\) contract the two maps to constants, then
+\((H,K)\) contracts their product to the product constant.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-20}
+Why does the straight-line deformation from \(x\) to \(-x\) fail in
+\(\mathbb R^2\setminus\{0\}\)?
+\end{exercise}
+\begin{hint}Evaluate at \(t=1/2\).\end{hint}
+\begin{solution}
+It equals \(0\) halfway through, which is not in the target.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-21}
+If \(H:X\times I\to A\subset Y\), in which two targets can the same formula be viewed?
+\end{exercise}
+\begin{hint}Use the inclusion \(A\hookrightarrow Y\).\end{hint}
+\begin{solution}
+It is a homotopy into \(A\), and after composing with the inclusion it is also
+a homotopy into \(Y\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-22}
+Does a homotopy require every time slice to be injective?
+\end{exercise}
+\begin{hint}Return to the definition.\end{hint}
+\begin{solution}
+No.  Only continuity and the endpoint conditions are required.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-23}
+Does a homotopy between homeomorphisms have to pass through homeomorphisms?
+\end{exercise}
+\begin{hint}Compare homotopy with isotopy.\end{hint}
+\begin{solution}
+No.  That stronger requirement belongs to isotopy.
+\end{solution}
+
+\begin{exercise}\label{exr:viii01-24}
+Explain why composition descends to homotopy classes.
+\end{exercise}
+\begin{hint}Use pre- and postcomposition compatibility.\end{hint}
+\begin{solution}
+Replacing either factor by a homotopic map changes the composite only by a
+homotopy, so the homotopy class of a composite depends only on the classes of
+its factors.
+\end{solution}
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Piecewise concatenation]\label{prob:viii01-01}
+Verify directly that concatenating two relative homotopies rel \(A\) again gives
+a homotopy rel \(A\).
+\end{problem}
+\begin{solution}
+Use the usual two-piece concatenation.  On \(A\), both original homotopies are
+constant at the common restriction \(f|_A=g|_A=h|_A\), so both pieces of the
+concatenation are constant there as well.
+\end{solution}
+
+\begin{problem}[Radial contraction]\label{prob:viii01-02}
+Let \(D^n=\{x:\|x\|\le1\}\).  Construct a homotopy from the identity of \(D^n\)
+to the constant map at \(0\).
+\end{problem}
+\begin{solution}
+Set \(H(x,t)=(1-t)x\).  Since
+\(\|H(x,t)\|=(1-t)\|x\|\le1\), the image remains in \(D^n\).
+\end{solution}
+
+\begin{problem}[Affine homotopy in a convex target]\label{prob:viii01-03}
+Prove that the straight-line formula is jointly continuous.
+\end{problem}
+\begin{solution}
+The maps \((x,t)\mapsto (1-t)f(x)\) and \((x,t)\mapsto tg(x)\) are continuous
+by continuity of scalar multiplication and of \(f,g\); their sum is continuous.
+Convexity ensures the value remains in the target.
+\end{solution}
+
+\begin{problem}[Homotopy of constant maps]\label{prob:viii01-04}
+If \(Y\) is path connected, prove that any two constant maps \(X\to Y\) are
+homotopic.
+\end{problem}
+\begin{solution}
+If the constants are \(y_0,y_1\), choose a path \(\gamma:I\to Y\) from
+\(y_0\) to \(y_1\) and define \(H(x,t)=\gamma(t)\).
+\end{solution}
+
+\begin{problem}[Path components detected by maps from a point]\label{prob:viii01-05}
+Describe \([\{*\},Y]\).
+\end{problem}
+\begin{solution}
+A map from a point chooses a point of \(Y\).  Two such maps are homotopic
+exactly when the chosen points are joined by a path.  Hence
+\([\{*\},Y]\) is the set of path components of \(Y\).
+\end{solution}
+
+\begin{problem}[Restriction of a relative homotopy]\label{prob:viii01-06}
+If \(H:f\simeq g\pmod A\) and \(B\subset A\), show \(H\) is a homotopy rel \(B\).
+\end{problem}
+\begin{solution}
+The defining fixed-point equation on all of \(A\) in particular holds on its
+subset \(B\).
+\end{solution}
+
+\begin{problem}[Composition of based homotopies]\label{prob:viii01-07}
+Show that composing based homotopies produces a based homotopy.
+\end{problem}
+\begin{solution}
+If \(H(x_0,t)=y_0\) and \(K(y_0,t)=z_0\), the standard two-sided compatibility
+construction keeps the distinguished point at \(z_0\) throughout.
+\end{solution}
+
+\begin{problem}[A stationary first half]\label{prob:viii01-08}
+Given \(H:f\simeq g\), construct a homotopy that stays equal to \(f\) until
+time \(1/2\) and then performs \(H\).
+\end{problem}
+\begin{solution}
+Use
+\[
+K(x,t)=
+\begin{cases}
+f(x),&0\le t\le1/2,\\
+H(x,2t-1),&1/2\le t\le1.
+\end{cases}
+\]
+The formulas agree at \(t=1/2\).
+\end{solution}
+
+\begin{problem}[Product deformation]\label{prob:viii01-09}
+If \(X\) and \(W\) each admit a contraction to a chosen point, write the
+contraction of \(X\times W\).
+\end{problem}
+\begin{solution}
+For contractions \(H\) and \(K\), use
+\[
+L((x,w),t)=(H(x,t),K(w,t)).
+\]
+\end{solution}
+
+\begin{problem}[Target inclusion]\label{prob:viii01-10}
+Let \(A\subset Y\) and suppose \(f,g:X\to A\) are homotopic as maps into \(A\).
+Prove they are homotopic as maps into \(Y\).
+\end{problem}
+\begin{solution}
+Compose the homotopy \(X\times I\to A\) with the inclusion \(A\hookrightarrow Y\).
+\end{solution}
+
+\begin{problem}[Two-stage deformation]\label{prob:viii01-11}
+Suppose \(f\simeq c\) and \(c\simeq g\), where \(c\) is constant.  Prove
+\(f\simeq g\).
+\end{problem}
+\begin{solution}
+This is transitivity: concatenate the two homotopies.
+\end{solution}
+
+\begin{problem}[Bridge to VIII/02]\label{prob:viii01-12}
+Explain why a homotopy \(f\simeq g\) alone does not say that the spaces \(X\)
+and \(Y\) have the same homotopy type.
+\end{problem}
+\begin{solution}
+The relation compares two maps with the same domain and target.  To compare
+spaces, one needs maps in both directions whose composites are homotopic to the
+appropriate identity maps.  That is the homotopy-equivalence notion developed
+in VIII/02.
+\end{solution}
