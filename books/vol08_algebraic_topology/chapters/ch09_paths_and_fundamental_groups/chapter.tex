@@ -1,0 +1,746 @@
+﻿\chapter{Paths and Fundamental Groups}
+\label{ch:viii09-paths-fundamental-groups}
+
+The first genuinely algebraic invariant of a space is built from loops.  Paths
+record how points are connected, while loops based at a chosen point can be
+concatenated.  Passing to homotopy classes converts this concatenation into a
+group law.  The resulting fundamental group detects holes, organizes covering
+spaces, and encodes two-cell attaching loops in low-dimensional CW complexes.
+
+\section{Paths}
+
+\begin{definition}[Path]
+\label{def:viii09-path}
+A path in \(X\) from \(x_0\) to \(x_1\) is a continuous map
+\[
+\alpha:I\to X
+\]
+with
+\[
+\alpha(0)=x_0,
+\qquad
+\alpha(1)=x_1.
+\]
+\end{definition}
+
+A loop based at \(x_0\) is a path satisfying
+\[
+\alpha(0)=\alpha(1)=x_0.
+\]
+
+\section{Path reversal}
+
+For a path \(\alpha\), define
+\[
+\overline\alpha(t)=\alpha(1-t).
+\]
+Then \(\overline\alpha\) runs from the endpoint of \(\alpha\) back to its
+starting point.
+
+\section{Concatenation}
+
+If
+\[
+\alpha(1)=\beta(0),
+\]
+define
+\[
+(\alpha*\beta)(t)=
+\begin{cases}
+\alpha(2t),&0\le t\le\frac12,\\
+\beta(2t-1),&\frac12\le t\le1.
+\end{cases}
+\]
+
+\begin{warning}[Convention]
+\label{warn:viii09-convention}
+This chapter reads \(\alpha*\beta\) as first traverse \(\alpha\), then
+\(\beta\).  Some texts adopt the opposite multiplication convention.
+\end{warning}
+
+\section{Path homotopy}
+
+\begin{definition}[Homotopy rel endpoints]
+\label{def:viii09-path-homotopy}
+Two paths \(\alpha,\beta:I\to X\) with the same endpoints are path-homotopic if
+there exists
+\[
+H:I\times I\to X
+\]
+such that
+\[
+H(s,0)=\alpha(s),
+\qquad
+H(s,1)=\beta(s),
+\]
+and
+\[
+H(0,t)=x_0,
+\qquad
+H(1,t)=x_1.
+\]
+\end{definition}
+
+This is exactly homotopy relative to \(\{0,1\}\) from VIII/01.
+
+\section{The fundamental group}
+
+\begin{definition}[Fundamental group]
+\label{def:viii09-pi1}
+The fundamental group of \(X\) at \(x_0\) is
+\[
+\pi_1(X,x_0)
+=
+\{\text{loops at }x_0\}/\text{path homotopy},
+\]
+with multiplication
+\[
+[\alpha][\beta]=[\alpha*\beta].
+\]
+\end{definition}
+
+\begin{theorem}[Group structure]
+\label{thm:viii09-group}
+Path concatenation induces a well-defined group structure on
+\(\pi_1(X,x_0)\).
+\end{theorem}
+
+\section{Identity and inverse}
+
+The identity element is represented by the constant loop
+\[
+c_{x_0}(t)=x_0.
+\]
+The inverse of \([\alpha]\) is
+\[
+[\overline\alpha].
+\]
+
+Associativity of literal path concatenation holds only up to reparameterization,
+but that is enough because reparameterized paths are homotopic rel endpoints.
+
+\section{Well-defined multiplication}
+
+\begin{proposition}[Compatibility with path homotopy]
+\label{prop:viii09-well-defined}
+If
+\[
+\alpha\simeq\alpha'
+\quad\text{and}\quad
+\beta\simeq\beta'
+\]
+rel endpoints, then
+\[
+\alpha*\beta\simeq\alpha'*\beta'
+\]
+rel endpoints.
+\end{proposition}
+
+Hence multiplication depends only on homotopy classes.
+
+\section{Simply connected spaces}
+
+\begin{definition}[Simply connected]
+\label{def:viii09-simply-connected}
+A space \(X\) is simply connected if it is path connected and
+\[
+\pi_1(X,x_0)=0
+\]
+for one, equivalently every, basepoint.
+\end{definition}
+
+Contractible spaces are simply connected.
+
+\begin{example}
+For \(n\ge2\),
+\[
+\pi_1(S^n)=0.
+\]
+\end{example}
+
+\section{The circle}
+
+\begin{theorem}[Fundamental group of the circle]
+\label{thm:viii09-circle}
+\[
+\pi_1(S^1,1)\cong\mathbb Z.
+\]
+\end{theorem}
+
+The integer records winding number.  The loop
+\[
+\omega_n(t)=e^{2\pi int}
+\]
+represents the integer \(n\).
+
+\section{Winding and degree}
+
+A loop in \(S^1\) is equivalently a based map
+\[
+S^1\to S^1.
+\]
+Its fundamental-group class is measured by the same integer that appeared as
+degree in VIII/03.
+
+\begin{proposition}[Degree and \(\pi_1(S^1)\)]
+\label{prop:viii09-degree}
+Under the identification \(\pi_1(S^1)\cong\mathbb Z\),
+\[
+[\omega_n]\longleftrightarrow n.
+\]
+\end{proposition}
+
+\section{Basepoint change}
+
+Let \(\gamma\) be a path from \(x_0\) to \(x_1\).
+
+\begin{theorem}[Change of basepoint]
+\label{thm:viii09-basepoint}
+There is an isomorphism
+\[
+\gamma_\#:\pi_1(X,x_0)\to\pi_1(X,x_1)
+\]
+given by
+\[
+[\alpha]
+\longmapsto
+[\overline\gamma*\alpha*\gamma]
+\]
+with the concatenation convention used in this chapter, after interpreting the
+order consistently.
+\end{theorem}
+
+Different choices of connecting path may change the isomorphism by an inner
+automorphism.
+
+\section{Induced homomorphisms}
+
+For a based map
+\[
+f:(X,x_0)\to(Y,y_0),
+\]
+define
+\[
+f_*:\pi_1(X,x_0)\to\pi_1(Y,y_0)
+\]
+by
+\[
+f_*([\alpha])=[f\circ\alpha].
+\]
+
+\begin{theorem}[Functoriality]
+\label{thm:viii09-functorial}
+\[
+(\operatorname{id}_X)_*=\operatorname{id}_{\pi_1(X)},
+\qquad
+(g\circ f)_*=g_*\circ f_*.
+\]
+\end{theorem}
+
+\section{Homotopy invariance}
+
+\begin{theorem}[Based homotopy invariance]
+\label{thm:viii09-based-homotopy}
+Based-homotopic maps induce the same homomorphism on fundamental groups.
+\end{theorem}
+
+\begin{corollary}[Homotopy equivalence]
+\label{cor:viii09-equivalence}
+A homotopy equivalence of path-connected spaces induces an isomorphism of
+fundamental groups, after the usual basepoint identifications.
+\end{corollary}
+
+\section{Products}
+
+\begin{theorem}[Product formula]
+\label{thm:viii09-product}
+For path-connected based spaces,
+\[
+\pi_1(X\times Y,(x_0,y_0))
+\cong
+\pi_1(X,x_0)\times\pi_1(Y,y_0).
+\]
+\end{theorem}
+
+Hence
+\[
+\pi_1(T^2)\cong\mathbb Z^2.
+\]
+
+\section{Wedges and free groups: preview}
+
+For a wedge of \(r\) circles,
+\[
+\bigvee_{j=1}^rS^1,
+\]
+the fundamental group is the free group
+\[
+F_r.
+\]
+A complete computation uses van Kampen's theorem, developed later in the
+fundamental-group arc.
+
+\section{Attaching loops and relations}
+
+A two-cell attaching map
+\[
+\varphi:S^1\to X^1
+\]
+represents a loop class in
+\[
+\pi_1(X^1).
+\]
+Attaching the two-cell makes that loop null-homotopic in the enlarged space.
+Thus two-cell attachments impose relations on the fundamental group.
+
+\begin{example}[Torus relation]
+\label{ex:viii09-torus-relation}
+The torus one-skeleton has two loop generators \(a,b\).  Its two-cell attaches
+along
+\[
+aba^{-1}b^{-1},
+\]
+forcing the commutator to become trivial.  This is the geometric source of
+\[
+\pi_1(T^2)\cong\mathbb Z^2.
+\]
+\end{example}
+
+\section{Fundamental group as a homotopy invariant}
+
+If two path-connected spaces have nonisomorphic fundamental groups, then they
+cannot be homotopy equivalent.  In particular,
+\[
+S^1\not\simeq\{*\}
+\]
+because
+\[
+\pi_1(S^1)\cong\mathbb Z
+\]
+whereas the point has trivial fundamental group.
+
+\section{Bridge to covering spaces}
+
+The circle computation is most naturally understood using the covering map
+\[
+p:\mathbb R\to S^1,
+\qquad
+p(t)=e^{2\pi it}.
+\]
+Loops lift to paths in \(\mathbb R\), and the endpoint difference is an integer.
+VIII/10 develops covering spaces systematically and turns this observation into
+a general lifting theory.
+
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:viii09-01}
+Define a path from \(x_0\) to \(x_1\).
+\end{exercise}
+\begin{hint}
+Use a continuous map on \(I\).
+\end{hint}
+\begin{solution}
+A continuous \(\alpha:I\to X\) with \(\alpha(0)=x_0\) and \(\alpha(1)=x_1\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-02}
+Define a loop at \(x_0\).
+\end{exercise}
+\begin{hint}
+Make the endpoints equal.
+\end{hint}
+\begin{solution}
+A path \(\alpha\) with \(\alpha(0)=\alpha(1)=x_0\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-03}
+Define the reverse path \(\overline\alpha\).
+\end{exercise}
+\begin{hint}
+Reverse the parameter.
+\end{hint}
+\begin{solution}
+\(\overline\alpha(t)=\alpha(1-t)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-04}
+When is \(\alpha*\beta\) defined?
+\end{exercise}
+\begin{hint}
+Match the endpoint of the first to the start of the second.
+\end{hint}
+\begin{solution}
+When \(\alpha(1)=\beta(0)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-05}
+Write the concatenation formula.
+\end{exercise}
+\begin{hint}
+Give each path half the interval.
+\end{hint}
+\begin{solution}
+\((\alpha*\beta)(t)=\alpha(2t)\) for \(t\le1/2\), and \(\beta(2t-1)\) for \(t\ge1/2\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-06}
+What must a path homotopy keep fixed?
+\end{exercise}
+\begin{hint}
+Use homotopy rel endpoints.
+\end{hint}
+\begin{solution}
+The initial and terminal endpoints.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-07}
+Define \(\pi_1(X,x_0)\).
+\end{exercise}
+\begin{hint}
+Take based loops modulo endpoint-fixing homotopy.
+\end{hint}
+\begin{solution}
+The set of based loop homotopy classes with concatenation.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-08}
+What is the identity in \(\pi_1(X,x_0)\)?
+\end{exercise}
+\begin{hint}
+Use the constant loop.
+\end{hint}
+\begin{solution}
+\([c_{x_0}]\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-09}
+What is the inverse of \([\alpha]\)?
+\end{exercise}
+\begin{hint}
+Reverse the loop.
+\end{hint}
+\begin{solution}
+\([\overline\alpha]\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-10}
+Why is multiplication well-defined?
+\end{exercise}
+\begin{hint}
+Concatenate representatives of homotopies.
+\end{hint}
+\begin{solution}
+Path-homotopic representatives have path-homotopic concatenations.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-11}
+Is literal path concatenation strictly associative?
+\end{exercise}
+\begin{hint}
+Compare parametrizations.
+\end{hint}
+\begin{solution}
+No; it is associative up to endpoint-fixing reparameterization homotopy.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-12}
+Define simply connected.
+\end{exercise}
+\begin{hint}
+Require connectivity and trivial \(\pi_1\).
+\end{hint}
+\begin{solution}
+Path connected with trivial fundamental group.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-13}
+What is \(\pi_1(S^n)\) for \(n\ge2\)?
+\end{exercise}
+\begin{hint}
+Higher spheres are simply connected.
+\end{hint}
+\begin{solution}
+Trivial.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-14}
+What is \(\pi_1(S^1)\)?
+\end{exercise}
+\begin{hint}
+Use winding number.
+\end{hint}
+\begin{solution}
+\(\mathbb Z\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-15}
+What integer does \(\omega_n(t)=e^{2\pi int}\) represent?
+\end{exercise}
+\begin{hint}
+Count windings.
+\end{hint}
+\begin{solution}
+\(n\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-16}
+How is degree related to \(\pi_1(S^1)\)?
+\end{exercise}
+\begin{hint}
+Both classify circle maps.
+\end{hint}
+\begin{solution}
+The degree equals the winding-number integer under \(\pi_1(S^1)\cong\mathbb Z\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-17}
+What does a based map \(f:X\to Y\) induce?
+\end{exercise}
+\begin{hint}
+Compose loops with \(f\).
+\end{hint}
+\begin{solution}
+A homomorphism \(f_*:\pi_1(X)\to\pi_1(Y)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-18}
+State functoriality for \(g\circ f\).
+\end{exercise}
+\begin{hint}
+Induced maps compose.
+\end{hint}
+\begin{solution}
+\((g\circ f)_*=g_*\circ f_*\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-19}
+What do based-homotopic maps induce?
+\end{exercise}
+\begin{hint}
+Use homotopy invariance.
+\end{hint}
+\begin{solution}
+The same homomorphism on \(\pi_1\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-20}
+What does a homotopy equivalence induce on \(\pi_1\)?
+\end{exercise}
+\begin{hint}
+Use a homotopy inverse.
+\end{hint}
+\begin{solution}
+An isomorphism, after appropriate basepoint identification.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-21}
+State the product formula.
+\end{exercise}
+\begin{hint}
+Project loops to both factors.
+\end{hint}
+\begin{solution}
+\(\pi_1(X\times Y)\cong\pi_1(X)\times\pi_1(Y)\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-22}
+Compute \(\pi_1(T^2)\).
+\end{exercise}
+\begin{hint}
+Use \(T^2=S^1\times S^1\).
+\end{hint}
+\begin{solution}
+\(\mathbb Z^2\).
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-23}
+What does attaching a two-cell along a loop do to that loop class?
+\end{exercise}
+\begin{hint}
+The disk fills the loop.
+\end{hint}
+\begin{solution}
+It makes the attaching loop null-homotopic in the enlarged space.
+\end{solution}
+
+\begin{exercise}\label{exr:viii09-24}
+What is the bridge to VIII/10?
+\end{exercise}
+\begin{hint}
+Use the universal cover of the circle.
+\end{hint}
+\begin{solution}
+Covering-space lifting turns loop classes into endpoint data of lifted paths.
+\end{solution}
+
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Reverse twice]\label{prob:viii09-01}
+Show \(\overline{\overline\alpha}=\alpha\).
+\end{problem}
+\begin{solution}
+By definition, \(\overline{\overline\alpha}(t)=\overline\alpha(1-t)=\alpha(1-(1-t))=\alpha(t)\).
+\end{solution}
+
+\begin{problem}[Concatenation endpoints]\label{prob:viii09-02}
+Verify the endpoints of \(\alpha*\beta\).
+\end{problem}
+\begin{solution}
+At \(t=0\) the value is \(\alpha(0)\); at \(t=1\) it is \(\beta(1)\).  At \(t=1/2\), both formulas equal the common point \(\alpha(1)=\beta(0)\).
+\end{solution}
+
+\begin{problem}[Identity loop]\label{prob:viii09-03}
+Why is \(\alpha*c_{x_1}\) homotopic rel endpoints to \(\alpha\)?
+\end{problem}
+\begin{solution}
+Reparameterize the traversal of \(\alpha\) so that it reaches the endpoint later and removes the terminal pause.  Endpoint-preserving reparameterization gives the required homotopy.
+\end{solution}
+
+\begin{problem}[Inverse loop]\label{prob:viii09-04}
+Why is \(\alpha*\overline\alpha\) null-homotopic rel basepoint?
+\end{problem}
+\begin{solution}
+Shrink the out-and-back traversal symmetrically toward the basepoint; at each stage traverse only an initial segment of \(\alpha\) and immediately return along it.
+\end{solution}
+
+\begin{problem}[Associativity]\label{prob:viii09-05}
+Explain why \((\alpha*\beta)*\gamma\) and \(\alpha*(\beta*\gamma)\) represent the same fundamental-group element.
+\end{problem}
+\begin{solution}
+They traverse the same three paths in the same order with different time allocations.  A continuous reparameterization homotopy rel endpoints changes one allocation into the other.
+\end{solution}
+
+\begin{problem}[Circle generator]\label{prob:viii09-06}
+Show that \(\omega_1(t)=e^{2\pi it}\) generates \(\pi_1(S^1)\cong\mathbb Z\).
+\end{problem}
+\begin{solution}
+Every loop class has an integer winding number \(n\), and \(\omega_n\) is homotopic to the \(n\)-fold concatenation of \(\omega_1\) for \(n>0\), with reversed copies for \(n<0\).
+\end{solution}
+
+\begin{problem}[Degree and winding]\label{prob:viii09-07}
+For \(f(z)=z^m\), compute the induced map \(f_*:\pi_1(S^1)\to\pi_1(S^1)\).
+\end{problem}
+\begin{solution}
+The generator loop \(\omega_1\) is sent to \(t\mapsto e^{2\pi imt}=\omega_m\).  Thus \(f_*\) is multiplication by \(m\).
+\end{solution}
+
+\begin{problem}[Contractible target]\label{prob:viii09-08}
+Show that a contractible path-connected space has trivial fundamental group.
+\end{problem}
+\begin{solution}
+The identity is homotopic to a constant map.  Homotopy invariance makes the identity homomorphism on \(\pi_1\) equal to the zero homomorphism induced by the constant map, so the group is trivial.
+\end{solution}
+
+\begin{problem}[Product loop]\label{prob:viii09-09}
+Describe a loop in \(X\times Y\) in terms of loops in the factors.
+\end{problem}
+\begin{solution}
+A loop \(\alpha(t)=(\alpha_X(t),\alpha_Y(t))\) is exactly a pair of loops.  Homotopies and concatenation occur componentwise, yielding the direct-product formula.
+\end{solution}
+
+\begin{problem}[Torus group]\label{prob:viii09-10}
+Compute \(\pi_1(T^2)\) from the product formula.
+\end{problem}
+\begin{solution}
+\(\pi_1(S^1\times S^1)\cong\mathbb Z\times\mathbb Z\).
+\end{solution}
+
+\begin{problem}[Basepoint path]\label{prob:viii09-11}
+Explain why path-connected spaces have isomorphic fundamental groups at different basepoints.
+\end{problem}
+\begin{solution}
+Choose a path joining the basepoints and conjugate loops by that path and its reverse.  This gives an isomorphism, with different path choices differing by inner automorphisms.
+\end{solution}
+
+\begin{problem}[Homotopy-equivalence obstruction]\label{prob:viii09-12}
+Why can \(S^1\) not be homotopy equivalent to a point?
+\end{problem}
+\begin{solution}
+Homotopy equivalence would induce an isomorphism of fundamental groups, but \(\pi_1(S^1)\cong\mathbb Z\) and the point has trivial fundamental group.
+\end{solution}
+
+\begin{problem}[Higher sphere comparison]\label{prob:viii09-13}
+Use \(\pi_1\) to distinguish \(S^1\) from \(S^2\).
+\end{problem}
+\begin{solution}
+\(\pi_1(S^1)\cong\mathbb Z\) while \(\pi_1(S^2)=0\), so the spaces are not homotopy equivalent.
+\end{solution}
+
+\begin{problem}[Wedge preview]\label{prob:viii09-14}
+What group should be expected for \(S^1\vee S^1\)?
+\end{problem}
+\begin{solution}
+The expected group is the free group \(F_2\) on the two circle loops.  Van Kampen's theorem gives the formal computation.
+\end{solution}
+
+\begin{problem}[Torus attaching relation]\label{prob:viii09-15}
+Explain geometrically why the torus two-cell kills the commutator.
+\end{problem}
+\begin{solution}
+The boundary of the two-cell is the loop \(aba^{-1}b^{-1}\).  Once the disk is attached, that boundary loop bounds the disk and is therefore null-homotopic, imposing \([a,b]=1\).
+\end{solution}
+
+\begin{problem}[Null two-cell attachment]\label{prob:viii09-16}
+If a two-cell attaches along a null-homotopic loop in \(X\), what does VIII/08 predict?
+\end{problem}
+\begin{solution}
+The result is homotopy equivalent to \(X\vee S^2\), because the attaching loop can be replaced by the constant loop.
+\end{solution}
+
+\begin{problem}[Functoriality check]\label{prob:viii09-17}
+Prove \((g\circ f)_*=g_*\circ f_*\) on a loop class.
+\end{problem}
+\begin{solution}
+For \([\alpha]\), \((g\circ f)_*[\alpha]=[g\circ f\circ\alpha]=g_*([f\circ\alpha])=(g_*\circ f_*)[\alpha]\).
+\end{solution}
+
+\begin{problem}[Constant map]\label{prob:viii09-18}
+What homomorphism on fundamental groups is induced by a constant based map?
+\end{problem}
+\begin{solution}
+Every loop is sent to the constant loop, so the induced homomorphism is trivial.
+\end{solution}
+
+\begin{problem}[Circle covering preview]\label{prob:viii09-19}
+Lift \(\omega_n(t)=e^{2\pi int}\) to a path in \(\mathbb R\) starting at \(0\).
+\end{problem}
+\begin{solution}
+The lift is \(\widetilde\omega_n(t)=nt\), because \(e^{2\pi i(nt)}=\omega_n(t)\).  Its endpoint is the integer \(n\).
+\end{solution}
+
+\begin{problem}[Why coverings next?]\label{prob:viii09-20}
+Explain how the circle cover suggests a general method for studying \(\pi_1\).
+\end{problem}
+\begin{solution}
+Loop classes can be detected by how their lifts move between points in a fiber.  VIII/10 generalizes path lifting and endpoint behavior to arbitrary covering spaces.
+\end{solution}
+
+\begin{problem}[Loop reparameterization]\label{prob:viii09-21}
+Show that changing the speed of a loop by an endpoint-preserving map \(\rho:I\to I\) does not change its fundamental-group class.
+\end{problem}
+\begin{solution}
+The homotopy \(H(s,t)=\alpha((1-t)s+t\rho(s))\) works when the interpolation remains endpoint preserving; more generally VIII/01's reparameterization principle provides the endpoint-fixing homotopy.
+\end{solution}
+
+\begin{problem}[Path-connected basepoint independence]\label{prob:viii09-22}
+Why is the statement '\(\pi_1(X)\)' usually acceptable without naming a basepoint for a path-connected space?
+\end{problem}
+\begin{solution}
+All basepoint fundamental groups are isomorphic.  The isomorphism is not completely canonical in nonabelian groups, but the group isomorphism type is independent of basepoint.
+\end{solution}
+
+\begin{problem}[Two-cell relation principle]\label{prob:viii09-23}
+State the conceptual relation between VIII/08 and VIII/09 for two-dimensional CW complexes.
+\end{problem}
+\begin{solution}
+VIII/08 says only the homotopy class of the attaching loop matters.  VIII/09 packages based loop homotopy classes into \(\pi_1\), so attaching data become group elements and relations.
+\end{solution}
+
+\begin{problem}[Bridge dossier]\label{prob:viii09-24}
+Describe the role of \(p:\mathbb R\to S^1\), \(p(t)=e^{2\pi it}\), in the next chapter.
+\end{problem}
+\begin{solution}
+It is the model covering map.  Paths and loops lift uniquely after choosing a starting point, and a loop's winding number is recovered from the endpoint of its lift.
+\end{solution}
