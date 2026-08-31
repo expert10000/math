@@ -1,0 +1,744 @@
+\chapter{Discrete Laplacians}
+\label{ch:vii41}
+
+The Laplace--Beltrami operator is the central second-order operator of
+Riemannian geometry.  On a triangle mesh it becomes a sparse matrix assembled
+from local geometry.  This chapter derives the cotangent finite-element
+operator, explains the role of mass matrices, and separates three notions that
+are often conflated in software: a stiffness matrix, a metric-dependent
+Laplacian, and a graph Laplacian.
+
+\section{From the smooth operator to a weak form}
+
+We keep the convention from VII/40,
+\[
+\Delta f=\operatorname{div}(\nabla f),
+\]
+so \(\Delta\) is nonpositive on a closed Riemannian manifold.  For smooth
+functions \(f,g\) on a closed surface,
+\[
+-\int_M g\,\Delta f\,dA
+=
+\int_M \langle\nabla g,\nabla f\rangle\,dA.
+\]
+The right-hand side is the Dirichlet bilinear form.  It is symmetric and
+nonnegative when \(f=g\), which is why finite elements naturally produce a
+positive-semidefinite matrix for \(-\Delta\).
+
+\begin{definition}[Dirichlet energy]\label{def:vii41-dirichlet}
+For a scalar function \(f\),
+\[
+E(f)=\frac12\int_M\|\nabla f\|^2\,dA.
+\]
+\end{definition}
+
+\section{Piecewise-linear functions on a triangle mesh}
+
+Let \(\mathcal T=(V,E,F)\) be a nondegenerate triangle mesh.  For each vertex
+\(i\), let \(\varphi_i\) be the standard hat function: it equals one at vertex
+\(i\), zero at all other vertices, and is affine on every incident triangle.
+A piecewise-linear function is
+\[
+f_h=\sum_i f_i\varphi_i.
+\]
+On each face, \(\nabla\varphi_i\) and hence \(\nabla f_h\) are constant.
+
+\begin{remark}[Intrinsic data suffice]\label{rem:vii41-intrinsic}
+The stiffness entries depend only on triangle edge lengths and angles.  The mesh
+may be embedded in \(\mathbb R^3\), but the scalar cotangent Laplacian is an
+intrinsic operator once the triangulated metric is fixed.
+\end{remark}
+
+\section{The stiffness matrix}
+
+\begin{definition}[Finite-element stiffness matrix]\label{def:vii41-stiffness}
+Define
+\[
+K_{ij}=\int_M\langle\nabla\varphi_i,\nabla\varphi_j\rangle\,dA.
+\]
+Then
+\[
+f^T K f=\int_M\|\nabla f_h\|^2\,dA\ge0.
+\]
+\end{definition}
+
+Thus \(K\) is symmetric positive semidefinite.  Because
+\(\sum_i\varphi_i=1\), one has
+\[
+K\mathbf 1=0.
+\]
+On a connected mesh this is the expected constant null mode, subject to the
+usual boundary-condition qualifications.
+
+\section{Cotangent weights}
+
+Consider an interior edge \(ij\) shared by two triangles.  Let \(\alpha_{ij}\)
+and \(\beta_{ij}\) be the angles opposite that edge.  Define
+\[
+w_{ij}=\frac12\bigl(\cot\alpha_{ij}+\cot\beta_{ij}\bigr).
+\]
+For a boundary edge there is only one opposite angle and the corresponding
+weight is \(\tfrac12\cot\alpha_{ij}\).
+
+\begin{theorem}[Cotangent stiffness formula]\label{thm:vii41-cotan}
+For \(i\ne j\),
+\[
+K_{ij}=-w_{ij}
+\]
+when \(ij\) is an edge and \(K_{ij}=0\) otherwise.  The diagonal is
+\[
+K_{ii}=\sum_{j\sim i}w_{ij}.
+\]
+Consequently every row sums to zero.
+\end{theorem}
+
+\begin{proof}
+On one triangle, the gradients of barycentric basis functions are constant.
+Their inner products can be written in terms of the angle opposite the
+corresponding edge, giving a local off-diagonal contribution
+\(-\tfrac12\cot\theta\).  Summing the one or two incident face contributions
+produces \(-w_{ij}\); the identity \(\sum_jK_{ij}=0\) then gives the diagonal.
+\end{proof}
+
+\begin{proposition}[Edge-energy form]\label{prop:vii41-edge-energy}
+The Dirichlet energy can be written
+\[
+\frac12 f^T Kf
+=
+\frac12\sum_{ij\in E} w_{ij}(f_i-f_j)^2,
+\]
+with each unoriented edge counted once.
+\end{proposition}
+
+\section{Why a mass matrix is needed}
+
+The stiffness matrix represents the bilinear form for \(-\Delta\), not yet a
+pointwise operator.  The \(L^2\) inner product of finite-element functions is
+represented by the mass matrix
+\[
+M_{ij}=\int_M\varphi_i\varphi_j\,dA.
+\]
+For a triangle of area \(A\), its consistent local mass matrix is
+\[
+M_T=\frac{A}{12}
+\begin{pmatrix}
+2&1&1\\
+1&2&1\\
+1&1&2
+\end{pmatrix}.
+\]
+
+\begin{definition}[Lumped barycentric mass]\label{def:vii41-lumped}
+A common diagonal approximation assigns
+\[
+M_{ii}^{\mathrm{lump}}
+=
+\frac13\sum_{T\ni i}\operatorname{Area}(T).
+\]
+\end{definition}
+
+Diagonal masses make application of \(M^{-1}\) cheap.  Consistent masses more
+faithfully represent the finite-element \(L^2\) product.  Mixed or Voronoi
+areas are also common in geometry processing; the choice must be stated because
+it changes the discrete pointwise operator and the generalized spectrum.
+
+\section{Three related matrices and a sign convention}
+
+Under the convention of this volume, \(K\) discretizes \(-\Delta\) weakly.  A
+pointwise-like positive Laplacian is
+\[
+L_+=M^{-1}K,
+\]
+whereas the approximation to the smooth nonpositive operator is
+\[
+\Delta_h=-M^{-1}K.
+\]
+The generalized formulation
+\[
+Kf=Mg
+\]
+is often preferable to explicitly forming \(M^{-1}K\).
+
+\begin{warning}[Library sign conventions]\label{warn:vii41-sign}
+Many graphics libraries call either \(K\), \(M^{-1}K\), or its negative simply
+``the Laplacian.''  Before combining formulas, determine whether eigenvalues are
+expected to be nonnegative or nonpositive and whether the mass matrix has
+already been absorbed.
+\end{warning}
+
+\section{Harmonic functions and Poisson equations}
+
+A discrete harmonic function satisfies the interior equation
+\[
+(Kf)_i=0.
+\]
+Equivalently, when the relevant weights are positive,
+\[
+f_i=
+\frac{\sum_{j\sim i}w_{ij}f_j}{\sum_{j\sim i}w_{ij}}.
+\]
+A finite-element Poisson problem takes the weak form
+\[
+Kf=b,
+\]
+with boundary conditions or a gauge condition supplying uniqueness.
+
+\begin{proposition}[Variational characterization]\label{prop:vii41-variational}
+With Dirichlet values fixed on the boundary, the discrete harmonic extension is
+the unique minimizer of the discrete Dirichlet energy among all functions with
+those boundary values, provided the free system has no remaining null mode.
+\end{proposition}
+
+\section{Boundary conditions}
+
+Dirichlet conditions are imposed by fixing boundary degrees of freedom and
+solving for the interior unknowns.  Natural finite-element boundary conditions
+are Neumann-type: boundary flux enters through the weak-form boundary term.
+On a closed connected mesh, the pure Poisson equation requires compatibility
+with the constant null space; for example, a load must have zero total integral
+in the consistent weak sense.
+
+\section{Delaunay geometry and weight signs}
+
+For an interior edge,
+\[
+\cot\alpha+\cot\beta
+=
+\frac{\sin(\alpha+\beta)}{\sin\alpha\sin\beta}.
+\]
+Hence an intrinsic Delaunay edge, characterized by
+\(\alpha+\beta\le\pi\), has \(w_{ij}\ge0\).
+
+\begin{theorem}[Delaunay positivity of cotangent edge weights]\label{thm:vii41-delaunay}
+If every interior edge is intrinsically Delaunay, then all interior cotangent
+weights are nonnegative.
+\end{theorem}
+
+Positive off-diagonal weights support a graph-like averaging interpretation and
+are important for discrete maximum-principle behavior.  On a non-Delaunay mesh,
+individual cotangent weights may be negative even though the assembled
+finite-element stiffness matrix still represents a nonnegative Dirichlet energy.
+
+\begin{warning}[Maximum principle is not automatic]\label{warn:vii41-max}
+Positive semidefiniteness of \(K\) does not by itself imply that every interior
+harmonic value is a convex combination of its neighbors.  That stronger local
+property depends on the weight signs and boundary configuration.
+\end{warning}
+
+\section{Intrinsic Delaunay triangulations}
+
+Because the cotangent operator depends on intrinsic angles, one can flip edges
+intrinsically until the Delaunay condition is satisfied, without changing the
+underlying piecewise-flat metric.  This can improve weight signs and numerical
+behavior while preserving intrinsic distances.  Degenerate cocircular cases
+may admit more than one Delaunay connectivity but produce compatible intrinsic
+geometry.
+
+\section{The generalized spectrum}
+
+For a closed mesh, solve
+\[
+K\phi_k=\lambda_k M\phi_k.
+\]
+With positive-definite \(M\),
+\[
+0=\lambda_0\le\lambda_1\le\lambda_2\le\cdots.
+\]
+The constant function spans the first eigenspace on a connected mesh.
+The eigenvectors can be chosen \(M\)-orthonormal:
+\[
+\phi_i^T M\phi_j=\delta_{ij}.
+\]
+These modes drive spectral filtering, diffusion, shape signatures, and many
+model-reduction techniques.
+
+\section{Connection with the heat method}
+
+VII/40 solved
+\[
+(M+tK)u=M\delta_s
+\]
+under the present positive-stiffness convention, followed by a Poisson solve
+with \(K\).  The generalized eigenmode \(\phi_k\) is damped by
+\[
+\frac{1}{1+t\lambda_k}.
+\]
+Thus the mass and stiffness choices made here directly control heat-method
+accuracy.
+
+\section{The Laplacian of an embedding}
+
+Let \(X=(x,y,z)\) collect the vertex coordinates of a triangulated surface.
+Applying the operator coordinatewise gives a discrete mean-curvature-normal
+quantity.  With the smooth convention
+\[
+\Delta X=-2H\mathbf n,
+\]
+one expects
+\[
+M^{-1}KX\approx 2H\mathbf n,
+\]
+up to discretization, mass choice, orientation, and the convention for scalar
+mean curvature.
+
+\begin{remark}[Curvature is more delicate than scalar diffusion]\label{rem:vii41-curvature}
+The cotangent Laplacian is robust for many scalar PDEs, but pointwise curvature
+estimates amplify mesh noise and irregularity.  VII/42 therefore combines
+principal-direction geometry with explicit estimation and scale controls rather
+than treating a single raw Laplacian value as a complete feature detector.
+\end{remark}
+
+\section{Assembly and numerical diagnostics}
+
+A production implementation should assemble face contributions locally, sum
+into sparse global matrices, verify symmetry, check row sums of \(K\), check
+positive vertex masses, and test the constant null mode.  Meshes with zero-area
+faces or nearly degenerate angles require preprocessing because cotangents can
+become extremely large.
+
+Under a uniform geometric scaling by \(c\), triangle areas and \(M\) scale by
+\(c^2\), while cotangent weights and \(K\) are dimensionless.  Therefore
+\(M^{-1}K\) scales by \(c^{-2}\), exactly like a second-order differential
+operator.
+
+
+\section{Exercises}
+
+\begin{exercise}\label{exr:vii41-01}
+State the sign convention for the smooth Laplace--Beltrami operator used here.
+\end{exercise}
+
+\begin{hint}
+Recall VII/40.
+\end{hint}
+
+\begin{solution}
+\(\Delta=\operatorname{div}\nabla\) is nonpositive on a closed manifold; the positive weak operator is \(-\Delta\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-02}
+Write the weak identity relating \(-\Delta\) to the Dirichlet bilinear form on a closed surface.
+\end{exercise}
+
+\begin{hint}
+Integrate by parts.
+\end{hint}
+
+\begin{solution}
+\(-\int g\Delta f\,dA=\int\langle\nabla g,\nabla f\rangle\,dA\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-03}
+What is a piecewise-linear hat function \(\varphi_i\)?
+\end{exercise}
+
+\begin{hint}
+Specify values at vertices and behavior on faces.
+\end{hint}
+
+\begin{solution}
+It is one at vertex \(i\), zero at every other vertex, and affine on each triangle.
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-04}
+Define the finite-element stiffness matrix.
+\end{exercise}
+
+\begin{hint}
+Use gradients of basis functions.
+\end{hint}
+
+\begin{solution}
+\(K_{ij}=\int\langle\nabla\varphi_i,\nabla\varphi_j\rangle\,dA\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-05}
+Why is \(K\) positive semidefinite?
+\end{exercise}
+
+\begin{hint}
+Test it with a coefficient vector.
+\end{hint}
+
+\begin{solution}
+For any \(f\), \(f^TKf=\int\|\nabla f_h\|^2dA\ge0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-06}
+Why does \(K\mathbf1=0\)?
+\end{exercise}
+
+\begin{hint}
+Use the partition of unity.
+\end{hint}
+
+\begin{solution}
+Because \(\sum_i\varphi_i=1\), its gradient vanishes, so the constant finite-element function has zero Dirichlet energy and zero stiffness image.
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-07}
+Give the cotangent weight for an interior edge \(ij\).
+\end{exercise}
+
+\begin{hint}
+Use the two opposite angles.
+\end{hint}
+
+\begin{solution}
+\(w_{ij}=\tfrac12(\cot\alpha_{ij}+\cot\beta_{ij})\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-08}
+What is the off-diagonal stiffness entry on an edge?
+\end{exercise}
+
+\begin{hint}
+Watch the sign.
+\end{hint}
+
+\begin{solution}
+For \(i\ne j\) joined by an edge, \(K_{ij}=-w_{ij}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-09}
+How is the diagonal \(K_{ii}\) obtained?
+\end{exercise}
+
+\begin{hint}
+Use zero row sum.
+\end{hint}
+
+\begin{solution}
+\(K_{ii}=\sum_{j\sim i}w_{ij}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-10}
+Write the edge-based Dirichlet-energy identity.
+\end{exercise}
+
+\begin{hint}
+Use squared differences.
+\end{hint}
+
+\begin{solution}
+\(\tfrac12f^TKf=\tfrac12\sum_{ij\in E}w_{ij}(f_i-f_j)^2\), counting each unoriented edge once.
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-11}
+Define the consistent mass matrix.
+\end{exercise}
+
+\begin{hint}
+Use the \(L^2\) inner product.
+\end{hint}
+
+\begin{solution}
+\(M_{ij}=\int\varphi_i\varphi_j\,dA\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-12}
+What is the local consistent mass matrix of a triangle of area \(A\)?
+\end{exercise}
+
+\begin{hint}
+The diagonal entries are twice the off-diagonal entries.
+\end{hint}
+
+\begin{solution}
+\(M_T=\frac{A}{12}\begin{pmatrix}2&1&1\\1&2&1\\1&1&2\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-13}
+Give the lumped barycentric mass at vertex \(i\).
+\end{exercise}
+
+\begin{hint}
+Give one third of each incident face.
+\end{hint}
+
+\begin{solution}
+\(M_{ii}^{\rm lump}=\frac13\sum_{T\ni i}\operatorname{Area}(T)\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-14}
+Under this chapter's convention, which matrix approximates the smooth nonpositive \(\Delta\)?
+\end{exercise}
+
+\begin{hint}
+Distinguish the positive stiffness from the signed operator.
+\end{hint}
+
+\begin{solution}
+\(\Delta_h=-M^{-1}K\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-15}
+Write the generalized positive eigenproblem.
+\end{exercise}
+
+\begin{hint}
+Avoid explicitly inverting the mass matrix.
+\end{hint}
+
+\begin{solution}
+\(K\phi=\lambda M\phi\) with \(\lambda\ge0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-16}
+What is the discrete harmonic equation at a free interior vertex?
+\end{exercise}
+
+\begin{hint}
+Use the stiffness row.
+\end{hint}
+
+\begin{solution}
+\((Kf)_i=0\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-17}
+When positive weights are available, express a harmonic vertex value as a weighted average.
+\end{exercise}
+
+\begin{hint}
+Solve the stiffness row for \(f_i\).
+\end{hint}
+
+\begin{solution}
+\(f_i=\frac{\sum_jw_{ij}f_j}{\sum_jw_{ij}}\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-18}
+What geometric condition guarantees a nonnegative cotangent weight on an interior edge?
+\end{exercise}
+
+\begin{hint}
+Use the sum of opposite angles.
+\end{hint}
+
+\begin{solution}
+The intrinsic Delaunay condition \(\alpha_{ij}+\beta_{ij}\le\pi\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-19}
+Can a non-Delaunay cotangent weight be negative?
+\end{exercise}
+
+\begin{hint}
+The finite-element energy and local weight signs are different issues.
+\end{hint}
+
+\begin{solution}
+Yes.  An individual weight may be negative even though the assembled stiffness matrix still represents a nonnegative Dirichlet energy.
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-20}
+How are Dirichlet boundary conditions imposed algebraically?
+\end{exercise}
+
+\begin{hint}
+Separate fixed and free degrees of freedom.
+\end{hint}
+
+\begin{solution}
+Fix the prescribed boundary values, move their contributions to the right-hand side, and solve the reduced system for the free vertices.
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-21}
+What is the constant-mode compatibility issue for a closed-mesh Poisson problem?
+\end{exercise}
+
+\begin{hint}
+The stiffness matrix is singular.
+\end{hint}
+
+\begin{solution}
+The load must be orthogonal to the constant null mode in the appropriate weak sense, and a gauge such as zero mean or one pinned value is needed for uniqueness.
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-22}
+How does \(M^{-1}K\) scale if all lengths are multiplied by \(c\)?
+\end{exercise}
+
+\begin{hint}
+Cotan weights are dimensionless but areas are not.
+\end{hint}
+
+\begin{solution}
+It scales by \(c^{-2}\), since \(K\) is unchanged and \(M\) scales by \(c^2\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-23}
+What two matrices from this chapter enter the heat method directly?
+\end{exercise}
+
+\begin{hint}
+Recall \((M+tK)u\).
+\end{hint}
+
+\begin{solution}
+The mass matrix \(M\) and the positive stiffness matrix \(K\).
+\end{solution}
+
+\begin{exercise}\label{exr:vii41-24}
+What topic does VII/42 add to this operator-level picture?
+\end{exercise}
+
+\begin{hint}
+Move from scalar PDEs to directional surface features.
+\end{hint}
+
+\begin{solution}
+VII/42 develops principal-direction line fields, curvature lines, and ridge/valley feature extraction, including mesh estimation and scale issues.
+\end{solution}
+
+
+\section{Solved problem dossiers}
+
+\begin{problem}[Single triangle cotangent sign]\label{prob:vii41-01}
+A triangle has an angle \(120^\circ\) opposite edge \(ij\).  What sign does that face's contribution \(\tfrac12\cot120^\circ\) have, and what does this illustrate?
+\end{problem}
+
+\begin{solution}
+Since \(\cot120^\circ=-1/\sqrt3\), the contribution is negative.  Obtuse geometry can therefore create negative cotangent contributions; weight positivity is not automatic on an arbitrary triangulation.
+\end{solution}
+
+\begin{problem}[Row-sum diagnostic]\label{prob:vii41-02}
+A code assembles a closed-mesh stiffness matrix but obtains \(\|K\mathbf1\|\) comparable to ordinary matrix entries.  What does this indicate?
+\end{problem}
+
+\begin{solution}
+It indicates an assembly or orientation/indexing error, or a degenerate/preprocessing issue.  The finite-element partition of unity requires exact zero row sums in exact arithmetic.
+\end{solution}
+
+\begin{problem}[Two-triangle Delaunay test]\label{prob:vii41-03}
+An interior edge has opposite angles \(70^\circ\) and \(80^\circ\).  Determine the sign of its cotangent weight without evaluating either cotangent numerically.
+\end{problem}
+
+\begin{solution}
+Their sum is \(150^\circ<180^\circ\).  Since \(\cot\alpha+\cot\beta=\sin(\alpha+\beta)/(\sin\alpha\sin\beta)\) and the sines in the denominator are positive, the weight is positive.
+\end{solution}
+
+\begin{problem}[Non-Delaunay test]\label{prob:vii41-04}
+Opposite angles are \(100^\circ\) and \(100^\circ\).  What does the intrinsic Delaunay criterion say about the edge weight?
+\end{problem}
+
+\begin{solution}
+The angle sum is \(200^\circ>180^\circ\), so the edge is non-Delaunay and \(\sin(200^\circ)<0\); hence the cotangent sum and the edge weight are negative.
+\end{solution}
+
+\begin{problem}[Mass of a single triangle]\label{prob:vii41-05}
+For a single triangle of area \(A\), what total mass is obtained by summing all entries of the consistent local mass matrix?
+\end{problem}
+
+\begin{solution}
+The three diagonal entries contribute \(6\) and the six off-diagonal entries contribute \(6\), so the coefficient matrix has total sum \(12\).  Multiplying by \(A/12\) gives total mass \(A\), matching \(\int_T 1\,dA\).
+\end{solution}
+
+\begin{problem}[Lumped versus consistent]\label{prob:vii41-06}
+Why can replacing a consistent mass matrix by a lumped diagonal mass change eigenvalues even though both represent area?
+\end{problem}
+
+\begin{solution}
+They define different discrete \(L^2\) inner products.  The generalized Rayleigh quotient \(f^TKf/(f^TMf)\) therefore changes, so the discrete spectrum changes even if both masses integrate constants correctly.
+\end{solution}
+
+\begin{problem}[Dirichlet minimizer]\label{prob:vii41-07}
+A mesh has fixed boundary values.  Explain why solving the interior stiffness equations finds the minimum-energy extension.
+\end{problem}
+
+\begin{solution}
+The discrete Dirichlet energy is a convex quadratic \(\tfrac12 f^TKf\).  Differentiating with respect to each free interior coefficient yields the corresponding equation \((Kf)_i=0\); with the boundary fixed and no free null mode, this stationary point is the unique minimizer.
+\end{solution}
+
+\begin{problem}[Poisson gauge]\label{prob:vii41-08}
+On a closed connected mesh, \(Kf=b\) has a solution and \(f\) is one solution.  Describe all solutions.
+\end{problem}
+
+\begin{solution}
+Because the null space is the constants, every \(f+c\mathbf1\) is also a solution.  Under the standard one-dimensional null-space assumption these are all solutions.
+\end{solution}
+
+\begin{problem}[Heat-system positivity]\label{prob:vii41-09}
+Why is \(M+tK\) nonsingular for \(t>0\) when \(M\) is positive definite and \(K\) positive semidefinite?
+\end{problem}
+
+\begin{solution}
+For nonzero \(v\), \(v^T(M+tK)v=v^TMv+t\,v^TKv>0\).  Hence the matrix is symmetric positive definite and invertible.
+\end{solution}
+
+\begin{problem}[Scaling a mesh]\label{prob:vii41-10}
+A mesh is uniformly enlarged by factor \(5\).  How should nonzero generalized eigenvalues \(\lambda\) of \(K\phi=\lambda M\phi\) scale?
+\end{problem}
+
+\begin{solution}
+The stiffness matrix is unchanged while the mass matrix scales by \(25\), so eigenvalues scale by \(1/25\), consistent with the inverse-length-squared dimension of the Laplacian.
+\end{solution}
+
+\begin{problem}[Embedding Laplacian on a sphere]\label{prob:vii41-11}
+For a well-resolved unit sphere with outward normal and \(\Delta X=-2H\mathbf n\), what vector should \(M^{-1}KX\) approximate?
+\end{problem}
+
+\begin{solution}
+For the unit sphere \(H=1\), so \(M^{-1}KX\approx2\mathbf n\).  The sign follows because \(K\) approximates \(-\Delta\).
+\end{solution}
+
+\begin{problem}[Production regression]\label{prob:vii41-12}
+Give four cheap algebraic checks that should accompany cotangent-matrix assembly before it is trusted by a heat-method solver.
+\end{problem}
+
+\begin{solution}
+Check symmetry of \(K\), near-zero row sums, positive diagonal masses, and nonnegative quadratic energies \(v^TKv\) on test vectors.  Also check the expected number of constant null modes against mesh connectivity.
+\end{solution}
+
+
+\section{Challenge problems}
+
+\begin{problem}[Derive the Delaunay sign identity]\label{prob:vii41-ch01}
+Prove \(\cot\alpha+\cot\beta=\sin(\alpha+\beta)/(\sin\alpha\sin\beta)\), and use it to characterize the sign of an interior cotangent weight for \(0<\alpha,\beta<\pi\).
+\end{problem}
+
+\begin{solution}
+Using \(\cot\theta=\cos\theta/\sin\theta\), the numerator becomes \(\cos\alpha\sin\beta+\sin\alpha\cos\beta=\sin(\alpha+\beta)\).  The denominator is positive.  Thus the weight is positive, zero, or negative according as \(\alpha+\beta\) is less than, equal to, or greater than \(\pi\).
+\end{solution}
+
+\begin{problem}[Rayleigh quotient]\label{prob:vii41-ch02}
+Show that generalized eigenvalues of \(K\phi=\lambda M\phi\) are stationary values of \(R(f)=f^TKf/(f^TMf)\), and explain why they are nonnegative.
+\end{problem}
+
+\begin{solution}
+Differentiate the quotient subject to the normalization \(f^TMf=1\).  A Lagrange multiplier gives \(Kf=\lambda Mf\), with \(\lambda=f^TKf\).  Since \(K\) is positive semidefinite and \(M\) positive definite, \(R(f)\ge0\) for every nonzero \(f\).
+\end{solution}
+
+\begin{problem}[Discrete maximum principle]\label{prob:vii41-ch03}
+Assume every free interior vertex has strictly positive incident weights.  Prove that a nonconstant discrete harmonic function cannot attain a strict maximum at a free interior vertex.
+\end{problem}
+
+\begin{solution}
+At a harmonic vertex, \(f_i\) is a positive weighted average of neighboring values.  If it were a strict maximum, every neighbor would be smaller and the weighted average would be strictly smaller than \(f_i\), a contradiction.  Equality forces all positively weighted neighbors to share the same value and propagation handles connected regions.
+\end{solution}
+
+\begin{problem}[Intrinsic flip thought experiment]\label{prob:vii41-ch04}
+Two triangles form a convex intrinsic quadrilateral whose shared diagonal is non-Delaunay.  Explain why flipping to the other diagonal can improve local weight signs without changing the intrinsic metric of the quadrilateral.
+\end{problem}
+
+\begin{solution}
+The quadrilateral is built from the same four boundary edge lengths and the same flat intrinsic region; the diagonal is only a triangulation choice.  The alternate diagonal satisfies the local Delaunay criterion, making its cotangent weight nonnegative, while geodesic distances intrinsic to the unchanged piecewise-flat quadrilateral are preserved.
+\end{solution}
+
+\begin{problem}[Operator validation suite]\label{prob:vii41-ch05}
+Design a compact validation suite for \(M\) and \(K\) that tests geometry, scaling, PDE behavior, and spectrum rather than only matrix dimensions.
+\end{problem}
+
+\begin{solution}
+Use a planar patch to test linear finite-element consistency; a closed connected mesh to test one constant null mode; uniform rescaling to verify \(K\) invariance, \(M\sim c^2\), and eigenvalues \(\sim c^{-2}\); a Dirichlet harmonic problem to test averaging/maximum behavior on Delaunay meshes; and a heat solve to verify symmetric positive definiteness of \(M+tK\) and convergence under refinement.
+\end{solution}
+
+
+\section{Bridge to the next chapter}
+
+Discrete Laplacians turn scalar fields into a computational language for
+surface geometry.  The final chapter changes viewpoint from scalar diffusion to
+directional shape structure.  VII/42 returns to the shape operator and its
+principal directions, then develops curvature lines, ridges, valleys, and their
+stable extraction on noisy triangle meshes.
