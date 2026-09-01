@@ -1,65 +1,59 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/27`.
+**Status:** Canonical reconstruction underway through `VIII/28`.
 
-## Part I — Homotopy
-VIII/01–VIII/04
-
-## Part II — CW Complexes
-VIII/05–VIII/08
-
-## Part III — Fundamental Groups and Coverings
-VIII/09–VIII/14
-
-## Part IV — Homology
-VIII/15–VIII/21
-
-## Part V — Homological Machinery
-- **VIII/22** — Chain Homotopies
-- **VIII/23** — Chain Contractions
-- **VIII/24** — Mapping Cones of Chain Maps
-- **VIII/25** — Homology with Coefficients
-- **VIII/26** — The Universal Coefficient Theorem
-- **VIII/27** — Products and the Künneth Theorem
+## Parts I–V
+VIII/01–VIII/27 reconstructed.
 
 ## Part VI — Cohomology, Bundles and Manifolds
-VIII/28–VIII/35
+- **VIII/28** — Cohomology
+- **VIII/29** — Cup Products
+- **VIII/30** — Vector Bundles and Clutching
+- **VIII/31** — Thom Classes
+- **VIII/32** — Sphere Bundles and Euler Classes
+- **VIII/33** — Poincaré Duality
+- **VIII/34** — Intersection Forms
+- **VIII/35** — Lefschetz Theory
 
-## Source rule for VIII/25–VIII/27
+## Source rule for VIII/28–VIII/30
 
 Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
 
-- VIII/25 follows the explicit `mod p|Z/p|coefficients` stream from
-  `theory-of-algebraic-topology-12.tex`, including inherited descendants, and
-  records the support/provenance role of the mapped Moore-space, Bockstein and
-  projective-space coefficient diagrams.
-- VIII/26 follows the explicit `universal coefficient` stream from
-  `theory-of-algebraic-topology-13.tex`, including inherited descendants.
-- VIII/27 merges the explicit `Künneth|Kunneth|product` stream from
-  `theory-of-algebraic-topology-13.tex` with the separate
-  `product|Künneth|Kunneth` stream from
-  `theory-of-algebraic-topology-17.tex`.
+- **VIII/28:** the ledger contains only one mapped legacy rule: the
+  `Annulus|connecting` support visual from
+  `problems_9_10_visuals_embedded.tex`. Therefore the chapter is a principled
+  reconstruction from the already canonical chain/homology/UCT foundations,
+  while preserving the mapped annulus/connecting topic.
+- **VIII/29:** follows the raw-source-verified targeted override in
+  `theory-of-algebraic-topology-15.tex` for
+  `cup product|cup-product|\smile|cohomology ring`, including inherited
+  theorem/problem descendants.
+- **VIII/30:** follows the explicit `vector bundle|Möbius bundle|Mobius bundle`
+  and `clutching` streams in `theory-of-algebraic-topology-14.tex`, including
+  inherited theorem/problem descendants and reviewed fallback.
 
-Material explicitly assigned to VIII/28 and later is not absorbed here.
+Material explicitly assigned to Thom classes, Euler classes, Poincaré duality,
+intersection forms or Lefschetz theory remains in VIII/31–VIII/35.
 
-## Dossier policy
+## SVG visual layer
 
-Solved dossiers are expanded by subject coverage during reconstruction. The
-definitive one-to-one legacy dossier reconciliation remains scheduled after
-VIII/35.
+The batch tracks **six editable SVG teaching diagrams**, two per chapter, under
+`figures/ch28`, `figures/ch29`, and `figures/ch30`.
+
+The LaTeX build does **not** depend on Inkscape, `svg.sty`, shell escape, or an
+external SVG renderer. The SVGs are production assets for later visual
+embedding/harmonization.
 
 Current reconstructed batch:
-- VIII/25: **24 solved dossiers**
-- VIII/26: **22 solved dossiers**
-- VIII/27: **24 solved dossiers**
+- VIII/28: **20 solved dossiers**, 2 SVGs
 
-Every reconstructed chapter also has **24 exercises and 24 hints**.
+Each chapter also has **24 exercises and 24 hints**.
 
 ## Reconstruction status
-- VIII/01–VIII/24: DRAFTED
-- VIII/25: DRAFTED
-- VIII/26: DRAFTED
-- VIII/27: DRAFTED
-- VIII/28: PLANNED
+- VIII/01–VIII/27: DRAFTED
+- VIII/28: DRAFTED
 - VIII/29: PLANNED
 - VIII/30: PLANNED
+- VIII/31: PLANNED
+- VIII/32: PLANNED
+- VIII/33: PLANNED
