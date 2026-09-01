@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/15`.
+**Status:** Canonical reconstruction underway through `VIII/16`.
 
 Canonical chapter codes: `VIII/01`–`VIII/35`.
 
@@ -51,40 +51,46 @@ Canonical chapter codes: `VIII/01`–`VIII/35`.
 - **VIII/34** — Intersection Forms
 - **VIII/35** — Lefschetz Theory
 
-## Source rule for VIII/13–VIII/15
+## Source rule for VIII/16–VIII/18
 
 Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
 
-- VIII/13 follows the explicit `SU(2)|SO(3)` stream in
-  `theory-of-algebraic-topology-3.tex`, including inherited theorem and
-  problem/exercise/solution descendants.
-- VIII/14 follows the explicit `free group|graph` stream in
-  `theory-of-algebraic-topology-4.tex`, including inherited descendants.
-- VIII/15 merges the explicit `simplicial|chain complex` foundations stream in
-  `theory-of-algebraic-topology-6.tex` with the explicit `simplicial map`
-  stream in `theory-of-algebraic-topology-9.tex`.  Material whose higher
-  precedence destination is VIII/16 or VIII/17 stays there.
+- VIII/16 owns the broad algebraic `homology|chain complex|cycle|boundary`
+  foundation stream in `theory-of-algebraic-topology-5.tex`, including
+  inherited descendants and reviewed fallback material whose content is
+  genuinely chain-complex algebra.
+- VIII/17 merges the explicit homology stream in
+  `theory-of-algebraic-topology-6.tex`, the geometric
+  `homology|cycle|boundary` stream in `theory-of-algebraic-topology-7.tex`,
+  and the explicit `induced map|f_*` stream in
+  `theory-of-algebraic-topology-9.tex`.
+- VIII/18 follows the explicit `cellular homology` stream in
+  `theory-of-algebraic-topology-6.tex` and incorporates the support/provenance
+  role of `latex_embed_examples_3_5.tex` for quotient, lens-space and Moore
+  computations.
+
+Higher-precedence material assigned to VIII/19, VIII/20 or later chapters is
+not absorbed into this batch.
 
 ## Dossier policy
 
-Solved dossiers are expanded by subject coverage during reconstruction.  The
+Solved dossiers are expanded by subject coverage during reconstruction. The
 definitive one-to-one legacy dossier reconciliation remains scheduled after
 VIII/35.
 
 Current reconstructed batch:
-- VIII/13: **20 solved dossiers**
-- VIII/14: **20 solved dossiers**
-- VIII/15: **24 solved dossiers**
+- VIII/16: **22 solved dossiers**
 
 Each reconstructed chapter also has **24 exercises and 24 hints**.
 
 ## Reconstruction status
-- VIII/01–VIII/12: DRAFTED
-- VIII/13: DRAFTED
-- VIII/14: DRAFTED
-- VIII/15: DRAFTED
-- VIII/16: PLANNED
+- VIII/01–VIII/15: DRAFTED
+- VIII/16: DRAFTED
 - VIII/17: PLANNED
+- VIII/18: PLANNED
+- VIII/19: PLANNED
+- VIII/20: PLANNED
+- VIII/21: PLANNED
 
 ## Build
 ```powershell
