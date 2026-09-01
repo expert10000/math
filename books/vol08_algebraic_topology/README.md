@@ -1,21 +1,21 @@
-# Volume VIII — Algebraic Topology
+﻿# Volume VIII â€” Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/30`.
+**Status:** Canonical reconstruction underway through `VIII/33`.
 
-## Parts I–V
-VIII/01–VIII/27 reconstructed.
+## Parts Iâ€“V
+VIII/01â€“VIII/27 reconstructed.
 
-## Part VI — Cohomology, Bundles and Manifolds
-- **VIII/28** — Cohomology
-- **VIII/29** — Cup Products
-- **VIII/30** — Vector Bundles and Clutching
-- **VIII/31** — Thom Classes
-- **VIII/32** — Sphere Bundles and Euler Classes
-- **VIII/33** — Poincaré Duality
-- **VIII/34** — Intersection Forms
-- **VIII/35** — Lefschetz Theory
+## Part VI â€” Cohomology, Bundles and Manifolds
+- **VIII/28** â€” Cohomology
+- **VIII/29** â€” Cup Products
+- **VIII/30** â€” Vector Bundles and Clutching
+- **VIII/31** â€” Thom Classes
+- **VIII/32** â€” Sphere Bundles and Euler Classes
+- **VIII/33** â€” PoincarĂ© Duality
+- **VIII/34** â€” Intersection Forms
+- **VIII/35** â€” Lefschetz Theory
 
-## Source rule for VIII/28–VIII/30
+## Source rule for VIII/28â€“VIII/30
 
 Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
 
@@ -28,12 +28,12 @@ Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
   `theory-of-algebraic-topology-15.tex` for
   `cup product|cup-product|\smile|cohomology ring`, including inherited
   theorem/problem descendants.
-- **VIII/30:** follows the explicit `vector bundle|Möbius bundle|Mobius bundle`
+- **VIII/30:** follows the explicit `vector bundle|MĂ¶bius bundle|Mobius bundle`
   and `clutching` streams in `theory-of-algebraic-topology-14.tex`, including
   inherited theorem/problem descendants and reviewed fallback.
 
-Material explicitly assigned to Thom classes, Euler classes, Poincaré duality,
-intersection forms or Lefschetz theory remains in VIII/31–VIII/35.
+Material explicitly assigned to Thom classes, Euler classes, PoincarĂ© duality,
+intersection forms or Lefschetz theory remains in VIII/31â€“VIII/35.
 
 ## SVG visual layer
 
@@ -52,10 +52,15 @@ Current reconstructed batch:
 Each chapter also has **24 exercises and 24 hints**.
 
 ## Reconstruction status
-- VIII/01–VIII/27: DRAFTED
+- VIII/01â€“VIII/27: DRAFTED
 - VIII/28: DRAFTED
 - VIII/29: DRAFTED
 - VIII/30: DRAFTED
-- VIII/31: PLANNED
-- VIII/32: PLANNED
-- VIII/33: PLANNED
+- VIII/31: DRAFTED
+- VIII/32: DRAFTED
+- VIII/33: DRAFTED
+
+## VIII/31-VIII/33 final content batch
+- VIII/31: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
+- VIII/32: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
+- VIII/33: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
