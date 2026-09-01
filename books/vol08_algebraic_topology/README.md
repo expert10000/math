@@ -1,6 +1,6 @@
 # Volume VIII â€” Algebraic Topology
 
-**Status:** All 35 canonical chapters reconstructed and activated; pre-freeze corpus reconciliation pending.
+**Status:** All 35 canonical chapters reconciled one-to-one; freeze/release ready.
 
 ## Parts Iâ€“V
 VIII/01â€“VIII/27 reconstructed.
@@ -68,3 +68,7 @@ Each chapter also has **24 exercises and 24 hints**.
 
 ## Complete-volume integration
 See VOLUME08_INTEGRATION_VISUAL_HARMONIZATION.md, VOLUME08_NAVIGATION.md, VOLUME08_SVG_INVENTORY.md, and VOLUME08_INTEGRATION_AUDIT.md.
+
+
+## One-to-one corpus reconciliation
+See reconciliation/VOLUME08_RECONCILIATION_REPORT.md and reconciliation/VOLUME08_RECONCILIATION.tsv. The reconciliation manifest must verify unchanged before freeze.
