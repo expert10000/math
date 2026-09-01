@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/18`.
+**Status:** Canonical reconstruction underway through `VIII/19`.
 
 Canonical chapter codes: `VIII/01`–`VIII/35`.
 
@@ -51,26 +51,24 @@ Canonical chapter codes: `VIII/01`–`VIII/35`.
 - **VIII/34** — Intersection Forms
 - **VIII/35** — Lefschetz Theory
 
-## Source rule for VIII/16–VIII/18
+## Source rule for VIII/19–VIII/21
 
 Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
 
-- VIII/16 owns the broad algebraic `homology|chain complex|cycle|boundary`
-  foundation stream in `theory-of-algebraic-topology-5.tex`, including
-  inherited descendants and reviewed fallback material whose content is
-  genuinely chain-complex algebra.
-- VIII/17 merges the explicit homology stream in
-  `theory-of-algebraic-topology-6.tex`, the geometric
-  `homology|cycle|boundary` stream in `theory-of-algebraic-topology-7.tex`,
-  and the explicit `induced map|f_*` stream in
-  `theory-of-algebraic-topology-9.tex`.
-- VIII/18 follows the explicit `cellular homology` stream in
-  `theory-of-algebraic-topology-6.tex` and incorporates the support/provenance
-  role of `latex_embed_examples_3_5.tex` for quotient, lens-space and Moore
-  computations.
+- VIII/19 merges the explicit `relative homology|long exact` stream from
+  `theory-of-algebraic-topology-5.tex` with the explicit `relative homology`
+  stream from `theory-of-algebraic-topology-7.tex`, including inherited
+  problem/exercise/solution and theorem descendants.
+- VIII/20 follows the explicit `homotopy invariance` stream from
+  `theory-of-algebraic-topology-7.tex`, with the prism/chain-homotopy proof kept
+  here and later abstract chain-homotopy machinery reserved for VIII/22.
+- VIII/21 merges the explicit `Euler characteristic` stream from
+  `theory-of-algebraic-topology-5.tex` with the explicit
+  `Euler characteristic|Euler-Poincare` stream from
+  `theory-of-algebraic-topology-8.tex`, including inherited descendants.
 
-Higher-precedence material assigned to VIII/19, VIII/20 or later chapters is
-not absorbed into this batch.
+Higher-precedence material for VIII/22 and later chapters is not absorbed into
+this batch.
 
 ## Dossier policy
 
@@ -79,20 +77,18 @@ definitive one-to-one legacy dossier reconciliation remains scheduled after
 VIII/35.
 
 Current reconstructed batch:
-- VIII/16: **22 solved dossiers**
-- VIII/17: **24 solved dossiers**
-- VIII/18: **24 solved dossiers**
+- VIII/19: **24 solved dossiers**
 
 Each reconstructed chapter also has **24 exercises and 24 hints**.
 
 ## Reconstruction status
-- VIII/01–VIII/15: DRAFTED
-- VIII/16: DRAFTED
-- VIII/17: DRAFTED
-- VIII/18: DRAFTED
-- VIII/19: PLANNED
+- VIII/01–VIII/18: DRAFTED
+- VIII/19: DRAFTED
 - VIII/20: PLANNED
 - VIII/21: PLANNED
+- VIII/22: PLANNED
+- VIII/23: PLANNED
+- VIII/24: PLANNED
 
 ## Build
 ```powershell
