@@ -1,6 +1,6 @@
 # Volume VIII â€” Algebraic Topology
 
-**Status:** All 35 canonical chapters reconciled one-to-one; freeze/release ready.
+**Status:** FROZEN - Volume VIII Algebraic Topology release baseline.
 
 ## Parts Iâ€“V
 VIII/01â€“VIII/27 reconstructed.
@@ -72,3 +72,7 @@ See VOLUME08_INTEGRATION_VISUAL_HARMONIZATION.md, VOLUME08_NAVIGATION.md, VOLUME
 
 ## One-to-one corpus reconciliation
 See reconciliation/VOLUME08_RECONCILIATION_REPORT.md and reconciliation/VOLUME08_RECONCILIATION.tsv. The reconciliation manifest must verify unchanged before freeze.
+
+
+## Freeze/release evidence
+See freeze/VOLUME08_FREEZE_REPORT.md and freeze/VOLUME08_FREEZE_MANIFEST.sha256.
