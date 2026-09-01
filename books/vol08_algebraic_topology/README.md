@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/22`.
+**Status:** Canonical reconstruction underway through `VIII/23`.
 
 ## Part I — Homotopy
 VIII/01–VIII/04
@@ -47,13 +47,14 @@ legacy dossier reconciliation remains scheduled after VIII/35.
 
 Current reconstructed batch:
 - VIII/22: **24 solved dossiers**
+- VIII/23: **24 solved dossiers**
 
 Every reconstructed chapter also has **24 exercises and 24 hints**.
 
 ## Reconstruction status
 - VIII/01–VIII/21: DRAFTED
 - VIII/22: DRAFTED
-- VIII/23: PLANNED
+- VIII/23: DRAFTED
 - VIII/24: PLANNED
 - VIII/25: PLANNED
 - VIII/26: PLANNED
