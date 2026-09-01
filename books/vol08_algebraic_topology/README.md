@@ -1,6 +1,6 @@
 # Volume VIII â€” Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/33`.
+**Status:** All 35 canonical chapters reconstructed and activated; pre-freeze corpus reconciliation pending.
 
 ## Parts Iâ€“V
 VIII/01â€“VIII/27 reconstructed.
@@ -64,3 +64,7 @@ Each chapter also has **24 exercises and 24 hints**.
 - VIII/31: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
 - VIII/32: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
 - VIII/33: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
+
+
+## Complete-volume integration
+See VOLUME08_INTEGRATION_VISUAL_HARMONIZATION.md, VOLUME08_NAVIGATION.md, VOLUME08_SVG_INVENTORY.md, and VOLUME08_INTEGRATION_AUDIT.md.
