@@ -1,191 +1,107 @@
-param(
+﻿param(
     [switch]$CanonicalOnly,
     [switch]$CleanFirst,
     [switch]$FailFast,
-    [switch]$NoPdfCollection
+    [switch]$NoPdfCollection,
+    [switch]$AllowFailures,
+    [string]$InventoryPath = ""
 )
-
 $ErrorActionPreference = "Stop"
-
-# BUILD_ALL.ps1
-# Compile all canonical volume books under books/vol*/book.tex.
-# By default, also compile any root-level edition wrappers matching:
-#   part*_student.tex
-#   part*_hints.tex
-#   part*_complete.tex
-#
-# Run this script from anywhere. The repository root is inferred from
-# the script location, so it is safest to keep this file in the repo root.
-
 $Repo = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Books = Join-Path $Repo "books"
 $CollectedPdfDir = Join-Path $Repo "build\pdf"
-
-if (-not (Test-Path (Join-Path $Repo ".git"))) {
-    throw "BUILD_ALL.ps1 must be stored in the repository root."
+if ([string]::IsNullOrWhiteSpace($InventoryPath)) {
+    $InventoryPath = Join-Path $Repo "reports\series\BUILD_I_VIII.tsv"
 }
+if (-not (Test-Path (Join-Path $Repo ".git"))) { throw "BUILD_ALL.ps1 must be stored in the repository root." }
+if (-not (Get-Command latexmk -ErrorAction SilentlyContinue)) { throw "latexmk is not available on PATH." }
+if (-not $NoPdfCollection) { New-Item -ItemType Directory -Force -Path $CollectedPdfDir | Out-Null }
+New-Item -ItemType Directory -Force -Path (Split-Path -Parent $InventoryPath) | Out-Null
 
-if (-not (Test-Path $Books)) {
-    throw "Missing books directory: $Books"
-}
-
-if (-not (Get-Command latexmk -ErrorAction SilentlyContinue)) {
-    throw "latexmk is not available on PATH. Install/configure MiKTeX or TeX Live first."
-}
-
-if (-not $NoPdfCollection) {
-    New-Item -ItemType Directory -Force -Path $CollectedPdfDir | Out-Null
-}
-
-$volumeDirs = Get-ChildItem -Path $Books -Directory |
-    Where-Object { $_.Name -match '^vol\d+_' } |
-    Sort-Object Name
-
-if (-not $volumeDirs) {
-    throw "No canonical volume directories matching books/vol*_ were found."
-}
-
+$roman = @("I","II","III","IV","V","VI","VII","VIII")
+$volumeDirs = @(Get-ChildItem -Path $Books -Directory | Where-Object { $_.Name -match '^vol0[1-8]_' } | Sort-Object Name)
+$inventory = New-Object System.Collections.Generic.List[object]
 $targets = New-Object System.Collections.Generic.List[object]
 
 foreach ($vol in $volumeDirs) {
-    $book = Join-Path $vol.FullName "book.tex"
+    $m=[regex]::Match($vol.Name,'^vol(\d\d)_')
+    $n=[int]$m.Groups[1].Value
+    $v=$roman[$n-1]
+    $book=Join-Path $vol.FullName "book.tex"
     if (Test-Path $book) {
-        $targets.Add([pscustomobject]@{
-            Volume = $vol.Name
-            File   = "book.tex"
-            Kind   = "canonical"
-            Dir    = $vol.FullName
-        })
+        $targets.Add([pscustomobject]@{ Volume=$v; VolumeDir=$vol.Name; File="book.tex"; Kind="canonical"; Dir=$vol.FullName })
+    } else {
+        $inventory.Add([pscustomobject]@{ volume=$v; volume_dir=$vol.Name; target="book.tex"; kind="canonical";
+            status="NO_WRAPPER"; pdf="N/A"; bytes="N/A"; sha256="N/A"; error="Canonical book.tex not yet created" })
     }
-
     if (-not $CanonicalOnly) {
-        $editionPatterns = @(
-            "part*_student.tex",
-            "part*_hints.tex",
-            "part*_complete.tex"
-        )
-
-        foreach ($pattern in $editionPatterns) {
-            Get-ChildItem -Path $vol.FullName -File -Filter $pattern |
-                Sort-Object Name |
-                ForEach-Object {
-                    $targets.Add([pscustomobject]@{
-                        Volume = $vol.Name
-                        File   = $_.Name
-                        Kind   = "edition"
-                        Dir    = $vol.FullName
-                    })
-                }
+        foreach ($pattern in @("part*_student.tex","part*_hints.tex","part*_complete.tex")) {
+            Get-ChildItem -Path $vol.FullName -File -Filter $pattern -ErrorAction SilentlyContinue | Sort-Object Name | ForEach-Object {
+                $targets.Add([pscustomobject]@{ Volume=$v; VolumeDir=$vol.Name; File=$_.Name; Kind="edition"; Dir=$vol.FullName })
+            }
         }
     }
 }
 
-if ($targets.Count -eq 0) {
-    throw "No LaTeX build targets were found."
-}
-
-Write-Host ""
-Write-Host "MATH canonical build" -ForegroundColor Cyan
-Write-Host "Repository: $Repo"
-Write-Host "Targets:    $($targets.Count)"
-if ($CanonicalOnly) {
-    Write-Host "Mode:       canonical volume books only"
-} else {
-    Write-Host "Mode:       canonical books + discovered student/hints/complete editions"
-}
-Write-Host ""
-
-$success = New-Object System.Collections.Generic.List[object]
-$failed  = New-Object System.Collections.Generic.List[object]
-
+$failed=0
 foreach ($target in $targets) {
-    $label = "$($target.Volume) / $($target.File)"
     Write-Host "============================================================" -ForegroundColor DarkGray
-    Write-Host "BUILD: $label" -ForegroundColor Cyan
-
+    Write-Host "BUILD: Volume $($target.Volume) / $($target.File)" -ForegroundColor Cyan
     Push-Location $target.Dir
     try {
         if ($CleanFirst) {
-            Write-Host "Cleaning previous auxiliary files..."
             & latexmk -C $target.File
-            if ($LASTEXITCODE -ne 0) {
-                throw "latexmk clean failed with exit code $LASTEXITCODE"
-            }
+            if ($LASTEXITCODE -ne 0) { throw "latexmk clean failed ($LASTEXITCODE)" }
         }
-
         & latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error $target.File
-        if ($LASTEXITCODE -ne 0) {
-            throw "latexmk failed with exit code $LASTEXITCODE"
-        }
-
-        $pdfName = [System.IO.Path]::ChangeExtension($target.File, ".pdf")
-        $pdfPath = Join-Path $target.Dir $pdfName
-
-        if (-not (Test-Path $pdfPath)) {
-            throw "latexmk returned success but PDF was not found: $pdfPath"
-        }
-
-        $pdf = Get-Item $pdfPath
-
+        if ($LASTEXITCODE -ne 0) { throw "latexmk failed ($LASTEXITCODE)" }
+        $pdfName=[System.IO.Path]::ChangeExtension($target.File,".pdf")
+        $pdfPath=Join-Path $target.Dir $pdfName
+        if (-not (Test-Path $pdfPath)) { throw "PDF missing after successful latexmk: $pdfPath" }
+        $hash=(Get-FileHash -Algorithm SHA256 -LiteralPath $pdfPath).Hash.ToLowerInvariant()
+        $item=Get-Item $pdfPath
         if (-not $NoPdfCollection) {
-            $safeTarget = [System.IO.Path]::GetFileNameWithoutExtension($target.File)
-            $destName = "$($target.Volume)_$safeTarget.pdf"
-            Copy-Item -Force $pdf.FullName (Join-Path $CollectedPdfDir $destName)
+            Copy-Item -Force $pdfPath (Join-Path $CollectedPdfDir "$($target.VolumeDir)_$([IO.Path]::GetFileNameWithoutExtension($target.File)).pdf")
         }
-
-        $success.Add([pscustomobject]@{
-            Target = $label
-            Pdf    = $pdf.FullName
-            SizeMB = [math]::Round($pdf.Length / 1MB, 2)
-        })
-
-        Write-Host "OK: $pdfName ($([math]::Round($pdf.Length / 1MB, 2)) MB)" -ForegroundColor Green
-    }
-    catch {
-        $failed.Add([pscustomobject]@{
-            Target = $label
-            Error  = $_.Exception.Message
-        })
-
-        Write-Host "FAILED: $label" -ForegroundColor Red
-        Write-Host $_.Exception.Message -ForegroundColor Red
-
-        if ($FailFast) {
-            throw
-        }
-    }
-    finally {
-        Pop-Location
-    }
-
-    Write-Host ""
+        $inventory.Add([pscustomobject]@{ volume=$target.Volume; volume_dir=$target.VolumeDir; target=$target.File; kind=$target.Kind;
+            status="PASS"; pdf=$pdfPath.Substring($Repo.Length+1).Replace('\','/'); bytes=$item.Length; sha256=$hash; error="-" })
+        Write-Host "PASS: $pdfName" -ForegroundColor Green
+    } catch {
+        $failed++
+        $inventory.Add([pscustomobject]@{ volume=$target.Volume; volume_dir=$target.VolumeDir; target=$target.File; kind=$target.Kind;
+            status="FAIL"; pdf="N/A"; bytes="N/A"; sha256="N/A"; error=$_.Exception.Message })
+        Write-Host "FAIL: $($_.Exception.Message)" -ForegroundColor Red
+        if ($FailFast) { throw }
+    } finally { Pop-Location }
 }
 
-Write-Host "============================================================" -ForegroundColor DarkGray
-Write-Host "BUILD SUMMARY" -ForegroundColor Cyan
-Write-Host "Succeeded: $($success.Count)"
-Write-Host "Failed:    $($failed.Count)"
-
-if ($success.Count -gt 0) {
-    Write-Host ""
-    Write-Host "Successful targets:" -ForegroundColor Green
-    $success | Format-Table -AutoSize Target, SizeMB
+# Deterministic TSV inventory.
+$header="volume`tvolume_dir`ttarget`tkind`tstatus`tpdf`tbytes`tsha256`terror"
+$lines=@($header)
+foreach ($r in ($inventory | Sort-Object volume_dir,target)) {
+    $err=($r.error -replace "`t"," " -replace "`r?`n"," ")
+    $lines += "$($r.volume)`t$($r.volume_dir)`t$($r.target)`t$($r.kind)`t$($r.status)`t$($r.pdf)`t$($r.bytes)`t$($r.sha256)`t$err"
 }
+[System.IO.File]::WriteAllText($InventoryPath,(($lines -join "`n").TrimEnd()+"`n"),(New-Object System.Text.UTF8Encoding($false)))
 
-if ($failed.Count -gt 0) {
-    Write-Host ""
-    Write-Host "Failed targets:" -ForegroundColor Red
-    $failed | Format-Table -AutoSize Target, Error
+# Human summary.
+$md=Join-Path (Split-Path -Parent $InventoryPath) "BUILD_I_VIII.md"
+$pass=@($inventory | Where-Object status -eq "PASS").Count
+$fail=@($inventory | Where-Object status -eq "FAIL").Count
+$no=@($inventory | Where-Object status -eq "NO_WRAPPER").Count
+$body=@("# I-VIII Canonical Build Inventory","",
+       "- PASS: **$pass**","- FAIL: **$fail**","- NO_WRAPPER: **$no**","",
+       "| Volume | Target | Status | Detail |","|---|---|---|---|")
+foreach ($r in ($inventory | Sort-Object volume_dir,target)) {
+    $detail=if ($r.status -eq "PASS") { $r.pdf } else { $r.error }
+    $detail=$detail.Replace("|","\|")
+    $body += "| $($r.volume) | $($r.target) | $($r.status) | $detail |"
 }
+[System.IO.File]::WriteAllText($md,(($body -join "`n").TrimEnd()+"`n"),(New-Object System.Text.UTF8Encoding($false)))
 
-if (-not $NoPdfCollection) {
-    Write-Host ""
-    Write-Host "Collected PDFs:" -ForegroundColor Cyan
-    Write-Host "  $CollectedPdfDir"
-}
-
-if ($failed.Count -gt 0) {
-    exit 1
-}
-
+Write-Host ""
+Write-Host "SERIES BUILD SUMMARY" -ForegroundColor Cyan
+Write-Host "PASS=$pass FAIL=$fail NO_WRAPPER=$no"
+Write-Host "Inventory: $InventoryPath"
+if ($failed -gt 0 -and -not $AllowFailures) { exit 1 }
 exit 0
