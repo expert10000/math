@@ -1,6 +1,6 @@
 # Volume VIII — Algebraic Topology
 
-**Status:** Canonical reconstruction underway through `VIII/24`.
+**Status:** Canonical reconstruction underway through `VIII/25`.
 
 ## Part I — Homotopy
 VIII/01–VIII/04
@@ -25,38 +25,39 @@ VIII/15–VIII/21
 ## Part VI — Cohomology, Bundles and Manifolds
 VIII/28–VIII/35
 
-## Source rule for VIII/22–VIII/24
+## Source rule for VIII/25–VIII/27
 
 Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
 
-- VIII/22 merges the explicit `chain homotopy` stream from
-  `theory-of-algebraic-topology-10.tex` and the separate explicit
-  `chain homotopy` stream from `theory-of-algebraic-topology-12.tex`.
-- VIII/23 merges the explicit `chain contraction|contracting homotopy` and
-  `acyclic` streams from `theory-of-algebraic-topology-17.tex`, including
-  inherited descendants and reviewed fallback belonging to contraction theory.
-- VIII/24 follows the explicit `cone of chain map` stream from
-  `theory-of-algebraic-topology-10.tex`, including inherited descendants.
+- VIII/25 follows the explicit `mod p|Z/p|coefficients` stream from
+  `theory-of-algebraic-topology-12.tex`, including inherited descendants, and
+  records the support/provenance role of the mapped Moore-space, Bockstein and
+  projective-space coefficient diagrams.
+- VIII/26 follows the explicit `universal coefficient` stream from
+  `theory-of-algebraic-topology-13.tex`, including inherited descendants.
+- VIII/27 merges the explicit `Künneth|Kunneth|product` stream from
+  `theory-of-algebraic-topology-13.tex` with the separate
+  `product|Künneth|Kunneth` stream from
+  `theory-of-algebraic-topology-17.tex`.
 
-Material explicitly assigned to VIII/25 or VIII/27 is not absorbed here.
+Material explicitly assigned to VIII/28 and later is not absorbed here.
 
 ## Dossier policy
 
-Solved dossiers are expanded by subject coverage. The definitive one-to-one
-legacy dossier reconciliation remains scheduled after VIII/35.
+Solved dossiers are expanded by subject coverage during reconstruction. The
+definitive one-to-one legacy dossier reconciliation remains scheduled after
+VIII/35.
 
 Current reconstructed batch:
-- VIII/22: **24 solved dossiers**
-- VIII/23: **24 solved dossiers**
-- VIII/24: **22 solved dossiers**
+- VIII/25: **24 solved dossiers**
 
 Every reconstructed chapter also has **24 exercises and 24 hints**.
 
 ## Reconstruction status
-- VIII/01–VIII/21: DRAFTED
-- VIII/22: DRAFTED
-- VIII/23: DRAFTED
-- VIII/24: DRAFTED
-- VIII/25: PLANNED
+- VIII/01–VIII/24: DRAFTED
+- VIII/25: DRAFTED
 - VIII/26: PLANNED
 - VIII/27: PLANNED
+- VIII/28: PLANNED
+- VIII/29: PLANNED
+- VIII/30: PLANNED
