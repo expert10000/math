@@ -1,4 +1,4 @@
-﻿# Volume VIII â€” Algebraic Topology
+# Volume VIII â€” Algebraic Topology
 
 **Status:** Canonical reconstruction underway through `VIII/33`.
 
