@@ -1,6 +1,6 @@
 # Volume I — Linear Algebra
 
-**Status:** Architecture frozen; canonical reconstruction not yet started.
+**Status:** Canonical build scaffold active; I/01–I/18 staged reconstruction underway.
 
 Canonical chapter codes: `I/01`–`I/18`.
 
