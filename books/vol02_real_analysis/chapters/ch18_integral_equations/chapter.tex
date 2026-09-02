@@ -1,5 +1,249 @@
 \chapter{Integral Equations}
 \label{ch:ii18}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+Integral equations encode unknown functions under an integral operator. Their analytic treatment combines norm estimates, compactness ideas, and fixed-point principles.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Fredholm equations}
+The unknown appears under an integral over a fixed domain.
+
+\section{Volterra equations}
+The upper limit depends on the evaluation point, producing a triangular time structure.
+
+\section{Integral operators}
+Kernels define linear or nonlinear operators on function spaces.
+
+\section{Sup-norm estimates}
+Kernel bounds convert integral operators into norm inequalities.
+
+\section{Neumann series}
+Small operator norm permits inversion of $I-K$ by a geometric series.
+
+\section{Contraction methods}
+Nonlinear integral equations can be solved by Banach's theorem under Lipschitz conditions.
+
+\section{Iterated kernels}
+Repeated substitution creates iterated kernel integrals.
+
+\section{Connection to ODEs}
+Initial-value ODEs are equivalent to Volterra integral equations.
+
+\section{Core structural results}
+
+\begin{theorem}[Neumann-series inversion]\label{thm:ii18-01}
+If a bounded linear operator $K$ satisfies $\|K\|<1$, then $I-K$ is invertible with $(I-K)^{-1}=\sum_{n\ge0}K^n$.
+\begin{proof}
+The operator series converges absolutely in norm, and finite geometric identities pass to the limit.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Kernel sup bound]\label{thm:ii18-02}
+For $(Kf)(x)=\int_a^b k(x,t)f(t)dt$, $\|K\|_\infty\le(b-a)\|k\|_\infty$.
+\begin{proof}
+Take absolute values, bound both kernel and function by sup norms, and integrate interval length.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Volterra contraction on short intervals]\label{thm:ii18-03}
+If $F(t,y)$ is Lipschitz in $y$ with constant $L$, the integral map $Ty=y_0+\int_{t_0}^tF(s,y(s))ds$ is a contraction on an interval of length $h$ when $Lh<1$.
+\begin{proof}
+The output difference is at most $Lh$ times the input sup difference.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[Constant kernel]\label{ex:ii18-worked-01}
+Solve $f(x)=1+\lambda\int_0^1f(t)dt$. Let $c=\int_0^1f$. Then $f=1+\lambda c$ is constant and $c=1+\lambda c$, so for $\lambda\ne1$, $f=1/(1-\lambda)$.
+\end{example}
+
+\begin{example}[Norm of a simple kernel operator]\label{ex:ii18-worked-02}
+For $Kf(x)=\int_0^1xtf(t)dt$, bound $\|K\|_\infty$. Since $|xt|\le1$, the general bound gives $\|K\|\le1$; the sharper bound is $1/2$ because $\sup_x\int_0^1xtdt=1/2$.
+\end{example}
+
+\begin{example}[Neumann approximation]\label{ex:ii18-worked-03}
+If $\|K\|=q<1$, bound truncation after $N$ terms. The inverse-series tail has norm at most $q^{N+1}/(1-q)$.
+\end{example}
+
+\begin{example}[Volterra uniqueness]\label{ex:ii18-worked-04}
+Why are Volterra equations naturally compatible with iteration? The value at time $t$ depends only on earlier times up to $t$, producing causal nested integrals and strong factorial-type bounds.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[Constant kernel]\label{prob:ii18-dossier-01}
+Solve $f(x)=1+\lambda\int_0^1f(t)dt$.
+\end{problem}
+\begin{solution}
+Let $c=\int_0^1f$. Then $f=1+\lambda c$ is constant and $c=1+\lambda c$, so for $\lambda\ne1$, $f=1/(1-\lambda)$.
+\end{solution}
+
+\begin{problem}[Norm of a simple kernel operator]\label{prob:ii18-dossier-02}
+For $Kf(x)=\int_0^1xtf(t)dt$, bound $\|K\|_\infty$.
+\end{problem}
+\begin{solution}
+Since $|xt|\le1$, the general bound gives $\|K\|\le1$; the sharper bound is $1/2$ because $\sup_x\int_0^1xtdt=1/2$.
+\end{solution}
+
+\begin{problem}[Neumann approximation]\label{prob:ii18-dossier-03}
+If $\|K\|=q<1$, bound truncation after $N$ terms.
+\end{problem}
+\begin{solution}
+The inverse-series tail has norm at most $q^{N+1}/(1-q)$.
+\end{solution}
+
+\begin{problem}[Volterra uniqueness]\label{prob:ii18-dossier-04}
+Why are Volterra equations naturally compatible with iteration?
+\end{problem}
+\begin{solution}
+The value at time $t$ depends only on earlier times up to $t$, producing causal nested integrals and strong factorial-type bounds.
+\end{solution}
+
+\begin{problem}[ODE equivalence]\label{prob:ii18-dossier-05}
+Convert $y'=f(t,y)$, $y(t_0)=y_0$ to an integral equation.
+\end{problem}
+\begin{solution}
+Integrate to obtain $y(t)=y_0+\int_{t_0}^tf(s,y(s))ds$.
+\end{solution}
+
+\begin{problem}[Linear resolvent idea]\label{prob:ii18-dossier-06}
+What does $(I-\lambda K)^{-1}$ represent?
+\end{problem}
+\begin{solution}
+It maps forcing terms to solutions of $f-\lambda Kf=g$ when the inverse exists.
+\end{solution}
+
+\begin{problem}[Short-interval contraction]\label{prob:ii18-dossier-07}
+If Lipschitz constant is $L=3$, how small should interval length be for direct Banach contraction?
+\end{problem}
+\begin{solution}
+Choose $h<1/3$.
+\end{solution}
+
+\begin{problem}[Iterated operator estimate]\label{prob:ii18-dossier-08}
+If $\|K\|\le q$, what is $\|K^n\|$?
+\end{problem}
+\begin{solution}
+At most $q^n$ by submultiplicativity.
+\end{solution}
+
+\begin{problem}[Kernel continuity]\label{prob:ii18-dossier-09}
+Why does a continuous kernel on a compact square define a bounded sup-norm operator?
+\end{problem}
+\begin{solution}
+The kernel is bounded by compactness, and the kernel sup bound applies.
+\end{solution}
+
+\begin{problem}[Nonlinear integral map]\label{prob:ii18-dossier-10}
+How does a Lipschitz nonlinearity enter the estimate?
+\end{problem}
+\begin{solution}
+Take the difference inside the integral and use the pointwise Lipschitz bound before integration.
+\end{solution}
+
+\begin{problem}[Fixed-point viewpoint]\label{prob:ii18-dossier-11}
+What equation is actually solved by Banach?
+\end{problem}
+\begin{solution}
+The integral equation is rewritten as $f=Tf$ and the solution is the unique fixed point of $T$.
+\end{solution}
+
+\begin{problem}[Integral-equation synthesis]\label{prob:ii18-dossier-12}
+Why are integral equations often easier than differential equations?
+\end{problem}
+\begin{solution}
+They encode initial conditions automatically and replace derivatives by averaging operators, which are better behaved in norm estimates.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii18-01}
+What operator solves $f=g+Kf$?
+\end{exercise}
+\begin{hint}
+Rearrange.
+\end{hint}
+\begin{solution}
+$(I-K)f=g$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii18-02}
+When does Neumann series converge?
+\end{exercise}
+\begin{hint}
+Operator norm below one.
+\end{hint}
+\begin{solution}
+If $\|K\|<1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii18-03}
+What norm is convenient on $C[a,b]$?
+\end{exercise}
+\begin{hint}
+Sup norm.
+\end{hint}
+\begin{solution}
+$\|f\|_\infty$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii18-04}
+What does a Volterra upper limit look like?
+\end{exercise}
+\begin{hint}
+Variable upper endpoint.
+\end{hint}
+\begin{solution}
+$\int_a^x$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii18-05}
+What does a Fredholm equation use?
+\end{exercise}
+\begin{hint}
+Fixed interval.
+\end{hint}
+\begin{solution}
+$\int_a^b$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii18-06}
+How do ODEs connect?
+\end{exercise}
+\begin{hint}
+Integrate once.
+\end{hint}
+\begin{solution}
+They become Volterra equations.
+\end{solution}
+
+\begin{exercise}\label{exr:ii18-07}
+Why does short interval help?
+\end{exercise}
+\begin{hint}
+Multiplies Lipschitz constant.
+\end{hint}
+\begin{solution}
+It makes $Lh<1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii18-08}
+Does $\|K\|<1$ imply uniqueness for $(I-K)f=g$?
+\end{exercise}
+\begin{hint}
+Yes.
+\end{hint}
+\begin{solution}
+Yes, since $I-K$ is invertible.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

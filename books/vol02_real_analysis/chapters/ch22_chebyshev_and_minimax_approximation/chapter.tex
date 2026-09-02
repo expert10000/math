@@ -1,5 +1,249 @@
 \chapter{Chebyshev and Minimax Approximation}
 \label{ch:ii22}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+Chebyshev and minimax approximation focus on worst-case uniform error. Equioscillation and Chebyshev polynomials reveal why optimal approximants spread their error rather than concentrating it.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Minimax problem}
+Choose an approximant minimizing the maximum absolute error.
+
+\section{Chebyshev polynomials}
+$T_n(\cos\theta)=\cos(n\theta)$ oscillates between $\pm1$ with controlled leading coefficient.
+
+\section{Extremal property}
+Among monic degree-$n$ polynomials, a scaled Chebyshev polynomial minimizes sup norm on $[-1,1]$.
+
+\section{Equioscillation}
+Optimal errors alternate in sign at enough extremal points.
+
+\section{Uniqueness}
+Alternation forces uniqueness of the best approximant in classical polynomial spaces.
+
+\section{Node placement}
+Chebyshev extrema and zeros guide stable interpolation and quadrature.
+
+\section{Error scaling}
+Affine changes transfer results from $[-1,1]$ to any compact interval.
+
+\section{Numerical viewpoint}
+Minimax approximation optimizes worst-case performance rather than average error.
+
+\section{Core structural results}
+
+\begin{theorem}[Chebyshev extremal property]\label{thm:ii22-01}
+The monic polynomial $2^{1-n}T_n$ has minimal sup norm among all monic degree-$n$ polynomials on $[-1,1]$.
+\begin{proof}
+If another monic polynomial had smaller norm, their difference would have degree at most $n-1$ yet would change sign between the $n+1$ alternating extrema of the Chebyshev polynomial, forcing at least $n$ roots, contradiction.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Alternation criterion]\label{thm:ii22-02}
+A best degree-at-most-$n$ uniform approximant to a continuous function is characterized by at least $n+2$ alternating extremal error points.
+\begin{proof}
+If alternation fails, one can perturb within the approximation space to reduce the maximum error; if alternation holds, any competitor difference has too many sign changes for its degree.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Uniqueness of minimax polynomial]\label{thm:ii22-03}
+The best uniform polynomial approximant of prescribed degree is unique.
+\begin{proof}
+Two distinct best approximants averaged together would force a smaller maximum error unless their error extrema align; alternation then forces their difference to have too many zeros.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[Compute low Chebyshev polynomials]\label{ex:ii22-worked-01}
+Find $T_0,T_1,T_2,T_3$. From $T_n(\cos\theta)=\cos n\theta$: $1,x,2x^2-1,4x^3-3x$.
+\end{example}
+
+\begin{example}[Recurrence]\label{ex:ii22-worked-02}
+Derive $T_{n+1}=2xT_n-T_{n-1}$. Use $\cos((n+1)\theta)=2\cos\theta\cos n\theta-\cos((n-1)\theta)$.
+\end{example}
+
+\begin{example}[Extrema]\label{ex:ii22-worked-03}
+Where does $T_n$ attain $\pm1$? At $x_k=\cos(k\pi/n)$, $k=0,\dots,n$.
+\end{example}
+
+\begin{example}[Zeros]\label{ex:ii22-worked-04}
+Where are the zeros of $T_n$? At $\cos((2k-1)\pi/(2n))$, $k=1,\dots,n$.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[Compute low Chebyshev polynomials]\label{prob:ii22-dossier-01}
+Find $T_0,T_1,T_2,T_3$.
+\end{problem}
+\begin{solution}
+From $T_n(\cos\theta)=\cos n\theta$: $1,x,2x^2-1,4x^3-3x$.
+\end{solution}
+
+\begin{problem}[Recurrence]\label{prob:ii22-dossier-02}
+Derive $T_{n+1}=2xT_n-T_{n-1}$.
+\end{problem}
+\begin{solution}
+Use $\cos((n+1)\theta)=2\cos\theta\cos n\theta-\cos((n-1)\theta)$.
+\end{solution}
+
+\begin{problem}[Extrema]\label{prob:ii22-dossier-03}
+Where does $T_n$ attain $\pm1$?
+\end{problem}
+\begin{solution}
+At $x_k=\cos(k\pi/n)$, $k=0,\dots,n$.
+\end{solution}
+
+\begin{problem}[Zeros]\label{prob:ii22-dossier-04}
+Where are the zeros of $T_n$?
+\end{problem}
+\begin{solution}
+At $\cos((2k-1)\pi/(2n))$, $k=1,\dots,n$.
+\end{solution}
+
+\begin{problem}[Monic scaling]\label{prob:ii22-dossier-05}
+Why multiply by $2^{1-n}$?
+\end{problem}
+\begin{solution}
+For $n\ge1$, the leading coefficient of $T_n$ is $2^{n-1}$, so scaling makes it monic.
+\end{solution}
+
+\begin{problem}[Worst-case interpretation]\label{prob:ii22-dossier-06}
+What does minimax optimize?
+\end{problem}
+\begin{solution}
+The largest absolute error over the entire interval.
+\end{solution}
+
+\begin{problem}[Alternating errors]\label{prob:ii22-dossier-07}
+Why should an optimum touch both positive and negative error extremes?
+\end{problem}
+\begin{solution}
+If all extreme errors had the same sign, a small vertical shift would reduce the maximum magnitude.
+\end{solution}
+
+\begin{problem}[Linear approximation intuition]\label{prob:ii22-dossier-08}
+For degree one, how many alternating extremal points characterize the minimax fit?
+\end{problem}
+\begin{solution}
+At least three.
+\end{solution}
+
+\begin{problem}[Affine rescaling]\label{prob:ii22-dossier-09}
+How do Chebyshev points transfer to $[a,b]$?
+\end{problem}
+\begin{solution}
+Map $x\in[-1,1]$ by $(a+b)/2+(b-a)x/2$.
+\end{solution}
+
+\begin{problem}[Interpolation connection]\label{prob:ii22-dossier-10}
+Why do Chebyshev nodes reduce endpoint problems?
+\end{problem}
+\begin{solution}
+They cluster near endpoints, reducing the maximum node-polynomial magnitude.
+\end{solution}
+
+\begin{problem}[Uniqueness mechanism]\label{prob:ii22-dossier-11}
+How does root counting enter minimax uniqueness?
+\end{problem}
+\begin{solution}
+Alternating error inequalities force the difference of two candidates to change sign too many times for its degree.
+\end{solution}
+
+\begin{problem}[Minimax synthesis]\label{prob:ii22-dossier-12}
+How is minimax different from least squares?
+\end{problem}
+\begin{solution}
+Minimax controls the maximum error; least squares minimizes an integrated squared error and may tolerate larger localized peaks.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii22-01}
+What is $T_2$?
+\end{exercise}
+\begin{hint}
+Use recurrence.
+\end{hint}
+\begin{solution}
+$2x^2-1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii22-02}
+What is $T_3$?
+\end{exercise}
+\begin{hint}
+Use recurrence.
+\end{hint}
+\begin{solution}
+$4x^3-3x$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii22-03}
+What is $\|T_n\|_\infty$ on $[-1,1]$?
+\end{exercise}
+\begin{hint}
+Cosine definition.
+\end{hint}
+\begin{solution}
+$1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii22-04}
+How many extrema are used in alternation for degree $n$?
+\end{exercise}
+\begin{hint}
+One more than dimension.
+\end{hint}
+\begin{solution}
+At least $n+2$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii22-05}
+Are Chebyshev zeros equally spaced in $x$?
+\end{exercise}
+\begin{hint}
+They are equally spaced in angle.
+\end{hint}
+\begin{solution}
+No.
+\end{solution}
+
+\begin{exercise}\label{exr:ii22-06}
+Why scale $T_n$ to monic?
+\end{exercise}
+\begin{hint}
+Compare monic polynomials.
+\end{hint}
+\begin{solution}
+To formulate the extremal property.
+\end{solution}
+
+\begin{exercise}\label{exr:ii22-07}
+What norm is minimized?
+\end{exercise}
+\begin{hint}
+Sup norm.
+\end{hint}
+\begin{solution}
+Uniform norm.
+\end{solution}
+
+\begin{exercise}\label{exr:ii22-08}
+Does minimax equal least squares?
+\end{exercise}
+\begin{hint}
+Generally no.
+\end{hint}
+\begin{solution}
+No.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

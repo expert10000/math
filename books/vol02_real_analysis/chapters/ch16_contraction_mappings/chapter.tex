@@ -1,5 +1,249 @@
 \chapter{Contraction Mappings}
 \label{ch:ii16}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+The contraction mapping theorem turns a quantitative shrinking estimate into existence, uniqueness, and an algorithm. It is one of the cleanest bridges between analysis and computation.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Contractions}
+A contraction reduces all distances by a fixed factor $q<1$.
+
+\section{Fixed points}
+A fixed point solves $Tx=x$.
+
+\section{Picard iteration}
+Repeated application $x_{n+1}=Tx_n$ is the natural algorithm.
+
+\section{Completeness}
+The iteration is Cauchy because geometric distance estimates telescope; completeness supplies the limit.
+
+\section{Uniqueness}
+Two fixed points would be strictly closer after applying $T$, impossible unless equal.
+
+\section{Error estimates}
+A priori and a posteriori geometric bounds quantify iteration error.
+
+\section{Parameter dependence}
+Contractive fixed points vary stably under perturbations.
+
+\section{Applications}
+Integral equations and ODEs can be reformulated as fixed-point problems.
+
+\section{Core structural results}
+
+\begin{theorem}[Banach fixed-point theorem]\label{thm:ii16-01}
+A contraction on a nonempty complete metric space has a unique fixed point, and every Picard iteration converges to it.
+\begin{proof}
+The successive differences decay geometrically, making iterates Cauchy. Completeness gives a limit; continuity of the contraction makes it fixed; the contraction inequality gives uniqueness.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[A priori error bound]\label{thm:ii16-02}
+If $x_{n+1}=Tx_n$ and contraction factor is $q$, then $d(x_n,x_*)\le q^n(1-q)^{-1}d(x_1,x_0)$.
+\begin{proof}
+Bound the tail by the geometric sum of successive differences.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Stability under perturbation]\label{thm:ii16-03}
+If contractions $T,S$ share factor $q<1$ and fixed points $x_T,x_S$, then $d(x_T,x_S)\le(1-q)^{-1}\sup_x d(Tx,Sx)$.
+\begin{proof}
+Insert and subtract $Tx_S$ and use the contraction bound before rearranging.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[Affine contraction]\label{ex:ii16-worked-01}
+Solve $x=(x+3)/4$. The map has factor $1/4$ and fixed point $x=1$.
+\end{example}
+
+\begin{example}[Iteration rate]\label{ex:ii16-worked-02}
+How many powers of $q$ control the error? Error decays geometrically like $q^n$, up to the prefactor determined by the first step.
+\end{example}
+
+\begin{example}[Uniqueness proof]\label{ex:ii16-worked-03}
+Show two fixed points must coincide. $d(x,y)=d(Tx,Ty)\le qd(x,y)$; since $q<1$, the distance is zero.
+\end{example}
+
+\begin{example}[Why completeness matters]\label{ex:ii16-worked-04}
+Give a contraction on an incomplete space with no fixed point. On $(0,1)$, $T(x)=(x+1)/2$ is a contraction whose fixed point $1$ lies outside the space.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[Affine contraction]\label{prob:ii16-dossier-01}
+Solve $x=(x+3)/4$.
+\end{problem}
+\begin{solution}
+The map has factor $1/4$ and fixed point $x=1$.
+\end{solution}
+
+\begin{problem}[Iteration rate]\label{prob:ii16-dossier-02}
+How many powers of $q$ control the error?
+\end{problem}
+\begin{solution}
+Error decays geometrically like $q^n$, up to the prefactor determined by the first step.
+\end{solution}
+
+\begin{problem}[Uniqueness proof]\label{prob:ii16-dossier-03}
+Show two fixed points must coincide.
+\end{problem}
+\begin{solution}
+$d(x,y)=d(Tx,Ty)\le qd(x,y)$; since $q<1$, the distance is zero.
+\end{solution}
+
+\begin{problem}[Why completeness matters]\label{prob:ii16-dossier-04}
+Give a contraction on an incomplete space with no fixed point.
+\end{problem}
+\begin{solution}
+On $(0,1)$, $T(x)=(x+1)/2$ is a contraction whose fixed point $1$ lies outside the space.
+\end{solution}
+
+\begin{problem}[Matrix contraction]\label{prob:ii16-dossier-05}
+When is $T(x)=Ax+b$ a Euclidean contraction?
+\end{problem}
+\begin{solution}
+Whenever the operator norm $\|A\|_2<1$.
+\end{solution}
+
+\begin{problem}[Fixed-point series]\label{prob:ii16-dossier-06}
+Solve $x=Ax+b$ with $\|A\|<1$.
+\end{problem}
+\begin{solution}
+$x=(I-A)^{-1}b=\sum_{n\ge0}A^n b$, with convergence from the geometric operator-norm bound.
+\end{solution}
+
+\begin{problem}[A posteriori estimate]\label{prob:ii16-dossier-07}
+Bound $d(x_n,x_*)$ using $d(x_n,x_{n-1})$.
+\end{problem}
+\begin{solution}
+The tail is at most $d(x_n,x_{n-1})/(1-q)$.
+\end{solution}
+
+\begin{problem}[Nested mapping]\label{prob:ii16-dossier-08}
+Why must $T$ map the complete set into itself?
+\end{problem}
+\begin{solution}
+Otherwise the iteration may leave the domain and the completeness argument no longer applies.
+\end{solution}
+
+\begin{problem}[Parameter stability]\label{prob:ii16-dossier-09}
+What happens if $T$ is perturbed by at most epsilon uniformly?
+\end{problem}
+\begin{solution}
+The fixed point moves by at most $\varepsilon/(1-q)$.
+\end{solution}
+
+\begin{problem}[Integral-equation preview]\label{prob:ii16-dossier-10}
+How does an integral operator become a contraction?
+\end{problem}
+\begin{solution}
+Bound the sup-norm difference of outputs by an interval-length times a Lipschitz constant times the input sup difference.
+\end{solution}
+
+\begin{problem}[ODE preview]\label{prob:ii16-dossier-11}
+How does Picard iteration arise for $y'=f(t,y)$?
+\end{problem}
+\begin{solution}
+Rewrite as $y(t)=y_0+\int f(s,y(s))ds$ and iterate the integral operator.
+\end{solution}
+
+\begin{problem}[Contraction synthesis]\label{prob:ii16-dossier-12}
+Why is this theorem algorithmic?
+\end{problem}
+\begin{solution}
+Its proof constructs the solution by iteration and simultaneously provides computable geometric error bounds.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii16-01}
+Find fixed point of $T(x)=x/2+1$.
+\end{exercise}
+\begin{hint}
+Solve algebraically.
+\end{hint}
+\begin{solution}
+It is $2$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii16-02}
+What is the contraction factor?
+\end{exercise}
+\begin{hint}
+Coefficient of $x$.
+\end{hint}
+\begin{solution}
+$1/2$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii16-03}
+Why unique?
+\end{exercise}
+\begin{hint}
+Use fixed-point inequality.
+\end{hint}
+\begin{solution}
+Two fixed points have zero distance.
+\end{solution}
+
+\begin{exercise}\label{exr:ii16-04}
+Does a contraction have to be linear?
+\end{exercise}
+\begin{hint}
+No.
+\end{hint}
+\begin{solution}
+No.
+\end{solution}
+
+\begin{exercise}\label{exr:ii16-05}
+What property supplies the limit?
+\end{exercise}
+\begin{hint}
+Completeness.
+\end{hint}
+\begin{solution}
+Completeness of the space.
+\end{solution}
+
+\begin{exercise}\label{exr:ii16-06}
+What sequence is used?
+\end{exercise}
+\begin{hint}
+Picard iteration.
+\end{hint}
+\begin{solution}
+$x_{n+1}=Tx_n$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii16-07}
+What is the qualitative error rate?
+\end{exercise}
+\begin{hint}
+Geometric.
+\end{hint}
+\begin{solution}
+Order $q^n$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii16-08}
+Can $q=1$ be used?
+\end{exercise}
+\begin{hint}
+No strict contraction.
+\end{hint}
+\begin{solution}
+Not in Banach's theorem.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

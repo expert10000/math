@@ -5,7 +5,7 @@ Canonical navigation generated from `editorial/CHAPTER_STATUS.tsv`.
 ## Volume navigation
 
 - **Volume I — Linear Algebra** → `vol01_linear_algebra/LANDING.md` (18 chapters; buildable wrapper present)
-- **Volume II — Real Analysis and Topological Foundations** → `vol02_real_analysis/LANDING.md` (25 chapters; architecture stage)
+- **Volume II — Real Analysis and Topological Foundations** → `vol02_real_analysis/LANDING.md` (25 chapters; buildable wrapper present)
 - **Volume III — Measure, Fourier Analysis, Distributions and PDE** → `vol03_fourier_distributions_pde/LANDING.md` (28 chapters; architecture stage)
 - **Volume IV — Complex Analysis and Riemann Surfaces** → `vol04_complex_analysis/LANDING.md` (31 chapters; architecture stage)
 - **Volume V — Commutative Algebra and Homological Methods** → `vol05_commutative_algebra/LANDING.md` (28 chapters; architecture stage)

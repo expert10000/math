@@ -1,5 +1,249 @@
 \chapter{Polynomial Interpolation}
 \label{ch:ii20}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+Polynomial interpolation reconstructs a polynomial from finite data. Lagrange and Newton forms expose uniqueness, computation, divided differences, and the remainder term.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Interpolation problem}
+Given distinct nodes and values, seek a polynomial matching all data.
+
+\section{Lagrange basis}
+Cardinal polynomials isolate one node at a time.
+
+\section{Uniqueness}
+A polynomial of degree at most $n$ matching $n+1$ distinct data points is unique.
+
+\section{Newton form}
+Divided differences produce a nested incremental representation.
+
+\section{Divided differences}
+Recursive coefficients encode discrete derivatives.
+
+\section{Error formula}
+The interpolation remainder involves the next derivative and the node polynomial.
+
+\section{Node choice}
+Equally spaced nodes can be unstable at high degree; special nodes reduce worst-case error.
+
+\section{Hermite preview}
+Derivative data can be incorporated by repeated-node ideas.
+
+\section{Core structural results}
+
+\begin{theorem}[Interpolation existence and uniqueness]\label{thm:ii20-01}
+For $n+1$ distinct nodes, there is a unique polynomial of degree at most $n$ taking prescribed values.
+\begin{proof}
+Lagrange basis polynomials give existence. The difference of two interpolants has $n+1$ roots but degree at most $n$, so it is zero.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Lagrange formula]\label{thm:ii20-02}
+The interpolant is $p(x)=\sum_{j=0}^ny_jL_j(x)$ with $L_j(x_i)=\delta_{ij}$.
+\begin{proof}
+By construction each basis polynomial is one at its own node and zero at the others, so the sum matches all data.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Interpolation remainder]\label{thm:ii20-03}
+If $f\in C^{n+1}$, then $f(x)-p_n(x)=f^{(n+1)}(\xi)(\prod_{j=0}^n(x-x_j))/(n+1)!$ for a suitable $\xi$.
+\begin{proof}
+Subtract a multiple of the node polynomial chosen to vanish also at $x$, then apply Rolle's theorem repeatedly to the resulting function.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[Two-point interpolation]\label{ex:ii20-worked-01}
+Interpolate $(0,1)$ and $(1,3)$. The unique linear interpolant is $p(x)=1+2x$.
+\end{example}
+
+\begin{example}[Three-point Lagrange]\label{ex:ii20-worked-02}
+Interpolate $f(0)=0,f(1)=1,f(2)=4$. The data lie on $x^2$, so uniqueness gives $p(x)=x^2$.
+\end{example}
+
+\begin{example}[Uniqueness by roots]\label{ex:ii20-worked-03}
+Why cannot two degree-$n$ interpolants agree at $n+1$ distinct nodes and differ elsewhere? Their difference would be a nonzero degree-at-most-$n$ polynomial with too many roots.
+\end{example}
+
+\begin{example}[Lagrange basis property]\label{ex:ii20-worked-04}
+Verify $L_j(x_i)=\delta_{ij}$. At $i=j$ all factors equal one; for $i\ne j$ one numerator factor vanishes.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[Two-point interpolation]\label{prob:ii20-dossier-01}
+Interpolate $(0,1)$ and $(1,3)$.
+\end{problem}
+\begin{solution}
+The unique linear interpolant is $p(x)=1+2x$.
+\end{solution}
+
+\begin{problem}[Three-point Lagrange]\label{prob:ii20-dossier-02}
+Interpolate $f(0)=0,f(1)=1,f(2)=4$.
+\end{problem}
+\begin{solution}
+The data lie on $x^2$, so uniqueness gives $p(x)=x^2$.
+\end{solution}
+
+\begin{problem}[Uniqueness by roots]\label{prob:ii20-dossier-03}
+Why cannot two degree-$n$ interpolants agree at $n+1$ distinct nodes and differ elsewhere?
+\end{problem}
+\begin{solution}
+Their difference would be a nonzero degree-at-most-$n$ polynomial with too many roots.
+\end{solution}
+
+\begin{problem}[Lagrange basis property]\label{prob:ii20-dossier-04}
+Verify $L_j(x_i)=\delta_{ij}$.
+\end{problem}
+\begin{solution}
+At $i=j$ all factors equal one; for $i\ne j$ one numerator factor vanishes.
+\end{solution}
+
+\begin{problem}[Newton divided difference]\label{prob:ii20-dossier-05}
+Compute the first divided difference for data $(x_0,y_0),(x_1,y_1)$.
+\end{problem}
+\begin{solution}
+It is $(y_1-y_0)/(x_1-x_0)$.
+\end{solution}
+
+\begin{problem}[Incremental interpolation]\label{prob:ii20-dossier-06}
+Why is Newton form convenient when adding one new node?
+\end{problem}
+\begin{solution}
+The previous polynomial remains intact and one new product term is appended.
+\end{solution}
+
+\begin{problem}[Error node product]\label{prob:ii20-dossier-07}
+Why do roots of the interpolation error include all nodes?
+\end{problem}
+\begin{solution}
+The interpolant matches the function exactly at every node.
+\end{solution}
+
+\begin{problem}[Linear interpolation error]\label{prob:ii20-dossier-08}
+State the error form for two nodes.
+\end{problem}
+\begin{solution}
+$f(x)-p_1(x)=f''(\xi)(x-x_0)(x-x_1)/2$.
+\end{solution}
+
+\begin{problem}[Runge warning]\label{prob:ii20-dossier-09}
+What can go wrong with high-degree equally spaced interpolation?
+\end{problem}
+\begin{solution}
+Endpoint oscillations can grow despite exact matching at nodes.
+\end{solution}
+
+\begin{problem}[Chebyshev motivation]\label{prob:ii20-dossier-10}
+Why choose nodes near Chebyshev points?
+\end{problem}
+\begin{solution}
+They reduce the maximum magnitude of the node polynomial and thereby control worst-case interpolation error.
+\end{solution}
+
+\begin{problem}[Vandermonde formulation]\label{prob:ii20-dossier-11}
+How can interpolation be written as a linear system?
+\end{problem}
+\begin{solution}
+Writing $p(x)=\sum a_kx^k$ gives a Vandermonde matrix whose invertibility follows from distinct nodes.
+\end{solution}
+
+\begin{problem}[Interpolation synthesis]\label{prob:ii20-dossier-12}
+What is being approximated and what is exact?
+\end{problem}
+\begin{solution}
+The polynomial matches finitely many data exactly, while the remainder formula quantifies error between those nodes in terms of higher derivatives and node geometry.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii20-01}
+Interpolate two points $(0,0),(1,1)$.
+\end{exercise}
+\begin{hint}
+Line through them.
+\end{hint}
+\begin{solution}
+$p=x$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii20-02}
+How many data points determine degree at most $n$?
+\end{exercise}
+\begin{hint}
+Distinct nodes.
+\end{hint}
+\begin{solution}
+$n+1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii20-03}
+Why distinct nodes?
+\end{exercise}
+\begin{hint}
+Vandermonde determinant.
+\end{hint}
+\begin{solution}
+Otherwise uniqueness fails or data may conflict.
+\end{solution}
+
+\begin{exercise}\label{exr:ii20-04}
+What are Lagrange basis values at nodes?
+\end{exercise}
+\begin{hint}
+Kronecker delta.
+\end{hint}
+\begin{solution}
+$0$ or $1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii20-05}
+What degree is the node polynomial?
+\end{exercise}
+\begin{hint}
+One factor per node.
+\end{hint}
+\begin{solution}
+$n+1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii20-06}
+What theorem proves uniqueness?
+\end{exercise}
+\begin{hint}
+Root count.
+\end{hint}
+\begin{solution}
+A nonzero degree-$n$ polynomial has at most $n$ roots.
+\end{solution}
+
+\begin{exercise}\label{exr:ii20-07}
+Does interpolation guarantee small error?
+\end{exercise}
+\begin{hint}
+No.
+\end{hint}
+\begin{solution}
+Node placement and smoothness matter.
+\end{solution}
+
+\begin{exercise}\label{exr:ii20-08}
+What form supports incremental data?
+\end{exercise}
+\begin{hint}
+Newton form.
+\end{hint}
+\begin{solution}
+Newton divided-difference form.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

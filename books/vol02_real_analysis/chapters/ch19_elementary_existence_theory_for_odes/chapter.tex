@@ -1,5 +1,249 @@
 \chapter{Elementary Existence Theory for ODEs}
 \label{ch:ii19}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+Elementary ODE existence theory is most transparent when an initial-value problem is rewritten as an integral fixed-point equation. Continuity gives existence mechanisms; Lipschitz control supplies uniqueness.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Initial-value problems}
+An ODE with initial data asks for a curve satisfying a differential rule and a point condition.
+
+\section{Integral formulation}
+Integrating converts $y'=f(t,y)$ into a Volterra equation.
+
+\section{Picard iteration}
+Successive substitution generates approximate solutions.
+
+\section{Local existence}
+Continuity and compactness can yield existence; Lipschitz hypotheses enable Banach's theorem.
+
+\section{Uniqueness}
+Lipschitz dependence on the state variable prevents branching solutions.
+
+\section{Continuation}
+Solutions extend while they remain in regions where the hypotheses stay controlled.
+
+\section{Continuous dependence}
+Small changes in initial data or vector field produce controlled changes in solutions.
+
+\section{Autonomous systems}
+Phase-space geometry reframes $y'=F(y)$ as a flow problem.
+
+\section{Core structural results}
+
+\begin{theorem}[Picard--Lindelöf]\label{thm:ii19-01}
+If $f$ is continuous and locally Lipschitz in $y$ near $(t_0,y_0)$, then the IVP $y'=f(t,y)$, $y(t_0)=y_0$ has a unique local solution.
+\begin{proof}
+On a sufficiently small rectangle, the integral operator maps a closed sup-norm ball into itself and is a contraction; Banach gives a unique fixed point.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Gronwall inequality]\label{thm:ii19-02}
+If $u(t)\le A+B\int_0^tu(s)ds$ with $u\ge0$, then $u(t)\le Ae^{Bt}$.
+\begin{proof}
+Define the right-hand side majorant and differentiate it; multiplying by $e^{-Bt}$ yields a monotone quantity that bounds $u$.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Continuous dependence]\label{thm:ii19-03}
+Under a Lipschitz bound $L$, two solutions satisfy an exponential stability estimate controlled by initial separation.
+\begin{proof}
+Subtract the integral equations, estimate by the initial difference plus $L$ times the integral of the difference, then apply Gronwall.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[Linear scalar IVP]\label{ex:ii19-worked-01}
+Solve $y'=ay$, $y(0)=y_0$. The solution is $y(t)=y_0e^{at}$.
+\end{example}
+
+\begin{example}[Integral reformulation]\label{ex:ii19-worked-02}
+Rewrite $y'=t+y$, $y(0)=1$. $y(t)=1+\int_0^t(s+y(s))ds$.
+\end{example}
+
+\begin{example}[Picard first iterate]\label{ex:ii19-worked-03}
+Starting from $y_0(t)=1$, compute one Picard iterate for the previous equation. $y_1(t)=1+\int_0^t(s+1)ds=1+t+t^2/2$.
+\end{example}
+
+\begin{example}[Uniqueness failure without Lipschitz]\label{ex:ii19-worked-04}
+Why can $y'=\sqrt{|y|}$, $y(0)=0$ have nonunique solutions? The square-root field is not Lipschitz at zero; solutions may remain zero for a while and then depart along a translated quadratic branch.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[Linear scalar IVP]\label{prob:ii19-dossier-01}
+Solve $y'=ay$, $y(0)=y_0$.
+\end{problem}
+\begin{solution}
+The solution is $y(t)=y_0e^{at}$.
+\end{solution}
+
+\begin{problem}[Integral reformulation]\label{prob:ii19-dossier-02}
+Rewrite $y'=t+y$, $y(0)=1$.
+\end{problem}
+\begin{solution}
+$y(t)=1+\int_0^t(s+y(s))ds$.
+\end{solution}
+
+\begin{problem}[Picard first iterate]\label{prob:ii19-dossier-03}
+Starting from $y_0(t)=1$, compute one Picard iterate for the previous equation.
+\end{problem}
+\begin{solution}
+$y_1(t)=1+\int_0^t(s+1)ds=1+t+t^2/2$.
+\end{solution}
+
+\begin{problem}[Uniqueness failure without Lipschitz]\label{prob:ii19-dossier-04}
+Why can $y'=\sqrt{|y|}$, $y(0)=0$ have nonunique solutions?
+\end{problem}
+\begin{solution}
+The square-root field is not Lipschitz at zero; solutions may remain zero for a while and then depart along a translated quadratic branch.
+\end{solution}
+
+\begin{problem}[Local contraction scale]\label{prob:ii19-dossier-05}
+If $|f(t,y)-f(t,z)|\le L|y-z|$, what interval condition gives direct contraction?
+\end{problem}
+\begin{solution}
+Choose interval half-width or length $h$ with $Lh<1$.
+\end{solution}
+
+\begin{problem}[Gronwall stability]\label{prob:ii19-dossier-06}
+If two solutions have initial gap $\delta$, bound their later gap.
+\end{problem}
+\begin{solution}
+Under Lipschitz constant $L$, the gap is at most $\delta e^{L|t-t_0|}$.
+\end{solution}
+
+\begin{problem}[Blow-up and continuation]\label{prob:ii19-dossier-07}
+Why does $y'=y^2$, $y(0)=1$ not extend for all positive time?
+\end{problem}
+\begin{solution}
+The solution $y=1/(1-t)$ blows up at $t=1$, leaving every bounded region where local continuation could proceed.
+\end{solution}
+
+\begin{problem}[Autonomous equilibrium]\label{prob:ii19-dossier-08}
+What is an equilibrium of $y'=F(y)$?
+\end{problem}
+\begin{solution}
+A point $y_*$ with $F(y_*)=0$, giving the constant solution $y(t)=y_*$.
+\end{solution}
+
+\begin{problem}[Separable example]\label{prob:ii19-dossier-09}
+Solve $y'=-2y$, $y(0)=3$.
+\end{problem}
+\begin{solution}
+$y(t)=3e^{-2t}$.
+\end{solution}
+
+\begin{problem}[Parameter dependence]\label{prob:ii19-dossier-10}
+Why does a Lipschitz theorem imply robustness?
+\end{problem}
+\begin{solution}
+The same Gronwall estimate controlling uniqueness also bounds changes caused by perturbed initial data or forcing.
+\end{solution}
+
+\begin{problem}[Picard convergence]\label{prob:ii19-dossier-11}
+What makes successive approximations converge?
+\end{problem}
+\begin{solution}
+The integral operator is a contraction on a sufficiently small complete function-space ball.
+\end{solution}
+
+\begin{problem}[ODE synthesis]\label{prob:ii19-dossier-12}
+Why is integration the natural foundation for existence theory?
+\end{problem}
+\begin{solution}
+Differential equations ask for unknown derivatives, whereas the integral equation defines a self-map on a space of continuous functions where completeness and norm estimates can be applied.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii19-01}
+Solve $y'=y$, $y(0)=2$.
+\end{exercise}
+\begin{hint}
+Exponential.
+\end{hint}
+\begin{solution}
+$2e^t$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii19-02}
+What theorem gives local uniqueness?
+\end{exercise}
+\begin{hint}
+Picard--Lindelöf.
+\end{hint}
+\begin{solution}
+Picard--Lindelöf.
+\end{solution}
+
+\begin{exercise}\label{exr:ii19-03}
+What hypothesis controls uniqueness?
+\end{exercise}
+\begin{hint}
+Lipschitz in state.
+\end{hint}
+\begin{solution}
+Local Lipschitz continuity in $y$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii19-04}
+What does Gronwall control?
+\end{exercise}
+\begin{hint}
+Growth of differences.
+\end{hint}
+\begin{solution}
+Exponential stability bounds.
+\end{solution}
+
+\begin{exercise}\label{exr:ii19-05}
+Can solutions blow up in finite time?
+\end{exercise}
+\begin{hint}
+Yes.
+\end{hint}
+\begin{solution}
+Yes, e.g. $y'=y^2$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii19-06}
+What is Picard iteration applied to?
+\end{exercise}
+\begin{hint}
+Integral map.
+\end{hint}
+\begin{solution}
+The Volterra integral formulation.
+\end{solution}
+
+\begin{exercise}\label{exr:ii19-07}
+What is an equilibrium?
+\end{exercise}
+\begin{hint}
+Zero of vector field.
+\end{hint}
+\begin{solution}
+A point $F(y_*)=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii19-08}
+Does continuity alone always imply uniqueness?
+\end{exercise}
+\begin{hint}
+No.
+\end{hint}
+\begin{solution}
+No.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

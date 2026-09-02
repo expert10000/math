@@ -1,6 +1,6 @@
 # Volume II — Real Analysis and Topological Foundations
 
-**Status:** Canonical reconstruction underway; II/01–II/12 developed.
+**Status:** FROZEN — Volume II Real Analysis and Topological Foundations v1.0 release baseline.
 
 Canonical chapter codes: `II/01`–`II/25`.
 

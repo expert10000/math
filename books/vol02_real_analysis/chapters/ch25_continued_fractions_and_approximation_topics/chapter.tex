@@ -1,5 +1,249 @@
 \chapter{Continued Fractions and Approximation Topics}
 \label{ch:ii25}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+Continued fractions provide a discrete approximation theory for real numbers. Their convergents are exceptionally good rational approximants and connect Euclidean algorithms, Diophantine approximation, and recursive computation.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Simple continued fractions}
+Write a real number as $[a_0;a_1,a_2,\ldots]$ with positive integer partial quotients after the first.
+
+\section{Euclidean algorithm}
+Rational continued fractions terminate and encode the Euclidean algorithm.
+
+\section{Convergents}
+Truncating the expansion gives rational approximants $p_n/q_n$.
+
+\section{Recurrences}
+Numerators and denominators satisfy second-order recurrences.
+
+\section{Determinant identity}
+Adjacent convergents satisfy $p_nq_{n-1}-p_{n-1}q_n=(-1)^{n-1}$.
+
+\section{Approximation quality}
+Convergents approximate unusually well relative to their denominators.
+
+\section{Quadratic irrationals}
+Eventually periodic continued fractions characterize quadratic irrationals.
+
+\section{Approximation perspective}
+Continued fractions complement polynomial approximation by optimizing arithmetic rather than functional error.
+
+\section{Core structural results}
+
+\begin{theorem}[Convergent recurrences]\label{thm:ii25-01}
+With standard initial data, $p_n=a_np_{n-1}+p_{n-2}$ and $q_n=a_nq_{n-1}+q_{n-2}$.
+\begin{proof}
+Induct by rewriting the finite continued fraction after adjoining its last partial quotient.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Adjacent determinant identity]\label{thm:ii25-02}
+$p_nq_{n-1}-p_{n-1}q_n=(-1)^{n-1}$.
+\begin{proof}
+Insert the recurrences and observe the determinant changes sign at each step.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Basic approximation bound]\label{thm:ii25-03}
+For an irrational simple continued fraction, $|x-p_n/q_n|<1/q_n^2$ for infinitely many convergents, and standard sharper neighboring-denominator bounds hold for every convergent.
+\begin{proof}
+Express $x$ using the complete quotient after stage $n$ and combine with the determinant identity; the denominator in the exact error formula exceeds $q_n^2$ at the appropriate stages.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[Rational expansion]\label{ex:ii25-worked-01}
+Find a continued fraction for $17/7$. Euclidean algorithm: $17=2\cdot7+3$, $7=2\cdot3+1$, $3=3\cdot1$, so $17/7=[2;2,3]$.
+\end{example}
+
+\begin{example}[Convergents of $\lbrack{}1;1,1,\dots\rbrack{}$]\label{ex:ii25-worked-02}
+Identify the convergents. They are ratios of consecutive Fibonacci numbers.
+\end{example}
+
+\begin{example}[Golden ratio]\label{ex:ii25-worked-03}
+Show $\varphi=[1;1,1,1,\dots]$. The tail equals the whole number, so $x=1+1/x$, giving $x^2-x-1=0$ and the positive root $\varphi$.
+\end{example}
+
+\begin{example}[Recurrence computation]\label{ex:ii25-worked-04}
+Given partial quotients $a_0,a_1,a_2$, compute $p_2,q_2$ recursively. Use $p_{-2}=0,p_{-1}=1$, $q_{-2}=1,q_{-1}=0$, then apply the stated recurrences.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[Rational expansion]\label{prob:ii25-dossier-01}
+Find a continued fraction for $17/7$.
+\end{problem}
+\begin{solution}
+Euclidean algorithm: $17=2\cdot7+3$, $7=2\cdot3+1$, $3=3\cdot1$, so $17/7=[2;2,3]$.
+\end{solution}
+
+\begin{problem}[Convergents of $\lbrack{}1;1,1,\dots\rbrack{}$]\label{prob:ii25-dossier-02}
+Identify the convergents.
+\end{problem}
+\begin{solution}
+They are ratios of consecutive Fibonacci numbers.
+\end{solution}
+
+\begin{problem}[Golden ratio]\label{prob:ii25-dossier-03}
+Show $\varphi=[1;1,1,1,\dots]$.
+\end{problem}
+\begin{solution}
+The tail equals the whole number, so $x=1+1/x$, giving $x^2-x-1=0$ and the positive root $\varphi$.
+\end{solution}
+
+\begin{problem}[Recurrence computation]\label{prob:ii25-dossier-04}
+Given partial quotients $a_0,a_1,a_2$, compute $p_2,q_2$ recursively.
+\end{problem}
+\begin{solution}
+Use $p_{-2}=0,p_{-1}=1$, $q_{-2}=1,q_{-1}=0$, then apply the stated recurrences.
+\end{solution}
+
+\begin{problem}[Neighbor difference]\label{prob:ii25-dossier-05}
+Use the determinant identity to compute $|p_n/q_n-p_{n-1}/q_{n-1}|$.
+\end{problem}
+\begin{solution}
+It equals $1/(q_nq_{n-1})$.
+\end{solution}
+
+\begin{problem}[Why denominators grow]\label{prob:ii25-dossier-06}
+Show $q_n>q_{n-1}$ for simple continued fractions beyond the first stage.
+\end{problem}
+\begin{solution}
+Since $a_n\ge1$ and $q_{n-2}\ge0$, $q_n=a_nq_{n-1}+q_{n-2}\ge q_{n-1}$, with strict growth once positive preceding terms occur.
+\end{solution}
+
+\begin{problem}[Best-approximation intuition]\label{prob:ii25-dossier-07}
+Why are convergents hard to beat?
+\end{problem}
+\begin{solution}
+The determinant identity forces nearby rational competitors with small denominators to remain separated, while the continued-fraction error is already on the order of inverse denominator squared.
+\end{solution}
+
+\begin{problem}[Finite expansion ambiguity]\label{prob:ii25-dossier-08}
+Why can a rational have two finite simple continued fraction expansions?
+\end{problem}
+\begin{solution}
+A final partial quotient $a_n>1$ can be replaced by $a_n-1,1$, producing the same value.
+\end{solution}
+
+\begin{problem}[Square root periodicity]\label{prob:ii25-dossier-09}
+What is special about continued fractions of quadratic irrationals?
+\end{problem}
+\begin{solution}
+Their partial quotients are eventually periodic, and conversely eventual periodicity characterizes quadratic irrationals.
+\end{solution}
+
+\begin{problem}[Euclidean algorithm link]\label{prob:ii25-dossier-10}
+Why do rationals terminate?
+\end{problem}
+\begin{solution}
+Repeated reciprocal-and-floor steps reproduce Euclidean remainders, which eventually reach zero.
+\end{solution}
+
+\begin{problem}[Approximation scale]\label{prob:ii25-dossier-11}
+What does an error of order $1/q^2$ mean?
+\end{problem}
+\begin{solution}
+Doubling denominator can reduce error quadratically in the ideal scale, much better than a generic grid spacing of order $1/q$.
+\end{solution}
+
+\begin{problem}[Continued-fraction synthesis]\label{prob:ii25-dossier-12}
+How does this chapter fit the approximation part of the volume?
+\end{problem}
+\begin{solution}
+Earlier chapters approximate functions globally; continued fractions approximate numbers arithmetically, using recursive discrete structure to obtain near-optimal rational approximants.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii25-01}
+Find CF of $3/2$.
+\end{exercise}
+\begin{hint}
+Euclidean algorithm.
+\end{hint}
+\begin{solution}
+$[1;2]$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii25-02}
+What are convergents?
+\end{exercise}
+\begin{hint}
+Finite truncations.
+\end{hint}
+\begin{solution}
+Rational truncations of the continued fraction.
+\end{solution}
+
+\begin{exercise}\label{exr:ii25-03}
+What algorithm computes rational CFs?
+\end{exercise}
+\begin{hint}
+Euclidean algorithm.
+\end{hint}
+\begin{solution}
+Euclidean algorithm.
+\end{solution}
+
+\begin{exercise}\label{exr:ii25-04}
+What famous CF has all ones?
+\end{exercise}
+\begin{hint}
+Golden ratio.
+\end{hint}
+\begin{solution}
+$\varphi$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii25-05}
+How do $q_n$ behave?
+\end{exercise}
+\begin{hint}
+They grow.
+\end{hint}
+\begin{solution}
+They increase after the initial stages.
+\end{solution}
+
+\begin{exercise}\label{exr:ii25-06}
+What identity relates adjacent convergents?
+\end{exercise}
+\begin{hint}
+Determinant identity.
+\end{hint}
+\begin{solution}
+$p_nq_{n-1}-p_{n-1}q_n=\pm1$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii25-07}
+What numbers have eventually periodic CFs?
+\end{exercise}
+\begin{hint}
+Quadratic irrationals.
+\end{hint}
+\begin{solution}
+Exactly quadratic irrationals.
+\end{solution}
+
+\begin{exercise}\label{exr:ii25-08}
+What error scale do convergents achieve?
+\end{exercise}
+\begin{hint}
+About inverse-square denominator.
+\end{hint}
+\begin{solution}
+Order $1/q_n^2$.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

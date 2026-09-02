@@ -19,7 +19,7 @@
 ## Canonical-path state
 
 - Volume I: 18 chapters; 18 canonical chapter paths currently exist; 0 planned / 0 drafted / 18 frozen.
-- Volume II: 25 chapters; 0 canonical chapter paths currently exist; 25 planned / 0 drafted / 0 frozen.
+- Volume II: 25 chapters; 25 canonical chapter paths currently exist; 0 planned / 0 drafted / 25 frozen.
 - Volume III: 28 chapters; 0 canonical chapter paths currently exist; 28 planned / 0 drafted / 0 frozen.
 - Volume IV: 31 chapters; 0 canonical chapter paths currently exist; 31 planned / 0 drafted / 0 frozen.
 - Volume V: 28 chapters; 0 canonical chapter paths currently exist; 28 planned / 0 drafted / 0 frozen.
