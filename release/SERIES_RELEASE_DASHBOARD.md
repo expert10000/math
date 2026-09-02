@@ -9,7 +9,7 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 | III — Measure, Fourier Analysis, Distributions and PDE | 28 | 28P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
 | IV — Complex Analysis and Riemann Surfaces | 31 | 31P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
 | V — Commutative Algebra and Homological Methods | 28 | 28P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
-| VI — Algebraic Geometry and Sheaf Theory | 49 | 27P/22D/0F | PASS | 677 | **BUILDABLE_DRAFT** | 1 encoding findings |
+| VI — Algebraic Geometry and Sheaf Theory | 49 | 0P/0D/49F | PASS | 677 | **RELEASED** | 3 encoding findings |
 | VII — Differential, Riemannian and Hyperbolic Geometry | 42 | 0P/0D/42F | PASS | 367 | **RELEASED** | 1 encoding findings |
 | VIII — Algebraic Topology | 35 | 0P/0D/35F | PASS | 338 | **RELEASED** | 1 encoding findings |
 
@@ -23,14 +23,14 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 ## Source and PDF baselines
 
-- Volume I: source `89d544b765adb6a2773b6e76a65bfba813aeb3b5b6b4235bda4e1cf3ded3ea9d`; PDF `N/A` (N/A pages)
-- Volume II: source `58a5d8380894223fd4c8db79170745a6c13084fcfaab4066a1d3bf16a43f818e`; PDF `N/A` (N/A pages)
-- Volume III: source `eec0e5fc117d82ce38f448fd591bab63db06033d905b25efa7dbcecc6b8fb961`; PDF `N/A` (N/A pages)
-- Volume IV: source `12a406c1868c0741060b5326fb23a2d67a588217b94b4cfbfc36da7ee10cb7b0`; PDF `N/A` (N/A pages)
-- Volume V: source `7cc74558e2fe3678d62febfc0d9ef237c54374240080758b60475930c81d522e`; PDF `N/A` (N/A pages)
-- Volume VI: source `491c7d05d0db4a91f474056c2a2b5b55ec5be52ea13aff6e894c9ae165d8ea88`; PDF `12fa4f4bfe99d49b0b44fa6a8ddf050478e77b6856bb34ef5465136754e5ba4b` (677 pages)
-- Volume VII: source `5f50b71d5aa5d8f3db3e550c39e8f7d7051bbd2aeed7060db923f6f9422d0c53`; PDF `1110b23528b191cb75d5f9cd111428da59c9d7cca3ca97df84238b5cd5d70c66` (367 pages)
-- Volume VIII: source `5a5a46ca8f8b96f2a2132af8f31fc89ce9f0b1b1558362b7b71c385a45ba4fa1`; PDF `31ea1806b3b6e5bd6604a9a936e7ca4b57cc598b7f73bda581285132aeccf5cd` (338 pages)
+- Volume I: source `cb0d7057c97b863738fc74053186ab8451cbaa3b6d3ad30be33cfea1f2a8985a`; PDF `N/A` (N/A pages)
+- Volume II: source `b840e9a0c5443aca8cf0b15eea115973f700c67094299dff4f3362e71760e9ae`; PDF `N/A` (N/A pages)
+- Volume III: source `c935606aa61b594e075d80e650740a46caff80985d0696a2b10344d70c04bf95`; PDF `N/A` (N/A pages)
+- Volume IV: source `9baa6f20d9d4b0e779feebc40375cf8aa4d9b739f25842b02394b904722b72e6`; PDF `N/A` (N/A pages)
+- Volume V: source `5552b65d4c505a1e4b3c8664f1697202aceb65dede1b803f7ed2daaedfefe825`; PDF `N/A` (N/A pages)
+- Volume VI: source `f9d0a539480c5c88aafc4f8aea18a10aa10c0fd82d123b82d6986b8db2d1360a`; PDF `19010752fdc51daff79b932c7594f783ab0e08792f72c425410e09faee5e6d4e` (677 pages)
+- Volume VII: source `fa9060284bf784cd46132465511a9001aa555d335c2519f7942b3f4c5ebb41db`; PDF `1110b23528b191cb75d5f9cd111428da59c9d7cca3ca97df84238b5cd5d70c66` (367 pages)
+- Volume VIII: source `a7e859395e7b0c3563e875e12f9304a7cd1fa4ba3597b38a35b154fdc8cb6458`; PDF `31ea1806b3b6e5bd6604a9a936e7ca4b57cc598b7f73bda581285132aeccf5cd` (338 pages)
 
 ## Unresolved corpus items
 
@@ -44,6 +44,6 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 - Volume IV: canonical wrapper not yet created (ARCHITECTURE_ONLY)
 - Volume V: 1 encoding findings (ARCHITECTURE_ONLY)
 - Volume V: canonical wrapper not yet created (ARCHITECTURE_ONLY)
-- Volume VI: 1 encoding findings (BUILDABLE_DRAFT)
+- Volume VI: 3 encoding findings (RELEASED)
 - Volume VII: 1 encoding findings (RELEASED)
 - Volume VIII: 1 encoding findings (RELEASED)

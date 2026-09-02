@@ -23,7 +23,7 @@
 - Volume III: 28 chapters; 0 canonical chapter paths currently exist; 28 planned / 0 drafted / 0 frozen.
 - Volume IV: 31 chapters; 0 canonical chapter paths currently exist; 31 planned / 0 drafted / 0 frozen.
 - Volume V: 28 chapters; 0 canonical chapter paths currently exist; 28 planned / 0 drafted / 0 frozen.
-- Volume VI: 49 chapters; 49 canonical chapter paths currently exist; 27 planned / 22 drafted / 0 frozen.
+- Volume VI: 49 chapters; 49 canonical chapter paths currently exist; 0 planned / 0 drafted / 49 frozen.
 - Volume VII: 42 chapters; 42 canonical chapter paths currently exist; 0 planned / 0 drafted / 42 frozen.
 - Volume VIII: 35 chapters; 35 canonical chapter paths currently exist; 0 planned / 0 drafted / 35 frozen.
 
@@ -31,7 +31,7 @@ Missing paths are not automatically blocking: Volumes whose reconstruction has n
 
 ## Encoding scan
 
-- Files with suspicious byte-decoding signatures: **8**
+- Files with suspicious byte-decoding signatures: **10**
 - Canonical/editorial files among them: **0**
 
 See `GLOBAL_ENCODING_AUDIT.tsv` for exact files and tokens.

@@ -1,6 +1,6 @@
 # Volume VI — Algebraic Geometry and Sheaf Theory
 
-**Status:** All 49 canonical chapters reconciled; freeze/release ready.
+**Status:** FROZEN — Volume VI Algebraic Geometry and Sheaf Theory v1.0 release baseline.
 
 Canonical chapter codes: `VI/01`-`VI/49`.
 
@@ -83,3 +83,8 @@ Canonical chapter codes: `VI/01`-`VI/49`.
 ## Reconstruction rule
 
 Before creating a chapter, filter `../../editorial/SOURCE_MIGRATION.tsv` by its `VI/NN` destination and inspect all higher-precedence overrides. Update `../../editorial/CHAPTER_STATUS.tsv` when work starts.
+
+
+## Freeze/release evidence
+
+See `freeze/VOLUME06_FREEZE_REPORT.md` and `freeze/VOLUME06_FREEZE_MANIFEST.sha256`.
