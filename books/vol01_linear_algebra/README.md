@@ -1,6 +1,6 @@
 # Volume I — Linear Algebra
 
-**Status:** FROZEN — Volume I Linear Algebra v1.0 release baseline.
+**Status:** Dossier enrichment underway on the frozen v1.0 mathematical baseline.
 
 Canonical chapter codes: `I/01`–`I/18`.
 
