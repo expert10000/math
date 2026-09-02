@@ -1,4 +1,4 @@
-# Volume IV â€” Complex Analysis and Riemann Surfaces
+# Volume IV — Complex Analysis and Riemann Surfaces
 
 **Canonical directory:** `vol04_complex_analysis`
 **Chapter architecture:** 31 chapters
@@ -7,37 +7,37 @@
 
 ## Canonical chapter navigation
 
-- â—‹ **IV/01 â€” Complex Differentiability** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/02 â€” Cauchyâ€“Riemann Equations** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/03 â€” Power Series and Analytic Functions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/04 â€” Complex Integration** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/05 â€” Cauchy's Theorem** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/06 â€” Cauchy's Integral Formula** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/07 â€” Zeros and the Identity Theorem** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/08 â€” Laurent Series** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/09 â€” Isolated Singularities** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/10 â€” Residues and the Residue Theorem** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/11 â€” Evaluation of Real Integrals** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/12 â€” Winding Numbers and the Argument Principle** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/13 â€” RouchĂ©'s Theorem** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/14 â€” Branches of the Logarithm and Roots** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/15 â€” Analytic Continuation** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/16 â€” MĂ¶bius Transformations** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/17 â€” Conformal Mapping** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/18 â€” Schwarzâ€“Christoffel Transformations** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/19 â€” The Gamma Function** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/20 â€” Beta and Gamma Identities** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/21 â€” Keyhole Contours and Branch-Cut Integrals** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/22 â€” From Analytic Continuation to Riemann Surfaces** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/23 â€” Covering Maps and Monodromy** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/24 â€” Branched Coverings** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/25 â€” Construction by Gluing** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/26 â€” Compactification and Genus** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/27 â€” Lattices and Complex Tori** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/28 â€” Elliptic Functions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/29 â€” The Weierstrass â„-Function** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/30 â€” Addition Formulas** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **IV/31 â€” Elliptic Curves as Riemann Surfaces** â€” `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/01 — Complex Differentiability** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/02 — Cauchy–Riemann Equations** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/03 — Power Series and Analytic Functions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/04 — Complex Integration** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/05 — Cauchy's Theorem** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/06 — Cauchy's Integral Formula** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/07 — Zeros and the Identity Theorem** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/08 — Laurent Series** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/09 — Isolated Singularities** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/10 — Residues and the Residue Theorem** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/11 — Evaluation of Real Integrals** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/12 — Winding Numbers and the Argument Principle** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/13 — Rouché's Theorem** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/14 — Branches of the Logarithm and Roots** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/15 — Analytic Continuation** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/16 — Möbius Transformations** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/17 — Conformal Mapping** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/18 — Schwarz–Christoffel Transformations** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/19 — The Gamma Function** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/20 — Beta and Gamma Identities** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/21 — Keyhole Contours and Branch-Cut Integrals** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/22 — From Analytic Continuation to Riemann Surfaces** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/23 — Covering Maps and Monodromy** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/24 — Branched Coverings** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/25 — Construction by Gluing** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/26 — Compactification and Genus** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/27 — Lattices and Complex Tori** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/28 — Elliptic Functions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/29 — The Weierstrass ℘-Function** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/30 — Addition Formulas** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **IV/31 — Elliptic Curves as Riemann Surfaces** — `PLANNED` / `MAP_AND_REWRITE`
 
 ## Build state
 

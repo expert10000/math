@@ -1,31 +1,33 @@
-# Volume I â€” Linear Algebra
+# Volume I — Linear Algebra
 
 **Canonical directory:** `vol01_linear_algebra`
 **Chapter architecture:** 18 chapters
-**Canonical wrapper:** not yet created
-**Status:** 18 planned / 0 drafted / 0 frozen.
+**Canonical wrapper:** `book.tex`
+**Status:** 0 planned / 0 drafted / 18 frozen.
 
 ## Canonical chapter navigation
 
-- â—‹ **I/01 â€” Scalars, Vectors and Linear Combinations** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/02 â€” Subspaces, Span and Linear Independence** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/03 â€” Bases and Dimension** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/04 â€” Coordinates and Change of Basis** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/05 â€” Linear Transformations** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/06 â€” Kernels, Images and Isomorphisms** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/07 â€” Matrix Representation of Linear Maps** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/08 â€” Determinants and Trace** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/09 â€” Eigenvalues and Eigenvectors** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/10 â€” Invariant Subspaces and Triangularization** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/11 â€” Diagonalization and Minimal Polynomials** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/12 â€” Canonical Forms** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/13 â€” Inner Products and Orthogonality** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/14 â€” Gramâ€“Schmidt and Orthogonal Projection** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/15 â€” Orthogonal and Unitary Operators** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/16 â€” The Spectral Theorem** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/17 â€” Quadratic Forms** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **I/18 â€” Singular-Value Decomposition** â€” `PLANNED` / `MAP_AND_REWRITE`
+- ✓ **I/01 — Scalars, Vectors and Linear Combinations** — `FROZEN` / `COMPLETE`
+- ✓ **I/02 — Subspaces, Span and Linear Independence** — `FROZEN` / `COMPLETE`
+- ✓ **I/03 — Bases and Dimension** — `FROZEN` / `COMPLETE`
+- ✓ **I/04 — Coordinates and Change of Basis** — `FROZEN` / `COMPLETE`
+- ✓ **I/05 — Linear Transformations** — `FROZEN` / `COMPLETE`
+- ✓ **I/06 — Kernels, Images and Isomorphisms** — `FROZEN` / `COMPLETE`
+- ✓ **I/07 — Matrix Representation of Linear Maps** — `FROZEN` / `COMPLETE`
+- ✓ **I/08 — Determinants and Trace** — `FROZEN` / `COMPLETE`
+- ✓ **I/09 — Eigenvalues and Eigenvectors** — `FROZEN` / `COMPLETE`
+- ✓ **I/10 — Invariant Subspaces and Triangularization** — `FROZEN` / `COMPLETE`
+- ✓ **I/11 — Diagonalization and Minimal Polynomials** — `FROZEN` / `COMPLETE`
+- ✓ **I/12 — Canonical Forms** — `FROZEN` / `COMPLETE`
+- ✓ **I/13 — Inner Products and Orthogonality** — `FROZEN` / `COMPLETE`
+- ✓ **I/14 — Gram–Schmidt and Orthogonal Projection** — `FROZEN` / `COMPLETE`
+- ✓ **I/15 — Orthogonal and Unitary Operators** — `FROZEN` / `COMPLETE`
+- ✓ **I/16 — The Spectral Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **I/17 — Quadratic Forms** — `FROZEN` / `COMPLETE`
+- ✓ **I/18 — Singular-Value Decomposition** — `FROZEN` / `COMPLETE`
 
 ## Build state
 
-- This volume remains at architecture/reconstruction stage; `BUILD_ALL` does not fabricate an empty wrapper.
+- Canonical wrapper exists with **18 active includes** and **3 parts**.
+- Latest series-build status: **NOT_RUN**.
+- Current canonical PDF: **81 pages**, SHA-256 `49fd0dd6c45baeba02d0a7c8ea141a6d5fbec5fda98916872906b94c85eae132`.

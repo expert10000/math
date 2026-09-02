@@ -1,4 +1,4 @@
-# Volume V â€” Commutative Algebra and Homological Methods
+# Volume V — Commutative Algebra and Homological Methods
 
 **Canonical directory:** `vol05_commutative_algebra`
 **Chapter architecture:** 28 chapters
@@ -7,34 +7,34 @@
 
 ## Canonical chapter navigation
 
-- â—‹ **V/01 â€” Rings, Ideals and Quotients** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/02 â€” Prime and Maximal Ideals** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/03 â€” Radicals and Nilpotents** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/04 â€” Chinese Remainder Theory** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/05 â€” Multiplicative Systems** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/06 â€” Localization of Rings** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/07 â€” Localization of Modules** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/08 â€” Local Rings and Localization at Primes** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/09 â€” Modules and Exact Sequences** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/10 â€” Tensor Products** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/11 â€” Quotients and Base Change** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/12 â€” Hom and Finitely Presented Modules** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/13 â€” Free and Projective Modules** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/14 â€” Flat Modules** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/15 â€” Noetherian Rings and Modules** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/16 â€” Support** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/17 â€” Associated Primes** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/18 â€” Completion and I-Adic Topology** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/19 â€” Integral Dependence** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/20 â€” Integral Closure and Normalization** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/21 â€” Valuation Rings** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/22 â€” Chain Complexes** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/23 â€” Free Resolutions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/24 â€” Syzygies** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/25 â€” Minimal Resolutions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/26 â€” The Tor Functor** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/27 â€” The Ext Functor** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **V/28 â€” Derived-Functor Viewpoint** â€” `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/01 — Rings, Ideals and Quotients** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/02 — Prime and Maximal Ideals** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/03 — Radicals and Nilpotents** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/04 — Chinese Remainder Theory** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/05 — Multiplicative Systems** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/06 — Localization of Rings** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/07 — Localization of Modules** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/08 — Local Rings and Localization at Primes** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/09 — Modules and Exact Sequences** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/10 — Tensor Products** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/11 — Quotients and Base Change** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/12 — Hom and Finitely Presented Modules** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/13 — Free and Projective Modules** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/14 — Flat Modules** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/15 — Noetherian Rings and Modules** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/16 — Support** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/17 — Associated Primes** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/18 — Completion and I-Adic Topology** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/19 — Integral Dependence** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/20 — Integral Closure and Normalization** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/21 — Valuation Rings** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/22 — Chain Complexes** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/23 — Free Resolutions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/24 — Syzygies** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/25 — Minimal Resolutions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/26 — The Tor Functor** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/27 — The Ext Functor** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **V/28 — Derived-Functor Viewpoint** — `PLANNED` / `MAP_AND_REWRITE`
 
 ## Build state
 

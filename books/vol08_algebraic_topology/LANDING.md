@@ -1,4 +1,4 @@
-# Volume VIII â€” Algebraic Topology
+# Volume VIII — Algebraic Topology
 
 **Canonical directory:** `vol08_algebraic_topology`
 **Chapter architecture:** 35 chapters
@@ -7,41 +7,41 @@
 
 ## Canonical chapter navigation
 
-- âś“ **VIII/01 â€” Homotopies of Maps** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/02 â€” Homotopy Equivalence and Contractibility** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/03 â€” Degree of Maps** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/04 â€” Spheres and Antipodal Maps** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/05 â€” Cell Attachments** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/06 â€” CW Complexes** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/07 â€” Mapping Cones** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/08 â€” Homotopic Attaching Maps** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/09 â€” Paths and Fundamental Groups** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/10 â€” Covering Spaces** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/11 â€” Lifting Properties** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/12 â€” Deck Transformations and Group Actions** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/13 â€” SU(2) to SO(3)** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/14 â€” Free Groups and Covering Graphs** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/15 â€” Simplicial Complexes** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/16 â€” Chain Complexes** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/17 â€” Simplicial and Singular Homology** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/18 â€” Cellular Homology** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/19 â€” Relative Homology and Exact Sequences** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/20 â€” Homotopy Invariance** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/21 â€” Euler Characteristic** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/22 â€” Chain Homotopies** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/23 â€” Chain Contractions** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/24 â€” Mapping Cones of Chain Maps** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/25 â€” Homology with Coefficients** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/26 â€” The Universal Coefficient Theorem** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/27 â€” Products and the KĂĽnneth Theorem** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/28 â€” Cohomology** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/29 â€” Cup Products** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/30 â€” Vector Bundles and Clutching** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/31 â€” Thom Classes** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/32 â€” Sphere Bundles and Euler Classes** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/33 â€” PoincarĂ© Duality** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/34 â€” Intersection Forms** â€” `FROZEN` / `COMPLETE`
-- âś“ **VIII/35 â€” Lefschetz Theory** â€” `FROZEN` / `COMPLETE`
+- ✓ **VIII/01 — Homotopies of Maps** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/02 — Homotopy Equivalence and Contractibility** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/03 — Degree of Maps** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/04 — Spheres and Antipodal Maps** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/05 — Cell Attachments** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/06 — CW Complexes** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/07 — Mapping Cones** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/08 — Homotopic Attaching Maps** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/09 — Paths and Fundamental Groups** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/10 — Covering Spaces** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/11 — Lifting Properties** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/12 — Deck Transformations and Group Actions** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/13 — SU(2) to SO(3)** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/14 — Free Groups and Covering Graphs** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/15 — Simplicial Complexes** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/16 — Chain Complexes** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/17 — Simplicial and Singular Homology** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/18 — Cellular Homology** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/19 — Relative Homology and Exact Sequences** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/20 — Homotopy Invariance** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/21 — Euler Characteristic** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/22 — Chain Homotopies** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/23 — Chain Contractions** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/24 — Mapping Cones of Chain Maps** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/25 — Homology with Coefficients** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/26 — The Universal Coefficient Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/27 — Products and the Künneth Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/28 — Cohomology** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/29 — Cup Products** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/30 — Vector Bundles and Clutching** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/31 — Thom Classes** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/32 — Sphere Bundles and Euler Classes** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/33 — Poincaré Duality** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/34 — Intersection Forms** — `FROZEN` / `COMPLETE`
+- ✓ **VIII/35 — Lefschetz Theory** — `FROZEN` / `COMPLETE`
 
 ## Build state
 

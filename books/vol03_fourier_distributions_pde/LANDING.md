@@ -1,4 +1,4 @@
-# Volume III â€” Measure, Fourier Analysis, Distributions and PDE
+# Volume III — Measure, Fourier Analysis, Distributions and PDE
 
 **Canonical directory:** `vol03_fourier_distributions_pde`
 **Chapter architecture:** 28 chapters
@@ -7,34 +7,34 @@
 
 ## Canonical chapter navigation
 
-- â—‹ **III/01 â€” Sigma-Algebras and Measures** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/02 â€” Measurable Functions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/03 â€” The Lebesgue Integral** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/04 â€” Convergence Theorems** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/05 â€” Product Measures and Fubini Theory** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/06 â€” Lp Spaces** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/07 â€” HĂ¶lder, Minkowski and Interpolation** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/08 â€” Egorov, Vitali and Weak-Lp Ideas** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/09 â€” Fourier Series** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/10 â€” Convolution and Approximate Identities** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/11 â€” The Fourier Transform** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/12 â€” The Gaussian and Transform Calculus** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/13 â€” Plancherel and L2 Fourier Theory** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/14 â€” The Schwartz Space** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/15 â€” Test-Function Spaces** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/16 â€” Distributions and Distributional Derivatives** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/17 â€” Support and Singular Distributions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/18 â€” Tempered Distributions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/19 â€” Fourier Transform of Distributions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/20 â€” Weak Derivatives** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/21 â€” Sobolev Spaces** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/22 â€” Approximation and Density** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/23 â€” Weak Boundary-Value Problems** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/24 â€” Fundamental Solutions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/25 â€” Green Functions** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/26 â€” Sturmâ€“Liouville Green Kernels** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/27 â€” Elliptic Operators and Maximum Principles** â€” `PLANNED` / `MAP_AND_REWRITE`
-- â—‹ **III/28 â€” Spectral and Transform Methods for PDE** â€” `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/01 — Sigma-Algebras and Measures** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/02 — Measurable Functions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/03 — The Lebesgue Integral** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/04 — Convergence Theorems** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/05 — Product Measures and Fubini Theory** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/06 — Lp Spaces** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/07 — Hölder, Minkowski and Interpolation** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/08 — Egorov, Vitali and Weak-Lp Ideas** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/09 — Fourier Series** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/10 — Convolution and Approximate Identities** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/11 — The Fourier Transform** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/12 — The Gaussian and Transform Calculus** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/13 — Plancherel and L2 Fourier Theory** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/14 — The Schwartz Space** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/15 — Test-Function Spaces** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/16 — Distributions and Distributional Derivatives** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/17 — Support and Singular Distributions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/18 — Tempered Distributions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/19 — Fourier Transform of Distributions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/20 — Weak Derivatives** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/21 — Sobolev Spaces** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/22 — Approximation and Density** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/23 — Weak Boundary-Value Problems** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/24 — Fundamental Solutions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/25 — Green Functions** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/26 — Sturm–Liouville Green Kernels** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/27 — Elliptic Operators and Maximum Principles** — `PLANNED` / `MAP_AND_REWRITE`
+- ○ **III/28 — Spectral and Transform Methods for PDE** — `PLANNED` / `MAP_AND_REWRITE`
 
 ## Build state
 

@@ -4,12 +4,12 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 | Volume | Chapters | Status | Build | PDF pages | Readiness | Unresolved |
 |---|---:|---|---|---:|---|---|
-| I — Linear Algebra | 18 | 18P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
+| I — Linear Algebra | 18 | 0P/0D/18F | NOT_RUN | 81 | **RELEASED** | 2 encoding findings |
 | II — Real Analysis and Topological Foundations | 25 | 25P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
 | III — Measure, Fourier Analysis, Distributions and PDE | 28 | 28P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
 | IV — Complex Analysis and Riemann Surfaces | 31 | 31P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
 | V — Commutative Algebra and Homological Methods | 28 | 28P/0D/0F | NO_WRAPPER | N/A | **ARCHITECTURE_ONLY** | 1 encoding findings; canonical wrapper not yet created |
-| VI — Algebraic Geometry and Sheaf Theory | 49 | 0P/0D/49F | PASS | 677 | **RELEASED** | 3 encoding findings |
+| VI — Algebraic Geometry and Sheaf Theory | 49 | 0P/0D/49F | PASS | 677 | **RELEASED** | 2 encoding findings |
 | VII — Differential, Riemannian and Hyperbolic Geometry | 42 | 0P/0D/42F | PASS | 367 | **RELEASED** | 1 encoding findings |
 | VIII — Algebraic Topology | 35 | 0P/0D/35F | PASS | 338 | **RELEASED** | 1 encoding findings |
 
@@ -23,7 +23,7 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 ## Source and PDF baselines
 
-- Volume I: source `cb0d7057c97b863738fc74053186ab8451cbaa3b6d3ad30be33cfea1f2a8985a`; PDF `N/A` (N/A pages)
+- Volume I: source `12a57aca2d560118141973f2a738aa63de4b139dc20533f9adfcea5ca6078cad`; PDF `49fd0dd6c45baeba02d0a7c8ea141a6d5fbec5fda98916872906b94c85eae132` (81 pages)
 - Volume II: source `b840e9a0c5443aca8cf0b15eea115973f700c67094299dff4f3362e71760e9ae`; PDF `N/A` (N/A pages)
 - Volume III: source `c935606aa61b594e075d80e650740a46caff80985d0696a2b10344d70c04bf95`; PDF `N/A` (N/A pages)
 - Volume IV: source `9baa6f20d9d4b0e779feebc40375cf8aa4d9b739f25842b02394b904722b72e6`; PDF `N/A` (N/A pages)
@@ -34,8 +34,7 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 ## Unresolved corpus items
 
-- Volume I: 1 encoding findings (ARCHITECTURE_ONLY)
-- Volume I: canonical wrapper not yet created (ARCHITECTURE_ONLY)
+- Volume I: 2 encoding findings (RELEASED)
 - Volume II: 1 encoding findings (ARCHITECTURE_ONLY)
 - Volume II: canonical wrapper not yet created (ARCHITECTURE_ONLY)
 - Volume III: 1 encoding findings (ARCHITECTURE_ONLY)
@@ -44,6 +43,6 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 - Volume IV: canonical wrapper not yet created (ARCHITECTURE_ONLY)
 - Volume V: 1 encoding findings (ARCHITECTURE_ONLY)
 - Volume V: canonical wrapper not yet created (ARCHITECTURE_ONLY)
-- Volume VI: 3 encoding findings (RELEASED)
+- Volume VI: 2 encoding findings (RELEASED)
 - Volume VII: 1 encoding findings (RELEASED)
 - Volume VIII: 1 encoding findings (RELEASED)

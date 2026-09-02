@@ -1,6 +1,6 @@
 # Volume I — Linear Algebra
 
-**Status:** All 18 canonical chapters reconstructed and reconciled; freeze/release ready.
+**Status:** FROZEN — Volume I Linear Algebra v1.0 release baseline.
 
 Canonical chapter codes: `I/01`–`I/18`.
 
@@ -34,3 +34,8 @@ Canonical chapter codes: `I/01`–`I/18`.
 ## Reconstruction rule
 
 Before creating a chapter, filter `../../editorial/SOURCE_MIGRATION.tsv` by its `I/NN` destination and inspect all higher-precedence overrides. Update `../../editorial/CHAPTER_STATUS.tsv` when work starts.
+
+
+## Freeze/release evidence
+
+See `freeze/VOLUME01_FREEZE_REPORT.md` and `freeze/VOLUME01_FREEZE_MANIFEST.sha256`.

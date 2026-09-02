@@ -1,4 +1,4 @@
-# Volume VII â€” Differential, Riemannian and Hyperbolic Geometry
+# Volume VII — Differential, Riemannian and Hyperbolic Geometry
 
 **Canonical directory:** `vol07_differential_geometry`
 **Chapter architecture:** 42 chapters
@@ -7,48 +7,48 @@
 
 ## Canonical chapter navigation
 
-- âś“ **VII/01 â€” Topological Manifolds** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/02 â€” Smooth Structures and Atlases** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/03 â€” Smooth Maps and Diffeomorphisms** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/04 â€” Tangent Spaces** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/05 â€” Cotangent Spaces** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/06 â€” Submanifolds and Products** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/07 â€” Vector Bundles** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/08 â€” Principal and Frame Bundles** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/09 â€” Differential Forms** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/10 â€” Orientation and Integration** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/11 â€” Stokes' Theorem** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/12 â€” Regular Curves** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/13 â€” Frenet Frames, Curvature and Torsion** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/14 â€” Regular Surfaces** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/15 â€” First and Second Fundamental Forms** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/16 â€” The Gauss Map and Shape Operator** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/17 â€” Principal, Gaussian and Mean Curvature** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/18 â€” Ruled and Developable Surfaces** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/19 â€” Minimal Surfaces** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/20 â€” Riemannian Metrics** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/21 â€” Connections** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/22 â€” The Leviâ€“Civita Connection** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/23 â€” Geodesics** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/24 â€” Parallel Transport** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/25 â€” Holonomy** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/26 â€” The Riemann Curvature Tensor** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/27 â€” Ricci and Scalar Curvature** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/28 â€” Weyl Curvature** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/29 â€” Indefinite Metrics** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/30 â€” Riemannian versus Lorentzian Geometry** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/31 â€” Hyperbolic Plane Models** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/32 â€” The PoincarĂ© Metric** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/33 â€” MĂ¶bius Transformations and PSL(2,R)** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/34 â€” Hyperbolic Isometries** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/35 â€” Fuchsian Groups** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/36 â€” Hyperbolic Three-Space and PSL(2,C)** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/37 â€” Kleinian Groups and Boundary Geometry** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/38 â€” Discrete Geodesic Problems** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/39 â€” Graph and Exact Mesh Geodesics** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/40 â€” The Heat Method** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/41 â€” Discrete Laplacians** â€” `FROZEN` / `COMPLETE`
-- âś“ **VII/42 â€” Curvature Lines, Ridges and Valleys** â€” `FROZEN` / `COMPLETE`
+- ✓ **VII/01 — Topological Manifolds** — `FROZEN` / `COMPLETE`
+- ✓ **VII/02 — Smooth Structures and Atlases** — `FROZEN` / `COMPLETE`
+- ✓ **VII/03 — Smooth Maps and Diffeomorphisms** — `FROZEN` / `COMPLETE`
+- ✓ **VII/04 — Tangent Spaces** — `FROZEN` / `COMPLETE`
+- ✓ **VII/05 — Cotangent Spaces** — `FROZEN` / `COMPLETE`
+- ✓ **VII/06 — Submanifolds and Products** — `FROZEN` / `COMPLETE`
+- ✓ **VII/07 — Vector Bundles** — `FROZEN` / `COMPLETE`
+- ✓ **VII/08 — Principal and Frame Bundles** — `FROZEN` / `COMPLETE`
+- ✓ **VII/09 — Differential Forms** — `FROZEN` / `COMPLETE`
+- ✓ **VII/10 — Orientation and Integration** — `FROZEN` / `COMPLETE`
+- ✓ **VII/11 — Stokes' Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **VII/12 — Regular Curves** — `FROZEN` / `COMPLETE`
+- ✓ **VII/13 — Frenet Frames, Curvature and Torsion** — `FROZEN` / `COMPLETE`
+- ✓ **VII/14 — Regular Surfaces** — `FROZEN` / `COMPLETE`
+- ✓ **VII/15 — First and Second Fundamental Forms** — `FROZEN` / `COMPLETE`
+- ✓ **VII/16 — The Gauss Map and Shape Operator** — `FROZEN` / `COMPLETE`
+- ✓ **VII/17 — Principal, Gaussian and Mean Curvature** — `FROZEN` / `COMPLETE`
+- ✓ **VII/18 — Ruled and Developable Surfaces** — `FROZEN` / `COMPLETE`
+- ✓ **VII/19 — Minimal Surfaces** — `FROZEN` / `COMPLETE`
+- ✓ **VII/20 — Riemannian Metrics** — `FROZEN` / `COMPLETE`
+- ✓ **VII/21 — Connections** — `FROZEN` / `COMPLETE`
+- ✓ **VII/22 — The Levi–Civita Connection** — `FROZEN` / `COMPLETE`
+- ✓ **VII/23 — Geodesics** — `FROZEN` / `COMPLETE`
+- ✓ **VII/24 — Parallel Transport** — `FROZEN` / `COMPLETE`
+- ✓ **VII/25 — Holonomy** — `FROZEN` / `COMPLETE`
+- ✓ **VII/26 — The Riemann Curvature Tensor** — `FROZEN` / `COMPLETE`
+- ✓ **VII/27 — Ricci and Scalar Curvature** — `FROZEN` / `COMPLETE`
+- ✓ **VII/28 — Weyl Curvature** — `FROZEN` / `COMPLETE`
+- ✓ **VII/29 — Indefinite Metrics** — `FROZEN` / `COMPLETE`
+- ✓ **VII/30 — Riemannian versus Lorentzian Geometry** — `FROZEN` / `COMPLETE`
+- ✓ **VII/31 — Hyperbolic Plane Models** — `FROZEN` / `COMPLETE`
+- ✓ **VII/32 — The Poincaré Metric** — `FROZEN` / `COMPLETE`
+- ✓ **VII/33 — Möbius Transformations and PSL(2,R)** — `FROZEN` / `COMPLETE`
+- ✓ **VII/34 — Hyperbolic Isometries** — `FROZEN` / `COMPLETE`
+- ✓ **VII/35 — Fuchsian Groups** — `FROZEN` / `COMPLETE`
+- ✓ **VII/36 — Hyperbolic Three-Space and PSL(2,C)** — `FROZEN` / `COMPLETE`
+- ✓ **VII/37 — Kleinian Groups and Boundary Geometry** — `FROZEN` / `COMPLETE`
+- ✓ **VII/38 — Discrete Geodesic Problems** — `FROZEN` / `COMPLETE`
+- ✓ **VII/39 — Graph and Exact Mesh Geodesics** — `FROZEN` / `COMPLETE`
+- ✓ **VII/40 — The Heat Method** — `FROZEN` / `COMPLETE`
+- ✓ **VII/41 — Discrete Laplacians** — `FROZEN` / `COMPLETE`
+- ✓ **VII/42 — Curvature Lines, Ridges and Valleys** — `FROZEN` / `COMPLETE`
 
 ## Build state
 
