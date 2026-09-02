@@ -1,6 +1,6 @@
 # Volume I — Linear Algebra
 
-**Status:** Canonical build scaffold active; I/01–I/18 staged reconstruction underway.
+**Status:** All 18 canonical chapters reconstructed and reconciled; freeze/release ready.
 
 Canonical chapter codes: `I/01`–`I/18`.
 

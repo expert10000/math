@@ -19,83 +19,83 @@ def make_chapter(code,title,slug):
     n=chapter_num(code)
     prefix=f"i{n:02d}"
     out=[
-      f"\\\\chapter{{{title}}}",
-      f"\\\\label{{ch:{prefix}-{slug.replace('ch'+str(n).zfill(2)+'_','').replace('_','-')}}}",
+      f"\\chapter{{{title}}}",
+      f"\\label{{ch:{prefix}-{slug.replace('ch'+str(n).zfill(2)+'_','').replace('_','-')}}}",
       "",
       d["intro"],
       "",
-      "\\\\section*{Learning goals}",
+      "\\section*{Learning goals}",
       "By the end of the chapter, the reader should be able to:",
-      "\\\\begin{itemize}"
+      "\\begin{itemize}"
     ]
     for sec_title,_ in d["sections"]:
-        out.append(f"\\\\item explain and use {sec_title.lower()} in basis-free and coordinate form;")
-    out += ["\\\\end{itemize}",""]
+        out.append(f"\\item explain and use {sec_title.lower()} in basis-free and coordinate form;")
+    out += ["\\end{itemize}",""]
 
     out += [
-      "\\\\section*{Conceptual roadmap}",
+      "\\section*{Conceptual roadmap}",
       "The chapter is organized around a repeated pattern:",
       "\\[",
-      "\\\\boxed{\\\\text{definition}\\\\;\\\\longrightarrow\\\\;\\\\text{structural theorem}"
-      "\\\\;\\\\longrightarrow\\\\;\\\\text{coordinate calculation}\\\\;\\\\longrightarrow\\\\;\\\\text{application}.}",
+      "\\boxed{\\text{definition}\\;\\longrightarrow\\;\\text{structural theorem}"
+      "\\;\\longrightarrow\\;\\text{coordinate calculation}\\;\\longrightarrow\\;\\text{application}.}",
       "\\]",
       "Whenever possible, we separate the invariant mathematical object from a chosen coordinate representation.",
       ""
     ]
 
     for sec_title,body in d["sections"]:
-        out += [f"\\\\section{{{sec_title}}}", body, ""]
+        out += [f"\\section{{{sec_title}}}", body, ""]
 
-    out += ["\\\\section{Core structural results}",""]
+    out += ["\\section{Core structural results}",""]
     for j,(name,statement,proof) in enumerate(d["facts"],1):
         out += [
-          f"\\\\begin{{theorem}}[{name}]\\\\label{{thm:{prefix}-{j:02d}}}",
+          f"\\begin{{theorem}}[{name}]\\label{{thm:{prefix}-{j:02d}}}",
           statement,
-          "\\\\begin{proof}",
+          "\\begin{proof}",
           proof,
-          "\\\\end{proof}",
-          "\\\\end{theorem}",
+          "\\end{proof}",
+          "\\end{theorem}",
           ""
         ]
 
-    out += ["\\\\section{Worked examples}",""]
+    out += ["\\section{Worked examples}",""]
     for j,(name,body) in enumerate(d["examples"],1):
         out += [
-          f"\\\\begin{{example}}[{name}]\\\\label{{ex:{prefix}-worked-{j:02d}}}",
+          f"\\begin{{example}}[{name}]\\label{{ex:{prefix}-worked-{j:02d}}}",
           body,
-          "\\\\end{example}",
+          "\\end{example}",
           ""
         ]
 
     out += [
-      "\\\\section{Diagnostic checklist}",
+      "\\section{Diagnostic checklist}",
       "Before moving on, it is useful to distinguish four levels of understanding:",
-      "\\\\begin{enumerate}",
-      "\\\\item recognize the definitions in unfamiliar examples;",
-      "\\\\item prove the core structural statements without coordinates when possible;",
-      "\\\\item translate the same statement into a matrix or coordinate computation;",
-      "\\\\item know which hypotheses are essential and produce a counterexample when one is removed.",
-      "\\\\end{enumerate}",
+      "\\begin{enumerate}",
+      "\\item recognize the definitions in unfamiliar examples;",
+      "\\item prove the core structural statements without coordinates when possible;",
+      "\\item translate the same statement into a matrix or coordinate computation;",
+      "\\item know which hypotheses are essential and produce a counterexample when one is removed.",
+      "\\end{enumerate}",
       "",
-      "\\\\section{Exercises with complete solutions}",
+      "\\section{Exercises with complete solutions}",
       ""
     ]
     for j,(q,a) in enumerate(d["ex"],1):
         out += [
-          f"\\\\begin{{exercise}}\\\\label{{exr:{prefix}-{j:02d}}}",
+          f"\\begin{{exercise}}\\label{{exr:{prefix}-{j:02d}}}",
           q,
-          "\\\\end{exercise}",
-          "\\\\begin{hint}",
+          "\\end{exercise}",
+          "\\begin{hint}",
           "Identify the definition or structural theorem in this chapter that directly controls the question, then reduce the calculation to that statement.",
-          "\\\\end{hint}",
-          "\\\\begin{solution}",
+          "\\end{hint}",
+          "\\begin{solution}",
           a,
-          "\\\\end{solution}",
+          "\\end{solution}",
           ""
         ]
 
     out += [
-      "\\\\section*{Chapter summary}",
+      "\\section*{Chapter summary}",
       d["intro"],
       "The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.",
       ""
