@@ -2,12 +2,14 @@
 
 **Result:** PASS
 
-- Pre-freeze parent commit: `5a6143841327840574a86303865588964fb24162`
+- Pre-freeze parent commit: `ee80688c054a48c90010b0e3b791bab8c6ba41be`
 - Canonical chapters: **18**
 - Corpus reconciliation: **PASS / zero unresolved**
 - Clean canonical PDF build: **PASS**
-- PDF pages: **81**
-- PDF SHA-256: `49fd0dd6c45baeba02d0a7c8ea141a6d5fbec5fda98916872906b94c85eae132`
-- PDF bytes: **641833**
+- PDF pages: **100**
+- PDF SHA-256: `f188b2d029f24e8a42677e237fe62810191bd8452629019a159bd5bc7fd9c607`
+- PDF bytes: **820016**
 - Chapter status: **FROZEN / COMPLETE**
-- Freeze manifest entries: **30**
+- Freeze manifest entries: **35**
+- Solved dossiers: **216** (12 per chapter)
+- Short exercise layer: **144 exercises / 144 hints / 144 exercise solutions**

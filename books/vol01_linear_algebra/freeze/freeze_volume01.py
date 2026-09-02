@@ -64,6 +64,9 @@ def main():
     readme.write_text(txt.rstrip()+"\n",encoding="utf-8")
     inputs=[vol/"book.tex",readme,repo/"editorial/CHAPTER_STATUS.tsv",repo/"editorial/SOURCE_MIGRATION.tsv",freeze/"freeze_volume01.py",freeze/"RELEASE_VOLUME01.md"]
     inputs += list((vol/"chapters").rglob("*.tex"))+list(recon.glob("*"))
+    dossier_dir=vol/"dossiers"
+    if dossier_dir.exists():
+        inputs += [p for p in dossier_dir.glob("*") if p.is_file()]
     lines=[f"{sha(p)}  {p.relative_to(repo).as_posix()}" for p in sorted(set(inputs),key=lambda x:x.as_posix()) if p.exists()]
     (freeze/"VOLUME01_FREEZE_MANIFEST.sha256").write_text("\n".join(lines)+"\n",encoding="utf-8")
     head=subprocess.check_output(["git","-C",str(repo),"rev-parse","HEAD"],text=True).strip()

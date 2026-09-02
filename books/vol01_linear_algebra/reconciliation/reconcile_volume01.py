@@ -74,12 +74,27 @@ def main():
         for kind,payload in re.findall(r"\\(ref|eqref|autoref|pageref|cref|Cref)\{([^}]+)\}",text):
             for lab in [x.strip() for x in payload.split(",") if x.strip()]:refs.append((rel,kind,lab))
         if "/chapters/" in rel and rel.endswith("/chapter.tex"):
+            problems=len(re.findall(r"\\begin\{problem\}",text,re.I))
             ex=len(re.findall(r"\\begin\{exercise\}",text,re.I))
             sol=len(re.findall(r"\\begin\{solution\}",text,re.I))
             hints=len(re.findall(r"\\begin\{hint\}",text,re.I))
-            pair_rows.append({"path":rel,"exercises":ex,"hints":hints,"solutions":sol,
-                              "paired":"YES" if ex==hints==sol and ex>0 else "NO"})
-            if not (ex==hints==sol and ex>0):blockers.append(f"PAIRING:{rel}:{ex}/{hints}/{sol}")
+            exercise_pairing=(ex==hints and ex>0)
+            solved_objects=(sol==ex+problems)
+            pair_rows.append({
+                "path":rel,
+                "problems":problems,
+                "exercises":ex,
+                "hints":hints,
+                "solutions":sol,
+                "expected_solutions":ex+problems,
+                "exercise_pairing":"YES" if exercise_pairing else "NO",
+                "all_problems_and_exercises_solved":"YES" if solved_objects else "NO"
+            })
+            if not exercise_pairing or not solved_objects:
+                blockers.append(
+                    f"PAIRING:{rel}:problems={problems}:exercises={ex}:hints={hints}:"
+                    f"solutions={sol}:expected={ex+problems}"
+                )
     dups=sorted(k for k,v in labels.items() if len(v)>1)
     if dups:blockers.append("DUPLICATE_LABELS:"+",".join(dups[:20]))
     for rel,kind,lab in refs:
@@ -117,7 +132,12 @@ def main():
     write_tsv(out/"VOLUME01_SOURCE_RULE_RECONCILIATION.tsv",rule_rows,[
       "chapter_code","source_file","source_block_id","block_kind","source_selector","source_title_or_pattern",
       "action","precedence","legacy_source_exists","canonical_target","disposition"])
-    write_tsv(out/"VOLUME01_EXERCISE_PAIRING.tsv",pair_rows,["path","exercises","hints","solutions","paired"])
+    write_tsv(
+        out/"VOLUME01_EXERCISE_PAIRING.tsv",
+        pair_rows,
+        ["path","problems","exercises","hints","solutions","expected_solutions",
+         "exercise_pairing","all_problems_and_exercises_solved"]
+    )
     summary={"status":status,"canonical_build_graph_tex_files":len(build),"status_rows":len(rows),
              "source_rules":len(rules),"missing_source_rules":missing_sources,"duplicate_labels":len(dups),
              "stub_files":len(stub_files),"unresolved_count":len(blockers),"unresolved":blockers}
@@ -134,6 +154,9 @@ def main():
                      out/"VOLUME01_SOURCE_RULE_RECONCILIATION.tsv",out/"VOLUME01_EXERCISE_PAIRING.tsv",
                      out/"VOLUME01_RECONCILIATION_SUMMARY.json",out/"VOLUME01_RECONCILIATION_REPORT.md"]
     manifest_inputs += [p for p in build if p.is_file() and str(p).startswith(str(vol))]
+    dossier_dir=vol/"dossiers"
+    if dossier_dir.exists():
+        manifest_inputs += [p for p in sorted(dossier_dir.glob("*")) if p.is_file()]
     lines=[]
     for p in sorted(set(manifest_inputs),key=lambda x:x.as_posix()):
         lines.append(f"{sha(p)}  {p.relative_to(repo).as_posix()}")

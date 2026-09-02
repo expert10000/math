@@ -1,6 +1,6 @@
 # Volume I — Linear Algebra
 
-**Status:** Dossier enrichment underway on the frozen v1.0 mathematical baseline.
+**Status:** FROZEN — Volume I Linear Algebra v1.0 release baseline.
 
 Canonical chapter codes: `I/01`–`I/18`.
 
@@ -39,3 +39,7 @@ Before creating a chapter, filter `../../editorial/SOURCE_MIGRATION.tsv` by its 
 ## Freeze/release evidence
 
 See `freeze/VOLUME01_FREEZE_REPORT.md` and `freeze/VOLUME01_FREEZE_MANIFEST.sha256`.
+
+## Solved dossier enrichment
+
+Volume I contains **216 solved dossiers** (12 per chapter), with per-dossier corpus-guidance provenance in dossiers/VOLUME01_DOSSIER_PROVENANCE.tsv. The original 8 exercise/hint/solution triads per chapter remain intact.

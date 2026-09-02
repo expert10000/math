@@ -31,7 +31,7 @@ Missing paths are not automatically blocking: Volumes whose reconstruction has n
 
 ## Encoding scan
 
-- Files with suspicious byte-decoding signatures: **10**
+- Files with suspicious byte-decoding signatures: **3**
 - Canonical/editorial files among them: **0**
 
 See `GLOBAL_ENCODING_AUDIT.tsv` for exact files and tokens.
