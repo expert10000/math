@@ -1,6 +1,6 @@
-﻿# Volume VI — Algebraic Geometry and Sheaf Theory
+# Volume VI — Algebraic Geometry and Sheaf Theory
 
-**Status:** Architecture synchronized through VI/49; canonical reconstruction underway.
+**Status:** All 49 canonical chapters reconciled; freeze/release ready.
 
 Canonical chapter codes: `VI/01`-`VI/49`.
 
