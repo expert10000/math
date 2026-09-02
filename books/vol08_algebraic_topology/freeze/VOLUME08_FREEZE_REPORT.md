@@ -13,3 +13,8 @@
 
 The generated PDF was built from the reconciled source state before the release commit.
 The source manifest records the release-authoritative repository inputs.
+
+
+## Post-release evidence refresh
+
+The canonical mathematics and tagged v1.0 chapter sources are unchanged. The Volume VIII README encoding was normalized to UTF-8, stale status prose was replaced by the actual FROZEN / COMPLETE state, and the freeze manifest was re-hashed against the current global status ledger and release metadata.

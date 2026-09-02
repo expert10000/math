@@ -12,8 +12,8 @@
 
 ## Repairs performed
 
-- Chapter titles restored from CONTENT_ATLAS: **20**
-- Stale canonical paths repaired to unique existing chapter paths: **16**
+- Chapter titles restored from CONTENT_ATLAS: **0**
+- Stale canonical paths repaired to unique existing chapter paths: **0**
 - Remaining suspicious encoding tokens in CHAPTER_STATUS.tsv: **0**
 
 ## Canonical-path state
@@ -31,8 +31,8 @@ Missing paths are not automatically blocking: Volumes whose reconstruction has n
 
 ## Encoding scan
 
-- Files with suspicious byte-decoding signatures: **1**
-- Canonical/editorial files among them: **1**
+- Files with suspicious byte-decoding signatures: **8**
+- Canonical/editorial files among them: **0**
 
 See `GLOBAL_ENCODING_AUDIT.tsv` for exact files and tokens.
 

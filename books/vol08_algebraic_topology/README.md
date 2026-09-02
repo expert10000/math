@@ -1,78 +1,73 @@
-# Volume VIII â€” Algebraic Topology
+# Volume VIII — Algebraic Topology
 
-**Status:** FROZEN - Volume VIII Algebraic Topology release baseline.
+**Status:** FROZEN — Volume VIII Algebraic Topology v1.0 release baseline.
 
-## Parts Iâ€“V
-VIII/01â€“VIII/27 reconstructed.
+Canonical chapter codes: `VIII/01`–`VIII/35`.
 
-## Part VI â€” Cohomology, Bundles and Manifolds
-- **VIII/28** â€” Cohomology
-- **VIII/29** â€” Cup Products
-- **VIII/30** â€” Vector Bundles and Clutching
-- **VIII/31** â€” Thom Classes
-- **VIII/32** â€” Sphere Bundles and Euler Classes
-- **VIII/33** â€” PoincarĂ© Duality
-- **VIII/34** â€” Intersection Forms
-- **VIII/35** â€” Lefschetz Theory
+## Parts I–V
 
-## Source rule for VIII/28â€“VIII/30
+VIII/01–VIII/27 contain the homotopy, covering-space, simplicial, homological,
+chain-complex, coefficient, universal-coefficient, and product foundations.
+
+## Part VI — Cohomology, Bundles and Manifolds
+
+- **VIII/28 — Cohomology**
+- **VIII/29 — Cup Products**
+- **VIII/30 — Vector Bundles and Clutching**
+- **VIII/31 — Thom Classes**
+- **VIII/32 — Sphere Bundles and Euler Classes**
+- **VIII/33 — Poincaré Duality**
+- **VIII/34 — Intersection Forms**
+- **VIII/35 — Lefschetz Theory**
+
+## Source rule for VIII/28–VIII/30
 
 Reconstruction follows `../../editorial/SOURCE_MIGRATION.tsv`.
 
-- **VIII/28:** the ledger contains only one mapped legacy rule: the
-  `Annulus|connecting` support visual from
-  `problems_9_10_visuals_embedded.tex`. Therefore the chapter is a principled
-  reconstruction from the already canonical chain/homology/UCT foundations,
-  while preserving the mapped annulus/connecting topic.
-- **VIII/29:** follows the raw-source-verified targeted override in
-  `theory-of-algebraic-topology-15.tex` for
-  `cup product|cup-product|\smile|cohomology ring`, including inherited
-  theorem/problem descendants.
-- **VIII/30:** follows the explicit `vector bundle|MĂ¶bius bundle|Mobius bundle`
-  and `clutching` streams in `theory-of-algebraic-topology-14.tex`, including
-  inherited theorem/problem descendants and reviewed fallback.
+- **VIII/28:** the ledger contains the mapped annulus/connecting support visual
+  from `problems_9_10_visuals_embedded.tex`; the chapter is a principled
+  reconstruction from the canonical chain, homology, and UCT foundations while
+  preserving that mapped topic.
+- **VIII/29:** follows the targeted cup-product and cohomology-ring stream in
+  `theory-of-algebraic-topology-15.tex`, including inherited theorem/problem
+  descendants.
+- **VIII/30:** follows the vector-bundle, Möbius-bundle, and clutching streams
+  in `theory-of-algebraic-topology-14.tex`, including inherited
+  theorem/problem descendants and reviewed fallback material.
 
-Material explicitly assigned to Thom classes, Euler classes, PoincarĂ© duality,
-intersection forms or Lefschetz theory remains in VIII/31â€“VIII/35.
+Material assigned to Thom classes, Euler classes, Poincaré duality,
+intersection forms, or Lefschetz theory remains in VIII/31–VIII/35.
 
-## SVG visual layer
+## Visual layer
 
-The batch tracks **six editable SVG teaching diagrams**, two per chapter, under
-`figures/ch28`, `figures/ch29`, and `figures/ch30`.
+The volume retains editable SVG teaching assets alongside canonical LaTeX.
+The LaTeX build does not require Inkscape, `svg.sty`, shell escape, or an
+external SVG renderer.
 
-The LaTeX build does **not** depend on Inkscape, `svg.sty`, shell escape, or an
-external SVG renderer. The SVGs are production assets for later visual
-embedding/harmonization.
+## Release state
 
-Current reconstructed batch:
-- VIII/28: **20 solved dossiers**, 2 SVGs
-- VIII/29: **22 solved dossiers**, 2 SVGs
-- VIII/30: **22 solved dossiers**, 2 SVGs
+All 35 canonical chapters are `FROZEN / COMPLETE`. The release baseline has:
 
-Each chapter also has **24 exercises and 24 hints**.
-
-## Reconstruction status
-- VIII/01â€“VIII/27: DRAFTED
-- VIII/28: DRAFTED
-- VIII/29: DRAFTED
-- VIII/30: DRAFTED
-- VIII/31: DRAFTED
-- VIII/32: DRAFTED
-- VIII/33: DRAFTED
-
-## VIII/31-VIII/33 final content batch
-- VIII/31: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
-- VIII/32: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
-- VIII/33: **20 solved dossiers**, 24 exercises, 24 hints, 2 SVGs
-
+- one-to-one corpus reconciliation with zero unresolved source instances;
+- paired final exercise solutions;
+- 35 active canonical chapter includes;
+- duplicate-label and internal-reference audits;
+- visual inventory and integration audits;
+- a clean canonical PDF build;
+- source and release SHA-256 evidence.
 
 ## Complete-volume integration
-See VOLUME08_INTEGRATION_VISUAL_HARMONIZATION.md, VOLUME08_NAVIGATION.md, VOLUME08_SVG_INVENTORY.md, and VOLUME08_INTEGRATION_AUDIT.md.
 
+See `VOLUME08_INTEGRATION_VISUAL_HARMONIZATION.md`,
+`VOLUME08_NAVIGATION.md`, `VOLUME08_SVG_INVENTORY.md`, and
+`VOLUME08_INTEGRATION_AUDIT.md`.
 
 ## One-to-one corpus reconciliation
-See reconciliation/VOLUME08_RECONCILIATION_REPORT.md and reconciliation/VOLUME08_RECONCILIATION.tsv. The reconciliation manifest must verify unchanged before freeze.
 
+See `reconciliation/VOLUME08_RECONCILIATION_REPORT.md` and
+`reconciliation/VOLUME08_RECONCILIATION.tsv`.
 
 ## Freeze/release evidence
-See freeze/VOLUME08_FREEZE_REPORT.md and freeze/VOLUME08_FREEZE_MANIFEST.sha256.
+
+See `freeze/VOLUME08_FREEZE_REPORT.md` and
+`freeze/VOLUME08_FREEZE_MANIFEST.sha256`.
