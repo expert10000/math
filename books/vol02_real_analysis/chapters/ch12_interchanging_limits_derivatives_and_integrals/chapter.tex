@@ -1,5 +1,249 @@
 \chapter{Interchanging Limits, Derivatives and Integrals}
 \label{ch:ii12}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+Passing a limit through a derivative or integral requires more than pointwise convergence. The correct hypotheses combine uniform control with convergence of derivative data or domination of integral errors.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Limits and integrals}
+Uniform convergence allows Riemann integration to commute with limits on compact intervals.
+
+\section{Integral error estimates}
+The difference of integrals is controlled by interval length times the sup-norm error.
+
+\section{Limits and derivatives}
+Uniform convergence of derivatives plus convergence at one base point yields a differentiable limit.
+
+\section{Why derivative exchange is harder}
+Differentiation amplifies small-scale oscillation and therefore needs stronger hypotheses.
+
+\section{Series versions}
+The same principles apply to term-by-term integration and differentiation of function series.
+
+\section{Uniform convergence on compacta}
+Local uniform convergence is often the right compromise on noncompact domains.
+
+\section{Counterexamples}
+Pointwise convergence alone can fail spectacularly for derivatives and integrals.
+
+\section{Stability viewpoint}
+Interchange theorems are continuity statements for integral or derivative operators in suitable function-space topologies.
+
+\section{Core structural results}
+
+\begin{theorem}[Uniform limit under the integral]\label{thm:ii12-01}
+If $f_n\to f$ uniformly on $[a,b]$ and each $f_n$ is Riemann integrable, then $f$ is integrable and $\int f_n\to\int f$.
+\begin{proof}
+The integral difference is at most $(b-a)\|f_n-f\|_\infty$, which tends to zero; integrability follows by approximating $f$ uniformly with an integrable $f_n$.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Derivative limit theorem]\label{thm:ii12-02}
+If $f_n\in C^1[a,b]$, $f_n(x_0)$ converges at one point, and $f_n'$ converges uniformly to $g$, then $f_n$ converges uniformly to a differentiable $f$ with $f'=g$.
+\begin{proof}
+Write $f_n(x)=f_n(x_0)+\int_{x_0}^x f_n'$. Uniform convergence of derivatives gives uniform Cauchy control of the integrals, and the fundamental theorem identifies the derivative of the limit.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Termwise integration]\label{thm:ii12-03}
+If $\sum f_n$ converges uniformly and each $f_n$ is integrable, then the sum is integrable and $\int\sum f_n=\sum\int f_n$.
+\begin{proof}
+Apply the uniform-limit integral theorem to the partial sums.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[Integral interchange estimate]\label{ex:ii12-worked-01}
+Prove $|\int_a^b f_n-\int_a^b f|\le(b-a)\|f_n-f\|_\infty$. Apply $|\int g|\le\int|g|$ and bound the integrand by its supremum.
+\end{example}
+
+\begin{example}[A pointwise failure for integrals]\label{ex:ii12-worked-02}
+Construct continuous spikes $f_n$ on $[0,1]$ converging pointwise to $0$ but with integrals not tending to $0$. Use triangular spikes of height $n$ and width $2/n$ centered near zero so area stays $1$ while each fixed positive point eventually lies outside the support.
+\end{example}
+
+\begin{example}[Termwise integration of a geometric series]\label{ex:ii12-worked-03}
+For $|x|\le r<1$, integrate $\sum_{n\ge0}x^n$ termwise. The series is uniformly convergent by the M-test, so $\int_0^r\sum x^n dx=\sum r^{n+1}/(n+1)=-\log(1-r)$.
+\end{example}
+
+\begin{example}[Derivative exchange mechanism]\label{ex:ii12-worked-04}
+Why is convergence at one base point needed? Derivatives determine functions only up to additive constants. Convergence at one point fixes those constants.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[Integral interchange estimate]\label{prob:ii12-dossier-01}
+Prove $|\int_a^b f_n-\int_a^b f|\le(b-a)\|f_n-f\|_\infty$.
+\end{problem}
+\begin{solution}
+Apply $|\int g|\le\int|g|$ and bound the integrand by its supremum.
+\end{solution}
+
+\begin{problem}[A pointwise failure for integrals]\label{prob:ii12-dossier-02}
+Construct continuous spikes $f_n$ on $[0,1]$ converging pointwise to $0$ but with integrals not tending to $0$.
+\end{problem}
+\begin{solution}
+Use triangular spikes of height $n$ and width $2/n$ centered near zero so area stays $1$ while each fixed positive point eventually lies outside the support.
+\end{solution}
+
+\begin{problem}[Termwise integration of a geometric series]\label{prob:ii12-dossier-03}
+For $|x|\le r<1$, integrate $\sum_{n\ge0}x^n$ termwise.
+\end{problem}
+\begin{solution}
+The series is uniformly convergent by the M-test, so $\int_0^r\sum x^n dx=\sum r^{n+1}/(n+1)=-\log(1-r)$.
+\end{solution}
+
+\begin{problem}[Derivative exchange mechanism]\label{prob:ii12-dossier-04}
+Why is convergence at one base point needed?
+\end{problem}
+\begin{solution}
+Derivatives determine functions only up to additive constants. Convergence at one point fixes those constants.
+\end{solution}
+
+\begin{problem}[Derivative counterexample]\label{prob:ii12-dossier-05}
+Let $f_n(x)=\sin(nx)/n$. What happens to $f_n$ and $f_n'$?
+\end{problem}
+\begin{solution}
+$f_n\to0$ uniformly, but $f_n'=\cos(nx)$ does not converge pointwise at most points, showing uniform convergence of functions alone does not control derivatives.
+\end{solution}
+
+\begin{problem}[Uniform derivative convergence]\label{prob:ii12-dossier-06}
+If $\|f_n'-g\|_\infty\to0$, estimate the derivative-integral error.
+\end{problem}
+\begin{solution}
+For any $x$, $|\int_{x_0}^x(f_n'-g)|\le |b-a|\|f_n'-g\|_\infty$.
+\end{solution}
+
+\begin{problem}[Series of derivatives]\label{prob:ii12-dossier-07}
+Suppose $\sum f_n'$ converges uniformly and $\sum f_n(x_0)$ converges. What follows?
+\end{problem}
+\begin{solution}
+The series $\sum f_n$ converges uniformly to a differentiable function whose derivative is $\sum f_n'$.
+\end{solution}
+
+\begin{problem}[Local uniform convergence]\label{prob:ii12-dossier-08}
+Why is uniform convergence on every compact interval enough for local integral interchange?
+\end{problem}
+\begin{solution}
+Any fixed finite integration interval is compact, so the uniform theorem applies there.
+\end{solution}
+
+\begin{problem}[Continuity of integration operator]\label{prob:ii12-dossier-09}
+View $I(f)=\int_a^bf$. What is its operator norm on $C[a,b]$ with sup norm?
+\end{problem}
+\begin{solution}
+$|I(f)|\le(b-a)\|f\|_\infty$, with equality for the constant function $1$, so the norm is $b-a$.
+\end{solution}
+
+\begin{problem}[Differentiation is not bounded in sup norm]\label{prob:ii12-dossier-10}
+Use $f_n(x)=\sin(nx)/n$ to explain.
+\end{problem}
+\begin{solution}
+$\|f_n\|_\infty=1/n\to0$ while $\|f_n'\|_\infty=1$, so no fixed bound $\|f'\|_\infty\le C\|f\|_\infty$ can hold.
+\end{solution}
+
+\begin{problem}[M-test bridge]\label{prob:ii12-dossier-11}
+Why does the Weierstrass M-test often precede termwise integration?
+\end{problem}
+\begin{solution}
+It supplies uniform convergence of the function series, exactly the hypothesis needed to exchange sum and integral.
+\end{solution}
+
+\begin{problem}[Interchange synthesis]\label{prob:ii12-dossier-12}
+What unifies limit/integral and limit/derivative theorems?
+\end{problem}
+\begin{solution}
+Both ask whether an operator is continuous under a chosen function-space topology. Integration is continuous in sup norm; differentiation requires a stronger topology controlling derivatives.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii12-01}
+If $f_n\to f$ uniformly, do integrals converge?
+\end{exercise}
+\begin{hint}
+On a compact interval, yes.
+\end{hint}
+\begin{solution}
+Yes, for Riemann-integrable terms.
+\end{solution}
+
+\begin{exercise}\label{exr:ii12-02}
+Bound the integral error by sup error.
+\end{exercise}
+\begin{hint}
+Use interval length.
+\end{hint}
+\begin{solution}
+At most $(b-a)\|f_n-f\|_\infty$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii12-03}
+Does uniform convergence imply derivative convergence?
+\end{exercise}
+\begin{hint}
+Use $\sin(nx)/n$.
+\end{hint}
+\begin{solution}
+No.
+\end{solution}
+
+\begin{exercise}\label{exr:ii12-04}
+Why one base point in derivative theorem?
+\end{exercise}
+\begin{hint}
+Constants.
+\end{hint}
+\begin{solution}
+Derivative data omit additive constants.
+\end{solution}
+
+\begin{exercise}\label{exr:ii12-05}
+Can a uniformly convergent series be integrated termwise?
+\end{exercise}
+\begin{hint}
+Under integrability.
+\end{hint}
+\begin{solution}
+Yes.
+\end{solution}
+
+\begin{exercise}\label{exr:ii12-06}
+What topology makes integration continuous?
+\end{exercise}
+\begin{hint}
+Sup norm on a compact interval.
+\end{hint}
+\begin{solution}
+The sup norm.
+\end{solution}
+
+\begin{exercise}\label{exr:ii12-07}
+Is differentiation bounded in the sup norm?
+\end{exercise}
+\begin{hint}
+Use high-frequency functions.
+\end{hint}
+\begin{solution}
+No.
+\end{solution}
+
+\begin{exercise}\label{exr:ii12-08}
+If derivatives converge uniformly to $g$, what candidate derivative has the limit?
+\end{exercise}
+\begin{hint}
+Use the theorem.
+\end{hint}
+\begin{solution}
+$g$.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

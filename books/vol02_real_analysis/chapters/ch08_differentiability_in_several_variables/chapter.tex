@@ -1,5 +1,249 @@
 \chapter{Differentiability in Several Variables}
 \label{ch:ii08}
 
-\section*{Reconstruction scaffold}
-This canonical chapter path is active and buildable. Full reconstruction is reserved for a later Volume II commit.
+Multivariable differentiability replaces a one-dimensional slope by the best linear approximation. The derivative is therefore an operator, not merely a list of partial derivatives, and the remainder estimate is the central invariant statement.
+
+\section*{Learning goals}
+The reader should be able to use the central definitions, prove the structural results, diagnose the role of each hypothesis, and solve representative analytic problems.
+
+\section*{Conceptual roadmap}
+\[
+\boxed{\text{definition}\;\longrightarrow\;\text{estimate}\;\longrightarrow\;\text{theorem}\;\longrightarrow\;\text{application}.}
+\]
+
+\section{Directional and partial derivatives}
+Partial derivatives probe coordinate directions, while directional derivatives probe arbitrary directions; neither collection alone automatically guarantees differentiability.
+
+\section{Fréchet differentiability}
+A map $f:\mathbb R^n\to\mathbb R^m$ is differentiable at $a$ when $f(a+h)=f(a)+Df(a)h+o(\|h\|)$.
+
+\section{Jacobian matrices}
+After choosing standard bases, the derivative is represented by the Jacobian matrix.
+
+\section{Chain rule}
+Derivatives compose as linear maps: $D(g\circ f)(a)=Dg(f(a))Df(a)$.
+
+\section{Gradient and level sets}
+For scalar-valued functions, $Df(a)h=\nabla f(a)\cdot h$; gradients are normal to regular level sets.
+
+\section{Higher derivatives}
+Second derivatives assemble into the Hessian, a bilinear form governing second-order behavior.
+
+\section{Taylor approximation}
+Taylor's formula organizes linear and quadratic approximations plus a controlled remainder.
+
+\section{Critical points}
+At interior extrema differentiable scalar functions have zero gradient; Hessian definiteness gives second-order classification.
+
+\section{Core structural results}
+
+\begin{theorem}[Differentiability implies continuity]\label{thm:ii08-01}
+If $f$ is differentiable at $a$, then $f$ is continuous at $a$.
+\begin{proof}
+Write $f(a+h)-f(a)=Df(a)h+r(h)$ with $\|r(h)\|/\|h\|\to0$. The bounded linear term and the remainder both tend to zero.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Chain rule]\label{thm:ii08-02}
+If $f$ is differentiable at $a$ and $g$ at $f(a)$, then $g\circ f$ is differentiable at $a$ with derivative $Dg(f(a))Df(a)$.
+\begin{proof}
+Insert the linear-plus-remainder expansions for $f$ and $g$; boundedness of $Dg$ and the smallness of both remainders produce an $o(\|h\|)$ total error.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Symmetry of mixed partials]\label{thm:ii08-03}
+If second partial derivatives are continuous near a point, then mixed partials agree there.
+\begin{proof}
+Apply the one-variable mean-value theorem twice to a rectangular difference quotient and pass to the limit using continuity.
+\end{proof}
+\end{theorem}
+
+\section{Worked examples}
+
+\begin{example}[A Jacobian by linearization]\label{ex:ii08-worked-01}
+For $f(x,y)=(x^2y,e^{x+y})$, compute $Df(1,0)$. The Jacobian is $\begin{pmatrix}2xy&x^2\\e^{x+y}&e^{x+y}\end{pmatrix}$, hence at $(1,0)$ it is $\begin{pmatrix}0&1\\e&e\end{pmatrix}$.
+\end{example}
+
+\begin{example}[Directional derivatives without differentiability]\label{ex:ii08-worked-02}
+Show $f(x,y)=|xy|^{1/2}$ has directional derivatives at the origin but is not differentiable there. Along $(tu,tv)$, $f=|t|\sqrt{|uv|}$, so one-sided behavior depends linearly only in magnitude and fails a genuine linear approximation; along $y=x$, $f(t,t)=|t|$, which is not $o(\|(t,t)\|)$.
+\end{example}
+
+\begin{example}[Gradient normal to a level set]\label{ex:ii08-worked-03}
+For $F(x,y)=x^2+2y^2$, find the normal direction to $F=3$ at $(1,1)$. $\nabla F=(2x,4y)$, so at $(1,1)$ a normal vector is $(2,4)$.
+\end{example}
+
+\begin{example}[Chain rule in coordinates]\label{ex:ii08-worked-04}
+Let $f(t)=(t,t^2)$ and $g(x,y)=xe^y$. Compute $(g\circ f)'(1)$ using the chain rule. $Df(1)=(1,2)^T$ and $Dg(1,1)=(e,e)$, so the derivative is $e+2e=3e$.
+\end{example}
+
+\section{Solved dossiers}
+The dossiers are longer solved problems. Legacy mappings guide topic selection where explicit retained source blocks exist; otherwise fresh canonical problems complete the chapter.
+
+\begin{problem}[A Jacobian by linearization]\label{prob:ii08-dossier-01}
+For $f(x,y)=(x^2y,e^{x+y})$, compute $Df(1,0)$.
+\end{problem}
+\begin{solution}
+The Jacobian is $\begin{pmatrix}2xy&x^2\\e^{x+y}&e^{x+y}\end{pmatrix}$, hence at $(1,0)$ it is $\begin{pmatrix}0&1\\e&e\end{pmatrix}$.
+\end{solution}
+
+\begin{problem}[Directional derivatives without differentiability]\label{prob:ii08-dossier-02}
+Show $f(x,y)=|xy|^{1/2}$ has directional derivatives at the origin but is not differentiable there.
+\end{problem}
+\begin{solution}
+Along $(tu,tv)$, $f=|t|\sqrt{|uv|}$, so one-sided behavior depends linearly only in magnitude and fails a genuine linear approximation; along $y=x$, $f(t,t)=|t|$, which is not $o(\|(t,t)\|)$.
+\end{solution}
+
+\begin{problem}[Gradient normal to a level set]\label{prob:ii08-dossier-03}
+For $F(x,y)=x^2+2y^2$, find the normal direction to $F=3$ at $(1,1)$.
+\end{problem}
+\begin{solution}
+$\nabla F=(2x,4y)$, so at $(1,1)$ a normal vector is $(2,4)$.
+\end{solution}
+
+\begin{problem}[Chain rule in coordinates]\label{prob:ii08-dossier-04}
+Let $f(t)=(t,t^2)$ and $g(x,y)=xe^y$. Compute $(g\circ f)'(1)$ using the chain rule.
+\end{problem}
+\begin{solution}
+$Df(1)=(1,2)^T$ and $Dg(1,1)=(e,e)$, so the derivative is $e+2e=3e$.
+\end{solution}
+
+\begin{problem}[Quadratic approximation]\label{prob:ii08-dossier-05}
+Find the Hessian of $f(x,y)=x^2+xy+3y^2$.
+\end{problem}
+\begin{solution}
+$H=\begin{pmatrix}2&1\\1&6\end{pmatrix}$, constant everywhere.
+\end{solution}
+
+\begin{problem}[Critical-point classification]\label{prob:ii08-dossier-06}
+Classify the origin for $f(x,y)=x^2+4y^2$.
+\end{problem}
+\begin{solution}
+The gradient vanishes and the Hessian is positive definite, so the origin is a strict local minimum.
+\end{solution}
+
+\begin{problem}[A saddle]\label{prob:ii08-dossier-07}
+Classify the origin for $f(x,y)=x^2-y^2$.
+\end{problem}
+\begin{solution}
+The Hessian has eigenvalues $2$ and $-2$, hence is indefinite; the origin is a saddle.
+\end{solution}
+
+\begin{problem}[Differentiability from continuous partials]\label{prob:ii08-dossier-08}
+Explain why continuous first partial derivatives near a point imply differentiability there.
+\end{problem}
+\begin{solution}
+Move from the point to a nearby point along coordinate segments and apply the one-variable mean-value theorem; continuity of the partials controls the remainder uniformly by $o(\|h\|)$.
+\end{solution}
+
+\begin{problem}[Derivative of a norm square]\label{prob:ii08-dossier-09}
+For $f(x)=\|x\|_2^2$ on $\mathbb R^n$, compute $Df(x)$.
+\end{problem}
+\begin{solution}
+$Df(x)h=2x\cdot h$, so the gradient is $2x$.
+\end{solution}
+
+\begin{problem}[Derivative of a matrix map]\label{prob:ii08-dossier-10}
+For $F(A)=A^2$ on square matrices, compute $DF(A)H$.
+\end{problem}
+\begin{solution}
+Expand $(A+H)^2-A^2=AH+HA+H^2$; the linear part is $AH+HA$ and $\|H^2\|=o(\|H\|)$.
+\end{solution}
+
+\begin{problem}[Second-order Taylor formula]\label{prob:ii08-dossier-11}
+Write the quadratic Taylor approximation of $e^{x+y}$ at $(0,0)$.
+\end{problem}
+\begin{solution}
+Since $e^{x+y}=1+(x+y)+\frac12(x+y)^2+o(\|(x,y)\|^2)$, the quadratic approximation is $1+x+y+\frac12(x^2+2xy+y^2)$.
+\end{solution}
+
+\begin{problem}[Differentiability synthesis]\label{prob:ii08-dossier-12}
+Why are partial derivatives not the definition of differentiability?
+\end{problem}
+\begin{solution}
+They test only coordinate directions. Differentiability demands one linear map approximate all small directions simultaneously with an error negligible relative to distance.
+\end{solution}
+
+\section{Exercises with complete solutions}
+
+\begin{exercise}\label{exr:ii08-01}
+Compute the gradient of $x^2y+y^3$.
+\end{exercise}
+\begin{hint}
+Differentiate coordinatewise.
+\end{hint}
+\begin{solution}
+It is $(2xy,x^2+3y^2)$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii08-02}
+Find the Jacobian of $(x+y,xy)$.
+\end{exercise}
+\begin{hint}
+Differentiate each component.
+\end{hint}
+\begin{solution}
+$\begin{pmatrix}1&1\\y&x\end{pmatrix}$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii08-03}
+Show linear maps are differentiable.
+\end{exercise}
+\begin{hint}
+Try the map itself as derivative.
+\end{hint}
+\begin{solution}
+For $L$, $L(a+h)-L(a)-Lh=0$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii08-04}
+Find the Hessian of $x^2+xy+y^2$.
+\end{exercise}
+\begin{hint}
+Differentiate twice.
+\end{hint}
+\begin{solution}
+$\begin{pmatrix}2&1\\1&2\end{pmatrix}$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii08-05}
+What is $D(f+g)$?
+\end{exercise}
+\begin{hint}
+Use linearity of the approximation.
+\end{hint}
+\begin{solution}
+$Df+Dg$.
+\end{solution}
+
+\begin{exercise}\label{exr:ii08-06}
+State the critical-point necessary condition.
+\end{exercise}
+\begin{hint}
+Assume an interior extremum.
+\end{hint}
+\begin{solution}
+The gradient must vanish.
+\end{solution}
+
+\begin{exercise}\label{exr:ii08-07}
+If $Df(a)=0$, is $a$ necessarily an extremum?
+\end{exercise}
+\begin{hint}
+Think of a cubic.
+\end{hint}
+\begin{solution}
+No; $f(x)=x^3$ at $0$ is a counterexample.
+\end{solution}
+
+\begin{exercise}\label{exr:ii08-08}
+Compute $D(x\mapsto Ax)$.
+\end{exercise}
+\begin{hint}
+It is linear already.
+\end{hint}
+\begin{solution}
+The derivative is the constant map $A$.
+\end{solution}
+
+\section*{Chapter summary}
+The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

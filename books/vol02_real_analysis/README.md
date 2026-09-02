@@ -1,6 +1,6 @@
 # Volume II — Real Analysis and Topological Foundations
 
-**Status:** Canonical reconstruction underway; II/01–II/07 developed with solved dossiers.
+**Status:** Canonical reconstruction underway; II/01–II/12 developed.
 
 Canonical chapter codes: `II/01`–`II/25`.
 
