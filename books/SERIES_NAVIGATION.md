@@ -23,3 +23,7 @@ The series build compiles canonical `book.tex` wrappers that actually exist. A m
 - Missing referenced labels found: **0**
 
 See `CROSS_VOLUME_REFERENCE_AUDIT.tsv` for instance-level evidence.
+
+## Mathematical dependency map
+
+See `CROSS_VOLUME_MATHEMATICAL_NAVIGATION.md` and `../reports/series/CROSS_VOLUME_CHAPTER_BRIDGES.tsv` for curated mathematical prerequisites and continuations.
