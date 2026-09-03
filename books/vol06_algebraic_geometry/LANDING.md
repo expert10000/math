@@ -61,7 +61,7 @@
 
 - Canonical wrapper exists with **49 active includes** and **9 parts**.
 - Latest series-build status: **PASS**.
-- Current canonical PDF: **677 pages**, SHA-256 `55923f0b6984fe0a4734d17e0c265c33cface92e6ea21170c122b718598d8deb`.
+- Current canonical PDF: **677 pages**, SHA-256 `302a9883e205cac2b5253e41b22c7021961377e01dcf0ee5af2807485bdb3aae`.
 
 ## Mathematical navigation
 
