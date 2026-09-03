@@ -1,6 +1,6 @@
 # Volume IV — Complex Analysis and Riemann Surfaces
 
-**Status:** Canonical reconstruction underway; IV/01–IV/26 developed.
+**Status:** FROZEN — Volume IV Complex Analysis and Riemann Surfaces v1.0 release baseline.
 
 Canonical chapter codes: `IV/01`–`IV/31`.
 

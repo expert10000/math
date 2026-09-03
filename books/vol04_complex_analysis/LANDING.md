@@ -2,43 +2,45 @@
 
 **Canonical directory:** `vol04_complex_analysis`
 **Chapter architecture:** 31 chapters
-**Canonical wrapper:** not yet created
-**Status:** 31 planned / 0 drafted / 0 frozen.
+**Canonical wrapper:** `book.tex`
+**Status:** 0 planned / 0 drafted / 31 frozen.
 
 ## Canonical chapter navigation
 
-- ○ **IV/01 — Complex Differentiability** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/02 — Cauchy–Riemann Equations** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/03 — Power Series and Analytic Functions** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/04 — Complex Integration** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/05 — Cauchy's Theorem** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/06 — Cauchy's Integral Formula** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/07 — Zeros and the Identity Theorem** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/08 — Laurent Series** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/09 — Isolated Singularities** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/10 — Residues and the Residue Theorem** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/11 — Evaluation of Real Integrals** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/12 — Winding Numbers and the Argument Principle** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/13 — Rouché's Theorem** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/14 — Branches of the Logarithm and Roots** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/15 — Analytic Continuation** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/16 — Möbius Transformations** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/17 — Conformal Mapping** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/18 — Schwarz–Christoffel Transformations** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/19 — The Gamma Function** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/20 — Beta and Gamma Identities** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/21 — Keyhole Contours and Branch-Cut Integrals** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/22 — From Analytic Continuation to Riemann Surfaces** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/23 — Covering Maps and Monodromy** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/24 — Branched Coverings** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/25 — Construction by Gluing** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/26 — Compactification and Genus** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/27 — Lattices and Complex Tori** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/28 — Elliptic Functions** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/29 — The Weierstrass ℘-Function** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/30 — Addition Formulas** — `PLANNED` / `MAP_AND_REWRITE`
-- ○ **IV/31 — Elliptic Curves as Riemann Surfaces** — `PLANNED` / `MAP_AND_REWRITE`
+- ✓ **IV/01 — Complex Differentiability** — `FROZEN` / `COMPLETE`
+- ✓ **IV/02 — Cauchy–Riemann Equations** — `FROZEN` / `COMPLETE`
+- ✓ **IV/03 — Power Series and Analytic Functions** — `FROZEN` / `COMPLETE`
+- ✓ **IV/04 — Complex Integration** — `FROZEN` / `COMPLETE`
+- ✓ **IV/05 — Cauchy's Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **IV/06 — Cauchy's Integral Formula** — `FROZEN` / `COMPLETE`
+- ✓ **IV/07 — Zeros and the Identity Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **IV/08 — Laurent Series** — `FROZEN` / `COMPLETE`
+- ✓ **IV/09 — Isolated Singularities** — `FROZEN` / `COMPLETE`
+- ✓ **IV/10 — Residues and the Residue Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **IV/11 — Evaluation of Real Integrals** — `FROZEN` / `COMPLETE`
+- ✓ **IV/12 — Winding Numbers and the Argument Principle** — `FROZEN` / `COMPLETE`
+- ✓ **IV/13 — Rouché's Theorem** — `FROZEN` / `COMPLETE`
+- ✓ **IV/14 — Branches of the Logarithm and Roots** — `FROZEN` / `COMPLETE`
+- ✓ **IV/15 — Analytic Continuation** — `FROZEN` / `COMPLETE`
+- ✓ **IV/16 — Möbius Transformations** — `FROZEN` / `COMPLETE`
+- ✓ **IV/17 — Conformal Mapping** — `FROZEN` / `COMPLETE`
+- ✓ **IV/18 — Schwarz–Christoffel Transformations** — `FROZEN` / `COMPLETE`
+- ✓ **IV/19 — The Gamma Function** — `FROZEN` / `COMPLETE`
+- ✓ **IV/20 — Beta and Gamma Identities** — `FROZEN` / `COMPLETE`
+- ✓ **IV/21 — Keyhole Contours and Branch-Cut Integrals** — `FROZEN` / `COMPLETE`
+- ✓ **IV/22 — From Analytic Continuation to Riemann Surfaces** — `FROZEN` / `COMPLETE`
+- ✓ **IV/23 — Covering Maps and Monodromy** — `FROZEN` / `COMPLETE`
+- ✓ **IV/24 — Branched Coverings** — `FROZEN` / `COMPLETE`
+- ✓ **IV/25 — Construction by Gluing** — `FROZEN` / `COMPLETE`
+- ✓ **IV/26 — Compactification and Genus** — `FROZEN` / `COMPLETE`
+- ✓ **IV/27 — Lattices and Complex Tori** — `FROZEN` / `COMPLETE`
+- ✓ **IV/28 — Elliptic Functions** — `FROZEN` / `COMPLETE`
+- ✓ **IV/29 — The Weierstrass ℘-Function** — `FROZEN` / `COMPLETE`
+- ✓ **IV/30 — Addition Formulas** — `FROZEN` / `COMPLETE`
+- ✓ **IV/31 — Elliptic Curves as Riemann Surfaces** — `FROZEN` / `COMPLETE`
 
 ## Build state
 
-- This volume remains at architecture/reconstruction stage; `BUILD_ALL` does not fabricate an empty wrapper.
+- Canonical wrapper exists with **31 active includes** and **6 parts**.
+- Latest series-build status: **NOT_RUN**.
+- Current canonical PDF: **203 pages**, SHA-256 `18388c0962d91d8a5bffba0303b004b91e4d28132b04e1b7bbdf5e89d277b69b`.
