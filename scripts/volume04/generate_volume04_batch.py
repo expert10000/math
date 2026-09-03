@@ -39,7 +39,7 @@ def main():
     write_tsv(rec/f"VOLUME04_{tag}_SOURCE_RULE_ACCOUNTING.tsv",acc,ACCOUNT_FIELDS)
     inv=[]
     for code,title,slug in ALL_CHAPTERS:
-        p=vol/"chapters"/slug/"chapter.tex";rules=[r for r in src if r.get("destination")==code]
+        p=repo/canonical_paths[code];rules=[r for r in src if r.get("destination")==code]
         missing=sum(1 for r in rules if r.get("source_file") and not source_path(repo,r.get("source_file","")))
         inv.append({"chapter_code":code,"chapter_title":title,"mapped_rules":len(rules),"missing_sources":missing,
                     "canonical_path":p.relative_to(repo).as_posix(),"state":"SCAFFOLD" if "Reconstruction scaffold" in p.read_text(encoding="utf-8-sig") else "DEVELOPED"})
