@@ -1,6 +1,6 @@
 # Volume V — Commutative Algebra and Homological Methods
 
-**Status:** Architecture frozen; canonical reconstruction not yet started.
+**Status:** Canonical reconstruction underway; V/01–V/08 developed.
 
 Canonical chapter codes: `V/01`–`V/28`.
 
