@@ -1,6 +1,6 @@
 # Volume V — Commutative Algebra and Homological Methods
 
-**Status:** Canonical reconstruction underway; V/01–V/18 developed.
+**Status:** FROZEN — Volume V Commutative Algebra and Homological Methods v1.0 release baseline.
 
 Canonical chapter codes: `V/01`–`V/28`.
 

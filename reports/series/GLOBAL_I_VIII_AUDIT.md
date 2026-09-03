@@ -22,7 +22,7 @@
 - Volume II: 25 chapters; 25 canonical chapter paths currently exist; 0 planned / 0 drafted / 25 frozen.
 - Volume III: 28 chapters; 28 canonical chapter paths currently exist; 0 planned / 0 drafted / 28 frozen.
 - Volume IV: 31 chapters; 31 canonical chapter paths currently exist; 0 planned / 0 drafted / 31 frozen.
-- Volume V: 28 chapters; 0 canonical chapter paths currently exist; 28 planned / 0 drafted / 0 frozen.
+- Volume V: 28 chapters; 28 canonical chapter paths currently exist; 0 planned / 0 drafted / 28 frozen.
 - Volume VI: 49 chapters; 49 canonical chapter paths currently exist; 0 planned / 0 drafted / 49 frozen.
 - Volume VII: 42 chapters; 42 canonical chapter paths currently exist; 0 planned / 0 drafted / 42 frozen.
 - Volume VIII: 35 chapters; 35 canonical chapter paths currently exist; 0 planned / 0 drafted / 35 frozen.
