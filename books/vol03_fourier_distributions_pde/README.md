@@ -1,6 +1,6 @@
 # Volume III — Measure, Fourier Analysis, Distributions and PDE
 
-**Status:** Canonical reconstruction underway; III/01–III/22 developed.
+**Status:** FROZEN — Volume III Measure, Fourier Analysis, Distributions and PDE v1.0 release baseline.
 
 Canonical chapter codes: `III/01`–`III/28`.
 
