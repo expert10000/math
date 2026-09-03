@@ -1,6 +1,6 @@
 # Volume III — Measure, Fourier Analysis, Distributions and PDE
 
-**Status:** Architecture frozen; canonical reconstruction not yet started.
+**Status:** Canonical reconstruction underway; III/01–III/08 developed.
 
 Canonical chapter codes: `III/01`–`III/28`.
 
