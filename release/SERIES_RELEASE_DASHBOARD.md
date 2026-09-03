@@ -4,11 +4,11 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 | Volume | Chapters | Status | Build | PDF pages | Readiness | Unresolved |
 |---|---:|---|---|---:|---|---|
-| I — Linear Algebra | 18 | 0P/0D/18F | NOT_RUN | 100 | **RELEASED** | 1 encoding findings |
-| II — Real Analysis and Topological Foundations | 25 | 0P/0D/25F | NOT_RUN | 122 | **RELEASED** | — |
-| III — Measure, Fourier Analysis, Distributions and PDE | 28 | 0P/0D/28F | NOT_RUN | 182 | **RELEASED** | — |
-| IV — Complex Analysis and Riemann Surfaces | 31 | 0P/0D/31F | NOT_RUN | 203 | **RELEASED** | — |
-| V — Commutative Algebra and Homological Methods | 28 | 0P/0D/28F | NOT_RUN | 184 | **RELEASED** | — |
+| I — Linear Algebra | 18 | 0P/0D/18F | PASS | 100 | **RELEASED** | 1 encoding findings |
+| II — Real Analysis and Topological Foundations | 25 | 0P/0D/25F | PASS | 122 | **RELEASED** | — |
+| III — Measure, Fourier Analysis, Distributions and PDE | 28 | 0P/0D/28F | PASS | 182 | **RELEASED** | — |
+| IV — Complex Analysis and Riemann Surfaces | 31 | 0P/0D/31F | PASS | 203 | **RELEASED** | — |
+| V — Commutative Algebra and Homological Methods | 28 | 0P/0D/28F | PASS | 184 | **RELEASED** | — |
 | VI — Algebraic Geometry and Sheaf Theory | 49 | 0P/0D/49F | PASS | 677 | **RELEASED** | 2 encoding findings |
 | VII — Differential, Riemannian and Hyperbolic Geometry | 42 | 0P/0D/42F | PASS | 367 | **RELEASED** | — |
 | VIII — Algebraic Topology | 35 | 0P/0D/35F | PASS | 338 | **RELEASED** | — |
@@ -23,14 +23,14 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 ## Source and PDF baselines
 
-- Volume I: source `6f8460632d3ffe945cf95cb0cb01e4a69271fd36d06a8a80d2178a7c18fe5218`; PDF `f188b2d029f24e8a42677e237fe62810191bd8452629019a159bd5bc7fd9c607` (100 pages)
-- Volume II: source `1f3d9584b5b397ca365a450383f6dd0652acd4861997c0ecf109183214e440a6`; PDF `e8901af36fb187f11540a10d87cceea423f88d46c75d3a6f0d088cc30fb48be1` (122 pages)
-- Volume III: source `eeec90de724d0a4956f021c4db29fb0d40db46a53310e89aeedeca685fa19fdd`; PDF `91a2db8e67eb74240a9575965259f398896b7f12672f1e26d6c367e8bae5bd1a` (182 pages)
-- Volume IV: source `325b4da6970ff8f9dc2c16d21b348aeeb90f8086ccd1e131d0b21c3928cb4763`; PDF `18388c0962d91d8a5bffba0303b004b91e4d28132b04e1b7bbdf5e89d277b69b` (203 pages)
-- Volume V: source `7bcd6e9feefd6ff1b31dd147100f0248c5b19dccb255807469dd2d458d95a64c`; PDF `0c7bc1ef0deb64618f972eb75d3cbfde156710662be6d03bfaf65b938e5f20cb` (184 pages)
-- Volume VI: source `f9d0a539480c5c88aafc4f8aea18a10aa10c0fd82d123b82d6986b8db2d1360a`; PDF `19010752fdc51daff79b932c7594f783ab0e08792f72c425410e09faee5e6d4e` (677 pages)
-- Volume VII: source `fa9060284bf784cd46132465511a9001aa555d335c2519f7942b3f4c5ebb41db`; PDF `1110b23528b191cb75d5f9cd111428da59c9d7cca3ca97df84238b5cd5d70c66` (367 pages)
-- Volume VIII: source `a7e859395e7b0c3563e875e12f9304a7cd1fa4ba3597b38a35b154fdc8cb6458`; PDF `31ea1806b3b6e5bd6604a9a936e7ca4b57cc598b7f73bda581285132aeccf5cd` (338 pages)
+- Volume I: source `37a8d3e68980074055430c7935d859cd64b46424d29b5e171fea60a79cb2c73b`; PDF `3f5d3487f726f248b6c987f82284514b6e5c7bdf36095709cc59439c846ce0a2` (100 pages)
+- Volume II: source `b68e2d98f85310b3c39e6a9529f25820b757167c1a4e15dc626a2bcc9e835cce`; PDF `6c1165811e8105b4e1396d2f700dd5b58e1686a762df1711ff9cdda5bcba6cf2` (122 pages)
+- Volume III: source `05cccf58339fa83e94362db19c7f98823d1690ba4c353c67df14fd86f1c81a3a`; PDF `fa535fabf9138a00ac7c86535f1898fbe722486d51cea8d6a8c7859f13ef8c75` (182 pages)
+- Volume IV: source `515ad78957b74cf73cd0d3212b379e52c83ed1a342b67690a0e6440e6dbfba1c`; PDF `87d4e80639f1c398c0dc80b33a63f8f98b5812a1d90e4564e20c52747f48c89c` (203 pages)
+- Volume V: source `89ea22d1ae412e39679a0216c0a2d3ebefdf3f81f8f9aa95b0f5511e57f1bf94`; PDF `d516cde210797081e550baf3a0e92ee70194d80c06af5934d00d58e117685ba1` (184 pages)
+- Volume VI: source `fbbf7a5e0606b260ccc823ea1e368e3a5f0bf08c3eac6713510d14ad67536e76`; PDF `55923f0b6984fe0a4734d17e0c265c33cface92e6ea21170c122b718598d8deb` (677 pages)
+- Volume VII: source `2f01eab0a56bac89f7759d824fbe0fcc3fa5aaba63b841ba8f547785418fceaf`; PDF `9d608a8f4b0b72b8fd9d79146eb927564a031a48b0d0bc985b53b24c42173f2c` (367 pages)
+- Volume VIII: source `64604aff661816acebf7293382738c25c7e5d13f76fdbd13826846d95ab9c945`; PDF `334731a80dd90a880dc6ede3ebfe27fdf86149f7090c123fcc3f6cb0d70b2b5d` (338 pages)
 
 ## Unresolved corpus items
 
