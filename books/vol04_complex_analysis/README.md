@@ -1,6 +1,6 @@
 # Volume IV — Complex Analysis and Riemann Surfaces
 
-**Status:** Architecture frozen; canonical reconstruction not yet started.
+**Status:** Canonical reconstruction underway; IV/01–IV/06 developed.
 
 Canonical chapter codes: `IV/01`–`IV/31`.
 
