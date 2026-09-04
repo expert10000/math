@@ -5,7 +5,7 @@
 - Policy: **native Volume VI freeze/reconciliation + fresh full-solutions edition build**
 - Full-solutions pages: **1435**
 - Full-solutions bytes: **7846663**
-- Full-solutions SHA-256: `376a45b95cc14cda8cff0ead1e771f3af1c4c3e0a00c3ab7d77eded3994e7182`
+- Full-solutions SHA-256: `30041a190e89ded8528c5d1d902c7e9d07da941ff1d952a1d2f211046dc69548`
 
 ## Blockers
 

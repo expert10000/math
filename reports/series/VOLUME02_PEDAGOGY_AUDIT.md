@@ -9,7 +9,7 @@
 - Mathematical hints: **200**
 - Solutions: **500**
 - Generic hint hits: **0**
-- Duplicate hint texts: **7**
+- Duplicate hint texts: **0**
 
 ## II/09 special treatment
 

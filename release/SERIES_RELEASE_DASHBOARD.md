@@ -4,8 +4,8 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 | Volume | Chapters | Status | Build | PDF pages | Readiness | Unresolved |
 |---|---:|---|---|---:|---|---|
-| I — Linear Algebra | 18 | 0P/0D/18F | PASS | 100 | **RELEASED** | 1 encoding findings |
-| II — Real Analysis and Topological Foundations | 25 | 0P/0D/25F | PASS | 122 | **RELEASED** | — |
+| I — Linear Algebra | 18 | 0P/0D/18F | PASS | 102 | **RELEASED** | 1 encoding findings |
+| II — Real Analysis and Topological Foundations | 25 | 0P/0D/25F | PASS | 135 | **RELEASED** | — |
 | III — Measure, Fourier Analysis, Distributions and PDE | 28 | 0P/0D/28F | PASS | 182 | **RELEASED** | — |
 | IV — Complex Analysis and Riemann Surfaces | 31 | 0P/0D/31F | PASS | 203 | **RELEASED** | — |
 | V — Commutative Algebra and Homological Methods | 28 | 0P/0D/28F | PASS | 184 | **RELEASED** | — |
@@ -23,8 +23,8 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 
 ## Source and PDF baselines
 
-- Volume I: source `8b7175227884f3c4e6457c03f04b7351dbb0364bca66aaac491ad1956fae692f`; PDF `0ec438dabc1888575333f5d8895e4c5954e58d0f88c369778cc2c59baf73a0e7` (100 pages)
-- Volume II: source `9d7a639f8d03dbc6655289d4a4771a8962196a233125fea7fcf515ed3ac3b8f3`; PDF `cda0c7e64b285e8dff0bfcbe510d9ccce85ca8fb2fbf68ded347756a3cc4ed6e` (122 pages)
+- Volume I: source `01b6a01945692c970481c087fe94e6be29d7aded57fb70927a7dd2a2e5ec2c71`; PDF `e555dcbd2749d437b43f5c1186b777c7bfaeeeef0c5c6514c459d4bc9fbcd956` (102 pages)
+- Volume II: source `eb9c929fecb44f68a504ff3a06c7770f5ef28d19884a3de1512a184983a47692`; PDF `e31e46038605c30a80bd6f69d97635e7cb76da05b9a144f64c7c42e7105283b0` (135 pages)
 - Volume III: source `daacafa9cbb8d75c7385a05914f3781cd0a041841db96af339bbb18d462d45c6`; PDF `288937ac34a0782598e47bd9514f30385150875e2e8f1f2987a281345e45b5e4` (182 pages)
 - Volume IV: source `35f1282159435fabbcb8689b67ec39f79c5e557fa92c6718cd8e518a77ddbb96`; PDF `8a677b1c6d5ed129c03f84561a3c0af4dbaf3c28aceda81fff214ed94a11256c` (203 pages)
 - Volume V: source `9bdad1f73ba9617f46a0016774059e8145ffc55fa5c59f6d78b737c6f9154e54`; PDF `7da57c67f1f423cf41f51942eb2b528a219313228b4459472a94fc194c232992` (184 pages)
