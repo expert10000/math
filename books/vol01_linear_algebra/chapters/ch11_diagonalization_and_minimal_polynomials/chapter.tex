@@ -23,18 +23,74 @@ Whenever possible, we separate the invariant mathematical object from a chosen c
 \section{Diagonalizable operators}
 An operator is diagonalizable when it has a basis of eigenvectors, equivalently when some matrix representation is diagonal.
 
+
+% BEGIN VOL01-EXPANSION I11-example-01
+\begin{example}[Diagonalization by an eigenbasis]\label{ex:i11-expand-01}
+For
+\[
+A=\begin{pmatrix}2&1\\0&3\end{pmatrix},
+\]
+eigenvectors may be chosen \(v_2=(1,0)\) for eigenvalue \(2\) and
+\(v_3=(1,1)\) for eigenvalue \(3\). With
+\[
+P=\begin{pmatrix}1&1\\0&1\end{pmatrix},
+\qquad
+D=\begin{pmatrix}2&0\\0&3\end{pmatrix},
+\]
+one checks \(AP=PD\), hence \(P^{-1}AP=D\).
+
+The equation \(AP=PD\) is often the fastest verification because its columns
+say exactly \(Av_i=\lambda_i v_i\).
+\end{example}
+% END VOL01-EXPANSION I11-example-01
 \section{Direct sums of eigenspaces}
 If the characteristic polynomial splits, diagonalizability is equivalent to $V$ being the direct sum of its eigenspaces.
 
 \section{Minimal polynomial}
 The minimal polynomial $m_T$ is the monic polynomial of least positive degree with $m_T(T)=0$.
 
+
+% BEGIN VOL01-EXPANSION I11-example-02
+\begin{example}[Finding a minimal polynomial]\label{ex:i11-expand-02}
+For
+\[
+J=\begin{pmatrix}1&1\\0&1\end{pmatrix},
+\]
+we have \(J-I\neq0\) but
+\[
+(J-I)^2=0.
+\]
+Therefore the minimal polynomial is
+\[
+m_J(t)=(t-1)^2.
+\]
+The characteristic polynomial is also \((t-1)^2\), but the key information is
+the repeated factor in the minimal polynomial: it certifies that \(J\) is not
+diagonalizable.
+\end{example}
+% END VOL01-EXPANSION I11-example-02
 \section{Divisibility property}
 Every polynomial $p$ with $p(T)=0$ is divisible by $m_T$. In particular, $m_T$ divides the characteristic polynomial.
 
 \section{Square-free criterion}
 If $m_T$ splits, then $T$ is diagonalizable exactly when $m_T$ has no repeated root.
 
+
+% BEGIN VOL01-EXPANSION I11-example-03
+\begin{example}[Square-free minimal polynomial criterion]\label{ex:i11-expand-03}
+Suppose
+\[
+m_T(t)=(t-2)(t+1)
+\]
+over the scalar field. The factors are distinct, so the minimal polynomial is
+square-free and splits. Hence \(T\) is diagonalizable.
+
+By contrast, the polynomial \((t-2)^2(t+1)\) does not by itself prove
+nondiagonalizability, but if it is the actual minimal polynomial then the
+repeated factor rules diagonalization out. The criterion concerns the minimal
+polynomial, not merely the characteristic polynomial.
+\end{example}
+% END VOL01-EXPANSION I11-example-03
 \section{Spectral projectors by interpolation}
 For distinct eigenvalues, Lagrange interpolation polynomials in $T$ produce projections onto eigenspaces.
 
@@ -249,6 +305,181 @@ Factor the minimal polynomial. Diagonalizability requires the split factors to b
 The identity matrix has characteristic polynomial $(t-1)^n$ but is diagonal; what matters is the minimal polynomial, which is $t-1$.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I11-exercises-01
+\section{Graded supplementary exercises}
+The following exercises extend the original exercise set without replacing it. They are grouped by mathematical role and increase in synthesis.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Diagonalize 2x2]\label{exr:i11-expand-01}
+Diagonalize \(A=\begin{pmatrix}2&1\\0&3\end{pmatrix}\).
+\end{exercise}
+\begin{hint}
+Use eigenvectors for \(2\) and \(3\).
+\end{hint}
+\begin{solution}
+Take \(P=\begin{pmatrix}1&1\\0&1\end{pmatrix}\), then \(P^{-1}AP=\operatorname{diag}(2,3)\).
+\end{solution}
+
+\begin{exercise}[Minimal polynomial identity]\label{exr:i11-expand-02}
+What is the minimal polynomial of \(I\)?
+\end{exercise}
+\begin{hint}
+Find the monic polynomial of least degree annihilating \(I\).
+\end{hint}
+\begin{solution}
+\(m_I(t)=t-1\).
+\end{solution}
+
+\begin{exercise}[Minimal polynomial nilpotent]\label{exr:i11-expand-03}
+If \(N^3=0\) but \(N^2\neq0\), what is \(m_N\)?
+\end{exercise}
+\begin{hint}
+Nilpotence forces a power of \(t\).
+\end{hint}
+\begin{solution}
+\(m_N(t)=t^3\).
+\end{solution}
+
+\begin{exercise}[Jordan shear]\label{exr:i11-expand-04}
+Find the minimal polynomial of \(\begin{pmatrix}1&1\\0&1\end{pmatrix}\).
+\end{exercise}
+\begin{hint}
+Check \(A-I\) and \((A-I)^2\).
+\end{hint}
+\begin{solution}
+\((t-1)^2\).
+\end{solution}
+
+\begin{exercise}[Polynomial reduction]\label{exr:i11-expand-05}
+If \(m_T(t)=t^2-1\), simplify \(T^5\).
+\end{exercise}
+\begin{hint}
+Use \(T^2=I\).
+\end{hint}
+\begin{solution}
+\(T^5=T\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Minimal divides annihilator]\label{exr:i11-expand-06}
+Prove the minimal polynomial divides every polynomial \(p\) with \(p(T)=0\).
+\end{exercise}
+\begin{hint}
+Divide \(p\) by \(m_T\) with remainder.
+\end{hint}
+\begin{solution}
+If \(p=qm+r\), then \(0=p(T)=r(T)\); minimality forces \(r=0\).
+\end{solution}
+
+\begin{exercise}[Characteristic annihilation]\label{exr:i11-expand-07}
+State how Cayley--Hamilton bounds the minimal polynomial.
+\end{exercise}
+\begin{hint}
+The characteristic polynomial annihilates \(T\).
+\end{hint}
+\begin{solution}
+Since \(\chi_T(T)=0\), the minimal polynomial divides \(\chi_T\).
+\end{solution}
+
+\begin{exercise}[Distinct eigenvalues criterion]\label{exr:i11-expand-08}
+Prove an operator with \(n\) distinct eigenvalues on an \(n\)-dimensional space is diagonalizable.
+\end{exercise}
+\begin{hint}
+Distinct-eigenvalue eigenvectors are independent.
+\end{hint}
+\begin{solution}
+Choose one eigenvector per eigenvalue; \(n\) independent vectors form a basis.
+\end{solution}
+
+\begin{exercise}[Square-free criterion]\label{exr:i11-expand-09}
+State the split square-free minimal-polynomial criterion for diagonalizability.
+\end{exercise}
+\begin{hint}
+Diagonal form is annihilated by the product of distinct linear factors.
+\end{hint}
+\begin{solution}
+\(T\) is diagonalizable iff \(m_T\) splits into distinct linear factors.
+\end{solution}
+
+\subsection*{Counterexamples}
+
+\begin{exercise}[Counterexample: characteristic split]\label{exr:i11-expand-10}
+Show a split characteristic polynomial does not guarantee diagonalizability.
+\end{exercise}
+\begin{hint}
+Use a nontrivial Jordan block.
+\end{hint}
+\begin{solution}
+\(\begin{pmatrix}1&1\\0&1\end{pmatrix}\) has split characteristic polynomial but is not diagonalizable.
+\end{solution}
+
+\begin{exercise}[Counterexample: repeated char root]\label{exr:i11-expand-11}
+Does a repeated root of the characteristic polynomial force nondiagonalizability?
+\end{exercise}
+\begin{hint}
+Test the identity matrix.
+\end{hint}
+\begin{solution}
+No. \(I_2\) has \((t-1)^2\) but is already diagonal.
+\end{solution}
+
+\begin{exercise}[Counterexample: field]\label{exr:i11-expand-12}
+Give an operator diagonalizable over \(\mathbb C\) but not over \(\mathbb R\).
+\end{exercise}
+\begin{hint}
+Use a planar rotation.
+\end{hint}
+\begin{solution}
+A \(90^\circ\) rotation has eigenvalues \(\pm i\) and diagonalizes over \(\mathbb C\), not over \(\mathbb R\).
+\end{solution}
+
+\subsection*{Applications}
+
+\begin{exercise}[Application: powers]\label{exr:i11-expand-13}
+If \(A=PDP^{-1}\), explain how to compute \(A^{100}\).
+\end{exercise}
+\begin{hint}
+Powers telescope around the diagonal matrix.
+\end{hint}
+\begin{solution}
+\(A^{100}=PD^{100}P^{-1}\), and \(D^{100}\) is obtained entrywise.
+\end{solution}
+
+\begin{exercise}[Application: differential equation]\label{exr:i11-expand-14}
+Why does diagonalization simplify \(x'(t)=Ax(t)\)?
+\end{exercise}
+\begin{hint}
+Change coordinates with an eigenbasis.
+\end{hint}
+\begin{solution}
+In eigenbasis coordinates the system decouples into scalar equations \(y_i'=\lambda_i y_i\).
+\end{solution}
+
+\subsection*{Challenges}
+
+\begin{exercise}[Challenge: same char different minimal]\label{exr:i11-expand-15}
+Give two \(2\times2\) matrices with the same characteristic polynomial but different minimal polynomials.
+\end{exercise}
+\begin{hint}
+Use \(I_2\) and a Jordan block.
+\end{hint}
+\begin{solution}
+Both have \((t-1)^2\); \(I_2\) has minimal \(t-1\), the Jordan block has \((t-1)^2\).
+\end{solution}
+
+\begin{exercise}[Challenge: projections]\label{exr:i11-expand-16}
+If \(P^2=P\), determine the possible roots of its minimal polynomial and conclude diagonalizability.
+\end{exercise}
+\begin{hint}
+\(P\) is annihilated by \(t(t-1)\).
+\end{hint}
+\begin{solution}
+\(m_P\mid t(t-1)\), a product of distinct linear factors, so \(P\) is diagonalizable.
+\end{solution}
+% END VOL01-EXPANSION I11-exercises-01
 \section*{Chapter summary}
 Diagonalization asks whether an operator can be decomposed into independent one-dimensional modes. The minimal polynomial gives the sharp algebraic criterion: an operator is diagonalizable exactly when its minimal polynomial splits into distinct linear factors. This viewpoint unifies eigenvalue counting with polynomial identities satisfied by the operator.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.

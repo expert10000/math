@@ -23,18 +23,70 @@ Whenever possible, we separate the invariant mathematical object from a chosen c
 \section{Matrix of a linear map}
 For bases $B$ of $V$ and $C$ of $W$, the matrix $[T]_{C\leftarrow B}$ is defined by $[T(v)]_C=[T]_{C\leftarrow B}[v]_B$.
 
+
+% BEGIN VOL01-EXPANSION I07-example-01
+\begin{example}[Building a matrix column by column]\label{ex:i07-expand-01}
+Let \(T:\mathbb R^2\to\mathbb R^3\) be
+\(T(x,y)=(x-y,2x,y)\). The standard matrix is obtained from basis images:
+\[
+T(e_1)=(1,2,0),\qquad T(e_2)=(-1,0,1),
+\]
+so
+\[
+[T]=\begin{pmatrix}1&-1\\2&0\\0&1\end{pmatrix}.
+\]
+Multiplying this matrix by \((x,y)^T\) reproduces
+\((x-y,2x,y)^T\), which checks the construction.
+
+The columns are not arbitrary bookkeeping: each is the coordinate image of one
+domain basis vector.
+\end{example}
+% END VOL01-EXPANSION I07-example-01
 \section{Column rule}
 The $j$th column of $[T]_{C\leftarrow B}$ is $[T(v_j)]_C$.
 
 \section{Composition and multiplication}
 Coordinates turn composition into matrix multiplication: $[S\circ T]=[S][T]$ with compatible bases.
 
+
+% BEGIN VOL01-EXPANSION I07-example-02
+\begin{example}[Matrix multiplication from composition]\label{ex:i07-expand-02}
+Let \(T(x,y)=(x+y,y)\) and \(S(u,v)=(u,2v)\). Their standard matrices are
+\[
+A=\begin{pmatrix}1&1\\0&1\end{pmatrix},\qquad
+B=\begin{pmatrix}1&0\\0&2\end{pmatrix}.
+\]
+Since \(S\circ T\) means apply \(T\) first, its matrix is
+\[
+BA=\begin{pmatrix}1&1\\0&2\end{pmatrix}.
+\]
+Directly,
+\((S\circ T)(x,y)=(x+y,2y)\), agreeing with the product.
+
+This calculation fixes the order convention: composition order is reversed in
+the written matrix product.
+\end{example}
+% END VOL01-EXPANSION I07-example-02
 \section{Identity and inverses}
 The identity has the identity matrix in the same basis. An isomorphism is represented by an invertible matrix.
 
 \section{Change of basis for operators}
 For an endomorphism, changing from basis $B$ to $C$ gives $[T]_C=P_{C\leftarrow B}[T]_B P_{B\leftarrow C}$. Thus representations of the same operator are similar.
 
+
+% BEGIN VOL01-EXPANSION I07-example-03
+\begin{example}[Same operator, different basis matrix]\label{ex:i07-expand-03}
+Suppose an operator has matrix \(A\) in basis \(B\), and
+\(P=P_{B\leftarrow C}\) converts \(C\)-coordinates to \(B\)-coordinates.
+Starting with \([v]_C\), first obtain \(P[v]_C\), apply \(A\), and finally
+return using \(P^{-1}\). Thus
+\[
+[T]_C=P^{-1}AP.
+\]
+The formula is best remembered by following one vector through the coordinate
+changes rather than memorizing a conjugation pattern.
+\end{example}
+% END VOL01-EXPANSION I07-example-03
 \section{Rank and row reduction}
 The rank of a matrix equals the dimension of the image of its associated linear map. Row operations preserve rank.
 
@@ -249,6 +301,181 @@ Test a proposed representation on basis vectors; if one column is wrong, the who
 Each elementary row operation is left multiplication by an elementary invertible matrix.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I07-exercises-01
+\section{Graded supplementary exercises}
+The following exercises extend the original exercise set without replacing it. They are grouped by mathematical role and increase in synthesis.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Matrix from a formula]\label{exr:i07-expand-01}
+Find the standard matrix of \(T(x,y)=(2x-y,x+3y)\).
+\end{exercise}
+\begin{hint}
+Use \(T(e_1),T(e_2)\) as columns.
+\end{hint}
+\begin{solution}
+\(\begin{pmatrix}2&-1\\1&3\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Apply a representation]\label{exr:i07-expand-02}
+For \(A=\begin{pmatrix}1&2\\0&-1\end{pmatrix}\), compute \(A(3,1)^T\).
+\end{exercise}
+\begin{hint}
+Multiply row by column.
+\end{hint}
+\begin{solution}
+\((5,-1)^T\).
+\end{solution}
+
+\begin{exercise}[Composition matrix]\label{exr:i07-expand-03}
+If \([S]=B\), \([T]=A\), what is \([S\circ T]\)?
+\end{exercise}
+\begin{hint}
+The inner map acts first.
+\end{hint}
+\begin{solution}
+\([S\circ T]=BA\).
+\end{solution}
+
+\begin{exercise}[Identity matrix]\label{exr:i07-expand-04}
+What matrix represents the identity in any ordered basis?
+\end{exercise}
+\begin{hint}
+Each basis vector maps to itself.
+\end{hint}
+\begin{solution}
+The identity matrix.
+\end{solution}
+
+\begin{exercise}[Matrix of inverse]\label{exr:i07-expand-05}
+If \(T\) is invertible with matrix \(A\), what is the matrix of \(T^{-1}\) in the corresponding bases?
+\end{exercise}
+\begin{hint}
+Compose the two maps.
+\end{hint}
+\begin{solution}
+\(A^{-1}\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Column theorem]\label{exr:i07-expand-06}
+Prove the \(j\)-th column of \([T]_{C\leftarrow B}\) is \([T(b_j)]_C\).
+\end{exercise}
+\begin{hint}
+Apply the matrix to the coordinate vector \(e_j\).
+\end{hint}
+\begin{solution}
+Since \([b_j]_B=e_j\), the product selects column \(j\), which must be \([T(b_j)]_C\).
+\end{solution}
+
+\begin{exercise}[Representation uniqueness]\label{exr:i07-expand-07}
+Prove a linear map has a unique matrix once domain and codomain bases are fixed.
+\end{exercise}
+\begin{hint}
+A matrix is determined by its columns.
+\end{hint}
+\begin{solution}
+The basis images determine \(T\), and their coordinate columns determine the matrix uniquely.
+\end{solution}
+
+\begin{exercise}[Composition proof]\label{exr:i07-expand-08}
+Derive matrix multiplication from composition on basis coordinates.
+\end{exercise}
+\begin{hint}
+Write \([Tv]_C=A[v]_B\) and then apply \(S\).
+\end{hint}
+\begin{solution}
+\([STv]_D=B[Tv]_C=BA[v]_B\).
+\end{solution}
+
+\begin{exercise}[Change-of-basis proof]\label{exr:i07-expand-09}
+Derive the similarity formula for an endomorphism.
+\end{exercise}
+\begin{hint}
+Insert coordinate changes before and after the operator.
+\end{hint}
+\begin{solution}
+If \(P=P_{B\leftarrow C}\), then \([T]_C=P^{-1}[T]_BP\).
+\end{solution}
+
+\subsection*{Counterexamples}
+
+\begin{exercise}[Counterexample: order]\label{exr:i07-expand-10}
+Show \(AB\) and \(BA\) can differ.
+\end{exercise}
+\begin{hint}
+Choose a projection and shear matrix.
+\end{hint}
+\begin{solution}
+For \(A=\begin{pmatrix}1&0\\0&0\end{pmatrix}\), \(B=\begin{pmatrix}1&1\\0&1\end{pmatrix}\), \(AB\neq BA\).
+\end{solution}
+
+\begin{exercise}[Counterexample: same array]\label{exr:i07-expand-11}
+Explain why the same numerical matrix can represent different maps if bases differ.
+\end{exercise}
+\begin{hint}
+The matrix acts on coordinate columns, whose meanings depend on bases.
+\end{hint}
+\begin{solution}
+Changing the identification of coordinates changes the underlying basis vectors, so the same array need not describe the same geometric map.
+\end{solution}
+
+\begin{exercise}[Counterexample: rectangular inverse]\label{exr:i07-expand-12}
+Why can a \(2\times3\) matrix not have a two-sided inverse?
+\end{exercise}
+\begin{hint}
+A two-sided inverse would make the corresponding spaces isomorphic.
+\end{hint}
+\begin{solution}
+\(\mathbb F^3\) and \(\mathbb F^2\) have different finite dimensions.
+\end{solution}
+
+\subsection*{Applications}
+
+\begin{exercise}[Application: rotation]\label{exr:i07-expand-13}
+Write the matrix of a \(90^\circ\) rotation in the standard basis.
+\end{exercise}
+\begin{hint}
+Track \(e_1,e_2\).
+\end{hint}
+\begin{solution}
+\(\begin{pmatrix}0&-1\\1&0\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Application: derivative]\label{exr:i07-expand-14}
+Find the matrix of \(D:\mathcal P_2\to\mathcal P_1\) in monomial bases.
+\end{exercise}
+\begin{hint}
+Differentiate \(1,x,x^2\).
+\end{hint}
+\begin{solution}
+\(\begin{pmatrix}0&1&0\\0&0&2\end{pmatrix}\).
+\end{solution}
+
+\subsection*{Challenges}
+
+\begin{exercise}[Challenge: adapted matrix]\label{exr:i07-expand-15}
+If \(U\) is \(T\)-invariant and the basis begins with a basis of \(U\), what block shape must \([T]\) have?
+\end{exercise}
+\begin{hint}
+Images of the first basis vectors remain in \(U\).
+\end{hint}
+\begin{solution}
+The lower-left block is zero, so \([T]=\begin{pmatrix}A&B\\0&C\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Challenge: rank representation]\label{exr:i07-expand-16}
+Why is rank independent of the chosen matrix representation?
+\end{exercise}
+\begin{hint}
+Changing bases multiplies the matrix by invertible matrices on left and right.
+\end{hint}
+\begin{solution}
+Invertible row/coordinate changes do not change the dimension of the image, so rank is invariant.
+\end{solution}
+% END VOL01-EXPANSION I07-exercises-01
 \section*{Chapter summary}
 Matrices are coordinate representations of linear maps. The matrix is not the transformation itself: it depends on chosen bases in the domain and codomain. Once this distinction is kept visible, matrix multiplication, change of basis, rank and similarity all acquire transparent conceptual meanings.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.
