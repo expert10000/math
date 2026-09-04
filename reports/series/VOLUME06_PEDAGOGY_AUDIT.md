@@ -5,7 +5,7 @@
 - Chapters: **49 / 49**
 - Existing learning outcomes preserved: **226**
 - Existing hints: **429 / 429**
-- Enriched hints: **0**
+- Enriched hints: **189**
 - Native problems / exercises / solutions: **1045 / 1120 / 1527**
 - Raw pairing mismatches (diagnostic): **29**
 - Blocking pairing failures: **0**
