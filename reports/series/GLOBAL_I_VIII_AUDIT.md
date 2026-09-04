@@ -1,6 +1,6 @@
 # Global I-VIII Status, Encoding, and Canonical-Path Audit
 
-**Mode:** repair + audit
+**Mode:** audit only
 
 ## Architecture integrity
 
