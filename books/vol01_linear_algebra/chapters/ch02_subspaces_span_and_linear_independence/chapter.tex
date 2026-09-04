@@ -23,12 +23,51 @@ Whenever possible, we separate the invariant mathematical object from a chosen c
 \section{Subspaces}
 A subset $W\subseteq V$ is a subspace when it contains $0$ and is closed under addition and scalar multiplication. Equivalently, $au+bv\in W$ for all $u,v\in W$ and $a,b\in\mathbb F$.
 
+
+% BEGIN VOL01-EXPANSION I02-example-01
+\begin{example}[Testing a constraint subspace]\label{ex:i02-expand-01}
+Let
+\[
+W=\{(x,y,z)\in\mathbb R^3:x-2y+z=0\}.
+\]
+For \(u,v\in W\) and scalars \(a,b\),
+\[
+(au+bv)_1-2(au+bv)_2+(au+bv)_3
+=a(u_1-2u_2+u_3)+b(v_1-2v_2+v_3)=0.
+\]
+Thus \(W\) is a subspace. Solving the equation gives
+\(x=2s-t\), so
+\[
+W=\operatorname{span}\{(2,1,0),(-1,0,1)\}.
+\]
+The defining equation proves closure; the parametrization exhibits a spanning
+set. These are two complementary ways to understand the same subspace.
+\end{example}
+% END VOL01-EXPANSION I02-example-01
 \section{Intersections and sums}
 Arbitrary intersections of subspaces are subspaces. The union of two subspaces need not be a subspace, but the sum $U+W=\{u+w\}$ always is.
 
 \section{Span}
 The span of $S\subseteq V$ is the set of all finite linear combinations of elements of $S$. It is the smallest subspace containing $S$.
 
+
+% BEGIN VOL01-EXPANSION I02-example-02
+\begin{example}[Removing a redundant generator]\label{ex:i02-expand-02}
+Consider
+\[
+v_1=(1,0,1),\quad v_2=(0,1,1),\quad v_3=(1,1,2).
+\]
+Since \(v_3=v_1+v_2\),
+\[
+\operatorname{span}(v_1,v_2,v_3)=\operatorname{span}(v_1,v_2).
+\]
+Moreover \(v_1,v_2\) are independent: the first two coordinates of
+\(av_1+bv_2=0\) force \(a=b=0\).
+
+The calculation shows how span and independence work together: the third vector
+adds no direction, and deleting it preserves the generated subspace.
+\end{example}
+% END VOL01-EXPANSION I02-example-02
 \section{Linear dependence}
 A finite list $v_1,\ldots,v_r$ is linearly dependent when some nontrivial scalar relation $a_1v_1+\cdots+a_rv_r=0$ exists. Otherwise the list is linearly independent.
 
@@ -38,6 +77,25 @@ If a list is dependent, at least one vector is in the span of the others. This s
 \section{Homogeneous systems}
 Columns of a matrix are linearly dependent exactly when the corresponding homogeneous system has a nonzero solution. Row reduction converts an abstract dependence question into an algorithm.
 
+
+% BEGIN VOL01-EXPANSION I02-example-03
+\begin{example}[Dependence as a null-space computation]\label{ex:i02-expand-03}
+Put the vectors
+\[
+v_1=(1,1,0),\quad v_2=(0,1,1),\quad v_3=(1,2,1)
+\]
+as columns of \(A\). A relation \(c_1v_1+c_2v_2+c_3v_3=0\) is exactly a
+solution of \(Ac=0\). Since \(v_3=v_1+v_2\),
+\[
+(-1,-1,1)^T\in\ker A.
+\]
+Row reduction gives one free variable, so every relation is a scalar multiple
+of this one.
+
+This is the computational bridge: column dependence is not a new problem; it is
+a homogeneous linear system.
+\end{example}
+% END VOL01-EXPANSION I02-example-03
 \section{Core structural results}
 
 \begin{theorem}[Subspace criterion]\label{thm:i02-01}
@@ -249,6 +307,181 @@ Translate the statement into \(Ax=0\). Pivot columns and free variables tell you
 A homogeneous system $Ax=0$ has only the zero solution exactly when every column variable is a pivot variable; this is equivalent to column independence.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I02-exercises-01
+\section{Graded supplementary exercises}
+The following exercises extend the original exercise set without replacing it. They are grouped by mathematical role and increase in synthesis.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Plane span]\label{exr:i02-expand-01}
+Parametrize \(\operatorname{span}\{(1,0,1),(0,1,1)\}\).
+\end{exercise}
+\begin{hint}
+Use coefficients \(a,b\).
+\end{hint}
+\begin{solution}
+The span is \(\{(a,b,a+b):a,b\in\mathbb R\}\), the plane \(z=x+y\).
+\end{solution}
+
+\begin{exercise}[Intersection]\label{exr:i02-expand-02}
+Find \(U\cap W\) for \(U=\{z=0\}\) and \(W=\{y=0\}\) in \(\mathbb R^3\).
+\end{exercise}
+\begin{hint}
+Impose both equations.
+\end{hint}
+\begin{solution}
+\(U\cap W=\{(x,0,0)\}=\operatorname{span}(e_1)\).
+\end{solution}
+
+\begin{exercise}[Sum]\label{exr:i02-expand-03}
+For the same \(U,W\), compute \(U+W\).
+\end{exercise}
+\begin{hint}
+Check whether the standard basis lies in the sum.
+\end{hint}
+\begin{solution}
+\(e_1,e_2\in U\) and \(e_3\in W\), so \(U+W=\mathbb R^3\).
+\end{solution}
+
+\begin{exercise}[Parameter dependence]\label{exr:i02-expand-04}
+For which \(a\) are \((1,a)\) and \((a,1)\) dependent?
+\end{exercise}
+\begin{hint}
+Set the \(2\times2\) determinant to zero.
+\end{hint}
+\begin{solution}
+\(1-a^2=0\), hence \(a=\pm1\).
+\end{solution}
+
+\begin{exercise}[Relation space]\label{exr:i02-expand-05}
+Find all relations among \((1,0),(0,1),(1,1)\).
+\end{exercise}
+\begin{hint}
+Solve \(a(1,0)+b(0,1)+c(1,1)=0\).
+\end{hint}
+\begin{solution}
+\(a+c=0,b+c=0\), so \((a,b,c)=t(-1,-1,1)\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Intersection theorem]\label{exr:i02-expand-06}
+Prove an arbitrary intersection of subspaces is a subspace.
+\end{exercise}
+\begin{hint}
+Test a general linear combination in every member of the family.
+\end{hint}
+\begin{solution}
+Every member contains zero and is closed under linear combinations, so the intersection has the same properties.
+\end{solution}
+
+\begin{exercise}[Union criterion]\label{exr:i02-expand-07}
+Prove \(U\cup W\) is a subspace only when \(U\subseteq W\) or \(W\subseteq U\).
+\end{exercise}
+\begin{hint}
+If neither contains the other, choose \(u\in U\setminus W\) and \(w\in W\setminus U\).
+\end{hint}
+\begin{solution}
+Then \(u+w\) lies in neither subspace; otherwise subtraction would put one chosen vector in the other subspace.
+\end{solution}
+
+\begin{exercise}[Smallest subspace]\label{exr:i02-expand-08}
+Prove \(\operatorname{span}S\) is the intersection of all subspaces containing \(S\).
+\end{exercise}
+\begin{hint}
+Use both containments and the defining minimality of span.
+\end{hint}
+\begin{solution}
+Every containing subspace contains all finite combinations, while \(\operatorname{span}S\) itself is one of the containing subspaces.
+\end{solution}
+
+\begin{exercise}[Redundancy lemma]\label{exr:i02-expand-09}
+Show that if \(v_r\in\operatorname{span}(v_1,\ldots,v_{r-1})\), deleting \(v_r\) does not change the span.
+\end{exercise}
+\begin{hint}
+One containment is automatic; substitute the span expression for \(v_r\) for the other.
+\end{hint}
+\begin{solution}
+Every combination using \(v_r\) can be rewritten using only \(v_1,\ldots,v_{r-1}\).
+\end{solution}
+
+\subsection*{Counterexamples}
+
+\begin{exercise}[Union of axes]\label{exr:i02-expand-10}
+Show the union of the coordinate axes in \(\mathbb R^2\) is not a subspace.
+\end{exercise}
+\begin{hint}
+Add one vector from each axis.
+\end{hint}
+\begin{solution}
+\((1,0)\) and \((0,1)\) lie in the union but \((1,1)\) does not.
+\end{solution}
+
+\begin{exercise}[Nonhomogeneous solution set]\label{exr:i02-expand-11}
+Show \(\{x:Ax=b\}\) with \(b\neq0\) need not be a subspace.
+\end{exercise}
+\begin{hint}
+Check whether \(0\) can solve the equation.
+\end{hint}
+\begin{solution}
+\(A0=0\neq b\), so the zero vector is absent whenever the system is consistent with nonzero \(b\).
+\end{solution}
+
+\begin{exercise}[Scalar-closed is not enough]\label{exr:i02-expand-12}
+Give a set containing \(0\) and closed under scalar multiplication but not under addition.
+\end{exercise}
+\begin{hint}
+Use the union of two distinct lines through the origin.
+\end{hint}
+\begin{solution}
+The union of the coordinate axes works; it is scalar-closed but \((1,0)+(0,1)\) leaves it.
+\end{solution}
+
+\subsection*{Applications}
+
+\begin{exercise}[Conservation constraint]\label{exr:i02-expand-13}
+Show vectors \((x,y,z)\) with \(x+y+z=0\) form a subspace and give a basis.
+\end{exercise}
+\begin{hint}
+Solve \(z=-x-y\).
+\end{hint}
+\begin{solution}
+The set is \(\operatorname{span}\{(1,0,-1),(0,1,-1)\}\).
+\end{solution}
+
+\begin{exercise}[Polynomial boundary condition]\label{exr:i02-expand-14}
+Find a basis of \(W=\{p\in\mathcal P_3:p(1)=0\}\).
+\end{exercise}
+\begin{hint}
+Factor \(x-1\).
+\end{hint}
+\begin{solution}
+\(W=(x-1)\mathcal P_2\), with basis \(x-1,x(x-1),x^2(x-1)\).
+\end{solution}
+
+\subsection*{Challenges}
+
+\begin{exercise}[Direct-sum test]\label{exr:i02-expand-15}
+For \(U=\operatorname{span}(e_1,e_2)\), \(W=\operatorname{span}(e_2,e_3)\), decide whether \(U+W\) is direct.
+\end{exercise}
+\begin{hint}
+A sum is direct iff the intersection is zero.
+\end{hint}
+\begin{solution}
+\(U\cap W=\operatorname{span}(e_2)\neq0\), so the sum is not direct.
+\end{solution}
+
+\begin{exercise}[Dependence without coordinates]\label{exr:i02-expand-16}
+If \(u,v\) are independent, prove \(u+v,u-v\) are independent over a field of characteristic not \(2\).
+\end{exercise}
+\begin{hint}
+Add and subtract a relation \(a(u+v)+b(u-v)=0\).
+\end{hint}
+\begin{solution}
+The coefficients of \(u,v\) are \(a+b,a-b\); independence gives \(a+b=a-b=0\), hence \(2a=2b=0\), so \(a=b=0\).
+\end{solution}
+% END VOL01-EXPANSION I02-exercises-01
 \section*{Chapter summary}
 Subspaces are the linear subsets of a vector space, span is the smallest subspace generated by specified vectors, and linear independence is the condition that a generating description has no redundancy. These three ideas form the basic grammar of finite-dimensional reasoning.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.

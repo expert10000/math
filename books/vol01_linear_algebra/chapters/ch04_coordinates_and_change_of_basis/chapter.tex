@@ -23,9 +23,44 @@ Whenever possible, we separate the invariant mathematical object from a chosen c
 \section{Coordinate isomorphisms}
 For an ordered basis $B=(v_1,\ldots,v_n)$, the coordinate map $\kappa_B:V\to\mathbb F^n$, $v\mapsto[v]_B$, is a linear isomorphism.
 
+
+% BEGIN VOL01-EXPANSION I04-example-01
+\begin{example}[A coordinate isomorphism in practice]\label{ex:i04-expand-01}
+For \(B=((1,1),(1,-1))\), the coordinate map sends
+\[
+(x,y)\longmapsto [ (x,y) ]_B
+=\begin{pmatrix}(x+y)/2\\(x-y)/2\end{pmatrix}.
+\]
+It is linear, and reconstructing gives
+\[
+\frac{x+y}{2}(1,1)+\frac{x-y}{2}(1,-1)=(x,y).
+\]
+Thus the coordinate map is visibly invertible.
+
+This example makes the abstraction concrete: choosing a basis is choosing a
+linear isomorphism from the vector space to a coordinate space.
+\end{example}
+% END VOL01-EXPANSION I04-example-01
 \section{Transition matrices}
 Given bases $B,C$, the matrix $P_{C\leftarrow B}$ is defined by $[v]_C=P_{C\leftarrow B}[v]_B$. Its columns are the $C$-coordinates of the vectors of $B$.
 
+
+% BEGIN VOL01-EXPANSION I04-example-02
+\begin{example}[Building and checking a transition matrix]\label{ex:i04-expand-02}
+Let \(B=((1,1),(1,-1))\) and \(E\) be the standard basis. Since the columns of
+\(P_{E\leftarrow B}\) are the \(E\)-coordinates of the \(B\)-vectors,
+\[
+P_{E\leftarrow B}=\begin{pmatrix}1&1\\1&-1\end{pmatrix}.
+\]
+For \(v=3b_1+2b_2\),
+\[
+[v]_E=P_{E\leftarrow B}\begin{pmatrix}3\\2\end{pmatrix}
+=\begin{pmatrix}5\\1\end{pmatrix}.
+\]
+Direct reconstruction gives the same vector, which checks both the columns and
+the direction of the arrow in the notation.
+\end{example}
+% END VOL01-EXPANSION I04-example-02
 \section{Inverse transitions}
 Changing from $B$ to $C$ and back gives $P_{B\leftarrow C}=P_{C\leftarrow B}^{-1}$.
 
@@ -38,6 +73,24 @@ Linear functionals transform by the inverse transpose of the vector change-of-ba
 \section{Conditioning of bases}
 A mathematically valid basis can be numerically poor if its vectors are nearly dependent. Orthogonal bases mitigate this instability.
 
+
+% BEGIN VOL01-EXPANSION I04-example-03
+\begin{example}[Near dependence and numerical instability]\label{ex:i04-expand-03}
+Take \(B_\varepsilon=((1,0),(1,\varepsilon))\). Its basis matrix is
+\[
+P_\varepsilon=\begin{pmatrix}1&1\\0&\varepsilon\end{pmatrix},
+\qquad
+P_\varepsilon^{-1}
+=\begin{pmatrix}1&-1/\varepsilon\\0&1/\varepsilon\end{pmatrix}.
+\]
+For every nonzero \(\varepsilon\) this is a valid basis, but when
+\(|\varepsilon|\) is small, the inverse has very large entries.
+
+So algebraic invertibility and numerical reliability are different questions.
+The determinant confirms validity; the size of the inverse warns about
+sensitivity.
+\end{example}
+% END VOL01-EXPANSION I04-example-03
 \section{Core structural results}
 
 \begin{theorem}[Transition matrix rule]\label{thm:i04-01}
@@ -249,6 +302,181 @@ Test a proposed formula on each basis vector; a matrix representation is determi
 The transition matrix is close to singular, so its inverse can have large entries and amplify small data errors.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I04-exercises-01
+\section{Graded supplementary exercises}
+The following exercises extend the original exercise set without replacing it. They are grouped by mathematical role and increase in synthesis.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Transition columns]\label{exr:i04-expand-01}
+For \(B=((1,1),(2,1))\), compute \(P_{E\leftarrow B}\).
+\end{exercise}
+\begin{hint}
+Use the basis vectors as columns in standard coordinates.
+\end{hint}
+\begin{solution}
+\(\begin{pmatrix}1&2\\1&1\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Reverse transition]\label{exr:i04-expand-02}
+Find \(P_{B\leftarrow E}\) for the preceding basis.
+\end{exercise}
+\begin{hint}
+Invert \(P_{E\leftarrow B}\).
+\end{hint}
+\begin{solution}
+The determinant is \(-1\), so \(P_{B\leftarrow E}=\begin{pmatrix}-1&2\\1&-1\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Coordinate conversion]\label{exr:i04-expand-03}
+If \([v]_B=(3,-1)^T\) and \(P_{E\leftarrow B}=\begin{pmatrix}1&2\\1&1\end{pmatrix}\), find \([v]_E\).
+\end{exercise}
+\begin{hint}
+Multiply the transition matrix by the coordinate column.
+\end{hint}
+\begin{solution}
+\([v]_E=(1,2)^T\).
+\end{solution}
+
+\begin{exercise}[Shifted polynomial basis]\label{exr:i04-expand-04}
+Find \([x^2]_{(1,x-1,(x-1)^2)}\).
+\end{exercise}
+\begin{hint}
+Write \(x=(x-1)+1\) and expand.
+\end{hint}
+\begin{solution}
+\(x^2=1+2(x-1)+(x-1)^2\), so coordinates are \((1,2,1)^T\).
+\end{solution}
+
+\begin{exercise}[Cocycle]\label{exr:i04-expand-05}
+If \(P_{C\leftarrow B}=A\), \(P_{D\leftarrow C}=B_0\), express \(P_{D\leftarrow B}\).
+\end{exercise}
+\begin{hint}
+Apply the two coordinate changes in succession.
+\end{hint}
+\begin{solution}
+\(P_{D\leftarrow B}=B_0A\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Transition invertibility]\label{exr:i04-expand-06}
+Prove every transition matrix is invertible.
+\end{exercise}
+\begin{hint}
+The reverse coordinate change provides an inverse map.
+\end{hint}
+\begin{solution}
+\(P_{B\leftarrow C}P_{C\leftarrow B}=I\), so the matrices are inverses.
+\end{solution}
+
+\begin{exercise}[Cocycle identity]\label{exr:i04-expand-07}
+Prove \(P_{D\leftarrow B}=P_{D\leftarrow C}P_{C\leftarrow B}\).
+\end{exercise}
+\begin{hint}
+Apply both sides to an arbitrary \(B\)-coordinate vector.
+\end{hint}
+\begin{solution}
+Both products produce the unique \(D\)-coordinate column of the same vector.
+\end{solution}
+
+\begin{exercise}[Coordinate map linearity]\label{exr:i04-expand-08}
+Prove \(v\mapsto[v]_B\) is linear.
+\end{exercise}
+\begin{hint}
+Compare basis coefficients of \(av+bw\).
+\end{hint}
+\begin{solution}
+Coefficients combine componentwise, so \([av+bw]_B=a[v]_B+b[w]_B\).
+\end{solution}
+
+\begin{exercise}[Similarity derivation]\label{exr:i04-expand-09}
+Derive \([T]_C=P^{-1}[T]_B P\) for \(P=P_{B\leftarrow C}\).
+\end{exercise}
+\begin{hint}
+Follow a \(C\)-coordinate vector into \(B\), apply \(T\), then return.
+\end{hint}
+\begin{solution}
+The three steps are \(P\), \([T]_B\), \(P^{-1}\), giving the conjugation formula.
+\end{solution}
+
+\subsection*{Counterexamples}
+
+\begin{exercise}[Wrong direction]\label{exr:i04-expand-10}
+Explain why using \(P_{C\leftarrow B}\) where \(P_{B\leftarrow C}\) is required can give a plausible but wrong result.
+\end{exercise}
+\begin{hint}
+Test the matrix on a basis vector whose converted coordinates are known.
+\end{hint}
+\begin{solution}
+The two matrices are inverses, generally unequal; a basis-vector test exposes the reversed direction.
+\end{solution}
+
+\begin{exercise}[Singular columns]\label{exr:i04-expand-11}
+Why can a singular matrix not be a transition matrix?
+\end{exercise}
+\begin{hint}
+A transition matrix represents an isomorphism between coordinate spaces.
+\end{hint}
+\begin{solution}
+A singular matrix is not invertible, so it cannot encode reversible basis conversion.
+\end{solution}
+
+\begin{exercise}[Coordinates are not vectors]\label{exr:i04-expand-12}
+Give an example where the same vector has different coordinate columns in two bases.
+\end{exercise}
+\begin{hint}
+Use \(v=(1,1)\), standard basis, and \(B=((1,1),(1,-1))\).
+\end{hint}
+\begin{solution}
+\([v]_E=(1,1)^T\) but \([v]_B=(1,0)^T\).
+\end{solution}
+
+\subsection*{Applications}
+
+\begin{exercise}[Adapted basis]\label{exr:i04-expand-13}
+For \(U=\operatorname{span}(1,1)\subset\mathbb R^2\), choose a basis adapted to \(U\).
+\end{exercise}
+\begin{hint}
+Begin with a basis of \(U\) and add any vector outside it.
+\end{hint}
+\begin{solution}
+\(((1,1),(1,-1))\) is adapted; \(U\) is the first coordinate axis in these coordinates.
+\end{solution}
+
+\begin{exercise}[Numerical conditioning]\label{exr:i04-expand-14}
+Why is \(B_\varepsilon=((1,0),(1,\varepsilon))\) unstable for small \(\varepsilon\)?
+\end{exercise}
+\begin{hint}
+Inspect the inverse of its basis matrix.
+\end{hint}
+\begin{solution}
+The inverse contains \(1/\varepsilon\), so small input perturbations can cause large coordinate changes.
+\end{solution}
+
+\subsection*{Challenges}
+
+\begin{exercise}[Dual coordinate law]\label{exr:i04-expand-15}
+If vector columns transform by \(x_C=Px_B\), derive the row-covector law preserving \(\ell(x)\).
+\end{exercise}
+\begin{hint}
+Require \(\ell_Cx_C=\ell_Bx_B\) for all \(x_B\).
+\end{hint}
+\begin{solution}
+\(\ell_CP=\ell_B\), so \(\ell_C=\ell_BP^{-1}\); in column convention this is inverse transpose.
+\end{solution}
+
+\begin{exercise}[Three basis reversal]\label{exr:i04-expand-16}
+If \(P_{C\leftarrow B}=A\), \(P_{D\leftarrow C}=B_0\), find \(P_{B\leftarrow D}\).
+\end{exercise}
+\begin{hint}
+First compose forward, then invert.
+\end{hint}
+\begin{solution}
+\(P_{D\leftarrow B}=B_0A\), hence \(P_{B\leftarrow D}=A^{-1}B_0^{-1}\).
+\end{solution}
+% END VOL01-EXPANSION I04-exercises-01
 \section*{Chapter summary}
 Coordinates turn an abstract vector space into a copy of $\mathbb F^n$, but the copy depends on a chosen basis. Change-of-basis matrices explain precisely how two coordinate descriptions of the same vector are related. This is the first systematic appearance of conjugation and covariance.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.

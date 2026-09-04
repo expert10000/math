@@ -23,15 +23,73 @@ Whenever possible, we separate the invariant mathematical object from a chosen c
 \section{Definition and first consequences}
 A map $T:V\to W$ is linear if $T(av+bw)=aT(v)+bT(w)$. Then $T(0)=0$ and all finite linear combinations pass through $T$.
 
+
+% BEGIN VOL01-EXPANSION I05-example-01
+\begin{example}[A fast linearity diagnosis]\label{ex:i05-expand-01}
+Consider
+\[
+F(x,y)=(x+y,xy).
+\]
+Although the first coordinate is linear, the second is not. Indeed
+\[
+F(1,0)+F(0,1)=(1,0)+(1,0)=(2,0),
+\]
+while
+\[
+F(1,1)=(2,1).
+\]
+Thus additivity fails.
+
+A useful diagnostic order is: first test \(F(0)=0\); then test additivity or
+homogeneity on simple vectors. One failed identity settles nonlinearity, so
+there is no reason to expand a general formula unnecessarily.
+\end{example}
+% END VOL01-EXPANSION I05-example-01
 \section{Determination by a basis}
 A linear map is uniquely determined by its values on a basis of the domain. Conversely, arbitrary images of basis vectors extend uniquely to a linear map.
 
+
+% BEGIN VOL01-EXPANSION I05-example-02
+\begin{example}[Constructing a map from basis data]\label{ex:i05-expand-02}
+Let \(T:\mathbb R^2\to\mathbb R^3\) satisfy
+\[
+T(e_1)=(1,0,1),\qquad T(e_2)=(0,1,1).
+\]
+Since \((x,y)=xe_1+ye_2\), linearity forces
+\[
+T(x,y)=xT(e_1)+yT(e_2)=(x,y,x+y).
+\]
+Substituting \(e_1,e_2\) recovers the prescribed values, so the formula is
+checked.
+
+This is the basic construction principle: arbitrary images may be assigned to
+basis vectors, and there is exactly one linear extension.
+\end{example}
+% END VOL01-EXPANSION I05-example-02
 \section{Algebra of operators}
 For fixed $V,W$, the set $\mathcal L(V,W)$ is a vector space under pointwise addition and scalar multiplication. Endomorphisms $\mathcal L(V)$ also compose.
 
 \section{Composition}
 The composite of linear maps is linear. Composition is associative and distributes over addition but is generally not commutative.
 
+
+% BEGIN VOL01-EXPANSION I05-example-03
+\begin{example}[Composition order matters]\label{ex:i05-expand-03}
+Let \(P(x,y)=(x,0)\) and \(R(x,y)=(-y,x)\). Then
+\[
+(RP)(x,y)=R(x,0)=(0,x),
+\]
+whereas
+\[
+(PR)(x,y)=P(-y,x)=(-y,0).
+\]
+Thus \(RP\neq PR\).
+
+Geometrically, projecting and then rotating is not the same as rotating and
+then projecting. The calculation explains why operator multiplication is
+noncommutative even though vector addition is commutative.
+\end{example}
+% END VOL01-EXPANSION I05-example-03
 \section{Inverse maps}
 A bijective linear map has a linear inverse. Such maps are isomorphisms and identify vector spaces as having the same linear structure.
 
@@ -249,6 +307,181 @@ If a constant term survives when the input is zero, the map cannot be linear.
 An isomorphism must preserve addition and scalar multiplication; bijectivity alone preserves only set structure.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I05-exercises-01
+\section{Graded supplementary exercises}
+The following exercises extend the original exercise set without replacing it. They are grouped by mathematical role and increase in synthesis.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Formula from basis images]\label{exr:i05-expand-01}
+If \(T(e_1)=(1,2)\), \(T(e_2)=(-1,3)\), find \(T(x,y)\).
+\end{exercise}
+\begin{hint}
+Use \(T(xe_1+ye_2)=xT(e_1)+yT(e_2)\).
+\end{hint}
+\begin{solution}
+\(T(x,y)=(x-y,2x+3y)\).
+\end{solution}
+
+\begin{exercise}[Composition]\label{exr:i05-expand-02}
+For \(T(x,y)=(x+y,y)\), \(S(u,v)=(u-v,v)\), compute \(S\circ T\).
+\end{exercise}
+\begin{hint}
+Substitute \(T(x,y)\) into \(S\).
+\end{hint}
+\begin{solution}
+\((S\circ T)(x,y)=(x,y)\), so \(S=T^{-1}\).
+\end{solution}
+
+\begin{exercise}[Nilpotent power]\label{exr:i05-expand-03}
+For \(N(x,y,z)=(y,z,0)\), compute \(N^2,N^3\).
+\end{exercise}
+\begin{hint}
+Apply the same formula repeatedly.
+\end{hint}
+\begin{solution}
+\(N^2(x,y,z)=(z,0,0)\) and \(N^3=0\).
+\end{solution}
+
+\begin{exercise}[Projection]\label{exr:i05-expand-04}
+For \(P(x,y,z)=(x,y,0)\), find all fixed vectors.
+\end{exercise}
+\begin{hint}
+Solve \(P(v)=v\).
+\end{hint}
+\begin{solution}
+The fixed vectors are exactly \(z=0\), the \(xy\)-plane.
+\end{solution}
+
+\begin{exercise}[Evaluation]\label{exr:i05-expand-05}
+On \(\mathcal P_2\), compute \(E_2(1-3x+x^2)\).
+\end{exercise}
+\begin{hint}
+Substitute \(x=2\).
+\end{hint}
+\begin{solution}
+\(1-6+4=-1\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Basis determination]\label{exr:i05-expand-06}
+Prove two linear maps agreeing on a basis agree everywhere.
+\end{exercise}
+\begin{hint}
+Expand an arbitrary vector in the basis.
+\end{hint}
+\begin{solution}
+Linearity makes both maps the same linear combination of identical basis images.
+\end{solution}
+
+\begin{exercise}[Composition linear]\label{exr:i05-expand-07}
+Prove the composite of two linear maps is linear.
+\end{exercise}
+\begin{hint}
+Pass a general linear combination through the inner map and then the outer map.
+\end{hint}
+\begin{solution}
+\((ST)(av+bw)=S(aTv+bTw)=aSTv+bSTw\).
+\end{solution}
+
+\begin{exercise}[Inverse linear]\label{exr:i05-expand-08}
+Prove the inverse of a bijective linear map is linear.
+\end{exercise}
+\begin{hint}
+Write \(y_i=T(x_i)\) and pull a combination back through \(T\).
+\end{hint}
+\begin{solution}
+\(T^{-1}(ay_1+by_2)=T^{-1}T(ax_1+bx_2)=ax_1+bx_2\).
+\end{solution}
+
+\begin{exercise}[Operator space]\label{exr:i05-expand-09}
+Prove \(\mathcal L(V,W)\) is closed under linear combinations.
+\end{exercise}
+\begin{hint}
+Check \((aS+bT)(cv+dw)\).
+\end{hint}
+\begin{solution}
+Pointwise operations preserve the linearity identity, so \(aS+bT\) is linear.
+\end{solution}
+
+\subsection*{Counterexamples}
+
+\begin{exercise}[Translation]\label{exr:i05-expand-10}
+Show \(F(x,y)=(x+1,y)\) is not linear.
+\end{exercise}
+\begin{hint}
+Test the zero vector.
+\end{hint}
+\begin{solution}
+\(F(0,0)=(1,0)\neq0\).
+\end{solution}
+
+\begin{exercise}[Quadratic component]\label{exr:i05-expand-11}
+Show \(F(x,y)=(x,y^2)\) is not linear.
+\end{exercise}
+\begin{hint}
+Test homogeneity with scalar \(2\).
+\end{hint}
+\begin{solution}
+\(F(2x,2y)=(2x,4y^2)\neq2F(x,y)\) when \(y\neq0\).
+\end{solution}
+
+\begin{exercise}[Noncommuting maps]\label{exr:i05-expand-12}
+Give two linear maps on \(\mathbb R^2\) that do not commute.
+\end{exercise}
+\begin{hint}
+Use a projection and a quarter-turn.
+\end{hint}
+\begin{solution}
+With \(P(x,y)=(x,0)\), \(R(x,y)=(-y,x)\), \(RP(1,1)=(0,1)\) but \(PR(1,1)=(-1,0)\).
+\end{solution}
+
+\subsection*{Applications}
+
+\begin{exercise}[Reflection]\label{exr:i05-expand-13}
+Write the reflection across the \(x\)-axis as a linear map and describe its square.
+\end{exercise}
+\begin{hint}
+Flip the sign of the second coordinate.
+\end{hint}
+\begin{solution}
+\(R(x,y)=(x,-y)\), and \(R^2=I\).
+\end{solution}
+
+\begin{exercise}[Differentiation]\label{exr:i05-expand-14}
+Why is differentiation a linear map \(\mathcal P_3\to\mathcal P_2\)?
+\end{exercise}
+\begin{hint}
+Use \((ap+bq)'=ap'+bq'\).
+\end{hint}
+\begin{solution}
+Differentiation preserves all linear combinations and lowers degree by one.
+\end{solution}
+
+\subsection*{Challenges}
+
+\begin{exercise}[Images on dependent generators]\label{exr:i05-expand-15}
+Can one define a linear map by prescribing arbitrary images of \(v_1,v_2,v_1+v_2\)?
+\end{exercise}
+\begin{hint}
+The dependence relation must be preserved.
+\end{hint}
+\begin{solution}
+Only if the third prescribed image equals the sum of the first two; otherwise linearity gives a contradiction.
+\end{solution}
+
+\begin{exercise}[Idempotent decomposition]\label{exr:i05-expand-16}
+If \(P^2=P\), prove every \(v\) decomposes as \(v=Pv+(v-Pv)\) with first term in \(\operatorname{im}P\) and second in \(\ker P\).
+\end{exercise}
+\begin{hint}
+Apply \(P\) to \(v-Pv\).
+\end{hint}
+\begin{solution}
+\(P(v-Pv)=Pv-P^2v=0\), while \(Pv\in\operatorname{im}P\); the displayed equality is immediate.
+\end{solution}
+% END VOL01-EXPANSION I05-exercises-01
 \section*{Chapter summary}
 Linear transformations are the morphisms of vector spaces: they preserve exactly the operations that define linear structure. Once linearity is recognized, a map is determined by its action on a basis, compositions remain linear, and apparently different formulas become instances of the same operator calculus.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.
