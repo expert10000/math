@@ -6,8 +6,8 @@
 - Measurable learning outcomes: **168**
 - Solved dossiers/problems: **336**
 - Exercises / hints / solutions: **224 / 224 / 560**
-- Generic hint hits: **112**
-- Duplicate hint texts: **1**
+- Generic hint hits: **0**
+- Duplicate hint texts: **0**
 
 ## Special arc
 
