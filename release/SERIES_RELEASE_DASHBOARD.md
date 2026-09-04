@@ -28,7 +28,7 @@ Generated from canonical status, build, navigation, reference, encoding, and PDF
 - Volume III: source `1d19805dfa8db5566c64046e4f751556e7c3dd7afa592a399dec0a8b659fe47d`; PDF `af07f02ed5d8abddf1d8a925ee4fce4db74dd83586a85f96fdc6b6b361ebc13b` (195 pages)
 - Volume IV: source `f94dc43214d47f83a4e47bf6b5c144d7edfbb3a322179153335f4a88728a0bcb`; PDF `2b97c5b616447dca4a00e2b9ec0afca3337e177c13f4bc880dd85a2bc08d862b` (205 pages)
 - Volume V: source `aee2298132ccc807308ef14bffc73b21df8f3ab0ae73b178883da632b3160ce6`; PDF `bdcc6b5f8edf336166da3ebbaf79f33c37cdf47f7b44aa4112a69d0e5dbd21f1` (185 pages)
-- Volume VI: source `6567206c84f74307aeb50ad7cb90b7c655b7a9621c46e87b63cdd493264abf83`; PDF `302a9883e205cac2b5253e41b22c7021961377e01dcf0ee5af2807485bdb3aae` (677 pages)
+- Volume VI: source `c49791c0dbec73a3edc287033f540ca1f7efe34b0c1c80fcc0f3d8b20acef33e`; PDF `5ad39c20e6ee0196de1ef8681f64a3564b8aec5af6e31ed0de402c5c5e26561d` (677 pages)
 - Volume VII: source `4aa04512afc3e412cc31cbe9dd80b1954de0189635aea9fbc15d528fdf9a0f56`; PDF `e5e6282f9a3bdd1c75db3fdac3ee0d189be478fc46f764976c3a4dad79f9abe2` (367 pages)
 - Volume VIII: source `cbaee41127542479f71ef0f3a11a7fe21a7500789d297eac7eef223bda2dac28`; PDF `5bacceef6f4ece55649e6fc732f01c5814a2ff9cd661941acb73be1760591887` (338 pages)
 
