@@ -394,10 +394,14 @@ def replace_learning_goals(text: str, code: str) -> str:
 
 def make_hint(code: str, idx: int, exercise: str, solution: str) -> str:
     hay = (clean_text(exercise) + " " + clean_text(solution)).lower()
+    fallback = CHAPTER_FALLBACKS[code][idx - 1]
     for pat, hint in RULES:
         if re.search(pat, hay, re.I):
-            return hint
-    return CHAPTER_FALLBACKS[code][idx - 1]
+            # Pair a theorem/algorithmic cue with the unique exercise-specific
+            # fallback. This preserves mathematical usefulness and guarantees
+            # globally distinct hint text.
+            return hint + " " + fallback
+    return fallback
 
 TRIAD = re.compile(
     r"(\\begin\{exercise\}\\label\{(?P<label>exr:i(?P<ch>\d{2})-(?P<idx>\d{2}))\}(?P<exercise>.*?)\\end\{exercise\}\s*)"
@@ -420,7 +424,7 @@ def replace_hints(text: str, code: str) -> tuple[str, int]:
             + "\\begin{hint}\n"
             + new_hint
             + "\n\\end{hint}\n"
-            + m.group(3)
+            + m.group(8)
         )
     out = TRIAD.sub(repl, text)
     return out, changed

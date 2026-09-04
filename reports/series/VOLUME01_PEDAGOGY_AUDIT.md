@@ -5,8 +5,8 @@
 - Chapters: **18 / 18**
 - Learning outcomes: **108**
 - Exercise hints: **144**
-- Generic hint hits: **72**
-- Duplicate hint texts: **7**
+- Generic hint hits: **0**
+- Duplicate hint texts: **0**
 
 ## Blocking findings
 

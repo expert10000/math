@@ -66,6 +66,11 @@ def main():
             if first and first[0].lower() in MEASURABLE:
                 measurable+=1
 
+        problems=re.findall(r"\\begin\{problem\}",text)
+        exercises=re.findall(r"\\begin\{exercise\}",text)
+        solutions=re.findall(r"\\begin\{solution\}",text)
+        dossier_pairs=re.findall(r"\\end\{problem\}\s*\\begin\{solution\}",text,re.S)
+        exercise_triads=re.findall(r"\\end\{exercise\}\s*\\begin\{hint\}.*?\\end\{hint\}\s*\\begin\{solution\}",text,re.S)
         hints=[re.sub(r"\s+"," ",x).strip() for x in re.findall(r"\\begin\{hint\}(.*?)\\end\{hint\}",text,re.S)]
         total_hints+=len(hints)
         all_hints.extend(hints)
@@ -83,6 +88,17 @@ def main():
         if n <= args.require_hints_through or args.require_full:
             if len(hints)!=8:
                 blockers.append(f"{code}:HINTS:{len(hints)}!=8")
+            if args.require_full:
+                if len(problems)!=12:
+                    blockers.append(f"{code}:PROBLEMS:{len(problems)}!=12")
+                if len(exercises)!=8:
+                    blockers.append(f"{code}:EXERCISES:{len(exercises)}!=8")
+                if len(solutions)!=20:
+                    blockers.append(f"{code}:SOLUTIONS:{len(solutions)}!=20")
+                if len(dossier_pairs)!=12:
+                    blockers.append(f"{code}:DOSSIER_PAIRS:{len(dossier_pairs)}!=12")
+                if len(exercise_triads)!=8:
+                    blockers.append(f"{code}:EXERCISE_HINT_SOLUTION_TRIADS:{len(exercise_triads)}!=8")
             if local_banned:
                 blockers.append(f"{code}:GENERIC_HINTS:{local_banned}")
             for i,h in enumerate(hints,1):
@@ -96,7 +112,12 @@ def main():
             "chapter_title":r["chapter_title"],
             "goals":len(goals),
             "measurable_goals":measurable,
+            "problems":len(problems),
+            "exercises":len(exercises),
             "hints":len(hints),
+            "solutions":len(solutions),
+            "dossier_pairs":len(dossier_pairs),
+            "exercise_triads":len(exercise_triads),
             "generic_hint_hits":local_banned,
         })
 
@@ -113,7 +134,7 @@ def main():
 
     outdir=repo/"reports/series"
     outdir.mkdir(parents=True,exist_ok=True)
-    fields=["chapter_code","chapter_title","goals","measurable_goals","hints","generic_hint_hits"]
+    fields=["chapter_code","chapter_title","goals","measurable_goals","problems","exercises","hints","solutions","dossier_pairs","exercise_triads","generic_hint_hits"]
     with (outdir/"VOLUME01_PEDAGOGY_AUDIT.tsv").open("w",encoding="utf-8",newline="") as f:
         w=csv.DictWriter(f,fieldnames=fields,delimiter="\t",lineterminator="\n")
         w.writeheader();w.writerows(report)
