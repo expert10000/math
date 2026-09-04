@@ -5,7 +5,7 @@
 - Chapters: **42 / 42**
 - Existing learning outcomes preserved: **9**
 - Problems / exercises / hints / solutions: **714 / 1008 / 1008 / 1722**
-- Enriched hints: **0**
+- Enriched hints: **504**
 - Pairing policy: **STRICT_INLINE_GRAPH**
 - Raw / blocking pairing mismatches: **0 / 0**
 
