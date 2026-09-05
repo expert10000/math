@@ -10,7 +10,7 @@ def sha(t): return hashlib.sha256(t.encode()).hexdigest()
 def cnt(t,e): return len(re.findall(rf"\\begin\{{{e}\}}",t))
 def row0(base,code): return next((x for x in base.get("chapters",[]) if x["chapter"]==code),None)
 def main():
-    ap=argparse.ArgumentParser(); ap.add_argument("--repo",required=True); ap.add_argument("--snapshot",action="store_true"); ap.add_argument("--stage",type=int,choices=[1,2,3],default=1); ap.add_argument("--check-only",action="store_true"); a=ap.parse_args()
+    ap=argparse.ArgumentParser(); ap.add_argument("--repo",required=True); ap.add_argument("--snapshot",action="store_true"); ap.add_argument("--stage",type=int,choices=[1,2,3,4],default=1); ap.add_argument("--check-only",action="store_true"); a=ap.parse_args()
     repo=Path(a.repo).resolve(); out=repo/REPORT; bp=out/"VOLUME05_EXAMPLE_EXERCISE_BASELINE.json"; base=json.loads(bp.read_text()) if bp.exists() else {}; blockers=[]; rows=[]; labels=[]
     fs=sorted((repo/VOL).glob("ch*/chapter.tex"))
     if len(fs)!=28: blockers.append(f"CHAPTER_COUNT:{len(fs)}!=28")
@@ -23,14 +23,14 @@ def main():
         if r["solutions"]<r["exercises"]+r["problems"]: blockers.append(f"{code}:SOLUTION_COVERAGE")
         old=row0(base,code)
         if old and old["protected_sha256"]!=r["protected_sha256"]: blockers.append(f"{code}:PROTECTED_TEXT_CHANGED")
-        enriched=(a.stage>=2 and i<=8) or (a.stage>=3 and 9<=i<=14)
+        enriched=(a.stage>=2 and i<=8) or (a.stage>=3 and 9<=i<=14) or (a.stage>=4 and 15<=i<=28)
         if enriched:
             if not old: blockers.append(f"{code}:MISSING_BASELINE")
             else:
                 for key,delta in [("examples",3),("exercises",16),("hints",16),("solutions",16)]:
                     if r[key]!=old[key]+delta: blockers.append(f"{code}:{key.upper()}:{r[key]}!={old[key]+delta}")
             if r["expansion_examples"]!=3 or r["expansion_exercise_blocks"]!=1 or r["expansion_exercises"]!=16 or r["expansion_hints"]!=16 or r["expansion_solutions"]!=16: blockers.append(f"{code}:EXPANSION_COUNTS")
-        elif a.stage>=2 and (i>14 or (a.stage==2 and i>8)):
+        elif a.stage>=2:
             if r["expansion_examples"] or r["expansion_exercise_blocks"]: blockers.append(f"{code}:UNEXPECTED_EARLY_EXPANSION")
     for lab,n in Counter(labels).items():
         if n>1: blockers.append(f"DUPLICATE_LABEL:{lab}")
