@@ -24,12 +24,53 @@ Partial derivatives probe coordinate directions, while directional derivatives p
 \section{Fréchet differentiability}
 A map $f:\mathbb R^n\to\mathbb R^m$ is differentiable at $a$ when $f(a+h)=f(a)+Df(a)h+o(\|h\|)$.
 
+
+% BEGIN VOL02-EXPANSION II08-example-01
+\begin{example}[Verifying differentiability from the remainder]\label{ex:ii08-expand-01}
+Let \(f(x,y)=x^2+y^2\). At \(a=(a_1,a_2)\),
+\[
+f(a+h)-f(a)-2a\cdot h=\|h\|_2^2.
+\]
+Therefore
+\[
+\frac{|f(a+h)-f(a)-2a\cdot h|}{\|h\|_2}
+=\|h\|_2\to0.
+\]
+Thus
+\[
+Df(a)h=2a\cdot h.
+\]
+The exact remainder \(\|h\|^2\) verifies Fréchet differentiability directly,
+rather than merely listing partial derivatives.
+\end{example}
+% END VOL02-EXPANSION II08-example-01
 \section{Jacobian matrices}
 After choosing standard bases, the derivative is represented by the Jacobian matrix.
 
 \section{Chain rule}
 Derivatives compose as linear maps: $D(g\circ f)(a)=Dg(f(a))Df(a)$.
 
+
+% BEGIN VOL02-EXPANSION II08-example-02
+\begin{example}[Chain rule as matrix composition]\label{ex:ii08-expand-02}
+Let
+\[
+f(u,v)=(u+v,u-v),\qquad g(x,y)=x^2+y^2.
+\]
+Then
+\[
+Df=\begin{pmatrix}1&1\\1&-1\end{pmatrix},\qquad
+Dg(x,y)=\begin{pmatrix}2x&2y\end{pmatrix}.
+\]
+At \((u,v)\), the chain rule gives
+\[
+D(g\circ f)=Dg(f(u,v))Df
+=\begin{pmatrix}4u&4v\end{pmatrix}.
+\]
+Directly \(g\circ f=2u^2+2v^2\), whose derivative is the same. The independent
+calculation checks the order of matrix multiplication.
+\end{example}
+% END VOL02-EXPANSION II08-example-02
 \section{Gradient and level sets}
 For scalar-valued functions, $Df(a)h=\nabla f(a)\cdot h$; gradients are normal to regular level sets.
 
@@ -39,6 +80,22 @@ Second derivatives assemble into the Hessian, a bilinear form governing second-o
 \section{Taylor approximation}
 Taylor's formula organizes linear and quadratic approximations plus a controlled remainder.
 
+
+% BEGIN VOL02-EXPANSION II08-example-03
+\begin{example}[Second-order Taylor approximation with a remainder scale]\label{ex:ii08-expand-03}
+For \(f(x,y)=e^{x+y}\) near \((0,0)\),
+\[
+f(h,k)=1+(h+k)+\frac12(h+k)^2+R_3(h,k),
+\]
+where \(R_3=O((|h|+|k|)^3)\). The gradient at the origin is \((1,1)\) and the
+Hessian is
+\[
+\begin{pmatrix}1&1\\1&1\end{pmatrix}.
+\]
+The quadratic term predicts curvature only in the \(h+k\) direction, matching
+the fact that the function depends on \(x+y\) alone.
+\end{example}
+% END VOL02-EXPANSION II08-example-03
 \section{Critical points}
 At interior extrema differentiable scalar functions have zero gradient; Hessian definiteness gives second-order classification.
 
@@ -252,5 +309,180 @@ It is linear already. If partial derivatives are continuous near the point, invo
 The derivative is the constant map $A$.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II08-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Jacobian]\label{exr:ii08-expand-01}
+Compute the Jacobian of \(f(x,y)=(xy,x^2-y)\).
+\end{exercise}
+\begin{hint}
+Differentiate each output component with respect to each input.
+\end{hint}
+\begin{solution}
+\(Df=\begin{pmatrix}y&x\\2x&-1\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Directional derivative]\label{exr:ii08-expand-02}
+For \(f(x,y)=x^2+y^2\), compute the directional derivative at \((1,2)\) in direction \(v=(3,4)\).
+\end{exercise}
+\begin{hint}
+Use \(\nabla f\cdot v\).
+\end{hint}
+\begin{solution}
+\((2,4)\cdot(3,4)=22\).
+\end{solution}
+
+\begin{exercise}[Gradient]\label{exr:ii08-expand-03}
+Find the gradient of \(f(x,y,z)=xe^{yz}\).
+\end{exercise}
+\begin{hint}
+Differentiate componentwise.
+\end{hint}
+\begin{solution}
+\(\nabla f=(e^{yz},xz e^{yz},xy e^{yz})\).
+\end{solution}
+
+\begin{exercise}[Chain rule]\label{exr:ii08-expand-04}
+If \(f(t)=(t,t^2)\) and \(g(x,y)=x+y^2\), compute \((g\circ f)'(1)\).
+\end{exercise}
+\begin{hint}
+Use \(Dg(f(1))Df(1)\).
+\end{hint}
+\begin{solution}
+\(Dg(1,1)=(1,2)\), \(Df(1)=(1,2)^T\), so the derivative is \(5\).
+\end{solution}
+
+\begin{exercise}[Hessian]\label{exr:ii08-expand-05}
+Find the Hessian of \(f(x,y)=x^2+3xy+2y^2\).
+\end{exercise}
+\begin{hint}
+Differentiate the gradient.
+\end{hint}
+\begin{solution}
+\(\begin{pmatrix}2&3\\3&4\end{pmatrix}\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Differentiability implies continuity]\label{exr:ii08-expand-06}
+Prove Fréchet differentiability at \(a\) implies continuity there.
+\end{exercise}
+\begin{hint}
+Write the linear term plus \(o(\|h\|)\).
+\end{hint}
+\begin{solution}
+\(\|Df(a)h\|\le\|Df(a)\|\|h\|\to0\), and the remainder also tends to zero.
+\end{solution}
+
+\begin{exercise}[Derivative uniqueness]\label{exr:ii08-expand-07}
+Prove the Fréchet derivative at a point is unique.
+\end{exercise}
+\begin{hint}
+Subtract two candidate linear approximations and evaluate along \(h=tv\).
+\end{hint}
+\begin{solution}
+If \(L,M\) both work, \(\|(L-M)v\|=\|(L-M)(tv)\|/|t|\to0\), hence \((L-M)v=0\) for all \(v\).
+\end{solution}
+
+\begin{exercise}[Gradient normality]\label{exr:ii08-expand-08}
+Prove the gradient is orthogonal to tangent directions of a regular level set.
+\end{exercise}
+\begin{hint}
+Differentiate \(F(\gamma(t))=\text{constant}\).
+\end{hint}
+\begin{solution}
+\(\nabla F(\gamma(0))\cdot\gamma'(0)=0\).
+\end{solution}
+
+\begin{exercise}[Mixed partial symmetry hypothesis]\label{exr:ii08-expand-09}
+Why does continuity of second partials matter in the standard mixed-partial theorem?
+\end{exercise}
+\begin{hint}
+The rectangle-difference proof passes nearby mixed derivatives to the limit.
+\end{hint}
+\begin{solution}
+Continuity ensures the intermediate mixed derivatives selected by mean-value arguments converge to the value at the point.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Partial derivatives insufficient]\label{exr:ii08-expand-10}
+Why do existing partial derivatives at a point not by themselves imply differentiability?
+\end{exercise}
+\begin{hint}
+Look for a function with different behavior along nonlinear paths.
+\end{hint}
+\begin{solution}
+Classical examples have all coordinate partials at the origin but a remainder not \(o(\|(x,y)\|)\); directional/coordinate information alone misses joint behavior.
+\end{solution}
+
+\begin{exercise}[Directional derivatives insufficient]\label{exr:ii08-expand-11}
+Explain why existence of all directional derivatives need not imply Fréchet differentiability.
+\end{exercise}
+\begin{hint}
+Directional derivatives inspect fixed lines only.
+\end{hint}
+\begin{solution}
+A function can behave regularly along every line but badly along curved approaches, so no uniform linear remainder estimate exists.
+\end{solution}
+
+\begin{exercise}[Critical point not extremum]\label{exr:ii08-expand-12}
+Give a differentiable function with zero gradient at a point that is not a local extremum.
+\end{exercise}
+\begin{hint}
+Use a saddle.
+\end{hint}
+\begin{solution}
+\(f(x,y)=x^2-y^2\) has \(\nabla f(0,0)=0\) but changes sign near the origin.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Linearized error]\label{exr:ii08-expand-13}
+If \(\|Df(a)\|\le10\), what first-order output scale corresponds to input perturbation \(\|h\|\le10^{-3}\)?
+\end{exercise}
+\begin{hint}
+Use \(\|Df(a)h\|\le\|Df(a)\|\|h\|\).
+\end{hint}
+\begin{solution}
+The linearized output is at most \(10^{-2}\), plus the smaller-order remainder.
+\end{solution}
+
+\begin{exercise}[Level-set normal]\label{exr:ii08-expand-14}
+Find a normal to \(x^2+y^2+z^2=9\) at \((1,2,2)\).
+\end{exercise}
+\begin{hint}
+Use the gradient.
+\end{hint}
+\begin{solution}
+\((2,4,4)\), or any nonzero scalar multiple.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Quadratic remainder criterion]\label{exr:ii08-expand-15}
+Show a map with remainder bound \(\|r(h)\|\le C\|h\|^2\) is differentiable with the stated linear part.
+\end{exercise}
+\begin{hint}
+Divide by \(\|h\|\).
+\end{hint}
+\begin{solution}
+\(\|r(h)\|/\|h\|\le C\|h\|\to0\), which is exactly the Fréchet condition.
+\end{solution}
+
+\begin{exercise}[Derivative of norm squared]\label{exr:ii08-expand-16}
+In an inner-product space, derive \(D(\|x\|^2)_a(h)=2\langle a,h\rangle\) in the real case.
+\end{exercise}
+\begin{hint}
+Expand \(\|a+h\|^2\).
+\end{hint}
+\begin{solution}
+\(\|a+h\|^2-\|a\|^2=2\langle a,h\rangle+\|h\|^2\), and the final term is \(o(\|h\|)\).
+\end{solution}
+% END VOL02-EXPANSION II08-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.
