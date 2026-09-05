@@ -1,33 +1,34 @@
 # Volume VII worked-example and graded-exercise audit
 
 **Result:** PASS
-**Stage:** 1 — protected baseline captured
-**Architecture:** split pedagogy layer; canonical chapter sources remain byte-for-byte unchanged.
+**Stage:** 2
+**Expanded through:** VII/01--VII/11
+**Architecture:** split pedagogy layer.
 
-The audit establishes the immutable source baseline for all 42 chapters and the expansion target
-of three worked examples plus sixteen graded exercise/hint/solution triads per enriched chapter.
+The canonical `chapter.tex` sources remain byte-for-byte protected by the Git blob baseline.
+All new material is stored in chapter-local `pedagogy_expansion.tex` files and composed from
+`book.tex`.
 
-| Range | Mathematical block | Content commit | Target per chapter |
-|---|---|---:|---|
-| VII/01--VII/11 | Smooth Manifolds; Bundles and Forms | 2 | 3 examples + 16 triads |
-| VII/12--VII/19 | Curves and Surfaces | 3 | 3 examples + 16 triads |
-| VII/20--VII/30 | Riemannian and Lorentzian Geometry | 4 | 3 examples + 16 triads |
-| VII/31--VII/42 | Hyperbolic and Computational Geometry | 5 | 3 examples + 16 triads |
+## Current totals
 
-## Protection contract
+- expanded chapters: 11 of 42;
+- new worked examples: 33;
+- new graded exercises: 176;
+- new hints: 176;
+- new complete solutions: 176;
+- protected canonical chapter files modified: 0.
 
-The 42 canonical `chapter.tex` files are tracked by Git blob SHA-1 in the baseline JSON.
-All pedagogy additions are separate files and are included only from `book.tex`.
-Any canonical-chapter drift is therefore an audit failure.
+Every expanded chapter contains exactly 3 worked examples and 16 exercise/hint/solution triads,
+balanced as 5 standard computations or constructions, 4 proofs, 3 hypothesis tests or
+counterexamples, 2 applications or investigations, and 2 challenges.
 
-## Grading balance
+## Expansion status
 
-Every enriched chapter must contain exactly:
-- 5 standard computations/constructions;
-- 4 proofs;
-- 3 counterexamples or hypothesis tests;
-- 2 applications/investigations;
-- 2 challenges.
+| Range | Status |
+|---|---|
+| VII/01--VII/11 | expanded |
+| VII/12--VII/19 | pending |
+| VII/20--VII/30 | pending |
+| VII/31--VII/42 | pending |
 
-Stage 1 intentionally adds no mathematical content. Stages 2--5 are required to satisfy the
-per-chapter target.
+**Next:** VII/12-VII/19.
