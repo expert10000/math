@@ -21,6 +21,23 @@ After this chapter, the reader should be able to:
 \section{Strong and weak formulations}
 A strong solution satisfies the PDE pointwise; a weak solution satisfies an integrated identity obtained by multiplying by test functions and integrating by parts.
 
+
+% BEGIN VOL03-EXPANSION III23-example-01
+\begin{example}[Deriving the weak Poisson problem]\label{ex:iii23-expand-01}
+For
+\[
+-\Delta u=f\quad\text{in }\Omega,\qquad u=0\quad\text{on }\partial\Omega,
+\]
+multiply by \(v\in C_c^\infty(\Omega)\) and integrate by parts:
+\[
+\int_\Omega \nabla u\cdot\nabla v
+=\int_\Omega f v.
+\]
+The weak problem asks for \(u\in H_0^1(\Omega)\) satisfying this identity for
+every \(v\in H_0^1(\Omega)\). The boundary condition is encoded in the space,
+not imposed pointwise.
+\end{example}
+% END VOL03-EXPANSION III23-example-01
 \section{Energy spaces}
 Sobolev spaces such as $H_0^1(\Omega)$ encode square-integrable weak gradients and homogeneous boundary conditions.
 
@@ -33,12 +50,45 @@ Forcing terms act as continuous linear functionals on the chosen energy space.
 \section{Coercivity}
 A coercive estimate $a(v,v)\ge c\|v\|_V^2$ supplies control of the solution norm.
 
+
+% BEGIN VOL03-EXPANSION III23-example-02
+\begin{example}[Poincare turns Poisson energy into coercivity]\label{ex:iii23-expand-02}
+For the Poisson bilinear form
+\[
+a(u,v)=\int_\Omega\nabla u\cdot\nabla v
+\]
+on \(H_0^1(\Omega)\),
+\[
+a(v,v)=\|\nabla v\|_2^2.
+\]
+Poincare gives \(\|v\|_2\le C\|\nabla v\|_2\), hence the gradient norm is
+equivalent to the full \(H^1\) norm. Therefore \(a(v,v)\) controls
+\(\|v\|_{H^1}^2\) up to a constant, providing Lax--Milgram coercivity.
+\end{example}
+% END VOL03-EXPANSION III23-example-02
 \section{Weak boundary conditions}
 Dirichlet conditions are built into $H_0^1$; Neumann data typically arise through boundary terms in integration by parts.
 
 \section{Galerkin approximation}
 Finite-dimensional subspaces convert the weak problem into linear algebra and support constructive approximation.
 
+
+% BEGIN VOL03-EXPANSION III23-example-03
+\begin{example}[Galerkin turns the weak PDE into linear algebra]\label{ex:iii23-expand-03}
+Choose a finite-dimensional space \(V_h=\operatorname{span}\{\phi_1,\ldots,\phi_m\}\)
+inside the energy space and write
+\[
+u_h=\sum_{j=1}^m c_j\phi_j.
+\]
+Testing with each basis function gives
+\[
+\sum_j a(\phi_j,\phi_i)c_j=F(\phi_i),\qquad i=1,\ldots,m.
+\]
+Thus the stiffness matrix \(A_{ij}=a(\phi_j,\phi_i)\) is the finite-dimensional
+representation of the weak operator. Coercivity makes the discrete system
+stable and nonsingular.
+\end{example}
+% END VOL03-EXPANSION III23-example-03
 \section{Uniqueness by energy}
 Testing the difference of two solutions against itself often proves uniqueness from positivity or coercivity.
 
@@ -253,5 +303,180 @@ Keep essential and natural boundary conditions distinct: they enter the variatio
 Testing the difference of two solutions against itself often proves uniqueness from positivity or coercivity. As an immediate consequence, the same principle can be inserted into later convergence, approximation, transform, or weak-form arguments whenever its hypotheses are verified.
 \end{solution}
 
+
+% BEGIN VOL03-EXPANSION III23-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Weak Poisson]\label{exr:iii23-expand-01}
+What bilinear form arises for homogeneous Dirichlet Poisson?
+\end{exercise}
+\begin{hint}
+Integrate by parts once.
+\end{hint}
+\begin{solution}
+a(u,v)=integral grad u dot grad v.
+\end{solution}
+
+\begin{exercise}[Energy space]\label{exr:iii23-expand-02}
+What is the natural trial space for homogeneous Dirichlet Poisson?
+\end{exercise}
+\begin{hint}
+Encode zero trace.
+\end{hint}
+\begin{solution}
+H0^1(Omega).
+\end{solution}
+
+\begin{exercise}[Coercivity]\label{exr:iii23-expand-03}
+What inequality is used to make gradient energy control full H1 norm?
+\end{exercise}
+\begin{hint}
+Use Poincare.
+\end{hint}
+\begin{solution}
+||u||_2 <= C||grad u||_2.
+\end{solution}
+
+\begin{exercise}[Uniqueness test]\label{exr:iii23-expand-04}
+What test function proves uniqueness for a homogeneous coercive problem?
+\end{exercise}
+\begin{hint}
+Test with the solution difference.
+\end{hint}
+\begin{solution}
+Use v=u.
+\end{solution}
+
+\begin{exercise}[Galerkin matrix]\label{exr:iii23-expand-05}
+What entries form the stiffness matrix?
+\end{exercise}
+\begin{hint}
+Evaluate the bilinear form on basis pairs.
+\end{hint}
+\begin{solution}
+A_ij=a(phi_j,phi_i).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Weak derivation]\label{exr:iii23-expand-06}
+Derive the weak Dirichlet Poisson formulation.
+\end{exercise}
+\begin{hint}
+Multiply by a test and integrate by parts.
+\end{hint}
+\begin{solution}
+Boundary terms vanish through the test/zero-trace structure, leaving gradient energy.
+\end{solution}
+
+\begin{exercise}[Boundedness]\label{exr:iii23-expand-07}
+Prove the Poisson bilinear form is bounded on H0^1.
+\end{exercise}
+\begin{hint}
+Use Cauchy--Schwarz.
+\end{hint}
+\begin{solution}
+|a(u,v)|<=||grad u||_2||grad v||_2.
+\end{solution}
+
+\begin{exercise}[Energy uniqueness]\label{exr:iii23-expand-08}
+Prove coercivity implies uniqueness.
+\end{exercise}
+\begin{hint}
+Subtract two solutions and test with the difference.
+\end{hint}
+\begin{solution}
+Coercivity forces its norm to zero.
+\end{solution}
+
+\begin{exercise}[Galerkin stability]\label{exr:iii23-expand-09}
+Derive the standard Galerkin norm bound.
+\end{exercise}
+\begin{hint}
+Test the discrete equation with u_h.
+\end{hint}
+\begin{solution}
+Coercivity and the dual norm give ||u_h|| <= c^(-1)||F||.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[No coercivity]\label{exr:iii23-expand-10}
+Why can uniqueness fail if the bilinear form has a nontrivial nullspace?
+\end{exercise}
+\begin{hint}
+Testing with the difference yields only zero energy, not zero vector.
+\end{hint}
+\begin{solution}
+Neumann Laplacian constants are a standard example without normalization.
+\end{solution}
+
+\begin{exercise}[Wrong trial space]\label{exr:iii23-expand-11}
+Why can choosing H1 instead of H0^1 change a Dirichlet problem?
+\end{exercise}
+\begin{hint}
+The homogeneous boundary condition is no longer built in.
+\end{hint}
+\begin{solution}
+Extra boundary degrees of freedom alter the weak problem.
+\end{solution}
+
+\begin{exercise}[Formal integration by parts]\label{exr:iii23-expand-12}
+Why is pointwise C2 regularity not required for a weak solution?
+\end{exercise}
+\begin{hint}
+Derivatives are interpreted weakly and only first derivatives need be integrable.
+\end{hint}
+\begin{solution}
+The integrated identity is meaningful in Sobolev space.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Finite elements]\label{exr:iii23-expand-13}
+Why is Galerkin the conceptual basis of finite-element methods?
+\end{exercise}
+\begin{hint}
+Choose local finite-dimensional basis functions inside the energy space.
+\end{hint}
+\begin{solution}
+The PDE becomes a sparse linear system defined by the bilinear form.
+\end{solution}
+
+\begin{exercise}[Rough coefficients]\label{exr:iii23-expand-14}
+Why are weak formulations useful for discontinuous elliptic coefficients?
+\end{exercise}
+\begin{hint}
+The coefficient multiplies weak gradients inside an integral.
+\end{hint}
+\begin{solution}
+No classical derivative of the coefficient is needed in the divergence-form formulation.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Lax--Milgram estimate]\label{exr:iii23-expand-15}
+If a is coercive with constant c and F has dual norm M, derive the solution bound.
+\end{exercise}
+\begin{hint}
+Test with u and use bounded action of F.
+\end{hint}
+\begin{solution}
+c||u||^2 <= a(u,u)=F(u)<=M||u||, hence ||u||<=M/c.
+\end{solution}
+
+\begin{exercise}[Cea preview]\label{exr:iii23-expand-16}
+Why should a coercive Galerkin solution be close to the best approximation in V_h?
+\end{exercise}
+\begin{hint}
+Orthogonality of the error plus boundedness/coercivity compare true error with any competitor.
+\end{hint}
+\begin{solution}
+This yields Cea's lemma: error is bounded by a constant times the best approximation error.
+\end{solution}
+% END VOL03-EXPANSION III23-exercises-01
 \section*{Chapter summary}
 The chapter now supplies a canonical theorem-and-dossier layer for subsequent measure, Fourier, distributional, Sobolev, and PDE arguments.
