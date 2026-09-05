@@ -2,7 +2,7 @@ from __future__ import annotations
 import importlib.util,re
 from pathlib import Path
 VOLUME=Path("books/vol06_algebraic_geometry/chapters")
-SECTION=re.compile(r"(?m)^\\section\{([^}]+)\}\s*$")
+SECTION=re.compile(r"(?m)^\\section\*?\{([^}]+)\}(?:\s*\\label\{[^}]+\})?\s*(?:%[^\n]*)?$")
 TERMINAL_SECTION = re.compile(
     r"^(?:"
     r"problems?(?:\b|:)|"
@@ -96,6 +96,10 @@ def concept_sections(text):
     ms=list(SECTION.finditer(text)); out=[]
     for m in ms:
         title=m.group(1).strip()
+        low=title.lower()
+        # Skip chapter front-matter headings, but keep conceptual starred sections.
+        if low in {"purpose and learning goals","learning goals","chapter roadmap"}:
+            continue
         # Stop only at genuine terminal pedagogy/reference sections.
         # Conceptual headings such as "The universal problem" remain valid.
         if TERMINAL_SECTION.match(title):
