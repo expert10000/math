@@ -27,15 +27,69 @@ Rational continued fractions terminate and encode the Euclidean algorithm.
 \section{Convergents}
 Truncating the expansion gives rational approximants $p_n/q_n$.
 
+
+% BEGIN VOL02-EXPANSION II25-example-01
+\begin{example}[Convergents computed from the recurrence]\label{ex:ii25-expand-01}
+For
+\[
+x=[1;2,2,2,\ldots],
+\]
+start with
+\[
+p_{-2}=0,\ p_{-1}=1,\qquad q_{-2}=1,\ q_{-1}=0.
+\]
+The first partial quotients \(1,2,2\) give
+\[
+\frac{p_0}{q_0}=1,\qquad
+\frac{p_1}{q_1}=\frac32,\qquad
+\frac{p_2}{q_2}=\frac75.
+\]
+The recurrence avoids repeatedly evaluating nested fractions and is the natural
+computational representation of continued fractions.
+\end{example}
+% END VOL02-EXPANSION II25-example-01
 \section{Recurrences}
 Numerators and denominators satisfy second-order recurrences.
 
 \section{Determinant identity}
 Adjacent convergents satisfy $p_nq_{n-1}-p_{n-1}q_n=(-1)^{n-1}$.
 
+
+% BEGIN VOL02-EXPANSION II25-example-02
+\begin{example}[Adjacent convergents are forced to be very close]\label{ex:ii25-expand-02}
+From
+\[
+p_nq_{n-1}-p_{n-1}q_n=(-1)^{n-1},
+\]
+we get
+\[
+\left|\frac{p_n}{q_n}-\frac{p_{n-1}}{q_{n-1}}\right|
+=\frac{1}{q_nq_{n-1}}.
+\]
+Thus consecutive convergents are automatically close once denominators grow.
+The exact determinant identity is stronger than a vague convergence statement:
+it gives the separation between neighboring rational approximants explicitly.
+\end{example}
+% END VOL02-EXPANSION II25-example-02
 \section{Approximation quality}
 Convergents approximate unusually well relative to their denominators.
 
+
+% BEGIN VOL02-EXPANSION II25-example-03
+\begin{example}[Continued fractions beat denominator-scale intuition]\label{ex:ii25-expand-03}
+If \(p_n/q_n\) is a convergent of an irrational \(x\), its error is controlled
+on the scale \(1/q_n^2\), substantially smaller than the naive grid spacing
+\(1/q_n\) among rationals with denominator \(q_n\). For the golden ratio,
+Fibonacci convergents
+\[
+1,\ \frac21,\ \frac32,\ \frac53,\ \frac85,\ldots
+\]
+alternate around the limit and rapidly improve.
+
+Continued fractions therefore select exceptional rationals rather than merely
+rounding to the nearest point on a denominator grid.
+\end{example}
+% END VOL02-EXPANSION II25-example-03
 \section{Quadratic irrationals}
 Eventually periodic continued fractions characterize quadratic irrationals.
 
@@ -252,5 +306,180 @@ About inverse-square denominator. When proving a best-approximation statement, s
 Order $1/q_n^2$.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II25-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Euclidean expansion]\label{exr:ii25-expand-01}
+Find a simple continued fraction for \(13/5\).
+\end{exercise}
+\begin{hint}
+Run the Euclidean algorithm.
+\end{hint}
+\begin{solution}
+\(13/5=[2;1,1,2]\), with equivalent terminal variants possible.
+\end{solution}
+
+\begin{exercise}[First convergents]\label{exr:ii25-expand-02}
+Find the first three convergents of \([1;1,1,\ldots]\).
+\end{exercise}
+\begin{hint}
+Truncate after each partial quotient.
+\end{hint}
+\begin{solution}
+\(1,2,3/2\) under the standard indexing/truncation convention.
+\end{solution}
+
+\begin{exercise}[Recurrence]\label{exr:ii25-expand-03}
+Given \(a_0=2,a_1=3\), compute \(p_1,q_1\).
+\end{exercise}
+\begin{hint}
+Use standard initial data.
+\end{hint}
+\begin{solution}
+\(p_0=2,q_0=1\); \(p_1=3\cdot2+1=7,\ q_1=3\).
+\end{solution}
+
+\begin{exercise}[Golden ratio equation]\label{exr:ii25-expand-04}
+If \(x=[1;1,1,\ldots]\), derive its quadratic equation.
+\end{exercise}
+\begin{hint}
+The tail equals \(x\).
+\end{hint}
+\begin{solution}
+\(x=1+1/x\), so \(x^2-x-1=0\).
+\end{solution}
+
+\begin{exercise}[Neighbor distance]\label{exr:ii25-expand-05}
+Given consecutive convergent denominators \(q_{n-1}=5,q_n=12\), what is the distance between the two convergents?
+\end{exercise}
+\begin{hint}
+Use the determinant identity.
+\end{hint}
+\begin{solution}
+\(1/(5\cdot12)=1/60\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Recurrence proof]\label{exr:ii25-expand-06}
+Derive the convergent recurrence when appending one partial quotient.
+\end{exercise}
+\begin{hint}
+Represent the finite continued fraction by a fractional-linear transformation or induct on truncations.
+\end{hint}
+\begin{solution}
+The standard algebra yields \(p_n=a_np_{n-1}+p_{n-2}\) and the same recurrence for \(q_n\).
+\end{solution}
+
+\begin{exercise}[Determinant induction]\label{exr:ii25-expand-07}
+Prove the adjacent determinant identity by induction.
+\end{exercise}
+\begin{hint}
+Insert the two recurrences and factor.
+\end{hint}
+\begin{solution}
+The determinant at stage \(n\) is the negative of the determinant at stage \(n-1\), producing alternating sign.
+\end{solution}
+
+\begin{exercise}[Coprime convergents]\label{exr:ii25-expand-08}
+Prove \(p_n\) and \(q_n\) are coprime.
+\end{exercise}
+\begin{hint}
+Any common divisor would divide the adjacent determinant combination.
+\end{hint}
+\begin{solution}
+Since \(p_nq_{n-1}-p_{n-1}q_n=\pm1\), the gcd must be \(1\).
+\end{solution}
+
+\begin{exercise}[Rational termination]\label{exr:ii25-expand-09}
+Explain why the continued fraction of a rational terminates.
+\end{exercise}
+\begin{hint}
+The Euclidean algorithm has strictly decreasing positive remainders.
+\end{hint}
+\begin{solution}
+It reaches remainder zero after finitely many steps.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Decimal truncation not optimal]\label{exr:ii25-expand-10}
+Why need truncating a decimal expansion not give the best rational approximant for a comparable denominator?
+\end{exercise}
+\begin{hint}
+Continued fractions optimize arithmetic structure, not base-10 representation.
+\end{hint}
+\begin{solution}
+A convergent can be substantially closer with the same or smaller denominator.
+\end{solution}
+
+\begin{exercise}[Finite expansion ambiguity]\label{exr:ii25-expand-11}
+Why can a rational have two finite simple continued-fraction representations?
+\end{exercise}
+\begin{hint}
+Use \([\ldots,a_n]=[\ldots,a_n-1,1]\) when \(a_n>1\).
+\end{hint}
+\begin{solution}
+The terminal \(1\) identity gives an equivalent expansion; a convention removes ambiguity.
+\end{solution}
+
+\begin{exercise}[Irrationality hypothesis]\label{exr:ii25-expand-12}
+Why does an infinite simple continued fraction represent an irrational number?
+\end{exercise}
+\begin{hint}
+A rational Euclidean algorithm would terminate.
+\end{hint}
+\begin{solution}
+If it were rational, its continued fraction would have a finite expansion, contradicting genuine infinitude.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Rational approximation]\label{exr:ii25-expand-13}
+Why are convergents natural when a numerical system needs a small-denominator rational surrogate?
+\end{exercise}
+\begin{hint}
+They provide unusually small error relative to denominator size.
+\end{hint}
+\begin{solution}
+They balance arithmetic complexity \(q\) against approximation error on roughly the \(1/q^2\) scale.
+\end{solution}
+
+\begin{exercise}[Period detection]\label{exr:ii25-expand-14}
+What does eventual periodicity of a simple continued fraction suggest?
+\end{exercise}
+\begin{hint}
+Recall Lagrange's theorem.
+\end{hint}
+\begin{solution}
+It characterizes quadratic irrationals, linking recursive arithmetic pattern to an algebraic quadratic equation.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Pell connection]\label{exr:ii25-expand-15}
+Explain why convergents of \(\sqrt D\) are related to good solutions of \(p^2-Dq^2\approx0\).
+\end{exercise}
+\begin{hint}
+Rewrite the approximation error of \(p/q\) to \(\sqrt D\).
+\end{hint}
+\begin{solution}
+If \(p/q\) is very close to \(\sqrt D\), then \(p^2-Dq^2=(p-q\sqrt D)(p+q\sqrt D)\) can be a small integer, leading to Pell-type equations.
+\end{solution}
+
+\begin{exercise}[Best-approximation intuition]\label{exr:ii25-expand-16}
+Use the determinant identity to explain why a fraction with a smaller denominator cannot easily lie between two neighboring convergents.
+\end{exercise}
+\begin{hint}
+Cross-multiplication gives a minimum spacing between distinct rationals in terms of denominators.
+\end{hint}
+\begin{solution}
+Neighboring convergents are separated by exactly \(1/(q_nq_{n-1})\); a competing low-denominator rational would violate determinant/integer-spacing constraints if it were too close, underpinning best-approximation properties.
+\end{solution}
+% END VOL02-EXPANSION II25-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

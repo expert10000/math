@@ -27,9 +27,41 @@ Polynomials are dense in $C[a,b]$.
 \section{Bernstein polynomials}
 On $[0,1]$, positive averaging polynomials give a constructive proof.
 
+
+% BEGIN VOL02-EXPANSION II21-example-01
+\begin{example}[Bernstein polynomials as probabilistic averaging]\label{ex:ii21-expand-01}
+For \(f\in C[0,1]\),
+\[
+B_nf(x)=\sum_{k=0}^n f(k/n)\binom nk x^k(1-x)^{n-k}.
+\]
+The coefficients form a binomial probability distribution, so
+\[
+B_nf(x)=\mathbb E\,f(X_n/n),\qquad X_n\sim\mathrm{Binomial}(n,x).
+\]
+Constants and the identity are reproduced because probabilities sum to one and
+\(\mathbb E(X_n/n)=x\). This averaging interpretation explains positivity and
+why concentration of \(X_n/n\) near \(x\) drives convergence.
+\end{example}
+% END VOL02-EXPANSION II21-example-01
 \section{Modulus of continuity}
 Uniform continuity controls approximation error.
 
+
+% BEGIN VOL02-EXPANSION II21-example-02
+\begin{example}[Modulus of continuity separates near and far samples]\label{ex:ii21-expand-02}
+Let
+\[
+\omega_f(\delta)=\sup_{|x-y|\le\delta}|f(x)-f(y)|.
+\]
+In Bernstein's proof, sample points \(k/n\) near \(x\) contribute at most
+\(\omega_f(\delta)\), while far sample points are controlled by a probability
+tail. Uniform continuity makes the near contribution small, and binomial
+concentration makes the far contribution small uniformly in \(x\).
+
+This decomposition turns qualitative continuity into a quantitative
+approximation argument.
+\end{example}
+% END VOL02-EXPANSION II21-example-02
 \section{Shape preservation}
 Positive approximation operators can preserve positivity and convexity features.
 
@@ -39,6 +71,23 @@ Approximation is a statement about closure of a subspace in a normed function sp
 \section{Approximation rates}
 Extra smoothness improves quantitative convergence rates.
 
+
+% BEGIN VOL02-EXPANSION II21-example-03
+\begin{example}[Extra smoothness improves an approximation rate]\label{ex:ii21-expand-03}
+For a Lipschitz function with constant \(L\),
+\[
+|f(u)-f(v)|\le L|u-v|.
+\]
+Using the Bernstein probabilistic form and Cauchy--Schwarz,
+\[
+|B_nf(x)-f(x)|
+\le L\,\mathbb E|X_n/n-x|
+\le L\sqrt{\frac{x(1-x)}{n}}
+\le\frac{L}{2\sqrt n}.
+\]
+Thus smoothness stronger than continuity yields an explicit convergence rate.
+\end{example}
+% END VOL02-EXPANSION II21-example-03
 \section{Beyond polynomials}
 The same density philosophy leads to trigonometric and rational approximation.
 
@@ -252,5 +301,180 @@ To disprove an overstrong claim, choose a continuous function with limited smoot
 Yes.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II21-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Bernstein constant]\label{exr:ii21-expand-01}
+Compute \(B_n1\).
+\end{exercise}
+\begin{hint}
+Use the binomial theorem.
+\end{hint}
+\begin{solution}
+\(B_n1=1\).
+\end{solution}
+
+\begin{exercise}[Bernstein identity]\label{exr:ii21-expand-02}
+Compute \(B_nx\).
+\end{exercise}
+\begin{hint}
+Use the mean of a binomial variable.
+\end{hint}
+\begin{solution}
+\(B_nx=x\).
+\end{solution}
+
+\begin{exercise}[Sup error meaning]\label{exr:ii21-expand-03}
+What does \(\|f-p\|_\infty<0.01\) mean?
+\end{exercise}
+\begin{hint}
+Unpack the supremum norm.
+\end{hint}
+\begin{solution}
+\(|f(x)-p(x)|<0.01\) for every \(x\) in the interval.
+\end{solution}
+
+\begin{exercise}[Weierstrass hypothesis]\label{exr:ii21-expand-04}
+Can \(|x|\) on \([-1,1]\) be uniformly approximated by polynomials?
+\end{exercise}
+\begin{hint}
+Check continuity, not differentiability.
+\end{hint}
+\begin{solution}
+Yes, by Weierstrass.
+\end{solution}
+
+\begin{exercise}[Density statement]\label{exr:ii21-expand-05}
+What does it mean that polynomials are dense in \(C[a,b]\)?
+\end{exercise}
+\begin{hint}
+Use epsilon and sup norm.
+\end{hint}
+\begin{solution}
+For every continuous \(f\) and every \(\varepsilon>0\), some polynomial \(p\) satisfies \(\|f-p\|_\infty<\varepsilon\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Bernstein positivity]\label{exr:ii21-expand-06}
+Prove \(f\ge0\) implies \(B_nf\ge0\).
+\end{exercise}
+\begin{hint}
+Each Bernstein basis weight is nonnegative.
+\end{hint}
+\begin{solution}
+The polynomial is a nonnegative weighted sum of nonnegative sample values.
+\end{solution}
+
+\begin{exercise}[Constant reproduction]\label{exr:ii21-expand-07}
+Prove Bernstein polynomials reproduce constants.
+\end{exercise}
+\begin{hint}
+Sum the basis weights.
+\end{hint}
+\begin{solution}
+\(\sum_k\binom nkx^k(1-x)^{n-k}=1\).
+\end{solution}
+
+\begin{exercise}[Identity reproduction]\label{exr:ii21-expand-08}
+Prove \(B_nx=x\).
+\end{exercise}
+\begin{hint}
+Use \(k\binom nk=n\binom{n-1}{k-1}\).
+\end{hint}
+\begin{solution}
+The weighted sum becomes \(x(x+1-x)^{n-1}=x\).
+\end{solution}
+
+\begin{exercise}[Density consequence]\label{exr:ii21-expand-09}
+Explain why uniform Bernstein convergence proves Weierstrass on \([0,1]\).
+\end{exercise}
+\begin{hint}
+Each \(B_nf\) is a polynomial.
+\end{hint}
+\begin{solution}
+For every epsilon, some Bernstein polynomial lies within epsilon in sup norm.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Interpolation vs approximation]\label{exr:ii21-expand-10}
+Why is a best or good uniform approximant not required to match \(f\) at any selected nodes?
+\end{exercise}
+\begin{hint}
+Uniform approximation optimizes global error rather than exact data constraints.
+\end{hint}
+\begin{solution}
+Matching nodes is an interpolation requirement, not an approximation requirement.
+\end{solution}
+
+\begin{exercise}[Continuity necessary for uniform polynomial limit]\label{exr:ii21-expand-11}
+Why can a discontinuous function not be uniformly approximated arbitrarily well by polynomials?
+\end{exercise}
+\begin{hint}
+A uniform limit of continuous functions is continuous.
+\end{hint}
+\begin{solution}
+If errors tended to zero uniformly, the polynomial sequence would converge uniformly to the discontinuous target, impossible.
+\end{solution}
+
+\begin{exercise}[Smoothness not necessary]\label{exr:ii21-expand-12}
+Why is differentiability not required for Weierstrass approximation?
+\end{exercise}
+\begin{hint}
+The theorem assumes continuity only.
+\end{hint}
+\begin{solution}
+Nondifferentiable continuous functions such as \(|x|\) still admit arbitrary uniform polynomial approximation.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Function compression]\label{exr:ii21-expand-13}
+Why are polynomial approximants useful computationally?
+\end{exercise}
+\begin{hint}
+They replace a function by finitely many coefficients and support fast evaluation/differentiation/integration.
+\end{hint}
+\begin{solution}
+A certified sup error makes that finite representation globally reliable.
+\end{solution}
+
+\begin{exercise}[Shape preservation]\label{exr:ii21-expand-14}
+What shape property does positivity of Bernstein weights help preserve?
+\end{exercise}
+\begin{hint}
+Positive averaging cannot create negative values from nonnegative data.
+\end{hint}
+\begin{solution}
+At minimum it preserves nonnegativity; related averaging arguments can preserve monotonicity/convexity under suitable conditions.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Lipschitz Bernstein rate]\label{exr:ii21-expand-15}
+Derive \(\|B_nf-f\|_\infty\le L/(2\sqrt n)\) for \(L\)-Lipschitz \(f\).
+\end{exercise}
+\begin{hint}
+Use the binomial variance.
+\end{hint}
+\begin{solution}
+\(\mathbb E|X_n/n-x|\le\sqrt{x(1-x)/n}\le1/(2\sqrt n)\); multiply by \(L\).
+\end{solution}
+
+\begin{exercise}[Rescale interval]\label{exr:ii21-expand-16}
+Explain how Weierstrass on \([0,1]\) implies it on any \([a,b]\).
+\end{exercise}
+\begin{hint}
+Use the affine change \(x=a+(b-a)t\).
+\end{hint}
+\begin{solution}
+Compose \(f\) with the affine map, approximate in \(t\), then substitute \(t=(x-a)/(b-a)\); a polynomial remains a polynomial.
+\end{solution}
+% END VOL02-EXPANSION II21-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

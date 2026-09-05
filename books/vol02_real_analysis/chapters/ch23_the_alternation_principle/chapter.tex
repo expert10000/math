@@ -27,18 +27,65 @@ Minimax optimality is witnessed where $|e|$ reaches its sup norm.
 \section{Alternation pattern}
 Signs alternate at successive extremal points.
 
+
+% BEGIN VOL02-EXPANSION II23-example-01
+\begin{example}[Degree-one minimax certification by three alternating errors]\label{ex:ii23-expand-01}
+To certify that a line \(p\) is the best uniform degree-one approximation to
+\(f\), it is enough to find three ordered points
+\[
+x_0<x_1<x_2
+\]
+such that
+\[
+f(x_j)-p(x_j)=(-1)^jE
+\]
+for one \(E>0\), and \(\|f-p\|_\infty=E\). The equal magnitude says all three
+points are active constraints; alternating signs are what force a competitor
+difference to cross zero between successive points.
+\end{example}
+% END VOL02-EXPANSION II23-example-01
 \section{Necessity}
 Without enough alternation one can construct a perturbation reducing the maximum error.
 
 \section{Sufficiency}
 Enough alternating extrema block every lower-degree perturbation by root counting.
 
+
+% BEGIN VOL02-EXPANSION II23-example-02
+\begin{example}[Why alternation blocks every better competitor]\label{ex:ii23-expand-02}
+Suppose \(p\) has degree at most \(n\) and its error alternates with magnitude
+\(E\) at \(n+2\) ordered points. If \(q\) had smaller sup error, then at each
+alternation point the sign of
+\[
+q-p=(f-p)-(f-q)
+\]
+would match the sign of \(f-p\). Hence \(q-p\) would change sign between every
+adjacent pair, producing at least \(n+1\) distinct zeros. But \(q-p\) has
+degree at most \(n\), contradiction.
+\end{example}
+% END VOL02-EXPANSION II23-example-02
 \section{Uniqueness}
 Two best approximants would force their difference to have too many zeros.
 
 \section{Remez idea}
 Algorithms update candidate alternation points until equal error levels stabilize.
 
+
+% BEGIN VOL02-EXPANSION II23-example-03
+\begin{example}[Remez iteration seeks a balanced finite certificate]\label{ex:ii23-expand-03}
+A Remez-style iteration begins with \(n+2\) candidate extremal points, solves
+for a degree-\(n\) polynomial \(p\) and level \(E\) satisfying alternating
+equations
+\[
+f(x_j)-p(x_j)=(-1)^jE,
+\]
+then searches for where the actual error is larger. Replacing weak points by
+stronger extrema repeats the process until the error peaks are nearly equal.
+
+The algorithm is therefore a numerical search for the finite alternation
+certificate guaranteed by the theorem.
+\end{example}
+% END VOL02-EXPANSION II23-example-03
 \section{Approximation certificates}
 Alternation gives a verifiable finite certificate of global optimality.
 
@@ -252,5 +299,180 @@ Sup norm. Check that the error magnitudes at the alternating points are equal be
 Uniform norm.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II23-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Degree count]\label{exr:ii23-expand-01}
+How many alternating extrema certify a degree-2 minimax polynomial?
+\end{exercise}
+\begin{hint}
+Use \(n+2\).
+\end{hint}
+\begin{solution}
+Four.
+\end{solution}
+
+\begin{exercise}[Best constant]\label{exr:ii23-expand-02}
+For a continuous function with range \([-3,5]\), find the best constant and error.
+\end{exercise}
+\begin{hint}
+Center the range.
+\end{hint}
+\begin{solution}
+The best constant is \(1\), with error \(4\).
+\end{solution}
+
+\begin{exercise}[Error function]\label{exr:ii23-expand-03}
+For candidate \(p\), what function should be inspected for alternation?
+\end{exercise}
+\begin{hint}
+Subtract approximant from target.
+\end{hint}
+\begin{solution}
+\(e=f-p\).
+\end{solution}
+
+\begin{exercise}[Active extremum]\label{exr:ii23-expand-04}
+What does it mean for \(x_0\) to be an active error point?
+\end{exercise}
+\begin{hint}
+Compare \(|e(x_0)|\) with \(\|e\|_\infty\).
+\end{hint}
+\begin{solution}
+\(|e(x_0)|=\|e\|_\infty\).
+\end{solution}
+
+\begin{exercise}[Line certificate]\label{exr:ii23-expand-05}
+How many alternating points certify a best line?
+\end{exercise}
+\begin{hint}
+Degree one means \(1+2\).
+\end{hint}
+\begin{solution}
+Three.
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Sufficiency]\label{exr:ii23-expand-06}
+Prove the sufficiency direction of alternation.
+\end{exercise}
+\begin{hint}
+Assume a better competitor and use sign changes of the difference.
+\end{hint}
+\begin{solution}
+The competitor difference has at least \(n+1\) roots despite degree at most \(n\), impossible.
+\end{solution}
+
+\begin{exercise}[Uniqueness]\label{exr:ii23-expand-07}
+Use alternation to prove uniqueness of a minimax degree-\(n\) polynomial.
+\end{exercise}
+\begin{hint}
+Compare two best candidates at an alternating set.
+\end{hint}
+\begin{solution}
+Their difference is forced to have too many zeros unless it vanishes identically.
+\end{solution}
+
+\begin{exercise}[Best constant formula]\label{exr:ii23-expand-08}
+Prove the best constant to continuous \(f\) is \((M+m)/2\).
+\end{exercise}
+\begin{hint}
+Any constant has worst error at least half the range.
+\end{hint}
+\begin{solution}
+\(\max(M-c,c-m)\ge(M-m)/2\), with equality when the two terms are equal.
+\end{solution}
+
+\begin{exercise}[Finite certificate]\label{exr:ii23-expand-09}
+Why is alternation a global certificate even though it checks finitely many points?
+\end{exercise}
+\begin{hint}
+Root counting converts those sign constraints into an obstruction to every lower-degree improvement.
+\end{hint}
+\begin{solution}
+The finite pattern forces any allegedly better polynomial difference to exceed its possible number of zeros.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Equal magnitude required]\label{exr:ii23-expand-10}
+Why do alternating signs at unequal submaximal errors not by themselves certify minimax optimality?
+\end{exercise}
+\begin{hint}
+The theorem concerns points attaining the actual sup error.
+\end{hint}
+\begin{solution}
+Nonactive points can alternate without constraining the worst-case error sufficiently.
+\end{solution}
+
+\begin{exercise}[Wrong point order]\label{exr:ii23-expand-11}
+Why must the alternation points be ordered along the interval?
+\end{exercise}
+\begin{hint}
+Root counting uses sign changes between adjacent points.
+\end{hint}
+\begin{solution}
+Without order, one cannot infer distinct intermediate zeros.
+\end{solution}
+
+\begin{exercise}[Too few points]\label{exr:ii23-expand-12}
+Give the conceptual failure of a degree-2 candidate with only three alternating extrema.
+\end{exercise}
+\begin{hint}
+Degree two needs four.
+\end{hint}
+\begin{solution}
+A quadratic perturbation can potentially reduce the maximum error because root counting no longer yields a contradiction.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Certificate checking]\label{exr:ii23-expand-13}
+How can alternation be used to verify a numerical minimax approximation?
+\end{exercise}
+\begin{hint}
+Locate extreme errors and compare magnitudes/signs.
+\end{hint}
+\begin{solution}
+A near-equal alternating pattern at \(n+2\) points is the numerical signature of minimax structure.
+\end{solution}
+
+\begin{exercise}[Remez update]\label{exr:ii23-expand-14}
+What does a Remez step do when it finds an error peak larger than the current level \(E\)?
+\end{exercise}
+\begin{hint}
+Replace a weaker alternation point while preserving alternating order.
+\end{hint}
+\begin{solution}
+It updates the finite support set so the next solve balances the true dominant errors more closely.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Perturbation intuition]\label{exr:ii23-expand-15}
+Explain why insufficient alternation suggests a sign-shaped perturbation can lower the maximum error.
+\end{exercise}
+\begin{hint}
+Construct a low-degree function having selected signs on active regions.
+\end{hint}
+\begin{solution}
+Without enough alternating constraints, polynomial degrees of freedom can shift the approximant toward high positive-error regions and away from high negative-error regions.
+\end{solution}
+
+\begin{exercise}[Dual viewpoint]\label{exr:ii23-expand-16}
+Why is equioscillation analogous to balancing active constraints in optimization?
+\end{exercise}
+\begin{hint}
+At optimum, several worst-case constraints are simultaneously tight with alternating signs.
+\end{hint}
+\begin{solution}
+The balanced active set prevents any feasible low-degree perturbation from decreasing all maximal errors at once.
+\end{solution}
+% END VOL02-EXPANSION II23-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

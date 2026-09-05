@@ -30,15 +30,64 @@ Equally spaced nodes yield midpoint, trapezoidal, Simpson, and higher rules.
 \section{Degree of exactness}
 A rule has degree $m$ if it integrates all polynomials through degree $m$ exactly.
 
+
+% BEGIN VOL02-EXPANSION II24-example-01
+\begin{example}[Degree of exactness by testing monomials]\label{ex:ii24-expand-01}
+For the trapezoidal rule on \([0,1]\),
+\[
+Q(f)=\frac12(f(0)+f(1)).
+\]
+It is exact for \(1\) and \(x\):
+\[
+Q(1)=1=\int_0^1 1\,dx,\qquad
+Q(x)=\frac12=\int_0^1x\,dx.
+\]
+But
+\[
+Q(x^2)=\frac12\ne\frac13.
+\]
+Therefore the degree of exactness is exactly \(1\). Testing the first failing
+monomial is what certifies the degree rather than merely a lower bound.
+\end{example}
+% END VOL02-EXPANSION II24-example-01
 \section{Error formulas}
 Remainders depend on higher derivatives and powers of step size.
 
 \section{Composite rules}
 Apply a low-order rule repeatedly on a fine partition.
 
+
+% BEGIN VOL02-EXPANSION II24-example-02
+\begin{example}[Composite trapezoidal error scales quadratically in the mesh]\label{ex:ii24-expand-02}
+For \(f\in C^2[a,b]\) and uniform step \(h=(b-a)/n\), summing the one-panel
+trapezoidal errors gives
+\[
+|E_T|\le \frac{b-a}{12}h^2\|f''\|_\infty.
+\]
+Thus halving the mesh reduces the bound by a factor of four. To meet a target
+tolerance, solve this inequality for \(h\) or \(n\). The global order comes
+from local cubic error accumulated over \(O(1/h)\) panels.
+\end{example}
+% END VOL02-EXPANSION II24-example-02
 \section{Gaussian quadrature}
 Optimally chosen nodes increase polynomial exactness for a fixed number of samples.
 
+
+% BEGIN VOL02-EXPANSION II24-example-03
+\begin{example}[Two Gaussian nodes integrate cubics exactly]\label{ex:ii24-expand-03}
+On \([-1,1]\), the two-node Gauss--Legendre rule uses
+\[
+x=\pm\frac1{\sqrt3},\qquad w_1=w_2=1.
+\]
+Symmetry makes odd monomials integrate exactly. For \(x^2\),
+\[
+Q(x^2)=2\cdot\frac13=\frac23=\int_{-1}^1x^2\,dx.
+\]
+Constants are also exact, so every polynomial through degree \(3\) is integrated
+exactly. Two intelligently chosen samples therefore achieve higher exactness
+than two equally spaced endpoint samples.
+\end{example}
+% END VOL02-EXPANSION II24-example-03
 \section{Stability and adaptivity}
 Practical quadrature balances truncation error, smoothness, and sampling cost.
 
@@ -252,5 +301,180 @@ Local error estimates. Check whether the formula's node/weight pattern requires 
 Estimated local error.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II24-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Midpoint]\label{exr:ii24-expand-01}
+Approximate \(\int_0^1x^2dx\) by one midpoint sample.
+\end{exercise}
+\begin{hint}
+Use \(f(1/2)\) times interval length.
+\end{hint}
+\begin{solution}
+\(1/4\).
+\end{solution}
+
+\begin{exercise}[Trapezoid]\label{exr:ii24-expand-02}
+Approximate the same integral by one trapezoid.
+\end{exercise}
+\begin{hint}
+Average endpoint values.
+\end{hint}
+\begin{solution}
+\(1/2\).
+\end{solution}
+
+\begin{exercise}[Simpson]\label{exr:ii24-expand-03}
+Apply Simpson's rule to \(\int_0^1x^3dx\).
+\end{exercise}
+\begin{hint}
+Use weights \(1,4,1\).
+\end{hint}
+\begin{solution}
+\(\frac16(0+4(1/8)+1)=1/4\), exact.
+\end{solution}
+
+\begin{exercise}[Degree test]\label{exr:ii24-expand-04}
+What is the degree of exactness of the midpoint rule on a symmetric interval?
+\end{exercise}
+\begin{hint}
+Test \(1,x,x^2\).
+\end{hint}
+\begin{solution}
+It is \(1\): constants and linear functions are exact, quadratics are not.
+\end{solution}
+
+\begin{exercise}[Gauss two-node]\label{exr:ii24-expand-05}
+Evaluate the two-node Gauss--Legendre rule on \(x^2\).
+\end{exercise}
+\begin{hint}
+Use nodes \(\pm1/\sqrt3\).
+\end{hint}
+\begin{solution}
+The result is \(2/3\), exact.
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Trapezoid exactness]\label{exr:ii24-expand-06}
+Prove trapezoidal quadrature is exact for all linear functions.
+\end{exercise}
+\begin{hint}
+The linear interpolant equals the function.
+\end{hint}
+\begin{solution}
+The rule integrates the endpoint interpolating line exactly.
+\end{solution}
+
+\begin{exercise}[Simpson exactness]\label{exr:ii24-expand-07}
+Verify Simpson's rule on the basis \(1,x,x^2,x^3\) after scaling to \([-1,1]\).
+\end{exercise}
+\begin{hint}
+Use symmetry for odd powers.
+\end{hint}
+\begin{solution}
+Direct evaluation matches the exact moments for all four monomials.
+\end{solution}
+
+\begin{exercise}[Composite error scaling]\label{exr:ii24-expand-08}
+Explain why a local \(O(h^3)\) panel error leads to global \(O(h^2)\) error over a fixed interval.
+\end{exercise}
+\begin{hint}
+There are \(O(1/h)\) panels.
+\end{hint}
+\begin{solution}
+\((1/h)\cdot h^3=O(h^2)\).
+\end{solution}
+
+\begin{exercise}[Gaussian degree]\label{exr:ii24-expand-09}
+Explain why \(n\) Gaussian nodes can reach degree \(2n-1\).
+\end{exercise}
+\begin{hint}
+Divide a polynomial by the degree-\(n\) orthogonal polynomial whose zeros are the nodes.
+\end{hint}
+\begin{solution}
+The node-vanishing part integrates to zero by orthogonality, and the lower-degree remainder is matched by the weights.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[More nodes not automatically stable]\label{exr:ii24-expand-10}
+Why can high-order equally spaced Newton--Cotes rules become unattractive?
+\end{exercise}
+\begin{hint}
+Weights can grow and alternate, amplifying noise.
+\end{hint}
+\begin{solution}
+Higher algebraic order can come with poor numerical stability.
+\end{solution}
+
+\begin{exercise}[Exactness not universal accuracy]\label{exr:ii24-expand-11}
+Why does high polynomial degree of exactness not guarantee small error for every nonsmooth integrand?
+\end{exercise}
+\begin{hint}
+Error formulas require smoothness/derivative control.
+\end{hint}
+\begin{solution}
+A rule can be exact on many polynomials yet perform poorly on singular or highly oscillatory functions.
+\end{solution}
+
+\begin{exercise}[Single-panel limitation]\label{exr:ii24-expand-12}
+Why can one Simpson panel be inaccurate on a long interval even though it is cubic-exact?
+\end{exercise}
+\begin{hint}
+Noncubic remainder grows with interval length and fourth derivatives.
+\end{hint}
+\begin{solution}
+Composite subdivision reduces the local scale and hence the remainder.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Mesh selection]\label{exr:ii24-expand-13}
+How do you choose \(n\) from a composite trapezoid error bound?
+\end{exercise}
+\begin{hint}
+Set the bound below tolerance and solve for \(h=(b-a)/n\).
+\end{hint}
+\begin{solution}
+The derivative bound and tolerance produce an explicit lower bound on \(n\).
+\end{solution}
+
+\begin{exercise}[Adaptive quadrature]\label{exr:ii24-expand-14}
+Why compare coarse and refined quadrature estimates locally?
+\end{exercise}
+\begin{hint}
+The discrepancy is an empirical proxy for local truncation error.
+\end{hint}
+\begin{solution}
+Subdivide where the estimates disagree most, concentrating samples where the integrand is hardest.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Moment equations]\label{exr:ii24-expand-15}
+Derive symmetric two-node weights/nodes on \([-1,1]\) by requiring exactness for \(1\) and \(x^2\).
+\end{exercise}
+\begin{hint}
+Let nodes be \(\pm a\) with equal weight \(w\).
+\end{hint}
+\begin{solution}
+Constant exactness gives \(2w=2\Rightarrow w=1\); quadratic exactness gives \(2a^2=2/3\Rightarrow a=1/\sqrt3\).
+\end{solution}
+
+\begin{exercise}[Richardson idea]\label{exr:ii24-expand-16}
+If an error behaves like \(Ch^p\), explain how two resolutions can eliminate the leading error term.
+\end{exercise}
+\begin{hint}
+Combine \(Q_h\) and \(Q_{h/2}\) using the factor \(2^p\).
+\end{hint}
+\begin{solution}
+\((2^pQ_{h/2}-Q_h)/(2^p-1)\) cancels the leading \(Ch^p\) term under the asymptotic model.
+\end{solution}
+% END VOL02-EXPANSION II24-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

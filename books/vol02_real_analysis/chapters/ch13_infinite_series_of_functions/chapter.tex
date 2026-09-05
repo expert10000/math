@@ -27,9 +27,44 @@ Uniform convergence of partial sums is the key global notion.
 \section{Weierstrass M-test}
 Uniform domination by a summable numerical series gives uniform absolute convergence.
 
+
+% BEGIN VOL02-EXPANSION II13-example-01
+\begin{example}[M-test with a computable truncation guarantee]\label{ex:ii13-expand-01}
+On \([-1,1]\), consider
+\[
+\sum_{n=1}^{\infty}\frac{x^n}{3^n}.
+\]
+Since \(|x^n/3^n|\le 3^{-n}\), the M-test gives uniform absolute convergence.
+Moreover the tail after \(N\) satisfies
+\[
+\sup_{|x|\le1}\left|\sum_{n>N}\frac{x^n}{3^n}\right|
+\le\sum_{n>N}3^{-n}
+=\frac{1}{2\cdot3^N}.
+\]
+Thus \(N\) can be chosen directly from a requested uniform tolerance. The
+majorant proves convergence and supplies an error certificate at the same time.
+\end{example}
+% END VOL02-EXPANSION II13-example-01
 \section{Power series}
 Inside the radius of convergence, power series converge uniformly on compact subintervals.
 
+
+% BEGIN VOL02-EXPANSION II13-example-02
+\begin{example}[Power-series convergence is locally uniform inside the radius]\label{ex:ii13-expand-02}
+For the geometric power series \(\sum_{n\ge0}x^n\), fix \(0<r<1\). On
+\([-r,r]\),
+\[
+|x^n|\le r^n,
+\]
+and \(\sum r^n\) converges. Hence the series converges uniformly there and
+\[
+\sum_{n=0}^{\infty}x^n=\frac1{1-x}.
+\]
+The same argument works on every compact subinterval strictly inside a general
+power series' radius of convergence: the compact set stays a positive distance
+from the boundary where convergence may deteriorate.
+\end{example}
+% END VOL02-EXPANSION II13-example-02
 \section{Algebra of series}
 Uniformly convergent series can be added and scaled termwise.
 
@@ -42,6 +77,20 @@ Uniform convergence of derivative series plus one-point convergence justifies te
 \section{Remainder bounds}
 Majorant tails provide explicit uniform truncation error estimates.
 
+
+% BEGIN VOL02-EXPANSION II13-example-03
+\begin{example}[Turning a majorant tail into a stopping rule]\label{ex:ii13-expand-03}
+Suppose \(|f_n(x)|\le2^{-n}\) for every \(x\in X\). Then the remainder after
+the \(N\)-th term obeys
+\[
+\|R_N\|_\infty
+\le\sum_{n=N+1}^{\infty}2^{-n}=2^{-N}.
+\]
+To guarantee uniform error below \(10^{-6}\), it is enough to take \(N=20\).
+This is stronger than knowing only that the series converges: it converts the
+proof into a practical truncation rule.
+\end{example}
+% END VOL02-EXPANSION II13-example-03
 \section{Core structural results}
 
 \begin{theorem}[Weierstrass M-test]\label{thm:ii13-01}
@@ -252,5 +301,180 @@ Use majorant tail. Use the Cauchy criterion for series when no closed-form sum i
 By $\sum_{n>N}M_n$.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II13-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Geometric function series]\label{exr:ii13-expand-01}
+Find the uniform sum of \(\sum_{n\ge0}(x/2)^n\) on \([-1,1]\).
+\end{exercise}
+\begin{hint}
+Use the geometric-series formula; \(|x/2|\le1/2\).
+\end{hint}
+\begin{solution}
+The sum is \(1/(1-x/2)\), and convergence is uniform by the M-test.
+\end{solution}
+
+\begin{exercise}[Tail size]\label{exr:ii13-expand-02}
+If \(|f_n|\le4^{-n}\), bound the tail after \(N\).
+\end{exercise}
+\begin{hint}
+Sum the geometric majorant from \(N+1\) onward.
+\end{hint}
+\begin{solution}
+The tail is at most \(\frac{4^{-N}}{3}\).
+\end{solution}
+
+\begin{exercise}[Power-series radius]\label{exr:ii13-expand-03}
+Find the radius of convergence of \(\sum n x^n\).
+\end{exercise}
+\begin{hint}
+Use the ratio test on \(n|x|^n\).
+\end{hint}
+\begin{solution}
+The ratio tends to \(|x|\), so the radius is \(1\).
+\end{solution}
+
+\begin{exercise}[Termwise integral]\label{exr:ii13-expand-04}
+Integrate \(\sum_{n\ge0}x^n\) termwise from \(0\) to \(r<1\).
+\end{exercise}
+\begin{hint}
+Use uniform convergence on \([0,r]\).
+\end{hint}
+\begin{solution}
+\(\sum_{n\ge0}r^{n+1}/(n+1)=-\log(1-r)\).
+\end{solution}
+
+\begin{exercise}[Uniform absolute convergence]\label{exr:ii13-expand-05}
+Does \(\sum x^n/n^2\) converge uniformly on \([-1,1]\)?
+\end{exercise}
+\begin{hint}
+Compare with \(\sum1/n^2\).
+\end{hint}
+\begin{solution}
+Yes, absolutely and uniformly by the M-test.
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[M-test proof]\label{exr:ii13-expand-06}
+Prove the Weierstrass M-test from the uniform Cauchy criterion.
+\end{exercise}
+\begin{hint}
+Bound every function tail by the corresponding numerical tail.
+\end{hint}
+\begin{solution}
+For \(m>n\), \(\sup_x|\sum_{k=n+1}^m f_k(x)|\le\sum_{k=n+1}^m M_k\), which becomes arbitrarily small.
+\end{solution}
+
+\begin{exercise}[Uniform termwise integration]\label{exr:ii13-expand-07}
+Prove a uniformly convergent series of Riemann-integrable functions can be integrated termwise.
+\end{exercise}
+\begin{hint}
+Apply the uniform integral theorem to partial sums.
+\end{hint}
+\begin{solution}
+The partial sums converge uniformly to the sum, and integration is continuous in sup norm.
+\end{solution}
+
+\begin{exercise}[Power-series compact uniformity]\label{exr:ii13-expand-08}
+Prove \(\sum a_nx^n\) converges uniformly on every \([-r,r]\) with \(r<R\), where \(R\) is the radius.
+\end{exercise}
+\begin{hint}
+Choose \(\rho\) with \(r<\rho<R\) and dominate \(|a_n|r^n\) by a convergent comparison based on \(\rho\).
+\end{hint}
+\begin{solution}
+Convergence at \(\rho\) bounds \(|a_n|\rho^n\); multiplying by \((r/\rho)^n\) gives a geometric majorant.
+\end{solution}
+
+\begin{exercise}[Tail criterion]\label{exr:ii13-expand-09}
+Show a uniformly absolutely convergent series has uniform tails tending to zero.
+\end{exercise}
+\begin{hint}
+Use the numerical majorant tail.
+\end{hint}
+\begin{solution}
+The sup norm of each tail is bounded by a scalar tail that tends to zero.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[M-test not necessary]\label{exr:ii13-expand-10}
+Give a uniformly convergent series for which the obvious absolute M-test is unavailable.
+\end{exercise}
+\begin{hint}
+Think of cancellation or conditional convergence with a common factor.
+\end{hint}
+\begin{solution}
+For example a uniformly convergent scalar conditional series multiplied by a fixed bounded function can converge uniformly without an absolutely summable coefficient majorant.
+\end{solution}
+
+\begin{exercise}[Boundary failure]\label{exr:ii13-expand-11}
+Why does \(\sum x^n\) fail to converge uniformly on \([0,1)\)?
+\end{exercise}
+\begin{hint}
+The point producing the largest tail can move toward \(1\).
+\end{hint}
+\begin{solution}
+The tail supremum over \([0,1)\) remains \(1\), so uniform convergence fails despite pointwise convergence.
+\end{solution}
+
+\begin{exercise}[Termwise differentiation warning]\label{exr:ii13-expand-12}
+Why may a uniformly convergent series not be differentiated termwise?
+\end{exercise}
+\begin{hint}
+Uniform convergence of the original series does not control derivative amplitudes.
+\end{hint}
+\begin{solution}
+Derivative series can diverge or fail uniform convergence; extra derivative hypotheses are required.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Certified truncation]\label{exr:ii13-expand-13}
+If a function series has majorant tail \(2^{-N}\), how should \(N\) be chosen for \(10^{-8}\) accuracy?
+\end{exercise}
+\begin{hint}
+Solve \(2^{-N}<10^{-8}\).
+\end{hint}
+\begin{solution}
+Any \(N\ge27\) works.
+\end{solution}
+
+\begin{exercise}[Spectral expansion viewpoint]\label{exr:ii13-expand-14}
+Why are uniform tail bounds useful in numerical expansions?
+\end{exercise}
+\begin{hint}
+They control worst-case error over the whole domain.
+\end{hint}
+\begin{solution}
+They turn a formal infinite representation into a finite approximation with a rigorous global error guarantee.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Cauchy product]\label{exr:ii13-expand-15}
+Under absolute uniform convergence of two function series, explain why their Cauchy product is well behaved.
+\end{exercise}
+\begin{hint}
+Use absolute numerical majorants and the scalar Cauchy-product theorem.
+\end{hint}
+\begin{solution}
+The product coefficients are dominated by the convolution of two summable majorants, so the product series converges uniformly and equals the pointwise product.
+\end{solution}
+
+\begin{exercise}[Differentiate a power series]\label{exr:ii13-expand-16}
+Why may a power series be differentiated termwise strictly inside its radius of convergence?
+\end{exercise}
+\begin{hint}
+On a smaller compact interval, dominate the derivative series using a slightly larger interior radius.
+\end{hint}
+\begin{solution}
+The derivative series converges uniformly on compacta inside the radius; the derivative-limit theorem then justifies termwise differentiation.
+\end{solution}
+% END VOL02-EXPANSION II13-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

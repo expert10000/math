@@ -30,15 +30,69 @@ A polynomial of degree at most $n$ matching $n+1$ distinct data points is unique
 \section{Newton form}
 Divided differences produce a nested incremental representation.
 
+
+% BEGIN VOL02-EXPANSION II20-example-01
+\begin{example}[Newton form updates without rebuilding the interpolant]\label{ex:ii20-expand-01}
+For data
+\[
+(0,1),\quad(1,2),\quad(2,5),
+\]
+the divided differences are
+\[
+f[0]=1,\qquad f[0,1]=1,\qquad f[1,2]=3,\qquad
+f[0,1,2]=1.
+\]
+Hence
+\[
+p_2(x)=1+x+x(x-1)=1+x^2.
+\]
+If a new node is added, Newton form appends one new divided-difference term
+rather than rebuilding the whole polynomial. Evaluating at the three old nodes
+checks the interpolation conditions.
+\end{example}
+% END VOL02-EXPANSION II20-example-01
 \section{Divided differences}
 Recursive coefficients encode discrete derivatives.
 
 \section{Error formula}
 The interpolation remainder involves the next derivative and the node polynomial.
 
+
+% BEGIN VOL02-EXPANSION II20-example-02
+\begin{example}[Interpolation remainder becomes an error bound]\label{ex:ii20-expand-02}
+Interpolate \(f(x)=e^x\) at \(0\) and \(1\) by a line \(p_1\). For
+\(x\in[0,1]\),
+\[
+f(x)-p_1(x)=\frac{e^\xi}{2}x(x-1)
+\]
+for some \(\xi\in(0,1)\). Since \(e^\xi\le e\) and
+\[
+|x(x-1)|\le\frac14,
+\]
+we get
+\[
+|f(x)-p_1(x)|\le\frac{e}{8}.
+\]
+The remainder formula separates smoothness control from node geometry.
+\end{example}
+% END VOL02-EXPANSION II20-example-02
 \section{Node choice}
 Equally spaced nodes can be unstable at high degree; special nodes reduce worst-case error.
 
+
+% BEGIN VOL02-EXPANSION II20-example-03
+\begin{example}[Node choice controls the node polynomial]\label{ex:ii20-expand-03}
+The interpolation error contains
+\[
+\omega_{n+1}(x)=\prod_{j=0}^n(x-x_j).
+\]
+For a fixed derivative bound, reducing
+\(\|\omega_{n+1}\|_\infty\) reduces worst-case interpolation error. Chebyshev
+nodes are designed precisely to control this factor on an interval. This
+explains why node placement is not a cosmetic choice: equally spaced nodes can
+produce a much larger oscillatory node polynomial near endpoints.
+\end{example}
+% END VOL02-EXPANSION II20-example-03
 \section{Hermite preview}
 Derivative data can be incorporated by repeated-node ideas.
 
@@ -252,5 +306,180 @@ Newton form. Newton form is incremental because adding one node appends one new 
 Newton divided-difference form.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II20-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Linear interpolation]\label{exr:ii20-expand-01}
+Interpolate \((0,2)\) and \((2,6)\).
+\end{exercise}
+\begin{hint}
+Find the line through the points.
+\end{hint}
+\begin{solution}
+\(p(x)=2+2x\).
+\end{solution}
+
+\begin{exercise}[Lagrange basis]\label{exr:ii20-expand-02}
+For nodes \(0,1,2\), write \(L_1(x)\).
+\end{exercise}
+\begin{hint}
+Use products over the other nodes.
+\end{hint}
+\begin{solution}
+\(L_1(x)=\frac{x(x-2)}{(1-0)(1-2)}=-x(x-2)\).
+\end{solution}
+
+\begin{exercise}[Divided difference]\label{exr:ii20-expand-03}
+Compute \(f[0,1]\) for values \(f(0)=1,f(1)=4\).
+\end{exercise}
+\begin{hint}
+Use the first divided-difference formula.
+\end{hint}
+\begin{solution}
+\(f[0,1]=3\).
+\end{solution}
+
+\begin{exercise}[Vandermonde determinant]\label{exr:ii20-expand-04}
+What condition on nodes makes the Vandermonde matrix invertible?
+\end{exercise}
+\begin{hint}
+Recall its determinant product.
+\end{hint}
+\begin{solution}
+The nodes must be pairwise distinct.
+\end{solution}
+
+\begin{exercise}[Remainder factor]\label{exr:ii20-expand-05}
+For quadratic interpolation at nodes \(0,1,2\), what node product appears in the remainder?
+\end{exercise}
+\begin{hint}
+Multiply \(x-x_j\).
+\end{hint}
+\begin{solution}
+\(x(x-1)(x-2)\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Uniqueness]\label{exr:ii20-expand-06}
+Prove a degree-at-most-\(n\) interpolant at \(n+1\) distinct nodes is unique.
+\end{exercise}
+\begin{hint}
+Subtract two interpolants.
+\end{hint}
+\begin{solution}
+The difference has \(n+1\) distinct roots but degree at most \(n\), so it is zero.
+\end{solution}
+
+\begin{exercise}[Lagrange existence]\label{exr:ii20-expand-07}
+Prove the Lagrange formula matches prescribed node values.
+\end{exercise}
+\begin{hint}
+Use \(L_j(x_i)=\delta_{ij}\).
+\end{hint}
+\begin{solution}
+At node \(x_i\), every term vanishes except \(y_iL_i(x_i)=y_i\).
+\end{solution}
+
+\begin{exercise}[Newton update]\label{exr:ii20-expand-08}
+Explain why adding one node adds only one term to Newton form.
+\end{exercise}
+\begin{hint}
+The existing interpolant already matches old nodes; multiply the correction by the old node polynomial.
+\end{hint}
+\begin{solution}
+The correction \(c\prod_{j=0}^n(x-x_j)\) vanishes at all old nodes, and \(c\) is chosen to fit the new one.
+\end{solution}
+
+\begin{exercise}[Remainder theorem mechanism]\label{exr:ii20-expand-09}
+Outline the repeated Rolle proof of the interpolation remainder.
+\end{exercise}
+\begin{hint}
+Subtract a multiple of the node polynomial so the error also vanishes at the evaluation point.
+\end{hint}
+\begin{solution}
+The constructed function has \(n+2\) zeros; repeated Rolle gives a zero of its \((n+1)\)-st derivative and yields the formula.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Repeated nodes]\label{exr:ii20-expand-10}
+Why do repeated nodes break ordinary Lagrange interpolation formulas?
+\end{exercise}
+\begin{hint}
+Denominators contain node differences.
+\end{hint}
+\begin{solution}
+Distinctness fails and denominators vanish; derivative data require Hermite-type interpolation instead.
+\end{solution}
+
+\begin{exercise}[High-degree instability]\label{exr:ii20-expand-11}
+Why can equally spaced high-degree interpolation behave poorly near interval endpoints?
+\end{exercise}
+\begin{hint}
+Node-product and Lebesgue factors can grow strongly.
+\end{hint}
+\begin{solution}
+Runge-type oscillations can amplify data/approximation error despite exact interpolation at nodes.
+\end{solution}
+
+\begin{exercise}[Interpolation not approximation optimum]\label{exr:ii20-expand-12}
+Why need an interpolating polynomial not be the best uniform approximant of the same degree?
+\end{exercise}
+\begin{hint}
+Interpolation enforces exact values at chosen nodes, while minimax optimizes worst-case error globally.
+\end{hint}
+\begin{solution}
+The two optimization criteria are different.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Table update]\label{exr:ii20-expand-13}
+Why is Newton form attractive for streaming data?
+\end{exercise}
+\begin{hint}
+New data append divided differences without changing old coefficients.
+\end{hint}
+\begin{solution}
+It supports incremental interpolation with less recomputation.
+\end{solution}
+
+\begin{exercise}[Error budgeting]\label{exr:ii20-expand-14}
+How can derivative and node-product bounds guide node count?
+\end{exercise}
+\begin{hint}
+Use the remainder inequality.
+\end{hint}
+\begin{solution}
+Choose degree/nodes until \(M\|\omega\|_\infty/(n+1)!\) falls below the desired tolerance.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Chebyshev node motivation]\label{exr:ii20-expand-15}
+Explain why roots of a Chebyshev polynomial are natural interpolation nodes.
+\end{exercise}
+\begin{hint}
+They minimize the size of an associated monic node polynomial up to scaling.
+\end{hint}
+\begin{solution}
+This reduces the worst-case factor in the interpolation remainder.
+\end{solution}
+
+\begin{exercise}[Hermite dimension count]\label{exr:ii20-expand-16}
+Why do values and first derivatives at \(m\) distinct nodes determine a polynomial of degree at most \(2m-1\) uniquely?
+\end{exercise}
+\begin{hint}
+The difference of two candidates has a double zero at each node.
+\end{hint}
+\begin{solution}
+It would have at least \(2m\) zeros counting multiplicity but degree at most \(2m-1\), so it must vanish.
+\end{solution}
+% END VOL02-EXPANSION II20-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

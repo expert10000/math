@@ -30,9 +30,47 @@ Kernels define linear or nonlinear operators on function spaces.
 \section{Sup-norm estimates}
 Kernel bounds convert integral operators into norm inequalities.
 
+
+% BEGIN VOL02-EXPANSION II18-example-01
+\begin{example}[A sharp sup-norm kernel estimate]\label{ex:ii18-expand-01}
+For
+\[
+(Kf)(x)=\int_0^1 xt\,f(t)\,dt,\qquad 0\le x\le1,
+\]
+we have
+\[
+|Kf(x)|\le x\|f\|_\infty\int_0^1t\,dt
+=\frac{x}{2}\|f\|_\infty.
+\]
+Taking the supremum gives
+\[
+\|K\|_\infty\le\frac12.
+\]
+Equality is attained for \(f\equiv1\) at \(x=1\), so the norm is exactly
+\(1/2\). The sharp estimate immediately shows \(I-\lambda K\) is invertible
+by a Neumann series whenever \(|\lambda|<2\).
+\end{example}
+% END VOL02-EXPANSION II18-example-01
 \section{Neumann series}
 Small operator norm permits inversion of $I-K$ by a geometric series.
 
+
+% BEGIN VOL02-EXPANSION II18-example-02
+\begin{example}[Neumann series with an explicit operator error]\label{ex:ii18-expand-02}
+If \(\|K\|=q<1\), then
+\[
+(I-K)^{-1}=I+K+K^2+\cdots.
+\]
+After truncating at \(N\),
+\[
+\left\|(I-K)^{-1}-\sum_{j=0}^N K^j\right\|
+\le\sum_{j=N+1}^\infty q^j
+=\frac{q^{N+1}}{1-q}.
+\]
+Thus the same geometric series proving invertibility supplies a certified
+approximation of the inverse operator.
+\end{example}
+% END VOL02-EXPANSION II18-example-02
 \section{Contraction methods}
 Nonlinear integral equations can be solved by Banach's theorem under Lipschitz conditions.
 
@@ -42,6 +80,25 @@ Repeated substitution creates iterated kernel integrals.
 \section{Connection to ODEs}
 Initial-value ODEs are equivalent to Volterra integral equations.
 
+
+% BEGIN VOL02-EXPANSION II18-example-03
+\begin{example}[An ODE becomes a causal Volterra equation]\label{ex:ii18-expand-03}
+The IVP
+\[
+y'(t)=t+y(t),\qquad y(0)=1
+\]
+is equivalent to
+\[
+y(t)=1+\int_0^t(s+y(s))\,ds.
+\]
+A Picard scheme starts with \(y_0(t)=1\) and defines
+\[
+y_{n+1}(t)=1+\int_0^t(s+y_n(s))\,ds.
+\]
+The first iterate is \(1+t+t^2/2\). The upper integration limit \(t\) makes the
+operator causal: the value at time \(t\) depends only on earlier values.
+\end{example}
+% END VOL02-EXPANSION II18-example-03
 \section{Core structural results}
 
 \begin{theorem}[Neumann-series inversion]\label{thm:ii18-01}
@@ -252,5 +309,180 @@ Use a geometric-series bound on successive differences to estimate the error aft
 Yes, since $I-K$ is invertible.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II18-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Constant kernel]\label{exr:ii18-expand-01}
+Solve \(f(x)=2+\lambda\int_0^1f(t)\,dt\) for \(\lambda\ne1\).
+\end{exercise}
+\begin{hint}
+The solution must be constant; call its integral \(c\).
+\end{hint}
+\begin{solution}
+\(c=2+\lambda c\), so \(f\equiv2/(1-\lambda)\).
+\end{solution}
+
+\begin{exercise}[Kernel bound]\label{exr:ii18-expand-02}
+For \(Kf(x)=\int_0^1 x^2t\,f(t)\,dt\), bound \(\|K\|_\infty\).
+\end{exercise}
+\begin{hint}
+Integrate \(t\) and maximize \(x^2\).
+\end{hint}
+\begin{solution}
+\(\|K\|\le1/2\), and equality occurs for \(f\equiv1,x=1\).
+\end{solution}
+
+\begin{exercise}[Neumann tail]\label{exr:ii18-expand-03}
+If \(\|K\|=1/4\), bound the inverse-series tail after \(N=3\).
+\end{exercise}
+\begin{hint}
+Use \(q^{N+1}/(1-q)\).
+\end{hint}
+\begin{solution}
+The bound is \((1/4)^4/(3/4)=1/192\).
+\end{solution}
+
+\begin{exercise}[Volterra first iterate]\label{exr:ii18-expand-04}
+For \(y=1+\int_0^t y(s)\,ds\), compute the first two Picard iterates from \(y_0=1\).
+\end{exercise}
+\begin{hint}
+Substitute successively.
+\end{hint}
+\begin{solution}
+\(y_1=1+t\), \(y_2=1+t+t^2/2\).
+\end{solution}
+
+\begin{exercise}[Contraction interval]\label{exr:ii18-expand-05}
+If the state Lipschitz constant is \(L=5\), how short must an interval be to make the Volterra map contractive?
+\end{exercise}
+\begin{hint}
+Require \(Lh<1\).
+\end{hint}
+\begin{solution}
+Take \(h<1/5\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Kernel operator bound]\label{exr:ii18-expand-06}
+Prove \(\|K\|_\infty\le(b-a)\|k\|_\infty\).
+\end{exercise}
+\begin{hint}
+Take absolute values inside the integral.
+\end{hint}
+\begin{solution}
+\(|Kf(x)|\le(b-a)\|k\|_\infty\|f\|_\infty\); take the sup.
+\end{solution}
+
+\begin{exercise}[Neumann inversion]\label{exr:ii18-expand-07}
+Prove \((I-K)\sum_{j=0}^N K^j=I-K^{N+1}\).
+\end{exercise}
+\begin{hint}
+Use the finite geometric identity.
+\end{hint}
+\begin{solution}
+All intermediate powers cancel; norm convergence lets \(N\to\infty\) when \(\|K\|<1\).
+\end{solution}
+
+\begin{exercise}[Volterra contraction]\label{exr:ii18-expand-08}
+Prove the Picard integral operator has contraction factor at most \(Lh\) on an interval of length \(h\).
+\end{exercise}
+\begin{hint}
+Estimate the integral of the Lipschitz difference.
+\end{hint}
+\begin{solution}
+\(\|Ty-Tz\|_\infty\le Lh\|y-z\|_\infty\).
+\end{solution}
+
+\begin{exercise}[ODE equivalence]\label{exr:ii18-expand-09}
+Prove a \(C^1\) solution of the IVP is equivalent to its Volterra integral equation.
+\end{exercise}
+\begin{hint}
+Integrate the ODE and differentiate the integral equation.
+\end{hint}
+\begin{solution}
+The fundamental theorem of calculus gives both directions.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Neumann condition sufficient not necessary]\label{exr:ii18-expand-10}
+Why does \(\|K\|<1\) give a sufficient but not necessary invertibility condition for \(I-K\)?
+\end{exercise}
+\begin{hint}
+An operator may have norm above one while \(1\) is still outside its spectrum.
+\end{hint}
+\begin{solution}
+The geometric-series proof fails when the norm is large, but invertibility can still hold by other arguments.
+\end{solution}
+
+\begin{exercise}[Kernel bound not sharp]\label{exr:ii18-expand-11}
+Why can \((b-a)\|k\|_\infty\) overestimate the true operator norm?
+\end{exercise}
+\begin{hint}
+It ignores cancellation and the integral profile in \(t\).
+\end{hint}
+\begin{solution}
+A sharper bound often uses \(\sup_x\int|k(x,t)|dt\).
+\end{solution}
+
+\begin{exercise}[No uniqueness without Lipschitz]\label{exr:ii18-expand-12}
+Why may a nonlinear integral equation have multiple solutions without a contraction condition?
+\end{exercise}
+\begin{hint}
+Banach's uniqueness mechanism is lost.
+\end{hint}
+\begin{solution}
+Continuity or self-map properties alone can imply existence without uniqueness.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Integral-equation solver]\label{exr:ii18-expand-13}
+How does successive approximation turn an integral equation into an algorithm?
+\end{exercise}
+\begin{hint}
+Iterate the associated operator.
+\end{hint}
+\begin{solution}
+Each step evaluates known integrals from the previous approximation; contraction estimates certify convergence and error.
+\end{solution}
+
+\begin{exercise}[Resolvent stability]\label{exr:ii18-expand-14}
+Why does small \(\|K\|\) make \(f-Kf=g\) stable?
+\end{exercise}
+\begin{hint}
+Bound \(\|(I-K)^{-1}\|\).
+\end{hint}
+\begin{solution}
+The Neumann series gives \(\|(I-K)^{-1}\|\le1/(1-\|K\|)\), controlling amplification of data errors.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Factorial Volterra bound]\label{exr:ii18-expand-15}
+Explain why iterated Volterra operators can have \(1/n!\)-type bounds even when the one-step contraction estimate is not small globally.
+\end{exercise}
+\begin{hint}
+Nested time integrals occupy an ordered simplex.
+\end{hint}
+\begin{solution}
+The \(n\)-fold integral region has volume \(h^n/n!\), producing stronger decay for iterates.
+\end{solution}
+
+\begin{exercise}[Rank-one Fredholm operator]\label{exr:ii18-expand-16}
+For \(Kf=\phi(x)\int\psi(t)f(t)dt\), reduce \(f-\lambda Kf=g\) to a scalar equation.
+\end{exercise}
+\begin{hint}
+Let \(c=\int\psi f\).
+\end{hint}
+\begin{solution}
+Then \(f=g+\lambda c\phi\), and \(c=\int\psi g+\lambda c\int\psi\phi\); solve this scalar equation when the denominator is nonzero.
+\end{solution}
+% END VOL02-EXPANSION II18-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

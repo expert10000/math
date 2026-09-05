@@ -27,6 +27,29 @@ A fixed point solves $Tx=x$.
 \section{Picard iteration}
 Repeated application $x_{n+1}=Tx_n$ is the natural algorithm.
 
+
+% BEGIN VOL02-EXPANSION II16-example-01
+\begin{example}[Picard iteration with an exact fixed point check]\label{ex:ii16-expand-01}
+Let
+\[
+T(x)=\frac{x+3}{4}.
+\]
+Then
+\[
+|T(x)-T(y)|=\frac14|x-y|,
+\]
+so \(q=1/4\). Starting from \(x_0=0\),
+\[
+x_1=\frac34,\qquad x_2=\frac{15}{16},\qquad x_3=\frac{63}{64}.
+\]
+The fixed-point equation gives \(x_*=1\), and indeed
+\[
+|x_n-1|=4^{-n}.
+\]
+The explicit formula checks the geometric convergence predicted by Banach's
+theorem.
+\end{example}
+% END VOL02-EXPANSION II16-example-01
 \section{Completeness}
 The iteration is Cauchy because geometric distance estimates telescope; completeness supplies the limit.
 
@@ -36,9 +59,45 @@ Two fixed points would be strictly closer after applying $T$, impossible unless 
 \section{Error estimates}
 A priori and a posteriori geometric bounds quantify iteration error.
 
+
+% BEGIN VOL02-EXPANSION II16-example-02
+\begin{example}[A posteriori error from the last step]\label{ex:ii16-expand-02}
+For a contraction with factor \(q<1\), Picard iterates satisfy
+\[
+d(x_n,x_*)\le \frac{q}{1-q}d(x_n,x_{n-1}).
+\]
+Thus if \(q=0.2\) and the most recent step has size \(10^{-5}\), then
+\[
+d(x_n,x_*)\le\frac{0.2}{0.8}10^{-5}=2.5\times10^{-6}.
+\]
+This is computationally useful because it estimates the unknown fixed-point
+error from quantities already produced by the iteration.
+\end{example}
+% END VOL02-EXPANSION II16-example-02
 \section{Parameter dependence}
 Contractive fixed points vary stably under perturbations.
 
+
+% BEGIN VOL02-EXPANSION II16-example-03
+\begin{example}[Stable dependence of a fixed point on a parameter]\label{ex:ii16-expand-03}
+Consider
+\[
+T_\lambda(x)=\frac{x+\lambda}{3}.
+\]
+Every \(T_\lambda\) has contraction factor \(1/3\) and fixed point
+\(x_\lambda=\lambda/2\). If \(\lambda,\mu\) are two parameters,
+\[
+|x_\lambda-x_\mu|=\frac12|\lambda-\mu|.
+\]
+The general perturbation theorem gives the compatible bound
+\[
+|x_\lambda-x_\mu|
+\le\frac{1}{1-1/3}\sup_x|T_\lambda(x)-T_\mu(x)|
+=\frac12|\lambda-\mu|.
+\]
+Here the stability estimate is sharp.
+\end{example}
+% END VOL02-EXPANSION II16-example-03
 \section{Applications}
 Integral equations and ODEs can be reformulated as fixed-point problems.
 
@@ -252,5 +311,180 @@ No strict contraction. Completeness is used to ensure the Cauchy iterate sequenc
 Not in Banach's theorem.
 \end{solution}
 
+
+% BEGIN VOL02-EXPANSION II16-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Affine fixed point]\label{exr:ii16-expand-01}
+Find the fixed point of \(T(x)=(x+5)/3\).
+\end{exercise}
+\begin{hint}
+Solve \(x=T(x)\).
+\end{hint}
+\begin{solution}
+\(x_*=5/2\).
+\end{solution}
+
+\begin{exercise}[Contraction constant]\label{exr:ii16-expand-02}
+Find a contraction constant for \(T(x)=0.7x+1\) on \(\mathbb R\).
+\end{exercise}
+\begin{hint}
+Subtract outputs.
+\end{hint}
+\begin{solution}
+\(q=0.7\).
+\end{solution}
+
+\begin{exercise}[First Picard steps]\label{exr:ii16-expand-03}
+For \(T(x)=(x+3)/4\), compute \(x_1,x_2\) from \(x_0=0\).
+\end{exercise}
+\begin{hint}
+Apply \(T\) twice.
+\end{hint}
+\begin{solution}
+\(x_1=3/4\), \(x_2=15/16\).
+\end{solution}
+
+\begin{exercise}[A priori error]\label{exr:ii16-expand-04}
+If \(q=1/2\) and \(d(x_1,x_0)=1\), bound \(d(x_5,x_*)\).
+\end{exercise}
+\begin{hint}
+Use \(q^n(1-q)^{-1}d(x_1,x_0)\).
+\end{hint}
+\begin{solution}
+The bound is \(2(1/2)^5=1/16\).
+\end{solution}
+
+\begin{exercise}[A posteriori error]\label{exr:ii16-expand-05}
+If \(q=1/3\) and \(d(x_n,x_{n-1})=0.006\), bound current error.
+\end{exercise}
+\begin{hint}
+Use \(q/(1-q)\) times the last step.
+\end{hint}
+\begin{solution}
+The error is at most \(0.003\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Banach uniqueness]\label{exr:ii16-expand-06}
+Prove a contraction has at most one fixed point.
+\end{exercise}
+\begin{hint}
+Apply the contraction inequality to two fixed points.
+\end{hint}
+\begin{solution}
+\(d(x,y)\le qd(x,y)\) with \(q<1\), so \(d(x,y)=0\).
+\end{solution}
+
+\begin{exercise}[Picard Cauchy]\label{exr:ii16-expand-07}
+Prove Picard iterates form a Cauchy sequence.
+\end{exercise}
+\begin{hint}
+Bound successive differences geometrically and sum a tail.
+\end{hint}
+\begin{solution}
+\(d(x_{n+k},x_n)\le d(x_1,x_0)\sum_{j=n}^{n+k-1}q^j\), whose tail tends to zero.
+\end{solution}
+
+\begin{exercise}[Fixed point at the limit]\label{exr:ii16-expand-08}
+Why is the Picard limit fixed?
+\end{exercise}
+\begin{hint}
+Use continuity of a contraction.
+\end{hint}
+\begin{solution}
+If \(x_n\to x_*\), then \(x_{n+1}=Tx_n\to Tx_*\), but also \(x_{n+1}\to x_*\), so \(Tx_*=x_*\).
+\end{solution}
+
+\begin{exercise}[Perturbation bound]\label{exr:ii16-expand-09}
+Derive \(d(x_T,x_S)\le(1-q)^{-1}\sup d(Tx,Sx)\) for contractions with common factor \(q\).
+\end{exercise}
+\begin{hint}
+Insert \(Tx_S\).
+\end{hint}
+\begin{solution}
+\(d(x_T,x_S)\le qd(x_T,x_S)+\sup d(Tx,Sx)\); rearrange.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Completeness required]\label{exr:ii16-expand-10}
+Give a contraction on an incomplete space with no fixed point.
+\end{exercise}
+\begin{hint}
+Use \((0,1)\) and a map whose fixed point is \(1\).
+\end{hint}
+\begin{solution}
+\(T(x)=(x+1)/2\) is a contraction on \((0,1)\) but has no fixed point there.
+\end{solution}
+
+\begin{exercise}[Strict contraction required]\label{exr:ii16-expand-11}
+Give a nonexpansive self-map with no fixed point.
+\end{exercise}
+\begin{hint}
+Use translation on \(\mathbb R\).
+\end{hint}
+\begin{solution}
+\(T(x)=x+1\) has Lipschitz constant \(1\) and no fixed point.
+\end{solution}
+
+\begin{exercise}[Self-map required]\label{exr:ii16-expand-12}
+Why can a contractive formula fail Banach's theorem if it leaves the chosen domain?
+\end{exercise}
+\begin{hint}
+The theorem requires \(T:X\to X\).
+\end{hint}
+\begin{solution}
+Without invariance, the iteration may exit the complete set on which the estimate was checked.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Iteration stopping]\label{exr:ii16-expand-13}
+How can the a posteriori bound be used as a stopping rule?
+\end{exercise}
+\begin{hint}
+Stop once the bound computed from the latest step is below tolerance.
+\end{hint}
+\begin{solution}
+It certifies the unknown fixed-point error using observable iterate differences.
+\end{solution}
+
+\begin{exercise}[Nonlinear equation]\label{exr:ii16-expand-14}
+How does solving \(x=\cos x\) become a fixed-point problem?
+\end{exercise}
+\begin{hint}
+Use \(T(x)=\cos x\) on a suitable invariant interval.
+\end{hint}
+\begin{solution}
+Choose an interval where \(|\sin x|\le q<1\); Banach then proves a unique local fixed point and convergence of iteration.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Choose an invariant interval]\label{exr:ii16-expand-15}
+Show \(T(x)=\frac12\cos x\) is a contraction mapping of \([-1,1]\) into itself.
+\end{exercise}
+\begin{hint}
+Bound both output size and derivative.
+\end{hint}
+\begin{solution}
+\(|T(x)|\le1/2\), so the interval is invariant, and \(|T'(x)|\le1/2\), so it is a contraction.
+\end{solution}
+
+\begin{exercise}[Optimal relaxation]\label{exr:ii16-expand-16}
+For \(T_\alpha(x)=(1-\alpha)x+\alpha c\), \(0<\alpha<2\), find the contraction factor and discuss the best \(\alpha\).
+\end{exercise}
+\begin{hint}
+Subtract outputs.
+\end{hint}
+\begin{solution}
+The factor is \(|1-\alpha|\), minimized at \(\alpha=1\), which reaches the fixed point \(c\) in one step.
+\end{solution}
+% END VOL02-EXPANSION II16-exercises-01
 \section*{Chapter summary}
 The chapter's tools now form part of the canonical Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.
