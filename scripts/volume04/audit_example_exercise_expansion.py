@@ -30,7 +30,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     ap.add_argument("--repo", required=True)
     ap.add_argument("--snapshot", action="store_true")
-    ap.add_argument("--stage", type=int, default=1, choices=[1, 2, 3])
+    ap.add_argument("--stage", type=int, default=1, choices=[1, 2, 3, 4])
     ap.add_argument("--check-only", action="store_true")
     args = ap.parse_args()
 
@@ -80,7 +80,8 @@ def main() -> int:
         if old and old.get("protected_sha256") != row["protected_sha256"]:
             blockers.append(f"{code}:PROTECTED_TEXT_CHANGED")
 
-        enriched = (args.stage >= 2 and i <= 11) or (args.stage >= 3 and 12 <= i <= 18)
+        enriched_limit = {1: 0, 2: 11, 3: 18, 4: 31}[args.stage]
+        enriched = i <= enriched_limit
         if enriched:
             if not old:
                 blockers.append(f"{code}:MISSING_BASELINE_ROW")
@@ -107,8 +108,7 @@ def main() -> int:
                 blockers.append(f"{code}:EXPANSION_HINTS:{row['expansion_hints']}!=16")
             if row["expansion_solutions"] != 16:
                 blockers.append(f"{code}:EXPANSION_SOLUTIONS:{row['expansion_solutions']}!=16")
-        elif args.stage >= 2 and 19 <= i <= 31:
-            # Later chapters remain protected and untouched in this package.
+        elif args.stage >= 2 and i > enriched_limit:
             if row["expansion_examples"] or row["expansion_exercise_blocks"]:
                 blockers.append(f"{code}:UNEXPECTED_EARLY_EXPANSION")
 
