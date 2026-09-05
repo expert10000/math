@@ -114,15 +114,29 @@ def expand_chapter(original,code,d):
         raise RuntimeError(f"{code}: partial expansion markers: {present}")
     if not original.endswith("\n"): raise RuntimeError(f"{code}: protected chapter must end with newline")
     concept=concept_sections(original)
-    if len(concept)<3: raise RuntimeError(f"{code}: only {len(concept)} concept sections available")
-    # Spread examples through the conceptual development.  Positions are computed before writes.
+    if not concept:
+        raise RuntimeError(f"{code}: no conceptual section boundary available")
+    # Find the first genuine terminal pedagogy/reference section, if any.
+    all_sections=list(SECTION.finditer(original))
+    terminal_start=len(original)
+    for m in all_sections:
+        if TERMINAL_SECTION.match(m.group(1).strip()):
+            terminal_start=m.start()
+            break
+    # Normal chapters: spread examples across conceptual development.
+    # Sparse chapters: keep all examples safely inside the conceptual region,
+    # immediately before the terminal material rather than aborting.
     k=len(concept)
-    afters=[max(1,k//4),max(1,k//2),max(1,(3*k)//4)]
-    afters=[min(a,k-1) if k>1 else 1 for a in afters]
-    # Make positions strictly nondecreasing; duplicate positions are allowed but blocks retain order.
+    if k>=3:
+        afters=[max(1,k//4),max(1,k//2),max(1,(3*k)//4)]
+        afters=[min(a,k-1) if k>1 else 1 for a in afters]
+        positions=[concept[a].start() if a<k else terminal_start for a in afters]
+    elif k==2:
+        positions=[concept[1].start(),terminal_start,terminal_start]
+    else:
+        positions=[terminal_start,terminal_start,terminal_start]
     inserts=[]
-    for i,(item,after) in enumerate(zip(d["examples"],afters),1):
-        pos=concept[after].start() if after<k else len(original)
+    for i,(item,pos) in enumerate(zip(d["examples"],positions),1):
         inserts.append((pos,i,render_example(code,i,item)))
     text=original
     # reverse position and reverse index so final same-position order is 1,2,3
