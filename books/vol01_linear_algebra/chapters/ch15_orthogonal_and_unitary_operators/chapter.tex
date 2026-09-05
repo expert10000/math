@@ -26,6 +26,23 @@ A linear map is an isometry when it preserves norms, equivalently inner products
 \section{Orthogonal and unitary matrices}
 A real matrix is orthogonal when $Q^TQ=I$; a complex matrix is unitary when $Q^*Q=I$.
 
+
+% BEGIN VOL01-EXPANSION I15-example-01
+\begin{example}[Testing a matrix by orthonormal columns]\label{ex:i15-expand-01}
+Consider
+\[
+Q=\frac15\begin{pmatrix}3&-4\\4&3\end{pmatrix}.
+\]
+Its columns have norm \(1\) and inner product \(0\), hence
+\(Q^TQ=I\). Therefore \(Q\) is orthogonal and
+\[
+Q^{-1}=Q^T.
+\]
+Its determinant is \(1\), so it is orientation preserving. The entries match
+\(\cos\theta=3/5\), \(\sin\theta=4/5\), identifying the map as a rotation.
+The norm and determinant checks agree with the geometric interpretation.
+\end{example}
+% END VOL01-EXPANSION I15-example-01
 \section{Equivalent characterizations}
 For a square matrix, orthonormal columns, orthonormal rows and inverse equal to adjoint are equivalent.
 
@@ -35,9 +52,45 @@ A real orthogonal matrix has determinant $\pm1$. Determinant $+1$ gives orientat
 \section{Reflections and Householder maps}
 For unit $u$, $H=I-2uu^*$ reflects across the hyperplane $u^\perp$.
 
+
+% BEGIN VOL01-EXPANSION I15-example-02
+\begin{example}[A Householder reflection constructed from a normal]\label{ex:i15-expand-02}
+Let \(u=(1,1)/\sqrt2\). Then
+\[
+H=I-2uu^T
+=\begin{pmatrix}0&-1\\-1&0\end{pmatrix}.
+\]
+We have
+\[
+Hu=-u,
+\]
+while every vector orthogonal to \(u\), such as \((1,-1)\), is fixed.
+Also \(H^T H=H^2=I\). Thus the algebraic formula and the geometry agree:
+\(H\) reflects across the line \(u^\perp=\operatorname{span}(1,-1)\).
+\end{example}
+% END VOL01-EXPANSION I15-example-02
 \section{Rotations and planar blocks}
 Real orthogonal operators decompose into invariant one- and two-dimensional pieces, with planar rotation blocks on the latter.
 
+
+% BEGIN VOL01-EXPANSION I15-example-03
+\begin{example}[Classifying a planar orthogonal map]\label{ex:i15-expand-03}
+Let
+\[
+Q=\begin{pmatrix}0&1\\1&0\end{pmatrix}.
+\]
+Its columns are orthonormal, so \(Q\in O(2)\), but
+\[
+\det Q=-1.
+\]
+Hence it cannot be a rotation. The vector \((1,1)\) is fixed and
+\((1,-1)\) changes sign, so \(Q\) is reflection across the line \(y=x\).
+
+This illustrates a reliable planar classification: first verify orthogonality,
+then use determinant and fixed directions to distinguish rotations from
+reflections.
+\end{example}
+% END VOL01-EXPANSION I15-example-03
 \section{Core structural results}
 
 \begin{theorem}[Inner-product preservation criterion]\label{thm:i15-01}
@@ -249,6 +302,181 @@ Write the relevant inner products explicitly and use bilinearity or sesquilinear
 Its inverse is the transpose and its condition number in the Euclidean norm is $1$, so it does not amplify relative errors.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I15-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Orthogonality test]\label{exr:i15-expand-01}
+Determine whether \(Q=\frac1{\sqrt2}\begin{pmatrix}1&-1\\1&1\end{pmatrix}\) is orthogonal.
+\end{exercise}
+\begin{hint}
+Compute \(Q^TQ\).
+\end{hint}
+\begin{solution}
+\(Q^TQ=I\), so \(Q\) is orthogonal.
+\end{solution}
+
+\begin{exercise}[Inverse]\label{exr:i15-expand-02}
+Find the inverse of an orthogonal matrix \(Q\).
+\end{exercise}
+\begin{hint}
+Use the defining equation \(Q^TQ=I\).
+\end{hint}
+\begin{solution}
+\(Q^{-1}=Q^T\).
+\end{solution}
+
+\begin{exercise}[Householder matrix]\label{exr:i15-expand-03}
+Construct the Householder reflection for \(u=e_1\in\mathbb R^3\).
+\end{exercise}
+\begin{hint}
+Use \(H=I-2uu^T\).
+\end{hint}
+\begin{solution}
+\(H=\operatorname{diag}(-1,1,1)\).
+\end{solution}
+
+\begin{exercise}[Rotation angle]\label{exr:i15-expand-04}
+For \(Q=\begin{pmatrix}0&-1\\1&0\end{pmatrix}\), identify the rotation angle.
+\end{exercise}
+\begin{hint}
+Compare with \(\begin{pmatrix}\cos\theta&-\sin\theta\\\sin\theta&\cos\theta\end{pmatrix}\).
+\end{hint}
+\begin{solution}
+\(\theta=\pi/2\) modulo \(2\pi\).
+\end{solution}
+
+\begin{exercise}[Complex unitary]\label{exr:i15-expand-05}
+Check that \(U=\operatorname{diag}(i,-i)\) is unitary.
+\end{exercise}
+\begin{hint}
+Compute \(U^*U\).
+\end{hint}
+\begin{solution}
+\(U^*=\operatorname{diag}(-i,i)\), and \(U^*U=I\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Norm preservation]\label{exr:i15-expand-06}
+Prove \(Q^*Q=I\) implies \(\|Qx\|=\|x\|\).
+\end{exercise}
+\begin{hint}
+Compute the squared norm using the inner product.
+\end{hint}
+\begin{solution}
+\(\|Qx\|^2=x^*Q^*Qx=x^*x\).
+\end{solution}
+
+\begin{exercise}[Determinant modulus]\label{exr:i15-expand-07}
+Prove a real orthogonal matrix has determinant \(\pm1\).
+\end{exercise}
+\begin{hint}
+Take determinants of \(Q^TQ=I\).
+\end{hint}
+\begin{solution}
+\((\det Q)^2=1\), hence \(\det Q=\pm1\).
+\end{solution}
+
+\begin{exercise}[Unitary eigenvalue modulus]\label{exr:i15-expand-08}
+Prove every eigenvalue of a unitary operator has modulus one.
+\end{exercise}
+\begin{hint}
+Apply norm preservation to an eigenvector.
+\end{hint}
+\begin{solution}
+If \(Uv=\lambda v\), then \(\|v\|=\|Uv\|=|\lambda|\|v\|\); since \(v\ne0\), \(|\lambda|=1\).
+\end{solution}
+
+\begin{exercise}[Product closure]\label{exr:i15-expand-09}
+Prove the product of unitary matrices is unitary.
+\end{exercise}
+\begin{hint}
+Remember \((UV)^*=V^*U^*\).
+\end{hint}
+\begin{solution}
+\((UV)^*(UV)=V^*U^*UV=V^*V=I\).
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Diagonalizable not orthogonal]\label{exr:i15-expand-10}
+Give a diagonalizable real matrix that is not orthogonal.
+\end{exercise}
+\begin{hint}
+Use a non-unit scaling diagonal matrix.
+\end{hint}
+\begin{solution}
+\(\operatorname{diag}(2,1)\) is diagonal but does not preserve norm.
+\end{solution}
+
+\begin{exercise}[Determinant one is insufficient]\label{exr:i15-expand-11}
+Give a real matrix with determinant \(1\) that is not orthogonal.
+\end{exercise}
+\begin{hint}
+Use a shear.
+\end{hint}
+\begin{solution}
+\(\begin{pmatrix}1&1\\0&1\end{pmatrix}\) has determinant \(1\) but its columns are not orthonormal.
+\end{solution}
+
+\begin{exercise}[Norm of one vector]\label{exr:i15-expand-12}
+Explain why preserving the norm of one nonzero vector does not prove a map is orthogonal.
+\end{exercise}
+\begin{hint}
+Construct a map fixing one direction but stretching another.
+\end{hint}
+\begin{solution}
+\(\operatorname{diag}(1,2)\) preserves \(\|e_1\|\) but doubles \(e_2\).
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Rigid coordinate change]\label{exr:i15-expand-13}
+Why are orthogonal changes of coordinates natural in Euclidean geometry?
+\end{exercise}
+\begin{hint}
+List the geometric quantities preserved by the inner product.
+\end{hint}
+\begin{solution}
+They preserve lengths, distances, angles and orthogonality, so coordinate simplification does not distort geometry.
+\end{solution}
+
+\begin{exercise}[Householder QR]\label{exr:i15-expand-14}
+Why are Householder reflections effective for QR factorization?
+\end{exercise}
+\begin{hint}
+Use their ability to map a vector to a coordinate axis while preserving norm.
+\end{hint}
+\begin{solution}
+A Householder reflector can zero all entries below a chosen pivot in one stable orthogonal step.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Planar classification]\label{exr:i15-expand-15}
+Prove every real \(2\times2\) orthogonal matrix with determinant \(1\) has rotation form.
+\end{exercise}
+\begin{hint}
+Let the first unit column be \((c,s)\) and determine the second using orientation.
+\end{hint}
+\begin{solution}
+Orthogonality forces the second column to be \((-s,c)\), with \(c^2+s^2=1\), so \(c=\cos\theta,s=\sin\theta\).
+\end{solution}
+
+\begin{exercise}[Reflection eigenstructure]\label{exr:i15-expand-16}
+For a Householder reflection \(H=I-2uu^T\), determine all eigenvalues and eigenspaces.
+\end{exercise}
+\begin{hint}
+Split space into \(\operatorname{span}(u)\oplus u^\perp\).
+\end{hint}
+\begin{solution}
+\(-1\) occurs on \(\operatorname{span}(u)\); \(+1\) occurs on \(u^\perp\).
+\end{solution}
+% END VOL01-EXPANSION I15-exercises-01
 \section*{Chapter summary}
 Orthogonal and unitary operators are the linear symmetries of inner-product geometry. They preserve lengths, angles and orthogonality, and their matrices satisfy $Q^*Q=I$. Reflections, rotations and Householder transformations show how geometric symmetries become structured matrices.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.

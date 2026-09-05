@@ -23,6 +23,27 @@ Whenever possible, we separate the invariant mathematical object from a chosen c
 \section{Singular values}
 The singular values of $A$ are the nonnegative square roots of the eigenvalues of $A^*A$.
 
+
+% BEGIN VOL01-EXPANSION I18-example-01
+\begin{example}[Constructing an SVD from \(A^TA\)]\label{ex:i18-expand-01}
+Let
+\[
+A=\begin{pmatrix}3&0\\0&1\\0&0\end{pmatrix}.
+\]
+Then
+\[
+A^TA=\begin{pmatrix}9&0\\0&1\end{pmatrix},
+\]
+so the singular values are \(3\) and \(1\), with right singular vectors
+\(v_1=e_1,v_2=e_2\). The left singular vectors are
+\[
+u_1=\frac{Av_1}{3}=e_1,\qquad
+u_2=\frac{Av_2}{1}=e_2.
+\]
+Extending by \(u_3=e_3\) gives \(A=U\Sigma V^T\). Multiplying the factors back
+recovers \(A\), providing the final construction check.
+\end{example}
+% END VOL01-EXPANSION I18-example-01
 \section{SVD theorem}
 Every $m\times n$ matrix has a factorization $A=U\Sigma V^*$ with $U,V$ unitary (orthogonal over $\mathbb R$) and $\Sigma$ diagonal rectangular with nonnegative entries.
 
@@ -35,9 +56,55 @@ The rank is the number of positive singular values. The operator norm is the lar
 \section{Pseudoinverse}
 Replacing each nonzero singular value by its reciprocal gives the Moore–Penrose pseudoinverse.
 
+
+% BEGIN VOL01-EXPANSION I18-example-02
+\begin{example}[Pseudoinverse and a rank-deficient least-squares problem]\label{ex:i18-expand-02}
+For
+\[
+A=\begin{pmatrix}1&1\\1&1\end{pmatrix},
+\]
+the rank is one. Write
+\[
+A=2uu^T,\qquad u=\frac1{\sqrt2}(1,1).
+\]
+Hence
+\[
+A^+=\frac12uu^T
+=\frac14\begin{pmatrix}1&1\\1&1\end{pmatrix}.
+\]
+For \(b=(2,0)^T\),
+\[
+x_*=A^+b=(1/2,1/2)^T.
+\]
+The fitted vector \(Ax_*=(1,1)^T\) is the projection of \(b\) onto
+\(\operatorname{im}A\), and among all coefficient vectors producing that fit,
+\(x_*\) has minimum norm.
+\end{example}
+% END VOL01-EXPANSION I18-example-02
 \section{Low-rank approximation}
 Truncating the SVD after the largest $r$ singular values gives a best rank-$r$ approximation in operator and Frobenius norms.
 
+
+% BEGIN VOL01-EXPANSION I18-example-03
+\begin{example}[Low-rank approximation and error read directly from singular values]\label{ex:i18-expand-03}
+Suppose a matrix has singular values
+\[
+10,\quad 3,\quad 1,\quad 0.2.
+\]
+The best rank-two approximation keeps only the first two SVD terms. The optimal
+spectral-norm error is
+\[
+\sigma_3=1,
+\]
+while the Frobenius error is
+\[
+\sqrt{1^2+0.2^2}=\sqrt{1.04}.
+\]
+Thus the singular-value tail quantifies exactly what is lost by compression.
+There is no need to search over all rank-two matrices: the truncated SVD is
+already optimal.
+\end{example}
+% END VOL01-EXPANSION I18-example-03
 \section{Core structural results}
 
 \begin{theorem}[Singular-value decomposition]\label{thm:i18-01}
@@ -249,6 +316,181 @@ Start from \(A^*A\): its orthonormal eigenvectors are right singular vectors and
 Keep only the dominant orthogonal input/output modes and their singular values; the discarded modes contribute the smallest possible approximation error for the prescribed rank.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I18-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Diagonal SVD]\label{exr:i18-expand-01}
+Find the singular values of \(\operatorname{diag}(-4,2,0)\).
+\end{exercise}
+\begin{hint}
+Take square roots of eigenvalues of \(A^TA\).
+\end{hint}
+\begin{solution}
+The singular values are \(4,2,0\).
+\end{solution}
+
+\begin{exercise}[Rank from singular values]\label{exr:i18-expand-02}
+A matrix has singular values \(7,2,0,0\). Find its rank.
+\end{exercise}
+\begin{hint}
+Count positive singular values.
+\end{hint}
+\begin{solution}
+The rank is \(2\).
+\end{solution}
+
+\begin{exercise}[Operator norm]\label{exr:i18-expand-03}
+For singular values \(5,3,1\), compute \(\|A\|_2\).
+\end{exercise}
+\begin{hint}
+The Euclidean operator norm is the largest singular value.
+\end{hint}
+\begin{solution}
+\(\|A\|_2=5\).
+\end{solution}
+
+\begin{exercise}[Pseudoinverse diagonal]\label{exr:i18-expand-04}
+Find the pseudoinverse of \(\Sigma=\operatorname{diag}(4,0,2)\).
+\end{exercise}
+\begin{hint}
+Reciprocate nonzero singular values only.
+\end{hint}
+\begin{solution}
+\(\Sigma^+=\operatorname{diag}(1/4,0,1/2)\).
+\end{solution}
+
+\begin{exercise}[Condition number]\label{exr:i18-expand-05}
+An invertible matrix has singular values \(12,4,3\). Find \(\kappa_2(A)\).
+\end{exercise}
+\begin{hint}
+Use \(\sigma_{\max}/\sigma_{\min}\).
+\end{hint}
+\begin{solution}
+\(\kappa_2(A)=12/3=4\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Kernel identity]\label{exr:i18-expand-06}
+Prove \(\ker(A^*A)=\ker A\).
+\end{exercise}
+\begin{hint}
+Use \(\langle A^*Av,v\rangle=\|Av\|^2\).
+\end{hint}
+\begin{solution}
+One inclusion is immediate; the reverse follows because \(A^*Av=0\) implies \(\|Av\|^2=0\).
+\end{solution}
+
+\begin{exercise}[Rank from SVD]\label{exr:i18-expand-07}
+Prove the number of positive singular values equals \(\operatorname{rank}A\).
+\end{exercise}
+\begin{hint}
+Use the kernel identity or the diagonal form \(U\Sigma V^*\).
+\end{hint}
+\begin{solution}
+Unitary factors preserve rank, and the rank of \(\Sigma\) is exactly the number of its nonzero diagonal entries.
+\end{solution}
+
+\begin{exercise}[Operator norm]\label{exr:i18-expand-08}
+Prove \(\|A\|_2=\sigma_{\max}\).
+\end{exercise}
+\begin{hint}
+Move to SVD coordinates, where unitary factors preserve norms.
+\end{hint}
+\begin{solution}
+For \(A=U\Sigma V^*\), maximizing \(\|Ax\|\) over unit \(x\) reduces to maximizing \(\|\Sigma y\|\), achieved in the largest-singular-value coordinate.
+\end{solution}
+
+\begin{exercise}[Minimum-norm pseudoinverse solution]\label{exr:i18-expand-09}
+Why does \(A^+b\) give the minimum-norm solution when \(Ax=b\) is consistent?
+\end{exercise}
+\begin{hint}
+Decompose coefficient space into \((\ker A)^\perp\oplus\ker A\).
+\end{hint}
+\begin{solution}
+The pseudoinverse solution lies in \((\ker A)^\perp\); every other solution adds a kernel vector orthogonal to it, increasing norm by Pythagoras.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Eigenvalues versus singular values]\label{exr:i18-expand-10}
+Show singular values are not generally absolute values of eigenvalues.
+\end{exercise}
+\begin{hint}
+Use a nonnormal nilpotent matrix.
+\end{hint}
+\begin{solution}
+For \(A=\begin{pmatrix}0&1\\0&0\end{pmatrix}\), both eigenvalues are \(0\), but singular values are \(1,0\).
+\end{solution}
+
+\begin{exercise}[Normal equations sensitivity]\label{exr:i18-expand-11}
+Why can \(A^TA\) hide numerical accuracy even though its eigenvalues give singular values squared?
+\end{exercise}
+\begin{hint}
+Compare condition numbers.
+\end{hint}
+\begin{solution}
+\(\kappa_2(A^TA)=\kappa_2(A)^2\), so relative sensitivity is squared.
+\end{solution}
+
+\begin{exercise}[Truncating arbitrary modes]\label{exr:i18-expand-12}
+Why is deleting arbitrary columns or coordinates not equivalent to optimal low-rank approximation?
+\end{exercise}
+\begin{hint}
+SVD modes are selected by singular value and orthogonal input/output directions.
+\end{hint}
+\begin{solution}
+Arbitrary coordinate truncation depends on basis and need not minimize either spectral or Frobenius error.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Data compression]\label{exr:i18-expand-13}
+How does singular-value decay justify low-rank compression?
+\end{exercise}
+\begin{hint}
+Compare the energy/error in the discarded singular-value tail.
+\end{hint}
+\begin{solution}
+If the tail singular values are small, truncated SVD stores only dominant modes while guaranteeing small optimal approximation error.
+\end{solution}
+
+\begin{exercise}[Ill-conditioning]\label{exr:i18-expand-14}
+What does a very small nonzero \(\sigma_{\min}\) mean for solving \(Ax=b\)?
+\end{exercise}
+\begin{hint}
+Relate \(\|A^{-1}\|_2\) to the smallest singular value.
+\end{hint}
+\begin{solution}
+\(\|A^{-1}\|_2=1/\sigma_{\min}\) is large, so perturbations in data can be strongly amplified.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Eckart--Young error]\label{exr:i18-expand-15}
+A matrix has singular values \(9,4,2,1\). State the best rank-two errors in spectral and Frobenius norms.
+\end{exercise}
+\begin{hint}
+Discard the singular values after the second.
+\end{hint}
+\begin{solution}
+The spectral error is \(2\); the Frobenius error is \(\sqrt{2^2+1^2}=\sqrt5\).
+\end{solution}
+
+\begin{exercise}[SVD and polar decomposition]\label{exr:i18-expand-16}
+For invertible \(A=U\Sigma V^*\), derive a polar decomposition \(A=QH\) with \(Q\) unitary and \(H\) positive.
+\end{exercise}
+\begin{hint}
+Group \(UV^*\) and \(V\Sigma V^*\).
+\end{hint}
+\begin{solution}
+Take \(Q=UV^*\) and \(H=V\Sigma V^*=(A^*A)^{1/2}\); then \(QH=A\).
+\end{solution}
+% END VOL01-EXPANSION I18-exercises-01
 \section*{Chapter summary}
 The singular-value decomposition is the universal orthogonal factorization of a linear map between finite-dimensional inner-product spaces. Unlike eigenvalue decomposition, it applies to every rectangular matrix. Singular values quantify stretching, rank, conditioning and optimal low-rank approximation.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.

@@ -26,9 +26,48 @@ A list is orthonormal when its vectors have norm one and are pairwise orthogonal
 \section{Gram–Schmidt process}
 Successively subtract from each vector its projections onto the previously constructed orthonormal vectors, then normalize.
 
+
+% BEGIN VOL01-EXPANSION I14-example-01
+\begin{example}[Gram--Schmidt with a verification]\label{ex:i14-expand-01}
+Start with
+\[
+v_1=(1,1,0),\qquad v_2=(1,0,1).
+\]
+Set \(e_1=v_1/\sqrt2\). Then
+\[
+u_2=v_2-\langle v_2,e_1\rangle e_1
+=(1,0,1)-\frac12(1,1,0)
+=\left(\frac12,-\frac12,1\right).
+\]
+Since \(\|u_2\|=\sqrt{3/2}\), set \(e_2=u_2/\sqrt{3/2}\).
+A direct dot-product check gives \(\langle e_1,e_2\rangle=0\), and both have
+norm \(1\). The construction also preserves the span because
+\(u_2=v_2-\frac12v_1\).
+\end{example}
+% END VOL01-EXPANSION I14-example-01
 \section{Projection onto a subspace}
 For an orthonormal basis $e_1,\ldots,e_r$ of $U$, $P_Uv=\sum_i\langle v,e_i\rangle e_i$.
 
+
+% BEGIN VOL01-EXPANSION I14-example-02
+\begin{example}[Projection matrix onto a plane]\label{ex:i14-expand-02}
+Let \(U\subset\mathbb R^3\) have orthonormal basis
+\[
+q_1=(1,0,0),\qquad q_2=(0,1/\sqrt2,1/\sqrt2).
+\]
+With \(Q=[q_1\ q_2]\), the orthogonal projector is
+\[
+P=QQ^T.
+\]
+For \(v=(2,3,1)\),
+\[
+P v=2q_1+\frac{4}{\sqrt2}q_2=(2,2,2).
+\]
+The residual \((0,1,-1)\) has zero inner product with both \(q_1,q_2\),
+checking that it lies in \(U^\perp\). Also \(P^2=P\), as every orthogonal
+projector must satisfy.
+\end{example}
+% END VOL01-EXPANSION I14-example-02
 \section{Best approximation}
 $P_Uv$ is the unique vector in $U$ minimizing $\|v-u\|$.
 
@@ -38,6 +77,27 @@ Applying Gram–Schmidt to independent columns of $A$ produces $A=QR$, with $Q$ 
 \section{Least squares}
 For full-column-rank $A$, the least-squares solution satisfies $A^*Ax=A^*b$ and can be computed more stably using QR.
 
+
+% BEGIN VOL01-EXPANSION I14-example-03
+\begin{example}[Least squares from QR and residual geometry]\label{ex:i14-expand-03}
+Fit \(ax\approx b\) with
+\[
+A=\begin{pmatrix}1\\1\\1\end{pmatrix},\qquad
+b=\begin{pmatrix}1\\2\\4\end{pmatrix}.
+\]
+The unit column is \(q=A/\sqrt3\), so the least-squares fitted vector is
+\[
+qq^Tb=\frac{7}{3}\begin{pmatrix}1\\1\\1\end{pmatrix}.
+\]
+Thus \(x=7/3\). The residual is
+\[
+r=b-Ax=\left(-\frac43,-\frac13,\frac53\right)^T,
+\]
+and \(A^Tr=0\), which verifies the normal-equation condition. The method
+therefore agrees with the geometric statement that the residual is orthogonal
+to the column space.
+\end{example}
+% END VOL01-EXPANSION I14-example-03
 \section{Core structural results}
 
 \begin{theorem}[Gram–Schmidt theorem]\label{thm:i14-01}
@@ -249,6 +309,181 @@ Use the orthogonal decomposition \(v=P_Uv+(v-P_Uv)\) and identify where the resi
 The decomposition theorem gives $v-P_Uv\in U^\perp$, and vectors already in $U^\perp$ are fixed by $I-P_U$.
 \end{solution}
 
+
+% BEGIN VOL01-EXPANSION I14-exercises-01
+\section{Graded supplementary exercises}
+These exercises extend the preserved foundational set and are graded by mathematical role.
+
+\subsection*{Standard computations}
+
+\begin{exercise}[Gram--Schmidt pair]\label{exr:i14-expand-01}
+Apply Gram--Schmidt to \((1,1,0)\) and \((1,0,1)\).
+\end{exercise}
+\begin{hint}
+Normalize the first vector, subtract its projection from the second, then normalize.
+\end{hint}
+\begin{solution}
+One obtains \(e_1=(1,1,0)/\sqrt2\) and \(e_2=(1,-1,2)/\sqrt6\).
+\end{solution}
+
+\begin{exercise}[Projection onto a line]\label{exr:i14-expand-02}
+Project \(v=(3,1)\) onto \(\operatorname{span}(1,2)\).
+\end{exercise}
+\begin{hint}
+Use \(P_Uv=\langle v,u\rangle u/\langle u,u\rangle\).
+\end{hint}
+\begin{solution}
+The coefficient is \(5/5=1\), so the projection is \((1,2)\).
+\end{solution}
+
+\begin{exercise}[Projection matrix]\label{exr:i14-expand-03}
+Find the matrix projecting \(\mathbb R^2\) onto \(\operatorname{span}(1,1)\).
+\end{exercise}
+\begin{hint}
+Use the unit vector \(u=(1,1)/\sqrt2\) and \(P=uu^T\).
+\end{hint}
+\begin{solution}
+\(P=\frac12\begin{pmatrix}1&1\\1&1\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Reduced QR]\label{exr:i14-expand-04}
+Find a reduced QR factorization of \(A=\begin{pmatrix}1&1\\0&1\\0&0\end{pmatrix}\).
+\end{exercise}
+\begin{hint}
+Apply Gram--Schmidt to the two columns.
+\end{hint}
+\begin{solution}
+Here \(q_1=e_1\), \(u_2=(0,1,0)\), \(q_2=e_2\); \(Q=[e_1,e_2]\), \(R=\begin{pmatrix}1&1\\0&1\end{pmatrix}\).
+\end{solution}
+
+\begin{exercise}[Normal equation]\label{exr:i14-expand-05}
+Solve the least-squares problem for \(A=(1,1,1)^T\), \(b=(1,2,4)^T\).
+\end{exercise}
+\begin{hint}
+Solve \(A^TAx=A^Tb\).
+\end{hint}
+\begin{solution}
+\(3x=7\), so \(x=7/3\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Gram--Schmidt span preservation]\label{exr:i14-expand-06}
+Prove each Gram--Schmidt step preserves the span of the vectors processed so far.
+\end{exercise}
+\begin{hint}
+The new residual differs from the new original vector by a combination of earlier vectors.
+\end{hint}
+\begin{solution}
+Each residual lies in the old span, while the original vector is recovered from the residual plus earlier projection terms; hence the successive spans agree.
+\end{solution}
+
+\begin{exercise}[Projection idempotence]\label{exr:i14-expand-07}
+Prove an orthogonal projection satisfies \(P^2=P\).
+\end{exercise}
+\begin{hint}
+After one projection the vector already lies in the target subspace.
+\end{hint}
+\begin{solution}
+For every \(v\), \(Pv\in U\), and projection fixes every vector of \(U\); hence \(P(Pv)=Pv\).
+\end{solution}
+
+\begin{exercise}[Projection self-adjointness]\label{exr:i14-expand-08}
+Prove \(P_U^*=P_U\).
+\end{exercise}
+\begin{hint}
+Use an orthonormal basis \(q_i\) and the formula \(P_Uv=\sum\langle v,q_i\rangle q_i\).
+\end{hint}
+\begin{solution}
+Expanding both \(\langle P_Uv,w\rangle\) and \(\langle v,P_Uw\rangle\) gives the same sum.
+\end{solution}
+
+\begin{exercise}[Best approximation]\label{exr:i14-expand-09}
+Prove \(P_Uv\) uniquely minimizes \(\|v-u\|\) over \(u\in U\).
+\end{exercise}
+\begin{hint}
+Decompose \(v-u=(v-P_Uv)+(P_Uv-u)\).
+\end{hint}
+\begin{solution}
+The two terms are orthogonal, so Pythagoras gives a fixed residual term plus \(\|P_Uv-u\|^2\), minimized only at \(u=P_Uv\).
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis testing}
+
+\begin{exercise}[Dependent Gram--Schmidt input]\label{exr:i14-expand-10}
+What fails if Gram--Schmidt is applied to a dependent list?
+\end{exercise}
+\begin{hint}
+At some step the residual can become zero.
+\end{hint}
+\begin{solution}
+For \(v_2=2v_1\), subtracting the projection of \(v_2\) onto \(v_1\) leaves zero, which cannot be normalized.
+\end{solution}
+
+\begin{exercise}[Normal equations conditioning]\label{exr:i14-expand-11}
+Why can forming \(A^TA\) be a poor numerical choice?
+\end{exercise}
+\begin{hint}
+Compare singular values of \(A\) and \(A^TA\).
+\end{hint}
+\begin{solution}
+The condition number is squared: \(\kappa_2(A^TA)=\kappa_2(A)^2\) for full column rank.
+\end{solution}
+
+\begin{exercise}[Oblique idempotent]\label{exr:i14-expand-12}
+Give an idempotent matrix that is not an orthogonal projector.
+\end{exercise}
+\begin{hint}
+Try an upper-triangular rank-one projection that is not symmetric.
+\end{hint}
+\begin{solution}
+\(P=\begin{pmatrix}1&1\\0&0\end{pmatrix}\) satisfies \(P^2=P\) but \(P^T\ne P\), so it is not an orthogonal projection.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Least-squares line]\label{exr:i14-expand-13}
+Explain how fitting \(y=a+bt\) to data becomes a projection problem.
+\end{exercise}
+\begin{hint}
+Use design columns \(1\) and \(t\).
+\end{hint}
+\begin{solution}
+The fitted data vector is the orthogonal projection of the observation vector onto the column space of the design matrix.
+\end{solution}
+
+\begin{exercise}[QR stability]\label{exr:i14-expand-14}
+Why are orthogonal transformations used in numerical least squares?
+\end{exercise}
+\begin{hint}
+Recall their Euclidean condition number and norm preservation.
+\end{hint}
+\begin{solution}
+Orthogonal transformations have condition number \(1\), so they reorganize the problem without amplifying Euclidean perturbations.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Projection characterization]\label{exr:i14-expand-15}
+Prove a real matrix \(P\) is an orthogonal projector iff \(P^2=P\) and \(P^T=P\).
+\end{exercise}
+\begin{hint}
+Use the image/kernel decomposition and show \(\ker P=(\operatorname{im}P)^\perp\).
+\end{hint}
+\begin{solution}
+Idempotence gives \(V=\operatorname{im}P\oplus\ker P\); symmetry gives orthogonality of these spaces, so \(P\) is the orthogonal projection onto its image. The converse is standard.
+\end{solution}
+
+\begin{exercise}[Least-squares solution set]\label{exr:i14-expand-16}
+If \(A\) is rank deficient and \(x_0\) is one least-squares solution, describe all coefficient vectors giving the same fitted vector.
+\end{exercise}
+\begin{hint}
+Add vectors in \(\ker A\).
+\end{hint}
+\begin{solution}
+All are \(x_0+z\) with \(z\in\ker A\); they produce the same \(Ax\). The pseudoinverse selects the minimum-norm member.
+\end{solution}
+% END VOL01-EXPANSION I14-exercises-01
 \section*{Chapter summary}
 Gram–Schmidt converts an arbitrary independent list into an orthonormal list spanning the same nested subspaces. Orthogonal projection then gives canonical decompositions and solves least-squares problems. This chapter connects exact geometry with the numerical algorithms QR factorization and normal equations.
 The important habit is to move fluently between invariant statements and concrete coordinates while remembering which conclusions depend on finite dimensionality, the scalar field, or the inner product.
