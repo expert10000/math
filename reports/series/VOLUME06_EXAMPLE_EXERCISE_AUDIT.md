@@ -2,27 +2,27 @@
 
 **Result:** PASS
 
-**Stage:** 1
+**Stage:** 2
 
 | Chapter | Examples | Exercises | Hints | Problems | Solutions | New examples | New exercises |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| VI/01 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/02 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/03 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/04 | 7 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/05 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/06 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/07 | 0 | 0 | 0 | 15 | 0 | 0 | 0 |
-| VI/08 | 0 | 0 | 0 | 16 | 0 | 0 | 0 |
-| VI/09 | 0 | 0 | 0 | 18 | 0 | 0 | 0 |
-| VI/10 | 0 | 0 | 0 | 17 | 0 | 0 | 0 |
-| VI/11 | 0 | 0 | 0 | 20 | 0 | 0 | 0 |
-| VI/12 | 0 | 0 | 0 | 22 | 0 | 0 | 0 |
-| VI/13 | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/14 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/15 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/16 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| VI/17 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| VI/01 | 10 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/02 | 3 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/03 | 3 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/04 | 10 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/05 | 5 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/06 | 4 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/07 | 3 | 16 | 16 | 15 | 16 | 3 | 16 |
+| VI/08 | 3 | 16 | 16 | 16 | 16 | 3 | 16 |
+| VI/09 | 3 | 16 | 16 | 18 | 16 | 3 | 16 |
+| VI/10 | 3 | 16 | 16 | 17 | 16 | 3 | 16 |
+| VI/11 | 3 | 16 | 16 | 20 | 16 | 3 | 16 |
+| VI/12 | 3 | 16 | 16 | 22 | 16 | 3 | 16 |
+| VI/13 | 5 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/14 | 3 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/15 | 3 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/16 | 3 | 16 | 16 | 0 | 16 | 3 | 16 |
+| VI/17 | 3 | 16 | 16 | 0 | 16 | 3 | 16 |
 | VI/18 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | VI/19 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | VI/20 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
@@ -62,12 +62,12 @@ None.
 
 ## Baseline observations (non-blocking)
 
-- VI/07:LEGACY_SOLUTION_COVERAGE:0<15
-- VI/08:LEGACY_SOLUTION_COVERAGE:0<16
-- VI/09:LEGACY_SOLUTION_COVERAGE:0<18
-- VI/10:LEGACY_SOLUTION_COVERAGE:0<17
-- VI/11:LEGACY_SOLUTION_COVERAGE:0<20
-- VI/12:LEGACY_SOLUTION_COVERAGE:0<22
+- VI/07:LEGACY_SOLUTION_COVERAGE:16<31
+- VI/08:LEGACY_SOLUTION_COVERAGE:16<32
+- VI/09:LEGACY_SOLUTION_COVERAGE:16<34
+- VI/10:LEGACY_SOLUTION_COVERAGE:16<33
+- VI/11:LEGACY_SOLUTION_COVERAGE:16<36
+- VI/12:LEGACY_SOLUTION_COVERAGE:16<38
 - VI/39:LEGACY_SOLUTION_COVERAGE:0<41
 - VI/40:LEGACY_SOLUTION_COVERAGE:0<41
 - VI/41:LEGACY_EXERCISE_HINT_IMBALANCE:24!=0
