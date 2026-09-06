@@ -1,0 +1,14 @@
+# v1.2 RC1 corrected residual layout repair
+
+**Status:** PASS
+
+- Original VI figure attribution corrected; `figure_07.tex` restored to its committed state.
+- Mathematical assertions/theorems/problems changed: **No**.
+- >=20pt findings before: **3**.
+- >=20pt findings in VI/VII/VIII after repair: **0**.
+
+## Actual repaired sources
+
+- `books/vol06_algebraic_geometry/chapters/ch41_divisor_class_groups/chapter.tex` — `e81b07a1837d5bd99c32bf74737e3f6da89dfad6235351e0f85f2427637a539c`
+- `books/vol07_differential_geometry/chapters/ch10_orientation_and_integration/chapter.tex` — `e78a835b609f171b41588b857435f3e51cb4fb69fcbaa8f053cd6e3338276e44`
+- `books/vol08_algebraic_topology/chapters/ch35_lefschetz_theory/chapter.tex` — `ec98afcb8f553cc8c44b9a64558e51b88bcc41f3af29829a3f72be15ed533079`
