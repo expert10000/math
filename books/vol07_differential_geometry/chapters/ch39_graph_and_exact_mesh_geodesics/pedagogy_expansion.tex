@@ -1,0 +1,222 @@
+% BEGIN VOL07-EXPANSION VII39
+\section{Supplementary worked examples}
+\label{sec:vii39-pedagogy}
+
+\begin{example}[Dijkstra on a four-vertex graph]\label{ex:vii39-ped-01}
+If edges \(s\! - a\), \(a\! - t\) have weights \(1,1\) and edges \(s\! - b\), \(b\! - t\) have weights \(0.6,2\), Dijkstra settles the route through \(a\) with total cost \(2\).  Greedy settling is globally correct because all edge weights are nonnegative.
+\end{example}
+
+\begin{example}[Admissible chord heuristic]\label{ex:vii39-ped-02}
+For a mesh embedded in \(\mathbb R^3\), Euclidean chord distance to the target never exceeds any surface path length.  It is therefore an admissible \(A^*\) heuristic for the edge graph and can reduce exploration without changing the optimal graph path.
+\end{example}
+
+\begin{example}[Window lower envelope]\label{ex:vii39-ped-03}
+Exact polyhedral algorithms may propagate two distance formulas over the same edge interval.  Only the pointwise lower formula can contribute to the true distance field; dominated interval portions are trimmed as a lower-envelope operation.
+\end{example}
+
+\section{Graded supplementary exercises}
+The following exercises add a deliberate progression from concrete calculation to structural proof, hypothesis testing, application, and synthesis.
+
+\subsection*{Standard computations and constructions}
+
+\begin{exercise}[Dijkstra cost]\label{exr:vii39-ped-01}
+Using paths of costs \(2\) and \(2.6\), which route is shortest?
+\end{exercise}
+
+\begin{hint}
+Compare totals.
+\end{hint}
+
+\begin{solution}
+The route of cost \(2\).
+\end{solution}
+
+\begin{exercise}[Graph complexity]\label{exr:vii39-ped-02}
+What is the standard binary-heap complexity of Dijkstra on a sparse triangular mesh graph?
+\end{exercise}
+
+\begin{hint}
+Use \(|E|=O(|V|)\).
+\end{hint}
+
+\begin{solution}
+\(O(|V|\log|V|)\).
+\end{solution}
+
+\begin{exercise}[Multi-source init]\label{exr:vii39-ped-03}
+How are multiple sources initialized in Dijkstra?
+\end{exercise}
+
+\begin{hint}
+Give each source zero tentative distance.
+\end{hint}
+
+\begin{solution}
+Insert all sources with distance zero; the algorithm then computes distance to the nearest source.
+\end{solution}
+
+\begin{exercise}[A-star score]\label{exr:vii39-ped-04}
+What priority score does \(A^*\) use?
+\end{exercise}
+
+\begin{hint}
+Combine known cost and heuristic.
+\end{hint}
+
+\begin{solution}
+\(f(v)=g(v)+h(v)\).
+\end{solution}
+
+\begin{exercise}[Chord heuristic]\label{exr:vii39-ped-05}
+Why is Euclidean chord length admissible for a surface graph embedded in \(\mathbb R^3\)?
+\end{exercise}
+
+\begin{hint}
+Any graph path is a spatial polyline.
+\end{hint}
+
+\begin{solution}
+Its length is at least the straight Euclidean distance between endpoints.
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Dijkstra correctness]\label{exr:vii39-ped-06}
+Outline the cut argument for settling the smallest tentative label.
+\end{exercise}
+
+\begin{hint}
+Assume a shorter path enters the unsettled set for the first time.
+\end{hint}
+
+\begin{solution}
+The crossing edge would have relaxed a label no larger than that hypothetical shorter distance, contradicting minimality of the settled label.
+\end{solution}
+
+\begin{exercise}[Fixed face sequence]\label{exr:vii39-ped-07}
+Why does a locally shortest path unfold to a straight segment when its face sequence is fixed?
+\end{exercise}
+
+\begin{hint}
+Successively flatten the triangles.
+\end{hint}
+
+\begin{solution}
+Unfolding preserves facewise lengths and edge continuity; any bend in the planar strip can be shortened.
+\end{solution}
+
+\begin{exercise}[Window trimming]\label{exr:vii39-ped-08}
+Why may an exact algorithm discard a dominated window portion?
+\end{exercise}
+
+\begin{hint}
+Only the minimum distance formula matters.
+\end{hint}
+
+\begin{solution}
+Where another valid window gives strictly smaller distance, the dominated formula cannot define the exact lower envelope.
+\end{solution}
+
+\begin{exercise}[Pseudo-source]\label{exr:vii39-ped-09}
+Why can a saddle vertex create new propagation branches?
+\end{exercise}
+
+\begin{hint}
+Its total angle exceeds \(2\pi\).
+\end{hint}
+
+\begin{solution}
+Enough angle can exist on both sides of a locally shortest path through the vertex, allowing valid continuations that act like new source events.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis tests}
+
+\begin{exercise}[A-star changes answer]\label{exr:vii39-ped-10}
+Test the claim when the heuristic is admissible and the implementation is correct.
+\end{exercise}
+
+\begin{hint}
+A-star and Dijkstra solve the same graph problem.
+\end{hint}
+
+\begin{solution}
+False.  A-star changes exploration order, not the optimal graph path.
+\end{solution}
+
+\begin{exercise}[Exact graph equals exact mesh]\label{exr:vii39-ped-11}
+Test the claim.
+\end{exercise}
+
+\begin{hint}
+Recall face-interior shortcuts.
+\end{hint}
+
+\begin{solution}
+False.  Exact graph shortest paths can overestimate continuous polyhedral distance.
+\end{solution}
+
+\begin{exercise}[Negative edges okay]\label{exr:vii39-ped-12}
+Test Dijkstra with negative edge weights.
+\end{exercise}
+
+\begin{hint}
+Its greedy proof uses nonnegativity.
+\end{hint}
+
+\begin{solution}
+False.  Negative weights invalidate the settling argument.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Interactive pathfinding]\label{exr:vii39-ped-13}
+When is \(A^*\) preferable to full single-source Dijkstra?
+\end{exercise}
+
+\begin{hint}
+Think one fixed target and a strong heuristic.
+\end{hint}
+
+\begin{solution}
+For point-to-point queries, an admissible consistent heuristic can focus exploration near promising routes and reduce work.
+\end{solution}
+
+\begin{exercise}[Preprocessing]\label{exr:vii39-ped-14}
+Why might exact window methods be expensive for interactive use on large meshes?
+\end{exercise}
+
+\begin{hint}
+They propagate continuous interval data rather than one scalar per vertex.
+\end{hint}
+
+\begin{solution}
+The state space and trimming operations are substantially richer than sparse graph search, increasing time and memory.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Consistency]\label{exr:vii39-ped-15}
+State the consistency inequality for an \(A^*\) heuristic.
+\end{exercise}
+
+\begin{hint}
+Compare heuristic at neighboring vertices.
+\end{hint}
+
+\begin{solution}
+\(h(u)\le w_{uv}+h(v)\).
+\end{solution}
+
+\begin{exercise}[Window crossing]\label{exr:vii39-ped-16}
+Two candidate distance formulas on an edge are \(d_1(x)=1+x\) and \(d_2(x)=1.5-x\) for \(0\le x\le1\).  Where are they equal?
+\end{exercise}
+
+\begin{hint}
+Solve a linear equation.
+\end{hint}
+
+\begin{solution}
+At \(x=0.25\); the lower envelope changes winner there.
+\end{solution}
+
+% END VOL07-EXPANSION VII39

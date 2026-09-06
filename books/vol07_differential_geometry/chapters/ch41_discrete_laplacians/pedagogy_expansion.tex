@@ -1,0 +1,222 @@
+% BEGIN VOL07-EXPANSION VII41
+\section{Supplementary worked examples}
+\label{sec:vii41-pedagogy}
+
+\begin{example}[Equilateral triangle stiffness]\label{ex:vii41-ped-01}
+For one equilateral triangle, each opposite angle is \(\pi/3\), so a boundary-edge cotangent weight is \(\tfrac12\cot(\pi/3)=1/(2\sqrt3)\).  The local stiffness matrix has negative off-diagonals and row sums zero.
+\end{example}
+
+\begin{example}[Constant null mode]\label{ex:vii41-ped-02}
+Because the hat functions sum to one, \(K\mathbf1=0\).  This discrete identity is the finite-element analogue of the Laplacian annihilating constant functions.
+\end{example}
+
+\begin{example}[Obtuse cotangent weight]\label{ex:vii41-ped-03}
+If an angle opposite an edge is obtuse, its cotangent is negative.  The assembled cotangent operator can therefore contain negative individual edge weights even though the global finite-element stiffness matrix remains positive semidefinite.
+\end{example}
+
+\section{Graded supplementary exercises}
+The following exercises add a deliberate progression from concrete calculation to structural proof, hypothesis testing, application, and synthesis.
+
+\subsection*{Standard computations and constructions}
+
+\begin{exercise}[Cotan sixty]\label{exr:vii41-ped-01}
+Compute \(\cot(\pi/3)\).
+\end{exercise}
+
+\begin{hint}
+Use \(\cos/\sin\).
+\end{hint}
+
+\begin{solution}
+\(1/\sqrt3\).
+\end{solution}
+
+\begin{exercise}[Boundary weight]\label{exr:vii41-ped-02}
+What is the cotangent weight of an edge opposite a \(60^\circ\) angle in a single boundary triangle?
+\end{exercise}
+
+\begin{hint}
+Use one half of the cotangent.
+\end{hint}
+
+\begin{solution}
+\(1/(2\sqrt3)\).
+\end{solution}
+
+\begin{exercise}[Row sum]\label{exr:vii41-ped-03}
+What is \(K\mathbf1\)?
+\end{exercise}
+
+\begin{hint}
+Use partition of unity.
+\end{hint}
+
+\begin{solution}
+Zero.
+\end{solution}
+
+\begin{exercise}[Lumped mass]\label{exr:vii41-ped-04}
+How much barycentric lumped mass does a triangle of area \(A\) contribute to each vertex?
+\end{exercise}
+
+\begin{hint}
+Split area equally.
+\end{hint}
+
+\begin{solution}
+\(A/3\).
+\end{solution}
+
+\begin{exercise}[Pointwise Laplacian]\label{exr:vii41-ped-05}
+With positive stiffness \(K\) and mass \(M\), what matrix approximates the nonpositive smooth \(\Delta\)?
+\end{exercise}
+
+\begin{hint}
+Use this volume's sign convention.
+\end{hint}
+
+\begin{solution}
+\(-M^{-1}K\).
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[PSD stiffness]\label{exr:vii41-ped-06}
+Why is \(K\) positive semidefinite?
+\end{exercise}
+
+\begin{hint}
+Use the Dirichlet energy identity.
+\end{hint}
+
+\begin{solution}
+\(f^TKf=\int\|\nabla f_h\|^2dA\ge0\).
+\end{solution}
+
+\begin{exercise}[Symmetry]\label{exr:vii41-ped-07}
+Why is the cotangent stiffness matrix symmetric?
+\end{exercise}
+
+\begin{hint}
+The bilinear Dirichlet form is symmetric.
+\end{hint}
+
+\begin{solution}
+\(K_{ij}=\int\langle\nabla\varphi_i,\nabla\varphi_j\rangle dA=K_{ji}\).
+\end{solution}
+
+\begin{exercise}[Constant harmonic]\label{exr:vii41-ped-08}
+Prove every constant vertex function is discrete harmonic in the interior.
+\end{exercise}
+
+\begin{hint}
+Use row sums zero.
+\end{hint}
+
+\begin{solution}
+Multiplying \(K\) by a constant vector gives zero.
+\end{solution}
+
+\begin{exercise}[Generalized eigenproblem]\label{exr:vii41-ped-09}
+Why is \(Kx=\lambda Mx\) preferable to eigenanalysis of \(K\) alone for geometric spectra?
+\end{exercise}
+
+\begin{hint}
+The mass matrix represents the discrete \(L^2\) inner product.
+\end{hint}
+
+\begin{solution}
+The generalized problem incorporates both energy and area weighting, approximating the Laplace--Beltrami spectrum rather than the stiffness form alone.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis tests}
+
+\begin{exercise}[Cot weights always positive]\label{exr:vii41-ped-10}
+Test the claim on obtuse triangles.
+\end{exercise}
+
+\begin{hint}
+Cotangent of an obtuse angle is negative.
+\end{hint}
+
+\begin{solution}
+False.  Individual cotangent weights can be negative on non-Delaunay or obtuse configurations.
+\end{solution}
+
+\begin{exercise}[Stiffness equals graph Laplacian]\label{exr:vii41-ped-11}
+Test the claim.
+\end{exercise}
+
+\begin{hint}
+Graph weights need not be cotangent geometry weights, and mass is separate.
+\end{hint}
+
+\begin{solution}
+False.  The FEM stiffness resembles a weighted graph Laplacian algebraically but its weights come from triangle geometry and the pointwise operator also involves mass.
+\end{solution}
+
+\begin{exercise}[Mass irrelevant]\label{exr:vii41-ped-12}
+Test the claim for spectral or pointwise Laplacian computations.
+\end{exercise}
+
+\begin{hint}
+Stiffness is a bilinear form, not the whole operator.
+\end{hint}
+
+\begin{solution}
+False.  The mass matrix is needed to represent the \(L^2\) metric and convert weak forms to pointwise/generalized operators.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Smoothing]\label{exr:vii41-ped-13}
+Why does the Laplacian support mesh smoothing and diffusion?
+\end{exercise}
+
+\begin{hint}
+It penalizes Dirichlet energy/high-frequency variation.
+\end{hint}
+
+\begin{solution}
+Evolution driven by the Laplacian damps oscillatory modes and propagates information according to intrinsic connectivity and geometry.
+\end{solution}
+
+\begin{exercise}[Poisson editing]\label{exr:vii41-ped-14}
+What linear system underlies many scalar Poisson editing problems on meshes?
+\end{exercise}
+
+\begin{hint}
+Use stiffness with boundary/gauge constraints.
+\end{hint}
+
+\begin{solution}
+A constrained system of the form \(Kf=b\), or its mass-weighted counterpart depending on the weak formulation.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Obtuse sign]\label{exr:vii41-ped-15}
+If \(\alpha=120^\circ\), what is the sign of \(\cot\alpha\)?
+\end{exercise}
+
+\begin{hint}
+Cosine is negative, sine positive.
+\end{hint}
+
+\begin{solution}
+Negative.
+\end{solution}
+
+\begin{exercise}[Energy challenge]\label{exr:vii41-ped-16}
+If \(f\) is constant on each connected component, what is its discrete Dirichlet energy?
+\end{exercise}
+
+\begin{hint}
+All edge differences vanish.
+\end{hint}
+
+\begin{solution}
+Zero; conversely on a connected nondegenerate mesh, zero FEM Dirichlet energy forces the piecewise-linear function to be constant.
+\end{solution}
+
+% END VOL07-EXPANSION VII41

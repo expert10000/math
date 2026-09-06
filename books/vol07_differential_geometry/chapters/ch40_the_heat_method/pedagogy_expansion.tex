@@ -1,0 +1,222 @@
+% BEGIN VOL07-EXPANSION VII40
+\section{Supplementary worked examples}
+\label{sec:vii40-pedagogy}
+
+\begin{example}[Three-stage pipeline]\label{ex:vii40-ped-01}
+The heat method computes a distance field by solving \((M+tL)u=M\delta_s\), normalizing the negative facewise heat gradient \(X=-\nabla u/\|\nabla u\|\), then solving a Poisson problem whose gradient best matches \(X\).  Each stage has a distinct numerical role.
+\end{example}
+
+\begin{example}[Time-step scaling]\label{ex:vii40-ped-02}
+If representative mesh edge length is halved, a scale-consistent heat time \(t=mh^2\) should be divided by four.  This keeps the diffusion length \(\sqrt t\) proportional to the local mesh scale.
+\end{example}
+
+\begin{example}[Gauge fixing]\label{ex:vii40-ped-03}
+On a connected closed mesh, the stiffness matrix satisfies \(L\mathbf1=0\).  The reconstructed potential is therefore defined only up to a constant; pinning the source to zero or subtracting the minimum fixes the gauge.
+\end{example}
+
+\section{Graded supplementary exercises}
+The following exercises add a deliberate progression from concrete calculation to structural proof, hypothesis testing, application, and synthesis.
+
+\subsection*{Standard computations and constructions}
+
+\begin{exercise}[Heat system]\label{exr:vii40-ped-01}
+Write the discrete backward-Euler heat system used here.
+\end{exercise}
+
+\begin{hint}
+Use mass \(M\) and positive stiffness \(L\).
+\end{hint}
+
+\begin{solution}
+\((M+tL)u=M\delta_s\).
+\end{solution}
+
+\begin{exercise}[Direction field]\label{exr:vii40-ped-02}
+How is the normalized direction field formed?
+\end{exercise}
+
+\begin{hint}
+Heat decreases away from the source.
+\end{hint}
+
+\begin{solution}
+\(X=-\nabla u/\|\nabla u\|\) where the gradient is nonzero.
+\end{solution}
+
+\begin{exercise}[Poisson step]\label{exr:vii40-ped-03}
+What continuous equation reconstructs the scalar field?
+\end{exercise}
+
+\begin{hint}
+Use the least-squares Euler--Lagrange equation.
+\end{hint}
+
+\begin{solution}
+\(\Delta\phi=\operatorname{div}X\).
+\end{solution}
+
+\begin{exercise}[Time scaling]\label{exr:vii40-ped-04}
+If \(h\) changes from \(0.1\) to \(0.05\), by what factor should \(t\propto h^2\) change?
+\end{exercise}
+
+\begin{hint}
+Square the ratio.
+\end{hint}
+
+\begin{solution}
+It becomes one quarter as large.
+\end{solution}
+
+\begin{exercise}[Gauge]\label{exr:vii40-ped-05}
+Why must one fix an additive constant in the Poisson solve on a closed connected mesh?
+\end{exercise}
+
+\begin{hint}
+The constant vector lies in the nullspace.
+\end{hint}
+
+\begin{solution}
+Because \(L\mathbf1=0\), solutions are determined only modulo constants.
+\end{solution}
+
+\subsection*{Proofs}
+
+\begin{exercise}[Euler--Lagrange]\label{exr:vii40-ped-06}
+Derive \(\Delta\phi=\operatorname{div}X\) from minimizing \(\int\|\nabla\phi-X\|^2\).
+\end{exercise}
+
+\begin{hint}
+Differentiate under \(\phi+\varepsilon\eta\) and integrate by parts.
+\end{hint}
+
+\begin{solution}
+Stationarity for all \(\eta\) yields the weak Poisson equation.
+\end{solution}
+
+\begin{exercise}[Factorization reuse]\label{exr:vii40-ped-07}
+Why can factorizations be reused for many source queries on a fixed mesh and fixed \(t\)?
+\end{exercise}
+
+\begin{hint}
+Inspect which terms depend on the source.
+\end{hint}
+
+\begin{solution}
+The matrices \(M+tL\) and \(L\) are unchanged; only right-hand sides and local normalization data change.
+\end{solution}
+
+\begin{exercise}[Heat not distance]\label{exr:vii40-ped-08}
+Why is raw heat magnitude not used directly as geodesic distance?
+\end{exercise}
+
+\begin{hint}
+Recall short-time exponential decay.
+\end{hint}
+
+\begin{solution}
+Heat behaves roughly like \(e^{-d^2/(4t)}\), so its magnitude is not linearly proportional to distance.
+\end{solution}
+
+\begin{exercise}[Multiple sources]\label{exr:vii40-ped-09}
+How is a multi-source query initialized?
+\end{exercise}
+
+\begin{hint}
+Place heat on every source.
+\end{hint}
+
+\begin{solution}
+Use an initial/source vector supported on all sources; the recovered field approximates distance to the nearest source.
+\end{solution}
+
+\subsection*{Counterexamples and hypothesis tests}
+
+\begin{exercise}[Tiny t always best]\label{exr:vii40-ped-10}
+Test the claim.
+\end{exercise}
+
+\begin{hint}
+Very small times can be under-resolved and numerically unstable.
+\end{hint}
+
+\begin{solution}
+False.  Too-small \(t\) makes heat overly localized and sensitive to discretization and roundoff.
+\end{solution}
+
+\begin{exercise}[Huge t always stable and accurate]\label{exr:vii40-ped-11}
+Test the claim.
+\end{exercise}
+
+\begin{hint}
+Large diffusion oversmooths direction information.
+\end{hint}
+
+\begin{solution}
+False.  Excessive \(t\) introduces global bias and blurs geodesic directions.
+\end{solution}
+
+\begin{exercise}[No boundary conditions needed]\label{exr:vii40-ped-12}
+Test on a mesh with boundary.
+\end{exercise}
+
+\begin{hint}
+Elliptic solves require a boundary model.
+\end{hint}
+
+\begin{solution}
+False.  Neumann and Dirichlet choices correspond to different problems and must be specified.
+\end{solution}
+
+\subsection*{Applications and investigations}
+
+\begin{exercise}[Interactive distances]\label{exr:vii40-ped-13}
+Why is the heat method attractive for interactive repeated queries?
+\end{exercise}
+
+\begin{hint}
+Consider sparse factorization reuse.
+\end{hint}
+
+\begin{solution}
+After preprocessing, each new source mainly requires back-substitution, local gradients, normalization, and another reused Poisson solve.
+\end{solution}
+
+\begin{exercise}[Path recovery]\label{exr:vii40-ped-14}
+How can one recover an approximate path after computing a distance potential?
+\end{exercise}
+
+\begin{hint}
+Follow steepest descent toward the source.
+\end{hint}
+
+\begin{solution}
+Trace a curve opposite the distance gradient, handling mesh vertices and nondifferentiable cut-locus regions carefully.
+\end{solution}
+
+\subsection*{Challenge problems}
+
+\begin{exercise}[Sign convention]\label{exr:vii40-ped-15}
+If a library stores a negative-semidefinite Laplacian instead of positive stiffness \(L\), what must be done?
+\end{exercise}
+
+\begin{hint}
+Do not mix signs between equations.
+\end{hint}
+
+\begin{solution}
+Rewrite heat and Poisson systems consistently with that convention rather than copying the positive-stiffness formulas unchanged.
+\end{solution}
+
+\begin{exercise}[Scale challenge]\label{exr:vii40-ped-16}
+A mesh is uniformly scaled by factor \(3\).  How should \(t=mh^2\) scale?
+\end{exercise}
+
+\begin{hint}
+Edge lengths triple.
+\end{hint}
+
+\begin{solution}
+The heat time should scale by \(9\).
+\end{solution}
+
+% END VOL07-EXPANSION VII40
