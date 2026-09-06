@@ -1,12 +1,13 @@
-# Theory of Mathematics I–VIII — v1.2 RC1 summary
+# Theory of Mathematics I–VIII — v1.2 RC1 summary after rendered repairs
 
-**Automated RC preparation:** PASS
+**Automated reproof:** PASS
 
 - Volumes: **8**
 - Chapters: **256**
 - PDFs: **8**
-- PDF pages: **2999**
-- RC aggregate SHA-256: `e8fa0e450899ae486aed6a34e02718df0a032fb639e65b30a0bfe291f98b405e`
+- PDF pages: **3000**
+- >=20pt overfull queue: **18 -> 3**
+- RC aggregate SHA-256: `775e0e0f8fdfe0aa6dbd8c4c1781b400919036f9ba9c35e9ea9121abc6700d80`
 
 **Release decision:** PENDING_HUMAN_RENDERED_REPROOF
 

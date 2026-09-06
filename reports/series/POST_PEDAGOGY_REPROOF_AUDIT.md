@@ -3,12 +3,12 @@
 **Automated result:** PASS
 
 - Volumes: **8 / 8**
-- Expected PDF pages: **2999**
-- Rasterized pages: **2999**
+- Expected PDF pages: **3000**
+- Rasterized pages: **3000**
 - Renderers: **pdftoppm**
 - Low-text pages queued for human review: **10**
-- Overfull boxes inventoried: **153**
-- Overfull boxes >=20pt: **18**
+- Overfull boxes inventoried: **67**
+- Overfull boxes >=20pt: **3**
 
 ## Policy
 

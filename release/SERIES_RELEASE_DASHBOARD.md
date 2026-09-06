@@ -9,7 +9,7 @@
 | III — Measure, Fourier Analysis, Distributions and PDE | 28 | PASS | 265 | **RC_PENDING_HUMAN_PROOF** |
 | IV — Complex Analysis and Riemann Surfaces | 31 | PASS | 297 | **RC_PENDING_HUMAN_PROOF** |
 | V — Commutative Algebra and Homological Methods | 28 | PASS | 266 | **RC_PENDING_HUMAN_PROOF** |
-| VI — Algebraic Geometry and Sheaf Theory | 49 | PASS | 797 | **RC_PENDING_HUMAN_PROOF** |
+| VI — Algebraic Geometry and Sheaf Theory | 49 | PASS | 798 | **RC_PENDING_HUMAN_PROOF** |
 | VII — Differential, Riemannian and Hyperbolic Geometry | 42 | PASS | 541 | **RC_PENDING_HUMAN_PROOF** |
 | VIII — Algebraic Topology | 35 | PASS | 469 | **RC_PENDING_HUMAN_PROOF** |
 
