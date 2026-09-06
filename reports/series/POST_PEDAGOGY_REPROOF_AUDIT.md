@@ -7,8 +7,8 @@
 - Rasterized pages: **3000**
 - Renderers: **pdftoppm**
 - Low-text pages queued for human review: **10**
-- Overfull boxes inventoried: **67**
-- Overfull boxes >=20pt: **3**
+- Overfull boxes inventoried: **64**
+- Overfull boxes >=20pt: **0**
 
 ## Policy
 

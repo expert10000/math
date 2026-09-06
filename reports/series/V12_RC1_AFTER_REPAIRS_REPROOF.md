@@ -3,7 +3,7 @@
 **Result:** PASS
 
 - Rendered pages: **3000 / 3000**
-- >=20pt overfull queue: **18 -> 3**
+- >=20pt overfull queue: **18 -> 0**
 - Repair effect: **IMPROVED**
 - Final release frozen: **NO**
 - Human rendered proof required: **YES**

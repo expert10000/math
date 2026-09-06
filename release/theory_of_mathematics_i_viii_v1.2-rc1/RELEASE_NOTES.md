@@ -22,8 +22,8 @@ worked-example and graded-exercise pedagogy expansion across all eight volumes.
 ## Human rendered-proof queue
 
 - Low-text page candidates after rebuild: **10**.
-- Overfull boxes after rebuild: **67**.
-- Overfull boxes >=20pt after rebuild: **3**.
+- Overfull boxes after rebuild: **64**.
+- Overfull boxes >=20pt after rebuild: **0**.
 
 These candidates are not automatically defects: title pages, part pages, deliberate
 blank pages, diagrams, and mathematically unavoidable long displays may be legitimate.
@@ -39,6 +39,14 @@ and any confirmed release blockers have been corrected.
 ## Rendered-repair reproof
 
 - Confirmed >=20pt overfull queue before repair: **18**.
-- Confirmed >=20pt overfull queue after clean reproof: **3**.
+- Confirmed >=20pt overfull queue after clean reproof: **0**.
 - Shared line-breaking repair changed no mathematical chapter content.
 - Final release status remains **PENDING_HUMAN_RENDERED_REPROOF**.
+
+## Residual display-layout cleanup
+
+- Three local residual display overflows were repaired in VI/41, VII/10, and VIII/35.
+- Final automated rendered reproof: **PASS**.
+- Final >=20pt overfull queue: **0**.
+- Low-text candidates remain classified as intentional structural/frontmatter pages.
+- Final release remains **PENDING_HUMAN_RENDERED_REPROOF** until the separate freeze commit.
