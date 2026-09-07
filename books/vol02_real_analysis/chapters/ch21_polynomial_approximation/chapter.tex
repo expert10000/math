@@ -29,18 +29,20 @@ On $[0,1]$, positive averaging polynomials give a constructive proof.
 
 
 % BEGIN VOL02-EXPANSION II21-example-01
-\begin{example}[Bernstein polynomials as probabilistic averaging]\label{ex:ii21-expand-01}
-For \(f\in C[0,1]\),
+\begin{example}[Bernstein polynomials as positive averaging]\label{ex:ii21-expand-01}
+For $f\in C[0,1]$, write
 \[
-B_nf(x)=\sum_{k=0}^n f(k/n)\binom nk x^k(1-x)^{n-k}.
+B_nf(x)=\sum_{k=0}^n f(k/n)w_{n,k}(x),
+\qquad
+w_{n,k}(x)=\binom nkx^k(1-x)^{n-k}.
 \]
-The coefficients form a binomial probability distribution, so
+The weights are nonnegative and satisfy
 \[
-B_nf(x)=\mathbb E\,f(X_n/n),\qquad X_n\sim\mathrm{Binomial}(n,x).
+\sum_{k=0}^n w_{n,k}(x)=1,
+\qquad
+\sum_{k=0}^n \frac{k}{n}w_{n,k}(x)=x.
 \]
-Constants and the identity are reproduced because probabilities sum to one and
-\(\mathbb E(X_n/n)=x\). This averaging interpretation explains positivity and
-why concentration of \(X_n/n\) near \(x\) drives convergence.
+Thus $B_nf(x)$ is a convex weighted average of sampled values. The first identity follows from the binomial theorem; the second follows from $k\binom nk=n\binom{n-1}{k-1}$. Positivity and concentration of these weights drive Bernstein approximation.
 \end{example}
 % END VOL02-EXPANSION II21-example-01
 \section{Modulus of continuity}
@@ -48,18 +50,31 @@ Uniform continuity controls approximation error.
 
 
 % BEGIN VOL02-EXPANSION II21-example-02
-\begin{example}[Modulus of continuity separates near and far samples]\label{ex:ii21-expand-02}
+\begin{example}[Modulus of continuity with deterministic near--far control]\label{ex:ii21-expand-02}
 Let
 \[
-\omega_f(\delta)=\sup_{|x-y|\le\delta}|f(x)-f(y)|.
+\omega_f(\delta)=\sup_{|x-y|\le\delta}|f(x)-f(y)|
 \]
-In Bernstein's proof, sample points \(k/n\) near \(x\) contribute at most
-\(\omega_f(\delta)\), while far sample points are controlled by a probability
-tail. Uniform continuity makes the near contribution small, and binomial
-concentration makes the far contribution small uniformly in \(x\).
-
-This decomposition turns qualitative continuity into a quantitative
-approximation argument.
+and write
+\[
+w_{n,k}(x)=\binom nkx^k(1-x)^{n-k}.
+\]
+Split the Bernstein sum into indices with \(|k/n-x|\le\delta\) and the remaining
+indices. The near part contributes at most \(\omega_f(\delta)\), because the
+weights are nonnegative and sum to one. For the far part,
+\[
+\sum_{|k/n-x|>\delta}w_{n,k}(x)
+\le
+\frac1{\delta^2}
+\sum_{k=0}^n w_{n,k}(x)\left(\frac{k}{n}-x\right)^2
+=
+\frac{x(1-x)}{n\delta^2}
+\le\frac1{4n\delta^2}.
+\]
+Since \(f\) is bounded on \([0,1]\), this makes the far contribution uniformly
+small for fixed \(\delta\) and large \(n\). Uniform continuity then makes the
+near contribution small. This is the deterministic weighted-sum mechanism
+behind uniform Bernstein approximation.
 \end{example}
 % END VOL02-EXPANSION II21-example-02
 \section{Shape preservation}
@@ -74,18 +89,25 @@ Extra smoothness improves quantitative convergence rates.
 
 % BEGIN VOL02-EXPANSION II21-example-03
 \begin{example}[Extra smoothness improves an approximation rate]\label{ex:ii21-expand-03}
-For a Lipschitz function with constant \(L\),
-\[
-|f(u)-f(v)|\le L|u-v|.
-\]
-Using the Bernstein probabilistic form and Cauchy--Schwarz,
+For a Lipschitz function with constant $L$,
 \[
 |B_nf(x)-f(x)|
-\le L\,\mathbb E|X_n/n-x|
-\le L\sqrt{\frac{x(1-x)}{n}}
-\le\frac{L}{2\sqrt n}.
+\le L\sum_{k=0}^n w_{n,k}(x)\left|\frac{k}{n}-x\right|.
 \]
-Thus smoothness stronger than continuity yields an explicit convergence rate.
+Cauchy--Schwarz for the nonnegative weights gives
+\[
+\sum_k w_{n,k}\left|\frac{k}{n}-x\right|
+\le\left(\sum_k w_{n,k}\left(\frac{k}{n}-x\right)^2\right)^{1/2}.
+\]
+The binomial identities for the first two weighted moments give
+\[
+\sum_k w_{n,k}(x)\left(\frac{k}{n}-x\right)^2=\frac{x(1-x)}{n}.
+\]
+Hence
+\[
+|B_nf(x)-f(x)|\le L\sqrt{\frac{x(1-x)}{n}}\le\frac{L}{2\sqrt n}.
+\]
+This is a fully deterministic weighted-sum proof of the rate.
 \end{example}
 % END VOL02-EXPANSION II21-example-03
 \section{Beyond polynomials}
@@ -96,7 +118,16 @@ The same density philosophy leads to trigonometric and rational approximation.
 \begin{theorem}[Weierstrass approximation theorem]\label{thm:ii21-01}
 Every continuous real function on $[a,b]$ can be uniformly approximated by polynomials.
 \begin{proof}
-After rescaling to $[0,1]$, Bernstein polynomials converge uniformly; uniform continuity controls nearby samples and binomial concentration controls distant samples.
+After an affine rescaling it is enough to work on $[0,1]$. For the Bernstein
+polynomials, the nonnegative weights sum to one. Split the weighted error into
+indices with $|k/n-x|\le\delta$ and those with $|k/n-x|>\delta$. Uniform
+continuity controls the near part, while
+\[
+\sum_k w_{n,k}(x)\left(\frac{k}{n}-x\right)^2
+=\frac{x(1-x)}{n}
+\]
+controls the total weight of the far part by the preceding deterministic
+near--far estimate. Hence $\|B_nf-f\|_\infty\to0$.
 \end{proof}
 \end{theorem}
 
@@ -125,7 +156,11 @@ Show $B_n1=1$. The Bernstein basis sums to $(x+(1-x))^n=1$.
 \end{example}
 
 \begin{example}[Bernstein identity]\label{ex:ii21-worked-03}
-Show $B_nx=x$. The weighted sum of $k/n$ against binomial probabilities equals the mean of a Binomial$(n,x)$ variable divided by $n$, namely $x$.
+Show $B_nx=x$. Using $k\binom nk=n\binom{n-1}{k-1}$,
+\[
+\sum_{k=0}^n\frac{k}{n}\binom nkx^k(1-x)^{n-k}
+=x\sum_{j=0}^{n-1}\binom{n-1}{j}x^j(1-x)^{n-1-j}=x.
+\]
 \end{example}
 
 \begin{example}[Uniform versus pointwise approximation]\label{ex:ii21-worked-04}
@@ -150,10 +185,14 @@ The Bernstein basis sums to $(x+(1-x))^n=1$.
 \end{solution}
 
 \begin{problem}[Bernstein identity]\label{prob:ii21-dossier-03}
-Show $B_nx=x$.
+Show $B_nx=x$ directly from the Bernstein weights.
 \end{problem}
 \begin{solution}
-The weighted sum of $k/n$ against binomial probabilities equals the mean of a Binomial$(n,x)$ variable divided by $n$, namely $x$.
+Use $k\binom nk=n\binom{n-1}{k-1}$ and reindex:
+\[
+B_nx=\sum_k\frac{k}{n}\binom nkx^k(1-x)^{n-k}
+=x\sum_{j=0}^{n-1}\binom{n-1}{j}x^j(1-x)^{n-1-j}=x.
+\]
 \end{solution}
 
 \begin{problem}[Uniform versus pointwise approximation]\label{prob:ii21-dossier-04}
@@ -322,10 +361,15 @@ Use the binomial theorem.
 Compute \(B_nx\).
 \end{exercise}
 \begin{hint}
-Use the mean of a binomial variable.
+Use \(k\binom nk=n\binom{n-1}{k-1}\) and reindex the resulting sum.
 \end{hint}
 \begin{solution}
-\(B_nx=x\).
+\[
+B_nx
+=\sum_{k=0}^n\frac{k}{n}\binom nkx^k(1-x)^{n-k}
+=x\sum_{j=0}^{n-1}\binom{n-1}{j}x^j(1-x)^{n-1-j}
+=x.
+\]
 \end{solution}
 
 \begin{exercise}[Sup error meaning]\label{exr:ii21-expand-03}
@@ -460,10 +504,26 @@ At minimum it preserves nonnegativity; related averaging arguments can preserve 
 Derive \(\|B_nf-f\|_\infty\le L/(2\sqrt n)\) for \(L\)-Lipschitz \(f\).
 \end{exercise}
 \begin{hint}
-Use the binomial variance.
+Use Cauchy--Schwarz for the Bernstein weights together with
+\(\sum_k w_{n,k}(x)(k/n-x)^2=x(1-x)/n\).
 \end{hint}
 \begin{solution}
-\(\mathbb E|X_n/n-x|\le\sqrt{x(1-x)/n}\le1/(2\sqrt n)\); multiply by \(L\).
+For every \(x\),
+\[
+|B_nf(x)-f(x)|
+\le L\sum_k w_{n,k}(x)\left|\frac{k}{n}-x\right|
+\le
+L\left(
+\sum_k w_{n,k}(x)\left(\frac{k}{n}-x\right)^2
+\right)^{1/2}.
+\]
+Therefore
+\[
+|B_nf(x)-f(x)|
+\le L\sqrt{\frac{x(1-x)}{n}}
+\le \frac{L}{2\sqrt n}.
+\]
+Taking the supremum over \(x\in[0,1]\) gives the claim.
 \end{solution}
 
 \begin{exercise}[Rescale interval]\label{exr:ii21-expand-16}
