@@ -129,6 +129,57 @@ The kernels of $A$ and $A^*A$ coincide, so they have the same nullity. Rank–nu
 \end{proof}
 \end{theorem}
 
+\begin{theorem}[Eckart--Young--Mirsky theorem]\label{thm:i18-03}
+Let \(v_1,\ldots,v_n\) be an orthonormal basis of right singular vectors and
+write the corresponding singular values as
+\[
+\sigma_1\ge\sigma_2\ge\cdots\ge\sigma_n\ge0,
+\]
+padding with zeros when necessary. Let
+\[
+A_r=\sum_{i=1}^r\sigma_i u_iv_i^*
+\]
+with zero-singular-value terms omitted. Among all matrices \(B\) of rank at
+most \(r\), \(A_r\) minimizes both the operator and Frobenius norm errors.
+Moreover
+\[
+\|A-A_r\|_2=\sigma_{r+1},
+\qquad
+\|A-A_r\|_F^2=\sum_{i>r}\sigma_i^2.
+\]
+\begin{proof}
+The displayed errors for \(A_r\) follow immediately from the diagonal form of
+the SVD. Let \(B\) have rank at most \(r\). Since
+\(\dim\ker B\ge n-r\), the subspace
+\(\operatorname{span}(v_1,\ldots,v_{r+1})\) meets \(\ker B\) nontrivially.
+For a unit vector \(x\) in that intersection,
+\[
+\|(A-B)x\|=\|Ax\|\ge\sigma_{r+1},
+\]
+which proves the operator-norm lower bound.
+
+For the Frobenius norm, choose orthonormal vectors
+\(z_1,\ldots,z_{n-r}\) in \(\ker B\) and extend them to an orthonormal basis
+of the domain. Since the Frobenius norm is the sum of squared output norms over
+any orthonormal basis,
+\[
+\|A-B\|_F^2\ge\sum_{j=1}^{n-r}\|(A-B)z_j\|^2
+=\sum_{j=1}^{n-r}\|Az_j\|^2.
+\]
+Writing the \(z_j\) in the right singular basis gives
+\[
+\sum_j\|Az_j\|^2=\sum_i\sigma_i^2\alpha_i,
+\quad
+0\le\alpha_i\le1,
+\quad
+\sum_i\alpha_i=n-r.
+\]
+Because the \(\sigma_i^2\) are decreasing, this weighted sum is minimized by
+placing unit weight on the smallest \(n-r\) values. Hence it is at least
+\(\sum_{i>r}\sigma_i^2\). Equality is achieved by \(A_r\).
+\end{proof}
+\end{theorem}
+
 \section{Worked examples}
 
 \begin{example}[Diagonal matrix]\label{ex:i18-worked-01}
@@ -248,7 +299,7 @@ Nonzero singular values determine rank; their ratio controls conditioning; the p
 Find the singular values of $\operatorname{diag}(3,-2)$.
 \end{exercise}
 \begin{hint}
-First determine \(\lambda\) from \(\det(A-\lambda I)=0\), then solve \((A-\lambda I)v=0\) for the eigenspace. Compute \(A^*A\); the singular values are the square roots of its nonnegative eigenvalues.
+Compute \(A^*A\); the singular values are the nonnegative square roots of its eigenvalues.
 \end{hint}
 \begin{solution}
 They are $3$ and $2$, the square roots of eigenvalues $9$ and $4$ of $A^TA$.
@@ -258,7 +309,7 @@ They are $3$ and $2$, the square roots of eigenvalues $9$ and $4$ of $A^TA$.
 Why is $A^*A$ positive semidefinite?
 \end{exercise}
 \begin{hint}
-Choose orthonormal eigenvectors of \(A^*A\) as right singular vectors, then set \(u_i=Av_i/\sigma_i\) for \(\sigma_i>0\).
+For any \(v\), compute \(\langle A^*Av,v\rangle=\|Av\|^2\).
 \end{hint}
 \begin{solution}
 $\langle A^*Av,v\rangle=\langle Av,Av\rangle=\|Av\|^2\ge0$.
@@ -268,7 +319,7 @@ $\langle A^*Av,v\rangle=\langle Av,Av\rangle=\|Av\|^2\ge0$.
 Show $\ker(A^*A)=\ker A$.
 \end{exercise}
 \begin{hint}
-Count the nonzero singular values; that number is the rank.
+One inclusion is immediate; for the converse use \(\langle A^*Av,v\rangle=\|Av\|^2\).
 \end{hint}
 \begin{solution}
 If $Av=0$ then clearly $A^*Av=0$. Conversely, $A^*Av=0$ implies $0=\langle A^*Av,v\rangle=\|Av\|^2$.
@@ -288,7 +339,7 @@ The rank is $2$, the number of nonzero singular values.
 Describe the pseudoinverse of a diagonal singular-value matrix.
 \end{exercise}
 \begin{hint}
-Start from \(A^*A\): its orthonormal eigenvectors are right singular vectors and its eigenvalues are the squared singular values. For the pseudoinverse, reciprocate only the nonzero singular values and transpose the SVD factors.
+Reciprocate only the positive diagonal singular values and transpose the rectangular shape.
 \end{hint}
 \begin{solution}
 Transpose the rectangular shape and replace each positive $\sigma_i$ by $1/\sigma_i$, leaving zeros unchanged.
@@ -298,7 +349,7 @@ Transpose the rectangular shape and replace each positive $\sigma_i$ by $1/\sigm
 Why is SVD available for rectangular matrices while diagonalization is not?
 \end{exercise}
 \begin{hint}
-Find the eigenspaces first and use orthogonality between distinct eigenspaces before assembling an orthonormal eigenbasis. In a rank-deficient least-squares problem, the pseudoinverse selects the minimum-norm coefficient vector.
+Diagonalization requires an endomorphism; SVD instead uses orthonormal bases in the domain and codomain separately.
 \end{hint}
 \begin{solution}
 SVD uses the square self-adjoint matrices $A^*A$ and $AA^*$ and two possibly different orthonormal bases; ordinary diagonalization requires an endomorphism.
