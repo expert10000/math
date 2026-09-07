@@ -9,7 +9,7 @@ After this chapter, the reader should be able to:
 \item compute the coordinate vector of an abstract vector relative to a specified ordered basis;
 \item construct a change-of-basis matrix from one ordered basis to another;
 \item convert coordinate vectors between two bases using the change-of-basis matrix and its inverse;
-\item derive the similarity relation between matrices of the same operator in different bases;
+\item preview how the later matrix representation of a linear operator leads to similarity under a basis change;
 \item choose a basis adapted to a subspace or decomposition in order to simplify coordinates;
 \item detect and correct an invalid change-of-basis computation by checking what the columns represent;
 \end{itemize}
@@ -20,8 +20,12 @@ The chapter is organized around a repeated pattern:
 \]
 Whenever possible, we separate the invariant mathematical object from a chosen coordinate representation.
 
-\section{Coordinate isomorphisms}
-For an ordered basis $B=(v_1,\ldots,v_n)$, the coordinate map $\kappa_B:V\to\mathbb F^n$, $v\mapsto[v]_B$, is a linear isomorphism.
+\section{Coordinate maps and a preview of isomorphisms}
+% VOL01-DEPENDENCY-PREVIEW-I04-MAPS
+For an ordered basis $B=(v_1,\ldots,v_n)$, the coordinate map
+$\kappa_B:V\to\mathbb F^n$, $v\mapsto[v]_B$, preserves linear combinations and
+is bijective. \textbf{Preview.} Chapter~5 formalizes linear maps and
+isomorphisms; in that terminology, $\kappa_B$ is a linear isomorphism.
 
 
 % BEGIN VOL01-EXPANSION I04-example-01
@@ -37,8 +41,10 @@ It is linear, and reconstructing gives
 \]
 Thus the coordinate map is visibly invertible.
 
-This example makes the abstraction concrete: choosing a basis is choosing a
-linear isomorphism from the vector space to a coordinate space.
+This example makes the abstraction concrete without requiring the formal
+language of Chapter~5: choosing a basis gives a reversible, linear-combination-
+preserving coordinate description. \textbf{Preview.} Chapter~5 will call this
+a linear isomorphism.
 \end{example}
 % END VOL01-EXPANSION I04-example-01
 \section{Transition matrices}
@@ -64,11 +70,23 @@ the direction of the arrow in the notation.
 \section{Inverse transitions}
 Changing from $B$ to $C$ and back gives $P_{B\leftarrow C}=P_{C\leftarrow B}^{-1}$.
 
-\section{Coordinate covariants}
-Vectors and linear maps do not change when the basis changes; their coordinate arrays do. Good notation separates the object from its representation.
+\section{Preview: covariance for later linear maps}
+% VOL01-DEPENDENCY-PREVIEW-I04-LINEAR-MAPS
+Vectors do not change when the basis changes; only their coordinate arrays do.
+After linear maps are introduced in Chapter~5 and represented by matrices in
+Chapter~7, the same object-versus-coordinates principle will lead to the
+similarity rule for operator matrices. Nothing in the present chapter depends
+on that later theory.
 
-\section{Dual coordinates}
-Linear functionals transform by the inverse transpose of the vector change-of-basis matrix. This anticipates the distinction between vectors and covectors.
+\section{Preview: dual coordinates}
+% VOL01-DEPENDENCY-PREVIEW-I04-DUAL
+This optional preview is not used as a prerequisite later in the chapter. A
+scalar-valued rule $\ell$ that preserves linear combinations will be called a
+\emph{linear functional} once linear maps are formalized in Chapter~5. If
+vector coordinates satisfy $x_C=Px_B$, invariance of the scalar pairing
+$\ell(x)$ forces row coordinates to satisfy $\ell_C=\ell_B P^{-1}$; in the
+column convention this is the inverse-transpose rule. This anticipates
+covectors without assuming a developed theory of dual spaces.
 
 \section{Conditioning of bases}
 A mathematically valid basis can be numerically poor if its vectors are nearly dependent. Orthogonal bases mitigate this instability.
@@ -87,8 +105,11 @@ For every nonzero \(\varepsilon\) this is a valid basis, but when
 \(|\varepsilon|\) is small, the inverse has very large entries.
 
 So algebraic invertibility and numerical reliability are different questions.
-The determinant confirms validity; the size of the inverse warns about
-sensitivity.
+For $\varepsilon\ne0$, the relation
+$a(1,0)+b(1,\varepsilon)=0$ forces $b=0$ from the second coordinate and then
+$a=0$, so the vectors form a basis. The size of the inverse warns about
+sensitivity. \textbf{Preview.} Chapter~8 will give the determinant as a
+one-number invertibility test.
 \end{example}
 % END VOL01-EXPANSION I04-example-03
 \section{Core structural results}
@@ -159,7 +180,7 @@ For every vector $v$, first change $B$-coordinates to $C$-coordinates and then t
 Why is $B_\varepsilon=((1,0),(1,\varepsilon))$ a basis for $\varepsilon\ne0$ but numerically poor when $|\varepsilon|$ is small?
 \end{problem}
 \begin{solution}
-The determinant of the basis matrix is $\varepsilon$, so it is invertible for $\varepsilon\ne0$. Its inverse contains entries of size $1/\varepsilon$, so small perturbations in coordinates can be greatly amplified as $\varepsilon\to0$.
+If $a(1,0)+b(1,\varepsilon)=0$ and $\varepsilon\ne0$, the second coordinate gives $b=0$ and then the first gives $a=0$, so the two vectors form a basis. Its coordinate-conversion inverse contains entries of size $1/\varepsilon$, so small perturbations can be greatly amplified as $\varepsilon\to0$.
 \end{solution}
 
 \begin{problem}[Permutation of basis vectors]\label{prob:i04-dossier-05}
@@ -183,8 +204,8 @@ Two coordinate columns for the same vector are different. Explain why this does 
 Coordinates are unique only after the basis is fixed. Different bases define different coordinate isomorphisms $V\to\mathbb F^n$, so the same abstract vector can have different coordinate columns without ambiguity.
 \end{solution}
 
-\begin{problem}[Dual transformation]\label{prob:i04-dossier-08}
-Suppose vector coordinates change by $x_C=Px_B$. How must a row covector $\ell$ change so that the scalar $\ell(x)$ is invariant?
+\begin{problem}[Preview: dual transformation]\label{prob:i04-dossier-08}
+\textbf{Preview.} Suppose vector coordinates change by $x_C=Px_B$. How must a row covector $\ell$ change so that the scalar $\ell(x)$ is invariant? This problem is optional and is not used before linear maps are introduced in Chapter~5.
 \end{problem}
 \begin{solution}
 We require $\ell_C x_C=\ell_B x_B$ for all $x_B$. Since $x_C=Px_B$, this gives $\ell_C P=\ell_B$, hence $\ell_C=\ell_B P^{-1}$. In column-covector convention this becomes the inverse transpose.
@@ -211,11 +232,11 @@ Why does every invertible matrix $P$ determine a new ordered basis relative to a
 Take as new basis vectors the vectors whose $E$-coordinate columns are the columns of $P$. Invertibility means those columns are independent and span the whole space, so they form a basis.
 \end{solution}
 
-\begin{problem}[Coordinate synthesis]\label{prob:i04-dossier-12}
-Explain why changing basis is not the same operation as applying a linear transformation to vectors.
+\begin{problem}[Preview: coordinates versus transformations]\label{prob:i04-dossier-12}
+\textbf{Preview.} Chapter~5 will define linear transformations formally. Explain, at the level of objects and coordinate descriptions, why changing basis is conceptually different from applying a transformation to a vector.
 \end{problem}
 \begin{solution}
-A basis change changes only the description of the same vector: the geometric object is fixed and coordinates are transformed by a transition matrix. Applying an operator changes the vector itself. Confusing these roles is the source of many incorrect conjugation formulas.
+A basis change changes only the numerical description of the same vector: the object is fixed while its coordinate column changes. A transformation, once introduced in Chapter~5, changes the vector itself. Keeping these roles separate is the conceptual prerequisite for the conjugation formulas developed later.
 \end{solution}
 
 % END VOLUME01 SOLVED DOSSIERS
@@ -266,7 +287,7 @@ It represents the composition of two coordinate isomorphisms, hence an isomorphi
 Compute coordinates of $p(x)=x^2$ in $B=(1,x-1,(x-1)^2)$.
 \end{exercise}
 \begin{hint}
-For an operator matrix, insert identity changes of coordinates on the domain and codomain before simplifying.
+Expand $x=(x-1)+1$ and then square before collecting coefficients in the displayed basis.
 \end{hint}
 \begin{solution}
 Since $x=(x-1)+1$, $x^2=(x-1)^2+2(x-1)+1$, so the coordinates are $(1,2,1)^T$.
@@ -326,7 +347,12 @@ Find \(P_{B\leftarrow E}\) for the preceding basis.
 Invert \(P_{E\leftarrow B}\).
 \end{hint}
 \begin{solution}
-The determinant is \(-1\), so \(P_{B\leftarrow E}=\begin{pmatrix}-1&2\\1&-1\end{pmatrix}\).
+Direct multiplication shows
+\[
+\begin{pmatrix}1&2\\1&1\end{pmatrix}
+\begin{pmatrix}-1&2\\1&-1\end{pmatrix}=I,
+\]
+so \(P_{B\leftarrow E}=\begin{pmatrix}-1&2\\1&-1\end{pmatrix}\).
 \end{solution}
 
 \begin{exercise}[Coordinate conversion]\label{exr:i04-expand-03}
