@@ -1,0 +1,11 @@
+# Volume II — remaining mathematical statement/proof repairs
+
+**Status:** PASS
+
+- II/06 positive-distance dossier now assumes both compact sets are nonempty
+- II/08 false directional-derivative example replaced by a genuine all-directions/non-Frechet example
+- II/15 nowhere-differentiability learning goal narrowed and Holder theorem made precise
+- II/18 Neumann-series inversion now assumes a Banach space and proves operator-norm convergence
+- II/20 interpolation remainder now states the location of xi and interval hypotheses
+- II/24 trapezoidal error now declares its sign convention
+- II/25 continued-fraction theorem now gives the exact error formula and universal neighboring-denominator bound
