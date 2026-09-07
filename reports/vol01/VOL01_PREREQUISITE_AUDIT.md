@@ -1,16 +1,10 @@
-# Volume I — prerequisite and release-blocker audit
+# Volume I — full prerequisite and notation audit
 
 **Status:** PASS
 
-## Gates
-
-- Polynomial dossier correction: PASS
-- Dependency graph rows: **7**
-- Volume I clean build: **PASS**
-
-## Policy
-
-A concept used before its formal introduction must either be eliminated from the proof/solution or explicitly marked as a preview. Preview material may not be used as an unstated premise.
+- Chapters checked: **18/18**
+- Dependency rows: **18**
+- Notation rows: **9**
 
 ## Blocking findings
 
