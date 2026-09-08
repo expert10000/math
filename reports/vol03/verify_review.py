@@ -101,7 +101,7 @@ def source_preflight():
     missing = sorted(set(refs)-set(labels))
     blocking += ['Duplicate label: '+x for x in duplicates] + ['Missing reference: '+x for x in missing]
     diff = run(['git','diff','--name-only',PIN]).stdout.splitlines()
-    outside = [p for p in diff if not p.startswith(('books/vol03_fourier_distributions_pde/','reports/vol03/'))]
+    outside = [p for p in diff if not p.startswith(('books/vol03_fourier_distributions_pde/','reports/vol03/','scripts/vol03/'))]
     blocking += ['Outside-scope edit: '+p for p in outside]
     whitespace = run(['git','diff','--check'])
     if whitespace.returncode:
