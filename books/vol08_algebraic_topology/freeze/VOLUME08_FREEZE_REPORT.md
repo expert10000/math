@@ -1,20 +1,30 @@
-# Volume VIII - Freeze Report
+# Volume VIII — Freeze Report (Professional Review Refresh)
 
-**Result:** PASS
+Status: **PASS**
 
-- Pre-freeze parent commit: b81a8e4d69f39061669292c2e06827dd8f901403
-- Canonical chapters: **35**
-- Reconciliation: **PASS / zero unresolved**
-- Clean PDF build: **PASS**
-- PDF SHA-256: 52df9959422bb5e8e25b2224a6bfb01dd8f2f4106daf0bcc3cdbcef2b8fb4435
-- PDF bytes: **2061492**
-- Chapter status: **FROZEN / COMPLETE**
-- Freeze manifest entries: **65**
+Pinned pre-review main base: $ExpectedBase
 
-The generated PDF was built from the reconciled source state before the release commit.
-The source manifest records the release-authoritative repository inputs.
+This refresh supersedes the stale September 2 freeze-manifest hashes after the
+September 5–6 post-freeze pedagogy/hint/worked-example expansion commits.
 
+## Verified release state
 
-## Post-release evidence refresh
+- 35 canonical chapter includes.
+- 35 active pedagogy_expansion.tex inputs.
+- Integration audit passed.
+- Freeze semantic audit passed.
+- Professional active-source audit passed across canonical + pedagogy inputs.
+- No duplicate labels across active canonical + pedagogy source.
+- Problem/Exercise/Hint/Solution pairing passed.
+- Protected pre-review mathematical/reconciliation source remained unchanged
+  during professional-review commits [1/3]–[3/3].
+- Clean Volume VIII PDF build passed.
+- Freeze manifest regenerated from the current active release state.
 
-The canonical mathematics and tagged v1.0 chapter sources are unchanged. The Volume VIII README encoding was normalized to UTF-8, stale status prose was replaced by the actual FROZEN / COMPLETE state, and the freeze manifest was re-hashed against the current global status ledger and release metadata.
+## PDF
+
+SHA-256: $pdfHash
+
+The refreshed manifest now tracks the active pedagogy-expansion sources in
+addition to the canonical chapters, figures, QA/reconciliation inputs, ledgers,
+and professional-review evidence.

@@ -3,12 +3,12 @@
 - Canonical chapter files: **35**
 - Active chapter includes: **35**
 - Volume VIII status rows: **35**
-- Unique labels: **1723**
+- Unique labels: **1843**
 - Duplicate labels: **0**
 - Missing Volume-VIII internal refs: **0**
 - SVG assets: **16**
 - SVG metadata warnings: **0**
-- Unbalanced Problem/Solution chapters (reported, not frozen here): **30**
+- Unbalanced Problem/Solution chapters (reported, not frozen here): **35**
 
 ## Problem/Solution balance
 - ch01_homotopies_of_maps: 12 problems / 36 solutions
@@ -41,11 +41,11 @@
 - ch28_cohomology: 20 problems / 44 solutions
 - ch29_cup_products: 22 problems / 46 solutions
 - ch30_vector_bundles_and_clutching: 22 problems / 46 solutions
-- ch31_thom_classes: 20 problems / 20 solutions
-- ch32_sphere_bundles_and_euler_classes: 20 problems / 20 solutions
-- ch33_poincar_duality: 20 problems / 20 solutions
-- ch34_intersection_forms: 20 problems / 20 solutions
-- ch35_lefschetz_theory: 20 problems / 20 solutions
+- ch31_thom_classes: 20 problems / 44 solutions
+- ch32_sphere_bundles_and_euler_classes: 20 problems / 44 solutions
+- ch33_poincar_duality: 20 problems / 44 solutions
+- ch34_intersection_forms: 20 problems / 44 solutions
+- ch35_lefschetz_theory: 20 problems / 44 solutions
 
 ## Blocking structural findings
 None.
