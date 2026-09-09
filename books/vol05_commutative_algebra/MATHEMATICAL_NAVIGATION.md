@@ -1,33 +1,64 @@
 # Volume V — Mathematical Navigation
 
-This sidecar adds cross-volume prerequisites, continuations, and see-also links without changing the frozen theorem/chapter text.
+This sidecar records the internal prerequisite graph, standing notation, and major cross-volume continuations for Volume V.
 
-## Comes from
+## Internal prerequisite graph
 
-No curated incoming cross-volume bridge.
+- **V/01** is the base for all later ring-theoretic chapters.
+- **V/02** depends on V/01.
+- **V/03** depends on V/01–V/02.
+- **V/04** depends on V/01–V/03.
+- **V/05** prepares localization.
+- **V/06** depends on V/01–V/05.
+- **V/07** depends on localization and elementary module language.
+- **V/08** depends on V/02 and V/06–V/07.
+- **V/09** is the formal module/exact-sequence base for V/10–V/18 and V/22–V/28.
+- **V/10** depends on V/09.
+- **V/11** depends on V/09–V/10.
+- **V/12** depends on V/09 and uses V/10–V/11 for base-change statements.
+- **V/13** depends on V/09 and V/12.
+- **V/14** depends on V/10 and V/13.
+- **V/15** depends on V/01 and V/09.
+- **V/16** depends on V/06–V/09 and V/15.
+- **V/17** depends on V/02, V/08, V/09, and V/15–V/16.
+- **V/18** depends on V/01, V/09, and V/15; exactness refinements use V/14.
+- **V/19** depends on V/01–V/03.
+- **V/20** depends on V/19.
+- **V/21** depends on V/02, V/08, and V/19–V/20.
+- **V/22** depends on V/09.
+- **V/23** depends on V/13 and V/22.
+- **V/24** depends on V/15 and V/23.
+- **V/25** depends on V/08, V/15, and V/23–V/24; minimality requires local or graded hypotheses.
+- **V/26** depends on V/10, V/14, and V/22–V/23.
+- **V/27** depends on V/12–V/13 and V/22–V/23.
+- **V/28** depends on V/22–V/27.
+
+## Standing conventions
+
+Unless explicitly stated otherwise:
+
+- rings are commutative with identity;
+- ring homomorphisms preserve identity;
+- modules are unital left modules;
+- \(S^{-1}A\) and \(S^{-1}M\) denote localization;
+- \(A_{\mathfrak p}\) means localization at \(A\setminus\mathfrak p\);
+- \(M\otimes_A N\) is tensor product over \(A\);
+- \(\operatorname{Hom}_A(M,N)\) is the module of \(A\)-linear maps;
+- \(\operatorname{Supp}_A(M)\) and \(\operatorname{Ass}_A(M)\) denote support and associated primes;
+- \(\widehat A=\varprojlim A/I^n\) and \(\widehat M=\varprojlim M/I^nM\) are \(I\)-adic completions;
+- chain complexes use homological grading unless a cochain convention is stated;
+- \(\operatorname{Tor}_n^A(M,N)\) is homologically graded;
+- \(\operatorname{Ext}_A^n(M,N)\) is cohomologically graded;
+- Noetherian, finite-generation, finite-presentation, local, graded, flat, and projective hypotheses must be retained wherever used.
 
 ## Leads to
 
-- **V/02 — Prime and Maximal Ideals** → **VI/06 — Prime Ideals as Geometric Points** — Prime ideals become geometric points.
-- **V/02 — Prime and Maximal Ideals** → **VI/07 — The Spectrum of a Ring** — Prime ideals organize the spectrum of a ring.
-- **V/05 — Multiplicative Systems** → **VI/08 — Basic Open Sets D(f)** — Multiplicative systems underlie basic open localizations.
-- **V/06 — Localization of Rings** → **VI/08 — Basic Open Sets D(f)** — Localization of rings gives the coordinate rings of basic opens.
-- **V/08 — Local Rings and Localization at Primes** → **VI/11 — Local Rings and Residue Fields** — Localization at primes produces local rings and residue fields.
-- **V/09 — Modules and Exact Sequences** → **VI/16 — Exact Sequences of Sheaves** — Exact sequences of modules prepare exact sequences of sheaves.
-- **V/10 — Tensor Products** → **VI/23 — Fiber Products** — Tensor products underlie fiber products and base-change algebra.
-- **V/11 — Quotients and Base Change** → **VI/24 — Base Change** — Module base change precedes geometric base change.
-- **V/13 — Free and Projective Modules** → **VII/07 — Vector Bundles** — Projective modules are algebraic counterparts of vector-bundle behavior.
-- **V/14 — Flat Modules** → **VI/24 — Base Change** — Flatness is a key exactness condition in base change.
-- **V/15 — Noetherian Rings and Modules** → **VI/26 — Finite-Type and Noetherian Morphisms** — Noetherian algebra controls finite-type and Noetherian morphisms.
-- **V/16 — Support** → **VI/21 — Schemes and Their Points** — Module support foreshadows the loci on which geometric objects live.
-- **V/19 — Integral Dependence** → **VI/27 — Integral Schemes and Function Fields** — Integral dependence feeds integral schemes and function fields.
-- **V/20 — Integral Closure and Normalization** → **VI/28 — Normalization** — Integral closure is the algebra behind normalization.
-- **V/22 — Chain Complexes** → **VIII/16 — Chain Complexes** — Chain complexes reappear as the algebraic engine of homology.
-- **V/23 — Free Resolutions** → **VIII/26 — The Universal Coefficient Theorem** — Resolutions supply the algebra behind derived coefficient constructions.
-- **V/26 — The Tor Functor** → **VIII/27 — Products and the Künneth Theorem** — Tor is the algebraic correction term behind Künneth phenomena.
-- **V/27 — The Ext Functor** → **VI/48 — Exact Sequences and Cohomology** — Ext and derived exactness prepare sheaf-cohomological exact sequences.
-- **V/28 — Derived-Functor Viewpoint** → **VI/49 — Basic Vanishing Results** — Derived-functor language leads naturally toward cohomological vanishing.
+- V/02 → VI/06 and VI/07: prime ideals become geometric points and spectra.
+- V/05–V/08 → VI/08 and VI/11: localization, local rings, and residue fields.
+- V/09–V/14 → VI/16, VI/23, VI/24 and VII/07: exactness, tensor, base change, projectives, flatness.
+- V/15–V/20 → VI/21, VI/26–VI/28: support, Noetherian geometry, integral dependence, normalization.
+- V/22–V/28 → VI/48–VI/49 and VIII/16, VIII/26–VIII/27: complexes, cohomology, universal coefficients, Künneth, Tor and Ext.
 
 ## Reading principle
 
-These links are editorial navigation, not formal logical dependencies. They identify especially useful conceptual transitions in the frozen 256-chapter series.
+These links are editorial navigation. They do not weaken theorem hypotheses. If a later result needs a Noetherian, finiteness, local, graded, flat, projective, or injective hypothesis, that hypothesis must be stated at the point of use.
