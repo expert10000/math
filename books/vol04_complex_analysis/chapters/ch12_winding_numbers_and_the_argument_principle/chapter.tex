@@ -72,6 +72,37 @@ The winding-number form of the residue theorem allows multiply wound contours an
 \section{Boundary hypotheses}
 The argument principle requires the contour to avoid zeros and poles of the meromorphic function.
 
+% VOL04-NUMERICAL-ARGUMENT-PRINCIPLE-IV12
+\begin{remark}[Certifying an integer zero count numerically]
+For a contour satisfying the hypotheses of the argument principle,
+\[
+W
+=
+\frac{1}{2\pi i}
+\int_\Gamma\frac{f'(z)}{f(z)}\,dz
+\]
+is an exact integer \(N-P\).  If a computation produces
+\(\widetilde W\), merely observing that \(\widetilde W\) is close to an integer
+does not certify the zero count.
+
+A clean certification principle is available when an independent error bound
+is known.  If
+\[
+|\widetilde W-W|<\frac12,
+\]
+then at most one integer can lie within the certified disk, because distinct
+integers are separated by distance \(1\).  The enclosed zero-minus-pole count
+is therefore the unique integer consistent with the bound.
+
+The boundary hypothesis must also be protected numerically.  If \(f\) is
+evaluated approximately on \(\Gamma\), a finite sample showing no zero is not
+by itself proof that \(f\) is nonzero everywhere on the contour.  Certification
+requires a uniform lower bound for \(|f|\), or a sampled bound supplemented by
+derivative/Lipschitz/interval control between samples.  Root counting by the
+argument principle is exact; numerical root counting requires a verified
+contour-clearance and quadrature error budget.
+\end{remark}
+
 \section{Topological synthesis}
 Winding, residues, multiplicity, and image curves are different faces of the same integer-valued invariant.
 
@@ -306,6 +337,43 @@ For polynomial root counts, choose a contour on which the leading behavior makes
 \end{hint}
 \begin{solution}
 The winding-number form of the residue theorem allows multiply wound contours and non-simple geometry. The same principle can then be reused in later contour, residue, conformal, or Riemann-surface arguments.
+\end{solution}
+
+\begin{exercise}[Recovering an integer from a certified argument-principle computation]\label{exr:iv12-numerical-count-01}
+A numerical evaluation of the normalized argument-principle integral gives
+\[
+\widetilde W=3.08+0.04i,
+\]
+and a separate verified estimate guarantees
+\[
+|\widetilde W-W|\le0.1,
+\]
+where the exact value \(W\) is known from the theorem to be an integer.
+
+Determine \(W\).  Why would simply rounding \(3.08\) to \(3\) be unjustified
+without the certified error bound and the theorem's boundary hypotheses?
+\end{exercise}
+\begin{hint}
+Compute the distance from \(\widetilde W\) to \(3\), and use the fact that two
+different integers are distance at least \(1\) apart.
+\end{hint}
+\begin{solution}
+The distance to \(3\) is
+\[
+|\widetilde W-3|
+=
+|0.08+0.04i|
+=
+\sqrt{0.008}
+\approx0.0894<0.1.
+\]
+Thus \(W=3\).  No other integer can satisfy the certified radius-\(0.1\) bound.
+
+Without such a bound, visual closeness to an integer is only heuristic:
+quadrature error, a poorly resolved near-boundary zero, or evaluation error in
+\(f'/f\) could shift the computed value.  Moreover, if \(f\) has a zero or pole
+on the contour, the integer-valued argument-principle conclusion being used is
+not available in the stated form.
 \end{solution}
 
 \section*{Chapter summary}
