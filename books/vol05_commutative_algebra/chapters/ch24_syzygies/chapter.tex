@@ -60,6 +60,36 @@ Over polynomial rings over fields, finite modules have bounded projective resolu
 \section{Computational matrices}
 Syzygies are kernels of matrices and can be studied algorithmically.
 
+% VOL05-EXACT-COMPUTATION-SYZYGIES-V24
+\begin{remark}[A computed syzygy needs exact verification]
+If a presentation matrix \(A\) is defined over an exact ring \(R\), a vector
+\(s\) is a syzygy precisely when
+\[
+As=0
+\]
+in \(R^n\).  For exact input this final identity should be checked exactly.
+A small floating-point residual does not prove membership in the syzygy
+module, and a numerically estimated null space generally belongs to a
+different problem over \(\mathbb R\) or \(\mathbb C\).
+
+Computer-algebra systems may accelerate exact computations by passing to
+auxiliary finite fields, using modular images, or reconstructing rational
+coefficients.  Such a computation is evidence until the reconstructed
+generators are verified in the original coefficient ring.  In particular,
+a prime used for modular computation can be exceptional: reduction may change
+leading terms, ranks, or cancellations.
+
+A robust workflow therefore separates
+\[
+\text{candidate generation}
+\quad\longrightarrow\quad
+\text{exact verification in the original ring}.
+\]
+For syzygies, the minimum certificate is exact annihilation by the presentation
+matrix; for a claimed generating set, one must additionally verify that it
+generates the full kernel by an exact algebraic method.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Syzygies over Noetherian rings are finite]\label{thm:v24-01}
@@ -268,6 +298,40 @@ In graded settings, track degrees of generators and relations so the syzygy maps
 \end{hint}
 \begin{solution}
 Over polynomial rings over fields, finite modules have bounded projective resolution length. The same principle can then be reused in later localization, support, base-change, resolution, Tor, or Ext arguments.
+\end{solution}
+
+\begin{exercise}[Exact verification of a polynomial syzygy]\label{exr:v24-exact-syzygy-01}
+Let \(R=k[x,y]\) and let
+\[
+A=
+\begin{pmatrix}
+x&y
+\end{pmatrix}:R^2\to R.
+\]
+Verify exactly that
+\[
+s=
+\binom{-y}{x}
+\]
+is a syzygy.  Why would observing a very small floating-point value of
+\(A(a,b)s(a,b)\) at several sampled pairs \((a,b)\) not prove the polynomial
+identity?
+\end{exercise}
+\begin{hint}
+Multiply in the polynomial ring \(R\), not after numerical evaluation.
+\end{hint}
+\begin{solution}
+Direct multiplication gives
+\[
+As=x(-y)+yx=-xy+xy=0
+\]
+as an identity in \(k[x,y]\).  Hence \(s\in\ker A\).
+
+Numerical sampling checks only finitely many evaluations and is subject to
+roundoff.  Even exact agreement at finitely many sample points would not, by
+itself and without a degree/interpolation argument, prove that an arbitrary
+polynomial expression is identically zero.  The symbolic product gives the
+required exact certificate immediately.
 \end{solution}
 
 \section*{Chapter summary}

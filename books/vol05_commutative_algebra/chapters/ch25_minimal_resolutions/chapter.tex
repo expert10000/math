@@ -60,6 +60,28 @@ Over standard graded rings, minimality is similarly controlled by positive-degre
 \section{Computational significance}
 Minimal resolutions expose generators, first relations, and higher relations without algebraic cancellation.
 
+% VOL05-EXACT-COMPUTATION-MINIMALITY-V25
+\begin{remark}[Minimality is controlled by units, not numerical size]
+The local minimality criterion is algebraic.  For a local ring
+\((A,\mathfrak m)\), a differential matrix in a minimal free resolution has
+all entries in \(\mathfrak m\).  Equivalently, no entry that is a unit of
+\(A\) may be cancelled as a rank-one contractible summand.
+
+This is not a magnitude test.  In a local polynomial ring such as
+\(k[x,y]_{(x,y)}\), the element \(x\) lies in the maximal ideal and is not a
+unit, while \(1+x\) is a unit because its residue modulo \((x,y)\) is \(1\).
+There is no meaningful floating-point threshold separating these two
+algebraic cases.
+
+A computational minimal-resolution workflow should therefore verify
+minimality by exact reduction modulo the maximal ideal (or by the appropriate
+positive-degree criterion in the graded setting).  If cancellations are
+performed, every row and column operation used to split a unit entry must be
+invertible over the coefficient ring.  Betti numbers become certified only
+after the resulting complex is verified exact and minimal in the stated
+algebraic category.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Local minimality criterion]\label{thm:v25-01}
@@ -268,6 +290,36 @@ Check finite-generation/local hypotheses before using minimal-resolution uniquen
 \end{hint}
 \begin{solution}
 Over standard graded rings, minimality is similarly controlled by positive-degree entries. The same principle can then be reused in later localization, support, base-change, resolution, Tor, or Ext arguments.
+\end{solution}
+
+\begin{exercise}[Unit detection in a local ring]\label{exr:v25-exact-unit-01}
+Let
+\[
+A=k[x,y]_{(x,y)},
+\qquad
+\mathfrak m=(x,y)A.
+\]
+Decide which of the elements
+\[
+x,\qquad 1+x,\qquad x+y^2
+\]
+are units.  Explain what this implies if one of these elements appears as an
+entry of a differential matrix in a candidate minimal free resolution.
+\end{exercise}
+\begin{hint}
+In this local ring an element is a unit exactly when its residue modulo
+\(\mathfrak m\) is nonzero.
+\end{hint}
+\begin{solution}
+Modulo \(\mathfrak m\),
+\[
+x\mapsto0,\qquad 1+x\mapsto1,\qquad x+y^2\mapsto0.
+\]
+Thus \(1+x\) is a unit, while \(x\) and \(x+y^2\) are nonunits.  A differential
+matrix containing \(1+x\) cannot be minimal: exact row and column operations
+can split off a rank-one contractible summand.  Entries \(x\) and \(x+y^2\)
+do not trigger such a unit cancellation.  Their numerical magnitudes at
+chosen points are irrelevant to the local-algebra criterion.
 \end{solution}
 
 \section*{Chapter summary}
