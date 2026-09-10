@@ -63,6 +63,36 @@ For finitely presented $M$, localization commutes with $\operatorname{Hom}_A(M,N
 \section{Matrix viewpoint}
 Maps between finite free modules are matrices, so finite presentations translate module questions into matrix algebra.
 
+% VOL05-EXACT-COMPUTATION-PRESENTATIONS-V12
+\begin{remark}[A presentation matrix inherits its coefficient ring]
+A matrix in this chapter represents a homomorphism of free \(A\)-modules.
+Its algebraic meaning therefore depends on the ring \(A\), not only on its
+displayed entries.  Operations that are reversible over a field need not be
+reversible over a general ring, because row or column operations preserve the
+presented module only when the corresponding change-of-basis matrix is
+invertible over \(A\).
+
+For example, the \(1\times1\) matrix \((2)\) represents very different maps:
+\[
+\mathbb Z\xrightarrow{\cdot2}\mathbb Z,
+\qquad
+\mathbb Q\xrightarrow{\cdot2}\mathbb Q,
+\qquad
+\mathbb F_2\xrightarrow{\cdot0}\mathbb F_2.
+\]
+Over \(\mathbb Z\) the map is injective but not surjective; over \(\mathbb Q\)
+it is an isomorphism; over \(\mathbb F_2\) it is zero.  Thus a numerical
+``rank'' attached to the array of coefficients cannot replace the module
+question over the stated ring.
+
+Computational work with presentations should therefore record the coefficient
+ring, the row/column convention, and the exact transformations performed.
+When the coefficients are intended to be exact integers, rationals, finite
+field elements, or polynomials, floating-point approximations should be used
+only as heuristics and not as certificates of kernel, cokernel, rank, or
+isomorphism statements.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Finite presentation criterion]\label{thm:v12-01}
@@ -271,6 +301,44 @@ Use the universal property of a cokernel/presentation to prove a proposed Hom de
 \end{hint}
 \begin{solution}
 Finite presentations remain finite after scalar extension. The same principle can then be reused in later localization, support, base-change, resolution, Tor, or Ext arguments.
+\end{solution}
+
+\begin{exercise}[The same matrix over three coefficient rings]\label{exr:v12-exact-ring-01}
+Consider the presentation matrix \(A=(2)\).
+
+\begin{enumerate}
+\item Describe the kernel and cokernel of
+\(\mathbb Z\xrightarrow{A}\mathbb Z\).
+\item Repeat over \(\mathbb Q\).
+\item Repeat over \(\mathbb F_2\).
+\end{enumerate}
+
+Explain why the answer cannot be recovered from a ring-independent
+floating-point rank calculation.
+\end{exercise}
+\begin{hint}
+Over \(\mathbb Z\), multiplication by \(2\) is injective but \(2\) is not a
+unit.  Over \(\mathbb Q\), \(2\) is a unit.  In characteristic \(2\), the
+entry becomes zero.
+\end{hint}
+\begin{solution}
+Over \(\mathbb Z\),
+\[
+\ker A=0,
+\qquad
+\operatorname{coker}A\cong\mathbb Z/2\mathbb Z.
+\]
+Over \(\mathbb Q\), multiplication by \(2\) is invertible, so both kernel and
+cokernel vanish.  Over \(\mathbb F_2\), the map is zero, hence
+\[
+\ker A\cong\mathbb F_2,
+\qquad
+\operatorname{coker}A\cong\mathbb F_2.
+\]
+The array contains the same written integer, but its algebraic behavior is
+controlled by the coefficient ring.  A floating-point rank calculation sees
+only an approximation to a real matrix and therefore does not encode these
+module-theoretic distinctions.
 \end{solution}
 
 \section*{Chapter summary}
