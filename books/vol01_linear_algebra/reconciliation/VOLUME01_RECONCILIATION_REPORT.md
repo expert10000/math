@@ -3,7 +3,7 @@
 **Result:** PASS
 
 - Canonical chapters: **18**
-- Build-graph TeX files: **23**
+- Build-graph TeX files: **28**
 - Routed legacy/source rules: **61**
 - Missing routed source files: **0**
 - Duplicate build-graph labels: **0**
