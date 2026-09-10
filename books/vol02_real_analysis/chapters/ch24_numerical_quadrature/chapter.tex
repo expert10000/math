@@ -91,6 +91,34 @@ than two equally spaced endpoint samples.
 \section{Stability and adaptivity}
 Practical quadrature balances truncation error, smoothness, and sampling cost.
 
+% VOL02-NUMERICAL-QUADRATURE-TOLERANCE-II24
+\begin{remark}[Quadrature error budgets and adaptive stopping]
+A theoretical quadrature remainder estimates truncation error under stated
+smoothness assumptions.  A floating-point computation can also contain
+function-evaluation error, measurement noise, cancellation, and roundoff.
+These contributions should not be silently identified with the truncation
+term.
+
+Adaptive codes often compare a coarse and a refined estimate.  A practical
+stopping rule may have the form
+\[
+|Q_{\mathrm{fine}}-Q_{\mathrm{coarse}}|
+\le
+\mathrm{atol}
++
+\mathrm{rtol}\,|Q_{\mathrm{fine}}|.
+\]
+The absolute and relative tolerances are part of the numerical specification.
+A small coarse--fine difference is an error \emph{indicator}; it becomes a
+reliable estimate of the true integration error only under the assumptions
+behind the refinement/error model.  Stagnation from roundoff or correlated
+sampling error can also make successive estimates close.
+
+Thus a reported numerical integral should distinguish the quadrature value,
+the stopping tolerance, the error estimator or rigorous bound used, and any
+known uncertainty in the sampled function values.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Trapezoidal error]\label{thm:ii24-01}
@@ -482,6 +510,54 @@ Combine \(Q_h\) and \(Q_{h/2}\) using the factor \(2^p\).
 \end{hint}
 \begin{solution}
 \((2^pQ_{h/2}-Q_h)/(2^p-1)\) cancels the leading \(Ch^p\) term under the asymptotic model.
+\end{solution}
+\begin{exercise}[Interpreting an adaptive stopping test]\label{exr:ii24-numerical-tolerance-01}
+An adaptive computation returns
+\[
+Q_{\mathrm{coarse}}=1.234500,
+\qquad
+Q_{\mathrm{fine}}=1.234506,
+\]
+with
+\[
+\mathrm{atol}=10^{-5},
+\qquad
+\mathrm{rtol}=10^{-6}.
+\]
+Check the stopping condition
+\[
+|Q_{\mathrm{fine}}-Q_{\mathrm{coarse}}|
+\le
+\mathrm{atol}
++
+\mathrm{rtol}|Q_{\mathrm{fine}}|.
+\]
+What does passing this test establish, and what does it not prove by itself?
+\end{exercise}
+\begin{hint}
+Compare the difference \(6\times10^{-6}\) with the tolerance budget.  Then
+separate the stopping criterion from a theorem bounding the true integral
+error.
+\end{hint}
+\begin{solution}
+The left side is
+\[
+6\times10^{-6}.
+\]
+The tolerance budget is
+\[
+10^{-5}+10^{-6}(1.234506)
+=
+1.1234506\times10^{-5},
+\]
+so the stopping test passes.
+
+This establishes only that the two estimates agree to the requested
+coarse--fine tolerance.  It does not by itself prove that
+\(|Q_{\mathrm{fine}}-\int_a^b f|\) is below that number.  Such a conclusion
+requires the assumptions behind the error estimator or an independent rigorous
+error bound; roundoff, nonsmoothness, or inaccurate function values can defeat
+the naive interpretation.
 \end{solution}
 % END VOL02-EXPANSION II24-exercises-01
 \section*{Chapter summary}
