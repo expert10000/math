@@ -75,6 +75,48 @@ When holomorphicity holds in the intervening region, later theorems will make in
 \section{Parameter singularities}
 Care is required when curves pass through poles, branch cuts, or points where the integrand is not defined.
 
+% VOL04-NUMERICAL-CONTOUR-IV04
+\begin{remark}[Computed contour integrals and singularity clearance]
+The contour integral
+\[
+\int_\gamma f(z)\,dz
+=
+\int_a^b f(\gamma(t))\gamma'(t)\,dt
+\]
+is an exact object and is invariant under orientation-preserving
+reparameterization.  A finite quadrature rule applied to the parameter
+integral is a different object: changing the parameterization changes the
+locations and density of the sampled points and can therefore change the
+numerical error even when the exact contour integral is unchanged.
+
+For a computed value \(Q_N\), a refinement quantity such as
+\[
+\eta_N=|Q_{2N}-Q_N|
+\]
+is a useful convergence indicator when the same contour, parameterization, and
+quadrature family are used.  It is not automatically a rigorous bound on
+\[
+\left|\int_\gamma f(z)\,dz-Q_{2N}\right|.
+\]
+Such a bound requires an error theorem or another verified estimate appropriate
+to the integrand and rule.
+
+Distance from singularities is also part of the numerical specification.  If
+the integrand contains a factor \((z-a)^{-1}\), then along the contour
+\[
+\left|\frac{1}{z-a}\right|
+\le
+\frac{1}{\delta},
+\qquad
+\delta=\min_{z\in\gamma}|z-a|.
+\]
+A small \(\delta\) can make the parameter integrand sharply varying and amplify
+evaluation or quadrature error even though the pole remains strictly off the
+contour.  Numerical contour calculations should therefore report the contour,
+parameterization, quadrature/refinement rule, tolerance, and any relevant
+singularity clearance.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Reparameterization invariance]\label{thm:iv04-01}
@@ -291,6 +333,41 @@ Before any contour deformation, list the singularities and make sure none are cr
 \end{hint}
 \begin{solution}
 When holomorphicity holds in the intervening region, later theorems will make integrals invariant under suitable contour deformations. The same principle can then be reused in later contour, residue, conformal, or Riemann-surface arguments.
+\end{solution}
+
+\begin{exercise}[Contour-quadrature refinement indicator]\label{exr:iv04-numerical-contour-01}
+Two computations of the same parameterized contour integral give
+\[
+Q_N=1+2i,
+\qquad
+Q_{2N}=1.0003+2.0004i.
+\]
+Compute
+\[
+\eta_N=|Q_{2N}-Q_N|.
+\]
+What does this number test, and why is it not by itself a rigorous error bound
+for the exact contour integral?
+\end{exercise}
+\begin{hint}
+The difference is \(0.0003+0.0004i\).  Its modulus forms a \(3\)-\(4\)-\(5\)
+triangle after scaling by \(10^{-4}\).
+\end{hint}
+\begin{solution}
+We have
+\[
+\eta_N
+=
+|0.0003+0.0004i|
+=
+5\times10^{-4}.
+\]
+This shows that the two chosen resolutions agree to about that scale under the
+same numerical procedure.  It is a refinement indicator, not automatically a
+bound on the error of \(Q_{2N}\).  A rigorous error conclusion additionally
+requires assumptions and an estimate linking refinement differences to the
+true quadrature remainder; nearby singularities, poor sampling, or correlated
+errors can make two approximations close for the wrong reason.
 \end{solution}
 
 \section*{Chapter summary}
