@@ -111,6 +111,38 @@ Volume VII uses schemes, tangent/local geometry and vector-bundle language; Volu
 reuses complexes and cohomological constructions. Later geometry should refer back to the
 canonical scheme/sheaf conventions fixed here.
 
+## Exact and numerical computation policy
+
+Volume VI inherits both sides of the series computation policy.
+
+The exact side is dominant: ideals, radicals, residue fields, local rings,
+scheme structure, divisor classes, sheaves, and cohomology are algebraic
+objects in stated coefficient categories. Floating-point approximations may
+generate candidates, but they do not replace exact ring-, field-, or
+scheme-theoretic certification.
+
+The principal computational hotspots are:
+
+- **VI/01 Algebraic Sets:** finite sampling or small polynomial residuals do not
+  certify exact zero-locus membership or equality. Keep the coefficient field
+  explicit and verify exact claims in that field or polynomial ring.
+- **VI/32 Tangent Spaces and Local Geometry:** the Zariski tangent space uses
+  exact Jacobian rank over the residue field. Approximate Jacobians require a
+  stated singular-value tolerance and remain numerical evidence until linked
+  to an exact local-dimension or Jacobian-criterion certificate.
+- **VI/43 Plane Cubics:** smoothness is the global absence of a projective
+  solution of \(F=F_x=F_y=F_z=0\). Numerical searches can locate candidate
+  singularities but cannot certify global smoothness by sampling alone.
+- **VI/44 Cremona Transformations:** common factors in homogeneous coordinate
+  triples must be cancelled exactly before computing base loci or algebraic
+  degree. Numerical evaluation near the base locus requires projective
+  scaling and clearance diagnostics.
+
+Computations over auxiliary finite fields, modular images, or approximate
+complex numbers must state the change of coefficient domain. If they support
+an exact claim about the original scheme, the final result should be verified
+back in the original algebraic setting.
+
 ## Reading principle
 
 Navigation never weakens theorem hypotheses. Classical affine-variety statements and
