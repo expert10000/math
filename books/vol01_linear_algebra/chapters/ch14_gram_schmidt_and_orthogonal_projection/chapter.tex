@@ -109,6 +109,33 @@ $P_Uv$ is the unique vector in $U$ minimizing $\|v-u\|$.
 \section{QR factorization}
 Applying Gram–Schmidt to independent columns of $A$ produces $A=QR$, with $Q$ having orthonormal columns and $R$ upper triangular.
 
+% VOL01-NUMERICAL-QR-RESIDUALS
+\begin{remark}[Verifying a computed QR factorization]
+For an exact reduced QR factorization \(A=QR\), the columns of \(Q\) are
+orthonormal, so \(Q^*Q=I\).  A floating-point computation instead produces
+approximations \(\widehat Q,\widehat R\).  For \(A\neq0\), two complementary
+diagnostics are
+\[
+\rho_{QR}
+=
+\frac{\|A-\widehat Q\widehat R\|_2}{\|A\|_2},
+\qquad
+\eta_Q
+=
+\|\widehat Q^*\widehat Q-I\|_2.
+\]
+The relative residual \(\rho_{QR}\) tests how accurately the computed factors
+reconstruct the supplied matrix.  The orthogonality defect \(\eta_Q\) tests
+whether the computed columns of \(\widehat Q\) remain close to orthonormal.
+
+These tests answer different questions.  A small reconstruction residual does
+not by itself show that \(\widehat Q\) is nearly orthogonal, and a small
+orthogonality defect does not show that \(\widehat Q\widehat R\) is close to
+\(A\).  Even when both are small, they verify the computed factorization only
+to the reported tolerance; they do not prove an exact rank, uniqueness of the
+factors, or good conditioning of a downstream least-squares solution.
+\end{remark}
+
 \section{Least squares}
 For full-column-rank $A$, the least-squares solution satisfies $A^*Ax=A^*b$ and can be computed more stably using QR.
 
@@ -525,6 +552,68 @@ Add vectors in \(\ker A\).
 \end{hint}
 \begin{solution}
 All are \(x_0+z\) with \(z\in\ker A\); they produce the same \(Ax\). \textbf{Preview.} Chapter~18 introduces the pseudoinverse and shows that it selects the minimum-norm member.
+\end{solution}
+\begin{exercise}[Residuals for a computed QR factorization]\label{exr:i14-numerical-qr-01}
+Let
+\[
+A=I_2,\qquad
+\widehat Q=
+\begin{pmatrix}
+1&0\\
+0&1+\varepsilon
+\end{pmatrix},
+\qquad
+\widehat R=
+\begin{pmatrix}
+1&0\\
+0&(1+\varepsilon)^{-1}
+\end{pmatrix},
+\qquad
+\varepsilon=10^{-6}.
+\]
+Evaluate
+\[
+\rho_{QR}
+=
+\frac{\|A-\widehat Q\widehat R\|_2}{\|A\|_2},
+\qquad
+\eta_Q
+=
+\|\widehat Q^*\widehat Q-I\|_2.
+\]
+Explain what each residual tests and why a zero reconstruction residual does
+not prove that the computed \(Q\)-factor is orthogonal.
+\end{exercise}
+\begin{hint}
+First multiply \(\widehat Q\widehat R\).  Then note that
+\(\widehat Q^*\widehat Q-I\) is diagonal, so its spectral norm is the largest
+absolute diagonal entry.
+\end{hint}
+\begin{solution}
+The factors reconstruct the matrix exactly in this model:
+\[
+\widehat Q\widehat R=I_2=A,
+\]
+hence \(\rho_{QR}=0\).  However,
+\[
+\widehat Q^*\widehat Q-I
+=
+\begin{pmatrix}
+0&0\\
+0&(1+\varepsilon)^2-1
+\end{pmatrix},
+\]
+so
+\[
+\eta_Q=(1+\varepsilon)^2-1
+=2\varepsilon+\varepsilon^2
+=2.000001\times10^{-6}.
+\]
+Thus \(\rho_{QR}\) tests reconstruction of \(A\), whereas \(\eta_Q\) tests the
+orthonormality structure required of \(Q\).  The example has perfect
+reconstruction but a nonzero orthogonality defect, so reconstruction alone
+cannot certify a QR factorization.  Neither diagnostic, even when small, proves
+the exact rank of floating-point data.
 \end{solution}
 % END VOL01-EXPANSION I14-exercises-01
 \section*{Chapter summary}
