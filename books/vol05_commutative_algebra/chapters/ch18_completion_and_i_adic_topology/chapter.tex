@@ -46,6 +46,34 @@ The $(x)$-adic completion of $k[x]_{(x)}$ is $k[[x]]$. Modulo $x^n$, a formal po
 \section{Universal approximation}
 A completion element determines all finite-order approximations simultaneously.
 
+% VOL05-EXACT-COMPUTATION-IADIC-V18
+\begin{remark}[\(I\)-adic precision is exact algebraic precision]
+An approximation modulo \(I^n\) is not a floating-point approximation.  The
+statement
+\[
+a\equiv b\pmod{I^n}
+\]
+means exactly that \(a-b\in I^n\).  No norm, decimal tolerance, or rounding
+threshold is involved.
+
+For example, in \(k[[x]]\), knowing a series modulo \(x^n\) determines its
+coefficients of degrees \(0,\ldots,n-1\) exactly.  Increasing \(n\) reveals
+additional exact coefficients while preserving all earlier ones.  Likewise,
+a \(p\)-adic approximation modulo \(p^n\) records an exact congruence class,
+not an estimate with real absolute error about \(p^{-n}\).
+
+Computational completion should therefore record the algebraic precision
+level \(I^n\) and verify compatibility:
+\[
+a_{n+1}\bmod I^n=a_n.
+\]
+If arithmetic is additionally implemented with machine floating point, that
+implementation error is a separate layer and must not be confused with the
+\(I\)-adic filtration.  Algebraic precision and floating-point precision are
+different notions even when both are informally described as
+``approximation.''
+\end{remark}
+
 \section{Examples}
 $p$-adic integers and formal power-series rings arise as completions.
 
@@ -271,6 +299,44 @@ Compare localization and completion carefully; one inverts elements while the ot
 \end{hint}
 \begin{solution}
 Under Noetherian local hypotheses, intersections of powers often vanish. The same principle can then be reused in later localization, support, base-change, resolution, Tor, or Ext arguments.
+\end{solution}
+
+\begin{exercise}[Compatible formal-power-series truncations]\label{exr:v18-exact-iadic-01}
+In \(k[[x]]\), consider
+\[
+a_3=1+2x+3x^2\pmod{x^3}
+\]
+and
+\[
+a_5=1+2x+3x^2+4x^3+5x^4\pmod{x^5}.
+\]
+
+\begin{enumerate}
+\item Verify that the two approximations are compatible.
+\item State exactly what information \(a_5\) determines.
+\item Explain why the notation ``precision \(x^5\)'' is not a decimal error
+tolerance.
+\end{enumerate}
+\end{exercise}
+\begin{hint}
+Reduce \(a_5\) modulo \(x^3\).
+\end{hint}
+\begin{solution}
+Reduction gives
+\[
+a_5\bmod x^3
+=
+1+2x+3x^2
+=
+a_3,
+\]
+so the truncations are compatible.  The class modulo \(x^5\) determines
+exactly the coefficients of \(1,x,x^2,x^3,x^4\); coefficients of degree at
+least \(5\) remain unspecified.
+
+The modulus \(x^5\) describes an exact congruence class in the \(x\)-adic
+filtration.  It is not a statement that a real or complex numerical error has
+magnitude below some decimal threshold.
 \end{solution}
 
 \section*{Chapter summary}

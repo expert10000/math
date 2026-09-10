@@ -59,6 +59,34 @@ Unless explicitly stated otherwise:
 - V/15–V/20 → VI/21, VI/26–VI/28: support, Noetherian geometry, integral dependence, normalization.
 - V/22–V/28 → VI/48–VI/49 and VIII/16, VIII/26–VIII/27: complexes, cohomology, universal coefficients, Künneth, Tor and Ext.
 
+## Exact-computation policy inherited from the series numerical guidance
+
+Volume V is predominantly exact algebra.  Accordingly, the series-wide
+numerical policy specializes here to a stronger rule: do not replace exact
+ring/module statements by floating-point linear-algebra surrogates.
+
+The principal computational hotspots are:
+
+- **V/12 Hom and Finitely Presented Modules:** presentation matrices inherit
+  their coefficient ring.  Kernel, cokernel, invertibility, and allowed basis
+  operations must be computed in that ring.
+- **V/18 Completion and \(I\)-Adic Topology:** precision modulo \(I^n\) is an
+  exact congruence level.  It is not a real/complex floating-point tolerance.
+- **V/22 Chain Complexes:** \(d^2=0\), exactness, cycles, boundaries, and
+  homology are exact identities/quotients.  Small matrix residuals do not
+  certify an exact complex over the intended ring.
+- **V/24 Syzygies:** candidate relations generated numerically or modularly
+  must be verified exactly in the original coefficient ring; a generating-set
+  claim also requires an exact kernel computation.
+- **V/25 Minimal Resolutions:** minimality is controlled by units, maximal-ideal
+  membership, and exact cancellation.  Numerical magnitude is irrelevant.
+
+When exact computations are accelerated by modular images, finite fields,
+rational reconstruction, or other auxiliary coefficient domains, the final
+object must be verified back in the original ring.  Pure structural chapters
+elsewhere in Volume V require no floating-point caveat because no approximate
+numerical claim is being made.
+
 ## Reading principle
 
 These links are editorial navigation. They do not weaken theorem hypotheses. If a later result needs a Noetherian, finiteness, local, graded, flat, projective, or injective hypothesis, that hypothesis must be stated at the point of use.
