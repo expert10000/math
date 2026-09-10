@@ -3,6 +3,37 @@
 This map supplements the canonical chapter/status navigation with mathematical dependencies and continuations.
 It does not alter the frozen chapter texts.
 
+## Series-wide numerical interpretation policy
+
+Volume I establishes the distinction between exact linear-algebra statements
+and conclusions inferred from floating-point computation.  The policy applies
+throughout Volumes I--VIII whenever a chapter uses computed matrices,
+factorizations, eigensystems, Jacobians, discretizations, boundary operators,
+least-squares systems, or other numerical linear-algebra objects.
+
+- Exact rank, nullity, linear independence, multiplicity, and vanishing remain
+  exact mathematical notions.
+- A numerical claim that infers rank, nullity, independence, an eigenspace, or a
+  truncation from floating-point data must state the tolerance and the scale
+  against which that tolerance is measured.
+- Relative tolerances should normally be tied to a natural norm, a largest
+  singular value, or another explicitly stated problem scale rather than to an
+  unexplained absolute test for equality with zero.
+- A computed factorization should be checked with a backward/reconstruction
+  residual and, when appropriate, a structural defect such as loss of
+  orthogonality, symmetry, conservation, or constraint satisfaction.
+- A small residual verifies agreement with the supplied data to the reported
+  scale.  It does not by itself prove exact rank, uniqueness, good conditioning,
+  or correctness of a tolerance-dependent modeling decision.
+- Purely exact chapters do not need numerical caveats merely because a matrix
+  appears.  Local numerical guidance is required only where floating-point
+  computation could otherwise be mistaken for exact algebra.
+
+The foundational examples are the rank discussion in I/07, QR diagnostics in
+I/14, and singular-value tolerance and SVD diagnostics in I/18.  Later volumes
+should inherit this policy and restate it locally only where the numerical
+interpretation is materially used.
+
 ## Volume-level dependency map
 
 - **I — Linear Algebra** → **II — Real Analysis and Topological Foundations**: Linear algebra supplies the finite-dimensional language used throughout analysis.

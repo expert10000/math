@@ -98,8 +98,56 @@ Diagonalize $A^*A$ to obtain right singular vectors; normalize their images unde
 \section{Rank and norms}
 The rank is the number of positive singular values. The operator norm is the largest singular value, and the Frobenius norm squared is the sum of squared singular values.
 
+% VOL01-NUMERICAL-RANK-I18
+\begin{remark}[Exact rank versus numerical rank]
+In exact arithmetic,
+\[
+\operatorname{rank}A=\#\{i:\sigma_i>0\}.
+\]
+For floating-point or measured data, however, exact equality to zero is not a
+stable decision rule.  When \(A\neq0\), a scale-aware numerical rank can be
+defined by a stated relative tolerance \(\tau>0\):
+\[
+\operatorname{rank}_{\tau}A
+=
+\#\{i:\sigma_i>\tau\sigma_1\}.
+\]
+For \(A=0\), set \(\operatorname{rank}_{\tau}A=0\).
+
+The value of \(\tau\) is part of the numerical statement, not a hidden
+implementation detail.  It should reflect the scale of the problem and, where
+appropriate, expected data error, floating-point precision, and matrix
+dimensions.  There is no universal tolerance that turns a near-zero singular
+value into an exact theorem about rank.  Consequently, reports of numerical
+rank should state the tolerance and the normalization used.
+\end{remark}
+
 \section{Pseudoinverse}
 Replacing each nonzero singular value by its reciprocal gives the Moore–Penrose pseudoinverse.
+
+% VOL01-NUMERICAL-PSEUDOINVERSE-TOLERANCE
+\begin{remark}[Tolerance-aware pseudoinverse and truncation]
+Let \(A=U\Sigma V^*\) and choose a relative tolerance \(\tau\).  Form
+\(\Sigma_\tau\) by retaining only singular values satisfying
+\(\sigma_i>\tau\sigma_1\) and replacing the rest by zero.  Then
+\[
+A_\tau=U\Sigma_\tau V^*
+\]
+is the corresponding tolerance-truncated matrix, and
+\[
+A_\tau^+
+=
+V\Sigma_\tau^+U^*
+\]
+reciprocates only the retained singular values.
+
+This distinction matters.  If a positive singular value of the original
+matrix is discarded, then \(A_\tau^+\) is the exact Moore--Penrose
+pseudoinverse of \(A_\tau\), not the exact Moore--Penrose pseudoinverse of
+\(A\).  The tolerance acts as a numerical modeling or regularization decision.
+The same threshold determines which singular directions are retained in a
+tolerance-based low-rank approximation.
+\end{remark}
 
 
 % BEGIN VOL01-EXPANSION I18-example-02
@@ -128,6 +176,33 @@ The fitted vector \(Ax_*=(1,1)^T\) is the projection of \(b\) onto
 % END VOL01-EXPANSION I18-example-02
 \section{Low-rank approximation}
 Truncating the SVD after the largest $r$ singular values gives a best rank-$r$ approximation in operator and Frobenius norms.
+
+% VOL01-NUMERICAL-SVD-RESIDUALS
+\begin{remark}[Verifying a computed SVD]
+Suppose a numerical routine returns
+\(\widehat U,\widehat\Sigma,\widehat V\) for \(A\neq0\).  Useful diagnostics are
+\[
+\rho_{\mathrm{SVD}}
+=
+\frac{\|A-\widehat U\widehat\Sigma\widehat V^*\|_2}{\|A\|_2},
+\]
+together with
+\[
+\eta_U=\|\widehat U^*\widehat U-I\|_2,
+\qquad
+\eta_V=\|\widehat V^*\widehat V-I\|_2
+\]
+for the orthonormal columns that are actually returned.
+
+A small \(\rho_{\mathrm{SVD}}\) is a backward reconstruction check; small
+\(\eta_U,\eta_V\) check the orthonormality structure.  These diagnostics do not
+by themselves prove the exact rank of \(A\), choose a numerical-rank tolerance,
+or show that singular vectors are unique.  In particular, zero singular
+subspaces and repeated or tightly clustered singular values can admit many
+equally valid singular-vector bases.  A small residual therefore certifies
+agreement of the computed factors with the data to a stated scale, not an
+exact structural theorem about noisy input.
+\end{remark}
 
 
 % BEGIN VOL01-EXPANSION I18-example-03
@@ -585,6 +660,44 @@ Group \(UV^*\) and \(V\Sigma V^*\).
 \end{hint}
 \begin{solution}
 Take \(Q=UV^*\) and \(H=V\Sigma V^*=(A^*A)^{1/2}\); then \(QH=A\).
+\end{solution}
+\begin{exercise}[Tolerance-dependent numerical rank]\label{exr:i18-numerical-svd-01}
+A computed SVD has singular values
+\[
+1,\qquad 10^{-9},\qquad 10^{-14},
+\]
+and reports
+\[
+\rho_{\mathrm{SVD}}=2\times10^{-13},
+\qquad
+\eta_U=4\times10^{-14},
+\qquad
+\eta_V=5\times10^{-14}.
+\]
+Using the rule
+\[
+\operatorname{rank}_{\tau}A
+=
+\#\{i:\sigma_i>\tau\sigma_1\},
+\]
+find the numerical rank for \(\tau=10^{-12}\) and for \(\tau=10^{-8}\).
+What do the small residuals establish, and what do they not establish?
+\end{exercise}
+\begin{hint}
+Since \(\sigma_1=1\), compare the other singular values directly with each
+tolerance.  Treat the reconstruction and orthogonality residuals separately
+from the rank decision.
+\end{hint}
+\begin{solution}
+For \(\tau=10^{-12}\), the values \(1\) and \(10^{-9}\) exceed the threshold,
+so \(\operatorname{rank}_{10^{-12}}A=2\).  For \(\tau=10^{-8}\), only the
+leading singular value exceeds the threshold, so
+\(\operatorname{rank}_{10^{-8}}A=1\).
+
+The small residuals show that the reported factors reconstruct the supplied
+matrix closely and are nearly orthonormal at the indicated scale.  They do not
+select the tolerance, prove the exact rank of the underlying mathematical
+object, or imply uniqueness of singular vectors.
 \end{solution}
 % END VOL01-EXPANSION I18-exercises-01
 \section*{Chapter summary}
