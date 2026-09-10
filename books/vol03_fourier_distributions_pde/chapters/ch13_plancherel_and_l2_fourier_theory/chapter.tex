@@ -83,6 +83,31 @@ Differentiation identities translate Sobolev-type derivative energy into weighte
 \section{Approximation}
 Frequency cutoffs approximate $L^2$ functions and provide smooth or band-limited regularizations.
 
+% VOL03-NUMERICAL-PLANCHEREL-III13
+\begin{remark}[Energy checks for computed transforms]
+Plancherel's theorem is an exact unitary identity in \(L^2\).  A computed
+transform should be checked against the normalization and discretization
+actually used.  Two useful diagnostics are a reconstruction residual and an
+energy defect.  In schematic form,
+\[
+\rho_{\mathcal F}
+=
+\frac{\|f-\mathcal F^{-1}_{\rm comp}\mathcal F_{\rm comp}f\|_2}{\|f\|_2},
+\qquad
+\eta_{\rm energy}
+=
+\frac{\bigl|\|f\|_2^2-\|\widehat f_{\rm comp}\|_2^2\bigr|}{\|f\|_2^2},
+\]
+where the discrete quadrature/normalization behind both norms must be stated.
+
+A small energy defect checks approximate norm preservation.  A small
+reconstruction residual checks approximate inversion.  Neither one alone
+certifies adequate spatial/frequency resolution, absence of aliasing, or
+pointwise accuracy.  Exact Plancherel identities therefore remain the
+mathematical reference, while numerical verification must name the grid,
+normalization, truncation, and tolerance used.
+\end{remark}
+
 
 % BEGIN VOL03-EXPANSION III13-example-03
 \begin{example}[Frequency cutoffs approximate energy]\label{ex:iii13-expand-03}
@@ -485,5 +510,35 @@ Use Plancherel and derivative rule.
 It is an integral of (1+4 pi\textasciicircum{}2 |xi|\textasciicircum{}2)|hat f|\textasciicircum{}2.
 \end{solution}
 % END VOL03-EXPANSION III13-exercises-01
+\begin{exercise}[Resolved and unresolved Fourier energy]\label{exr:iii13-numerical-energy-01}
+Assume \(\|f\|_2=1\).  Exact Fourier information shows that the modes retained
+by a cutoff contain squared \(L^2\) energy \(0.96\).
+
+\begin{enumerate}
+\item Compute the exact \(L^2\) truncation error associated with the omitted
+frequency tail.
+\item A numerical transform/reconstruction instead gives a measured relative
+\(L^2\) residual \(0.23\).  Explain why the difference between \(0.23\) and the
+exact tail error should not automatically be called truncation error.
+\end{enumerate}
+\end{exercise}
+\begin{hint}
+Use orthogonality/Plancherel for the exact cutoff:
+\(\|f-f_R\|_2^2=1-0.96\).  Then separate exact tail energy from coefficient,
+sampling, quadrature, and reconstruction error.
+\end{hint}
+\begin{solution}
+The omitted energy is \(1-0.96=0.04\), so the exact cutoff error is
+\[
+\|f-f_R\|_2=\sqrt{0.04}=0.2.
+\]
+The numerical residual \(0.23\) is larger.  That residual includes whatever
+errors are present in the computed coefficients, transform normalization,
+sampling, quadrature, inverse transform, and any other discretization step.
+Only the exact projection identity isolates the omitted Fourier tail as
+\(0.2\).  The additional discrepancy must therefore be diagnosed separately
+rather than silently attributed to truncation.
+\end{solution}
+
 \section*{Chapter summary}
 The chapter now supplies a canonical theorem-and-dossier layer for subsequent measure, Fourier, distributional, Sobolev, and PDE arguments.
