@@ -3,10 +3,12 @@
 - Status: **FROZEN / COMPLETE**
 - Canonical chapters: **28**
 - Solved dossiers: **336**
-- Exercises: **224**
-- Hints: **224**
-- Total solutions: **560**
-- PDF bytes: **1169111**
-- PDF SHA-256: `0c7bc1ef0deb64618f972eb75d3cbfde156710662be6d03bfaf65b938e5f20cb`
-- Approximate PDF pages: **184**
+- Exercises: **676**
+- Hints: **676**
+- Total solutions: **1012**
+- PDF bytes: **1588476**
+- PDF SHA-256: `b61f2abe6b672bcc8ca25ecf275c566782f688d5129be6f05f23bca2500f90fd`
+- Approximate PDF pages: **270**
 - Full source reconciliation: **PASS / 0 unresolved**
+- Exact-computation policy: **integrated / reviewed**
+- Freeze manifest entries: **45**
