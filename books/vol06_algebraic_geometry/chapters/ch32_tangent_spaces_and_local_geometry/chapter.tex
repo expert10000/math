@@ -179,6 +179,44 @@ This formula computes the tangent space directly.  Regularity still requires com
 Jacobian rank alone is not a substitute for knowing the dimension of the local scheme.
 \input{chapters/ch32_tangent_spaces_and_local_geometry/figures/figure_07}
 
+% VOL06-NUMERICAL-JACOBIAN-CERTIFICATION-VI32
+\begin{remark}[Exact Jacobian rank versus numerical near-singularity]
+For equations over an exact field, the Jacobian formula
+\[
+T_aX\cong\ker J(a)
+\]
+is an exact linear-algebra statement over the residue field of the point.
+Consequently, the rank used in the Zariski tangent-space dimension is the exact
+rank in that field.
+
+When \(J(a)\) is assembled from approximate coefficients or an approximate
+point, a floating-point rank is instead tolerance dependent. Over
+\(\mathbb R\) or \(\mathbb C\), a scale-aware diagnostic may compare the
+singular values with a stated threshold, for example
+\[
+\operatorname{rank}_{\tau}J
+=
+\#\{i:\sigma_i(J)>\tau\sigma_1(J)\}.
+\]
+A tiny \(\sigma_{\min}\) signals numerical near-singularity, not an exact
+algebraic proof that the rank has dropped.
+
+There are therefore three distinct checks in a computational singularity test:
+\[
+\text{point residual}
+\quad+\quad
+\text{Jacobian-rank evidence}
+\quad+\quad
+\text{local dimension or exact algebraic certificate}.
+\]
+A small value of \(f_i(a)\) and a small singular value of \(J(a)\) can identify
+a candidate singular point, but regularity or singularity of the exact scheme
+must still be justified in the appropriate algebraic setting. In particular,
+the chapter's warning remains decisive: Jacobian rank alone is not a substitute
+for the local Krull dimension outside settings where the relevant Jacobian
+criterion supplies that implication.
+\end{remark}
+
 \section{Hypersurfaces}\label{sec:vi32-hypersurface}
 For a nonzero nonconstant polynomial $f\in k[x_1,\ldots,x_n]$, every component of the hypersurface $V(f)$ has dimension
 $n-1$. At a $k$-rational point $a\in V(f)$,
