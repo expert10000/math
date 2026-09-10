@@ -117,6 +117,40 @@ Thom classes, Euler classes, Poincaré duality and intersection forms use compat
 
 Volume VIII is the terminal volume of the current eight-volume canonical sequence, so there is no later volume dependency. Its outgoing role is integrative: homotopy, homology, cohomology, bundles, characteristic classes, duality, intersection theory and fixed-point theory provide the global language used across geometry, topology and mathematical physics.
 
+## Exact-computation and numerical-certification policy
+
+Volume VIII closes the series by turning topological constructions into chain,
+coefficient, and intersection-form calculations.  The resulting invariants are
+exact unless an approximation problem is explicitly stated.
+
+The principal computational hotspots are:
+
+- **VIII/16 Chain Complexes:** finite free integral complexes require exact
+  integer boundary matrices and exact verification of \(D_{n-1}D_n=0\).
+  Smith normal form or equivalent lattice algorithms recover torsion;
+  floating-point rank recovers at most real/rational rank information.
+- **VIII/18 Cellular Homology:** cellular boundary coefficients are integer
+  degrees of attaching maps.  Numerical degree/winding estimates require an
+  error margin strong enough to identify a unique integer before entering the
+  cellular matrix.
+- **VIII/25 Homology with Coefficients:** matrix rank and kernels must be
+  recomputed in the named coefficient field.  A rank over \(\mathbb Q\) or
+  \(\mathbb R\) cannot be reused modulo \(p\).
+- **VIII/26 Universal Coefficient Theorem:** rational Betti numbers do not
+  determine coefficient homology.  Integral torsion and the adjacent-degree
+  \(\operatorname{Tor}\) term must be retained, or the chain complex must be
+  recomputed directly over the target coefficient field.
+- **VIII/34 Intersection Forms:** unimodularity, parity, and integral
+  congruence are exact lattice properties; signature is a real-inertia
+  property.  Floating-point eigenvalue signs require certified separation from
+  zero and do not certify integral equivalence.
+
+Throughout Volume VIII, modular arithmetic and floating-point computation may
+be used to accelerate or explore a calculation, but exact topological claims
+must be verified in the coefficient category in which the invariant is stated.
+This terminal policy is the topology analogue of the exact/numerical
+distinctions established throughout Volumes I--VII.
+
 ## Reading principle
 
 Use the prerequisite graph to decide what must be known before a chapter. Use the cross-volume arrows for conceptual continuity. Neither substitutes for the precise local hypotheses of a theorem.
