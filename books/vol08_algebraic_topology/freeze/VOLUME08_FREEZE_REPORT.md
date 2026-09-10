@@ -1,30 +1,26 @@
-# Volume VIII — Freeze Report (Professional Review Refresh)
+# Volume VIII — Freeze Report
 
-Status: **PASS**
+**Result:** PASS
 
-Pinned pre-review main base: $ExpectedBase
+- Final computation-policy parent commit: `d35a26bc375d0409f10c918a8ccefeec83827907`
+- Canonical chapters: **35**
+- Active chapter includes: **35**
+- One-to-one corpus reconciliation: **PASS / zero unresolved**
+- Reconciliation source instances: **221**
+- Canonical unpaired Problem/Exercise items: **0**
+- Integration audit: **PASS**
+- Freeze semantic audit: **PASS**
+- Exact/numerical topology policy: **integrated / reviewed**
+- Clean canonical PDF build: **PASS**
+- PDF pages: **469**
+- PDF SHA-256: `290144ed243a5e609ab1fc6d8fade34a4d9137c9de37d3b29caac5b79101db9d`
+- PDF bytes: **2731491**
+- Chapter status: **FROZEN / COMPLETE**
+- Freeze manifest entries: **131**
 
-This refresh supersedes the stale September 2 freeze-manifest hashes after the
-September 5–6 post-freeze pedagogy/hint/worked-example expansion commits.
+This refresh supersedes earlier professional-review freeze hashes after the
+final exact-computation guidance changes in VIII/16, VIII/18, VIII/25,
+VIII/26 and VIII/34 plus the terminal Volume VIII computation policy.
 
-## Verified release state
-
-- 35 canonical chapter includes.
-- 35 active pedagogy_expansion.tex inputs.
-- Integration audit passed.
-- Freeze semantic audit passed.
-- Professional active-source audit passed across canonical + pedagogy inputs.
-- No duplicate labels across active canonical + pedagogy source.
-- Problem/Exercise/Hint/Solution pairing passed.
-- Protected pre-review mathematical/reconciliation source remained unchanged
-  during professional-review commits [1/3]–[3/3].
-- Clean Volume VIII PDF build passed.
-- Freeze manifest regenerated from the current active release state.
-
-## PDF
-
-SHA-256: $pdfHash
-
-The refreshed manifest now tracks the active pedagogy-expansion sources in
-addition to the canonical chapters, figures, QA/reconciliation inputs, ledgers,
-and professional-review evidence.
+The source manifest is authoritative. The PDF hash records this clean build
+but is not assumed to be byte-for-byte reproducible across TeX toolchains.

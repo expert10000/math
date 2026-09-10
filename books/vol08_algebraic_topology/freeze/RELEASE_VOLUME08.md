@@ -1,17 +1,20 @@
-# Volume VIII - Algebraic Topology Release
+# Volume VIII — Algebraic Topology Release
 
-This release freezes the complete 35-chapter canonical Volume VIII after:
+**Status:** FROZEN / COMPLETE
 
-1. full one-to-one legacy corpus reconciliation;
-2. canonical Problem/Exercise pairing audit;
-3. duplicate-label and active-include audit;
-4. reconciliation-manifest drift verification;
-5. clean `latexmk` PDF build;
-6. undefined-reference/citation regression check;
-7. visual inventory preservation;
-8. chapter-status transition to `FROZEN / COMPLETE`;
-9. SHA-256 freeze manifest generation.
+This terminal Volume VIII release records:
 
-The release commit is source-authoritative.  The generated PDF is built and
-hashed during freeze; it need not be committed if repository ignore policy
-excludes build products.
+1. all 35 canonical chapters active;
+2. one-to-one corpus reconciliation with zero unresolved findings;
+3. balanced canonical Problem/Exercise solution semantics;
+4. duplicate-label and active-include audits;
+5. exact integer chain/homology computation guidance;
+6. coefficient-field and UCT computation discipline;
+7. integral intersection-form versus numerical-inertia guidance;
+8. clean canonical PDF build;
+9. refreshed SHA-256 source freeze manifest.
+
+Release evidence:
+- `VOLUME08_FREEZE_REPORT.md`
+- `VOLUME08_FREEZE_MANIFEST.sha256`
+- `../reconciliation/VOLUME08_RECONCILIATION_REPORT.md`
