@@ -29,6 +29,42 @@ The matrix \((g_{ij})\) is symmetric and positive definite at every point, hence
 invertible.  Its inverse is denoted \((g^{ij})\).
 \end{proposition}
 
+% VOL07-NUMERICAL-METRIC-CONDITIONING-VII20
+\begin{remark}[Positive definiteness and coordinate conditioning]
+For an exact Riemannian metric, the coefficient matrix
+\[
+G=(g_{ij})
+\]
+is symmetric positive definite in every valid coordinate chart.  This is a
+geometric statement.  A floating-point implementation has the additional
+question of how well conditioned the chosen coordinate representation is.
+
+If \(G\) is represented in a fixed coordinate basis and has eigenvalues
+\[
+0<\lambda_{\min}(G)\le \lambda_{\max}(G),
+\]
+then
+\[
+\kappa_2(G)=\frac{\lambda_{\max}(G)}{\lambda_{\min}(G)}
+\]
+measures sensitivity of coordinate operations such as applying
+\(G^{-1}\), raising indices, or forming coordinate gradients.  A small positive
+\(\lambda_{\min}\) can therefore amplify roundoff even though the exact metric
+is nondegenerate.
+
+This condition number is basis dependent.  Poor conditioning can come from a
+bad chart or badly scaled coordinates rather than from intrinsic geometric
+degeneracy.  Polar coordinates near \(r=0\) are the standard warning: the
+coefficient matrix \(\operatorname{diag}(1,r^2)\) becomes badly scaled as
+\(r\to0\), while the Euclidean metric itself remains perfectly regular away
+from the coordinate singularity.
+
+When a metric is assembled numerically, useful checks include a symmetry defect,
+a scale-relative smallest eigenvalue, and the condition number in the chosen
+basis.  These are diagnostics for the representation; they do not replace the
+invariant definition of a Riemannian metric.
+\end{remark}
+
 \section{Lengths and angles}
 
 \begin{definition}[Norm and angle]\label{def:vii20-norm-angle}
