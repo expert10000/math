@@ -47,6 +47,33 @@ rather than merely listing partial derivatives.
 \section{Jacobian matrices}
 After choosing standard bases, the derivative is represented by the Jacobian matrix.
 
+% VOL02-NUMERICAL-JACOBIAN-II08
+\begin{remark}[Exact derivatives versus computed Jacobians]
+The derivative \(Df(a)\) is an exact linear map.  When its entries are known
+symbolically, rank and invertibility are exact algebraic properties.  In
+applications, however, the Jacobian may be assembled from measured data,
+finite differences, automatic-differentiation output evaluated in floating
+point, or another approximate computation.
+
+In that setting, a tiny computed determinant is not a reliable measure of
+distance from singularity, and a merely nonzero floating-point determinant
+does not by itself certify a well-conditioned inverse.  For a square Jacobian
+\(J\), the singular values give the scale-aware quantities
+\[
+\sigma_{\min}(J),
+\qquad
+\kappa_2(J)=\frac{\sigma_{\max}(J)}{\sigma_{\min}(J)}
+\]
+when \(J\) is nonsingular.  For rectangular derivatives, numerical full rank
+should likewise be stated relative to a tolerance on the singular values.
+
+Thus the exact statement ``\(Df(a)\) has full rank'' and the numerical
+statement ``the computed Jacobian has full rank at tolerance \(\tau\)'' are
+different claims.  When a derivative itself is approximated, the
+discretization or evaluation error must also be small enough for the intended
+rank or conditioning conclusion to be meaningful.
+\end{remark}
+
 \section{Chain rule}
 Derivatives compose as linear maps: $D(g\circ f)(a)=Dg(f(a))Df(a)$.
 

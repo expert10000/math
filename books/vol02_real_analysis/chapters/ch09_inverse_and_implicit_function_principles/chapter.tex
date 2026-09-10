@@ -95,6 +95,29 @@ One standard proof route reformulates the nonlinear equation as a contraction on
 \section{Failure modes}
 Singular derivative, noninjectivity, or rank loss can destroy local solvability or uniqueness.
 
+% VOL02-NUMERICAL-INVERSE-II09
+\begin{remark}[Invertibility versus numerical local solvability]
+The inverse and implicit function theorems are exact theorems: their hypotheses
+ask whether the derivative or the relevant derivative block is actually
+invertible.  Numerical computation introduces a second question---how
+sensitive the corresponding linear solve is.
+
+If a square derivative \(J\) is invertible, then
+\[
+\|J^{-1}\|_2=\frac{1}{\sigma_{\min}(J)}.
+\]
+A very small positive \(\sigma_{\min}(J)\) therefore means that the inverse
+derivative can strongly amplify perturbations even though the exact inverse
+function theorem applies.  Conversely, if \(J\) is available only
+approximately, declaring it singular or nonsingular requires a stated
+tolerance and an error model; a floating-point test such as
+\(\det J=0\) versus \(\det J\ne0\) is not a substitute for that analysis.
+
+The same warning applies to the block \(D_yF\) in the implicit function
+theorem.  Exact local existence and uniqueness, numerical conditioning, and
+the reliability of a computed rank decision are related but distinct issues.
+\end{remark}
+
 
 % BEGIN VOL02-EXPANSION II09-example-03
 \begin{example}[A singular derivative means theorem failure, not automatic impossibility]\label{ex:ii09-expand-03}
@@ -497,6 +520,47 @@ From \(y'=-x/y\), differentiate once more or use \(y=\sqrt{1-x^2}\).
 \end{hint}
 \begin{solution}
 \(y''(0)=-1\).
+\end{solution}
+\begin{exercise}[Exact invertibility and numerical rank]\label{exr:ii09-numerical-conditioning-01}
+Suppose an exact derivative matrix is
+\[
+J=
+\begin{pmatrix}
+1&0\\
+0&10^{-10}
+\end{pmatrix}.
+\]
+Compute \(\kappa_2(J)\).  Using the relative numerical-rank rule
+\[
+\operatorname{rank}_{\tau}J
+=
+\#\{i:\sigma_i>\tau\sigma_1\},
+\]
+find the numerical rank for \(\tau=10^{-12}\) and for \(\tau=10^{-8}\).
+Explain why the exact inverse function theorem and the numerical rank decision
+are answering different questions.
+\end{exercise}
+\begin{hint}
+The singular values are the absolute diagonal entries.  Exact invertibility
+asks whether the smaller one is exactly zero; the numerical rule compares it
+with the chosen threshold.
+\end{hint}
+\begin{solution}
+The singular values are \(1\) and \(10^{-10}\), hence
+\[
+\kappa_2(J)=10^{10}.
+\]
+For \(\tau=10^{-12}\), both singular values exceed the threshold, so
+\(\operatorname{rank}_{10^{-12}}J=2\).  For \(\tau=10^{-8}\), the smaller
+singular value is discarded and
+\(\operatorname{rank}_{10^{-8}}J=1\).
+
+As an exact matrix, \(J\) is invertible because \(10^{-10}\ne0\), so the exact
+inverse function theorem can apply if its other hypotheses hold.  Numerically,
+however, the inverse is highly sensitive and a tolerance may classify the
+small direction as unresolved.  A computed Jacobian would require an error
+bound before either numerical classification could be promoted to an exact
+claim about the true derivative.
 \end{solution}
 % END VOL02-EXPANSION II09-exercises-01
 \section*{Chapter summary}
