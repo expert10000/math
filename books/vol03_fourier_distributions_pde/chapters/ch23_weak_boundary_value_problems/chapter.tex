@@ -75,6 +75,49 @@ Dirichlet conditions are built into $H_0^1$; Neumann data typically arise throug
 \section{Galerkin approximation}
 Finite-dimensional subspaces convert the weak problem into linear algebra and support constructive approximation.
 
+% VOL03-NUMERICAL-GALERKIN-III23
+\begin{remark}[Discretization error versus algebraic solver residual]
+For the exact Galerkin solution \(u_h\in V_h\),
+\[
+a(u_h,v_h)=F(v_h)
+\qquad\text{for every }v_h\in V_h.
+\]
+After choosing a basis this becomes a linear system \(Ac=b\).  A numerical
+linear solver returns an approximate coefficient vector \(\widetilde c\), so
+the algebraic residual
+\[
+r=b-A\widetilde c
+\]
+measures failure to satisfy the \emph{discrete} equations.
+
+That residual is not the same thing as the error to the exact PDE solution.
+There are at least two distinct contributions:
+\[
+u-\widetilde u_h
+=
+(u-u_h)+(u_h-\widetilde u_h),
+\]
+namely discretization error and algebraic solver error.  Moreover, the
+Euclidean norm of \(r\) depends on the chosen basis and scaling.
+
+At the continuous variational level define
+\[
+R_{\widetilde u_h}(v)
+=
+F(v)-a(\widetilde u_h,v).
+\]
+If \(a\) is coercive with constant \(\alpha>0\), then
+\[
+\|u-\widetilde u_h\|_V
+\le
+\alpha^{-1}\|R_{\widetilde u_h}\|_{V^*}.
+\]
+Thus a residual becomes a rigorous solution-error bound only after it is
+interpreted in the correct dual norm and combined with the stability constant.
+A residual tested only on \(V_h\) need not measure approximation error outside
+the discrete space.
+\end{remark}
+
 
 % BEGIN VOL03-EXPANSION III23-example-03
 \begin{example}[Galerkin turns the weak PDE into linear algebra]\label{ex:iii23-expand-03}
@@ -481,5 +524,42 @@ Orthogonality of the error plus boundedness/coercivity compare true error with a
 Galerkin orthogonality gives $a(u-u_h,v_h)=0$. For any $w_h\in V_h$, coercivity and boundedness imply $\alpha\|u-u_h\|_V^2\le a(u-u_h,u-w_h)\le M\|u-u_h\|_V\|u-w_h\|_V$. Divide unless the error is zero, then take the infimum: the constant is $M/\alpha$.
 \end{solution}
 % END VOL03-EXPANSION III23-exercises-01
+\begin{exercise}[Residual bound under coercivity]\label{exr:iii23-numerical-residual-01}
+Suppose the weak problem has coercivity constant
+\[
+\alpha=0.2
+\]
+and a computed approximation \(\widetilde u_h\) has a rigorously estimated
+continuous residual
+\[
+\|R_{\widetilde u_h}\|_{V^*}\le 3\times10^{-4}.
+\]
+Use coercivity to bound \(\|u-\widetilde u_h\|_V\).  Why would the same
+conclusion not follow merely from a small Euclidean residual of one chosen
+stiffness-matrix representation?
+\end{exercise}
+\begin{hint}
+Apply
+\(\|u-\widetilde u_h\|_V\le\alpha^{-1}\|R_{\widetilde u_h}\|_{V^*}\).
+Then distinguish a basis-dependent algebraic residual from the continuous
+dual residual.
+\end{hint}
+\begin{solution}
+Since \(\alpha^{-1}=5\),
+\[
+\|u-\widetilde u_h\|_V
+\le
+5(3\times10^{-4})
+=
+1.5\times10^{-3}.
+\]
+This estimate uses the residual as a functional on the full energy space and
+the coercivity constant that converts residual size into solution-error size.
+A small Euclidean vector residual \(b-A\widetilde c\) depends on the basis and
+matrix scaling and, without a norm-equivalence/stability argument, does not by
+itself give the displayed \(V\)-norm bound or separate discretization from
+solver error.
+\end{solution}
+
 \section*{Chapter summary}
 The chapter now supplies a canonical theorem-and-dossier layer for subsequent measure, Fourier, distributional, Sobolev, and PDE arguments.
