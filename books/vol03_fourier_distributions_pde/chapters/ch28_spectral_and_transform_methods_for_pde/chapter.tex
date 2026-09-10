@@ -96,6 +96,42 @@ Spectral calculus defines $e^{-tL}$ and links PDE evolution to functional calcul
 \section{Boundary and whole-space synthesis}
 Transform methods exploit translation symmetry; spectral methods adapt the same diagonalization idea to domains and boundary conditions.
 
+% VOL03-NUMERICAL-SPECTRAL-PDE-III28
+\begin{remark}[Spectral truncation, eigen-residuals, and near-spectrum sensitivity]
+The spectral formulas in this chapter are exact once the self-adjoint operator,
+its domain, and its eigenpairs are fixed.  Numerical PDE work usually replaces
+them by a discretized operator \(L_h\), finitely many computed eigenpairs, and
+a spectral cutoff.
+
+For a computed normalized discrete eigenpair
+\((\widetilde\lambda,\widetilde\phi)\), the quantity
+\[
+\|L_h\widetilde\phi-\widetilde\lambda\widetilde\phi\|
+\]
+checks the discrete eigen-equation, while inner products between computed
+eigenvectors check loss of orthogonality.  Small values verify the discrete
+spectral calculation; they do not by themselves bound the error between
+\(L_h\) and the continuum operator \(L\).
+
+Resolvent calculations also inherit conditioning directly from spectral
+distance.  For self-adjoint \(L\) and \(\lambda\notin\sigma(L)\),
+\[
+\|(L-\lambda)^{-1}\|
+=
+\frac{1}{\operatorname{dist}(\lambda,\sigma(L))}.
+\]
+Therefore dividing by a symbol or spectral factor near zero can strongly
+amplify data, discretization, or solver error.  A small residual is meaningful
+only together with the distance-to-spectrum or another stability estimate.
+
+Finally, truncating an eigenfunction expansion introduces a tail that should be
+reported in the natural Hilbert/energy norm.  For the heat equation, high
+modes may be strongly damped at \(t>0\), while the same cutoff can be much less
+accurate near \(t=0\).  The truncation index, residual tolerance, spatial
+discretization, and spectral-resolution criterion are therefore separate
+pieces of the numerical specification.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Heat transform solution]\label{thm:iii28-01}
@@ -482,5 +518,61 @@ Check every eigenmode.
 The scalar multipliers multiply: exp(-t lambda\_k)exp(-s lambda\_k)=exp(-(t+s)lambda\_k).
 \end{solution}
 % END VOL03-EXPANSION III28-exercises-01
+\begin{exercise}[Residual amplified near the spectrum]\label{exr:iii28-numerical-resolvent-01}
+Let \(L\) be a self-adjoint operator on a finite-dimensional Hilbert space with
+spectrum
+\[
+\sigma(L)=\{1,4,9\}.
+\]
+Suppose \(\widetilde u\) approximates the solution of
+\[
+(L-\lambda)u=f
+\]
+and has residual
+\[
+r=f-(L-\lambda)\widetilde u,
+\qquad
+\|r\|\le10^{-6}.
+\]
+
+\begin{enumerate}
+\item For \(\lambda=3.99\), bound \(\|u-\widetilde u\|\).
+\item Repeat for \(\lambda=0\).
+\item Explain why the same residual norm can imply very different solution
+accuracy.
+\end{enumerate}
+\end{exercise}
+\begin{hint}
+Use
+\[
+u-\widetilde u=(L-\lambda)^{-1}r
+\]
+and
+\[
+\|(L-\lambda)^{-1}\|
+=
+1/\operatorname{dist}(\lambda,\sigma(L)).
+\]
+\end{hint}
+\begin{solution}
+For \(\lambda=3.99\), the distance to the spectrum is \(0.01\), hence
+\[
+\|u-\widetilde u\|
+\le
+100\,\|r\|
+\le
+10^{-4}.
+\]
+For \(\lambda=0\), the spectral distance is \(1\), so
+\[
+\|u-\widetilde u\|
+\le
+10^{-6}.
+\]
+Thus the residual alone does not determine forward solution accuracy.
+Near the spectrum the inverse problem is more sensitive, and the same
+backward residual can be amplified by a much larger resolvent norm.
+\end{solution}
+
 \section*{Chapter summary}
 The chapter now supplies a canonical theorem-and-dossier layer for subsequent measure, Fourier, distributional, Sobolev, and PDE arguments.
