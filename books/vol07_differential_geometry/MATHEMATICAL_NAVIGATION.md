@@ -119,6 +119,39 @@ Any chapter that changes one of these conventions must state the change locally 
 - **VII/10 — Orientation and Integration** → **VIII/33 — Poincaré Duality**.
 - Riemannian curvature, bundles, and characteristic geometric constructions provide the geometric intuition used throughout later topology.
 
+## Numerical geometry and verification policy
+
+Volume VII is the most computationally numerical volume in the series so far.
+Its exact differential-geometric definitions remain the reference objects, but
+coordinate formulas and mesh algorithms require explicit conditioning,
+discretization, and residual diagnostics.
+
+The principal hotspots are:
+
+- **VII/20 Riemannian Metrics:** a positive-definite metric can have a badly
+  conditioned coordinate matrix.  Report coordinate conditioning without
+  confusing chart pathology with intrinsic degeneracy.
+- **VII/23 Geodesics:** numerical ODE integration should track step refinement,
+  ODE residuals, constant-speed drift, chart conditioning, and any embedded
+  constraint error.  Solving the geodesic equation does not certify global
+  minimizing behavior.
+- **VII/38 Discrete Geodesic Problems:** benchmarks must state whether the
+  reference is graph distance, exact polyhedral distance, or a smooth-surface
+  distance, and should measure path as well as scalar distance error.
+- **VII/40 The Heat Method:** distinguish sparse-solver residuals from mesh,
+  finite-element, time-scale, normalization, and reconstruction errors.
+- **VII/41 Discrete Laplacians:** verify symmetry, null modes, masses,
+  generalized-eigenpair residuals, and \(M\)-orthogonality before interpreting
+  discrete spectra; discrete residual accuracy is not continuum convergence.
+- **VII/42 Curvature Lines, Ridges and Valleys:** eigengap, local-fit
+  conditioning, scale dependence, line-field ambiguity, and multiscale
+  persistence should feed explicit confidence diagnostics.
+
+For computational geometry, reproducible claims should state the mesh/model,
+boundary convention, discretization, normalization/sign convention, solver
+tolerance, and comparison norm.  Exact smooth geometry, discrete geometry, and
+floating-point solution error are separate layers.
+
 ## Reading principle
 
 The dependency graph records the intended mathematical order, while the cross-volume arrows are curated conceptual bridges. Navigation never weakens theorem hypotheses or silently changes sign/normalization conventions.

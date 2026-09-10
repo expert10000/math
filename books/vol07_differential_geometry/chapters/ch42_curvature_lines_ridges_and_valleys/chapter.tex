@@ -187,6 +187,37 @@ narrow features.  Robust implementations expose a physical or intrinsic scale,
 use weighted least squares, reject degenerate neighborhoods, and compare
 features across multiple scales.
 
+% VOL07-NUMERICAL-CURVATURE-CONFIDENCE-VII42
+\begin{remark}[Eigengaps, scale, and confidence of curvature features]
+Principal directions become unstable as the shape operator approaches an
+umbilic.  The relevant quantity is not only an absolute threshold on
+\[
+|k_1-k_2|,
+\]
+but its size relative to perturbations in the estimated shape operator and to
+the curvature scale of the neighborhood.  A small eigengap means that a small
+matrix perturbation can rotate the principal eigenlines substantially even when
+the principal curvature values themselves change only modestly.
+
+Consequently a production ridge/valley detector should keep separate confidence
+channels for at least:
+
+\begin{itemize}
+\item normal and tangent-frame quality;
+\item conditioning of the local surface fit;
+\item principal-curvature magnitude and eigengap;
+\item stability of the line direction under neighborhood/scale changes;
+\item stability of directional-derivative signs and zero crossings;
+\item persistence of the final feature under modest mesh or scale perturbation.
+\end{itemize}
+
+A ridge detected at one scale is therefore a candidate feature, not an invariant
+truth of noisy sampled geometry.  Features that persist across a declared scale
+range and remain away from low-confidence or near-umbilic regions have stronger
+numerical support.  Direction errors should continue to be measured as line
+errors, using the absolute inner product, rather than as oriented-vector errors.
+\end{remark}
+
 \begin{definition}[Umbilic tolerance]\label{def:vii42-umbilic-tol}
 A practical tracer treats a vertex as numerically near-umbilic when
 \[
