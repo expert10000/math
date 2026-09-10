@@ -307,6 +307,34 @@ D_{n-1}D_n=0.
 
 Homology can then be computed using kernels, images, and Smith normal form.
 
+% VOL08-EXACT-INTEGER-HOMOLOGY-VIII16
+\begin{remark}[Integer homology is not floating-point rank]
+For a finite free chain complex over \(\mathbb Z\), the boundary matrices
+\(D_n\) are integer matrices and the homology groups are finitely generated
+abelian groups.  Their free ranks are only part of the answer: torsion is
+encoded by the integral lattice structure of kernels and images.
+
+Passing from \(D_n\) to a floating-point real matrix and computing an SVD can
+estimate the ranks after extension of scalars to \(\mathbb R\), but it cannot
+recover torsion such as \(\mathbb Z/m\).  For example,
+\[
+\mathbb Z\xrightarrow{\times m}\mathbb Z
+\]
+has real rank one whenever \(m\neq0\), yet its cokernel over \(\mathbb Z\) is
+\(\mathbb Z/m\).
+
+Thus an integral homology computation should use exact integer arithmetic,
+typically Smith normal form or an equivalent exact lattice algorithm.
+Floating-point rank calculations may be useful as performance heuristics or
+sanity checks, but they are not certificates of the integral homology group.
+
+When modular arithmetic or rational reconstruction is used to accelerate an
+exact computation, the reconstructed answer should be verified against the
+original integer matrices.  At minimum one must verify the exact chain
+condition \(D_{n-1}D_n=0\) and the exact divisibility/invariant-factor data used
+to describe the quotient.
+\end{remark}
+
 \section{Smith normal form preview}
 
 For an integer matrix \(D\), unimodular row and column operations can put \(D\)
