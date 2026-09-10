@@ -68,6 +68,37 @@ Limiting polygon configurations produce maps to slit domains and strips.
 \section{Numerical construction}
 Practical Schwarz–Christoffel mapping often solves the parameter problem numerically.
 
+% VOL04-NUMERICAL-SC-CONDITIONING-IV18
+\begin{remark}[Accessory-parameter residuals and prevertex conditioning]
+The Schwarz--Christoffel parameter problem is nonlinear.  Before solving it
+numerically, the three real M\"obius degrees of freedom must be fixed by a
+normalization; otherwise the parameterization contains a built-in
+nonuniqueness and the Jacobian of the parameter equations can be singular for
+purely representational reasons.
+
+Let \(F(p)=0\) denote normalized side-length, cross-ratio, or other accessory
+conditions for a parameter vector \(p\).  A computed parameter
+\(\widetilde p\) should be accompanied by a residual
+\[
+\|F(\widetilde p)\|
+\]
+and by conditioning information for the Jacobian \(DF(\widetilde p)\), for
+example its smallest singular value or condition number.  A small residual
+does not imply small parameter error when the Jacobian is nearly singular.
+
+Crowded prevertices are a characteristic source of sensitivity: widely
+separated polygonal scales can correspond to prevertices that become extremely
+close in the canonical domain.  In addition, the Schwarz--Christoffel integral
+has algebraic endpoint behavior at prevertices, so generic quadrature without
+branch-aware endpoint treatment can lose accuracy.
+
+Numerical construction should therefore report the normalization, nonlinear
+residual, stopping tolerance, Jacobian conditioning, ordering of prevertices,
+branch convention, and quadrature strategy.  Geometric verification should
+also check mapped vertex order and side lengths, not only the nonlinear
+solver's residual.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Angle-exponent relation]\label{thm:iv18-01}
@@ -277,6 +308,49 @@ Differentiate a candidate map first; verifying the Schwarz--Christoffel derivati
 \end{hint}
 \begin{solution}
 Limiting polygon configurations produce maps to slit domains and strips. The same principle can then be reused in later contour, residue, conformal, or Riemann-surface arguments.
+\end{solution}
+
+\begin{exercise}[Small residual with an ill-conditioned accessory system]\label{exr:iv18-numerical-sc-01}
+A normalized Schwarz--Christoffel parameter solve has residual
+\[
+\|F(\widetilde p)\|_2\le10^{-8}.
+\]
+At the computed point, suppose the square Jacobian is invertible with
+\[
+\sigma_{\min}(DF(\widetilde p))=10^{-5}.
+\]
+Using the linearized correction
+\[
+DF(\widetilde p)\,\Delta p=-F(\widetilde p),
+\]
+bound \(\|\Delta p\|_2\).  What does this calculation show about interpreting a
+small nonlinear residual?
+\end{exercise}
+\begin{hint}
+For an invertible matrix \(J\),
+\[
+\|J^{-1}\|_2=1/\sigma_{\min}(J).
+\]
+Apply this to the linearized correction equation.
+\end{hint}
+\begin{solution}
+Here
+\[
+\|DF(\widetilde p)^{-1}\|_2=10^5,
+\]
+so the linearized correction satisfies
+\[
+\|\Delta p\|_2
+\le
+10^5\,10^{-8}
+=
+10^{-3}.
+\]
+Thus a residual of size \(10^{-8}\) can still permit a much larger
+first-order parameter correction when the accessory equations are poorly
+conditioned.  The estimate concerns the local linearized correction; a
+rigorous nonlinear parameter-error bound would additionally require control of
+Jacobian variation and validity of the local inverse model.
 \end{solution}
 
 \section*{Chapter summary}

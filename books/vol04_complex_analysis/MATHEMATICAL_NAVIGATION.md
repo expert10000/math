@@ -45,6 +45,35 @@ The graph is not purely linear. `reports/vol04/VOL04_PREREQUISITE_GRAPH.tsv` rec
 - **IV/27 — Lattices and Complex Tori** → **VII/07 — Vector Bundles** — complex tori are geometric quotient examples relevant to bundle constructions.
 - **IV/31 — Elliptic Curves as Riemann Surfaces** → **VI/43 — Plane Cubics** — the analytic torus/cubic equivalence meets algebraic plane-cubic geometry.
 
+## Numerical interpretation inherited from Volumes I--III
+
+Volume IV inherits the series-wide rule that exact complex-analytic theorems and
+finite numerical evidence are distinct claims.
+
+The principal computational hotspots are:
+
+- **IV/04 Complex Integration:** computed contour integrals must state the
+  parameterization, quadrature/refinement rule, tolerance, and relevant
+  distance from nearby singularities.  Exact reparameterization invariance does
+  not imply equal discretization error under different parameterizations.
+- **IV/12 Winding Numbers and the Argument Principle:** an integer zero/pole
+  count obtained numerically needs a certified contour-clearance and integral
+  error margin; closeness to an integer alone is heuristic.
+- **IV/13 Rouch\'e's Theorem:** the strict domination inequality must hold on
+  the whole contour.  Sampled inequalities need between-sample control and a
+  positive margin that survives evaluation error.
+- **IV/15 Analytic Continuation:** finite local representations require overlap
+  checks, singularity-distance control, and explicit branch/sheet tracking.
+  Numerical endpoint agreement does not certify trivial monodromy.
+- **IV/18 Schwarz--Christoffel Transformations:** accessory-parameter solves
+  require normalization, nonlinear residuals, Jacobian conditioning,
+  prevertex-order/crowding checks, and branch-aware quadrature near algebraic
+  endpoint singularities.
+
+The remaining holomorphic, residue, Riemann-surface, and elliptic-function
+theorems remain exact mathematics unless a chapter explicitly turns them into a
+finite computational procedure.
+
 ## Reading principle
 
 Follow `established_prerequisites` backward for logical dependencies. Treat `external_standard_imports` as declared inputs rather than hidden later-chapter dependencies. Forward previews are motivational only unless the row says otherwise.
