@@ -296,6 +296,43 @@ positive vertex masses, and test the constant null mode.  Meshes with zero-area
 faces or nearly degenerate angles require preprocessing because cotangents can
 become extremely large.
 
+% VOL07-NUMERICAL-LAPLACIAN-DIAGNOSTICS-VII41
+\begin{remark}[Matrix invariants and generalized-eigenpair residuals]
+Before interpreting a discrete Laplacian geometrically, verify the algebraic
+structure that the assembly is supposed to preserve.  Typical checks are
+\[
+\frac{\|K-K^T\|}{\|K\|},
+\qquad
+\frac{\|K\mathbf 1\|}{\|K\|\,\|\mathbf1\|},
+\]
+together with positivity of the chosen mass matrix and the expected nullity on
+each connected component.  These tests are especially valuable after mesh
+preprocessing, intrinsic edge flips, or changes of mass convention.
+
+For a computed generalized eigenpair
+\[
+K\widetilde\phi=\widetilde\lambda M\widetilde\phi,
+\]
+use the residual
+\[
+\rho_{\mathrm{eig}}
+=
+\frac{\|K\widetilde\phi-\widetilde\lambda
+M\widetilde\phi\|}
+     {(\|K\|+|\widetilde\lambda|\|M\|)\,
+      \|\widetilde\phi\|}
+\]
+when the denominator is nonzero, and check \(M\)-orthogonality between returned
+modes.  A small eigen-residual verifies the discrete matrix problem; it does not
+by itself establish convergence to a continuum Laplace--Beltrami eigenpair.
+
+The generalized formulation \(K\phi=\lambda M\phi\) should normally be kept
+explicit rather than forming \(M^{-1}K\) unnecessarily.  Explicit inversion can
+magnify conditioning problems and obscures the natural \(M\)-inner product.
+Mesh degeneracy, mass choice, discretization error, eigensolver tolerance, and
+continuum convergence are distinct issues.
+\end{remark}
+
 Under a uniform geometric scaling by \(c\), triangle areas and \(M\) scale by
 \(c^2\), while cotangent weights and \(K\) are dimensionless.  Therefore
 \(M^{-1}K\) scales by \(c^{-2}\), exactly like a second-order differential
