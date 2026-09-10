@@ -121,6 +121,34 @@ changes rather than memorizing a conjugation pattern.
 \section{Rank and row reduction}
 The rank of a matrix equals the dimension of the image of its associated linear map. Row operations preserve rank.
 
+% VOL01-NUMERICAL-RANK-I07
+\begin{remark}[Exact rank versus rank inferred numerically]
+The statement that row operations preserve rank is an exact algebraic theorem.
+In exact arithmetic, rank is determined by exact linear dependence, equivalently
+by exact vanishing of the pivots that remain after elimination.
+
+Floating-point computation changes the interpretation.  A computed pivot that is
+small is not thereby equal to zero, while a pivot that is nonzero in the stored
+data may be dominated by rounding or measurement error.  Consequently, a
+numerical elimination routine must decide which pivots are negligible relative
+to a stated scale and tolerance.  Different scaling, pivoting strategies, or
+tolerances can therefore produce different numerical-rank decisions for a
+nearly rank-deficient matrix.
+
+Thus a statement about the rank of measured or floating-point data should
+distinguish
+\[
+\operatorname{rank}A
+\qquad\text{from}\qquad
+\operatorname{rank}_{\tau}A,
+\]
+where the latter records a tolerance-dependent numerical decision.  The
+tolerance and its scale should be reported rather than hidden behind a test for
+exact equality with zero.  Chapter~\ref{ch:i18-singular-value-decomposition}
+gives the most transparent version of this principle by comparing singular
+values with a relative threshold.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Matrix composition rule]\label{thm:i07-01}
