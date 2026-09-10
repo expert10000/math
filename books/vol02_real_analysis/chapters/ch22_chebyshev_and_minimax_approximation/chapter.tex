@@ -99,6 +99,30 @@ Affine changes transfer results from $[-1,1]$ to any compact interval.
 \section{Numerical viewpoint}
 Minimax approximation optimizes worst-case performance rather than average error.
 
+% VOL02-NUMERICAL-MINIMAX-II22
+\begin{remark}[Sampled extrema versus a certified sup norm]
+The minimax norm
+\[
+\|f-p\|_{\infty}
+=
+\max_{x\in[a,b]}|f(x)-p(x)|
+\]
+is a continuum quantity.  A dense grid gives the lower bound
+\[
+\max_j |f(x_j)-p(x_j)|
+\le
+\|f-p\|_{\infty},
+\]
+but the largest sampled error need not occur at the true extremum.
+
+Consequently, an approximately equioscillating error pattern observed on a
+grid is numerical evidence, not by itself a proof of the alternation theorem's
+exact hypotheses.  Certification requires additional information: for
+example, verified extrema, an analytic derivative argument, interval bounds,
+or a Lipschitz/derivative bound that controls what can happen between sample
+points.
+\end{remark}
+
 \section{Core structural results}
 
 \begin{theorem}[Chebyshev extremal property]\label{thm:ii22-01}
@@ -483,6 +507,46 @@ Compare the candidate with a hypothetical better competitor and track signs of t
 \end{hint}
 \begin{solution}
 The difference must change sign in each adjacent interval, giving at least \(n+1\) roots despite degree at most \(n\), contradiction.
+\end{solution}
+\begin{exercise}[From a sampled error to a sup-norm bound]\label{exr:ii22-numerical-grid-01}
+Let \(e=f-p\) be differentiable on \([a,b]\) with
+\[
+|e'(x)|\le L.
+\]
+Suppose a uniform grid has spacing \(h\), includes both endpoints, and
+\[
+E_{\mathrm{grid}}=\max_j |e(x_j)|.
+\]
+Show that
+\[
+E_{\mathrm{grid}}
+\le
+\|e\|_{\infty}
+\le
+E_{\mathrm{grid}}+\frac{Lh}{2}.
+\]
+Explain why reporting only \(E_{\mathrm{grid}}\) can underestimate the true
+minimax error.
+\end{exercise}
+\begin{hint}
+Every point of the interval lies within distance at most \(h/2\) of a grid
+point.  Apply the mean-value estimate to \(e(x)-e(x_j)\).
+\end{hint}
+\begin{solution}
+The left inequality is immediate because the grid is a subset of the interval.
+For arbitrary \(x\), choose a nearest grid point \(x_j\).  Then
+\[
+|e(x)|
+\le
+|e(x_j)|+|e(x)-e(x_j)|
+\le
+E_{\mathrm{grid}}+L|x-x_j|
+\le
+E_{\mathrm{grid}}+\frac{Lh}{2}.
+\]
+Taking the maximum over \(x\) proves the upper bound.  Therefore a sampled
+maximum is only a lower estimate of the true sup norm unless a between-grid
+bound such as the derivative estimate is also supplied.
 \end{solution}
 % END VOL02-EXPANSION II22-exercises-01
 \section*{Chapter summary}
