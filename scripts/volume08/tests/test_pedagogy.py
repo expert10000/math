@@ -147,6 +147,33 @@ class BankTests(unittest.TestCase):
     def test_no_duplicate_complete_additions(self): self.assertEqual(len({r['addition'] for r in self.rows}),840)
     def test_preservation_modes(self):
         self.assertEqual(collections.Counter(r['mode'] for r in self.rows),{'append':623,'replace_template':216,'replace_misdirected_clue':1})
+
+    def test_active_marker_contract_matches_curated_bank(self):
+        repo = ROOT.parents[1]
+        chapter_root = repo / 'books' / 'vol08_algebraic_topology' / 'chapters'
+        marker_re = re.compile(
+            r'^\s*%\s*' + re.escape(MARKER)
+            + r'\s+(exr:viii\d{2}-\d{2})\s+'
+            + r'(append|replace_template|replace_misdirected_clue)\s*$'
+        )
+        found = {}
+        malformed = []
+        for path in chapter_root.rglob('*.tex'):
+            for lineno, line in enumerate(path.read_text(encoding='utf-8-sig').splitlines(), 1):
+                if MARKER not in line:
+                    continue
+                match = marker_re.match(line)
+                if not match:
+                    malformed.append(f'{path.relative_to(repo)}:{lineno}: {line.strip()}')
+                    continue
+                label, mode = match.groups()
+                self.assertNotIn(label, found, f'duplicate active marker for {label}')
+                found[label] = mode
+
+        self.assertEqual(malformed, [], 'malformed active pedagogy marker(s)')
+        expected = {r['exercise_label']: r['mode'] for r in self.rows}
+        self.assertEqual(len(expected), 840)
+        self.assertEqual(found, expected)
     def test_missing_statement_alignment_not_claimed(self):
         marked=[c for c in self.chapters if c['alignment_basis']=='existing_solution_missing_exercise_statement']
         self.assertEqual([c['chapter_code'] for c in marked],[f'VIII/{n:02d}' for n in range(22,31)])
