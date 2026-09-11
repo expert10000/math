@@ -1,9 +1,9 @@
 # Volume II — Real Analysis and Topological Foundations
 
 **Canonical directory:** `vol02_real_analysis`
-**Chapter architecture:** 25 chapters
+**Chapter architecture:** 25 numbered chapters + 1 unnumbered general-topology interlude
 **Canonical wrapper:** `book.tex`
-**Status:** 0 planned / 0 drafted / 25 frozen.
+**Status:** 25 numbered chapters retained; professional-review topology interlude added; freeze reconciliation pending.
 
 ## Canonical chapter navigation
 
@@ -14,6 +14,7 @@
 - ✓ **II/05 — Metric Spaces and Continuity** — `FROZEN` / `COMPLETE`
 - ✓ **II/06 — Compactness** — `FROZEN` / `COMPLETE`
 - ✓ **II/07 — Connectedness and Path Connectedness** — `FROZEN` / `COMPLETE`
+- ↪ **General Topological Spaces** — unnumbered professional-review interlude
 - ✓ **II/08 — Differentiability in Several Variables** — `FROZEN` / `COMPLETE`
 - ✓ **II/09 — Inverse and Implicit Function Principles** — `FROZEN` / `COMPLETE`
 - ✓ **II/10 — Riemann Integration** — `FROZEN` / `COMPLETE`
@@ -35,9 +36,9 @@
 
 ## Build state
 
-- Canonical wrapper exists with **25 active includes** and **5 parts**.
-- Latest series-build status: **PASS**.
-- Current canonical PDF: **122 pages**, SHA-256 `cda0c7e64b285e8dff0bfcbe510d9ccce85ca8fb2fbf68ded347756a3cc4ed6e`.
+- Canonical wrapper exists with **26 active includes** (25 numbered chapters plus the topology interlude) and **5 parts**.
+- The pre-review series build passed; a fresh Volume II build is required for this professional-review state.
+- Release PDF page count and SHA-256 are intentionally deferred to the next Volume II freeze reconciliation.
 
 ## Mathematical navigation
 

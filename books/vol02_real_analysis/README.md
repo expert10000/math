@@ -1,10 +1,10 @@
 # Volume II — Real Analysis and Topological Foundations
 
-**Status:** FROZEN — Volume II Real Analysis and Topological Foundations v1.0 release baseline.
+**Status:** PROFESSIONAL REVIEW PASS — post-v1.0 editorial/topology updates pending freeze reconciliation.
 
 Canonical chapter codes: `II/01`–`II/25`.
 
-## Part I — Metric Foundations
+## Part I — Metric and Topological Foundations
 
 - **II/01** — The Real Number System and Completeness
 - **II/02** — Euclidean and Normed Spaces
@@ -13,6 +13,7 @@ Canonical chapter codes: `II/01`–`II/25`.
 - **II/05** — Metric Spaces and Continuity
 - **II/06** — Compactness
 - **II/07** — Connectedness and Path Connectedness
+- **Interlude** — General Topological Spaces — unnumbered; bases/subbases, subspaces, finite products, topological continuity, compactness, connectedness, Hausdorff separation, and first countability
 
 ## Part II — Calculus
 
