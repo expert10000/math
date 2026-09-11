@@ -44,6 +44,6 @@ Canonical chapter codes: `II/01`–`II/25`.
 - **II/24** — Numerical Quadrature
 - **II/25** — Continued Fractions and Approximation Topics
 
-## Reconstruction rule
+## Editorial provenance
 
-Before creating a chapter, filter `../../editorial/SOURCE_MIGRATION.tsv` by its `II/NN` destination and inspect all higher-precedence overrides. Update `../../editorial/CHAPTER_STATUS.tsv` when work starts.
+Source history, transformation notes, and rights-review records are maintained in `../../editorial/provenance-notes-v2.md` and the repository's editorial ledgers rather than in reader-facing chapter prose.
