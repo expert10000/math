@@ -26,7 +26,7 @@ Audit-only ledger; no reader-facing book prose is changed in this commit.
 
 ## Volume VI
 
-- **R015 / P1 / DRAFTED** — 6 occurrence(s); first line 2: 01 — Algebraic Sets % Status: DRAFTED % % Editorial provenance: % - governed by editorial/SOURCE_MIGRATION.tsv % - primary legacy family: theory-of-differen → `refactor(v6): replace generic supplementary hints with problem-specific algebraic-geometry guidance` [OPEN]
+- **R015 / P1 / DRAFTED** — 6 occurrence(s); first line 2: 01 — Algebraic Sets % Status: DRAFTED % % Editorial provenance: % - governed by editorial/SOURCE_MIGRATION.tsv % - primary legacy family: theory-of-differen → `refactor(v6): replace generic supplementary hints with problem-specific algebraic-geometry guidance` [RESOLVED]
 - **R016 / P2 / INTERNAL_MARKERS** — 446 marker comment(s); first line 5: %   - governed by editorial/SOURCE_MIGRATION.tsv → `chore(editorial): classify and remove obsolete reconstruction markers from volumes IV-VII` [OPEN]
 - **R017 / P2 / BUILD_LAYOUT_AUDIT** — status=PASS; overfull=6; underfull=20; undefined=0 → `style(v6): layout cleanup if needed` [OPEN]
 
