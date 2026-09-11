@@ -8,6 +8,8 @@ No curated incoming cross-volume bridge.
 
 ## Leads to
 
+- **II/14 — Trigonometric Series** → **III/09 — Fourier Series** — Elementary coefficients, kernels, and classical pointwise convergence become measure-theoretic Fourier analysis.
+- **II/14 — Trigonometric Series** → **III/13 — Plancherel and L2 Fourier Theory** — Finite orthogonal projection is completed to Hilbert-space Parseval/Plancherel theory.
 - **II/10 — Riemann Integration** → **III/01 — Sigma-Algebras and Measures** → **III/03 — The Lebesgue Integral** — The Darboux theory motivates measuring exceptional sets and extending integration beyond Riemann integrability.
 - **II/10 — Riemann Integration** → **III/04 — Convergence Theorems** — Classical uniform-limit arguments lead to monotone and dominated convergence in the measure-theoretic setting.
 - **II/04 — Open and Closed Sets** → **VII/01 — Topological Manifolds** — Open and closed sets supply the local topological language of manifolds.
