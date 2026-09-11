@@ -11,6 +11,8 @@ After this chapter, the reader should be able to:
 \item compute divided differences and update a Newton interpolant when a new node is added;
 \item derive or apply the interpolation remainder formula to bound the error;
 \item compare equally spaced and Chebyshev-type node choices through the node polynomial;
+\item compute or estimate the Lebesgue function $\lambda_n(x)=\sum_j|L_j(x)|$ and interpret the Lebesgue constant as the operator norm controlling interpolation sensitivity;
+\item explain the Runge phenomenon as a stability failure of high-degree equally spaced interpolation rather than a contradiction of exact interpolation or polynomial density;
 \item translate interpolation into a Vandermonde linear system and explain why distinct nodes are essential;
 \end{itemize}
 \section*{Conceptual roadmap}
@@ -79,6 +81,106 @@ The remainder formula separates smoothness control from node geometry.
 \section{Node choice}
 % VOL02-DEPENDENCY-PREVIEW-II20-CHEBYSHEV
 Equally spaced nodes can be unstable at high degree; special nodes reduce worst-case error. Chebyshev-type nodes are mentioned here as motivation and are developed systematically in Chapter~22.
+
+\section{Interpolation as an operator}
+For fixed distinct nodes $x_0,\ldots,x_n$, define the interpolation operator
+\[
+(I_nf)(x)=\sum_{j=0}^n f(x_j)L_j(x),
+\]
+where $L_j$ are the Lagrange cardinal polynomials. Exact interpolation says $I_np=p$ for every polynomial $p$ of degree at most $n$. Stability asks a different question: how strongly can $I_n$ amplify perturbations in sampled values or in the target function?
+
+\section{Lebesgue function and Lebesgue constant}
+The \emph{Lebesgue function} and \emph{Lebesgue constant} of the nodes are
+\[
+\lambda_n(x)=\sum_{j=0}^n|L_j(x)|,
+\qquad
+\Lambda_n=\max_{x\in[a,b]}\lambda_n(x).
+\]
+They depend only on the node geometry, not on the sampled function.
+
+\begin{theorem}[Lebesgue stability bound]\label{thm:ii20-lebesgue-stability}
+For data perturbations $\delta_j$ at the nodes, the induced interpolation perturbation
+\[
+q(x)=\sum_{j=0}^n\delta_jL_j(x)
+\]
+satisfies
+\[
+\|q\|_\infty\le \Lambda_n\max_j|\delta_j|.
+\]
+In fact, the operator norm of $I_n:C[a,b]\to C[a,b]$ in the sup norm is exactly $\Lambda_n$.
+\begin{proof}
+For every $x$,
+\[
+|q(x)|\le\sum_j|\delta_j|\,|L_j(x)|
+\le\lambda_n(x)\max_j|\delta_j|.
+\]
+Taking the maximum over $x$ gives the bound. For the reverse inequality, choose a point $x_*$ where $\lambda_n$ is maximal and choose a continuous function $g$ with $\|g\|_\infty\le1$ and nodal values $g(x_j)=\operatorname{sgn}(L_j(x_*))$; a piecewise-linear choice through the ordered nodes suffices. Then $|(I_ng)(x_*)|=\lambda_n(x_*)=\Lambda_n$.
+\end{proof}
+\end{theorem}
+
+\begin{theorem}[Lebesgue quasi-optimality bound]\label{thm:ii20-lebesgue-quasioptimal}
+Let
+\[
+E_n(f)=\inf_{p\in\mathcal P_n}\|f-p\|_\infty.
+\]
+Then
+\[
+\|f-I_nf\|_\infty\le(1+\Lambda_n)E_n(f).
+\]
+\begin{proof}
+For any $p\in\mathcal P_n$, exact reproduction gives $I_np=p$. Hence
+\[
+f-I_nf=(f-p)-I_n(f-p),
+\]
+so
+\[
+\|f-I_nf\|_\infty
+\le\|f-p\|_\infty+\|I_n(f-p)\|_\infty
+\le(1+\Lambda_n)\|f-p\|_\infty.
+\]
+Taking the infimum over $p$ proves the claim.
+\end{proof}
+\end{theorem}
+
+\begin{example}[Two-node interpolation has no sup-norm amplification]\label{ex:ii20-lebesgue-01}
+For the endpoint nodes $-1,1$,
+\[
+L_0(x)=\frac{1-x}{2},\qquad L_1(x)=\frac{1+x}{2}.
+\]
+On $[-1,1]$ both are nonnegative and $L_0+L_1=1$, so
+\[
+\lambda_1(x)=1,\qquad \Lambda_1=1.
+\]
+Thus linear interpolation between two endpoints does not amplify the maximum nodal perturbation in the sup norm.
+\end{example}
+
+\section{Runge instability}
+A small interpolation residual at the nodes does not imply small error between the nodes. The classical example is the analytic Runge function
+\[
+r(x)=\frac{1}{1+25x^2},\qquad -1\le x\le1.
+\]
+High-degree interpolation at equally spaced nodes can develop large endpoint oscillations even though every node is matched exactly. The phenomenon is not a contradiction of the Weierstrass theorem: polynomial \emph{approximation} can converge while this particular sequence of interpolation operators is unstable.
+
+\begin{example}[Three different claims must not be confused]\label{ex:ii20-runge-01}
+For equally spaced high-degree interpolation of the Runge function, all three statements can coexist:
+\begin{enumerate}
+\item the interpolating polynomial exists and is unique;
+\item its residual at every interpolation node is exactly zero in exact arithmetic;
+\item its sup-norm error between nodes can nevertheless be large.
+\end{enumerate}
+The first is algebra, the second is the interpolation constraint, and the third is a stability/approximation question governed in part by the growth of $\Lambda_n$.
+\end{example}
+
+\section{Why Chebyshev nodes help}
+Chebyshev-type nodes cluster toward the endpoints and keep the interpolation operator much better conditioned in the sup norm. For the classical Chebyshev families the Lebesgue constant grows only logarithmically with degree, whereas for equally spaced nodes it grows exponentially. Chapter~22 develops the Chebyshev geometry from the minimax viewpoint.
+
+\begin{remark}[Error formula versus stability factor]
+The derivative remainder
+\[
+\frac{f^{(n+1)}(\xi)}{(n+1)!}\prod_j(x-x_j)
+\]
+and the Lebesgue constant answer complementary questions. The remainder formula can be sharp when high derivatives are controlled; the Lebesgue constant is function-independent and quantifies how node geometry amplifies data or approximation errors. Robust interpolation analysis should inspect both.
+\end{remark}
 
 % VOL02-NUMERICAL-INTERPOLATION-II20
 \begin{remark}[Exact interpolation versus stable interpolation]
@@ -250,6 +352,20 @@ What is being approximated and what is exact?
 \end{problem}
 \begin{solution}
 The polynomial matches finitely many data exactly, while the remainder formula quantifies error between those nodes in terms of higher derivatives and node geometry.
+\end{solution}
+
+\begin{problem}[Lebesgue amplification]\label{prob:ii20-dossier-13}
+If the nodal data are perturbed by at most $\varepsilon$, what worst-case sup-norm perturbation does the Lebesgue constant certify?
+\end{problem}
+\begin{solution}
+At most $\Lambda_n\varepsilon$.
+\end{solution}
+
+\begin{problem}[Runge phenomenon versus Weierstrass]\label{prob:ii20-dossier-14}
+Why does divergence or severe oscillation of equally spaced interpolants for the Runge function not contradict polynomial density in $C[-1,1]$?
+\end{problem}
+\begin{solution}
+Weierstrass asserts that some sequence of polynomials approximates every continuous function uniformly. It does not assert that the interpolation polynomial on every prescribed node family converges. Equally spaced interpolation can be an unstable choice of approximation operator.
 \end{solution}
 
 % VOL02-HINT-RECONCILIATION-II20
@@ -509,6 +625,46 @@ The difference of two candidates has a double zero at each node.
 \begin{solution}
 It would have at least \(2m\) zeros counting multiplicity but degree at most \(2m-1\), so it must vanish.
 \end{solution}
+\begin{exercise}[Lebesgue function]\label{exr:ii20-lebesgue-01}
+For nodes $-1,1$, compute the Lebesgue constant.
+\end{exercise}
+\begin{hint}
+The two Lagrange basis polynomials are nonnegative and sum to one on the interval.
+\end{hint}
+\begin{solution}
+$\Lambda_1=1$.
+\end{solution}
+
+\begin{exercise}[Perturbed samples]\label{exr:ii20-lebesgue-02}
+If $\Lambda_n=8$ and every sampled value has absolute error at most $10^{-5}$, bound the interpolation error caused by the data perturbation alone.
+\end{exercise}
+\begin{hint}
+Apply the Lebesgue stability bound.
+\end{hint}
+\begin{solution}
+The induced sup-norm perturbation is at most $8\times10^{-5}$.
+\end{solution}
+
+\begin{exercise}[Quasi-optimality]\label{exr:ii20-lebesgue-03}
+If $E_n(f)=10^{-4}$ and $\Lambda_n=5$, what bound follows for $\|f-I_nf\|_\infty$?
+\end{exercise}
+\begin{hint}
+Use $(1+\Lambda_n)E_n(f)$.
+\end{hint}
+\begin{solution}
+At most $6\times10^{-4}$.
+\end{solution}
+
+\begin{exercise}[Runge diagnosis]\label{exr:ii20-runge-01}
+A high-degree interpolant has zero residual at every node but large oscillation near the endpoints. Which diagnostic from this section directly measures sensitivity to the node geometry?
+\end{exercise}
+\begin{hint}
+Inspect the operator norm of the interpolation map.
+\end{hint}
+\begin{solution}
+The Lebesgue constant $\Lambda_n$.
+\end{solution}
+
 % END VOL02-EXPANSION II20-exercises-01
 \section*{Chapter summary}
 The chapter's tools form part of the Volume II analysis toolkit and will be used in later approximation, fixed-point, and convergence arguments.

@@ -19,6 +19,10 @@ No curated incoming cross-volume bridge.
 - **II/09 — Inverse and Implicit Function Principles** → **VII/06 — Submanifolds and Products** — Inverse and implicit function principles drive submanifold constructions.
 - **II/06 — Compactness** → **VIII/02 — Homotopy Equivalence and Contractibility** — Compactness interacts strongly with homotopy equivalence and global topology.
 
+## Internal Volume II continuation
+
+- **II/20 — Polynomial Interpolation** → **II/22 — Chebyshev and Minimax Approximation** — Lebesgue constants and the Runge phenomenon motivate endpoint-clustered nodes and minimax geometry.
+
 ## Numerical interpretation inherited from Volume I
 
 Volume II follows the repository-wide numerical interpretation policy established
