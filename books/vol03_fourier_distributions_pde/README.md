@@ -1,6 +1,6 @@
 # Volume III — Measure, Fourier Analysis, Distributions and PDE
 
-**Status:** FROZEN — Volume III Measure, Fourier Analysis, Distributions and PDE v1.0 release baseline.
+**Status:** FROZEN — professional-review release baseline; 28/28 chapters release-gated.
 
 Canonical chapter codes: `III/01`–`III/28`.
 
@@ -44,6 +44,6 @@ Canonical chapter codes: `III/01`–`III/28`.
 - **III/27** — Elliptic Operators and Maximum Principles
 - **III/28** — Spectral and Transform Methods for PDE
 
-## Reconstruction rule
+## Professional-review release
 
-Before creating a chapter, filter `../../editorial/SOURCE_MIGRATION.tsv` by its `III/NN` destination and inspect all higher-precedence overrides. Update `../../editorial/CHAPTER_STATUS.tsv` when work starts.
+Volume III has passed the reader-facing content, theorem-hypothesis, Fourier-normalization, distribution-topology, PDE-dependency, and Fourier/PDE constant gates. Editorial provenance remains outside the public mathematical narrative.

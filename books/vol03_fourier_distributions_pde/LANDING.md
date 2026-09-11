@@ -3,7 +3,7 @@
 **Canonical directory:** `vol03_fourier_distributions_pde`
 **Chapter architecture:** 28 chapters
 **Canonical wrapper:** `book.tex`
-**Status:** 0 planned / 0 drafted / 28 frozen.
+**Status:** 0 planned / 0 drafted / 28 frozen — professional review PASS.
 
 ## Canonical chapter navigation
 
@@ -38,9 +38,9 @@
 
 ## Build state
 
-- Canonical wrapper exists with **28 active includes** and **4 parts**.
-- Latest series-build status: **PASS**.
-- Current canonical PDF: **182 pages**, SHA-256 `288937ac34a0782598e47bd9514f30385150875e2e8f1f2987a281345e45b5e4`.
+- Canonical wrapper exists with **28 active chapter includes** and **4 parts**.
+- Professional-review release gates: **PASS**.
+- Current canonical PDF: **272 pages**, **1708268 bytes**, SHA-256 `2accae9d68033cb65df8f973e9bad949e353948d6d103434f5a6b2816c07b835`.
 
 ## Mathematical navigation
 
