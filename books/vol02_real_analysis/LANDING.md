@@ -3,7 +3,7 @@
 **Canonical directory:** `vol02_real_analysis`
 **Chapter architecture:** 25 numbered chapters + 1 unnumbered general-topology interlude
 **Canonical wrapper:** `book.tex`
-**Status:** 25 numbered chapters retained; professional-review topology interlude added; freeze reconciliation pending.
+**Status:** 0 planned / 0 drafted / 25 frozen.
 
 ## Canonical chapter navigation
 
@@ -36,9 +36,9 @@
 
 ## Build state
 
-- Canonical wrapper exists with **26 active includes** (25 numbered chapters plus the topology interlude) and **5 parts**.
-- The pre-review series build passed; a fresh Volume II build is required for this professional-review state.
-- Release PDF page count and SHA-256 are intentionally deferred to the next Volume II freeze reconciliation.
+- Canonical wrapper exists with **26 active includes** and **5 parts**.
+- Latest series-build status: **PASS**.
+- Current canonical PDF: **225 pages**, SHA-256 `82194227a46db53b5c0383df0dcfb53c6fe029869e30cf2297c4d7b6c116d2c8`.
 
 ## Mathematical navigation
 

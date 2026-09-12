@@ -3,43 +3,11 @@
 This map supplements the canonical chapter/status navigation with mathematical dependencies and continuations.
 It does not alter the frozen chapter texts.
 
-## Series-wide numerical interpretation policy
-
-Volume I establishes the distinction between exact linear-algebra statements
-and conclusions inferred from floating-point computation.  The policy applies
-throughout Volumes I--VIII whenever a chapter uses computed matrices,
-factorizations, eigensystems, Jacobians, discretizations, boundary operators,
-least-squares systems, or other numerical linear-algebra objects.
-
-- Exact rank, nullity, linear independence, multiplicity, and vanishing remain
-  exact mathematical notions.
-- A numerical claim that infers rank, nullity, independence, an eigenspace, or a
-  truncation from floating-point data must state the tolerance and the scale
-  against which that tolerance is measured.
-- Relative tolerances should normally be tied to a natural norm, a largest
-  singular value, or another explicitly stated problem scale rather than to an
-  unexplained absolute test for equality with zero.
-- A computed factorization should be checked with a backward/reconstruction
-  residual and, when appropriate, a structural defect such as loss of
-  orthogonality, symmetry, conservation, or constraint satisfaction.
-- A small residual verifies agreement with the supplied data to the reported
-  scale.  It does not by itself prove exact rank, uniqueness, good conditioning,
-  or correctness of a tolerance-dependent modeling decision.
-- Purely exact chapters do not need numerical caveats merely because a matrix
-  appears.  Local numerical guidance is required only where floating-point
-  computation could otherwise be mistaken for exact algebra.
-
-The foundational examples are the rank discussion in I/07, QR diagnostics in
-I/14, and singular-value tolerance and SVD diagnostics in I/18.  Later volumes
-should inherit this policy and restate it locally only where the numerical
-interpretation is materially used.
-
 ## Volume-level dependency map
 
 - **I — Linear Algebra** → **II — Real Analysis and Topological Foundations**: Linear algebra supplies the finite-dimensional language used throughout analysis.
 - **I — Linear Algebra** → **VII — Differential, Riemannian and Hyperbolic Geometry**: Linear algebra becomes the local model for tangent, cotangent, frame, and bundle geometry.
 - **II — Real Analysis and Topological Foundations** → **III — Measure, Fourier Analysis, Distributions and PDE**: Real analysis develops into measure, Fourier, distribution, and PDE methods.
-- **II — Real Analysis and Topological Foundations** → **IV — Complex Analysis and Riemann Surfaces**: Multivariable differentiation, topology, real integration, and uniform convergence supply the real-variable foundations of holomorphic and contour analysis.
 - **II — Real Analysis and Topological Foundations** → **VII — Differential, Riemannian and Hyperbolic Geometry**: Multivariable analysis and topology support smooth-manifold theory.
 - **IV — Complex Analysis and Riemann Surfaces** → **VIII — Algebraic Topology**: Coverings, monodromy, degree, and surfaces connect complex analysis to topology.
 - **IV — Complex Analysis and Riemann Surfaces** → **VI — Algebraic Geometry and Sheaf Theory**: Riemann surfaces and elliptic curves meet algebraic curves and projective geometry.
@@ -57,10 +25,6 @@ interpretation is materially used.
 - `II/05` **Metric Spaces and Continuity** → `VII/01` **Topological Manifolds** (FOUNDATION): Metric-space continuity prepares the topology underlying manifolds.
 - `II/08` **Differentiability in Several Variables** → `VII/03` **Smooth Maps and Diffeomorphisms** (FOUNDATION): Several-variable differentiability is the analytic model for smooth maps.
 - `II/09` **Inverse and Implicit Function Principles** → `VII/06` **Submanifolds and Products** (FOUNDATION): Inverse and implicit function principles drive submanifold constructions.
-- `II/08` **Differentiability in Several Variables** → `IV/01` **Complex Differentiability** (FOUNDATION): Real differentiability and Jacobians provide the local linear model for complex differentiability.
-- `II/10` **Riemann Integration** → `IV/04` **Complex Integration** (FOUNDATION): Real integration along parametrized paths underlies complex contour integration.
-- `II/13` **Infinite Series of Functions** → `IV/03` **Power Series and Analytic Functions** (FOUNDATION): Uniform convergence and series-of-functions techniques support analytic power series.
-- `II/07` **Connectedness and Path Connectedness** → `IV/05` **Cauchy's Theorem** (FOUNDATION): Path topology prepares the global domain and homotopy language used in Cauchy theory.
 - `II/06` **Compactness** → `VIII/02` **Homotopy Equivalence and Contractibility** (SEE_ALSO): Compactness interacts strongly with homotopy equivalence and global topology.
 - `III/20` **Weak Derivatives** → `VII/40` **The Heat Method** (SEE_ALSO): Weak derivatives and PDE methods connect to geometric heat methods.
 - `IV/23` **Covering Maps and Monodromy** → `VIII/10` **Covering Spaces** (CONTINUATION): Covering maps and monodromy pass from complex analysis to topological covering theory.

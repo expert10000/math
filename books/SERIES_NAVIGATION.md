@@ -27,3 +27,9 @@ See `CROSS_VOLUME_REFERENCE_AUDIT.tsv` for instance-level evidence.
 ## Mathematical dependency map
 
 See `CROSS_VOLUME_MATHEMATICAL_NAVIGATION.md` and `../reports/series/CROSS_VOLUME_CHAPTER_BRIDGES.tsv` for curated mathematical prerequisites and continuations.
+
+## Release-candidate state
+
+Canonical release candidate: **v1.3-rc1**.
+
+The final I-VIII gate is **PASS** for all 8 volumes / 256 chapters. Machine-readable release metadata is in `../release/SERIES_RELEASE_METADATA.json`; the canonical release package will be written to `../release/theory_of_mathematics_i_viii_v1.3-rc1/` by the release commit.

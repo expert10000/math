@@ -10,3 +10,13 @@ This directory is generated from canonical repository evidence.
 A volume is not called released merely because a PDF exists. Release readiness
 requires the status ledger, successful canonical build, and PDF/source evidence
 to agree.
+
+## Current canonical candidate
+
+- Candidate: **Theory of Mathematics I-VIII v1.3-rc1**
+- Final I-VIII release-candidate gate: **PASS**
+- Volumes / chapters: **8 / 256**
+- Canonical builds: **8 / 8 PASS**
+- Cross-volume navigation reconciliation: **PASS**
+- Metadata: `SERIES_RELEASE_METADATA.json`
+- Target package directory: `theory_of_mathematics_i_viii_v1.3-rc1/`
