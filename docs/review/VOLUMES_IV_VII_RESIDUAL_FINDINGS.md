@@ -12,7 +12,7 @@ Audit-only ledger; no reader-facing book prose is changed in this commit.
 - **R004 / P1 / STOCK_REUSE_ENDING** — 248 occurrence(s); first line 215: arbitrary complex directions. The same principle can then be reused in later contour, residue, conformal, or Riemann-surface arguments. \end{solution} \begin{e → `refactor(v4): replace templated synthesis and exercise boilerplate with chapter-specific analysis` [RESOLVED]
 - **R005 / P1 / STOCK_CHAPTER_STRATEGY** — 31 occurrence(s); first line 202: quickly leads to analyticity. The reusable strategy is to identify the analytic domain, choose the correct local expansion or contour representation, apply the → `refactor(v4): replace templated synthesis and exercise boilerplate with chapter-specific analysis` [RESOLVED]
 - **R006 / P2 / INTERNAL_MARKERS** — 279 marker comment(s); first line 23: % BEGIN VOL04-EXPANSION IV01-example-01 → `chore(editorial): classify and remove obsolete reconstruction markers from volumes IV-VII` [RESOLVED]
-- **R007 / P2 / BUILD_LAYOUT_AUDIT** — status=PASS; overfull=31; underfull=0; undefined=0 → `style(v4): layout cleanup if needed` [OPEN]
+- **R007 / P2 / BUILD_LAYOUT_AUDIT** — status=PASS; overfull=0; underfull=0; undefined=0; reviewed=2026-09-12 → `style(v4): replace overwide conceptual roadmaps with breakable layout` [RESOLVED]
 
 ## Volume V
 
@@ -22,7 +22,7 @@ Audit-only ledger; no reader-facing book prose is changed in this commit.
 - **R011 / P1 / STOCK_REUSE_ENDING** — 224 occurrence(s); first line 197: d commutative multiplication. The same principle can then be reused in later localization, support, base-change, resolution, Tor, or Ext arguments. \end{solutio → `refactor(v5): replace generic diagnostic and exercise boilerplate with chapter-specific algebra` [RESOLVED]
 - **R012 / P1 / STOCK_ALGEBRA_STRATEGY** — 28 occurrence(s); first line 185: tions into algebraic objects. The recurring strategy is to encode the algebraic object by kernels, quotients, localization, finite presentation, or a resolution → `refactor(v5): replace generic diagnostic and exercise boilerplate with chapter-specific algebra` [RESOLVED]
 - **R013 / P2 / INTERNAL_MARKERS** — 224 marker comment(s); first line 26: % BEGIN VOL05-EXPANSION V01-example-01 → `chore(editorial): classify and remove obsolete reconstruction markers from volumes IV-VII` [RESOLVED]
-- **R014 / P2 / BUILD_LAYOUT_AUDIT** — status=PASS; overfull=28; underfull=0; undefined=0 → `style(v5): layout cleanup if needed` [OPEN]
+- **R014 / P2 / BUILD_LAYOUT_AUDIT** — status=PASS; overfull=0; underfull=0; undefined=0; reviewed=2026-09-12 → `style(v5): replace overwide conceptual roadmaps with breakable layout` [RESOLVED]
 
 ## Volume VI
 
