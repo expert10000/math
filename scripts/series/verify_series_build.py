@@ -61,7 +61,7 @@ def main():
             except ValueError:
                 blockers.append(f"{v}:invalid build byte count")
         text=book.read_text(encoding="utf-8-sig") if book.exists() else ""
-        includes=len(re.findall(r"(?m)^[ \t]*\\include\{",text))
+        includes=len(re.findall(r"(?m)^[ \t]*\\include\{chapters/ch\d\d_[^}]+/chapter\}",text))
         if includes!=count:
             blockers.append(f"{v}:includes={includes} expected={count}")
         sr=[r for r in status if r.get("volume")==v]

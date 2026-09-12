@@ -18,11 +18,11 @@
 
 ## Solved-material pairing audit
 
-- `problem` environments: **4061**
-- `exercise` environments: **4008**
-- `hint` environments: **3317**
-- `solution` environments: **7431**
-- Active physical TeX files scanned recursively: **1766**
+- `problem` environments: **4063**
+- `exercise` environments: **6894**
+- `hint` environments: **6200**
+- `solution` environments: **10319**
+- Active physical TeX files scanned recursively: **1851**
 - Raw chapters where source counts differ (`solutions != problems + exercises`): **29**
 - Blocking pairing failures under the volume-specific release policy: **0**
 - Volume VI native full-solutions/freeze contract: **PASS**

@@ -86,9 +86,10 @@ def resolve_manifest_path(repo: Path, vol: Path, rel: str) -> tuple[Path, str]:
 def parse_manifest(manifest: Path):
     rows = []
     for raw in manifest.read_text(encoding="utf-8-sig").splitlines():
-        if not raw.strip():
+        line = raw.strip()
+        if not line or line.startswith("#"):
             continue
-        parts = raw.split(None, 1)
+        parts = line.split(None, 1)
         if len(parts) != 2 or not re.fullmatch(r"[0-9a-fA-F]{64}", parts[0]):
             raise AuditError(f"Malformed manifest row in {manifest}: {raw}")
         rows.append([parts[0].lower(), parts[1].strip().replace("\\", "/")])

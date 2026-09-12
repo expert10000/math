@@ -1,3 +1,3 @@
 # Volume II — Real Analysis and Topological Foundations
 
-Release baseline: all 25 canonical chapters reconstructed, source mappings reconciled, 300 solved dossiers paired with solutions, and full-volume audit passed.
+Professional-review freeze refreshed for the current Volume II source state. The release contains 25 numbered canonical chapters plus the unnumbered General Topological Spaces interlude; canonical build and reconciliation gates pass.

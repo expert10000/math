@@ -364,7 +364,7 @@ def main():
                 tex_file_owner.setdefault(gp,(v,"BOOK"))
         pr=next((r for r in pdfinv if r.get("volume")==v),None)
         pdf_ok=bool(pr and pr.get("exists")=="YES" and pdf.exists() and pr.get("sha256")==sha(pdf))
-        includes=len(re.findall(r"(?m)^[ \t]*\\include\{",read_text(book))) if book.exists() else 0
+        includes=len(re.findall(r"(?m)^[ \t]*\\include\{chapters/ch\d\d_[^}]+/chapter\}",read_text(book))) if book.exists() else 0
 
         if frozen!=expected:vblock.append(f"frozen={frozen} expected={expected}")
         if complete!=expected:vblock.append(f"complete={complete} expected={expected}")
