@@ -33,7 +33,7 @@ Audit-only ledger; no reader-facing book prose is changed in this commit.
 ## Volume VII
 
 - **R018 / P2 / INTERNAL_MARKERS** — 1008 marker comment(s); first line 158: % PEDAGOGY-ENRICHED-VII → `chore(editorial): classify and remove obsolete reconstruction markers from volumes IV-VII` [RESOLVED]
-- **R019 / P2 / BUILD_LAYOUT_AUDIT** — status=PASS; overfull=4; underfull=6; undefined=0 → `style(v7): layout cleanup if needed` [OPEN]
+- **R019 / P2 / BUILD_LAYOUT_AUDIT** — status=PASS; overfull=0; underfull=7; undefined=0; reviewed=2026-09-12 → `style(v7): break overwide differential-geometry displays` [RESOLVED]
 
 ## Rules
 
