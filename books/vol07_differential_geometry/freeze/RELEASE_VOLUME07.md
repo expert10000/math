@@ -1,12 +1,7 @@
-# Volume VII Release
+# Volume VII - Differential, Riemannian and Hyperbolic Geometry
 
-**Status:** FROZEN / COMPLETE
+Professional-review freeze refreshed: 2026-09-12.
 
-Volume VII — Differential, Riemannian and Hyperbolic Geometry is released
-with all 42 canonical chapters active and the numerical-geometry guidance
-integrated through the metric, geodesic, heat-method, discrete-Laplacian,
-geodesic-benchmark, and curvature-feature chapters.
-
-Release evidence:
-- `VOLUME07_FREEZE_REPORT.md`
-- `VOLUME07_FREEZE_MANIFEST.sha256`
+Final IV-VII regression gate: PASS.
+Regression gate commit: `4b483a58040510483169939b95939d9969dd5aa1`.
+Canonical chapters: 42.

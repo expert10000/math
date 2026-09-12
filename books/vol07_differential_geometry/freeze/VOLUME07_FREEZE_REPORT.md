@@ -1,20 +1,18 @@
-# Volume VII — Freeze Report
+# Volume VII Freeze Report
 
 **Result:** PASS
 
-- Release parent commit: `4a94037d7c2daf3cbdb5a30d14663cc1f8b17bbc`
+- Professional-review freeze refresh: **2026-09-12**
+- Regression gate commit: `4b483a58040510483169939b95939d9969dd5aa1`
 - Canonical chapters: **42**
-- Active chapter includes: **42**
-- Corpus audit: **PASS**
-- Chapter status: **FROZEN / COMPLETE**
 - Clean canonical PDF build: **PASS**
-- PDF pages: **544**
-- PDF SHA-256: `215334e3a5363b105e511e28a02bc13bc6144d7662390d6e3b849eb39d10cdda`
-- PDF bytes: **3101740**
-- Numerical-geometry guidance: **integrated / reviewed**
+- PDF pages: **496**
+- PDF SHA-256: `1e16ebf3ba0fa898e20e960e1e7c67bc8438c847927df0a27d468b51f228c8ca`
+- PDF bytes: **2884965**
+- Build warnings: **overfull=0, underfull=7, undefined=0**
+- Duplicate labels: **0**
+- Missing TeX inputs: **0**
+- Missing assets: **0**
+- Active environments balanced: **True**
+- Chapter status: **FROZEN / COMPLETE**
 - Freeze manifest entries: **96**
-
-The manifest records the tracked Volume VII mathematical/editorial/build
-source inputs plus the shared TeX infrastructure used by the canonical book.
-Generated TeX auxiliaries and the PDF itself are excluded from the source
-manifest; the PDF hash is recorded separately above.
