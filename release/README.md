@@ -20,3 +20,7 @@ to agree.
 - Cross-volume navigation reconciliation: **PASS**
 - Metadata: `SERIES_RELEASE_METADATA.json`
 - Target package directory: `theory_of_mathematics_i_viii_v1.3-rc1/`
+
+## v1.3 promotion
+
+v1.3-rc1 passed canonical freeze-hash normalization and clean-checkout reproducibility. See `V1.3_RELEASE_NOTES.md` and `CITATION.md`.
