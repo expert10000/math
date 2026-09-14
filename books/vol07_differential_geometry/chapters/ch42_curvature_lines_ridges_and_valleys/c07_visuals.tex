@@ -1,0 +1,34 @@
+% C07 conceptual visual: ridge/valley extraction.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth,node distance=0.9cm]
+  \node[draw,rounded corners,align=center] (field) {scalar field $f$\\on a surface};
+  \node[draw,rounded corners,right=of field,align=center] (frame) {principal/Hessian\\directions $e_1,e_2$};
+  \node[draw,rounded corners,right=of frame,align=center] (crit) {directional condition\\$D_{e_1}f=0$};
+  \node[draw,rounded corners,right=of crit,align=center] (sign) {second-order sign\\$D^2_{e_1}f<0$ ridge\\$>0$ valley};
+  \draw[->] (field) -- (frame);
+  \draw[->] (frame) -- (crit);
+  \draw[->] (crit) -- (sign);
+\end{tikzpicture}
+\caption{A ridge or valley is extracted by combining a directional stationarity condition
+with a second-order sign test. Thresholding only the scalar value does not encode this
+differential structure.}
+\label{fig:vii42-c07-ridge-pipeline}
+\end{figure}
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{p{0.27\linewidth}p{0.61\linewidth}}
+\toprule
+Check & Why it matters\\
+\midrule
+Direction field & Eigenvector signs are arbitrary; tracing must be sign-consistent locally.\\
+Derivative convention & The chosen directional derivative and Hessian must match the discrete operator.\\
+Ridge/valley sign & Maximal versus minimal transverse behavior changes the inequality.\\
+Degeneracy & Near repeated eigenvalues the preferred direction is unstable and extraction should be treated cautiously.\\
+Sampling/noise & Derivatives amplify noise, so scale or smoothing belongs to the method specification.\\
+\bottomrule
+\end{tabular}
+\caption{Ridge extraction is meaningful only after direction, sign, degeneracy, and smoothing conventions are fixed.}
+\label{tab:vii42-c07-ridge-conventions}
+\end{table}

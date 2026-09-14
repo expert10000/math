@@ -1,0 +1,36 @@
+% C07 conceptual visual: heat method pipeline.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth,node distance=0.8cm]
+  \node[draw,rounded corners,align=center] (src) {source\\$\delta_s$};
+  \node[draw,rounded corners,right=of src,align=center] (heat) {diffuse\\$(M+tL)u=M\delta_s$};
+  \node[draw,rounded corners,right=of heat,align=center] (grad) {normalize\\$X=-\nabla u/\|\nabla u\|$};
+  \node[draw,rounded corners,right=of grad,align=center] (pois) {integrate\\$L\phi=b$};
+  \node[draw,rounded corners,right=of pois,align=center] (dist) {normalize\\distance field};
+  \draw[->] (src) -- (heat);
+  \draw[->] (heat) -- (grad);
+  \draw[->] (grad) -- (pois);
+  \draw[->] (pois) -- (dist);
+\end{tikzpicture}
+\caption{The heat method is a three-stage geometric pipeline, not a direct reading of
+heat magnitude. Diffusion supplies a direction field, normalization removes magnitude,
+and a Poisson solve reconstructs the scalar field whose gradient best matches that direction.}
+\label{fig:vii40-c07-heat-pipeline}
+\end{figure}
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{p{0.27\linewidth}p{0.61\linewidth}}
+\toprule
+Convention/check & Required interpretation\\
+\midrule
+Smooth sign & $\Delta=\operatorname{div}\nabla$ is nonpositive on a closed manifold.\\
+Discrete sign & $L$ is the positive-semidefinite stiffness matrix representing $-\Delta$ weakly.\\
+Heat time & $t=mh^2$ ties diffusion length to mesh scale.\\
+Poisson gauge & On a connected closed mesh, $L\mathbf 1=0$; pin or normalize the additive constant.\\
+Boundary & Neumann and Dirichlet conditions solve different geometric problems and must be chosen deliberately.\\
+\bottomrule
+\end{tabular}
+\caption{The sign, time-scale, gauge, and boundary conventions must be consistent across both linear solves.}
+\label{tab:vii40-c07-heat-conventions}
+\end{table}
