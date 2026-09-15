@@ -27,7 +27,6 @@ See `CROSS_VOLUME_REFERENCE_AUDIT.tsv` for instance-level evidence.
 ## Mathematical dependency map
 
 See `CROSS_VOLUME_MATHEMATICAL_NAVIGATION.md` and `../reports/series/CROSS_VOLUME_CHAPTER_BRIDGES.tsv` for curated mathematical prerequisites and continuations.
-
 ## Release-candidate state
 
 Canonical release candidate: **v1.3-rc1**.
