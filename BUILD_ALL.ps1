@@ -4,19 +4,26 @@
     [switch]$FailFast,
     [switch]$NoPdfCollection,
     [switch]$AllowFailures,
+    [switch]$SkipQa,
+    [string]$QaReportPath = "",
     [string]$InventoryPath = ""
 )
 $ErrorActionPreference = "Stop"
 $Repo = Split-Path -Parent $MyInvocation.MyCommand.Path
 $Books = Join-Path $Repo "books"
 $CollectedPdfDir = Join-Path $Repo "build\pdf"
+$LatexmkRc = Join-Path $Repo ".latexmkrc"
+$QaScript = Join-Path $Repo "scripts\series\document_qa.py"
 if ([string]::IsNullOrWhiteSpace($InventoryPath)) {
     $InventoryPath = Join-Path $Repo "reports\series\BUILD_I_VIII.tsv"
 }
 if (-not (Test-Path (Join-Path $Repo ".git"))) { throw "BUILD_ALL.ps1 must be stored in the repository root." }
 if (-not (Get-Command latexmk -ErrorAction SilentlyContinue)) { throw "latexmk is not available on PATH." }
+if (-not (Test-Path $LatexmkRc)) { throw "Missing canonical latexmk configuration: $LatexmkRc" }
+if (-not $SkipQa -and -not (Get-Command python -ErrorAction SilentlyContinue)) { throw "python is required for document QA; use -SkipQa only while diagnosing a TeX failure." }
 if (-not $NoPdfCollection) { New-Item -ItemType Directory -Force -Path $CollectedPdfDir | Out-Null }
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $InventoryPath) | Out-Null
+if ([string]::IsNullOrWhiteSpace($QaReportPath)) { $QaReportPath = Join-Path $Repo "build\qa" }
 
 $roman = @("I","II","III","IV","V","VI","VII","VIII")
 $volumeDirs = @(Get-ChildItem -Path $Books -Directory | Where-Object { $_.Name -match '^vol0[1-8]_' } | Sort-Object Name)
@@ -50,10 +57,10 @@ foreach ($target in $targets) {
     Push-Location $target.Dir
     try {
         if ($CleanFirst) {
-            & latexmk -C $target.File
+            & latexmk -r $LatexmkRc -C $target.File
             if ($LASTEXITCODE -ne 0) { throw "latexmk clean failed ($LASTEXITCODE)" }
         }
-        & latexmk -pdf -interaction=nonstopmode -halt-on-error -file-line-error $target.File
+        & latexmk -r $LatexmkRc -pdf -interaction=nonstopmode -halt-on-error -file-line-error $target.File
         if ($LASTEXITCODE -ne 0) { throw "latexmk failed ($LASTEXITCODE)" }
         $pdfName=[System.IO.Path]::ChangeExtension($target.File,".pdf")
         $pdfPath=Join-Path $target.Dir $pdfName
@@ -103,5 +110,11 @@ Write-Host ""
 Write-Host "SERIES BUILD SUMMARY" -ForegroundColor Cyan
 Write-Host "PASS=$pass FAIL=$fail NO_WRAPPER=$no"
 Write-Host "Inventory: $InventoryPath"
+if (-not $SkipQa) {
+    Write-Host "Running canonical document QA..." -ForegroundColor Cyan
+    & python $QaScript --repo $Repo --report-dir $QaReportPath
+    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    Write-Host "QA reports: $QaReportPath"
+}
 if ($failed -gt 0 -and -not $AllowFailures) { exit 1 }
 exit 0

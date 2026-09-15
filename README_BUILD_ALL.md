@@ -34,6 +34,13 @@ or:
 
     .\BUILD_ALL.bat -CleanFirst
 
+For the reproducible canonical series build and document QA, use:
+
+    .\BUILD_ALL.bat -CanonicalOnly -CleanFirst
+
+This also writes transient QA and environment records to `build\qa\`.
+See `docs/BUILD_AND_QA.md` for tool requirements, checks, and failure triage.
+
 ## Stop on first error
 
     .\BUILD_ALL.bat -FailFast
