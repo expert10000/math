@@ -47,11 +47,23 @@ def read_text(path: Path) -> str:
     return path.read_text(encoding="utf-8", errors="replace")
 
 
-def collect(imports: Path, repo: Path) -> list[dict[str, str]]:
+def provenance_by_source(atlas: Path) -> dict[str, set[str]]:
+    result: dict[str, set[str]] = {}
+    with atlas.open(encoding="utf-8", newline="") as handle:
+        for row in csv.DictReader(handle, delimiter="\t"):
+            source = row.get("provenance_source_file", "")
+            volume = row.get("volume", "")
+            if source and source != "-" and volume:
+                result.setdefault(source, set()).add(volume)
+    return result
+
+
+def collect(imports: Path, repo: Path, provenance: dict[str, set[str]]) -> list[dict[str, str]]:
     rows: list[dict[str, str]] = []
     for source in sorted(imports.rglob("*.tex")):
         text = read_text(source)
         rel = source.relative_to(repo).as_posix()
+        canonical_volumes = provenance.get(source.name, set())
         rows.append(
             {
                 "import_root": source.relative_to(imports).parts[0],
@@ -59,18 +71,24 @@ def collect(imports: Path, repo: Path) -> list[dict[str, str]]:
                 "sha256": sha256(source),
                 "bytes": str(source.stat().st_size),
                 "standalone": "yes" if "\\documentclass" in text else "no",
-                "target_volume": target_volume(source.name),
-                "active_book_reference": "no",
+                "target_volume": (
+                    next(iter(canonical_volumes))
+                    if len(canonical_volumes) == 1
+                    else target_volume(source.name)
+                ),
+                "target_basis": "canonical-provenance" if len(canonical_volumes) == 1 else "filename-topic",
+                "active_book_reference": "yes" if canonical_volumes else "no",
             }
         )
     duplicate_counts = Counter(row["sha256"] for row in rows)
     for row in rows:
         row["identical_copy_count"] = str(duplicate_counts[row["sha256"]])
-        row["integration_status"] = (
-            "review-for-book-integration"
-            if row["identical_copy_count"] == "1"
-            else "deduplicate-before-integration"
-        )
+        if row["active_book_reference"] == "yes":
+            row["integration_status"] = "already-integrated-canonical"
+        elif row["identical_copy_count"] == "1":
+            row["integration_status"] = "review-for-book-integration"
+        else:
+            row["integration_status"] = "deduplicate-before-integration"
     return rows
 
 
@@ -88,6 +106,7 @@ def write_markdown(rows: list[dict[str, str]], output: Path) -> None:
     roots = Counter(row["import_root"] for row in rows)
     volumes = Counter(row["target_volume"] for row in rows)
     standalone = sum(row["standalone"] == "yes" for row in rows)
+    integrated = sum(row["active_book_reference"] == "yes" for row in rows)
     unique = len({row["sha256"] for row in rows})
     lines = [
         "# Imported TeX Integration Audit",
@@ -97,6 +116,7 @@ def write_markdown(rows: list[dict[str, str]], output: Path) -> None:
         f"- TeX files: **{len(rows)}**",
         f"- Distinct byte-identical payloads: **{unique}**",
         f"- Standalone TeX documents: **{standalone}**",
+        f"- Rows already linked by canonical dossier provenance: **{integrated}**",
         "",
         "## Import collections",
         "",
@@ -109,7 +129,7 @@ def write_markdown(rows: list[dict[str, str]], output: Path) -> None:
             "",
             "## Inferred target volume",
             "",
-            "The inference is intentionally conservative; `UNMAPPED` files require chapter-level editorial review.",
+        "Canonical dossier provenance overrides filename-topic inference. `UNMAPPED` files require chapter-level editorial review.",
             "",
             "| Volume | Candidate files |",
             "|---|---:|",
@@ -133,7 +153,8 @@ def main() -> int:
     parser.add_argument("--markdown", type=Path, default=Path("reports/series/IMPORT_INTEGRATION_AUDIT.md"))
     args = parser.parse_args()
     repo = args.repo.resolve()
-    rows = collect(repo / "imports", repo)
+    atlas = repo / "reports/series/DOSSIER_PROVENANCE_ATLAS.tsv"
+    rows = collect(repo / "imports", repo, provenance_by_source(atlas))
     if not rows:
         raise SystemExit("No imported TeX files found.")
     write_tsv(rows, (repo / args.tsv).resolve())

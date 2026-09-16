@@ -5,6 +5,7 @@ The files below are source material to reconcile into `books/`; they are not arc
 - TeX files: **3565**
 - Distinct byte-identical payloads: **804**
 - Standalone TeX documents: **593**
+- Rows already linked by canonical dossier provenance: **212**
 
 ## Import collections
 
@@ -20,17 +21,17 @@ The files below are source material to reconcile into `books/`; they are not arc
 
 ## Inferred target volume
 
-The inference is intentionally conservative; `UNMAPPED` files require chapter-level editorial review.
+Canonical dossier provenance overrides filename-topic inference. `UNMAPPED` files require chapter-level editorial review.
 
 | Volume | Candidate files |
 |---|---:|
-| I | 12 |
-| II | 18 |
-| III | 6 |
+| I | 16 |
+| II | 58 |
+| III | 26 |
 | IV | 72 |
-| UNMAPPED | 3226 |
-| V | 117 |
-| VII | 57 |
+| UNMAPPED | 3164 |
+| V | 119 |
+| VII | 53 |
 | VIII | 57 |
 
 The machine-readable TSV records every source path, duplicate group, and integration status.
