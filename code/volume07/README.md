@@ -35,5 +35,10 @@ python code/volume07/experiments/build_figures.py
 
 The first command runs the regression suite.  The second compares analytic,
 boundary, resolution, and noise cases and rewrites the deterministic JSON report
-in `expected/`.  The final command regenerates the SVG figure data in
-`figures/`.  All outputs are stable for a fixed source revision and environment.
+in `expected/`.  The final command regenerates C16 machine-readable CSV tables,
+their TeX table sources, and the scale-stability TikZ figure in `results/` and
+`figures/`. The heat benchmark is a documented local explicit-diffusion proxy:
+it reports deterministic work units and marks sparse-factorization timing as
+not applicable, rather than treating workstation-dependent wall-clock timing as
+a regression artifact. All outputs are stable for a fixed source revision and
+environment.

@@ -1,0 +1,34 @@
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[>=Stealth,scale=.74,transform shape,node distance=8mm and 11mm,box/.style={draw,rounded corners,align=center,inner sep=5pt}]
+  \node[box] (src) {source\\$\delta_s$};
+  \node[box,right=of src] (heat) {heat solve\\$(M+tK)u=M\delta_s$};
+  \node[box,right=of heat] (grad) {direction field\\$X=-\nabla u/\|\nabla u\|$};
+  \node[box,right=of grad] (poisson) {Poisson solve\\$K\phi=b$, gauge fixed};
+  \node[box,right=of poisson] (dist) {distance\\approximation};
+  \draw[->] (src)--(heat); \draw[->] (heat)--(grad); \draw[->] (grad)--(poisson); \draw[->] (poisson)--(dist);
+  \node[below=7mm of heat,align=center,font=\scriptsize] {smooth $\Delta=\operatorname{div}\nabla\le0$;\\$K$ represents $-\Delta$ weakly};
+  \node[below=7mm of poisson,align=center,font=\scriptsize] {boundary condition and mass matrix\\are part of the numerical specification};
+\end{tikzpicture}
+\caption{Rebuildable heat-method operator chain. With this volume's sign convention, the smooth operator is nonpositive and the assembled stiffness matrix $K$ is positive semidefinite; changing either sign requires changing both linear systems consistently.}
+\label{fig:vii40-c16-repro-pipeline}
+\end{figure}
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabular}{p{0.26\linewidth}p{0.62\linewidth}}
+\toprule
+Object & Convention used in VII/40--41\\
+\midrule
+Smooth Laplacian & $\Delta=\operatorname{div}\nabla$, nonpositive on a closed manifold.\\
+Stiffness matrix & $K$ is positive semidefinite and represents $-\Delta$ in weak form.\\
+Pointwise discrete operators & $M^{-1}K$ is positive; $-M^{-1}K$ approximates the smooth signed $\Delta$.\\
+Generalized eigenproblem & $K\psi=\lambda M\psi$ with $\lambda\ge0$ for positive-definite $M$.\\
+Mass matrix & $M$ records the chosen discrete $L^2$ inner product; lumped and consistent choices differ.\\
+Boundary condition & State Neumann, Dirichlet, or the closed-mesh gauge explicitly before solving.\\
+API contract & An implementation must record whether its API returns $K$, $M^{-1}K$, or its negative.\\
+\bottomrule
+\end{tabular}
+\caption{Laplacian conventions used by the reproducibility tables and the heat-method pipeline.}
+\label{tab:vii40-c16-laplacian-conventions}
+\end{table}

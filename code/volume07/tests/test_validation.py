@@ -14,6 +14,7 @@ from volume07_validation import (  # noqa: E402
     heat_distance_ordering, profile_extrema, rectangular_mesh, vertex,
 )
 from run_validation import run  # noqa: E402
+from build_figures import build  # noqa: E402
 
 
 class VolumeVIIValidationTests(unittest.TestCase):
@@ -47,6 +48,9 @@ class VolumeVIIValidationTests(unittest.TestCase):
     def test_expected_validation_report_is_current(self) -> None:
         expected = json.loads((ROOT / "expected" / "volume07_validation.json").read_text(encoding="utf-8"))
         self.assertEqual(run(), expected)
+
+    def test_generated_c16_metrics_are_current(self) -> None:
+        self.assertTrue(build(check=True))
 
 
 if __name__ == "__main__":
