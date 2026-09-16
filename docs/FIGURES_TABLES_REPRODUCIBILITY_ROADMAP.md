@@ -175,6 +175,50 @@ build(figures): verify visual assets, generated metrics, and archive readiness
 - No tag, DOI, or external archive deposit is created by this commit; those
   remain release-owner actions defined in `release/ARCHIVAL_WORKFLOW.md`.
 
+### D1 — imported dossier reconciliation and canonical integration
+
+**Commit**
+
+```text
+integrate(dossiers): reconcile fused imported sources into canonical books
+```
+
+**Purpose**
+
+The `imports/` tree contains combined, fused textbook material: problem
+dossiers, worked solutions, theory notes, figures, and several historical or
+corrected copies. It is source material for the series, not an archival build
+target. File names are not authoritative: some are topic-misnamed, and the
+same payload occurs in multiple collections.
+
+**Required workflow**
+
+- Start from `reports/series/IMPORT_INTEGRATION_AUDIT.tsv`, deduplicate by
+  content hash, and inspect the mathematical body rather than trusting an
+  archive path or file name.
+- Reconcile each distinct source block against the active chapter graph and
+  `reports/series/DOSSIER_INDEX.tsv` / `DOSSIER_PROVENANCE_ATLAS.tsv`.
+  Existing fused canonical material remains in place; it must not be copied a
+  second time merely because a legacy source is present under `imports/`.
+- Migrate verified missing problems, solutions, worked examples, theory
+  explanations, and figures to their mathematical home under `books/`. Keep
+  chapter-local source boundaries, labels, references, and pedagogy coherent.
+- Where a source spans several topics, split it into chapter-local inputs
+  rather than adding a monolithic legacy document or a new parallel book.
+- Preserve source provenance in the canonical dossier ledger and record every
+  disposition: already integrated, migrated, superseded duplicate, or requires
+  mathematical review.
+
+**Gate**
+
+- Every distinct imported source has a recorded disposition and target (or an
+  explicit mathematical-review finding); no collection is silently excluded.
+- Each migrated dossier compiles in its canonical volume, has stable labels,
+  and appears in the relevant book/edition table of contents where appropriate.
+- The full canonical build, all available dossier editions, dossier-index
+  validation, and document QA pass. The build must use the external G: output
+  tree when local staging capacity is insufficient.
+
 ## Deliberate exclusions
 
 Volumes IV–VI need source, proof, hypothesis, and citation traceability—not a
