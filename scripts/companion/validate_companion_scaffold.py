@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import argparse, csv, re
+
+import argparse
+import csv
+import re
 from pathlib import Path
 
 EXPECTED = [
@@ -48,8 +51,9 @@ def main() -> int:
             errors.append(f"missing Part chapter: {p.relative_to(repo)}")
 
     if errors:
-        print("COMPANION SCAFFOLD VALIDATION FAILED")
-        for e in errors: print("  -", e)
+        print("COMPANION STRUCTURE VALIDATION FAILED")
+        for e in errors:
+            print("  -", e)
         return 1
 
     book = (base/"book.tex").read_text(encoding="utf-8")
@@ -58,12 +62,16 @@ def main() -> int:
     if len(re.findall(r"\\include\{chapters/part\d\d_volume_", book)) != 8:
         errors.append("book.tex must contain exactly 8 Part chapter includes")
 
-    with (base/"metadata"/"COMPANION_PROBLEM_ATLAS.tsv").open("r", encoding="utf-8-sig", newline="") as f:
+    # The scaffold validator is now a permanent structural/schema validator.
+    # The atlas was required to be header-only only in the initial scaffold commit;
+    # after semantic classification and migrations it is expected to be populated.
+    atlas_path = base/"metadata"/"COMPANION_PROBLEM_ATLAS.tsv"
+    with atlas_path.open("r", encoding="utf-8-sig", newline="") as f:
         r = csv.DictReader(f, delimiter="\t")
-        if list(r.fieldnames or []) != ATLAS_FIELDS:
-            errors.append("COMPANION_PROBLEM_ATLAS.tsv header does not match the canonical scaffold schema")
-        if list(r):
-            errors.append("COMPANION_PROBLEM_ATLAS.tsv must be header-only in the scaffold commit")
+        atlas_fields = list(r.fieldnames or [])
+        atlas_rows = list(r)
+    if atlas_fields != ATLAS_FIELDS:
+        errors.append("COMPANION_PROBLEM_ATLAS.tsv header does not match the canonical Companion schema")
 
     with (base/"metadata"/"COMPANION_PART_MAP.tsv").open("r", encoding="utf-8-sig", newline="") as f:
         rows = list(csv.DictReader(f, delimiter="\t"))
@@ -71,7 +79,11 @@ def main() -> int:
         errors.append(f"COMPANION_PART_MAP.tsv expected 8 rows, found {len(rows)}")
     else:
         for row, (num, roman, rng) in zip(rows, EXPECTED):
-            if row.get("companion_part") != num or row.get("related_volume") != roman or row.get("canonical_chapter_range") != rng:
+            if (
+                row.get("companion_part") != num
+                or row.get("related_volume") != roman
+                or row.get("canonical_chapter_range") != rng
+            ):
                 errors.append(f"invalid Part map row for expected Part {num} / Volume {roman}")
 
     forbidden = re.compile(r"\b(TODO|FIXME|TBD|PLACEHOLDER)\b", re.I)
@@ -81,14 +93,16 @@ def main() -> int:
             errors.append(f"forbidden unfinished marker in {p.relative_to(repo)}")
 
     if errors:
-        print("COMPANION SCAFFOLD VALIDATION FAILED")
-        for e in errors: print("  -", e)
+        print("COMPANION STRUCTURE VALIDATION FAILED")
+        for e in errors:
+            print("  -", e)
         return 1
 
-    print("COMPANION SCAFFOLD VALIDATION PASSED")
+    print("COMPANION STRUCTURE VALIDATION PASSED")
     print("  Parts: 8")
     print("  Main-volume correspondence: I--VIII")
-    print("  Atlas rows: 0 (header-only scaffold)")
+    print(f"  Atlas rows: {len(atlas_rows)}")
+    print("  Atlas state: populated" if atlas_rows else "  Atlas state: scaffold/header-only")
     print("  Reader structure: thematic sections with textual main-chapter references")
     return 0
 
