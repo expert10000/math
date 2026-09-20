@@ -354,7 +354,9 @@ def clean_solution(raw: str) -> str:
     # presentation headings such as \\paragraph{Solution.}.
     raw = re.sub(
         r"\\(?:chapter|section|subsection|subsubsection|paragraph)\*?\s*"
-        r"\{\s*(?:Solution|Answer|Proof)\s*[.:;!?-]?\s*\}",
+        r"\{\s*(?:Solution|Answer|Proof)"
+        r"(?:\s+(?:to|for)\s+\([^{}]*\))?"
+        r"(?:\s*\([^{}]*\))?\s*[.:;!?-]?\s*\}",
         " ",
         raw,
         flags=re.I,
@@ -369,6 +371,11 @@ def clean_solution(raw: str) -> str:
     # The canonical proof-like solution environment supplies its own QED mark.
     raw = re.sub(r"[ \\t]*\\qedhere\b[ \\t]*", "", raw)
     raw = re.sub(r"[ \\t]*\\qed\b[ \\t]*", "", raw)
+    raw = re.sub(
+        r"\\subparagraph\{([^{}]*)\}",
+        lambda m: r"\\par\\medskip\\noindent\\textbf{" + m.group(1) + r"}\\quad",
+        raw,
+    )
     raw = re.sub(r"\\label\{[^}]+\}", " ", raw)
     raw = strip_figure_code(raw)
     raw = re.sub(r"\\(?:begin|end)\{document\}", " ", raw, flags=re.I)
