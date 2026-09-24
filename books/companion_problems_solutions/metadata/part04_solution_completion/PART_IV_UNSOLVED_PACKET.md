@@ -1,98 +1,33 @@
-\chapter{Problems Related to Volume IV}
-\label{ch:companion-iv}
+# Part IV Unsolved Problem Packet
 
-\par\medskip\noindent\textbf{Main-text correspondence.}\quad
-This Part accompanies \emph{Volume IV: Complex Analysis and Riemann Surfaces}.
-Problems are grouped by mathematical theme rather than by reproducing the main-text chapter sequence.
-Each section gives the corresponding chapter range for further reading.
+- total Part IV problems: 139
+- solution environments present: 39
+- unsolved problems: 100
+- unsolved with linked source-solution candidates: 0
 
-\section{Holomorphic Functions}
+This packet is generated from the current local Part IV chapter. It is the basis for source-recovery first, then canonical solution authoring.
 
-\par\medskip\noindent\textbf{Related material.}\quad Volume IV, Chapters \texttt{IV/01--IV/06}.
+## Unclassified
 
-\begin{problem}[CP-IV-0005]
-\label{prob:cp-iv-0005}
-\par\noindent (i)\quad Show that if $f$ is entire and $\displaystyle \lim_{z\to\infty} f(z)=\infty$, then $f$ is a polynomial.
-	\par\noindent (ii)\quad Show that if $f$ is meromorphic on $\mathbb C$ and $\displaystyle \lim_{z\to\infty} f(z)=\infty$, then $f$ is a rational function.
+### CP-IV-0009
 
-\bigskip
+- chapter line: 56
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Let $w=1/z$ and $g(w)=f(1/w)$.
-
-\medskip
-\textbf{Meromorphic at $\infty$.} We say $f$ is holomorphic / meromorphic / has a pole at $\infty$
-iff $g$ is holomorphic / meromorphic / has a pole at $0$.
-If $g$ is meromorphic at $0$, then for some $m\ge1$,
-\[
-g(w)=\sum_{k=-m}^{\infty} c_k\,w^k \qquad (c_{-m}\neq 0),
-\]
-and hence
-\[
-f(z)=g(1/z)=c_{-m}z^m+\cdots+c_0+\sum_{k\ge1} c_k\,z^{-k}. \tag{$\ast$}
-\]
-
-\medskip
-\textbf{Meromorphic functions on the sphere.}
-A function meromorphic on the Riemann sphere $\widehat{\mathbb C}=\mathbb C\cup\{\infty\}$
-is rational; equivalently, a meromorphic function on $\mathbb C$ with a non-essential singularity at $\infty$ is rational.
-
-\bigskip
-\end{problem}
-
-\begin{solution}
-Since $f(z)\to\infty$ as $z\to\infty$, $g(w)=f(1/w)\to\infty$ as $w\to0$,
-so $g$ has a pole at $0$ and admits the Laurent expansion above.
-Using $(\ast)$,
-\[
-f(z)=c_{-m}z^m+\cdots+c_0+\sum_{k\ge1} c_k\,z^{-k}.
-\]
-Because $f$ is \emph{entire}, the negative powers must vanish:
-$c_k=0$ for all $k\ge1$.
-Thus $f$ is a polynomial of degree $m$.
-
-\bigskip
-\end{solution}
-
-\begin{problem}[CP-IV-0009]
-\label{prob:cp-iv-0009}
+```tex
 \par\noindent\textbullet\quad \textbf{Removable:} $f$ is bounded near $a$ $\Rightarrow$ $f$ extends holomorphically to $a$ (Riemann).
-\end{problem}
+```
 
-\begin{solution}
-Let \(a\) be an isolated singularity of \(f\), and suppose that \(f\) is bounded in a punctured disc
-\[
-0<|z-a|<r.
-\]
-Write the Laurent expansion
-\[
-f(z)=\sum_{n=-\infty}^{\infty} c_n (z-a)^n
-\]
-on that punctured disc. For \(m\ge1\),
-\[
-c_{-m}
-=
-\frac{1}{2\pi i}\int_{|\zeta-a|=\rho}
-f(\zeta)(\zeta-a)^{m-1}\,d\zeta,
-\qquad 0<\rho<r.
-\]
-If \(|f|\le M\), then
-\[
-|c_{-m}|
-\le
-\frac{1}{2\pi}(2\pi\rho)M\rho^{m-1}
-=
-M\rho^m.
-\]
-Letting \(\rho\to0\) gives \(c_{-m}=0\) for every \(m\ge1\). Hence the principal part vanishes, so the Laurent series is in fact a Taylor series:
-\[
-f(z)=\sum_{n=0}^{\infty} c_n(z-a)^n.
-\]
-Defining \(f(a):=c_0\) therefore extends \(f\) holomorphically across \(a\). Thus the singularity is removable.
-\end{solution}
+### CP-IV-0012
 
+- chapter line: 61
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0012]
-\label{prob:cp-iv-0012}
+```tex
 the exponential sequence
 
 On a complex manifold $X$, there is an exact sequence of sheaves
@@ -219,49 +154,16 @@ On a complex manifold $X$, there is an exact sequence of sheaves
 	\boxed{
 		\text{A surjective morphism of sheaves need not be surjective on global sections.}
 	}\]
-\end{problem}
+```
 
-\begin{solution}
-We verify exactness stalkwise.
+### CP-IV-0014
 
-The map
-\[
-\mathbb Z \longrightarrow \mathcal O_X
-\]
-sends a locally constant integer-valued function \(n\) to the holomorphic function \(n\). It is injective.
+- chapter line: 191
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Next consider
-\[
-\exp(2\pi i\,\cdot):\mathcal O_X\longrightarrow \mathcal O_X^\times.
-\]
-If \(f\in\mathcal O_X(U)\) satisfies \(e^{2\pi i f}=1\), then \(f(U)\subset\mathbb Z\). Since a holomorphic map into the discrete set \(\mathbb Z\) is locally constant, the kernel is precisely the constant sheaf \(\mathbb Z\).
-
-It remains to prove local surjectivity. Let \(g\) be a nowhere-zero holomorphic germ at \(p\). After shrinking to a sufficiently small simply connected neighborhood \(V\ni p\), the function \(g\) admits a holomorphic logarithm \(L\):
-\[
-e^{L}=g.
-\]
-Then
-\[
-g=e^{2\pi i f},
-\qquad
-f:=\frac{L}{2\pi i}\in\mathcal O_X(V).
-\]
-Hence the exponential morphism is surjective on stalks. Therefore
-\[
-0\longrightarrow\mathbb Z
-\longrightarrow\mathcal O_X
-\xrightarrow{\exp(2\pi i\,\cdot)}
-\mathcal O_X^\times
-\longrightarrow0
-\]
-is an exact sequence of sheaves.
-
-The last map need not be surjective on global sections: local logarithms need not glue to a single-valued global logarithm. This is exactly the distinction between sheaf-surjectivity and surjectivity on \(X\)-sections.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0014]
-\label{prob:cp-iv-0014}
+```tex
 \par\noindent\textbullet\quad \textbf{Holomorphic (MĂ¶bius) â€śinversionâ€ť} about $a$ with radius $r$:
 	\[
 	J_{a,r}(z)\;=\;a+\frac{r^{2}}{z-a}
@@ -275,172 +177,16 @@ Write
 z-a=\rho e^{i\theta}\qquad(\rho>0).
 \]
 Then
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0014_holomorphic_inversion.tex}
+### CP-IV-0017
 
-\begin{solution}
-Write
-\[
-z-a=\rho e^{i\theta},
-\qquad \rho>0.
-\]
-For
-\[
-J_{a,r}(z)=a+\frac{r^2}{z-a}
-\]
-we obtain
-\[
-J_{a,r}(z)-a
-=
-\frac{r^2}{\rho e^{i\theta}}
-=
-\frac{r^2}{\rho}e^{-i\theta}.
-\]
-Therefore
-\[
-|J_{a,r}(z)-a|
-=
-\frac{r^2}{|z-a|}
-\]
-and
-\[
-\operatorname{Arg}(J_{a,r}(z)-a)
-\equiv
--\operatorname{Arg}(z-a)
-\pmod{2\pi}.
-\]
-Thus the radius is inverted and the angular coordinate is reflected.
+- chapter line: 329
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-Moreover,
-\[
-J'_{a,r}(z)=-\frac{r^2}{(z-a)^2}\neq0
-\]
-for \(z\neq a\), so \(J_{a,r}\) is conformal there. It is a M\"obius transformation of the Riemann sphere, interchanging \(a\) and \(\infty\). If \(|z-a|=r\), then \(|J_{a,r}(z)-a|=r\), so the circle is preserved as a set.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0015]
-\label{prob:cp-iv-0015}
-(exact restatement of the two tasks)
-
-\noindent\textbf{(a)} Show that the principal value is well defined for all $\zeta_{0}\in\Gamma^{\ast}$, namely that the limit
-	\[
-	\operatorname{P.V.}\,\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)}{\zeta-\zeta_{0}}\,d\zeta
-	\;:=\;\lim_{\varepsilon\downarrow 0}\,\frac{1}{2\pi i}\int_{\Gamma_{\varepsilon}}
-	\frac{f(\zeta)}{\zeta-\zeta_{0}}\,d\zeta
-	\]
-	exists, where $\Gamma$ is a simple smooth positively oriented curve, $f$ is continuously differentiable on $\Gamma^{\ast}$, and $\Gamma_{\varepsilon}$ is the part of $\Gamma$ that is at least $\varepsilon$â€“away from $\zeta_{0}$.
-
-	\medskip
-
-	\noindent\textbf{(b)} Show that
-	\[
-	\operatorname{P.V.}\,\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)}{\zeta-\zeta_{0}}\,d\zeta
-	\;=\;
-	\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}\,d\zeta
-	\;+\;\frac{1}{2}\,f(\zeta_{0}).
-	\]
-
-	\bigskip\hrule\bigskip
-
-	Let $\Gamma$ be a simple $C^{1}$ positively oriented closed curve in the plane and let $f\in C^{1}(\Gamma)$.
-	For $z\in\mathbb{C}\setminus\Gamma$ define the Cauchy transform
-	\[
-	F(z):=\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)}{\zeta-z}\,d\zeta.
-	\]
-	Then $F$ is holomorphic on each component of $\mathbb{C}\setminus\Gamma$.
-	As $z\to\zeta_{0}\in\Gamma$, the kernel $(\zeta-z)^{-1}$ has a simple pole on the contour; the principal value removes a small arc around $\zeta_{0}$ and takes the limit as its length shrinks to $0$.
-
-	\bigskip\hrule\bigskip
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0015_principal_value_deleted_arc.tex}
-
-\begin{solution}
-\subsection*{Solution to (a): existence of the principal value}
-
-	Fix $\zeta_{0}\in\Gamma$.
-	Split the integrand into a regular part and a pure singular kernel:
-	\[
-	\frac{f(\zeta)}{\zeta-\zeta_{0}}
-	\;=\;
-	\underbrace{\frac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}}_{\text{regular near }\zeta_{0}}
-	\;+\;
-	\underbrace{\frac{f(\zeta_{0})}{\zeta-\zeta_{0}}}_{\text{pure kernel}}.
-	\tag{1}
-	\]
-
-	\emph{Regular part.}
-	Since $f\in C^{1}(\Gamma)$, there is a constant $C$ with
-	\[
-	|f(\zeta)-f(\zeta_{0})|\le C\,|\zeta-\zeta_{0}|
-	\quad\text{for }\zeta\text{ near }\zeta_{0}.
-	\]
-	Hence the quotient $\dfrac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}$ is bounded and continuous on $\Gamma$ (interpreted by continuity at $\zeta_{0}$).
-	Therefore
-	\[
-	\int_{\Gamma_{\varepsilon}}\frac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}\,d\zeta
-	\quad\text{converges as }\varepsilon\downarrow 0,
-	\]
-	so its contribution to the principal value has a proper limit (indeed, it is just the ordinary integral over $\Gamma$).
-
-	\medskip
-
-	\emph{Pure kernel.}
-	On the small missing arc of radius $\varepsilon$ around $\zeta_{0}$ the integral
-	\[
-	\int\frac{d\zeta}{\zeta-\zeta_{0}}
-	\]
-	is $\pm\,\pi i$ in the limit (half of the $2\pi i$ residue), with the sign determined by whether the indentation is taken inside or outside, together with the positive orientation of $\Gamma$.
-	Thus the contribution of the pure kernel to the truncated integral is uniformly bounded and tends, in the principal value sense, to the finite number $\dfrac{1}{2}\,2\pi i\cdot \dfrac{f(\zeta_{0})}{2\pi i}=\dfrac{1}{2}f(\zeta_{0})$ (precisely accounted for in part (b) below).
-
-	\medskip
-
-	Combining the two parts from (1) shows that the limit defining
-	\[
-	\operatorname{P.V.}\,\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)}{\zeta-\zeta_{0}}\,d\zeta
-	\]
-	exists for every $\zeta_{0}\in\Gamma$.
-
-	\bigskip\hrule\bigskip
-
-	\subsection*{Solution to (b): decomposition formula with the $\tfrac12 f(\zeta_{0})$ term}
-
-	Start from the splitting \textnormal{(1)} and integrate over $\Gamma_{\varepsilon}$:
-	\[
-	\frac{1}{2\pi i}\int_{\Gamma_{\varepsilon}}\frac{f(\zeta)}{\zeta-\zeta_{0}}\,d\zeta
-	=
-	\frac{1}{2\pi i}\int_{\Gamma_{\varepsilon}}\frac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}\,d\zeta
-	+\frac{f(\zeta_{0})}{2\pi i}\int_{\Gamma_{\varepsilon}}\frac{d\zeta}{\zeta-\zeta_{0}}.
-	\]
-	Let $\varepsilon\downarrow 0$.
-	The first term converges to the \emph{ordinary} integral over $\Gamma$ because its integrand is bounded and continuous on $\Gamma$:
-	\[
-	\lim_{\varepsilon\downarrow 0}\frac{1}{2\pi i}\int_{\Gamma_{\varepsilon}}\frac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}\,d\zeta
-	=
-	\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}\,d\zeta.
-	\]
-	For the second term,
-	\[
-	\lim_{\varepsilon\downarrow 0}\frac{1}{2\pi i}\int_{\Gamma_{\varepsilon}}\frac{d\zeta}{\zeta-\zeta_{0}}
-	=\frac{1}{2},
-	\]
-	because the missing small arc carries half of the $2\pi i$ residue at $\zeta=\zeta_{0}$ (with the positive orientation prescribed in the statement).
-	Therefore,
-	\[
-	\operatorname{P.V.}\,\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)}{\zeta-\zeta_{0}}\,d\zeta
-	=
-	\frac{1}{2\pi i}\int_{\Gamma}\frac{f(\zeta)-f(\zeta_{0})}{\zeta-\zeta_{0}}\,d\zeta
-	+\frac{1}{2}\,f(\zeta_{0}),
-	\]
-	as required.
-
-	\bigskip\hrule\bigskip
-\end{solution}
-
-\begin{problem}[CP-IV-0017]
-\label{prob:cp-iv-0017}
+```tex
 \par\noindent\textbullet\quad (\textbf{Quick diagnostics})
 	For each matrix, compute $(A,B)$ and decide if $T$ is complex-linear.
 	\[
@@ -452,126 +198,16 @@ for \(z\neq a\), so \(J_{a,r}\) is conformal there. It is a M\"obius transformat
 	(a) $A=2+i(-1-1)/2=2-i,\ B=\tfrac{2-2}{2}+i\tfrac{-1+1}{2}=0$ $\Rightarrow$ holomorphic.
 	(b) $A=1+i\,0=1,\ B=0+i\,1=i$ $\Rightarrow$ not holomorphic.
 	(c) $A=\tfrac{0+0}{2}+i\,\tfrac{1-1}{2}=0,\ B=\tfrac{0-0}{2}+i\,\tfrac{1+1}{2}=i$ $\Rightarrow$ not holomorphic.
-\end{problem}
+```
 
-\begin{solution}
-For a real-linear map
-\[
-T(x+iy)=(ax+by)+i(cx+dy)
-\]
-one has the decomposition
-\[
-T(z)=Az+B\overline z,
-\]
-where
-\[
-A=\frac{a+d}{2}+i\,\frac{c-b}{2},
-\qquad
-B=\frac{a-d}{2}+i\,\frac{c+b}{2}.
-\]
-The map is complex-linear, hence holomorphic, exactly when \(B=0\).
+### CP-IV-0034
 
-For
-\[
-\begin{pmatrix}2&1\\-1&2\end{pmatrix}
-\]
-we get
-\[
-A=2-i,\qquad B=0,
-\]
-so the map is holomorphic.
+- chapter line: 407
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For
-\[
-\begin{pmatrix}1&1\\1&1\end{pmatrix}
-\]
-we get
-\[
-A=1,\qquad B=i,
-\]
-so it is not holomorphic.
-
-For
-\[
-\begin{pmatrix}0&1\\1&0\end{pmatrix}
-\]
-we get
-\[
-A=0,\qquad B=i,
-\]
-so
-\[
-T(z)=i\overline z.
-\]
-This is antiholomorphic, not holomorphic.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0031]
-\label{prob:cp-iv-0031}
-\par\noindent\textbullet\quad Use Cauchyâ€™s integral formula to compute
-	\[
-	\int_{|z|=1}\frac{e^{\alpha z}}{2z^{2}-5z+2}\,dz,\qquad \alpha\in\mathbb C.
-	\]
-
-	\par\noindent\textbullet\quad By considering the real part of a suitable complex integral, show that for $r\in(0,1)$,
-	\[
-	\int_{0}^{\pi}\frac{\cos(n\theta)}{1-2r\cos\theta+r^{2}}\,d\theta=\frac{\pi r^{n}}{1-r^{2}},
-	\qquad
-	\int_{0}^{2\pi}\cos(\cos\theta)\cosh(\sin\theta)\,d\theta=2\pi .
-	\]
-
-Cauchyâ€™s integral formula: if $f$ is holomorphic on and inside a simple closed curve $\gamma$, then
-$\displaystyle \int_\gamma \frac{f(z)}{z-a}\,dz=2\pi i\,f(a)$ for $a$ inside $\gamma$.
-Also, with $z=e^{i\theta}$ one has $d\theta=\frac{dz}{iz}$ and
-$1-2r\cos\theta+r^{2}=(1-rz)(1-rz^{-1})=\frac{(z-r)(1-rz)}{z}$.
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0031_unit_circle_rational_poles.tex}
-
-\begin{solution}
-\emph{(i)} Factor $2z^{2}-5z+2=2(z-2)\bigl(z-\tfrac12\bigr)$. On $|z|=1$ only $z=\tfrac12$ lies inside.
-Hence
-\[
-\int_{|z|=1}\frac{e^{\alpha z}}{2z^{2}-5z+2}\,dz
-=2\pi i\cdot \operatorname{Res}\!\left(\frac{e^{\alpha z}}{2(z-2)\bigl(z-\tfrac12\bigr)};\ \tfrac12\right)
-=2\pi i\cdot \frac{e^{\alpha/2}}{2(\tfrac12-2)}
-=-\,\frac{2\pi i}{3}\,e^{\alpha/2}.
-\]
-
-\medskip
-\emph{(ii-a)} Let
-\[
-I_n=\int_{0}^{2\pi}\frac{e^{in\theta}}{1-2r\cos\theta+r^{2}}\,d\theta.
-\]
-With $z=e^{i\theta}$ and $d\theta=\frac{dz}{iz}$,
-\[
-I_n=\oint_{|z|=1}\frac{z^{n}}{(z-r)(1-rz)}\,\frac{dz}{i}.
-\]
-Only $z=r$ lies inside, giving $\operatorname{Res}=\dfrac{r^{n}}{1-r^{2}}$. Thus
-\[
-I_n=2\pi\,\frac{r^{n}}{1-r^{2}},\qquad
-\int_{0}^{2\pi}\frac{\cos(n\theta)}{1-2r\cos\theta+r^{2}}\,d\theta
-=\Re I_n=\frac{2\pi r^{n}}{1-r^{2}}.
-\]
-Halving the interval,
-\[
-\int_{0}^{\pi}\frac{\cos(n\theta)}{1-2r\cos\theta+r^{2}}\,d\theta
-=\frac{\pi r^{n}}{1-r^{2}}.
-\]
-
-\medskip
-\emph{(ii-b)} Using
-$\cos(\cos\theta)\cosh(\sin\theta)=\tfrac12\big(e^{i e^{i\theta}}+e^{-i e^{i\theta}}\big)$,
-\[
-\int_{0}^{2\pi}\cos(\cos\theta)\cosh(\sin\theta)\,d\theta
-=\frac12\oint_{|z|=1}\frac{e^{iz}+e^{-iz}}{iz}\,dz
-=\frac{1}{2i}\cdot 2\pi i\,\bigl(e^{0}+e^{0}\bigr)=2\pi.
-\]
-\end{solution}
-
-\begin{problem}[CP-IV-0034]
-\label{prob:cp-iv-0034}
+```tex
 an image sheaf larger than the objectwise image
 
 Let
@@ -664,49 +300,16 @@ Let
 	\boxed{
 		\text{Sheaf image means locally image, not globally image.}
 	}\]
-\end{problem}
+```
 
-\begin{solution}
-Let \(X=\mathbb C^\times\), and consider the exponential morphism
-\[
-\exp:\mathcal O_X\longrightarrow\mathcal O_X^\times.
-\]
-Every nowhere-zero holomorphic function has a local holomorphic logarithm, so every germ in \(\mathcal O_X^\times\) lies locally in the image of \(\exp\). Hence the sheaf image is all of \(\mathcal O_X^\times\).
+### CP-IV-0035
 
-However, the objectwise image on global sections can be smaller. Consider the global unit
-\[
-g(z)=z\in\mathcal O_X^\times(X).
-\]
-If \(g=e^F\) for some global \(F\in\mathcal O_X(X)\), then differentiation would give
-\[
-F'(z)=\frac1z.
-\]
-Integrating around the unit circle,
-\[
-0=\oint_{|z|=1}F'(z)\,dz
-=
-\oint_{|z|=1}\frac{dz}{z}
-=
-2\pi i,
-\]
-a contradiction. Thus \(z\) has local holomorphic logarithms but no global one.
+- chapter line: 503
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Therefore
-\[
-\operatorname{im}_{\mathrm{sheaf}}(\exp)=\mathcal O_X^\times,
-\]
-while
-\[
-\exp\bigl(\mathcal O_X(X)\bigr)
-\subsetneq
-\mathcal O_X^\times(X).
-\]
-This gives the desired distinction between sheaf image and objectwise image.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0035]
-\label{prob:cp-iv-0035}
+```tex
 a line mapped to the real axis
 
 Now let $L$ be a straight line instead of a circle. Take, for instance,
@@ -800,62 +403,16 @@ and $T$ maps the chosen side of $H_1$ biholomorphically onto the chosen
 side of $H_2$. If the orientation of the half-plane is reversed, one may
 replace $\Phi$ by $-\Phi$ or interchange two of the boundary points to
 flip the side.
-\end{problem}
+```
 
-\begin{solution}
-For
-\[
-a=i,\qquad b=-i,\qquad c=0,
-\]
-the cross-ratio map is
-\[
-\Phi(z)
-=
-\frac{(z-i)(0+i)}{(z+i)(0-i)}
-=
--\frac{z-i}{z+i}.
-\]
-If \(z=iy\) lies on the imaginary axis, then
-\[
-\Phi(iy)
-=
--\frac{y-1}{y+1}\in\mathbb R\cup\{\infty\}.
-\]
-Hence the boundary line is mapped to the extended real axis, with
-\[
-\Phi(i)=0,\qquad
-\Phi(-i)=\infty,\qquad
-\Phi(0)=1.
-\]
-Because a M\"obius transformation maps generalized circles to generalized circles and is conformal away from its pole, the two components of the complement of the imaginary axis are mapped to the two half-planes bounded by \(\mathbb R\). Checking one test point determines which side goes to \(\Im w>0\).
+### CP-IV-0037
 
-For general half-planes \(H_1,H_2\), choose boundary triples \(a,b,c\in\partial H_1\) and \(A,B,C\in\partial H_2\) in the same cyclic order and set
-\[
-\Phi(z)=\frac{(z-a)(c-b)}{(z-b)(c-a)},
-\qquad
-\Psi(w)=\frac{(w-A)(C-B)}{(w-B)(C-A)}.
-\]
-Then both maps send their boundary triples to \(0,\infty,1\). Consequently
-\[
-T=\Psi^{-1}\circ\Phi
-\]
-satisfies
-\[
-T(a)=A,\qquad T(b)=B,\qquad T(c)=C.
-\]
-Solving for \(\Psi^{-1}\) gives
-\[
-T(z)
-=
-\frac{A(C-B)-\Phi(z)B(C-A)}
-{(C-B)-\Phi(z)(C-A)}.
-\]
-The cyclic-order hypothesis selects the desired side, so \(T\) maps \(H_1\) biholomorphically onto \(H_2\).
-\end{solution}
+- chapter line: 600
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0037]
-\label{prob:cp-iv-0037}
+```tex
 Let $U\subset\mathbb C$ be a domain and let $(f_n)$ be a sequence of univalent
 (holomorphic injective) functions $f_n:U\to\mathbb C$ such that
 $f_n\to f$ uniformly on every compact $K\Subset U$.
@@ -941,36 +498,16 @@ then promotes local injectivity to global injectivity on $U$, so $f$ is univalen
 	Then $f_n\to f\equiv 0$ (constant).
 	\par\noindent\textbullet\quad \emph{Disk automorphisms:} On $\mathbb D$, $f_n(z)=\dfrac{z}{1-\frac{z}{n}}$ are univalent
 	and $f_n\to f(z)=z$ uniformly on compacta.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0037_rouche_two_fibers.tex}
+### CP-IV-0039
 
-\begin{solution}
-Assume that the locally uniform limit \(f\) is not constant. We show that it is injective.
+- chapter line: 691
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Suppose instead that
-\[
-f(z_1)=f(z_2)=w,
-\qquad z_1\neq z_2.
-\]
-Choose disjoint discs \(D_1,D_2\Subset U\) around \(z_1,z_2\) so small that \(f-w\) has no zeros on either boundary and has at least one zero in each disc. Since \(f_n\to f\) uniformly on the compact set
-\[
-\partial D_1\cup\partial D_2,
-\]
-for all sufficiently large \(n\),
-\[
-|f_n-f|<|f-w|
-\]
-on both boundaries. Rouch\'e's theorem then implies that \(f_n-w\) and \(f-w\) have the same number of zeros in each \(D_j\). Thus \(f_n(z)=w\) has a solution in \(D_1\) and another in \(D_2\), contradicting injectivity of \(f_n\).
-
-Hence a nonconstant limit is injective. Therefore the locally uniform limit of univalent functions is either univalent or constant.
-
-As a consistency check, univalence of each \(f_n\) also gives \(f_n'\neq0\). Since \(f_n'\to f'\) locally uniformly, Hurwitz's theorem implies that either \(f'\equiv0\) or \(f'\) never vanishes. In the nonconstant case \(f'\not\equiv0\), so \(f\) is locally biholomorphic everywhere.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0039]
-\label{prob:cp-iv-0039}
+```tex
 (General mixed map).
 
 Take $A=1+\tfrac12 i$, $B=0.6-0.2i$. Then
@@ -983,212 +520,16 @@ $\sigma_{\min}=||A|-|B||$, giving principal stretches of the ellipse.
 
 For any $T(z)=Az+B\bar z$, the image of the unit circle is an ellipse whenever $|A|\neq|B|$; it degenerates to a segment/point when $|A|=|B|$.
 Holomorphicity is equivalent to $B=0$; antiholomorphicity (composition with conjugation) corresponds to $A=0$.
-\end{problem}
+```
 
-\begin{solution}
-Here
-\[
-A=1+\frac{i}{2},
-\qquad
-B=0.6-0.2i.
-\]
-For a real-linear map \(T(z)=Az+B\overline z\), the Jacobian determinant is
-\[
-J_T=|A|^2-|B|^2.
-\]
-Thus
-\[
-J_T
-=
-\left(1+\frac14\right)
--
-\left(0.6^2+0.2^2\right)
-=
-1.25-0.40
-=
-0.85>0.
-\]
-Hence \(T\) is invertible and orientation-preserving.
+### CP-IV-0047
 
-Since \(B\neq0\), the map is not complex-linear and therefore is not holomorphic. The singular values are
-\[
-\sigma_{\max}=|A|+|B|,
-\qquad
-\sigma_{\min}=\bigl||A|-|B|\bigr|.
-\]
-Because \(|A|\neq|B|\), the image of the unit circle is a genuine ellipse whose semiaxis lengths are these two singular values. In general, \(B=0\) is precisely the holomorphic case, \(A=0\) the antiholomorphic case, and \(|A|=|B|\) is the degenerate case.
-\end{solution}
+- chapter line: 874
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0044]
-\label{prob:cp-iv-0044}
-Weierstrass data: immersion criterion
-
-Let $D\subset\mathbb C$, and $f$ and $g$ be functions on $D$ giving a Weierstrass representation of a
-	parametrisation $\phi$. Show that $\phi$ is an immersion iff $f$ vanishes only at the poles of $g$ and the
-	order of its zero at such a point is \emph{exactly twice} the order of the pole of $g$.
-
-	\medskip
-	\textbf{Solution.}
-	In Weierstrass form one may write (up to an overall constant depending on convention)
-	\[
-	\phi_z = \big((1-g^2)f,\; i(1+g^2)f,\; 2gf\big),
-	\]
-	a holomorphic $\mathbb C^3$-valued 1-form. The map is an immersion iff $\phi_z\neq 0$ everywhere.
-
-	If $g$ is holomorphic at $p$ and $f(p)=0$, then all components of $\phi_z$ vanish at $p$, so $\phi$ is not an
-	immersion. Hence $f$ may vanish only at poles of $g$.
-
-	Now let $p$ be a pole of $g$ of order $m$. Choose a local coordinate $z$ with $z(p)=0$ and write
-	\[
-	g(z)=a z^{-m}+\cdots,\quad a\neq 0;\qquad f(z)=b z^{n}+\cdots,\quad b\neq 0.
-	\]
-	Then
-	\[
-	(1-g^2)f \sim (-a^2)b\,z^{n-2m},\qquad (1+g^2)f\sim (a^2)b\,z^{n-2m},\qquad 2gf\sim 2ab\,z^{n-m}.
-	\]
-	For $\phi_z$ to be holomorphic at $p$ we need $n-2m\ge 0$, i.e. $n\ge 2m$.
-	If $n>2m$, then each component vanishes at $z=0$, hence $\phi_z(p)=0$ and $\phi$ fails to be an immersion.
-	Thus we must have $n=2m$, and in that case $(1-g^2)f$ has a nonzero constant term, so $\phi_z(p)\neq 0$.
-	Therefore $\phi$ is an immersion iff $f$ vanishes only at poles of $g$ and $\ord_p(f)=2\,\ord_p(\text{pole of }g)$.
-	
-
-	\textbf{Goal.} Describe all (simply connected) minimal surfaces in $\mathbb{R}^3$ using holomorphic data.
-
-	\medskip
-	\textbf{Setup.}
-	Let $\Omega\subset\mathbb{C}$ be simply connected with complex coordinate $z=u+iv$.
-	A map $X:\Omega\to\mathbb{R}^3$ is called a \emph{conformal parametrization} if the induced metric has the form
-	\[
-	ds^2 = e^{2\omega}(du^2+dv^2)
-	\quad\text{(equivalently } \langle X_u,X_v\rangle=0,\; |X_u|=|X_v|\text{)}.
-	\]
-	For conformal parametrizations, the minimality condition $H\equiv 0$ becomes equivalent to harmonicity of $X$:
-	\[
-	H\equiv 0 \quad\Longleftrightarrow\quad X_{uu}+X_{vv}=0
-	\quad\Longleftrightarrow\quad X \text{ is harmonic componentwise.}
-	\]
-
-	\medskip
-	\textbf{Weierstrass data.}
-	Choose
-	\[
-	g:\Omega\to\widehat{\mathbb{C}} \quad\text{(meromorphic)},\qquad
-	\eta = h(z)\,dz \quad\text{(holomorphic 1-form)},
-	\]
-	such that zeros of $\eta$ cancel poles/zeros of $g$ so that the expressions below are holomorphic.
-
-	Define holomorphic 1-forms
-	\[
-	\phi_1=\frac12\left(\frac{1}{g}-g\right)\eta,\qquad
-	\phi_2=\frac{i}{2}\left(\frac{1}{g}+g\right)\eta,\qquad
-	\phi_3=\eta.
-	\]
-	They satisfy the key identity
-	\[
-	\phi_1^2+\phi_2^2+\phi_3^2=0.
-	\]
-
-	\medskip
-	\textbf{Representation theorem.}
-	Define
-	\[
-	X(z)=\Re\int^z (\phi_1,\phi_2,\phi_3).
-	\]
-	Then $X:\Omega\to\mathbb{R}^3$ is a \emph{conformal minimal immersion} (away from points where all $\phi_k$ vanish).
-	Conversely, every conformal minimal immersion on a simply connected domain arises this way.
-
-	\medskip
-	\textbf{Meaning of $g$ and $\eta$.}
-
-		\par\noindent\textbullet\quad $g$ is the \emph{stereographic projection of the Gauss map}:
-		if $N:\Omega\to S^2$ is the unit normal, then $g=\mathrm{stereo}(N)$.
-		\par\noindent\textbullet\quad $\eta$ controls the conformal factor (size) of the metric.
-
-	\medskip
-	\textbf{Induced metric (useful formula).}
-	The first fundamental form becomes
-	\[
-	ds^2 = \left(|\phi_1|^2+|\phi_2|^2+|\phi_3|^2\right)
-	= \frac{(1+|g|^2)^2}{4|g|^2}\,|\eta|^2,
-	\]
-	so the parametrization is conformal by construction.
-
-	\medskip
-	\textbf{Associate family (catenoid $\leftrightarrow$ helicoid).}
-	If $(g,\eta)$ gives a minimal surface, then for any $\alpha\in\mathbb{R}$,
-	\[
-	(g,\ e^{i\alpha}\eta)
-	\]
-	gives another minimal surface with the \emph{same metric}; this produces the classical associate family.
-
-	\bigskip
-
-	Take
-	\[
-	g(z)=z,\qquad \eta = dz.
-	\]
-	Then
-	\[
-	X(z)=\Re\int \left(\frac12\left(\frac{1}{z}-z\right),\ \frac{i}{2}\left(\frac{1}{z}+z\right),\ 1\right)\,dz,
-	\]
-	which yields (after integration and taking real parts) the standard Enneper parametrization.
-
-	\bigskip
-
-	Let
-	\[
-	g(z)=e^{z},\qquad \eta=dz.
-	\]
-	Then
-	\[
-	\phi_1=\frac12(e^{-z}-e^{z})dz=-\sinh(z)\,dz,\qquad
-	\phi_2=\frac{i}{2}(e^{-z}+e^{z})dz=i\cosh(z)\,dz,\qquad
-	\phi_3=dz.
-	\]
-	Integrating and taking real parts gives
-	\[
-	X(z)=\Re\bigl(-\cosh z,\ i\sinh z,\ z\bigr).
-	\]
-	Writing $z=u+iv$,
-	\[
-	X(u,v)=\bigl(-\cosh u\cos v,\ -\cosh u\sin v,\ u\bigr),
-	\]
-	which is a catenoid (up to a rigid motion/sign change).
-
-	If instead we replace $\eta$ by $i\,dz$ (i.e.\ $\alpha=\pi/2$ in the associate family),
-	we obtain the helicoid (again up to rigid motion). This illustrates that catenoid and helicoid have the same
-	intrinsic metric but differ extrinsically.
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0044_weierstrass_order_balance.tex}
-
-\begin{solution}
-In Weierstrass form one may write (up to an overall constant depending on convention)
-	\[
-	\phi_z = \big((1-g^2)f,\; i(1+g^2)f,\; 2gf\big),
-	\]
-	a holomorphic $\mathbb C^3$-valued 1-form. The map is an immersion iff $\phi_z\neq 0$ everywhere.
-
-	If $g$ is holomorphic at $p$ and $f(p)=0$, then all components of $\phi_z$ vanish at $p$, so $\phi$ is not an
-	immersion. Hence $f$ may vanish only at poles of $g$.
-
-	Now let $p$ be a pole of $g$ of order $m$. Choose a local coordinate $z$ with $z(p)=0$ and write
-	\[
-	g(z)=a z^{-m}+\cdots,\quad a\neq 0;\qquad f(z)=b z^{n}+\cdots,\quad b\neq 0.
-	\]
-	Then
-	\[
-	(1-g^2)f \sim (-a^2)b\,z^{n-2m},\qquad (1+g^2)f\sim (a^2)b\,z^{n-2m},\qquad 2gf\sim 2ab\,z^{n-m}.
-	\]
-	For $\phi_z$ to be holomorphic at $p$ we need $n-2m\ge 0$, i.e. $n\ge 2m$.
-	If $n>2m$, then each component vanishes at $z=0$, hence $\phi_z(p)=0$ and $\phi$ fails to be an immersion.
-	Thus we must have $n=2m$, and in that case $(1-g^2)f$ has a nonzero constant term, so $\phi_z(p)\neq 0$.
-	Therefore $\phi$ is an immersion iff $f$ vanishes only at poles of $g$ and $\ord_p(f)=2\,\ord_p(\text{pole of }g)$.
-\end{solution}
-
-\begin{problem}[CP-IV-0047]
-\label{prob:cp-iv-0047}
+```tex
 Complex Geometry
 
 Let \(X\) be a complex manifold, and let
@@ -1277,41 +618,16 @@ Thus quotient sheaves connect directly to local rings and residue fields.
 \boxed{
 	\OO_{X,p}/\mathfrak m_p\cong \CC.
 }\]
-\end{problem}
+```
 
-\begin{solution}
-For every open set \(U\subset X\) containing \(p\), evaluation at \(p\) defines
-\[
-\operatorname{ev}_p:\mathcal O_X(U)\longrightarrow\mathbb C,
-\qquad
-f\longmapsto f(p).
-\]
-Its kernel is exactly the set of holomorphic functions vanishing at \(p\). Sheafifying this construction gives the ideal sheaf \(\mathfrak m_p\) and the skyscraper sheaf \(\mathbb C_p\), together with an exact sequence
-\[
-0\longrightarrow\mathfrak m_p
-\longrightarrow\mathcal O_X
-\longrightarrow\mathbb C_p
-\longrightarrow0.
-\]
+### CP-IV-0051
 
-Taking the stalk at \(p\) gives
-\[
-0\longrightarrow\mathfrak m_{p}
-\longrightarrow\mathcal O_{X,p}
-\xrightarrow{\operatorname{ev}_p}
-\mathbb C
-\longrightarrow0.
-\]
-The evaluation map is surjective because constant germs realize every complex value. Hence, by the first isomorphism theorem,
-\[
-\mathcal O_{X,p}/\mathfrak m_p\cong\mathbb C.
-\]
-Thus \(\mathcal O_{X,p}\) is a local ring, \(\mathfrak m_p\) is its maximal ideal, and the residue field is \(\mathbb C\).
-\end{solution}
+- chapter line: 966
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0051]
-\label{prob:cp-iv-0051}
+```tex
 Let $\gamma:[0,1]\to\mathbb C$ be a $C^1$ curve with $\gamma(0)=i$, $\gamma(1)=-i$,
 	such that $\gamma$ does not intersect $(-\infty,0]$. Compute
 	\[
@@ -1352,107 +668,16 @@ Let $\gamma:[0,1]\to\mathbb C$ be a $C^1$ curve with $\gamma(0)=i$, $\gamma(1)=-
 	$G'+G=w^{n}$ and taking $F(z)=z\,G(\Log z)$.
 
 \section*{Integral of $e^{e^{it}}$ over one period}
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0051_principal_log_path.tex}
+### CP-IV-0065
 
-\begin{solution}
-On \(\mathbb C\setminus(-\infty,0]\), the principal logarithm is holomorphic, so \((\Log z)^2\) has a primitive. Seek one in the form
-\[
-F(z)=z\,G(\Log z).
-\]
-Then
-\[
-F'(z)=G(\Log z)+G'(\Log z).
-\]
-Thus we need
-\[
-G'(w)+G(w)=w^2.
-\]
-A polynomial solution is
-\[
-G(w)=w^2-2w+2,
-\]
-and therefore
-\[
-F(z)=z\bigl((\Log z)^2-2\Log z+2\bigr).
-\]
+- chapter line: 1057
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Since the path avoids the branch cut,
-\[
-\int_\gamma (\Log z)^2\,dz=F(-i)-F(i).
-\]
-Using
-\[
-\Log(i)=\frac{\pi i}{2},
-\qquad
-\Log(-i)=-\frac{\pi i}{2},
-\]
-we obtain
-\[
-F(i)=\pi+i\left(2-\frac{\pi^2}{4}\right),
-\qquad
-F(-i)=\pi+i\left(\frac{\pi^2}{4}-2\right).
-\]
-Hence
-\[
-\boxed{
-\int_\gamma (\Log z)^2\,dz
-=
-i\left(\frac{\pi^2}{2}-4\right).
-}
-\]
-The value is independent of the particular admissible path because the integrand has a primitive on the slit plane.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0061]
-\label{prob:cp-iv-0061}
-\par\noindent\textbullet\quad Let $f$ be entire. Show that $f$ is a polynomial of degree $\le k$ iff there is $M>0$ with
-	\[
-	|f(z)|\le M(1+|z|)^k\qquad(\forall z\in\mathbb C).
-	\]
-	\par\noindent\textbullet\quad Show that an entire $f$ is a polynomial of positive degree iff $|f(z)|\to\infty$ as $|z|\to\infty$.
-	\par\noindent\textbullet\quad Let $f$ be analytic on $\mathbb C$ apart from finitely many poles. If there exists $k$ such that
-	$|f(z)|\le |z|^k$ for all sufficiently large $|z|$, prove that $f$ is a rational function.
-
-\emph{Cauchy estimates.} If $f$ is holomorphic on $|z|\le R$, then
-\[
-|f^{(n)}(0)|\le \frac{n!}{R^n}\max_{|z|=R}|f(z)|.
-\]
-\emph{Poles at infinity.} For $g(w)=f(1/w)$ near $w=0$, a pole of order $m$ at $0$ means $f$ has a pole at $\infty$ of order $m$. An entire function with a pole at $\infty$ is a polynomial (degree $m$). A function meromorphic on the Riemann sphere (only poles, finitely many) is rational.
-\end{problem}
-
-\begin{solution}
-\emph{(i) $\Leftarrow$.}
-Assume $|f(z)|\le M(1+|z|)^k$. For $R>0$, $\max_{|z|=R}|f(z)|\le M(1+R)^k$. Hence
-\[
-|f^{(n)}(0)|\le \frac{n!}{R^n}M(1+R)^k \qquad (n\ge 0).
-\]
-Fix $n>k$ and let $R\to\infty$: $(1+R)^k/R^n\to 0$, so $f^{(n)}(0)=0$. Therefore the Taylor series truncates at degree $\le k$ and $f$ is a polynomial.
-
-\smallskip
-\emph{(i) $\Rightarrow$.}
-If $f(z)=\sum_{j=0}^k a_j z^j$, then $|f(z)|\le \sum_{j=0}^k |a_j||z|^j \le C(1+|z|)^k$.
-
-\medskip
-\emph{(ii) $\Rightarrow$.}
-If $f$ is a nonconstant polynomial of degree $m\ge 1$, then $|f(z)|\sim |a_m||z|^m\to\infty$.
-
-\emph{(ii) $\Leftarrow$.}
-If $|f(z)|\to\infty$ as $|z|\to\infty$, then $g(w)=f(1/w)$ has a pole at $w=0$, so $f$ has a pole at $\infty$ and is therefore a polynomial of positive degree.
-
-\medskip
-\emph{(iii).}
-Let $g(w)=f(1/w)$. For small $|w|$,
-\[
-|g(w)|=|f(1/w)|\le |1/w|^k=|w|^{-k},
-\]
-so $g$ has at most a pole of order $\le k$ at $0$. Hence $f$ has at most a pole at $\infty$. Together with the finitely many poles in $\mathbb C$, $f$ is meromorphic on the Riemann sphere with only poles; thus $f$ is rational.
-\end{solution}
-
-\begin{problem}[CP-IV-0065]
-\label{prob:cp-iv-0065}
+```tex
 upper half-plane to right half-plane
 
 A particularly simple instance is obtained by taking
@@ -1583,71 +808,16 @@ illustrate this map.
 
 
 \clearpage
-\end{problem}
+```
 
-\begin{solution}
-For the elementary map
-\[
-T(z)=-iz
-\]
-we have, for \(z=x+iy\),
-\[
-T(z)=y-ix,
-\qquad
-\Re T(z)=y.
-\]
-Therefore
-\[
-\Im z>0
-\iff
-\Re T(z)>0,
-\]
-so \(T\) maps the upper half-plane biholomorphically onto the right half-plane. The real axis is sent to the imaginary axis.
+### CP-IV-0066
 
-The general three-boundary-point construction is obtained by normalizing both boundary lines. Given
-\[
-a,b,c\in L_1,\qquad A,B,C\in L_2,
-\]
-define
-\[
-\Phi(z)=\frac{(z-a)(c-b)}{(z-b)(c-a)},
-\qquad
-\Psi(w)=\frac{(w-A)(C-B)}{(w-B)(C-A)}.
-\]
-Both send the chosen triples to \(0,\infty,1\). Hence
-\[
-T=\Psi^{-1}\circ\Phi
-\]
-is the unique M\"obius transformation carrying
-\[
-a\mapsto A,\qquad b\mapsto B,\qquad c\mapsto C.
-\]
-If the triples are listed in compatible cyclic order, the chosen half-plane bounded by \(L_1\) is carried to the chosen half-plane bounded by \(L_2\).
+- chapter line: 1191
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For the sample triples
-\[
-a=-2,\ b=1,\ c=4,
-\qquad
-A=-i,\ B=0,\ C=2i,
-\]
-we have
-\[
-\Phi(z)=\frac{z+2}{2(z-1)}
-\]
-and
-\[
-T(z)=\frac{2}{2i-3i\,\Phi(z)}.
-\]
-Substitution gives
-\[
-T(-2)=-i,\qquad T(1)=0,\qquad T(4)=2i,
-\]
-which verifies the normalization.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0066]
-\label{prob:cp-iv-0066}
+```tex
 \par\noindent\textbullet\quad Always: $a,z,z^{*}$ are collinear and $|z-a|\cdot|z^{*}-a|=r^2$.
 
 \paragraph{\textbf{TikZ diagram (schematic).}}
@@ -1659,53 +829,16 @@ which verifies the normalization.
 
 \paragraph{\textbf{Two maps that are both called â€śinversionâ€ť.}}
 Fix a circle $C=\{|z-a|=r\}$.
-\end{problem}
+```
 
-\begin{solution}
-For geometric inversion in the circle
-\[
-C=\{z:|z-a|=r\},
-\]
-the inverse point of \(z\neq a\) is
-\[
-z^*
-=
-a+\frac{r^2}{\overline{z-a}}.
-\]
-Write
-\[
-z-a=\rho e^{i\theta}.
-\]
-Then
-\[
-z^*-a
-=
-\frac{r^2}{\rho}e^{i\theta}.
-\]
-Thus \(z-a\) and \(z^*-a\) have the same argument, so \(a,z,z^*\) are collinear and lie on the same ray from \(a\). Moreover,
-\[
-|z-a|\,|z^*-a|
-=
-\rho\frac{r^2}{\rho}
-=
-r^2.
-\]
-This proves the defining metric relation for circle inversion.
+### CP-IV-0069
 
-By contrast, the holomorphic map
-\[
-J_{a,r}(z)=a+\frac{r^2}{z-a}
-\]
-satisfies
-\[
-J_{a,r}(z)-a=\frac{r^2}{\rho}e^{-i\theta},
-\]
-so it inverts the modulus but reverses the angular coordinate. Hence geometric inversion is antiholomorphic, while \(J_{a,r}\) is a M\"obius transformation.
-\end{solution}
+- chapter line: 1206
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0069]
-\label{prob:cp-iv-0069}
+```tex
 \par\noindent\textbullet\quad For \textbf{holomorphic inversion}:
 	\[
 	J_{a,r}(z)-a=\frac{r^{2}}{\rho e^{i\theta}}
@@ -1997,301 +1130,16 @@ H_{a,r}=R_a\circ I_{a,r}.
 
 	\paragraph{\textbf{Step 3: realize each generator as a composition of inversions.}}
 	We allow inversions in circles and also in lines (lines are circles through $\infty$, i.e.\ reflections).
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-I_{a,r}(z)=a+\frac{r^2}{\overline{z-a}}
-\]
-denote geometric inversion and
-\[
-H_{a,r}(z)=a+\frac{r^2}{z-a}
-\]
-the holomorphic inversion. If \(z-a=\rho e^{i\theta}\), then
-\[
-I_{a,r}(z)-a=\frac{r^2}{\rho}e^{i\theta},
-\qquad
-H_{a,r}(z)-a=\frac{r^2}{\rho}e^{-i\theta}.
-\]
-Thus both invert the radius, but geometric inversion preserves the ray while holomorphic inversion reflects the angle.
+### CP-IV-0084
 
-Let
-\[
-R_a(z)=a+\overline{z-a}.
-\]
-Then
-\[
-R_a(I_{a,r}(z))
-=
-a+\overline{\frac{r^2}{\overline{z-a}}}
-=
-a+\frac{r^2}{z-a}
-=
-H_{a,r}(z).
-\]
-Therefore
-\[
-H_{a,r}=R_a\circ I_{a,r}.
-\]
+- chapter line: 1723
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The holomorphic inversion is M\"obius:
-\[
-H_{a,r}(z)
-=
-\frac{az+(r^2-a^2)}{z-a},
-\]
-with representing matrix
-\[
-\begin{pmatrix}
-a&r^2-a^2\\
-1&-a
-\end{pmatrix},
-\]
-whose determinant is \(-r^2\neq0\).
-
-Conversely, if
-\[
-f(z)=\frac{Az+B}{Cz+D},
-\qquad C\neq0,
-\]
-then
-\[
-f(z)
-=
-\frac AC
-+
-\frac{BC-AD}{C^2}\,
-\frac{1}{z+D/C}.
-\]
-Hence every M\"obius transformation is built from translations, a nonzero complex scaling, and the basic inversion \(z\mapsto1/z\). Since reflections and similarities themselves can be realized by compositions of line/circle inversions, this gives the standard generation of M\"obius transformations by inversions.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0072]
-\label{prob:cp-iv-0072}
-(i) Let $f:U\to\mathbb C$ be holomorphic on a domain $U$. Show that $f$ is constant if any one of its real part, modulus, or argument is constant.\\
-(ii) Find all entire functions of the form $f(x+iy)=u(x)+i\,v(y)$ with $u,v$ real-valued.\\
-(iii) Find all entire functions whose real part is $x^3-3xy^2$.
-\end{problem}
-
-\begin{solution}
-\emph{(i) One part constant $\Rightarrow$ $f$ constant.}
-Write $f=u+iv$.
-If $\Re f=u$ is constant, then $u_x=u_y=0$; the CR equations $u_x=v_y$, $u_y=-v_x$ give $v_x=v_y=0$, hence $f$ is constant.
-
-If $|f|$ is constant, either $f\equiv0$ or $f(U)$ lies on a circle, which is not open; by the Open Mapping Theorem, $f$ must be constant.
-(Alternatively: for holomorphic $f$, $f_x=f'$ and $f_y=i f'$, so from $|f|^2$ constant
-$0=\partial_x|f|^2=2\Re(f'\bar f)$ and $0=\partial_y|f|^2=-2\Im(f'\bar f)$, hence $f'\bar f=0$, so $f'\equiv0$ and $f$ is constant.)
-
-If $\arg f$ is constant, $f(U)$ lies on a ray, not open; the Open Mapping Theorem again forces $f$ to be constant.
-
-\medskip
-\emph{(ii) Form $u(x)+i v(y)$.}
-Here $u_y=0$ and $v_x=0$. CR yields $u_x=v_y=:c$ (a real constant). Hence
-$u(x)=cx+a$, $v(y)=cy+b$ with $a,b\in\mathbb R$, $c\in\mathbb R$, and
-\[
-f(z)=u(x)+i v(y)=(a+ib)+c(x+iy)=(a+ib)+c\,z.
-\]
-Thus all such entire functions are $f(z)=\alpha + c z$ with $\alpha\in\mathbb C$ and $c\in\mathbb R$.
-
-\medskip
-\emph{(iii) Prescribed real part $x^3-3xy^2$.}
-Since $\Re(z^3)=x^3-3xy^2$, any entire $f$ with this real part satisfies $f-z^3$ has zero real part and hence is a purely imaginary constant. Therefore
-\[
-\boxed{\,f(z)=z^3+i\beta,\quad \beta\in\mathbb R.\,}
-\]
-\end{solution}
-
-\begin{problem}[CP-IV-0077]
-\label{prob:cp-iv-0077}
-(restated).
-
-	\par\noindent\textbullet\quad Let $f$ be entire and satisfy $f(1/n)=1/n$ for all $n\in\mathbb N$. Prove that $f(z)\equiv z$.
-	\par\noindent\textbullet\quad Let $f$ be entire and satisfy $f(n)=n^{2}$ for all $n\in\mathbb Z$. Must $f$ equal $z^{2}$? Give a justification or a counterexample.
-	\par\noindent\textbullet\quad Let $f$ be holomorphic on $D(0,2)$. Show that there exists $n\in\mathbb N$ with $f(1/n)\ne 1/(n+1)$.
-
-\medskip
-
-\emph{Holomorphic / entire.}
-A function $f$ is holomorphic on a domain $U\subset\mathbb C$ if it is complex differentiable at every point of $U$.
-It is \emph{entire} if it is holomorphic on all of $\mathbb C$.
-A \emph{domain} is a nonempty, open, connected subset of $\mathbb C$.
-
-\medskip
-\emph{Accumulation point.}
-A sequence $(z_n)\subset U$ has an accumulation point $z_\ast\in U$ if $z_n\to z_\ast$ with $z_n\neq z_\ast$ eventually.
-
-\medskip
-\emph{Isolated zeros and the identity theorem.}
-If $f$ is holomorphic on $U$ and not identically zero, then its zeros have no accumulation point in $U$.
-If $f,g$ are holomorphic on $U$ and $f=g$ on a set with a limit point in $U$ (e.g.\ $z_n\to z_\ast\in U$), then $f\equiv g$ on $U$.
-Equivalently, if a holomorphic $f$ vanishes on such a set, then $f\equiv 0$.
-
-\medskip
-\emph{An entire function vanishing on $\mathbb Z$.}
-$\sin(\pi z)$ is entire and $\sin(\pi n)=0$ for all $n\in\mathbb Z$.
-Thus for prescribed integer values, one may add $\sin(\pi z)\cdot H(z)$ (with $H$ entire) without changing those values.
-
-\medskip
-\emph{Removable singularities (Riemann).}
-If $f$ is holomorphic on $0<|z-a|<r$ and bounded near $a$, then $f$ extends holomorphically to $z=a$.
-
-\medskip
-\emph{How these tools are used in Problem 8.}
-
-	\par\noindent\textbullet\quad \textbf{(i)} $g(z)=f(z)-z$ entire with $g(1/n)=0$ and $1/n\to 0\in\mathbb C$ $\Rightarrow$ $g\equiv 0$.
-	\par\noindent\textbullet\quad \textbf{(ii)} Integers have no accumulation in $\mathbb C$; non-uniqueness via $\sin(\pi z)$.
-	\par\noindent\textbullet\quad \textbf{(iii)} Zeros at $1/n\to 0$ in $D(0,2)\setminus\{-1\}$ force identity with a meromorphic function that has a pole at $-1$ â€” contradiction.
-
-\medskip
-\end{problem}
-
-\begin{solution}
-\subsection*{Solution to (1): Existence on $U$}
-
-Because $f$ is holomorphic and nonvanishing, the function
-\[
-g(z) := \frac{f'(z)}{f(z)}
-\]
-is holomorphic on $U$. Since $U$ is simply connected, there exists a holomorphic primitive $G$ with $G'=g$ on $U$.
-
-\medskip
-
-Define
-\[
-H(z) := e^{G(z)} .
-\]
-Then
-\[
-\frac{H'(z)}{H(z)} = G'(z) = \frac{f'(z)}{f(z)}
-\qquad\Longrightarrow\qquad
-\Big(\log\frac{H(z)}{f(z)}\Big)'=0 .
-\]
-Hence $H/f$ is constant on $U$. Choose $c\in\mathbf{C}$ with $e^{c} = f(z_0)/H(z_0)$ for some (hence every) $z_0\in U$, and set
-\[
-F(z) := G(z) + c .
-\]
-Then $e^{F(z)} = f(z)$ on $U$, so $F$ is a holomorphic branch of $\log f$.
-
-\medskip
-
-\noindent\textit{Uniqueness up to $2\pi i\mathbf{Z}$.}
-If $F_1$ and $F_2$ both satisfy $e^{F}=f$, then $e^{F_1-F_2}\equiv 1$, so $F_1-F_2$ is a constant of the form $2\pi i\,k$ with $k\in\mathbf{Z}$.
-
-\bigskip\hrule\bigskip
-\end{solution}
-
-\begin{problem}[CP-IV-0080]
-\label{prob:cp-iv-0080}
-\par\noindent\textbullet\quad (\textbf{Schwarz's Lemma}) Let $f$ be analytic on $D(0,1)$ with $|f(z)|\le 1$ and $f(0)=0$.
-	Apply the maximum principle to $f(z)/z$ to show $|f(z)|\le |z|$. Show also that if $|f(w)|=|w|$ for some $w\neq 0$, then $f(z)=c\,z$ for some constant $c$.
-
-	\par\noindent\textbullet\quad Use Schwarz's Lemma to prove that any conformal equivalence $\Phi:D(0,1)\to D(0,1)$ is given by a MĂ¶bius transformation.
-
-If a holomorphic $g$ on $0<|z|<1$ is bounded near $0$, then $g$ extends holomorphically to $z=0$ (removable singularity).
-A non-constant holomorphic function does not attain a maximum of its modulus in the interior (maximum modulus principle).
-For $a\in D$, the map $\displaystyle \phi_a(z)=\frac{z-a}{1-\overline a\,z}$ is a biholomorphism $D\to D$ with $\phi_a(a)=0$.
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0080_schwarz_disk_automorphism.tex}
-
-\begin{solution}
-\emph{(i)} Define
-\[
-g(z)=\begin{cases}
-	\dfrac{f(z)}{z},& z\neq 0,\\[4pt]
-	f'(0),& z=0.
-\end{cases}
-\]
-Because $|f(z)|\le 1$ and $f(0)=0$, $g$ is bounded near $0$, hence extends holomorphically to $D$.
-For $0<r<1$, on $|z|=r$ we have $|g(z)|\le 1/r$. By the maximum modulus principle on each smaller disk, letting $r\uparrow 1$ gives $|g(z)|\le 1$ for all $z\in D$.
-Thus $|f(z)|\le |z|$ and $|f'(0)|=|g(0)|\le 1$.
-
-If $|f(w)|=|w|$ for some $w\ne 0$, then $|g(w)|=1$. By the maximum modulus principle $g$ has constant modulus $1$ on $D$, hence $g\equiv c$ with $|c|=1$ and $f(z)=c\,z$.
-
-\medskip
-\emph{(ii)} Let $\Phi:D\to D$ be a conformal bijection and set $a=\Phi(0)$. Consider $F=\phi_a\circ \Phi$, where $\displaystyle \phi_a(z)=\frac{z-a}{1-\overline a\,z}$.
-Then $F:D\to D$ is holomorphic with $F(0)=0$. By Schwarz's Lemma, $F(z)=\lambda z$ with $|\lambda|\le 1$; since $\Phi$ is bijective, $| \lambda|=1$.
-Therefore
-\[
-\Phi(z)=\phi_a^{-1}(\lambda z)=\lambda\,\frac{z-a}{1-\overline a\,z},
-\]
-a MĂ¶bius automorphism of the disk.
-\end{solution}
-
-\begin{problem}[CP-IV-0082]
-\label{prob:cp-iv-0082}
-Associated family in Weierstrass data (local isometry)
-
-\paragraph{\textbf{Problem statement.}}
-The Weierstrass representation is not unique: if $\phi_{(f,g)}:D\to\mathbb{R}^3$ is the associated parametrization and
-$\alpha:W\to D$ is a bijective holomorphic map, then $\phi_{(f,g)}\circ\alpha$ is another representation of the same minimal
-surface and it must have the same form with different $f$ and $g$ (which should be specified).
-By choosing $\alpha(z)=g^{-1}(z)$, show that, locally around regular points of $g$ (where $g'\neq 0$), we can assume
-that our pair $(f,g)$ is of the form $(F,\mathrm{id})$, for some local holomorphic function $F$. We denote such a
-representation by $\phi_F$. Show that the minimal surfaces given by $\phi_{e^{-i\theta}F}$ for $\theta\in\mathbb{R}$
-are all locally isometric.
-
-\medskip
-
-We use the Weierstrass data $(f,g)$ (holomorphic on $D$, with $g$ meromorphic in general) in the form
-\[
-\phi_{(f,g)}(z)
-=
-\Re\int^z
-\Bigl(\tfrac12 f(1-g^2),\ \tfrac{i}{2}f(1+g^2),\ fg\Bigr)\,dz.
-\]
-Its induced metric is
-\[
-ds^2
-=
-\frac{|f|^2(1+|g|^2)^2}{4}\,|dz|^2.
-\]
-
-\medskip
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0082_weierstrass_gauss_coordinate.tex}
-
-\begin{solution}
-Let $\alpha:W\to D$ be biholomorphic and consider $\phi_{(f,g)}\circ\alpha$. Writing $z=\alpha(w)$, we have
-$dz=\alpha'(w)\,dw$, hence
-\[
-\phi_{(f,g)}(\alpha(w))
-=
-\Re\int^w
-\Bigl(\tfrac12 f(\alpha(\xi))(1-g(\alpha(\xi))^2),\ \tfrac{i}{2}f(\alpha(\xi))(1+g(\alpha(\xi))^2),\ f(\alpha(\xi))g(\alpha(\xi))\Bigr)
-\,\alpha'(\xi)\,d\xi.
-\]
-Therefore $\phi_{(f,g)}\circ\alpha$ is again a Weierstrass representation with new data
-\[
-\tilde g(w)=g(\alpha(w)),\qquad
-\tilde f(w)=f(\alpha(w))\,\alpha'(w).
-\]
-
-Now assume $g'(z_0)\neq 0$. By the holomorphic inverse function theorem, there is a neighborhood on which $g$ admits a
-holomorphic inverse $g^{-1}$. Choose $\alpha=g^{-1}$. Then locally
-\[
-\tilde g(w)=g(g^{-1}(w))=w=\mathrm{id}(w),
-\qquad
-\tilde f(w)= f(g^{-1}(w))\,(g^{-1})'(w)=:F(w),
-\]
-so the pair has the form $(F,\mathrm{id})$. We denote the corresponding immersion by $\phi_F$.
-
-Finally, for $g(z)=z$ the induced metric becomes
-\[
-ds^2=\frac{|F(z)|^2(1+|z|^2)^2}{4}\,|dz|^2.
-\]
-Replacing $F$ by $e^{-i\theta}F$ does not change $|F|$, hence produces the same metric. Thus the identity map on the
-parameter domain is a local isometry between $\phi_F$ and $\phi_{e^{-i\theta}F}$. Therefore the family
-$\{\phi_{e^{-i\theta}F}\}_{\theta\in\mathbb{R}}$ consists of locally isometric minimal surfaces.
-
-\medskip
-\end{solution}
-
-\begin{problem}[CP-IV-0084]
-\label{prob:cp-iv-0084}
+```tex
 \par\noindent\textbullet\quad \textbf{Enneper associated family.}
 	Take $g(z)=z$ and $f(z)=1$ (on a simply connected domain). Then $f_\theta=e^{-i\theta}$ produces the associated Enneper
 	family, all locally isometric for the same reason.
@@ -2654,69 +1502,16 @@ Write $z=x+iy$ and define the complex derivatives
 \phi_{\bar z}=\frac12(\phi_x+i\phi_y)\in\mathbb C^3.
 \]
 For a conformal minimal immersion, $\phi_z$ has two key properties:
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0084_associated_family_phase.tex}
+### CP-IV-0089
 
-\begin{solution}
-For Weierstrass data \((f,g)\), set
-\[
-\Phi_{(f,g)}
-=
-\left(
-\frac12 f(1-g^2),
-\frac{i}{2}f(1+g^2),
-fg
-\right),
-\qquad
-X(z)=\Re\int^z\Phi_{(f,g)}(\zeta)\,d\zeta.
-\]
-A direct computation gives
-\[
-\Phi_{(f,g)}\cdot\Phi_{(f,g)}=0,
-\]
-so the immersion is conformal, while holomorphicity of \(\Phi\) makes each coordinate of \(X\) harmonic; hence \(X\) is minimal.
+- chapter line: 2091
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The induced metric is
-\[
-ds^2
-=
-\frac{|f|^2(1+|g|^2)^2}{4}|dz|^2.
-\]
-Replace \(f\) by
-\[
-f_\theta=e^{-i\theta}f.
-\]
-Then \(|f_\theta|=|f|\), so
-\[
-ds_\theta^2=ds^2.
-\]
-Thus the family
-\[
-X_\theta
-=
-\Re\int^z\Phi_{(e^{-i\theta}f,g)}\,d\zeta
-\]
-consists of conformal minimal immersions that are locally isometric. This is the associated family.
-
-Under a biholomorphic change of parameter \(z=\alpha(w)\), the data transform as
-\[
-\widetilde g(w)=g(\alpha(w)),
-\qquad
-\widetilde f(w)=f(\alpha(w))\alpha'(w).
-\]
-At a regular point of the Gauss map, \(g'(z_0)\neq0\), choosing \(\alpha=g^{-1}\) gives the normalized form
-\[
-(\widetilde f,\widetilde g)=(F,\operatorname{id}).
-\]
-The associated family is then simply \((e^{-i\theta}F,\operatorname{id})\).
-
-For Enneper data \(f=1,\ g=z\), this yields \(f_\theta=e^{-i\theta}\), so all members of the Enneper associated family have the same first fundamental form.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0089]
-\label{prob:cp-iv-0089}
+```tex
 \par\noindent\textbullet\quad The data $(f,g)$ are two complex functions, hence define a map $(f,g):D\to\mathbb C^2$,
 	but $(f,g)$ is \emph{not} the surface. It is the holomorphic data used to build $\Phi$ and then $\phi$.
 
@@ -2965,160 +1760,16 @@ return to a surface in $\mathbb R^3$.
 	\medskip
 
 	\clearpage
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-X:D\longrightarrow\mathbb R^3
-\]
-be a conformal minimal immersion. In complex coordinates \(z=x+iy\),
-\[
-X_z=\frac12(X_x-iX_y)\in\mathbb C^3.
-\]
-Minimality in conformal coordinates implies
-\[
-\partial_{\bar z}X_z=0,
-\]
-so
-\[
-\Phi:=2X_z
-\]
-is holomorphic. Conformality gives the isotropy condition
-\[
-\Phi\cdot\Phi=0.
-\]
+### CP-IV-0096
 
-On the set where \(\Phi_1-i\Phi_2\neq0\), define
-\[
-f=\Phi_1-i\Phi_2,
-\qquad
-g=\frac{\Phi_3}{f}.
-\]
-Using \(\Phi_1^2+\Phi_2^2+\Phi_3^2=0\), one obtains
-\[
-\Phi
-=
-\left(
-\frac12f(1-g^2),
-\frac{i}{2}f(1+g^2),
-fg
-\right).
-\]
-Hence
-\[
-X(z)=\Re\int^z\Phi(\zeta)\,d\zeta.
-\]
+- chapter line: 2427
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The two pieces of data have different geometric meanings. The function \(g\) is the stereographic coordinate of the Gauss map:
-\[
-N
-=
-\frac{1}{1+|g|^2}
-\bigl(2\Re g,\,2\Im g,\,|g|^2-1\bigr).
-\]
-Thus \(g\) determines the normal direction. By contrast, \(f\,dz\) controls the conformal scale, since
-\[
-ds^2
-=
-\frac{|f|^2(1+|g|^2)^2}{4}|dz|^2.
-\]
-Therefore \((f,g)\) are not themselves the surface: they are holomorphic data from which the surface is reconstructed. Under a biholomorphic reparametrization \(z=\alpha(w)\),
-\[
-\widetilde g=g\circ\alpha,
-\qquad
-\widetilde f=(f\circ\alpha)\alpha',
-\]
-which explains the nonuniqueness of the data.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0090]
-\label{prob:cp-iv-0090}
-(exact)
-
-Let $f:U\to\mathbb{C}$ be holomorphic on a domain $U$.
-
-	\par\noindent (a)\quad Show that, if $\overline{B}(a,r)\subset U$, then
-	\[
-	f(a)=\frac{1}{2\pi}\int_{0}^{2\pi} f(a+re^{it})\,dt.
-	\]
-	\par\noindent (b)\quad Suppose $a\in U$ is such that $|f(a)|=\max_{U}|f|$. Show that $|f|$ must be constant near $a$.
-	\par\noindent (c)\quad Deduce that $f$ is constant on all of $U$.
-	\quad\emph{Hint:} Consider $S=\{z\in U: |f(z)|=|f(a)|\}$.
-
-If $\overline{B}(a,r)\subset U$, then
-\[
-f(a)=\frac{1}{2\pi i}\int_{|\zeta-a|=r}\frac{f(\zeta)}{\zeta-a}\,d\zeta.
-\]
-With $\zeta=a+re^{it}$ and $d\zeta=ire^{it}dt$, this becomes the circular average.
-
-For an integrable complex function $g$, $\left|\int g\right|\le\int|g|$ with equality iff $g$ has a constant argument almost everywhere on the path of integration.
-
-If $f$ is holomorphic on $\overline{B}(a,r)$, then for $n\ge1$,
-\[
-f^{(n)}(a)=\frac{n!}{2\pi i}\int_{|\zeta-a|=r}\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta.
-\]
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{(a) Mean value property.}\quad 
-By Cauchyâ€™s formula,
-\[
-f(a)=\frac{1}{2\pi i}\int_{|\zeta-a|=r}\frac{f(\zeta)}{\zeta-a}\,d\zeta
-=\frac{1}{2\pi i}\int_{0}^{2\pi}\frac{f(a+re^{it})}{re^{it}}\,(ire^{it})\,dt
-=\frac{1}{2\pi}\int_{0}^{2\pi} f(a+re^{it})\,dt.
-\]
-
-\par\medskip\noindent\textbf{(b) Local constancy at an interior maximum.}\quad 
-Assume $|f(a)|=\max_{U}|f|$. For $r>0$ with $\overline{B}(a,r)\subset U$,
-\[
-|f(a)|
-=\left|\frac{1}{2\pi}\int_{0}^{2\pi} f(a+re^{it})\,dt\right|
-\le \frac{1}{2\pi}\int_{0}^{2\pi}|f(a+re^{it})|\,dt
-\le \frac{1}{2\pi}\int_{0}^{2\pi}|f(a)|\,dt
-=|f(a)|.
-\]
-Thus equality holds throughout. Hence $|f(a+re^{it})|=|f(a)|$ and $f(a+re^{it})$ has a constant argument (the same as $f(a)$) for almost every $t$. Therefore
-\[
-f(a+re^{it})=f(a)\quad\text{for all }t,
-\]
-i.e. $f$ is constant on the circle $|z-a|=r$. For such an $r$, Cauchyâ€™s formula for $n\ge1$ gives
-\[
-f^{(n)}(a)=\frac{n!}{2\pi i}\int_{|\zeta-a|=r}\frac{f(\zeta)}{(\zeta-a)^{n+1}}\,d\zeta
-=\frac{n!}{2\pi i}\,f(a)\int_{|\zeta-a|=r}\frac{1}{(\zeta-a)^{n+1}}\,d\zeta=0.
-\]
-Hence the Taylor series of $f$ at $a$ is the constant $f(a)$; there exists $\rho>0$ such that $f\equiv f(a)$ on $B(a,\rho)$. In particular, $|f|$ is constant near $a$.
-
-\par\medskip\noindent\textbf{(c) Constancy on the whole domain.}\quad 
-Let $M=|f(a)|$ and $S=\{z\in U: |f(z)|=M\}$. The set $S$ is closed (preimage of $\{M\}$ under the continuous map $z\mapsto|f(z)|$). By part (b), for each $z\in S$ there exists a neighborhood on which $f$ is constant, hence that neighborhood lies in $S$; thus $S$ is open. Since $U$ is connected and $S\neq\varnothing$, we conclude $S=U$, so $|f|$ is constant on $U$, and by (b) (applied at any point) $f$ is constant on $U$.
-\end{solution}
-
-\begin{problem}[CP-IV-0092]
-\label{prob:cp-iv-0092}
-(restated).
-
-Let $D\subset\mathbb C$ be simply connected and $0\notin D$.
-Show that there exists a holomorphic function $F$ on $D$ with $F'(z)=1/z$ and $e^{F(z)}=z$ for $z\in D$
-(i.e.\ $F$ is a branch of the logarithm on $D$).
-
-\medskip
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{Solution to Problem 10.}\quad 
-Fix $z_0\in D$ and define
-\[
-F(z)=\int_{z_0}^{z}\frac{d\zeta}{\zeta}.
-\]
-Since $1/\zeta$ is holomorphic on $D$ and $D$ is simply connected, the integral is path-independent; $F$ is holomorphic with $F'(z)=1/z$.
-Let $G(z)=e^{F(z)}/z$. Then $G'(z)=0$, so $G$ is constant. Choosing $F(z_0)$ so that $G\equiv 1$ yields $e^{F(z)}=z$ on $D$.
-
-\bigskip
-\end{solution}
-
-\begin{problem}[CP-IV-0096]
-\label{prob:cp-iv-0096}
+```tex
 \par\noindent\textbullet\quad Suppose $f(1/n)=1/(n+1)$ for all $n$. Then
 	\[
 	h(z):=f(z)-\frac{z}{z+1}
@@ -3129,44 +1780,16 @@ Let $G(z)=e^{F(z)}/z$. Then $G'(z)=0$, so $G$ is constant. Choosing $F(z_0)$ so 
 	Hence some $n$ satisfies $f(1/n)\ne 1/(n+1)$.
 
 \bigskip
-\end{problem}
+```
 
-\begin{solution}
-Assume, for contradiction, that
-\[
-f(1/n)=\frac{1}{n+1}
-\]
-for every \(n\ge1\). Define
-\[
-h(z)=f(z)-\frac{z}{z+1}.
-\]
-On
-\[
-D(0,2)\setminus\{-1\},
-\]
-the function \(h\) is holomorphic, and
-\[
-h(1/n)=0
-\]
-for all \(n\). The zeros \(1/n\) accumulate at \(0\), which lies in the domain. By the identity theorem,
-\[
-h\equiv0
-\]
-on \(D(0,2)\setminus\{-1\}\). Hence
-\[
-f(z)=\frac{z}{z+1}
-\]
-there.
+### CP-IV-0097
 
-But the right-hand side has a pole at \(z=-1\), whereas \(f\) is holomorphic on all of \(D(0,2)\). This contradiction shows that the assumed equalities cannot hold for every \(n\). Therefore for some \(n\),
-\[
-f(1/n)\neq\frac1{n+1}.
-\]
-\end{solution}
+- chapter line: 2441
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0097]
-\label{prob:cp-iv-0097}
+```tex
 (Real shear).
 
 Let $T$ have real matrix $\begin{psmallmatrix}1&1\\ 0&1\end{psmallmatrix}$.
@@ -3177,45 +1800,16 @@ B=\frac{1-1}{2}+i\,\frac{0+1}{2}=\tfrac{i}{2}.
 \]
 The image of the unit circle is an ellipse tilted by the shear. Since $B\neq0$, $T$ is not holomorphic.
 The Jacobian is $|A|^2-|B|^2=(1^2+(\tfrac12)^2)-(\tfrac12)^2=1>0$, so orientation is preserved.
-\end{problem}
+```
 
-\begin{solution}
-For the real shear
-\[
-T(x,y)=(x+y,y),
-\]
-the real matrix is
-\[
-\begin{pmatrix}1&1\\0&1\end{pmatrix}.
-\]
-Writing \(T(z)=Az+B\overline z\), the standard formulas give
-\[
-A=\frac{1+1}{2}+i\frac{0-1}{2}
-=
-1-\frac{i}{2},
-\]
-and
-\[
-B=\frac{1-1}{2}+i\frac{0+1}{2}
-=
-\frac{i}{2}.
-\]
-Since \(B\neq0\), the shear is not holomorphic.
+### CP-IV-0102
 
-Its Jacobian is
-\[
-|A|^2-|B|^2
-=
-\left(1+\frac14\right)-\frac14
-=
-1>0,
-\]
-so orientation is preserved. The image of the unit circle under a nonconformal invertible real-linear map is an ellipse; here it is the familiar sheared circle.
-\end{solution}
+- chapter line: 2455
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0102]
-\label{prob:cp-iv-0102}
+```tex
 automorphism of the upper half-plane
 
 Consider the M\"obius transformation
@@ -3355,79 +1949,16 @@ Consider the M\"obius transformation
 
 	Figures~\ref{fig:hp-h1h2-z} and \ref{fig:hp-h1h2-w}
 	illustrate this non-automorphism half-plane map.
-\end{problem}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.78\textwidth]{figures/part04/cp_iv_0102_hp_h1h2_z_plane.png}
-  \caption{Half-plane-to-half-plane map: source \(z\)-plane.}
-  \label{fig:hp-h1h2-z}
-\end{figure}
+```
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.78\textwidth]{figures/part04/cp_iv_0102_hp_h1h2_w_plane.png}
-  \caption{Half-plane-to-half-plane map: image \(w\)-plane.}
-  \label{fig:hp-h1h2-w}
-\end{figure}
+### CP-IV-0106
 
-\begin{solution}
-First consider
-\[
-T(z)=\frac{z-1}{z+1}.
-\]
-For \(z=x+iy\) with \(y>0\),
-\[
-\Im T(z)
-=
-\frac{2y}{|z+1|^2}>0.
-\]
-Hence \(T\) maps the upper half-plane to itself. Since
-\[
-T(1)=0,\qquad
-T(-1)=\infty,\qquad
-T(\infty)=1,
-\]
-it is precisely the M\"obius normalization taking
-\[
-(1,-1,\infty)\longmapsto(0,\infty,1).
-\]
-Its inverse is again M\"obius, so \(T\) is an automorphism of the upper half-plane.
+- chapter line: 2612
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For the second normalization, let
-\[
-a=-1,\quad b=0,\quad c=2,
-\qquad
-A=1-i,\quad B=1,\quad C=1+i.
-\]
-The source and target cross-ratio coordinates are
-\[
-\Phi(z)=\frac{2(z+1)}{3z},
-\qquad
-\Psi(w)=\frac{w-1+i}{2(w-1)}.
-\]
-Solving \(\Psi(w)=\xi\) gives
-\[
-\Psi^{-1}(\xi)
-=
-\frac{2\xi-1+i}{2\xi-1}.
-\]
-Therefore
-\[
-T(z)=\Psi^{-1}(\Phi(z)).
-\]
-Substitution gives
-\[
-T(-1)=1-i,\qquad
-T(0)=1,\qquad
-T(2)=1+i.
-\]
-Since the boundary triples occur in corresponding order, the chosen upper half-plane is carried biholomorphically to the half-plane \(\Re w>1\).
-\end{solution}
-
-
-
-\begin{problem}[CP-IV-0106]
-\label{prob:cp-iv-0106}
+```tex
 (restated)
 
 Let $\Gamma$ be a simple smooth positively oriented closed curve in the plane, and let $f$ be continuously differentiable on $\Gamma$.
@@ -3588,316 +2119,41 @@ For \(|z|>1\),
 \]
 Integrating termwise over \(|\zeta|=1\) gives \(\displaystyle \oint \zeta^{n}\,d\zeta=0\) for all \(n\neq -1\),
 so the whole integral is \(0\), confirming \(F(z)=0\) outside.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0106_plemelj_indentation.tex}
+### CP-IV-0116
 
-\begin{solution}
-Let
-\[
-F(z)=\frac{1}{2\pi i}\int_\Gamma
-\frac{f(\zeta)}{\zeta-z}\,d\zeta,
-\qquad z\notin\Gamma.
-\]
-For \(z\) away from the contour, differentiation under the integral sign gives
-\[
-F'(z)
-=
-\frac{1}{2\pi i}
-\int_\Gamma
-\frac{f(\zeta)}{(\zeta-z)^2}\,d\zeta.
-\]
+- chapter line: 2778
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Fix \(\zeta_0\in\Gamma\). Remove a symmetric small arc around \(\zeta_0\) and replace it by a small semicircular indentation. Split the integral into the integral over the truncated contour and the indentation. The first part tends to
-\[
-\operatorname{P.V.}\,
-\frac{1}{2\pi i}
-\int_\Gamma
-\frac{f(\zeta)}{\zeta-\zeta_0}\,d\zeta.
-\]
-On the indentation,
-\[
-f(\zeta)=f(\zeta_0)+o(1),
-\]
-so its leading contribution is the integral of
-\[
-\frac{f(\zeta_0)}{\zeta-\zeta_0}.
-\]
-A half-turn contributes \(\pm\pi i\), with sign determined by the side and orientation. Dividing by \(2\pi i\) yields
-\[
-F^+(\zeta_0)
-=
-\frac12f(\zeta_0)
-+
-\operatorname{P.V.}\,
-\frac{1}{2\pi i}\int_\Gamma
-\frac{f(\zeta)}{\zeta-\zeta_0}\,d\zeta,
-\]
-and
-\[
-F^-(\zeta_0)
-=
--\frac12f(\zeta_0)
-+
-\operatorname{P.V.}\,
-\frac{1}{2\pi i}\int_\Gamma
-\frac{f(\zeta)}{\zeta-\zeta_0}\,d\zeta.
-\]
-Hence
-\[
-F^+-F^-=f
-\]
-and
-\[
-\frac{F^++F^-}{2}
-=
-\operatorname{P.V.}\,
-\frac{1}{2\pi i}\int_\Gamma
-\frac{f(\zeta)}{\zeta-\zeta_0}\,d\zeta.
-\]
-
-For the unit circle and \(f(\zeta)=\zeta^m\), Cauchy's formula gives
-\[
-F(z)=
-\begin{cases}
-z^m,&|z|<1,\\
-0,&|z|>1.
-\end{cases}
-\]
-Therefore, at \(|\zeta_0|=1\),
-\[
-\operatorname{P.V.}\,
-\frac{1}{2\pi i}
-\int_{|\zeta|=1}
-\frac{\zeta^m}{\zeta-\zeta_0}\,d\zeta
-=
-\frac12\zeta_0^m.
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0116]
-\label{prob:cp-iv-0116}
+```tex
 (Rotationâ€“scaling; holomorphic).
 
 Let $T(z)=\lambda z$ with $\lambda=1.3 e^{i\pi/6}$. Then $A=\lambda$, $B=0$.
 The image of the unit circle is a circle of radius $1.3$ rotated by $\pi/6$, and $T$ preserves angles and orientation.
-\end{problem}
+```
 
-\begin{solution}
-Here
-\[
-T(z)=\lambda z,
-\qquad
-\lambda=1.3e^{i\pi/6}.
-\]
-Thus in the decomposition \(T(z)=Az+B\overline z\),
-\[
-A=\lambda,\qquad B=0.
-\]
-Hence \(T\) is complex-linear and therefore holomorphic.
+### CP-IV-0129
 
-If \(|z|=1\), then
-\[
-|T(z)|=|\lambda||z|=1.3,
-\]
-so the unit circle is mapped to the circle of radius \(1.3\). Moreover,
-\[
-\operatorname{Arg}T(z)
-=
-\operatorname{Arg}z+\frac{\pi}{6},
-\]
-so the image is rotated through \(\pi/6\).
+- chapter line: 2904
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The derivative is the nonzero constant
-\[
-T'(z)=\lambda,
-\]
-so the map is conformal. Its real Jacobian is
-\[
-|\lambda|^2=1.3^2>0,
-\]
-hence orientation is preserved.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0117]
-\label{prob:cp-iv-0117}
-Let $f:\mathbb C\to\mathbb C$ be entire. Prove that $f$ is constant if any one of the following holds:
-
-	\par\noindent\textbullet\quad $\displaystyle \frac{f(z)}{z}\to 0$ as $|z|\to\infty$.
-	\par\noindent\textbullet\quad There exist $b\in\mathbb C$ and $\varepsilon>0$ such that $|f(z)-b|>\varepsilon$ for all $z\in\mathbb C$.
-	\par\noindent\textbullet\quad Writing $f=u+iv$ with real $u,v$, one has $|u(z)|>|v(z)|$ for all $z\in\mathbb C$.
-
-We use: (a) \emph{Liouvilleâ€™s theorem}: a bounded entire function is constant; (b) \emph{Cauchy estimates}:
-if $f$ is holomorphic on $|z|\le R$, then $|f^{(n)}(0)|\le \dfrac{n!}{R^n}\max_{|z|=R}|f(z)|$;
-(c) the Cayley map $w\mapsto \dfrac{w-1}{w+1}$ sends $\{\Re w>0\}$ to the unit disk;
-(d) if $FG\equiv 0$ with $F,G$ holomorphic on a connected set, then $F\equiv 0$ or $G\equiv 0$.
-\end{problem}
-
-\begin{solution}
-\emph{(i) Sublinear growth.}
-Given $\eta>0$, choose $R_\eta$ so that $|f(z)|\le \eta|z|$ for $|z|\ge R_\eta$.
-For $R\ge R_\eta$,
-\[
-\max_{|z|=R}|f(z)|\le \eta R.
-\]
-Cauchy estimates at $0$ yield
-\[
-|f^{(n)}(0)|\le \frac{n!\,\eta R}{R^n}=\frac{n!\,\eta}{R^{n-1}}\quad(n\ge 1).
-\]
-Letting $R\to\infty$ gives $f^{(n)}(0)=0$ for $n\ge 2$, and $|f'(0)|\le \eta$ for all $\eta>0$, hence $f'(0)=0$.
-Thus $f$ is constant.
-
-\medskip
-\emph{(ii) Image avoids a disk.}
-If $|f(z)-b|>\varepsilon$ for all $z$, then $g(z)=\dfrac{1}{f(z)-b}$ is entire and bounded by $1/\varepsilon$.
-By Liouville, $g$ is constant, hence $f$ is constant.
-
-\medskip
-\emph{(iii) Real part dominates.}
-If $f=u+iv$ with $|u|>|v|$ everywhere, then $\Re\big(f^2\big)=u^2-v^2>0$, so $g:=f^2$ maps $\mathbb C$ into the right halfâ€“plane.
-The Cayley transform $h=(g-1)/(g+1)$ is entire and satisfies $|h|<1$, hence $h$ is constant by Liouville, so $g\equiv c$ with $\Re c>0$.
-Therefore $(f-\sqrt c)(f+\sqrt c)\equiv 0$, and by analyticity one factor vanishes identically.
-Thus $f\equiv \sqrt c$ or $f\equiv -\sqrt c$, i.e. $f$ is constant.
-\end{solution}
-
-\begin{problem}[CP-IV-0126]
-\label{prob:cp-iv-0126}
-Let $U\subset\mathbb C$ be a domain and $u:U\to\mathbb R$ be $C^2$ and harmonic.
-Show that if $z_0\in U$, then for any disk $D=D(z_0,r)\Subset U$ there exists a holomorphic
-$f:D\to\mathbb C$ with $\Re f=u$ on $D$.
-Show by an example that this need not hold globally.
-
-\medskip
-
-A $C^2$ real function $u$ is \emph{harmonic} if
-\[
-\Delta u \;=\; u_{xx}+u_{yy} \;=\; 0.
-\]
-Set the 1-form
-\[
-\alpha \;=\; -\,u_y\,dx \;+\; u_x\,dy.
-\]
-A short calculation gives
-\[
-d\alpha \;=\; (u_{xx}+u_{yy})\,dx\wedge dy \;=\; \Delta u\,dx\wedge dy.
-\]
-Hence if $u$ is harmonic, $\alpha$ is \emph{closed} ($d\alpha=0$).
-On a simply connected domain (e.g.\ a disk), every closed 1-form is \emph{exact}, so there exists
-$v$ with $dv=\alpha$, i.e.
-\[
-v_x=-u_y, \qquad v_y=u_x.
-\]
-Then the Cauchyâ€“Riemann equations hold for $(u,v)$ and $f:=u+iv$ is holomorphic with $\Re f=u$.
-
-\smallskip
-On nonâ€“simply connected domains a closed form need not be exact; a certificate is a nonzero loop integral
-\[
-\oint_\gamma \alpha \;\neq\; 0
-\qquad\text{for some closed curve }\gamma\subset U.
-\]
-
-\medskip
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0126_harmonic_conjugate_local_global.tex}
-
-\begin{solution}
-\emph{Local existence on a disk.}
-Fix $z_0\in U$ and $D=D(z_0,r)\Subset U$.
-Since $u$ is harmonic, $d\alpha=0$ on $D$. Because $D$ is simply connected,
-there exists $v:D\to\mathbb R$ with $dv=\alpha$, i.e.
-\[
-v_x=-u_y, \qquad v_y=u_x.
-\]
-Hence the Cauchyâ€“Riemann equations hold and
-\[
-f:=u+iv \quad\text{is holomorphic on } D \text{ with } \Re f=u.
-\]
-
-\medskip
-\emph{Failure globally: a counterexample.}
-Let $U=\mathbb C\setminus\{0\}$ and $u(z)=\log|z|$. Then $u\in C^\infty(U)$ and $\Delta u=0$.
-If there were a holomorphic $F$ on $U$ with $\Re F=u$, then its imaginary part $v=\Im F$
-would satisfy $dv=\alpha=-u_y\,dx+u_x\,dy$.
-
-\smallskip
-On the unit circle $\gamma(t)=e^{it}$, $0\le t\le 2\pi$, one has
-\[
-u_x=\frac{x}{x^2+y^2}, \qquad u_y=\frac{y}{x^2+y^2},
-\]
-so along $|z|=1$,
-\[
-\oint_{\gamma}\alpha
-=\oint_{\gamma}(-y\,dx+x\,dy)
-=\int_0^{2\pi}\!\!\big(-\sin t\cdot(-\sin t)+\cos t\cdot\cos t\big)\,dt
-=\int_0^{2\pi}\!1\,dt
-=2\pi \;\neq\; 0.
-\]
-Thus $\alpha$ is not exact on $U$, so no global $v$ exists and $u$ is \emph{not}
-the real part of any holomorphic function on $U$.
-\end{solution}
-
-\begin{problem}[CP-IV-0129]
-\label{prob:cp-iv-0129}
+```tex
 \par\noindent\textbullet\quad \textbf{Pole:} $|f(z)|\to\infty$ as $z\to a$; equivalently, $(z-a)^m f(z)$ extends holomorphically with nonzero value at $a$ for some $m\in\mathbb N$.
-\end{problem}
+```
 
-\begin{solution}
-Suppose first that \(a\) is a pole of order \(m\). Then
-\[
-f(z)=\frac{g(z)}{(z-a)^m},
-\]
-where \(g\) is holomorphic near \(a\) and \(g(a)\neq0\). Hence
-\[
-(z-a)^m f(z)=g(z)
-\]
-extends holomorphically across \(a\) with a nonzero value there. In particular,
-\[
-|f(z)|=\frac{|g(z)|}{|z-a|^m}\longrightarrow\infty
-\qquad (z\to a).
-\]
+### CP-IV-0134
 
-Conversely, assume that for some \(m\ge1\),
-\[
-(z-a)^m f(z)
-\]
-extends holomorphically to \(a\) and has nonzero value there. Calling this extension \(g\), we have
-\[
-f(z)=\frac{g(z)}{(z-a)^m},
-\qquad g(a)\neq0,
-\]
-so \(a\) is a pole of order exactly \(m\).
+- chapter line: 2931
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Equivalently, \(a\) is a pole precisely when \(1/f\) has a removable singularity at \(a\) whose extended value is \(0\). This is also equivalent to \(|f(z)|\to\infty\) as \(z\to a\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0133]
-\label{prob:cp-iv-0133}
-(Casorati--Weierstrass; restated).
-
-If $f$ is holomorphic on $D(a,R)\setminus\{a\}$ with an essential singularity at $a$, then for any $b\in\mathbb C$
-there exists a sequence $z_n\to a$ such that $f(z_n)\to b$.
-
-\medskip
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{Solution to Problem 9.}\quad 
-If $f$ omitted $b$ near $a$, then $g=1/(f-b)$ would be bounded near $a$, hence removable there by Riemannâ€™s theorem.
-Thus $f=b+1/g$ would have at worst a pole/removable singularity at $a$, contradicting essentiality.
-\emph{Example.} For $f(z)=e^{1/z}$, $a=0$, $b=2$, take
-\[
-z_n=\frac{1}{\Log 2+2\pi i n}\quad\Rightarrow\quad e^{1/z_n}=2 .
-\]
-
-\bigskip
-\end{solution}
-
-\begin{problem}[CP-IV-0134]
-\label{prob:cp-iv-0134}
+```tex
 \par\noindent\textbullet\quad \textbf{Isotropic:} conformality is equivalent to
 	\[
 	\phi_z\cdot \phi_z = 0
@@ -3939,89 +2195,16 @@ does not change the metric.
 
 \smallskip
 \textbf{Clarifying the target spaces ($\mathbb C^3$ vs.\ $\mathbb R^3$ vs.\ $\mathbb C^2$).}
-\end{problem}
+```
 
-\begin{solution}
-Let \(z=u+iv\) be a conformal parameter for the minimal immersion
-\[
-\phi:\Omega\longrightarrow\mathbb R^3.
-\]
-Write
-\[
-\phi_z=\frac12(\phi_u-i\phi_v).
-\]
-Conformality means
-\[
-\langle\phi_u,\phi_u\rangle=\langle\phi_v,\phi_v\rangle,
-\qquad
-\langle\phi_u,\phi_v\rangle=0.
-\]
-Therefore, using the complex bilinear extension of the Euclidean dot product,
-\[
-\phi_z\cdot\phi_z
-=
-\frac14\bigl(
-|\phi_u|^2-|\phi_v|^2-2i\,\phi_u\cdot\phi_v
-\bigr)
-=0.
-\]
-Thus conformality is equivalent to the isotropy condition
-\[
-\boxed{\phi_z\cdot\phi_z=0}.
-\]
+### CP-IV-0024
 
-Minimality in conformal coordinates is equivalent to harmonicity of the coordinate functions, hence
-\[
-\phi_{z\bar z}=0.
-\]
-Consequently
-\[
-\Phi:=2\phi_z:\Omega\to\mathbb C^3
-\]
-is holomorphic and satisfies
-\[
-\Phi\cdot\Phi=0.
-\]
-On a simply connected domain,
-\[
-\Psi(z)=\int^z\Phi(\zeta)\,d\zeta\in\mathbb C^3
-\]
-is holomorphic and
-\[
-\phi=\Re\Psi.
-\]
+- chapter line: 2980
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-With Weierstrass data \((f,g)\),
-\[
-\Phi
-=
-\left(
-\frac12f(1-g^2),
-\frac{i}{2}f(1+g^2),
-fg
-\right).
-\]
-The meromorphic function \(g\) is the stereographic coordinate of the Gauss map:
-\[
-N=
-\frac{1}{1+|g|^2}
-\bigl(2\Re g,\,2\Im g,\,|g|^2-1\bigr).
-\]
-The \(1\)-form \(f\,dz\) controls the conformal scale, since
-\[
-ds^2=\frac{|f|^2(1+|g|^2)^2}{4}|dz|^2.
-\]
-
-Thus the roles of the target spaces are distinct: \(\Phi\) and \(\Psi\) take values in \(\mathbb C^3\), while the actual surface \(\phi=\Re\Psi\) takes values in \(\mathbb R^3\). The pair \((f,g)\) is scalar holomorphic/meromorphic data, not a map into \(\mathbb C^2\) representing the surface directly.
-\end{solution}
-
-
-\section{Singularities and Residues}
-
-\par\medskip\noindent\textbf{Related material.}\quad Volume IV, Chapters \texttt{IV/07--IV/11}.
-
-\begin{problem}[CP-IV-0024]
-\label{prob:cp-iv-0024}
+```tex
 Consider the meromorphic function
 	\[
 	F(z) = \frac{1}{1+z^2} \frac{\cos[(\pi-\theta)z]}{2\sin(\pi z)}.
@@ -4079,90 +2262,16 @@ Consider the meromorphic function
 	\]
 
 	This gives the Fourier series expansion, uniformly in $\theta$.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0024_square_residue_contour.tex}
+### CP-IV-0025
 
-\begin{solution}
-The poles of
-\[
-F(z)=\frac{1}{1+z^2}\,
-\frac{\cos((\pi-\theta)z)}{2\sin(\pi z)}
-\]
-are \(z=\pm i\) and the integers.
+- chapter line: 3043
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-At \(z=i\),
-\[
-\operatorname{Res}(F;i)
-=
-\frac{1}{2i}\,
-\frac{\cosh(\pi-\theta)}{2i\sinh\pi}
-=
--\frac{\cosh(\pi-\theta)}{4\sinh\pi},
-\]
-and the same value is obtained at \(z=-i\).
-
-At an integer \(n\),
-\[
-\sin(\pi z)=\pi(-1)^n(z-n)+O((z-n)^2),
-\]
-while
-\[
-\cos((\pi-\theta)n)=(-1)^n\cos(n\theta).
-\]
-Hence
-\[
-\operatorname{Res}(F;n)
-=
-\frac{\cos(n\theta)}{2\pi(1+n^2)}.
-\]
-
-Let \(\Gamma_N\) be the square with vertices
-\[
-\pm\left(N+\frac12\right)
-\pm i\left(N+\frac12\right).
-\]
-On its vertical sides, \(|\sin(\pi z)|\) is bounded away from zero, while on its horizontal sides it grows exponentially at the same rate as the numerator. Together with
-\[
-|1+z^2|^{-1}=O(N^{-2})
-\]
-and \(\operatorname{length}(\Gamma_N)=O(N)\), this gives
-\[
-\left|\int_{\Gamma_N}F(z)\,dz\right|=O(N^{-1}).
-\]
-
-The residue theorem yields
-\[
-\frac{1}{2\pi i}\int_{\Gamma_N}F(z)\,dz
-=
--\frac{\cosh(\pi-\theta)}{2\sinh\pi}
-+
-\frac{1}{2\pi}
-\sum_{n=-N}^{N}\frac{\cos(n\theta)}{1+n^2}.
-\]
-Letting \(N\to\infty\),
-\[
-\boxed{
-\sum_{n\in\mathbb Z}\frac{\cos(n\theta)}{1+n^2}
-=
-\pi\,\frac{\cosh(\pi-\theta)}{\sinh\pi},
-\qquad 0\le\theta\le2\pi.
-}
-\]
-Because the summand is even in \(n\),
-\[
-\sum_{n\in\mathbb Z}\frac{e^{in\theta}}{1+n^2}
-=
-\sum_{n\in\mathbb Z}\frac{\cos(n\theta)}{1+n^2},
-\]
-so the same formula holds with \(e^{in\theta}\).
-
-With the normalization of \(F\) printed in the problem, the factor \(\pi\) in this final identity is necessary; any displayed target omitting it has a normalization mismatch.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0025]
-\label{prob:cp-iv-0025}
+```tex
 Classify the singularities of
 \[
 \frac{z}{\sin z},\qquad
@@ -4214,119 +2323,16 @@ and
 so $z=0$ is a \textbf{pole of order $2$}. At $z=-1$, $h$ has a simple pole; since
 $\cos w=\tfrac12(e^{iw}+e^{-iw})$, composition with a pole yields an \textbf{essential singularity}
 at $z=-1$. There are no other singularities.
+```
 
-\end{problem}
+### CP-IV-0048
 
-\begin{solution}
-For
-\[
-f_1(z)=\frac{z}{\sin z},
-\]
-the point \(0\) is removable because
-\[
-\sin z=z-\frac{z^3}{6}+O(z^5),
-\qquad
-\frac{z}{\sin z}=1+\frac{z^2}{6}+O(z^4).
-\]
-Every nonzero \(n\pi\) is a simple pole, since \(\sin z\) has a simple zero there and the numerator does not vanish.
+- chapter line: 3146
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For
-\[
-f_2(z)=\sin\!\left(\frac{\pi}{z^2}\right),
-\]
-the Laurent expansion at \(0\) is
-\[
-\sum_{k=0}^{\infty}
-\frac{(-1)^k\pi^{2k+1}}{(2k+1)!}\,z^{-4k-2}.
-\]
-It contains infinitely many negative powers, so \(0\) is an essential singularity.
-
-For
-\[
-f_3(z)=\frac1{z^2}+\frac1{z^2+1},
-\]
-\(z=0\) is a pole of order \(2\), while \(z=\pm i\) are simple poles.
-
-Finally, let
-\[
-f_4(z)=\frac1{z^2}
-\cos\!\left(\frac{\pi z}{z+1}\right).
-\]
-Near \(0\),
-\[
-\frac{\pi z}{z+1}=\pi z+O(z^2),
-\]
-hence
-\[
-\cos\!\left(\frac{\pi z}{z+1}\right)
-=
-1-\frac{\pi^2z^2}{2}+O(z^3),
-\]
-so
-\[
-f_4(z)=\frac1{z^2}-\frac{\pi^2}{2}+O(z),
-\]
-and \(0\) is a pole of order \(2\).
-
-At \(z=-1\), the inner function \(\pi z/(z+1)\) has a pole. Since
-\[
-\cos w=\frac{e^{iw}+e^{-iw}}2
-\]
-is transcendental entire, its composition with a pole has an essential singularity. Thus \(z=-1\) is essential.
-
-These are all the finite singularities.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0029]
-\label{prob:cp-iv-0029}
-(Cauchyâ€™s derivative formula via residues).
-
-Let $f$ be holomorphic on $D(a,R)$. If $w$ satisfies $|w-a|<r<R$, show
-\[
-f^{(n)}(w)=\frac{n!}{2\pi i}\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz.
-\]
-
-\emph{Residue at a higherâ€“order pole.}
-If $g$ has a pole of order $m$ at $w$,
-\[
-\operatorname{Res}(g;w)=\frac{1}{(m-1)!}\lim_{z\to w}\frac{d^{\,m-1}}{dz^{m-1}}\Big((z-w)^m g(z)\Big).
-\]
-\emph{Residue theorem.}
-If $g$ is meromorphic on and inside a positively oriented simple closed curve $\gamma$ (no poles on $\gamma$),
-\[
-\int_\gamma g(z)\,dz=2\pi i\sum \operatorname{Res}(g;a_k).
-\]
-\emph{Taylor series at $w$.}
-For $f$ holomorphic near $w$,
-\[
-f(z)=\sum_{k=0}^{\infty}\frac{f^{(k)}(w)}{k!}(z-w)^k .
-\]
-
-\medskip
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0029_cauchy_derivative_nested_disks.tex}
-
-\begin{solution}
-Put $g(z)=\dfrac{f(z)}{(z-w)^{n+1}}$. Then $g$ is meromorphic on $|z-a|\le r$, with a single pole at $z=w$ of order $n+1$.
-Hence
-\[
-\operatorname{Res}(g;w)=\frac{1}{n!}\,f^{(n)}(w).
-\]
-By the residue theorem on $|z-a|=r$,
-\[
-\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz
-= 2\pi i\,\operatorname{Res}(g;w)
-= 2\pi i\,\frac{f^{(n)}(w)}{n!},
-\]
-which yields the claimed formula. For $n=0$ this reduces to Cauchyâ€™s integral formula.
-
-\medskip
-\end{solution}
-
-\begin{problem}[CP-IV-0048]
-\label{prob:cp-iv-0048}
+```tex
 â€” area from a $1$-form (what $\tfrac12(x\,dy-y\,dx)$ measures)
 
 Set
@@ -4360,58 +2366,16 @@ Therefore,
 	\par\noindent\textbullet\quad Circulation (line integral on $C$) equals total curl over $D$.
 	\par\noindent\textbullet\quad If $\;M_x-L_y\equiv 0$ on $D$, then $\displaystyle \oint_{C}(L\,dx+M\,dy)=0$ (path-independence on simply connected $D$).
 	\par\noindent\textbullet\quad The special $1$-form $\tfrac12(x\,dy - y\,dx)$ integrates to the enclosed area.
-\end{problem}
+```
 
-\begin{solution}
-Set
-\[
-\alpha=\frac12(x\,dy-y\,dx).
-\]
-Then
-\[
-d\alpha
-=
-\frac12(dx\wedge dy-dy\wedge dx)
-=
-dx\wedge dy.
-\]
-If \(C=\partial D\) is positively oriented, Green's theorem gives
-\[
-\oint_C\alpha
-=
-\iint_D d\alpha
-=
-\iint_D dx\,dy
-=
-\operatorname{Area}(D).
-\]
-Therefore
-\[
-\boxed{
-\frac12\oint_C(x\,dy-y\,dx)=\operatorname{Area}(D).
-}
-\]
-For a circle of radius \(R\), this equals
-\[
-\pi R^2.
-\]
+### CP-IV-0053
 
-More generally, for a \(1\)-form
-\[
-\omega=L\,dx+M\,dy,
-\]
-Green's theorem says
-\[
-\oint_C\omega
-=
-\iint_D(M_x-L_y)\,dx\,dy.
-\]
-Thus a closed \(1\)-form has zero integral around every closed curve in a simply connected domain, and the special form above measures oriented area.
-\end{solution}
+- chapter line: 3183
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0053]
-\label{prob:cp-iv-0053}
+```tex
 Consider the meromorphic function
 \[
 F(z) = \frac{1}{1+z^2} \frac{\cos[(\pi-\theta)z]}{2\sin(\pi z)}.
@@ -4469,62 +2433,16 @@ Letting $N\to\infty$, we conclude
 \]
 
 This gives the Fourier series expansion, uniformly in $\theta$.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0053_residue_contour_estimate.tex}
+### CP-IV-0062
 
-\begin{solution}
-The residue computation is the same for
-\[
-F(z)=\frac{1}{1+z^2}\,
-\frac{\cos((\pi-\theta)z)}{2\sin(\pi z)}.
-\]
-The simple poles are \(z=\pm i\) and \(z=n\in\mathbb Z\), with
-\[
-\operatorname{Res}(F;\pm i)
-=
--\frac{\cosh(\pi-\theta)}{4\sinh\pi},
-\qquad
-\operatorname{Res}(F;n)
-=
-\frac{\cos(n\theta)}{2\pi(1+n^2)}.
-\]
+- chapter line: 3246
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Integrating over the half-integer square \(\Gamma_N\), one has
-\[
-\int_{\Gamma_N}F(z)\,dz\longrightarrow0,
-\]
-because the contour length is \(O(N)\) and \(F(z)=O(N^{-2})\) uniformly on the boundary after the standard sine/cosine estimates.
-
-Hence
-\[
-0
-=
--\frac{\cosh(\pi-\theta)}{2\sinh\pi}
-+
-\frac{1}{2\pi}
-\sum_{n\in\mathbb Z}\frac{\cos(n\theta)}{1+n^2},
-\]
-and therefore
-\[
-\boxed{
-\sum_{n\in\mathbb Z}\frac{e^{in\theta}}{1+n^2}
-=
-\pi\frac{\cosh(\pi-\theta)}{\sinh\pi}.
-}
-\]
-The convergence is uniform in \(\theta\), since
-\[
-\sum_{n\in\mathbb Z}\frac1{1+n^2}<\infty
-\]
-and the Weierstrass \(M\)-test applies directly.
-
-Thus, with the normalization used in the problem, the mathematically consistent Fourier identity contains the factor \(\pi\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0062]
-\label{prob:cp-iv-0062}
+```tex
 \par\noindent\textbullet\quad Define
 	\[
 	g(z):=f(z)-z .
@@ -4533,31 +2451,16 @@ Thus, with the normalization used in the problem, the mathematically consistent 
 	the identity theorem gives $g\equiv 0$, hence $f(z)\equiv z$.
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-Define
-\[
-g(z)=f(z)-z.
-\]
-Then \(g\) is entire and
-\[
-g(1/n)=0
-\qquad (n\ge1).
-\]
-The zeros \(1/n\) accumulate at \(0\), and \(0\) is an interior point of the domain of \(g\). By the identity theorem,
-\[
-g\equiv0.
-\]
-Consequently
-\[
-\boxed{f(z)=z\quad\text{for all }z\in\mathbb C.}
-\]
-\end{solution}
+### CP-IV-0070
 
+- chapter line: 3258
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0070]
-\label{prob:cp-iv-0070}
+```tex
 \par\noindent\textbullet\quad Show that $F$ has poles at $z=\pm i$ and at each integer $z=n$, $n\in\mathbb{Z}$. Compute the residues at these poles and verify that
 	\[
 	\operatorname{Res}(F,\pm i)
@@ -4661,85 +2564,16 @@ Letting $N\to\infty$ shows that the Fourier series
 \sum_{n=-\infty}^{\infty} \frac{e^{in\theta}}{1+n^2}
 \]
 converges uniformly in $\theta\in[0,2\pi]$ and represents $\cosh(\pi-\theta)/(2\sinh\pi)$.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0070_residue_inventory_square.tex}
+### CP-IV-0076
 
-\begin{solution}
-The singularities of
-\[
-F(z)=\frac{1}{1+z^2}\,
-\frac{\cos((\pi-\theta)z)}{2\sin(\pi z)}
-\]
-are the simple poles \(z=\pm i\) and \(z=n\in\mathbb Z\). Their residues are
-\[
-\operatorname{Res}(F;\pm i)
-=
--\frac{\cosh(\pi-\theta)}{4\sinh\pi},
-\qquad
-\operatorname{Res}(F;n)
-=
-\frac{\cos(n\theta)}{2\pi(1+n^2)}.
-\]
+- chapter line: 3367
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The four parametrized sides in the problem form the square
-\[
-\Gamma_N:
-\qquad
-|\Re z|\le N+\frac12,\qquad
-|\Im z|\le N+\frac12.
-\]
-Thus its vertices are
-\[
-\pm\left(N+\frac12\right)
-\pm i\left(N+\frac12\right),
-\]
-and it contains \(\pm i\) and the integers \(|n|\le N\).
-
-On the vertical sides, \(\Re z=\pm(N+\tfrac12)\), the sine denominator is bounded away from zero after comparison with the hyperbolic terms. On the horizontal sides, numerator and sine denominator have the same exponential scale. Since
-\[
-|1+z^2|^{-1}=O(N^{-2})
-\]
-and the perimeter is \(O(N)\),
-\[
-\left|\int_{\Gamma_N}F(z)\,dz\right|
-\le\frac{C}{N}.
-\]
-
-Applying the residue theorem gives
-\[
-\frac{1}{2\pi i}\int_{\Gamma_N}F(z)\,dz
-=
--\frac{\cosh(\pi-\theta)}{2\sinh\pi}
-+
-\frac{1}{2\pi}
-\sum_{n=-N}^{N}\frac{\cos(n\theta)}{1+n^2}.
-\]
-Therefore
-\[
-\left|
-\pi\frac{\cosh(\pi-\theta)}{\sinh\pi}
--
-\sum_{n=-N}^{N}\frac{\cos(n\theta)}{1+n^2}
-\right|
-\le\frac{C'}{N}.
-\]
-Letting \(N\to\infty\),
-\[
-\boxed{
-\sum_{n\in\mathbb Z}\frac{e^{in\theta}}{1+n^2}
-=
-\pi\frac{\cosh(\pi-\theta)}{\sinh\pi}.
-}
-\]
-The convergence is uniform in \(\theta\) by the displayed \(O(N^{-1})\) estimate (and also by absolute convergence).
-
-The target formula printed in the migrated problem omits the factor \(\pi\); the residue calculation with the stated \(F\) yields the boxed normalization above.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0076]
-\label{prob:cp-iv-0076}
+```tex
 Find the Laurent expansion (in powers of $z$, i.e.\ about $0$) of
 \[
 \frac{1}{z^{2}-3z+2}=\frac{1}{(z-1)(z-2)}
@@ -4794,89 +2628,16 @@ Therefore
 \boxed{\ \frac{1}{z^{2}-3z+2}
 	=\sum_{m=1}^{\infty}\big(2^{\,m-1}-1\big)z^{-m},\quad |z|>2.\ }
 \]
+```
 
-\end{problem}
+### CP-IV-0079
 
-\begin{solution}
-Use
-\[
-\frac1{(z-1)(z-2)}
-=
--\frac1{z-1}+\frac1{z-2}.
-\]
+- chapter line: 3426
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-If \(|z|<1\),
-\[
--\frac1{z-1}
-=
-\frac1{1-z}
-=
-\sum_{n=0}^{\infty}z^n,
-\]
-and
-\[
-\frac1{z-2}
-=
--\frac12\frac1{1-z/2}
-=
--\sum_{n=0}^{\infty}\frac{z^n}{2^{n+1}}.
-\]
-Hence
-\[
-\boxed{
-\frac1{z^2-3z+2}
-=
-\sum_{n=0}^{\infty}
-\left(1-\frac1{2^{n+1}}\right)z^n,
-\qquad |z|<1.
-}
-\]
-
-If \(1<|z|<2\),
-\[
--\frac1{z-1}
-=
--\frac1z\frac1{1-1/z}
-=
--\sum_{n=1}^{\infty}z^{-n},
-\]
-while the expansion of \(1/(z-2)\) from above remains valid. Thus
-\[
-\boxed{
-\frac1{z^2-3z+2}
-=
--\sum_{n=1}^{\infty}z^{-n}
--
-\sum_{n=0}^{\infty}\frac{z^n}{2^{n+1}},
-\qquad 1<|z|<2.
-}
-\]
-
-Finally, if \(|z|>2\),
-\[
--\frac1{z-1}
-=
--\sum_{m=1}^{\infty}z^{-m},
-\qquad
-\frac1{z-2}
-=
-\sum_{m=1}^{\infty}2^{m-1}z^{-m}.
-\]
-Therefore
-\[
-\boxed{
-\frac1{z^2-3z+2}
-=
-\sum_{m=1}^{\infty}(2^{m-1}-1)z^{-m},
-\qquad |z|>2.
-}
-\]
-The boundary circles \(|z|=1\) and \(|z|=2\) are excluded because they contain poles or lie on the radii of convergence of the geometric expansions.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0079]
-\label{prob:cp-iv-0079}
+```tex
 (restated).
 
 Let $p(z)=z^{n}+a_{n-1}z^{n-1}+\cdots+a_1 z+a_0$ be a polynomial of degree $n$ and set
@@ -4891,48 +2652,16 @@ Let $p(z)=z^{n}+a_{n-1}z^{n-1}+\cdots+a_0$ and $A=\max_{k}|a_k|$. For $|z|\ge A+
 Hence $p$ has no zeros for $|z|\ge A+1$, so all (exactly $n$) zeros lie in $|z|<A+1$.
 
 \medskip
-\end{problem}
+```
 
-\begin{solution}
-Let \(r=|z|\ge A+1\). Then
-\[
-\left|\sum_{k=0}^{n-1}a_kz^k\right|
-\le
-A\sum_{k=0}^{n-1}r^k
-=
-A\frac{r^n-1}{r-1}.
-\]
-Since \(r-1\ge A\),
-\[
-A\frac{r^n-1}{r-1}
-\le
-r^n-1
-<
-r^n.
-\]
-Hence
-\[
-|z^n|
->
-\left|\sum_{k=0}^{n-1}a_kz^k\right|
-\]
-for every \(|z|\ge A+1\). In particular,
-\[
-p(z)\neq0
-\qquad (|z|\ge A+1).
-\]
-Therefore every zero of \(p\) lies in
-\[
-|z|<A+1.
-\]
-By the fundamental theorem of algebra, a degree-\(n\) polynomial has exactly \(n\) zeros counting multiplicity, so all \(n\) zeros lie in that disk.
+### CP-IV-0098
 
-Equivalently, on the circle \(|z|=A+1\), Rouch\'e's theorem compares \(p(z)\) with \(z^n\) and gives the same conclusion.
-\end{solution}
+- chapter line: 3444
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0098]
-\label{prob:cp-iv-0098}
+```tex
 â€” Solution
 
 We consider, for fixed $\theta\in[0,2\pi]$, the meromorphic function
@@ -5229,73 +2958,16 @@ Hence
 \sum_{n=1}^{\infty}\frac{1}{1+n^2}
 = \frac{1}{2}\Bigl(\frac{\cosh\pi}{2\sinh\pi}-1\Bigr).
 \]
-\end{problem}
+```
 
-\begin{solution}
-For
-\[
-F(z)=\frac{1}{1+z^2}
-\frac{\cos((\pi-\theta)z)}{2\sin(\pi z)},
-\]
-the poles at \(z=\pm i\) and \(z=n\in\mathbb Z\) are simple. One finds
-\[
-\operatorname{Res}(F;\pm i)
-=
--\frac{\cosh(\pi-\theta)}{4\sinh\pi},
-\]
-and
-\[
-\operatorname{Res}(F;n)
-=
-\frac{\cos(n\theta)}{2\pi(1+n^2)}.
-\]
+### CP-IV-0099
 
-Let \(\Gamma_N\) be the half-integer square used in the problem. Its boundary stays a definite distance from the integer poles. Standard estimates for \(\sin(\pi z)\) and \(\cos((\pi-\theta)z)\), together with the factor \((1+z^2)^{-1}\), give
-\[
-\int_{\Gamma_N}F(z)\,dz=O(N^{-1})
-\]
-uniformly for \(0\le\theta\le2\pi\).
+- chapter line: 3744
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The residue theorem therefore gives
-\[
--\frac{\cosh(\pi-\theta)}{2\sinh\pi}
-+
-\frac{1}{2\pi}
-\sum_{n=-N}^{N}\frac{\cos(n\theta)}{1+n^2}
-=
-O(N^{-1}).
-\]
-Passing to the limit,
-\[
-\boxed{
-\sum_{n\in\mathbb Z}\frac{e^{in\theta}}{1+n^2}
-=
-\pi\frac{\cosh(\pi-\theta)}{\sinh\pi}.
-}
-\]
-The series converges absolutely and uniformly in \(\theta\).
-
-At \(\theta=0\),
-\[
-\sum_{n\in\mathbb Z}\frac1{1+n^2}
-=
-\pi\coth\pi,
-\]
-hence
-\[
-\boxed{
-\sum_{n=1}^{\infty}\frac1{1+n^2}
-=
-\frac{\pi\coth\pi-1}{2}.
-}
-\]
-
-The migrated source text contains a normalization mismatch in some displayed formulas; the identities above are the ones obtained from the stated meromorphic kernel and its residues.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0099]
-\label{prob:cp-iv-0099}
+```tex
 Fourier transforms and inverse verification
 
 We use the convention \(\displaystyle \widehat f(\xi)=\int_{-\infty}^{\infty} f(x)\,e^{-i\xi x}\,dx\) and
@@ -5363,95 +3035,16 @@ We use the convention \(\displaystyle \widehat f(\xi)=\int_{-\infty}^{\infty} f(
 	\end{align*}
 
 	\bigskip\hrule\bigskip
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0099_fourier_inverse_semicircles.tex}
+### CP-IV-0110
 
-\begin{solution}
-We use
-\[
-\widehat f(\xi)
-=
-\int_{\mathbb R}f(x)e^{-i\xi x}\,dx,
-\qquad
-f(x)
-=
-\frac1{2\pi}
-\int_{\mathbb R}\widehat f(\xi)e^{i\xi x}\,d\xi.
-\]
+- chapter line: 3817
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For \(f(x)=e^{-|x|}\),
-\[
-\widehat f(\xi)
-=
-\int_0^\infty e^{-(1+i\xi)x}\,dx
-+
-\int_{-\infty}^0e^{(1-i\xi)x}\,dx
-=
-\frac{2}{1+\xi^2}.
-\]
-Thus
-\[
-f(x)
-=
-\frac1{2\pi}
-\int_{\mathbb R}\frac{2e^{i\xi x}}{(\xi-i)(\xi+i)}\,d\xi.
-\]
-If \(x>0\), close the contour in the upper half-plane; only \(\xi=i\) contributes and
-\[
-f(x)=e^{-x}.
-\]
-If \(x<0\), close in the lower half-plane, remembering the clockwise orientation; the pole at \(\xi=-i\) gives
-\[
-f(x)=e^x.
-\]
-Therefore
-\[
-\boxed{f(x)=e^{-|x|}}.
-\]
-
-For
-\[
-f(x)=e^{-a^2x^2},
-\qquad a>0,
-\]
-complete the square:
-\[
--a^2x^2-i\xi x
-=
--a^2\left(x+\frac{i\xi}{2a^2}\right)^2
--\frac{\xi^2}{4a^2}.
-\]
-Shifting the Gaussian contour gives
-\[
-\boxed{
-\widehat f(\xi)
-=
-\frac{\sqrt\pi}{a}
-e^{-\xi^2/(4a^2)}.
-}
-\]
-For the inverse transform,
-\[
--\frac{\xi^2}{4a^2}+i\xi x
-=
--\frac{(\xi-2ia^2x)^2}{4a^2}
--a^2x^2.
-\]
-Shift the contour from \(\mathbb R\) to \(\mathbb R+2ia^2x\); the integrand is entire and the horizontal sides vanish. Hence
-\[
-\frac1{2\pi}\frac{\sqrt\pi}{a}
-\int_{\mathbb R}
-e^{-\xi^2/(4a^2)}e^{i\xi x}\,d\xi
-=
-e^{-a^2x^2}.
-\]
-This verifies the stated transform pair.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0110]
-\label{prob:cp-iv-0110}
+```tex
 Consider the meromorphic function
 \[
 F(z) = \frac{1}{1+z^2} \frac{\cos[(\pi-\theta)z]}{2\sin(\pi z)}.
@@ -5605,150 +3198,16 @@ Thus the mapping $f(z)=1/z^2$ has the following geometric effects:
 Blue: unit circle (invariant).
 Red: sample rays mapped under $\theta \mapsto -2\theta$.
 Black dot: pole of order 2 at $z=0$.
-\end{problem}
+```
 
-\begin{solution}
-For the meromorphic kernel
-\[
-F(z)=\frac{1}{1+z^2}\,
-\frac{\cos((\pi-\theta)z)}{2\sin(\pi z)},
-\]
-the poles are \(z=\pm i\) and \(z=n\in\mathbb Z\). The residues are
-\[
-\operatorname{Res}(F;\pm i)
-=
--\frac{\cosh(\pi-\theta)}{4\sinh\pi},
-\qquad
-\operatorname{Res}(F;n)
-=
-\frac{\cos(n\theta)}{2\pi(1+n^2)}.
-\]
-Integrating over the standard half-integer square and letting its size tend to infinity gives
-\[
-\sum_{n\in\mathbb Z}\frac{e^{in\theta}}{1+n^2}
-=
-\pi\frac{\cosh(\pi-\theta)}{\sinh\pi}.
-\]
+### CP-IV-0137
 
-The basic inversion examples appearing in the problem are consistent with the same meromorphic viewpoint. For
-\[
-w=\frac1z,
-\qquad z=re^{i\theta},
-\]
-we have
-\[
-w=r^{-1}e^{-i\theta},
-\]
-so radii are inverted and angles reflected. The unit circle is invariant, the inside and outside of the unit disk are interchanged, and \(z=0\) is a simple pole. For
-\[
-w=\frac1{z^2},
-\]
-the radial change is \(r\mapsto r^{-2}\) and the angular change is
-\[
-\theta\mapsto-2\theta;
-\]
-the pole at \(0\) has order \(2\). Finally,
-\[
-\frac1{z+1}
-\]
-is the same inversion after translation, so its simple pole is at \(z=-1\), and generalized circles are again mapped to generalized circles.
+- chapter line: 4064
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-These calculations supply the analytic statements underlying the schematic plots and legends in the migrated problem text.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0111]
-\label{prob:cp-iv-0111}
-Let $g(z)=\dfrac{p(z)}{q(z)}$ be a rational function with $\deg q\ge \deg p+2$.
-Show that the sum of the residues of $g$ at all its finite poles equals $0$.
-
-For a meromorphic $f$ on the Riemann sphere,
-\[
-\operatorname{Res}(f;\infty):=-\sum_{a\in\mathbb C}\operatorname{Res}(f;a).
-\]
-Equivalently, with $w=1/z$ and $F(w)=f(1/w)$,
-\[
-\operatorname{Res}(f;\infty)=-\operatorname{Res}\!\left(\frac{F(w)}{w^{2}},\,0\right),
-\qquad dz=-\frac{dw}{w^{2}}.
-\]
-If $f(z)=O(1/z^{2})$ as $z\to\infty$, then $F(w)/w^{2}$ is holomorphic at $w=0$, hence $\operatorname{Res}(f;\infty)=0$.
-
-\medskip
-\end{problem}
-
-\begin{solution}
-Since $\deg q\ge \deg p+2$, we have $g(z)=O(1/z^{2})$ as $z\to\infty$.
-Therefore $\operatorname{Res}(g;\infty)=0$. By the global residue identity,
-\[
-0=\operatorname{Res}(g;\infty)=-\sum_{a\in\mathbb C}\operatorname{Res}(g;a),
-\]
-so $\displaystyle \sum_{a\in\mathbb C}\operatorname{Res}(g;a)=0$, i.e.\ the sum of the residues at all finite poles is $0$.
-
-\medskip
-\end{solution}
-
-\begin{problem}[CP-IV-0118]
-\label{prob:cp-iv-0118}
-(i) Verify directly that $e^{z}, \cos z, \sin z$ satisfy the Cauchy--Riemann equations everywhere.\\
-(ii) Find all $z$ with $|e^{iz}|>1$, and describe the set where $|e^{z}|\le e^{|z|}$.\\
-(iii) Find the zeros of $1+e^{z}$ and of $\cosh z$.
-
-For $z=x+iy$,
-\[
-e^{z}=e^{x}(\cos y+i\sin y),\qquad
-\sin z=\sin x\cosh y+i\cos x\sinh y,\qquad
-\cos z=\cos x\cosh y-i\sin x\sinh y.
-\]
-If $f=u+iv$, the CR equations are $u_x=v_y$ and $u_y=-v_x$.
-\end{problem}
-
-\begin{solution}
-\emph{(i) CR verification.}
-\begin{align*}
-	e^{z}&:&& u=e^{x}\cos y,\ v=e^{x}\sin y
-	&\Rightarrow& u_x=e^{x}\cos y=v_y,\quad u_y=-e^{x}\sin y=-v_x.\\
-	\sin z&:&& u=\sin x\cosh y,\ v=\cos x\sinh y
-	&\Rightarrow& u_x=\cos x\cosh y=v_y,\quad u_y=\sin x\sinh y=-v_x.\\
-	\cos z&:&& u=\cos x\cosh y,\ v=-\sin x\sinh y
-	&\Rightarrow& u_x=-\sin x\cosh y=v_y,\quad u_y=\cos x\sinh y=-v_x.
-\end{align*}
-Hence each function satisfies CR everywhere and is entire.
-
-\medskip
-\emph{(ii) Modulus questions.} Let $z=x+iy$.
-\[
-|e^{iz}|=|e^{ix-y}|=e^{-y}\quad\Rightarrow\quad |e^{iz}|>1 \iff y<0.
-\]
-Also $|e^{z}|=e^{x}\le e^{\sqrt{x^{2}+y^{2}}}=e^{|z|}$ for all $z$, with equality iff $y=0$ and $x\ge0$.
-
-\medskip
-\emph{(iii) Zeros.}
-\[
-1+e^{z}=0 \iff e^{z}=-1 \iff z=(2k+1)\pi i,\ k\in\mathbb{Z}.
-\]
-\[
-\cosh z=\frac{e^{z}+e^{-z}}{2}=0 \iff e^{2z}=-1
-\iff 2z=(2k+1)\pi i \iff z=\frac{(2k+1)\pi i}{2},\ k\in\mathbb{Z}.
-\]
-
-\par\medskip\noindent\textbf{(ii) Sets defined by $|e^{iz}|>1$ and $|e^{z}|\le e^{|z|}$.}\quad 
-Write $z=x+iy$.
-
-	\par\noindent\textbullet\quad $|e^{iz}|=|e^{i(x+iy)}|=|e^{ix-y}|=e^{-y}$. Thus
-	\[
-	|e^{iz}|>1 \;\Longleftrightarrow\; e^{-y}>1 \;\Longleftrightarrow\; y<0,
-	\]
-	i.e.\ the \textbf{lower half-plane}. Equality $|e^{iz}|=1$ occurs when $y=0$.
-
-	\par\noindent\textbullet\quad $|e^{z}|=|e^{x+iy}|=e^{x}$. Since $|z|=\sqrt{x^{2}+y^{2}}\ge |x|\ge x$, we have
-	\[
-	|e^{z}| = e^{x} \;\le\; e^{|z|}\qquad\text{for all }z\in\mathbb{C}.
-	\]
-	Equality holds iff $|z|=x$, i.e.\ $y=0$ and $x\ge 0$ (the \textbf{nonnegative real axis}).
-\end{solution}
-
-\begin{problem}[CP-IV-0137]
-\label{prob:cp-iv-0137}
+```tex
 (cotangent trick and square contour).
 
 Let $N\in\mathbb N$ and let $\gamma_N$ be the square contour with vertices
@@ -6076,157 +3535,16 @@ and $\tan(x+0i)=\tan x\in\mathbb R$. Thus the image is a circular arc joining $\
 \medskip
 
 The vertical strip $S=\{\, -\tfrac{\pi}{2}<\Re z<\tfrac{\pi}{2}\,\}$ is mapped bijectively onto $\mathbb C$ by $\tan$; its boundary lines map to $\infty$ (simple poles). Periodicity $\tan(z+\pi)=\tan z$ tiles the plane by translates of $S$.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0137_cotangent_square_contour.tex}
+### CP-IV-0004
 
-\begin{solution}
-For \(z=x+iy\),
-\[
-|\sin(\pi z)|^2
-=
-\sin^2(\pi x)+\sinh^2(\pi y),
-\qquad
-|\cos(\pi z)|^2
-=
-\cos^2(\pi x)+\sinh^2(\pi y).
-\]
-On the vertical sides of the half-integer square,
-\[
-x=\pm\left(N+\frac12\right),
-\]
-one has
-\[
-|\cot(\pi z)|=|\tanh(\pi y)|\le1.
-\]
-On the horizontal sides,
-\[
-|y|=N+\frac12,
-\]
-the quotient is uniformly bounded as well. Hence
-\[
-|\cot(\pi z)|\le C
-\]
-on \(\gamma_N\), with \(C\) independent of \(N\).
+- chapter line: 4440
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Now set
-\[
-F(z)=\frac{\pi\cot(\pi z)}{z^2+1}.
-\]
-Since \(F(z)=O(N^{-2})\) on a contour of length \(O(N)\),
-\[
-\int_{\gamma_N}F(z)\,dz\longrightarrow0.
-\]
-At an integer \(n\),
-\[
-\operatorname{Res}(F;n)=\frac1{n^2+1}.
-\]
-At \(z=\pm i\),
-\[
-\operatorname{Res}(F;i)+\operatorname{Res}(F;-i)
-=
--\pi\coth\pi.
-\]
-Therefore
-\[
-\sum_{n\in\mathbb Z}\frac1{n^2+1}
-=
-\pi\coth\pi.
-\]
-Using symmetry,
-\[
-1+2\sum_{n=1}^{\infty}\frac1{n^2+1}
-=
-\pi\coth\pi,
-\]
-so
-\[
-\boxed{
-\sum_{n=0}^{\infty}\frac1{n^2+1}
-=
-\frac{1+\pi\coth\pi}{2}.
-}
-\]
-
-For the alternating sum, use
-\[
-G(z)=\frac{\pi\csc(\pi z)}{z^2+1}.
-\]
-Then
-\[
-\operatorname{Res}(G;n)
-=
-\frac{(-1)^n}{n^2+1},
-\]
-while
-\[
-\operatorname{Res}(G;i)+\operatorname{Res}(G;-i)
-=
--\pi\,\operatorname{csch}\pi.
-\]
-Hence
-\[
-\sum_{n\in\mathbb Z}\frac{(-1)^n}{n^2+1}
-=
-\pi\,\operatorname{csch}\pi,
-\]
-and thus
-\[
-\boxed{
-\sum_{n=0}^{\infty}
-\frac{(-1)^n}{n^2+1}
-=
-\frac{1+\pi\,\operatorname{csch}\pi}{2}.
-}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0139]
-\label{prob:cp-iv-0139}
-Let $f$ be holomorphic on $D(a,R)$. If $w$ satisfies $|w-a|<r<R$, show
-\[
-f^{(n)}(w)=\frac{n!}{2\pi i}\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz.
-\]
-
-\emph{Residue theorem.} If $g$ is meromorphic on and inside a positively oriented simple closed curve $\gamma$ (no poles on $\gamma$),
-\[
-\int_\gamma g(z)\,dz = 2\pi i \sum \operatorname{Res}(g;a_k).
-\]
-\emph{Higherâ€“order pole.} If $g$ has a pole of order $m$ at $w$,
-\[
-\operatorname{Res}(g;w)=\frac{1}{(m-1)!}\lim_{z\to w}\frac{d^{\,m-1}}{dz^{m-1}}\Big((z-w)^m g(z)\Big).
-\]
-\emph{Taylor series.} $f(z)=\sum_{k\ge0}\dfrac{f^{(k)}(w)}{k!}(z-w)^k$ near $w$.
-
-\medskip
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0139_higher_order_pole_cauchy.tex}
-
-\begin{solution}
-Let $g(z)=\dfrac{f(z)}{(z-w)^{n+1}}$. Then $g$ is meromorphic on $|z-a|\le r$ with a single pole of order $n+1$ at $z=w$.
-Hence
-\[
-\operatorname{Res}(g;w)=\frac{1}{n!}\,f^{(n)}(w).
-\]
-Applying the residue theorem to the circle $|z-a|=r$ gives
-\[
-\int_{|z-a|=r}\frac{f(z)}{(z-w)^{n+1}}\,dz
-= 2\pi i\,\operatorname{Res}(g;w)
-= 2\pi i\,\frac{f^{(n)}(w)}{n!},
-\]
-which rearranges to the stated formula. For $n=0$ this is the usual Cauchy integral formula.
-
-\medskip
-\end{solution}
-
-\section{Global Complex Analysis}
-
-\par\medskip\noindent\textbf{Related material.}\quad Volume IV, Chapters \texttt{IV/12--IV/18}.
-
-\begin{problem}[CP-IV-0004]
-\label{prob:cp-iv-0004}
+```tex
 \par\noindent\textbullet\quad \textbf{(c)}\;
 	Consider instead the branch
 	\[
@@ -6250,77 +3568,16 @@ which rearranges to the stated formula. For $n=0$ this is the usual Cauchy integ
 	Sketch the images of the half-planes \(\Re(z)>0\) and \(\Re(z)<0\) under the map \(\zeta=f(z)\).
 
 	\bigskip\hrule\bigskip
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0004_exterior_imaginary_branch_cuts.tex}
+### CP-IV-0007
 
-\begin{solution}
-Write
-\[
-z-i=r_1e^{i\theta_1},
-\qquad
-z+i=r_2e^{i\theta_2}.
-\]
-The chosen ranges make the ray \(i[1,\infty)\) a cut for \(\theta_1\) and the ray \(-i[1,\infty)\) a cut for \(\theta_2\).
+- chapter line: 4469
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For \(y>1\), approaching the imaginary axis from the right gives
-\[
-\frac{\theta_1+\theta_2}{2}=\frac{\pi}{2},
-\]
-whereas approaching from the left gives \(-\pi/2\). Hence
-\[
-f(+0+iy)=i\sqrt{y^2-1},
-\qquad
-f(-0+iy)=-i\sqrt{y^2-1}.
-\]
-For \(y<-1\),
-\[
-f(+0+iy)=-i\sqrt{y^2-1},
-\qquad
-f(-0+iy)=i\sqrt{y^2-1}.
-\]
-For \(|y|<1\), no branch jump occurs and
-\[
-f(\pm0+iy)=\sqrt{1-y^2}.
-\]
-Thus the branch cuts are exactly
-\[
-i[1,\infty)
-\quad\text{and}\quad
--i[1,\infty).
-\]
-
-For \(x\in\mathbb R\),
-\[
-f(x)=\sqrt{x^2+1}>0.
-\]
-As \(|z|\to\infty\),
-\[
-f(z)^2=z^2+1=z^2\left(1+\frac1{z^2}\right),
-\]
-so the chosen branch satisfies
-\[
-f(z)\sim z
-\quad(\Re z>0),
-\qquad
-f(z)\sim -z
-\quad(\Re z<0).
-\]
-
-Each half-plane is mapped conformally onto the slit right half-plane
-\[
-\{w:\Re w>0\}\setminus(0,1],
-\]
-with the two half-planes providing the two inverse branches of
-\[
-z^2=w^2-1.
-\]
-The middle segment \(-i<z<i\) maps to the slit \((0,1]\), while the two outer imaginary rays map to the positive and negative imaginary boundary rays.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0007]
-\label{prob:cp-iv-0007}
+```tex
 Temperature in a right halfâ€“plane with a removed disk
 
 The domain $D$ consists of the right-hand half plane $x>0$ with the circle $|z-a|=b$, $0<b<a$, and its interior removed.
@@ -7093,90 +4350,16 @@ To send $L$ to $\mathbb R$, use $\Phi$ above; then pre/postcompose with an \emph
 \xi\longmapsto \alpha\,\xi+\beta,\qquad \alpha>0,
 \]
 to obtain any target half-plane, e.g.\ $\Re w>0$ or $\Im w>0$.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0007_heat_domain_to_annulus.tex}
+### CP-IV-0008
 
-\begin{solution}
-Set
-\[
-\alpha=\sqrt{a^2-b^2}>0
-\]
-and use
-\[
-\zeta=\frac{z-\alpha}{z+\alpha}.
-\]
-If \(z=iy\), numerator and denominator have equal modulus, so
-\[
-|\zeta|=1.
-\]
-Thus the imaginary axis maps to the unit circle.
+- chapter line: 5247
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For \(z=a+be^{i\theta}\),
-\[
-|\zeta|^2
-=
-\frac{(a-\alpha)^2+b^2+2b(a-\alpha)\cos\theta}
-{(a+\alpha)^2+b^2+2b(a+\alpha)\cos\theta}.
-\]
-The condition \(\alpha^2=a^2-b^2\) makes this ratio independent of \(\theta\), and
-\[
-|\zeta|^2
-=
-\frac{a-\alpha}{a+\alpha}.
-\]
-Hence the circular boundary maps to
-\[
-|\zeta|=\rho,
-\qquad
-\rho=
-\sqrt{\frac{a-\alpha}{a+\alpha}},
-\]
-and the physical domain maps to the annulus
-\[
-\rho<|\zeta|<1.
-\]
-
-The harmonic function on this annulus with values \(1\) on the inner circle and \(0\) on the outer circle is radial:
-\[
-U(\zeta)
-=
-\frac{\log(1/|\zeta|)}{\log(1/\rho)}.
-\]
-Therefore
-\[
-u(z)
-=
-\frac{\log\left|\frac{z+\alpha}{z-\alpha}\right|}
-{\log(1/\rho)}.
-\]
-Since
-\[
-\log(1/\rho)
-=
-\frac12
-\log\left(\frac{a+\alpha}{a-\alpha}\right),
-\]
-we obtain
-\[
-\boxed{
-u(z)
-=
-\frac{
-2\log\left|\frac{z+\alpha}{z-\alpha}\right|
-}{
-\log\left(\frac{a+\alpha}{a-\alpha}\right)
-},
-\qquad
-\alpha=\sqrt{a^2-b^2}.
-}
-\]
-On the imaginary axis the numerator is zero; on \(|z-a|=b\) it equals the denominator; and as \(|z|\to\infty\) it tends to zero. Thus all three prescribed conditions are satisfied.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0008]
-\label{prob:cp-iv-0008}
+```tex
 (Gaussian curvature formula and isolated zeros)
 
 Let a minimal surface be given by Weierstrass data $(f,g)$ as in Problem 8:
@@ -7247,74 +4430,16 @@ Let a minimal surface be given by Weierstrass data $(f,g)$ as in Problem 8:
 	But $g'$ is holomorphic wherever $g$ is holomorphic, hence either $g'\equiv 0$ or its zeros are isolated.
 	If $g'\equiv 0$, then $g$ is constant, the Gauss map is constant, and the surface is a plane, so $K\equiv 0$.
 	Otherwise, the zeros of $g'$ (hence of $K$) are isolated.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0008_curvature_gauss_map.tex}
+### CP-IV-0016
 
-\begin{solution}
-The Weierstrass metric is
-\[
-ds^2=\lambda^2|dz|^2,
-\qquad
-\lambda=\frac{|f|(1+|g|^2)}{2}.
-\]
-The stereographic metric on the sphere is
-\[
-ds_{S^2}^2
-=
-\frac{4|dg|^2}{(1+|g|^2)^2}.
-\]
-Since \(g\) is holomorphic,
-\[
-|g_u|^2+|g_v|^2=2|g'(z)|^2,
-\]
-and hence
-\[
-|N_u|^2+|N_v|^2
-=
-\frac{8|g'|^2}{(1+|g|^2)^2}.
-\]
+- chapter line: 5323
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For a minimal surface the principal curvatures satisfy
-\[
-k_2=-k_1,
-\]
-so
-\[
-K=-k_1^2
-\]
-and
-\[
-\|dN\|^2=k_1^2+k_2^2=-2K.
-\]
-In conformal coordinates,
-\[
-\|dN\|^2
-=
-\frac{|N_u|^2+|N_v|^2}{\lambda^2}.
-\]
-Combining the formulas gives
-\[
-\boxed{
-K
-=
--\frac{16|g'|^2}
-{|f|^2(1+|g|^2)^4}.
-}
-\]
-
-At a regular point \(f\neq0\), therefore,
-\[
-K=0
-\iff
-g'=0.
-\]
-If \(g'\not\equiv0\), its zeros are isolated, so the flat points are isolated. If \(g'\equiv0\), then \(g\) is constant, the Gauss map is constant, and the surface is planar; in that case \(K\equiv0\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0016]
-\label{prob:cp-iv-0016}
+```tex
 â€” Conformal mappings
 
 \noindent
@@ -7676,168 +4801,27 @@ If \(g'\not\equiv0\), its zeros are isolated, so the flat points are isolated. I
 		then to $\Re u>0$, and finally to $|\zeta|>1$.
 
 	This completes the construction and detailed verification.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0016_two_circles_mapping_pipeline.tex}
+### CP-IV-0019
 
-\begin{solution}
-For part (a), put
-\[
-w=\frac1z.
-\]
-The circles through the origin become
-\[
-|z-1|=1\iff \Re w=\frac12,
-\qquad
-|z+1|=1\iff \Re w=-\frac12.
-\]
-Thus the region exterior to both circles maps to
-\[
--\frac12<\Re w<\frac12.
-\]
-Now set
-\[
-s=i\pi w.
-\]
-Then
-\[
-|\Im s|<\frac{\pi}{2},
-\]
-so
-\[
-u=e^s
-\]
-lies in the right half-plane. The Cayley map
-\[
-\Phi(u)=\frac{u+1}{u-1}
-\]
-maps the right half-plane to the exterior of the unit disk. Hence
-\[
-\boxed{
-\zeta(z)
-=
-\frac{e^{i\pi/z}+1}{e^{i\pi/z}-1}
-}
-\]
-is a conformal map for part (a).
+- chapter line: 5690
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For part (b), the Cayley map
-\[
-w=\frac{1+z}{1-z}
-\]
-takes the unit disk to \(\Re w>0\). The principal logarithm then gives
-\[
-\boxed{
-\zeta(z)
-=
-\Log\left(\frac{1+z}{1-z}\right),
-}
-\]
-with
-\[
--\frac{\pi}{2}<\Im\zeta<\frac{\pi}{2}.
-\]
-Also
-\[
-z=0\mapsto0,\qquad
-z=1\mapsto+\infty,\qquad
-z=-1\mapsto-\infty.
-\]
-
-For part (c), first square:
-\[
-t=z^2.
-\]
-This maps the quarter-disk conformally onto the upper half of the unit disk, with
-\[
-0\mapsto0,\qquad1\mapsto1,\qquad i\mapsto-1.
-\]
-Next,
-\[
-q=\frac{1+t}{1-t}
-\]
-maps that upper half-disk onto the first quadrant. Squaring gives the upper half-plane:
-\[
-s=q^2.
-\]
-Now
-\[
-t=-1\mapsto s=0,\qquad
-t=0\mapsto s=1,\qquad
-t=1\mapsto s=\infty.
-\]
-Finally use
-\[
-M(s)=1-\frac1s,
-\]
-which sends
-\[
-0\mapsto\infty,\qquad1\mapsto0,\qquad\infty\mapsto1.
-\]
-After simplification,
-\[
-M\!\left(\left(\frac{1+t}{1-t}\right)^2\right)
-=
-\frac{4t}{(1+t)^2}.
-\]
-Therefore the required map is
-\[
-\boxed{
-\zeta(z)
-=
-\frac{4z^2}{(1+z^2)^2}.
-}
-\]
-It satisfies
-\[
-\zeta(0)=0,\qquad
-\zeta(1)=1,\qquad
-\zeta(i)=\infty,
-\]
-and maps the quarter-disk bijectively onto the upper half-plane.
-
-The simpler expression \(2z^2/(1+z^2)\) appearing in the migrated source maps the intermediate semicircle only to a proper subdomain of the upper half-plane; the composition above gives the required onto map.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0019]
-\label{prob:cp-iv-0019}
+```tex
 \par\noindent\textbullet\quad Inversion in a circle is \emph{anti-conformal} (it involves complex conjugation), and the composition of two inversions is conformal; in particular, any composition of an \emph{even} number of inversions is holomorphic (hence MĂ¶bius on $\widehat{\mathbb C}$).
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0019_two_inversions_orientation.tex}
+### CP-IV-0023
 
-\begin{solution}
-Geometric inversion in a circle has the form
-\[
-I(z)
-=
-a+\frac{r^2}{\overline{z-a}},
-\]
-so it is antiholomorphic away from the center. In particular it reverses orientation.
+- chapter line: 5697
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The composition of two antiholomorphic maps is holomorphic. Thus if
-\[
-I_1,\ I_2
-\]
-are circle or line inversions, then
-\[
-I_2\circ I_1
-\]
-is conformal and orientation-preserving wherever defined. On the Riemann sphere, a bijective holomorphic conformal map is a M\"obius transformation. Therefore any composition of an even number of geometric inversions is M\"obius.
-
-Similarly, an odd number of inversions gives an anti-M\"obius transformation. This parity distinction is exactly the orientation distinction:
-\[
-\text{even number of inversions}\Rightarrow\text{orientation preserved},
-\]
-\[
-\text{odd number of inversions}\Rightarrow\text{orientation reversed}.
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0023]
-\label{prob:cp-iv-0023}
+```tex
 \par\noindent\textbullet\quad \textbf{(b)}\;
 	Consider the branch defined by
 	\[
@@ -7855,209 +4839,16 @@ Similarly, an odd number of inversions gives an anti-M\"obius transformation. Th
 	Sketch the image of the cut \(z\)-plane \(\mathbb{C}\setminus S\) under the map \(\zeta=f(z)\).
 
 	\medskip
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0023_finite_imaginary_branch_cut.tex}
+### CP-IV-0043
 
-\begin{solution}
-Again write
-\[
-z-i=r_1e^{i\theta_1},
-\qquad
-z+i=r_2e^{i\theta_2},
-\]
-but now take
-\[
--\frac{\pi}{2}<\theta_1,\theta_2\le\frac{3\pi}{2}.
-\]
-For \(-1<y<1\), approach \(z=iy\) from the right. Then
-\[
-\theta_1\to-\frac{\pi}{2},
-\qquad
-\theta_2\to\frac{\pi}{2},
-\]
-so
-\[
-\frac{\theta_1+\theta_2}{2}\to0
-\]
-and
-\[
-f(+0+iy)=\sqrt{1-y^2}.
-\]
-Approaching from the left forces \(\theta_1\) to wrap to \(3\pi/2\), while \(\theta_2\to\pi/2\). Hence
-\[
-\frac{\theta_1+\theta_2}{2}\to\pi,
-\]
-and
-\[
-f(-0+iy)=-\sqrt{1-y^2}.
-\]
-Thus the jump occurs precisely on
-\[
-S=\{iy:|y|\le1\}.
-\]
-Outside that segment the boundary values agree, so the branch cut is exactly \(S\).
+- chapter line: 5840
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Since
-\[
-f(z)^2=z^2+1,
-\]
-we have
-\[
-f(z)
-=
-z\sqrt{1+\frac1{z^2}},
-\]
-and the selected branch satisfies
-\[
-f(z)\sim z
-\qquad(|z|\to\infty).
-\]
-
-The two sides of the slit are mapped to the two sides of the real segment \([-1,1]\):
-\[
-f(+0+iy)=+\sqrt{1-y^2},
-\qquad
-f(-0+iy)=-\sqrt{1-y^2}.
-\]
-Consequently the branch gives a conformal map
-\[
-\boxed{
-\mathbb C\setminus[-i,i]
-\longrightarrow
-\mathbb C\setminus[-1,1].
-}
-\]
-The real axis maps to
-\[
-(-\infty,-1]\cup[1,\infty),
-\]
-and the outer imaginary rays map to the imaginary axis.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0027]
-\label{prob:cp-iv-0027}
-(i) Let $\Log$ denote the principal branch of $\log$ on $\mathbb C\setminus(-\infty,0]$.
-For $z\in\mathbb C$, show that $n\Log(1+z/n)$ is defined for $n$ sufficiently large and that
-$n\Log(1+z/n)\to z$. Deduce $\displaystyle\lim_{n\to\infty}\bigl(1+\frac{z}{n}\bigr)^n=e^{z}$.
-\smallskip
-
-(ii) Defining $z^\alpha:=\exp(\alpha\Log z)$ for $\alpha\in\mathbb C$ and $z\notin\mathbb R_{\le 0}$,
-show $\dfrac{d}{dz}z^\alpha=\alpha z^{\alpha-1}$. Does $(zw)^\alpha=z^\alpha w^\alpha$ always hold?
-\end{problem}
-
-\begin{solution}
-\emph{(i) Limit of $n\Log(1+z/n)$.}
-For fixed $z$, choose $n$ large so that $1+\frac{z}{n}$ lies in a small disc around $1$
-disjoint from $(-\infty,0]$, hence $\Log$ is holomorphic there. Since
-\[
-\lim_{u\to 0}\frac{\Log(1+u)}{u}=1,
-\]
-we get, with $u=z/n$,
-\[
-n\Log\Bigl(1+\frac{z}{n}\Bigr)
-= z\,\frac{\Log(1+z/n)}{z/n}\ \longrightarrow\ z.
-\]
-Therefore
-\[
-\lim_{n\to\infty}\Bigl(1+\frac{z}{n}\Bigr)^n
-=\lim_{n\to\infty}\exp\!\Bigl(n\Log\bigl(1+\tfrac{z}{n}\bigr)\Bigr)
-=\exp(z)=e^z.
-\]
-
-\emph{(ii) Derivative and multiplicative law.}
-On $\mathbb C\setminus(-\infty,0]$, $\Log$ is holomorphic with $(\Log z)'=1/z$, hence
-\[
-\frac{d}{dz}z^\alpha
-=\frac{d}{dz}\exp(\alpha\Log z)
-=\exp(\alpha\Log z)\,\alpha\,\frac1z
-=\alpha z^{\alpha-1}.
-\]
-
-For $z,w$ in the domain of $\Log$, in general
-\[
-\Log(zw)=\Log z+\Log w-2\pi i\,k,\qquad k\in\mathbb Z,
-\]
-so
-\[
-(zw)^\alpha
-=\exp\!\bigl(\alpha\Log(zw)\bigr)
-=z^\alpha w^\alpha\,e^{-2\pi i\alpha k}.
-\]
-Thus $(zw)^\alpha=z^\alpha w^\alpha$ holds when no branch jump occurs
-(\,$-\pi<\Arg z+\Arg w<\pi$\,), or when $\alpha\in\mathbb Z$; otherwise it can fail.
-
-\emph{Counterexample.} With $\alpha=\tfrac12$ and $z=w=e^{3\pi i/4}$,
-$\Log z=\Log w=i\,3\pi/4$ but $\Log(zw)=-i\pi/2$, hence
-$z^\alpha w^\alpha=e^{i\,3\pi/4}\neq e^{-i\pi/4}=(zw)^\alpha$.
-\end{solution}
-
-\begin{problem}[CP-IV-0036]
-\label{prob:cp-iv-0036}
-Show that the following functions do not have antiderivatives on the indicated domains:
-\[
-\text{(a)}\; f(z)=\frac{1}{z}-\frac{1}{z-1}\quad\text{on } \{\,0<|z|<1\,\},\qquad
-\text{(b)}\; g(z)=\frac{z}{1+z^{2}}\quad\text{on } \{\,1<|z|<\infty\,\}.
-\]
-
-We collect the standard criteria we will use.
-
-	\par\noindent\textbullet\quad \textbf{Path-independence / primitives.} If $h$ is holomorphic on a domain $U$ and has a primitive $H$ on $U$ (i.e.\ $H'=h$), then
-	\[
-	\int_\gamma h(z)\,dz=0 \quad \text{for every closed curve }\gamma\subset U,
-	\]
-	and conversely, if every closed integral vanishes on $U$, then $h$ has a primitive on $U$.
-
-	\par\noindent\textbullet\quad \textbf{Residue theorem (basic form).} Let $h$ be meromorphic on an open set containing a positively oriented simple closed curve $\gamma$ and its interior, with no poles on $\gamma$. Then
-	\[
-	\int_\gamma h(z)\,dz = 2\pi i \sum_{a\in \mathrm{Int}(\gamma)} \operatorname{Res}(h;a).
-	\]
-	For a \emph{simple pole} at $a$, $\displaystyle \operatorname{Res}(h;a)=\lim_{z\to a}(z-a)h(z)$.
-	(Equivalently, if $h=p/q$ with $p,q$ holomorphic and $q'(a)\neq 0$, then
-	$\displaystyle \operatorname{Res}(h;a)=\frac{p(a)}{q'(a)}$.)
-
-	\par\noindent\textbullet\quad \textbf{No global log $\Rightarrow$ no primitive.} A holomorphic $h$ on $U$ has a holomorphic logarithm $\log h$ on $U$ iff $\int_\gamma h'(z)/h(z)\,dz=0$ for every closed $\gamma\subset U$ (equivalently, $h$ has no zeros with nonzero winding number around loops in $U$). In particular, if a holomorphic expression forces a nontrivial jump of argument around a hole, then a single-valued primitive involving $\log$ cannot exist on $U$.
-
-	\par\noindent\textbullet\quad \textbf{Winding number version.} If $\gamma$ is a positively oriented circle $|z-z_0|=r$, then
-	\[
-	\frac{1}{2\pi i}\int_\gamma \frac{dz}{z-z_0}=1.
-	\]
-	More generally, for any closed $\gamma$ and $a\notin \gamma$, $\displaystyle \frac{1}{2\pi i}\int_\gamma \frac{dz}{z-a}$
-	equals the winding number of $\gamma$ around $a$.
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0036_primitive_obstruction_loops.tex}
-
-\begin{solution}
-\emph{(a) $f(z)=\dfrac{1}{z}-\dfrac{1}{z-1}$ on $0<|z|<1$.}
-Let $\gamma_r$ be the positively oriented circle $|z|=r$ with $0<r<1$. Then $\gamma_r\subset\{0<|z|<1\}$,
-and the only singularity of $f$ in the interior is $z=0$ (simple pole with residue $1$). Thus, by the residue theorem,
-\[
-\int_{\gamma_r} f(z)\,dz
-= 2\pi i\,\operatorname{Res}(f;0)
-= 2\pi i \neq 0.
-\]
-If $f$ had a primitive on the annulus $0<|z|<1$, every closed integral would vanishâ€”a contradiction. Hence no primitive exists there.
-
-\medskip
-\emph{(b) $g(z)=\dfrac{z}{1+z^{2}}$ on $1<|z|<\infty$.}
-Let $\Gamma_R$ be the circle $|z|=R>1$. Then $\Gamma_R\subset\{1<|z|<\infty\}$.
-The function $g$ has simple poles at $\pm i$ (both lie inside $\Gamma_R$ and off the curve).
-Using the simple-pole formula with $p(z)=z$, $q(z)=1+z^2$,
-\[
-\operatorname{Res}(g;i)=\frac{p(i)}{q'(i)}=\frac{i}{2i}=\frac{1}{2},\qquad
-\operatorname{Res}(g;-i)=\frac{p(-i)}{q'(-i)}=\frac{-i}{-2i}=\frac{1}{2}.
-\]
-Hence
-\[
-\int_{\Gamma_R} g(z)\,dz = 2\pi i\Big(\tfrac12+\tfrac12\Big)=2\pi i\neq 0,
-\]
-so $g$ cannot have a primitive on the exterior domain $\{1<|z|<\infty\}$.
-\end{solution}
-
-\begin{problem}[CP-IV-0043]
-\label{prob:cp-iv-0043}
+```tex
 \par\noindent\textbullet\quad \textbf{(a)}\;
 	Show that, if \(\zeta^{2}=z^{2}+1\) and
 	\[
@@ -8071,45 +4862,16 @@ so $g$ cannot have a primitive on the exterior domain $\{1<|z|<\infty\}$.
 	Explain briefly why \(z=\pm i\) are the branch points of the multifunction \((z^{2}+1)^{1/2}\).
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-Since
-\[
-z^2+1=(z-i)(z+i),
-\]
-and
-\[
-z-i=r_1e^{i\theta_1},
-\qquad
-z+i=r_2e^{i\theta_2},
-\]
-we obtain
-\[
-\zeta^2
-=
-r_1r_2e^{i(\theta_1+\theta_2)}.
-\]
-Taking square roots gives the two values
-\[
-\boxed{
-\zeta
-=
-\pm (r_1r_2)^{1/2}
-e^{\,i(\theta_1+\theta_2)/2}.
-}
-\]
+### CP-IV-0052
 
-The points \(z=\pm i\) are precisely the zeros of \(z^2+1\), and both zeros are simple. If one analytically continues a local square root once around either simple zero, the argument of \(z^2+1\) increases by \(2\pi\), so the square root acquires the factor
-\[
-e^{i\pi}=-1.
-\]
-Thus the two values are interchanged after one circuit. Hence no single-valued holomorphic square root can be defined on a punctured neighborhood of either point, and \(z=\pm i\) are the branch points of \((z^2+1)^{1/2}\).
-\end{solution}
+- chapter line: 5857
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0052]
-\label{prob:cp-iv-0052}
+```tex
 (restated).
 
 Let $p(z)=z^{5}+z$.
@@ -8289,93 +5051,16 @@ Sum and equate with the bank expression.
 \emph{Pitfalls.}
 (1) Be consistent with the branch cut; (2) ensure the circular arcs vanish (conditions on $\Re\mu$);
 (3) avoid poles on the cut (move the cut, or indent and take principal values if needed).
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0052_three_petal_image_curve.tex}
+### CP-IV-0086
 
-\begin{solution}
-Put \(z=e^{i\theta}\). Then
-\[
-p(e^{i\theta})
-=
-e^{5i\theta}+e^{i\theta}
-=
-2\cos(2\theta)e^{i3\theta}.
-\]
-Therefore
-\[
-\Im p(e^{i\theta})
-=
-2\cos(2\theta)\sin(3\theta).
-\]
-Hence the image lies on the real axis exactly when
-\[
-\sin(3\theta)=0
-\quad\text{or}\quad
-\cos(2\theta)=0.
-\]
-Thus
-\[
-\theta=\frac{m\pi}{3}\quad(m=0,\ldots,5),
-\]
-or
-\[
-\theta=\frac{\pi}{4}+\frac{k\pi}{2}\quad(k=0,\ldots,3).
-\]
+- chapter line: 6042
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Also
-\[
-\Re p(e^{i\theta})
-=
-2\cos(2\theta)\cos(3\theta).
-\]
-For \(\cos(2\theta)=0\), this is \(0\). For
-\(\theta=m\pi/3\), the values are
-\[
-2,\ 1,\ -1,\ -2,\ -1,\ 1.
-\]
-Thus the real-axis crossings are
-\[
--2,\,-1,\,0,\,1,\,2.
-\]
-
-The polar equation
-\[
-p(e^{i\theta})=2\cos(2\theta)e^{i3\theta}
-\]
-shows that \(p(\partial\mathbb D)\) is a three-petal curve. The number of roots of
-\[
-z^5+z=x
-\]
-in \(|z|<1\) is the winding number of this curve about the real point \(x\), provided \(x\) is not itself on the curve. Reading the winding number of the three petals gives
-\[
-\boxed{
-N(x)=
-\begin{cases}
-0,& |x|>2,\\[2mm]
-1,& 1<|x|<2,\\[2mm]
-3,& 0<|x|<1.
-\end{cases}}
-\]
-
-At the crossing values, roots lie on \(|z|=1\), so they must be treated separately:
-\[
-N(\pm2)=0,\qquad
-N(\pm1)=1,\qquad
-N(0)=1.
-\]
-Indeed, when \(x=0\),
-\[
-z^5+z=z(z^4+1),
-\]
-so \(z=0\) is the unique root strictly inside the unit disk and the four roots of \(z^4=-1\) lie on the unit circle.
-
-Thus the value \(2\) sometimes quoted for \(0<|x|<1\) is not the interior root count; the correct winding number there is \(3\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0086]
-\label{prob:cp-iv-0086}
+```tex
 \par\noindent\textbullet\quad \textbf{Essential:} neither removable nor pole. The Laurent expansion at $a$ then has infinitely many negative powers.
 
 \medskip
@@ -8427,51 +5112,16 @@ If a function $f$ on $|z|<1$ satisfies identities of the form
 with $P_N$ polynomial and $N\to\infty$, then every $N$-th root of unity
 is a singularity (unless canceled), and the union of these roots for $N\to\infty$ is dense on $|z|=1$.
 Hence $|z|=1$ is a natural boundary (no analytic continuation across any boundary point).
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0086_natural_boundary_unit_circle.tex}
+### CP-IV-0107
 
-\begin{solution}
-An isolated singularity \(a\) is essential exactly when its Laurent series
-\[
-f(z)=\sum_{n=-\infty}^{\infty}c_n(z-a)^n
-\]
-contains infinitely many nonzero negative-power terms. If there are none, the singularity is removable; if only finitely many occur, it is a pole. Hence the three cases are mutually exclusive and exhaustive.
+- chapter line: 6099
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For a nowhere-vanishing holomorphic function \(g\) on a domain \(D\), a holomorphic logarithm \(L\) with
-\[
-e^L=g
-\]
-exists exactly when the holomorphic \(1\)-form
-\[
-\frac{g'}{g}\,dz
-\]
-has zero period around every closed curve:
-\[
-\oint_\gamma \frac{g'}{g}\,dz=0.
-\]
-Indeed, if \(L\) exists then \(L'=g'/g\), so all periods vanish. Conversely, if the periods vanish, then
-\[
-L(z)=\int_{z_0}^z\frac{g'(\zeta)}{g(\zeta)}\,d\zeta
-\]
-is path independent; after adding a constant one obtains \(e^L=g\). In particular, every nowhere-zero holomorphic function on a simply connected domain admits a holomorphic logarithm.
-
-For essential singularities, Casorati--Weierstrass says that the image of every punctured neighborhood is dense in \(\mathbb C\), while Great Picard strengthens this to attainment of every complex value, with at most one exception, infinitely often.
-
-Finally, for a lacunary power series
-\[
-f(z)=\sum_{k\ge1}a_kz^{n_k}
-\]
-with
-\[
-\liminf_{k\to\infty}\frac{n_{k+1}}{n_k}>1,
-\]
-Hadamard's gap theorem makes the circle of convergence a natural boundary (unless the series terminates). In particular, exponents \(n_k=2^k\) have ratio \(2\), so when the radius of convergence is \(1\), the unit circle is a natural boundary.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0107]
-\label{prob:cp-iv-0107}
+```tex
 (Conformal equivalences and a harmonic function).
 
 Find conformal equivalences between the following pairs of domains:
@@ -8503,179 +5153,16 @@ Find conformal equivalences between the following pairs of domains:
 \noindent
 By considering a suitable bounded solution of Laplace's equation $u_{xx}+u_{yy}=0$ on $S$,
 find a non-constant harmonic function on $Q$ which is constant on its boundary axes.
-\end{problem}
+```
 
-\begin{solution}
-For the sector
-\[
-S_1=\left\{z:-\frac{\pi}{4}<\operatorname{Arg}z<\frac{\pi}{4}\right\},
-\]
-the squaring map sends \(S_1\) biholomorphically onto the right half-plane:
-\[
-z\longmapsto z^2,
-\qquad
--\frac{\pi}{2}<\operatorname{Arg}(z^2)<\frac{\pi}{2}.
-\]
-The Cayley map
-\[
-\xi\longmapsto\frac{\xi-1}{\xi+1}
-\]
-takes the right half-plane onto \(\mathbb D\). Hence
-\[
-\boxed{
-F_1(z)=\frac{z^2-1}{z^2+1}
-}
-\]
-is a conformal equivalence \(S_1\to\mathbb D\).
+### CP-IV-0124
 
-For the lens
-\[
-L=\{|z-1|<\sqrt2,\ |z+1|<\sqrt2\},
-\]
-the two boundary circles meet at \(z=\pm i\) at right angles. Put
-\[
-u(z)=-\,\frac{z-i}{z+i}.
-\]
-The two boundary circles become the two rays
-\[
-\operatorname{Arg}u=\pm\frac{\pi}{4},
-\]
-and the lens, which contains \(z=0\), becomes the sector
-\[
-|\operatorname{Arg}u|<\frac{\pi}{4}.
-\]
-Therefore \(u^2\) maps \(L\) onto the right half-plane, and
-\[
-\boxed{
-F_2(z)
-=
-\frac{u(z)^2-1}{u(z)^2+1},
-\qquad
-u(z)=-\frac{z-i}{z+i},
-}
-\]
-maps \(L\) biholomorphically onto \(\mathbb D\).
+- chapter line: 6215
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For the strip
-\[
-S=\{0<\Im z<1\},
-\]
-the map
-\[
-\boxed{
-F_3(z)=e^{\pi z/2}
-}
-\]
-has argument
-\[
-0<\operatorname{Arg}F_3(z)<\frac{\pi}{2},
-\]
-while its modulus ranges through all positive values. Hence \(F_3\) maps \(S\) biholomorphically onto the quadrant
-\[
-Q=\{\Re w>0,\ \Im w>0\}.
-\]
-
-Now
-\[
-v(z)=\Im z
-\]
-is a bounded nonconstant harmonic function on \(S\), with boundary values \(0\) and \(1\) on the two horizontal boundary lines. Since
-\[
-F_3^{-1}(w)=\frac{2}{\pi}\Log w
-\]
-on \(Q\), its pullback is
-\[
-\boxed{
-V(w)=\frac{2}{\pi}\operatorname{Arg}w.
-}
-\]
-This is harmonic on \(Q\), equals \(0\) on the positive real axis, and equals \(1\) on the positive imaginary axis.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0112]
-\label{prob:cp-iv-0112}
-(restated).
-
-Consider the lacunary series
-\[
-f(z)=\sum_{n=1}^{\infty} z^{2^{n}} .
-\]
-Show that it defines an analytic function on $D(0,1)$ but admits no analytic continuation across any point of $|z|=1$.
-
-\medskip
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{Solution to Problem 11.}\quad 
-The series converges absolutely and uniformly on compact subsets of $D(0,1)$, so $f$ is analytic there.
-Moreover, for $m\ge 1$,
-\[
-(1-z^{2^{m}})f(z)=\sum_{j=1}^{m-1} z^{2^{j}},
-\]
-so each $2^{m}$-th root of unity is a singularity of $f$ (unless trivially canceled).
-As the union $\bigcup_{m\ge 1}\{\zeta:\zeta^{2^{m}}=1\}$ is dense on $|z|=1$, $|z|=1$ is a \emph{natural boundary}:
-no analytic continuation is possible across any boundary point.
-\end{solution}
-
-\begin{problem}[CP-IV-0123]
-\label{prob:cp-iv-0123}
-\par\noindent\textbullet\quad Show that a MĂ¶bius map sends the unit disk $\mathbb D=\{z:|z|<1\}$ onto itself iff
-	\[
-	\phi_{a,\lambda}(z)=\lambda\,\frac{z-a}{1-\overline{a}\,z},\qquad |a|<1,\ |\lambda|=1.
-	\]
-
-	\par\noindent\textbullet\quad Find a MĂ¶bius map taking the region between the circles $\{|z|=1\}$ and $\{|z-1|=5/2\}$ to an annulus $\{1<|w|<R\}$.
-
-	\par\noindent\textbullet\quad Find a conformal map from an infinite strip onto an annulus. Can such a map be the restriction of a MĂ¶bius map?
-
-A MĂ¶bius map $M(z)=\dfrac{az+b}{cz+d}$ maps lines/circles to lines/circles and preserves angles.
-For $|a|<1$ and $|z|<1$,
-\[
-|1-\overline{a}z|^2-|z-a|^2=(1-|a|^2)(1-|z|^2)>0,
-\]
-hence $\Big|\dfrac{z-a}{1-\overline{a}z}\Big|<1$.
-If $g:\mathbb D\to\mathbb D$ is holomorphic with $g(0)=0$, Schwarz lemma gives $g(z)=\lambda z$, $|\lambda|\le 1$.
-Given two disjoint circles, the map $F_{p,q}(z)=\dfrac{z-p}{z-q}$ with $p,q$ the limiting points of their coaxal family sends them to concentric circles.
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0123_coaxal_circles_to_annulus.tex}
-
-\begin{solution}
-\emph{(i)} The maps $\phi_{a,\lambda}$ send $\mathbb D$ to itself and are bijective with inverse $\phi_{-\,\lambda a,\ \overline{\lambda}}$.
-Conversely, let $f$ be an automorphism of $\mathbb D$ and set $a=f^{-1}(0)$. Then
-$\psi(z)=\dfrac{z-a}{1-\overline{a}z}$ maps $a\mapsto0$, so $g=f\circ\psi^{-1}$ is an automorphism with $g(0)=0$.
-By Schwarz, $g(z)=\lambda z$ with $|\lambda|=1$, hence $f(z)=\lambda\,\dfrac{z-a}{1-\overline{a}z}$.
-
-\medskip
-\emph{(ii)} The two circles are disjoint and nested. Their coaxal limiting points are the real numbers
-\[
-p=\frac{2}{7},\qquad q=-\frac{2}{3},
-\]
-the two solutions of $|x|=\tfrac{1}{2.5}|x-1|$ on $\mathbb R$.
-Then
-\[
-F(z)=\frac{z-p}{z-q}
-\]
-maps $\{|z|=1\}$ and $\{|z-1|=5/2\}$ to concentric circles $|w|=\rho_1$ and $|w|=\rho_2$ (Apollonius property).
-Consequently the region between them maps to the annulus $\{\min(\rho_1,\rho_2)<|w|<\max(\rho_1,\rho_2)\}$.
-Rescale to unit inner radius by $G(z)=F(z)/\rho_{\mathrm{inner}}$, obtaining
-\[
-G:\quad \{1<|w|<R\},\qquad R=\rho_{\mathrm{outer}}/\rho_{\mathrm{inner}}.
-\]
-(Any equivalent choice obtained by post/pre-composing with disk automorphisms is acceptable.)
-
-\medskip
-\emph{(iii)} Let $S_h=\{z:0<\Im z<h\}$. The map
-\[
-W(z)=\exp\!\Big(\tfrac{2\pi}{h}\,z\Big)
-\]
-is a conformal bijection $S_h\to \{1<|w|<e^{2\pi}\}$, since $|W(z)|=\exp\!\big(\tfrac{2\pi}{h}\Im z\big)\in(1,e^{2\pi})$.
-This cannot be the restriction of a MĂ¶bius map: a MĂ¶bius map sends parallel boundary lines of a strip to two lines or to two circles meeting at one point, whereas the annulus is bounded by two \emph{concentric} circles (which do not meet).
-\end{solution}
-
-\begin{problem}[CP-IV-0124]
-\label{prob:cp-iv-0124}
+```tex
 Temperature in a right halfâ€“plane with a removed disk
 
 The domain $D$ consists of the right-hand half plane $x>0$ with the circle $|z-a|=b$, $0<b<a$, and its interior removed.
@@ -9354,104 +5841,16 @@ To send $L$ to $\mathbb R$, use $\Phi$ above; then pre/postcompose with an \emph
 \xi\longmapsto \alpha\,\xi+\beta,\qquad \alpha>0,
 \]
 to obtain any target half-plane, e.g.\ $\Re w>0$ or $\Im w>0$.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0124_radial_temperature_annulus.tex}
+### CP-IV-0135
 
-\begin{solution}
-Set
-\[
-\alpha=\sqrt{a^2-b^2}>0,
-\qquad
-\zeta=\frac{z-\alpha}{z+\alpha}.
-\]
-If \(z=iy\), then numerator and denominator have the same modulus, so
-\[
-|\zeta|=1.
-\]
-Thus the \(y\)-axis maps to the outer unit circle.
+- chapter line: 6899
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Now put
-\[
-z=a+be^{i\theta}.
-\]
-Then
-\[
-|\zeta|^2
-=
-\frac{(a-\alpha)^2+b^2+2b(a-\alpha)\cos\theta}
-{(a+\alpha)^2+b^2+2b(a+\alpha)\cos\theta}.
-\]
-Because
-\[
-\alpha^2=a^2-b^2,
-\]
-the ratio is independent of \(\theta\), and
-\[
-|\zeta|^2
-=
-\frac{a-\alpha}{a+\alpha}.
-\]
-Hence
-\[
-|z-a|=b
-\quad\longmapsto\quad
-|\zeta|=\rho,
-\qquad
-\rho=
-\sqrt{\frac{a-\alpha}{a+\alpha}}.
-\]
-Therefore the physical domain is mapped conformally onto
-\[
-\rho<|\zeta|<1.
-\]
-
-The rotationally symmetric harmonic function on this annulus satisfying
-\[
-U=1\quad(|\zeta|=\rho),
-\qquad
-U=0\quad(|\zeta|=1)
-\]
-is
-\[
-U(\zeta)
-=
-\frac{\log(1/|\zeta|)}{\log(1/\rho)}.
-\]
-Pulling back gives
-\[
-u(z)
-=
-\frac{\log\left|\dfrac{z+\alpha}{z-\alpha}\right|}
-{\log(1/\rho)}.
-\]
-Since
-\[
-\log\frac1\rho
-=
-\frac12
-\log\left(\frac{a+\alpha}{a-\alpha}\right),
-\]
-we obtain
-\[
-\boxed{
-u(z)
-=
-\frac{
-2\log\left|\dfrac{z+\alpha}{z-\alpha}\right|
-}{
-\log\left(\dfrac{a+\alpha}{a-\alpha}\right)
-},
-\qquad
-\alpha=\sqrt{a^2-b^2}.
-}
-\]
-On the \(y\)-axis the numerator is \(0\); on the removed circle it equals the denominator; and as \(|z|\to\infty\), the logarithm tends to \(0\). Hence all prescribed boundary conditions are satisfied.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0135]
-\label{prob:cp-iv-0135}
+```tex
 Temperature in a right halfâ€“plane with a removed disk
 
 The domain $D$ consists of the right-hand half plane $x>0$ with the circle $|z-a|=b$, $0<b<a$, and its interior removed.
@@ -9852,67 +6251,16 @@ To send $L$ to $\mathbb R$, use $\Phi$ above; then pre/postcompose with an \emph
 \xi\longmapsto \alpha\,\xi+\beta,\qquad \alpha>0,
 \]
 to obtain any target half-plane, e.g.\ $\Re w>0$ or $\Im w>0$.
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0135_heat_equipotential_curves.tex}
+### CP-IV-0138
 
-\begin{solution}
-The same conformal normalization solves the heat problem. Put
-\[
-\alpha=\sqrt{a^2-b^2},
-\qquad
-\zeta=\frac{z-\alpha}{z+\alpha}.
-\]
-For \(z=iy\),
-\[
-|\zeta|=1.
-\]
-For \(z=a+be^{i\theta}\), the identity
-\[
-\alpha^2=a^2-b^2
-\]
-reduces the modulus to the constant
-\[
-|\zeta|=\rho,
-\qquad
-\rho=
-\sqrt{\frac{a-\alpha}{a+\alpha}}.
-\]
-Thus
-\[
-D\longrightarrow\{\rho<|\zeta|<1\}.
-\]
+- chapter line: 7305
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The unique radial harmonic function on this annulus with inner value \(1\) and outer value \(0\) is
-\[
-U(r)=\frac{\log(1/r)}{\log(1/\rho)}.
-\]
-Consequently
-\[
-\boxed{
-u(z)
-=
-\frac{
-2\log\left|\dfrac{z+\alpha}{z-\alpha}\right|
-}{
-\log\left(\dfrac{a+\alpha}{a-\alpha}\right)
-},
-\qquad
-\alpha=\sqrt{a^2-b^2}.
-}
-\]
-The maximum principle gives uniqueness among bounded harmonic functions with these boundary data.
-
-The level sets \(u(z)=c\) are the inverse images of the concentric circles
-\[
-|\zeta|=\rho^c,\qquad 0<c<1.
-\]
-Hence the isotherms in the original \(z\)-plane form the coaxal family of circles obtained by pulling back those concentric circles through the M\"obius map \(\zeta=(z-\alpha)/(z+\alpha)\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0138]
-\label{prob:cp-iv-0138}
+```tex
 Let $U=\mathbb{C}$ and $f(z)=e^{z}$.
 
 \emph{Existence of $\log f$ on $U$.}
@@ -10009,98 +6357,28 @@ But for the unit circle $\{|w|=1\}$,
 Contradiction. Therefore no holomorphic branch of $\log$ exists on $\mathbb{C}^{\times}$.
 
 \bigskip
-\end{problem}
+```
 
-\begin{solution}
-For
-\[
-f(z)=e^z
-\]
-on \(U=\mathbb C\), the function never vanishes and
-\[
-\frac{f'}{f}=1.
-\]
-Since \(U\) is simply connected, this has the global primitive \(z\). Hence
-\[
-F(z)=z
-\]
-satisfies
-\[
-e^{F(z)}=f(z),
-\]
-so \(F\) is a holomorphic logarithm of \(f\) on \(U\). Any other such logarithm differs from \(F\) by a constant in \(2\pi i\mathbb Z\).
+### CP-IV-0001
 
-This does not imply that the scalar logarithm has a holomorphic branch on the image
-\[
-f(U)=\mathbb C^\times.
-\]
-Indeed, if \(L\) were holomorphic on \(\mathbb C^\times\) and \(e^{L(w)}=w\), then
-\[
-L'(w)=\frac1w.
-\]
-Therefore every closed curve \(\Gamma\subset\mathbb C^\times\) would satisfy
-\[
-\oint_\Gamma\frac{dw}{w}
-=
-\oint_\Gamma L'(w)\,dw
-=
-0.
-\]
-For the unit circle,
-\[
-\oint_{|w|=1}\frac{dw}{w}=2\pi i,
-\]
-a contradiction.
+- chapter line: 7409
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Equivalently, analytic continuation of a local logarithm once around \(0\) changes its value by \(2\pi i\). Thus the obstruction is topological: a global branch of \(\log\) on a domain \(V\subset\mathbb C^\times\) can exist only when every closed loop in \(V\) has winding number zero about \(0\).
-
-Hence \(f\) has a global holomorphic logarithm on its simply connected source \(U\), while the scalar logarithm has no global holomorphic branch on the multiply connected image \(\mathbb C^\times\).
-\end{solution}
-
-
-\section{Special Functions}
-
-\par\medskip\noindent\textbf{Related material.}\quad Volume IV, Chapters \texttt{IV/19--IV/21}.
-
-\begin{problem}[CP-IV-0001]
-\label{prob:cp-iv-0001}
+```tex
 $f_n(x)=x^n$ on $[0,1]$ converges pointwise to $f=\mathbf{1}_{\{1\}}$ but not uniformly on $(0,1)$.
 	\par\noindent\textbullet\quad Pointwise limit of uniformly continuous functions need not be uniformly continuous.
-\end{problem}
+```
 
-\begin{solution}
-For \(0\le x<1\),
-\[
-x^n\longrightarrow0,
-\]
-while
-\[
-1^n=1.
-\]
-Thus on \([0,1]\),
-\[
-f_n(x)=x^n
-\]
-converges pointwise to
-\[
-f(x)=
-\begin{cases}
-0,&0\le x<1,\\
-1,&x=1.
-\end{cases}
-\]
-Every \(f_n\) is uniformly continuous on \([0,1]\), because it is continuous on a compact interval. The limit \(f\) is discontinuous at \(1\), hence is not uniformly continuous. This already proves that a pointwise limit of uniformly continuous functions need not be uniformly continuous.
+### CP-IV-0002
 
-The convergence is not uniform. Indeed,
-\[
-\sup_{0\le x<1}|x^n-0|=1
-\]
-for every \(n\), because \(x^n\) can be made arbitrarily close to \(1\) by choosing \(x<1\) sufficiently close to \(1\). Equivalently, on all of \([0,1]\), a uniform limit of the continuous functions \(f_n\) would have to be continuous, whereas the pointwise limit is not.
-\end{solution}
+- chapter line: 7415
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0002]
-\label{prob:cp-iv-0002}
+```tex
 â€” Disk of radius \(R\)
 
 Parametrize the boundary circle \(C\):
@@ -10127,50 +6405,16 @@ Integrate:
 =
 \pi R^{2}.
 \]
-\end{problem}
+```
 
-\begin{solution}
-Parametrize the positively oriented circle by
-\[
-x=R\cos t,\qquad
-y=R\sin t,
-\qquad
-0\le t\le2\pi.
-\]
-Then
-\[
-dx=-R\sin t\,dt,
-\qquad
-dy=R\cos t\,dt.
-\]
-Therefore
-\[
-\frac12(x\,dy-y\,dx)
-=
-\frac12
-\left(
-R^2\cos^2t+R^2\sin^2t
-\right)dt
-=
-\frac{R^2}{2}\,dt.
-\]
-Integrating,
-\[
-\frac12\oint_C(x\,dy-y\,dx)
-=
-\frac{R^2}{2}\int_0^{2\pi}dt
-=
-\boxed{\pi R^2}.
-\]
-This agrees with Green's theorem, since
-\[
-d\!\left(\frac12(x\,dy-y\,dx)\right)=dx\wedge dy.
-\]
-\end{solution}
+### CP-IV-0003
 
+- chapter line: 7445
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0003]
-\label{prob:cp-iv-0003}
+```tex
 (ellipse).
 
 For the ellipse
@@ -10182,97 +6426,30 @@ we have
 \oint_{C} \tfrac{1}{2}\,\bigl(x\,dy - y\,dx\bigr) \;=\; \pi a b.
 \]
 (You can parametrize $x=a\cos t$, $y=b\sin t$ and compute directly, or just invoke Green's theorem.)
-\end{problem}
+```
 
-\begin{solution}
-Use the positively oriented parametrization
-\[
-x=a\cos t,\qquad
-y=b\sin t,
-\qquad
-0\le t\le2\pi.
-\]
-Then
-\[
-dx=-a\sin t\,dt,
-\qquad
-dy=b\cos t\,dt,
-\]
-and therefore
-\[
-\frac12(x\,dy-y\,dx)
-=
-\frac12
-\left(
-ab\cos^2t+ab\sin^2t
-\right)dt
-=
-\frac{ab}{2}\,dt.
-\]
-Hence
-\[
-\boxed{
-\frac12\oint_C(x\,dy-y\,dx)=\pi ab.
-}
-\]
-Thus the differential-form area formula reproduces the usual area of the ellipse.
-\end{solution}
+### CP-IV-0006
 
+- chapter line: 7460
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0006]
-\label{prob:cp-iv-0006}
+```tex
 \par\noindent (ii)\quad Let $g$ be an entire function such that $|f(z)|\le |g(z)|$ for all $z\in\mathbb C$.
 	Show that there exists $c\in\mathbb C$ such that $f(z)=c\,g(z)$ for all $z\in\mathbb C$.
 
 \bigskip\hrule\bigskip
-\end{problem}
+```
 
-\begin{solution}
-If \(g\equiv0\), then the inequality
-\[
-|f(z)|\le|g(z)|=0
-\]
-forces \(f\equiv0\), and the conclusion holds with \(c=0\).
+### CP-IV-0010
 
-Assume now that \(g\not\equiv0\). On the set where \(g\neq0\), define
-\[
-h=\frac{f}{g}.
-\]
-Then
-\[
-|h|\le1.
-\]
-We show that every zero of \(g\) is removable for \(h\). Let \(a\) be a zero of \(g\) of order \(m\):
-\[
-g(z)=(z-a)^m u(z),
-\qquad
-u(a)\neq0.
-\]
-If \(f\not\equiv0\), write
-\[
-f(z)=(z-a)^n v(z),
-\qquad
-v(a)\neq0.
-\]
-The inequality \(|f|\le|g|\) near \(a\) gives
-\[
-|z-a|^{n-m}\frac{|v(z)|}{|u(z)|}\le1.
-\]
-This is impossible as \(z\to a\) if \(n<m\). Hence \(n\ge m\), so \(f/g\) extends holomorphically across \(a\).
+- chapter line: 7468
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Thus \(h\) extends to an entire function satisfying \(|h|\le1\). By Liouville's theorem,
-\[
-h\equiv c
-\]
-for some \(c\in\mathbb C\), with \(|c|\le1\). Consequently
-\[
-\boxed{f=cg}.
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0010]
-\label{prob:cp-iv-0010}
+```tex
 Evaluate the following integrals.
 
 \medskip
@@ -10326,145 +6503,27 @@ With $x=\tan t$ ($t\in[0,\pi/2)$), $x^{2}+1=\sec^{2}t$, $dx=\sec^{2}t\,dt$,
 =-2\int_{0}^{\pi/2}\ln(\cos t)\,dt
 =\boxed{\pi\ln 2}.
 \]
+```
 
-\end{problem}
+### CP-IV-0011
 
-\begin{solution}
-For
-\[
-I_1=\int_0^\pi\frac{d\theta}{4+\sin^2\theta},
-\]
-use
-\[
-\int_0^\pi\frac{d\theta}{a+b\sin^2\theta}
-=
-\frac{\pi}{\sqrt{a(a+b)}}
-\qquad(a>0).
-\]
-With \(a=4\), \(b=1\),
-\[
-\boxed{I_1=\frac{\pi}{2\sqrt5}}.
-\]
+- chapter line: 7526
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For the Fresnel integral,
-\[
-\int_0^\infty e^{ix^2}\,dx
-=
-e^{i\pi/4}\int_0^\infty e^{-t^2}\,dt
-=
-e^{i\pi/4}\frac{\sqrt\pi}{2},
-\]
-obtained by rotating the Gaussian contour through \(\pi/4\). Taking imaginary parts,
-\[
-\boxed{
-\int_0^\infty\sin(x^2)\,dx
-=
-\frac{\sqrt\pi}{2\sqrt2}.
-}
-\]
-
-For
-\[
-I_3
-=
-\int_0^\infty
-\frac{x^2\,dx}{(x^2+4)^2(x^2+9)},
-\]
-the integrand is even. In the upper half-plane the poles are \(2i\) (double) and \(3i\) (simple), with
-\[
-\operatorname{Res}(f;2i)=-\frac{13i}{200},
-\qquad
-\operatorname{Res}(f;3i)=\frac{3i}{50}.
-\]
-Their sum is
-\[
--\frac{i}{200}.
-\]
-Hence
-\[
-\int_{-\infty}^{\infty}f(x)\,dx
-=
-2\pi i\left(-\frac{i}{200}\right)
-=
-\frac{\pi}{100},
-\]
-so
-\[
-\boxed{I_3=\frac{\pi}{200}}.
-\]
-
-Finally, with \(x=\tan t\),
-\[
-dx=\sec^2t\,dt,
-\qquad
-1+x^2=\sec^2t,
-\]
-and
-\[
-\int_0^\infty\frac{\log(1+x^2)}{1+x^2}\,dx
-=
-2\int_0^{\pi/2}\log(\sec t)\,dt.
-\]
-Using
-\[
-\int_0^{\pi/2}\log(\cos t)\,dt
-=
--\frac{\pi}{2}\log2,
-\]
-we obtain
-\[
-\boxed{
-\int_0^\infty\frac{\log(1+x^2)}{1+x^2}\,dx
-=
-\pi\log2.
-}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0011]
-\label{prob:cp-iv-0011}
+```tex
 \par\noindent\textbullet\quad If $f_n \Rightarrow f$ uniformly on $\mathbb{R}$, prove that $f$ is uniformly continuous.
-\end{problem}
+```
 
-\begin{solution}
-Let \(\varepsilon>0\). Since \(f_n\to f\) uniformly on \(\mathbb R\), choose \(N\) such that
-\[
-|f_N(x)-f(x)|<\frac{\varepsilon}{3}
-\qquad\text{for every }x\in\mathbb R.
-\]
-The single function \(f_N\) is uniformly continuous, so there exists \(\delta>0\) such that
-\[
-|x-y|<\delta
-\quad\Longrightarrow\quad
-|f_N(x)-f_N(y)|<\frac{\varepsilon}{3}.
-\]
-Then
-\[
-\begin{aligned}
-|f(x)-f(y)|
-&\le
-|f(x)-f_N(x)|
-+
-|f_N(x)-f_N(y)|
-+
-|f_N(y)-f(y)|\\
-&<
-\frac{\varepsilon}{3}
-+
-\frac{\varepsilon}{3}
-+
-\frac{\varepsilon}{3}
-=
-\varepsilon.
-\end{aligned}
-\]
-The same \(\delta\) works for every \(x,y\in\mathbb R\). Therefore \(f\) is uniformly continuous.
-\end{solution}
+### CP-IV-0013
 
+- chapter line: 7531
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-\begin{problem}[CP-IV-0013]
-\label{prob:cp-iv-0013}
+```tex
 \par\noindent\textbullet\quad (\textbf{Jacobian, determinant, and orientation})
 	Show the Jacobian determinant of $T$ equals
 	\[
@@ -10475,138 +6534,30 @@ The same \(\delta\) works for every \(x,y\in\mathbb R\). Therefore \(f\) is unif
 	\emph{Solution.} Using Ex.\ 3â€™s matrix and a short computation:
 	$\det=\!(\alpha+\gamma)(\alpha-\gamma)-(-\beta+\delta)(\beta+\delta)
 	=(\alpha^2+\beta^2)-(\gamma^2+\delta^2)=|A|^2-|B|^2$.
-\end{problem}
+```
 
-\begin{solution}
-Write
-\[
-A=\alpha+i\beta,
-\qquad
-B=\gamma+i\delta,
-\qquad
-z=x+iy.
-\]
-Then
-\[
-Az+B\overline z
-=
-\bigl((\alpha+\gamma)x+(-\beta+\delta)y\bigr)
-+
-i\bigl((\beta+\delta)x+(\alpha-\gamma)y\bigr).
-\]
-Hence the real matrix of \(T\) is
-\[
-DT=
-\begin{pmatrix}
-\alpha+\gamma&-\beta+\delta\\
-\beta+\delta&\alpha-\gamma
-\end{pmatrix}.
-\]
-Its determinant is
-\[
-\begin{aligned}
-\det DT
-&=
-(\alpha+\gamma)(\alpha-\gamma)
--
-(-\beta+\delta)(\beta+\delta)\\
-&=
-\alpha^2+\beta^2-\gamma^2-\delta^2\\
-&=
-|A|^2-|B|^2.
-\end{aligned}
-\]
-Therefore
-\[
-\boxed{\det DT=|A|^2-|B|^2}.
-\]
-Thus \(T\) preserves orientation when \(|A|>|B|\), reverses orientation when \(|A|<|B|\), and is singular precisely when
-\[
-|A|=|B|.
-\]
-\end{solution}
+### CP-IV-0021
 
+- chapter line: 7579
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0018]
-\label{prob:cp-iv-0018}
-\par\noindent\textbullet\quad If $X=\mathbb{R}$, does $(f_n)$ still necessarily have a pointwise convergent subsequence?
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{(a) $X=\mathbb{N}$.}\quad 
-For each fixed $m\in\mathbb{N}$ the real sequence $(f_n(m))_{n\ge1}$ is bounded, hence has a convergent subsequence.
-Construct subsequences by diagonalization:
-
-	\par\noindent\textbullet\quad pick $(n^{(1)}_k)$ so that $f_{n^{(1)}_k}(1)$ converges;
-	\par\noindent\textbullet\quad from that, pick $(n^{(2)}_k)$ so that $f_{n^{(2)}_k}(2)$ also converges;
-	\par\noindent\textbullet\quad continue inductively.
-
-Define $m_k:=n^{(k)}_k$. Then for each fixed $j$, the tail $(f_{m_k}(j))_{k\ge j}$ coincides with a tail of $(f_{n^{(j)}_k}(j))$, hence converges. Therefore $(f_{m_k})$ converges \emph{pointwise on $\mathbb{N}$}.
-
-\par\medskip\noindent\textbf{(b) $X=\mathbb{R}$.}\quad 
-Not necessarily. Consider the Rademacher functions on $[0,1]$,
-\[
-r_n(x)=\operatorname{sign}(\sin(2^n\pi x))\in\{-1,1\},
-\]
-extended to $\mathbb{R}$ periodically. They satisfy $|r_n(x)|\le 1$ for all $x,n$, so the family is pointwise bounded.
-
-We claim no subsequence of $(r_n)$ converges pointwise on $[0,1]$. Let $(r_{n_k})$ be any subsequence. Choose $x\in[0,1]$ whose binary digits at positions $n_k$ alternate $0,1,0,1,\dots$ (fill other digits arbitrarily and avoid a terminating expansion). For this $x$,
-\[
-r_{n_k}(x)=(-1)^{\text{binary digit of $x$ at position $n_k$}}
-\]
-alternates between $+1$ and $-1$, hence does not converge. Thus no subsequence converges pointwise on all of $[0,1]$ (and hence not on $\mathbb{R}$).
-
-\par\medskip\noindent\textbf{Conclusion.}\quad 
-(a) Yes: a pointwise convergent subsequence exists by diagonalization on the countable domain.
-(b) No: on $\mathbb{R}$, pointwise boundedness alone does not ensure a pointwise convergent subsequence.
-\end{solution}
-
-\begin{problem}[CP-IV-0021]
-\label{prob:cp-iv-0021}
+```tex
 \par\noindent (i)\quad Prove that $f$ is a polynomial of degree at most $k$ if and only if there exist real constants $M,R>0$ and an integer $k$ such that
 	\[
 	|f(z)|\le M\,|z|^{k}\qquad\text{for }|z|>R.
 	\]
-\end{problem}
+```
 
-\begin{solution}
-Assume throughout that \(f\) is entire.
+### CP-IV-0022
 
-If \(f\) is a polynomial of degree at most \(k\), then
-\[
-f(z)=a_0+a_1z+\cdots+a_kz^k.
-\]
-For \(|z|\ge1\),
-\[
-|f(z)|
-\le
-\left(\sum_{j=0}^k|a_j|\right)|z|^k,
-\]
-so the required growth estimate holds.
+- chapter line: 7587
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Conversely, suppose that for some \(M,R>0\),
-\[
-|f(z)|\le M|z|^k
-\qquad(|z|>R).
-\]
-Fix an integer \(n>k\). For every \(r>R\), Cauchy's estimate on \(|z|=r\) gives
-\[
-|f^{(n)}(0)|
-\le
-\frac{n!}{r^n}\max_{|z|=r}|f(z)|
-\le
-n!M r^{k-n}.
-\]
-Since \(k-n<0\), letting \(r\to\infty\) yields
-\[
-f^{(n)}(0)=0.
-\]
-This holds for every \(n>k\). Hence the Taylor expansion of the entire function \(f\) terminates after degree \(k\), and therefore \(f\) is a polynomial of degree at most \(k\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0022]
-\label{prob:cp-iv-0022}
+```tex
 (unit circle).
 
 For $\Gamma=\{|\zeta|=1\}$ and $f(\zeta)=\zeta^{m}$ ($m\ge0$):
@@ -10629,266 +6580,61 @@ For $\Gamma=\{|\zeta|=1\}$ and $f(\zeta)=\zeta^{m}$ ($m\ge0$):
 		\par\noindent\textbullet\quad For classical \emph{pointwise} limits at every boundary point, it suffices to assume $f\in C^{0,\alpha}(\Gamma)$ (H\"older) for some $\alpha\in(0,1]$.
 		\par\noindent\textbullet\quad For \emph{almost-everywhere} (a.e.) limits and $L^{p}$ jump relations, it is enough to assume $f\in L^{p}(\Gamma)$ with $1<p<\infty$.
 		\par\noindent\textbullet\quad The original hypothesis $f\in C^{1}(\Gamma)$ is more than enough; it guarantees the principal value is well defined and that the interior/exterior limits exist \emph{at every} $\zeta_{0}\in\Gamma$ (no exceptional set).
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0022_plemelj_unit_circle.tex}
+### CP-IV-0026
 
-\begin{solution}
-Let
-\[
-F(z)
-=
-\frac{1}{2\pi i}
-\int_{|\zeta|=1}
-\frac{\zeta^m}{\zeta-z}\,d\zeta,
-\qquad m\ge0.
-\]
-If \(|z|<1\), Cauchy's formula gives
-\[
-F(z)=z^m.
-\]
-If \(|z|>1\), the integrand has no pole inside the unit circle, so
-\[
-F(z)=0.
-\]
-Therefore, for \(\zeta_0=e^{it}\),
-\[
-F^+(\zeta_0)=\zeta_0^m,
-\qquad
-F^-(\zeta_0)=0.
-\]
-The Plemelj formulas become
-\[
-F^\pm(\zeta_0)
-=
-\operatorname{P.V.}\,
-\frac{1}{2\pi i}
-\int_{|\zeta|=1}
-\frac{\zeta^m}{\zeta-\zeta_0}\,d\zeta
-\pm\frac12\zeta_0^m.
-\]
-Subtracting gives the jump relation
-\[
-F^+-F^-=\zeta_0^m,
-\]
-and averaging gives
-\[
-\boxed{
-\operatorname{P.V.}\,
-\frac{1}{2\pi i}
-\int_{|\zeta|=1}
-\frac{\zeta^m}{\zeta-e^{it}}\,d\zeta
-=
-\frac12e^{imt}.
-}
-\]
+- chapter line: 7615
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For pointwise boundary limits at every point, a Hölder condition
-\[
-f\in C^{0,\alpha}(\Gamma),
-\qquad 0<\alpha\le1,
-\]
-is sufficient. For almost-everywhere nontangential limits and \(L^p\) jump relations on a Lipschitz curve, the classical singular-integral theory allows
-\[
-f\in L^p(\Gamma),
-\qquad 1<p<\infty.
-\]
-Thus the original \(C^1\) hypothesis is stronger than necessary.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0026]
-\label{prob:cp-iv-0026}
+```tex
 \par\noindent\textbullet\quad $\{(x,y): y\ne 0\}$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-U=\{(x,y)\in\mathbb R^2:y\neq0\}.
-\]
-This is
-\[
-U=\{y>0\}\cup\{y<0\},
-\]
-a union of two open half-planes, so \(U\) is open.
+### CP-IV-0030
 
-It is not closed. For example,
-\[
-(0,1/n)\in U
-\]
-for every \(n\), but
-\[
-(0,1/n)\longrightarrow(0,0)\notin U.
-\]
-Equivalently, the complement
-\[
-\{(x,0):x\in\mathbb R\}
-\]
-is closed but not open. Therefore
-\[
-\boxed{U\text{ is open and not closed}.}
-\]
-\end{solution}
+- chapter line: 7643
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0028]
-\label{prob:cp-iv-0028}
-Let $(f_n)$ and $(g_n)$ be sequences of real-valued functions on a set $X$ with
-$f_n \xRightarrow{\text{\rm unif}} f$ and $g_n \xRightarrow{\text{\rm unif}} g$.
-
-\par\noindent\textbullet\quad Show that $f_n+g_n \xRightarrow{\text{\rm unif}} f+g$.
-\par\noindent\textbullet\quad Show that $f_n g_n \to fg$ pointwise, but that $f_n g_n$ need not converge uniformly to $fg$ in general. If $f$ and $g$ are bounded, does the latter conclusion change? What if $f$ is bounded but $g$ is not?
-
-Uniform convergence means $\|f_n-f\|_\infty=\sup_{x\in X}|f_n(x)-f(x)|\to 0$; it implies pointwise convergence. For products we use
-\[
-|f_n g_n - fg| \le |f_n|\,|g_n-g| + |g|\,|f_n-f|.
-\]
-If $f_n\Rightarrow f$, then $f_n$ are eventually uniformly bounded.
-\end{problem}
-
-\begin{solution}
-Let $\varepsilon>0$. Choose $N_1$ with $\sup_X|f_n-f|<\varepsilon/2$ for $n\ge N_1$ and $N_2$ with $\sup_X|g_n-g|<\varepsilon/2$ for $n\ge N_2$. For $n\ge N=\max\{N_1,N_2\}$,
-\[
-\sup_{x\in X}|(f_n+g_n)-(f+g)| \le \sup_X|f_n-f|+\sup_X|g_n-g| < \varepsilon,
-\]
-hence $f_n+g_n \Rightarrow f+g$.
-\end{solution}
-
-\begin{problem}[CP-IV-0030]
-\label{prob:cp-iv-0030}
+```tex
 \par\noindent\textbullet\quad $\{(x,0): 0\le x\le 1\}$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-S=\{(x,0):0\le x\le1\}.
-\]
-It is closed because
-\[
-S
-=
-\{(x,y):y=0\}
-\cap
-\{(x,y):0\le x\le1\},
-\]
-and both sets on the right are closed in \(\mathbb R^2\). Equivalently, \(S\) is compact, hence closed.
+### CP-IV-0032
 
-It is not open: every Euclidean ball centered at a point of \(S\) contains points with \(y\neq0\), so no point of \(S\) is an interior point in \(\mathbb R^2\).
+- chapter line: 7648
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Hence
-\[
-\boxed{S\text{ is closed and not open}.}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0032]
-\label{prob:cp-iv-0032}
+```tex
 $f(x)=x^2$ on $\mathbb{R}$ is not uniformly continuous.
 	\par\noindent\textbullet\quad Pointwise convergence $\nRightarrow$ uniform convergence.
-\end{problem}
+```
 
-\begin{solution}
-The function
-\[
-f(x)=x^2
-\]
-is not uniformly continuous on \(\mathbb R\). Take
-\[
-x_n=n,
-\qquad
-y_n=n+\frac1n.
-\]
-Then
-\[
-|x_n-y_n|=\frac1n\longrightarrow0,
-\]
-but
-\[
-|f(y_n)-f(x_n)|
-=
-\left(n+\frac1n\right)^2-n^2
-=
-2+\frac1{n^2}
-\longrightarrow2.
-\]
-Thus arbitrarily close inputs can have outputs separated by nearly \(2\), contradicting uniform continuity.
+### CP-IV-0033
 
-Pointwise convergence also does not imply uniform convergence. For example,
-\[
-f_n(x)=x^n
-\]
-on \([0,1]\) converges pointwise to
-\[
-f(x)=
-\begin{cases}
-0,&0\le x<1,\\
-1,&x=1,
-\end{cases}
-\]
-but the convergence is not uniform. Indeed the pointwise limit is discontinuous, whereas a uniform limit of continuous functions would be continuous. Equivalently,
-\[
-\sup_{0\le x<1}x^n=1
-\]
-for every \(n\).
-\end{solution}
+- chapter line: 7654
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0033]
-\label{prob:cp-iv-0033}
+```tex
 \par\noindent\textbullet\quad Show that the map $f \mapsto \displaystyle\Big(x\mapsto \int_a^x f(y)\,dy\Big)$ is a continuous map from $C^k([a,b])$ to $C^{k+1}([a,b])$.
-\end{problem}
+```
 
-\begin{solution}
-Define
-\[
-(Tf)(x)=\int_a^x f(y)\,dy.
-\]
-The map \(T\) is linear. By the fundamental theorem of calculus,
-\[
-(Tf)'=f,
-\]
-and therefore, for \(j=1,\ldots,k+1\),
-\[
-(Tf)^{(j)}=f^{(j-1)}.
-\]
-Also
-\[
-\|Tf\|_\infty
-\le
-(b-a)\|f\|_\infty.
-\]
+### CP-IV-0038
 
-Using the standard norm
-\[
-\|f\|_{C^k}
-=
-\sum_{j=0}^k\|f^{(j)}\|_\infty,
-\]
-we obtain
-\[
-\begin{aligned}
-\|Tf\|_{C^{k+1}}
-&=
-\|Tf\|_\infty
-+
-\sum_{j=1}^{k+1}\|(Tf)^{(j)}\|_\infty\\
-&\le
-(b-a)\|f\|_\infty
-+
-\sum_{j=0}^k\|f^{(j)}\|_\infty\\
-&\le
-\bigl(1+b-a\bigr)\|f\|_{C^k}.
-\end{aligned}
-\]
-Hence \(T:C^k([a,b])\to C^{k+1}([a,b])\) is a bounded linear operator, and therefore it is continuous.
-\end{solution}
+- chapter line: 7659
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0038]
-\label{prob:cp-iv-0038}
+```tex
 \par\noindent\textbullet\quad Not necessarily. For example,
 	\[
 	f(z)=z^{2}+\sin(\pi z)
@@ -10896,125 +6642,38 @@ Hence \(T:C^k([a,b])\to C^{k+1}([a,b])\) is a bounded linear operator, and there
 	is entire and satisfies $f(n)=n^{2}$ for all $n\in\mathbb Z$, yet $f\not\equiv z^{2}$.
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-No. The values of an entire function on \(\mathbb Z\) do not determine it uniquely, because \(\mathbb Z\) has no accumulation point in \(\mathbb C\).
+### CP-IV-0040
 
-A concrete counterexample is
-\[
-f(z)=z^2+\sin(\pi z).
-\]
-This function is entire, and for every \(n\in\mathbb Z\),
-\[
-f(n)=n^2+\sin(\pi n)=n^2.
-\]
-However,
-\[
-f\not\equiv z^2,
-\]
-because \(\sin(\pi z)\) is not identically zero.
+- chapter line: 7670
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-This does not contradict the identity theorem: that theorem requires the set on which two holomorphic functions agree to have an accumulation point inside the domain. The integers have no finite accumulation point in \(\mathbb C\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0040]
-\label{prob:cp-iv-0040}
+```tex
 \par\noindent\textbullet\quad $A=\{f\in C([0,1]) : f(1/2)=0\}$;
-\end{problem}
+```
 
-\begin{solution}
-Assume \(C([0,1])\) is equipped with the standard sup norm
-\[
-\|f\|_\infty=\sup_{x\in[0,1]}|f(x)|.
-\]
-Consider
-\[
-A=\{f\in C([0,1]):f(1/2)=0\}.
-\]
-The evaluation functional
-\[
-E_{1/2}:C([0,1])\to\mathbb R,
-\qquad
-E_{1/2}(f)=f(1/2),
-\]
-is continuous because
-\[
-|E_{1/2}(f)-E_{1/2}(g)|
-=
-|f(1/2)-g(1/2)|
-\le
-\|f-g\|_\infty.
-\]
-Hence
-\[
-A=E_{1/2}^{-1}(\{0\})
-\]
-is closed.
+### CP-IV-0041
 
-It is not open. If \(f\in A\) and \(\varepsilon>0\), define
-\[
-g(x)=f(x)+\frac{\varepsilon}{2}.
-\]
-Then
-\[
-\|g-f\|_\infty=\frac{\varepsilon}{2}<\varepsilon,
-\]
-but
-\[
-g(1/2)=\frac{\varepsilon}{2}\neq0.
-\]
-Thus every sup-norm ball about a point of \(A\) meets the complement of \(A\).
+- chapter line: 7675
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Therefore \(A\) is a closed, non-open linear subspace of \(C([0,1])\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0041]
-\label{prob:cp-iv-0041}
+```tex
 \par\noindent\textbullet\quad If $X=\mathbb{N}$, show that $(f_n)$ has a pointwise convergent subsequence.
-\end{problem}
+```
 
-\begin{solution}
-Under the ambient hypothesis that the sequence is pointwise bounded, the conclusion follows by a diagonal argument.
+### CP-IV-0042
 
-Write
-\[
-X=\mathbb N.
-\]
-Since \((f_n(1))_{n\ge1}\) is a bounded sequence of scalars, it has a convergent subsequence; call its indices
-\[
-n^{(1)}_1<n^{(1)}_2<\cdots.
-\]
-From that subsequence, choose a further subsequence
-\[
-n^{(2)}_1<n^{(2)}_2<\cdots
-\]
-such that \(f_{n^{(2)}_k}(2)\) converges. Continue inductively: at stage \(j\), choose a subsequence along which the value at \(j\) converges.
+- chapter line: 7680
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Now take the diagonal sequence
-\[
-m_k:=n^{(k)}_k.
-\]
-Fix \(j\). For \(k\ge j\), the index \(m_k\) belongs to the \(j\)-th subsequence, so
-\[
-f_{m_k}(j)
-\]
-is a tail of a convergent scalar sequence. Hence it converges.
-
-Therefore
-\[
-f_{m_k}(j)
-\]
-converges for every \(j\in\mathbb N\), i.e. \((f_{m_k})\) converges pointwise on \(\mathbb N\).
-
-The pointwise-boundedness assumption is essential: without it, even at a single point the scalar sequence need not have a convergent subsequence.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0042]
-\label{prob:cp-iv-0042}
+```tex
 $f_n(x)=\sin(x)/n\to 0$ uniformly on $\mathbb{R}$.
 
 	\par\noindent\textbullet\quad \textbf{Inclusion and restriction.}
@@ -11023,98 +6682,16 @@ $f_n(x)=\sin(x)/n\to 0$ uniformly on $\mathbb{R}$.
 
 	\par\noindent\textbullet\quad \textbf{Continuous need not be closed.}
 	$f:\mathbb{R}\to\mathbb{R}$, $f(x)=e^x$ is continuous but sends the closed set $\mathbb{R}$ to $(0,\infty)$, which is not closed.
-\end{problem}
+```
 
-\begin{solution}
-For
-\[
-f_n(x)=\frac{\sin x}{n},
-\]
-we have
-\[
-|f_n(x)|
-\le
-\frac1n
-\qquad (x\in\mathbb R).
-\]
-Therefore
-\[
-\|f_n\|_\infty
-=
-\sup_{x\in\mathbb R}\frac{|\sin x|}{n}
-=
-\frac1n
-\longrightarrow0,
-\]
-so \(f_n\to0\) uniformly on \(\mathbb R\).
+### CP-IV-0046
 
-If \(Y\subset X\) has the subspace topology, the inclusion
-\[
-i:Y\hookrightarrow X
-\]
-is continuous because for every open \(U\subset X\),
-\[
-i^{-1}(U)=U\cap Y,
-\]
-which is open in \(Y\).
+- chapter line: 7721
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-If \(f:X\to Z\) is continuous, then the restriction
-\[
-f|_Y:Y\to Z
-\]
-is continuous, since for every open \(V\subset Z\),
-\[
-(f|_Y)^{-1}(V)
-=
-Y\cap f^{-1}(V),
-\]
-which is open in the subspace \(Y\).
-
-Finally, continuity does not imply that a map is closed. The map
-\[
-f:\mathbb R\to\mathbb R,
-\qquad
-f(x)=e^x,
-\]
-is continuous, but the closed set \(\mathbb R\) is mapped to
-\[
-(0,\infty),
-\]
-which is not closed in \(\mathbb R\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0045]
-\label{prob:cp-iv-0045}
-Schwarz--Christoffel map from the half-plane to a rectangle
-
-Write down, as an integral, the Schwarz--Christoffel map from the upper half-plane \(\mathbb H\) to a rectangle,
-	with vertices being the images of the points \(z=\pm1\) and \(z=\pm a\) (with \(a>1\) real).
-	Explain why \(a\) cannot be chosen arbitrarily, but is determined by the rectangleâ€™s aspect ratio.
-
-	For prevertices \(x_k\in\mathbb R\) mapping to interior angles \(\alpha_k\pi\) in the polygon,
-	\[
-	f'(z)=C\prod_k (z-x_k)^{\alpha_k-1}\qquad\text{(up to an affine change of variables).}
-	\]
-	A rectangle has \(\alpha_k=\tfrac12\) at each vertex, so every factorâ€™s exponent is \(-\tfrac12\).
-\end{problem}
-
-\begin{solution}
-Place prevertices at \(-a,-1,1,a\) (in order) with \(a>1\).
-	Then
-	\[
-	f'(z)=C\,(z{+}a)^{-1/2}(z{+}1)^{-1/2}(z{-}1)^{-1/2}(z{-}a)^{-1/2}
-	=\frac{C}{\sqrt{(z^{2}-1)(z^{2}-a^{2})}}.
-	\]
-	Integrating,
-	\[
-	\boxed{\qquad f(z)=A+C\int^{\,z}\frac{dt}{\sqrt{(t^{2}-1)(t^{2}-a^{2})}}\qquad}
-	\]
-	maps \(\mathbb H\) conformally to a rectangle (up to translation and scaling).
-\end{solution}
-
-\begin{problem}[CP-IV-0046]
-\label{prob:cp-iv-0046}
+```tex
 â€” Triangle with vertices \((0,0)\to(2,1)\to(1,3)\to(0,0)\)
 
 Integrate \(\tfrac12(x\,dy-y\,dx)\) edge by edge (CCW orientation).
@@ -11158,239 +6735,40 @@ Parametrize \(x=1-t\), \(y=3-3t\), \(t\in[0,1]\). Then \(dx=-dt\), \(dy=-3\,dt\)
 (Checks the shoelace formula:
 \(\displaystyle \tfrac12\bigl|0\cdot1+2\cdot3+1\cdot0-(2\cdot0+1\cdot1+0\cdot3)\bigr|
 =\tfrac12|6-1|=2.5\).)
-\end{problem}
+```
 
-\begin{solution}
-Let the positively oriented triangle have vertices
-\[
-(0,0)\longrightarrow(2,1)\longrightarrow(1,3)\longrightarrow(0,0).
-\]
-We evaluate
-\[
-\frac12\oint_C(x\,dy-y\,dx)
-\]
-edge by edge.
+### CP-IV-0050
 
-On the first edge, use
-\[
-x=2t,\qquad y=t,\qquad 0\le t\le1.
-\]
-Then
-\[
-dx=2\,dt,\qquad dy=dt,
-\]
-and
-\[
-\frac12(x\,dy-y\,dx)
-=
-\frac12(2t-2t)\,dt
-=
-0.
-\]
+- chapter line: 7816
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-On the second edge, use
-\[
-x=2-s,\qquad y=1+2s,\qquad 0\le s\le1.
-\]
-Then
-\[
-dx=-ds,\qquad dy=2\,ds,
-\]
-so
-\[
-\frac12(x\,dy-y\,dx)
-=
-\frac12\bigl(2(2-s)+(1+2s)\bigr)\,ds
-=
-\frac52\,ds.
-\]
-Thus this edge contributes
-\[
-\frac52.
-\]
-
-On the third edge, use
-\[
-x=1-t,\qquad y=3-3t,\qquad 0\le t\le1.
-\]
-Then
-\[
-dx=-dt,\qquad dy=-3\,dt,
-\]
-and again
-\[
-\frac12(x\,dy-y\,dx)=0.
-\]
-
-Hence
-\[
-\boxed{
-\operatorname{Area}
-=
-\frac12\oint_C(x\,dy-y\,dx)
-=
-\frac52.
-}
-\]
-This agrees with the shoelace formula.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0049]
-\label{prob:cp-iv-0049}
-Evaluate
-\[
-I=\int_{0}^{\infty}\frac{x^{1/2}\,\log x}{(1+x)^2}\,dx .
-\]
-
-\bigskip
-
-For \(0<a<2\) the Betaâ€“Gamma identity gives
-\[
-F(a):=\int_{0}^{\infty}\frac{x^{a-1}}{(1+x)^2}\,dx
-=B(a,2-a)=\Gamma(a)\Gamma(2-a).
-\]
-Differentiation under the parameter is legitimate here, and since
-\(\dfrac{d}{da}x^{a-1}=x^{a-1}\log x\), we obtain integrals with a \(\log x\) factor
-by differentiating \(F\).
-We also use the digamma function \(\psi=\Gamma'/\Gamma\) and the values
-\(\psi(\tfrac12)=-\gamma-2\log2\), \(\psi(\tfrac32)=\psi(\tfrac12)+2\).
-
-\bigskip
-\end{problem}
-
-\begin{solution}
-Differentiate \(F\):
-\[
-F'(a)=\int_{0}^{\infty}\frac{x^{a-1}\log x}{(1+x)^2}\,dx
-=\frac{d}{da}\big(\Gamma(a)\Gamma(2-a)\big)
-=\Gamma(a)\Gamma(2-a)\big(\psi(a)-\psi(2-a)\big).
-\]
-We need \(I=F'(3/2)\).  Compute
-\[
-F\!\left(\tfrac32\right)
-=\Gamma\!\left(\tfrac32\right)\Gamma\!\left(\tfrac12\right)
-=\frac{\sqrt\pi}{2}\cdot\sqrt\pi=\frac{\pi}{2},
-\qquad
-\psi\!\left(\tfrac32\right)-\psi\!\left(\tfrac12\right)=2.
-\]
-Therefore
-\[
-I=F'\!\left(\tfrac32\right)
-=\frac{\pi}{2}\cdot 2
-=\boxed{\pi}.
-\]
-
-\bigskip
-\end{solution}
-
-\begin{problem}[CP-IV-0050]
-\label{prob:cp-iv-0050}
+```tex
 \par\noindent\textbullet\quad $f_n(x)=x e^{-nx}$ on $X=[0,\infty)$.
-\end{problem}
+```
 
-\begin{solution}
-For
-\[
-f_n(x)=xe^{-nx},
-\qquad x\ge0,
-\]
-we first have pointwise convergence:
-\[
-f_n(0)=0,
-\]
-and for every fixed \(x>0\),
-\[
-xe^{-nx}\longrightarrow0.
-\]
-Thus \(f_n(x)\to0\) pointwise on \([0,\infty)\).
+### CP-IV-0054
 
-To test uniform convergence, maximize
-\[
-g_n(x)=xe^{-nx}.
-\]
-Its derivative is
-\[
-g_n'(x)=e^{-nx}(1-nx),
-\]
-so the unique interior maximum occurs at
-\[
-x=\frac1n.
-\]
-Therefore
-\[
-\|f_n\|_\infty
-=
-g_n(1/n)
-=
-\frac1{en}.
-\]
-Since
-\[
-\frac1{en}\longrightarrow0,
-\]
-we obtain
-\[
-\boxed{
-f_n\to0\quad\text{uniformly on }[0,\infty).
-}
-\]
-\end{solution}
+- chapter line: 7821
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-
-\begin{problem}[CP-IV-0054]
-\label{prob:cp-iv-0054}
+```tex
 \par\noindent\textbullet\quad (\textbf{CR in matrix form})
 	Show $T$ is complex-linear iff $a=d$ and $b=-c$.
 	\emph{Solution.} From Ex.\ 1, $B=0\iff a=d,\ c=-b$, i.e.\ matrix $\begin{psmallmatrix}a&-t\\ t&a\end{psmallmatrix}$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-T(x+iy)=(ax+by)+i(cx+dy).
-\]
-If
-\[
-T(z)=Az+B\overline z,
-\]
-then
-\[
-A=\frac{a+d}{2}+i\,\frac{c-b}{2},
-\qquad
-B=\frac{a-d}{2}+i\,\frac{c+b}{2}.
-\]
+### CP-IV-0055
 
-The map is complex-linear exactly when the antiholomorphic coefficient vanishes:
-\[
-B=0.
-\]
-Thus
-\[
-a-d=0,
-\qquad
-c+b=0,
-\]
-or equivalently
-\[
-\boxed{a=d,\qquad b=-c.}
-\]
+- chapter line: 7828
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-Writing \(t=c=-b\), the real matrix has the Cauchy--Riemann form
-\[
-\boxed{
-\begin{pmatrix}
-a&-t\\
-t&a
-\end{pmatrix}.
-}
-\]
-Conversely, every real matrix of this form represents multiplication by the complex number \(a+it\), hence is complex-linear.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0055]
-\label{prob:cp-iv-0055}
+```tex
 \par\noindent\textbullet\quad (\textbf{Recover $A,B$ from a real matrix})
 	Let $T$ have real matrix $\begin{psmallmatrix}a&b\\ c&d\end{psmallmatrix}$ via
 	$T(x+iy)=(ax+by)+i(cx+dy)$. Derive $A,B$ in $T(z)=Az+B\bar z$.
@@ -11400,162 +6778,27 @@ Conversely, every real matrix of this form represents multiplication by the comp
 	A=\frac{a+d}{2}+i\,\frac{c-b}{2},\qquad
 	B=\frac{a-d}{2}+i\,\frac{c+b}{2}.
 	\]
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-T(x+iy)=(ax+by)+i(cx+dy).
-\]
-Write
-\[
-T(z)=Az+B\overline z,
-\]
-where
-\[
-z=x+iy,\qquad \overline z=x-iy.
-\]
-If
-\[
-A=\alpha+i\beta,
-\qquad
-B=\gamma+i\delta,
-\]
-then
-\[
-Az+B\overline z
-=
-\bigl((\alpha+\gamma)x+(-\beta+\delta)y\bigr)
-+
-i\bigl((\beta+\delta)x+(\alpha-\gamma)y\bigr).
-\]
-Comparing coefficients with the given real matrix gives
-\[
-a=\alpha+\gamma,\qquad
-b=-\beta+\delta,
-\]
-\[
-c=\beta+\delta,\qquad
-d=\alpha-\gamma.
-\]
-Solving,
-\[
-\alpha=\frac{a+d}{2},
-\qquad
-\gamma=\frac{a-d}{2},
-\]
-\[
-\beta=\frac{c-b}{2},
-\qquad
-\delta=\frac{c+b}{2}.
-\]
-Hence
-\[
-\boxed{
-A=\frac{a+d}{2}+i\,\frac{c-b}{2},
-\qquad
-B=\frac{a-d}{2}+i\,\frac{c+b}{2}.
-}
-\]
-These coefficients are unique because \(z\) and \(\overline z\) are linearly independent over \(\mathbb R\) as real-linear coordinate functions.
-\end{solution}
+### CP-IV-0056
 
+- chapter line: 7841
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0056]
-\label{prob:cp-iv-0056}
+```tex
 \par\noindent\textbullet\quad $\{(x,y): y/x\in\mathbb{N}\}\ \cup\ \{(x,y): x=0\}$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-S
-=
-\{(x,y):y/x\in\mathbb N\}
-\cup
-\{(x,y):x=0\}.
-\]
-Equivalently,
-\[
-S
-=
-\left(\bigcup_{n\in\mathbb N}\{(x,y):y=nx\}\right)
-\cup
-\{x=0\}.
-\]
+### CP-IV-0058
 
-We show that \(S\) is closed. Let
-\[
-(x_k,y_k)\in S,
-\qquad
-(x_k,y_k)\to(a,b).
-\]
-If \(a=0\), then the limit lies on the vertical axis and hence belongs to \(S\).
+- chapter line: 7885
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Assume \(a\neq0\). For large \(k\), \(x_k\neq0\), so either the point lies on the vertical axis only finitely often or
-\[
-y_k=n_kx_k
-\]
-with \(n_k\in\mathbb N\). Since \(x_k\to a\neq0\) and \(y_k\to b\), the sequence
-\[
-n_k=\frac{y_k}{x_k}
-\]
-is bounded. A bounded sequence of integers has a constant subsequence; along such a subsequence \(n_k=n\), hence
-\[
-b=na.
-\]
-Therefore \((a,b)\in S\). Thus \(S\) is closed.
-
-The set is not open. Every Euclidean ball centered at a point on one of the lines contains points with slopes not in \(\mathbb N\), so \(S\) has empty interior.
-
-Therefore
-\[
-\boxed{S\text{ is closed and not open}.}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0057]
-\label{prob:cp-iv-0057}
-\par\noindent\textbullet\quad $f_n(x)=e^{-x^2}\sin(x/n)$ on $X=\mathbb{R}$.
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{(a) $f_n(x)=x^{2n}$ on $(0,1)$.}\quad 
-For each fixed $x\in(0,1)$, $x^{2n}\to 0$. However
-\[
-\sup_{x\in(0,1)}|x^{2n}-0|=\sup_{x\in(0,1)} x^{2n}=1,
-\]
-since values approach $1$ as $x\to1^{-}$. Hence the convergence is \emph{not uniform} on $(0,1)$.
-
-\par\medskip\noindent\textbf{(b) $f_n(x)=x e^{-nx}$ on $[0,\infty)$.}\quad 
-Pointwise $f_n(x)\to 0$ for all $x\ge0$. For uniform convergence, maximize $g_n(x)=x e^{-nx}$:
-with $y=nx$,
-\[
-g_n(x)=\frac{y}{n}e^{-y},\qquad \max_{y\ge0} y e^{-y}=e^{-1}\ \text{ at }y=1.
-\]
-Thus $\sup_{x\ge0} g_n(x)=\frac{1}{en}\to 0$, so $f_n\to 0$ \emph{uniformly} on $[0,\infty)$.
-
-\par\medskip\noindent\textbf{(c) $f_n(x)=e^{-x^2}\sin(x/n)$ on $\mathbb{R}$.}\quad 
-Pointwise $f_n(x)\to 0$. Moreover,
-\[
-|f_n(x)|\le e^{-x^2}\cdot\frac{|x|}{n}\quad\text{since }|\sin t|\le |t|,
-\]
-hence
-\[
-\sup_{x\in\mathbb{R}}|f_n(x)|
-\le \frac{1}{n}\,\sup_{x\in\mathbb{R}} |x|e^{-x^2}
-= \frac{1}{n}\cdot \frac{e^{-1/2}}{\sqrt{2}}
-\longrightarrow 0.
-\]
-Therefore $f_n\to 0$ \emph{uniformly} on $\mathbb{R}$.
-
-\par\medskip\noindent\textbf{Summary.}\quad 
-(a) Not uniform; (b) uniform limit $0$; (c) uniform limit $0$.
-\end{solution}
-
-\begin{problem}[CP-IV-0058]
-\label{prob:cp-iv-0058}
+```tex
 \par\noindent\textbullet\quad \textbf{Dropping the top derivative breaks completeness.}
 
 	On $C^k$ with the truncated metric
@@ -11567,74 +6810,16 @@ Therefore $f_n\to 0$ \emph{uniformly} on $\mathbb{R}$.
 	Then $(f_n)$ is Cauchy for $\tilde d$ but has no limit in $C^k$.
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-The truncated metric
-\[
-\widetilde d(f,g)
-=
-\sum_{j=0}^{k-1}
-\|f^{(j)}-g^{(j)}\|_\infty
-\]
-does not control the \(k\)-th derivative.
+### CP-IV-0059
 
-Choose
-\[
-g_n(x)
-=
-\sqrt{\left(x-\frac12\right)^2+\frac1n},
-\qquad 0\le x\le1.
-\]
-Then each \(g_n\in C^\infty([0,1])\) and
-\[
-g_n\longrightarrow g(x):=\left|x-\frac12\right|
-\]
-uniformly, while \(g\notin C^1([0,1])\).
+- chapter line: 7900
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For \(k=1\), simply take
-\[
-f_n=g_n.
-\]
-Then \((f_n)\) is Cauchy in the truncated metric, which is just the sup norm, but its uniform limit is not in \(C^1\).
-
-For \(k\ge2\), define
-\[
-f_n(x)
-=
-\frac1{(k-2)!}
-\int_0^x
-(x-t)^{k-2}g_n(t)\,dt.
-\]
-Then
-\[
-f_n^{(k-1)}=g_n.
-\]
-Because integration is continuous in the sup norm, for every
-\[
-j=0,\ldots,k-1
-\]
-the sequence \(f_n^{(j)}\) converges uniformly. Hence \((f_n)\) is Cauchy for \(\widetilde d\).
-
-Its truncated-metric limit \(f\) satisfies
-\[
-f^{(k-1)}(x)=\left|x-\frac12\right|,
-\]
-which is not differentiable at \(x=1/2\). Therefore
-\[
-f\notin C^k([0,1]).
-\]
-Thus
-\[
-\boxed{
-(C^k([0,1]),\widetilde d)\text{ is not complete}.
-}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0059]
-\label{prob:cp-iv-0059}
+```tex
 \par\noindent\textbullet\quad \textbf{Cauchy $\Rightarrow$ convergent in $C^k$.}
 
 	On $[0,1]$, let
@@ -11652,67 +6837,16 @@ Thus
 	\]
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-f_n(x)=\sum_{m=0}^{n}\frac{x^m}{m!},
-\qquad 0\le x\le1.
-\]
-For a fixed derivative order \(j\),
-\[
-f_n^{(j)}(x)
-=
-\sum_{m=j}^{n}
-\frac{x^{m-j}}{(m-j)!}
-=
-\sum_{r=0}^{n-j}\frac{x^r}{r!}.
-\]
-Hence
-\[
-f_n^{(j)}(x)
-\longrightarrow
-e^x
-\]
-uniformly on \([0,1]\). Indeed,
-\[
-\sup_{0\le x\le1}
-\left|
-e^x-f_n^{(j)}(x)
-\right|
-\le
-\sum_{r=n-j+1}^{\infty}\frac1{r!}
-\longrightarrow0.
-\]
+### CP-IV-0063
 
-Therefore, for every \(j=0,\ldots,k\),
-\[
-\|f_n^{(j)}-e^x\|_\infty\longrightarrow0.
-\]
-With
-\[
-d_{C^k}(f,g)
-=
-\sum_{j=0}^{k}
-\|f^{(j)}-g^{(j)}\|_\infty,
-\]
-we obtain
-\[
-d_{C^k}(f_n,e^x)\longrightarrow0.
-\]
-Thus
-\[
-\boxed{
-f_n\to e^x\quad\text{in }C^k([0,1]).
-}
-\]
-In particular, \((f_n)\) is Cauchy in the \(C^k\) metric and converges to an element of \(C^k([0,1])\).
-\end{solution}
+- chapter line: 7921
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0063]
-\label{prob:cp-iv-0063}
+```tex
 (restated).
 
 For $\alpha\in(-1,1)$ with $\alpha\neq0$, compute
@@ -11731,334 +6865,52 @@ $\displaystyle \int_{0}^{\infty}\frac{x^{\mu-1}}{x^{2}+2x\cos\phi+1}\,dx
 with $\mu=\alpha+1$ and $\phi=\pi/3$.
 
 \medskip
-\end{problem}
+```
 
-\input{figures/part04/designed/cp_iv_0063_mellin_keyhole_contour.tex}
+### CP-IV-0067
 
-\begin{solution}
-Set
-\[
-I(\alpha)
-=
-\int_0^\infty
-\frac{x^\alpha}{x^2+x+1}\,dx,
-\qquad -1<\alpha<1.
-\]
-Use the standard Mellin integral
-\[
-\int_0^\infty
-\frac{x^{\mu-1}}
-{x^2+2x\cos\phi+1}\,dx
-=
-\frac{\pi\sin((1-\mu)\phi)}
-{\sin(\pi\mu)\sin\phi},
-\qquad
-0<\mu<2.
-\]
-Here
-\[
-\mu=\alpha+1,
-\qquad
-\phi=\frac{\pi}{3},
-\]
-because
-\[
-x^2+x+1
-=
-x^2+2x\cos\frac{\pi}{3}+1.
-\]
-Therefore
-\[
-I(\alpha)
-=
-\frac{
-\pi\sin(-\alpha\pi/3)
-}{
-\sin(\pi(\alpha+1))\sin(\pi/3)
-}.
-\]
-Using
-\[
-\sin(\pi(\alpha+1))=-\sin(\pi\alpha),
-\qquad
-\sin\frac{\pi}{3}=\frac{\sqrt3}{2},
-\]
-we get
-\[
-\boxed{
-I(\alpha)
-=
-\frac{2\pi}{\sqrt3}\,
-\frac{\sin(\pi\alpha/3)}{\sin(\pi\alpha)},
-\qquad -1<\alpha<1,\ \alpha\neq0.
-}
-\]
+- chapter line: 7982
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The singular-looking quotient has a removable limit at \(\alpha=0\):
-\[
-\lim_{\alpha\to0}I(\alpha)
-=
-\frac{2\pi}{3\sqrt3},
-\]
-which agrees directly with
-\[
-\int_0^\infty\frac{dx}{x^2+x+1}.
-\]
-
-Thus the migrated formula with \(\sin((\alpha+1)\pi/3)\) in the numerator is not consistent with the stated integral; the correct numerator is \(\sin(\pi\alpha/3)\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0064]
-\label{prob:cp-iv-0064}
-\par\noindent\textbullet\quad Does the conclusion still hold if we only assume $f_n \to f$ pointwise? Give a proof or counterexample.
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{(a) Uniform limits preserve uniform continuity.}\quad 
-Fix $\varepsilon>0$. Choose $N$ so that $\|f_N-f\|_\infty<\varepsilon/3$ (uniform convergence).
-Since $f_N$ is uniformly continuous, there exists $\delta>0$ such that
-$|x-y|<\delta \implies |f_N(x)-f_N(y)|<\varepsilon/3$.
-Then for all $x,y$ with $|x-y|<\delta$,
-\[
-|f(x)-f(y)|
-\le |f(x)-f_N(x)| + |f_N(x)-f_N(y)| + |f_N(y)-f(y)|
-< \varepsilon/3 + \varepsilon/3 + \varepsilon/3
-= \varepsilon.
-\]
-Hence $f$ is uniformly continuous.
-
-\par\medskip\noindent\textbf{(b) Pointwise convergence need not preserve uniform continuity.}\quad 
-Consider $f_n(x)=\arctan(n x)$. Each $f_n$ is uniformly continuous (indeed $|f'_n(x)|=\frac{n}{1+n^2x^2}\le 1$).
-Pointwise,
-\[
-f(x)=\lim_{n\to\infty} f_n(x)=
-\begin{cases}
-	\frac{\pi}{2}, & x>0,\\
-	0, & x=0,\\
-	-\frac{\pi}{2}, & x<0,
-\end{cases}
-\]
-which is discontinuous at $0$, hence not uniformly continuous. Therefore pointwise convergence does not suffice.
-
-\par\medskip\noindent\textbf{Examples.}\quad 
-(1) $f_n(x)=\frac{x}{n+1}\to 0$ uniformly; $0$ is uniformly continuous. \quad
-(2) $f_n(x)=\sqrt{x^2+\frac1n}\to |x|$ uniformly on $\mathbb{R}$; $|x|$ is uniformly continuous.
-\end{solution}
-
-\begin{problem}[CP-IV-0067]
-\label{prob:cp-iv-0067}
+```tex
 \par\noindent\textbullet\quad Show that $C^k([a,b])$ is a complete metric space.
-\end{problem}
+```
 
-\begin{solution}
-Equip \(C^k([a,b])\) with the norm
-\[
-\|f\|_{C^k}
-=
-\sum_{j=0}^{k}\|f^{(j)}\|_\infty.
-\]
-Let \((f_n)\) be Cauchy in this norm. Then for each
-\[
-j=0,\ldots,k,
-\]
-the sequence \((f_n^{(j)})\) is Cauchy in
-\[
-C([a,b])
-\]
-with the sup norm. Since \(C([a,b])\) is complete, there exists a continuous function \(g_j\) such that
-\[
-f_n^{(j)}\longrightarrow g_j
-\]
-uniformly.
+### CP-IV-0068
 
-It remains to show that the limits are compatible as derivatives. We use the standard fact: if
-\[
-u_n\to u
-\]
-uniformly and
-\[
-u_n'\to v
-\]
-uniformly on \([a,b]\), then \(u\in C^1\) and \(u'=v\). Indeed,
-\[
-u_n(x)-u_n(a)
-=
-\int_a^x u_n'(t)\,dt.
-\]
-Passing to the limit uniformly gives
-\[
-u(x)-u(a)
-=
-\int_a^x v(t)\,dt,
-\]
-so \(u'=v\).
+- chapter line: 7987
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Apply this successively to
-\[
-f_n,\ f_n',\ldots,f_n^{(k-1)}.
-\]
-We obtain
-\[
-g_0'=g_1,\quad
-g_1'=g_2,\quad\ldots,\quad
-g_{k-1}'=g_k.
-\]
-Hence
-\[
-g_0\in C^k([a,b])
-\]
-and
-\[
-g_0^{(j)}=g_j.
-\]
-Finally,
-\[
-\|f_n-g_0\|_{C^k}
-=
-\sum_{j=0}^k
-\|f_n^{(j)}-g_j\|_\infty
-\longrightarrow0.
-\]
-Therefore \(C^k([a,b])\) is complete.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0068]
-\label{prob:cp-iv-0068}
+```tex
 Let $f(z)=z^{2}$ and $C$ any closed $C^{1}$ loop avoiding singularities (there are none). Then
 \[
 \oint_{C} z^{2}\,dz \;=\; 0.
 \]
-\end{problem}
+```
 
-\begin{solution}
-The integrand has the entire primitive
-\[
-F(z)=\frac{z^3}{3},
-\qquad
-F'(z)=z^2.
-\]
-Therefore, for every closed \(C^1\) loop \(C\),
-\[
-\oint_C z^2\,dz
-=
-\oint_C F'(z)\,dz
-=
-0.
-\]
+### CP-IV-0071
 
-Equivalently, Cauchy's theorem applies because \(z^2\) is entire. Hence
-\[
-\boxed{\oint_C z^2\,dz=0}.
-\]
-\end{solution}
+- chapter line: 7995
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0071]
-\label{prob:cp-iv-0071}
+```tex
 \par\noindent\textbullet\quad $f_n(x)=x^{2n}$ on $X=(0,1)$.
-\end{problem}
+```
 
-\begin{solution}
-For
-\[
-f_n(x)=x^{2n},
-\qquad 0<x<1,
-\]
-we have, for every fixed \(x\in(0,1)\),
-\[
-x^{2n}\longrightarrow0.
-\]
-Thus
-\[
-f_n\longrightarrow0
-\]
-pointwise on \(X=(0,1)\).
+### CP-IV-0075
 
-The convergence is not uniform. Indeed,
-\[
-\sup_{0<x<1}x^{2n}=1
-\]
-for every \(n\): the supremum is not attained, but values become arbitrarily close to \(1\) as \(x\to1^{-}\). Hence
-\[
-\|f_n\|_\infty=1
-\]
-for all \(n\), so
-\[
-\|f_n-0\|_\infty\nrightarrow0.
-\]
+- chapter line: 8060
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Each individual \(f_n\) is uniformly continuous on \((0,1)\), since
-\[
-|f_n'(x)|=2n x^{2n-1}\le2n
-\]
-and therefore \(f_n\) is Lipschitz. Thus this is another example where pointwise convergence does not imply uniform convergence.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0073]
-\label{prob:cp-iv-0073}
-\par\noindent (iii)\quad Explain why this does not contradict the Heine--Borel theorem.
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{(i) Total boundedness.}\quad 
-Let $\varepsilon>0$ and choose $N\in\mathbb{N}$ with $1/N<\varepsilon$. Partition $[0,1]$ into $N$ subintervals
-$[k/N,(k+1)/N]$ for $k=0,\dots,N-1$. Since $\mathbb{Q}$ is dense, pick $q_k\in\mathbb{Q}\cap(k/N,(k+1)/N)$.
-Then every $x\in X$ lies in some $[k/N,(k+1)/N]$ and satisfies $|x-q_k|<1/N<\varepsilon$. Hence
-\[
-X\ \subset\ \bigcup_{k=0}^{N-1} B_X(q_k,\varepsilon),
-\]
-a finite $\varepsilon$-cover. Therefore $X$ is totally bounded.
-
-\par\medskip\noindent\textbf{(ii) Non-compactness via an open cover.}\quad 
-Fix an irrational $a\in(0,1)$ and define, for $n\in\mathbb{N}$,
-\[
-U_n = X \cap\Big( (-\infty,a-1/n)\ \cup\ (a+1/n,\infty)\Big).
-\]
-Each $U_n$ is open in the subspace $X$, and $\{U_n\}_{n\in\mathbb{N}}$ covers $X$:
-for any $x\in X$ with $x\ne a$, choose $n>\frac1{|x-a|}$ so that $x\in U_n$.
-No finite subfamily covers $X$: if $n_0$ is maximal among a finite selection, then rational points in
-$X\cap(a-1/n_0,a+1/n_0)$ remain uncovered. Hence $X$ is not compact.
-
-\emph{Sequential variant.} Choose a sequence $(x_k)\subset X$ with $x_k\to a$ (irrational).
-Then $(x_k)$ has no convergent subsequence in $X$ (its only possible limit is $a\notin X$), so $X$ is not compact.
-
-\par\medskip\noindent\textbf{(iii) Consistency with Heine--Borel.}\quad 
-Heine--Borel states that a subset of $\mathbb{R}$ is compact iff it is closed and bounded.
-The set $X$ is bounded but not closed (its closure is $[0,1]$), hence not compact. Moreover, in metric spaces,
-compact $\iff$ complete and totally bounded; $X$ is totally bounded but not complete, so it is not compact.
-Thus there is no contradiction.
-\end{solution}
-
-\begin{problem}[CP-IV-0074]
-\label{prob:cp-iv-0074}
-Calculate $\displaystyle \int_{\gamma} z\sin z\,dz$ where $\gamma$ is the straight line joining $0$ to $i$.
-\end{problem}
-
-\begin{solution}
-Since $z\sin z$ is entire, the integral is path independent. An antiderivative is
-\[
-F(z)=\int z\sin z\,dz=-z\cos z+\sin z,
-\]
-because $F'(z)=-\cos z+z\sin z+\cos z=z\sin z$. Hence
-\[
-\int_{\gamma} z\sin z\,dz = F(i)-F(0)
-= \big(\sin i - i\cos i\big)-0.
-\]
-Using $\sin i = i\sinh 1$ and $\cos i=\cosh 1$,
-\[
-\sin i - i\cos i = i(\sinh 1-\cosh 1) = -\,\frac{i}{e}.
-\]
-Therefore
-\[
-\boxed{\displaystyle \int_{\gamma} z\sin z\,dz = -\,\frac{i}{e}.}
-\]
-\end{solution}
-
-\begin{problem}[CP-IV-0075]
-\label{prob:cp-iv-0075}
+```tex
 \par\noindent\textbullet\quad \textbf{$(C^1,\|\cdot\|_\infty)$ is not complete.}
 
 	Let $f_n(x)=\sqrt{x^2+\tfrac{1}{n}}$.
@@ -12066,113 +6918,16 @@ Therefore
 	Thus $(C^1([0,1]),\|\cdot\|_\infty)$ is incomplete.
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-The stated idea is correct after placing the corner inside the interval. On \([0,1]\), use
-\[
-f_n(x)
-=
-\sqrt{\left(x-\frac12\right)^2+\frac1n}.
-\]
-Then every \(f_n\in C^\infty([0,1])\).
+### CP-IV-0081
 
-For every \(x\),
-\[
-f_n(x)
-\longrightarrow
-\left|x-\frac12\right|.
-\]
-Moreover,
-\[
-0\le
-\sqrt{u^2+\frac1n}-|u|
-=
-\frac{1/n}
-{\sqrt{u^2+1/n}+|u|}
-\le
-\frac1{\sqrt n},
-\]
-so the convergence is uniform:
-\[
-\left\|
-f_n-\left|\,\cdot-\frac12\right|
-\right\|_\infty
-\le
-\frac1{\sqrt n}
-\longrightarrow0.
-\]
+- chapter line: 8119
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-Thus \((f_n)\) is Cauchy in the sup norm. But its uniform limit
-\[
-f(x)=\left|x-\frac12\right|
-\]
-is not differentiable at \(x=1/2\), hence
-\[
-f\notin C^1([0,1]).
-\]
-Therefore
-\[
-\boxed{
-(C^1([0,1]),\|\cdot\|_\infty)
-\text{ is not complete}.
-}
-\]
-
-The unshifted sequence \(\sqrt{x^2+1/n}\) would converge to \(|x|=x\) on \([0,1]\), which is \(C^1\); the shift to \(x=1/2\) is necessary for this interval.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0078]
-\label{prob:cp-iv-0078}
-Define $f:\mathbb C\to\mathbb C$ by $f(0)=0$ and
-\[
-f(z)=\frac{(1+i)x^{3}-(1-i)y^{3}}{x^{2}+y^{2}},\qquad z=x+iy\ne0.
-\]
-Show that $f$ satisfies the Cauchy--Riemann equations at $0$ but is not differentiable there.
-\end{problem}
-
-\begin{solution}
-Write
-\[
-(1+i)x^3-(1-i)y^3=(x^3-y^3)+i(x^3+y^3),
-\]
-so for $(x,y)\neq(0,0)$
-\[
-u(x,y)=\frac{x^3-y^3}{x^2+y^2},\qquad
-v(x,y)=\frac{x^3+y^3}{x^2+y^2},
-\]
-and put $u(0,0)=v(0,0)=0$.
-
-\emph{CR at $(0,0)$.}
-Compute partials at the origin via limits along the axes:
-\[
-u_x(0,0)=\lim_{h\to0}\frac{u(h,0)-0}{h}
-=\lim_{h\to0}\frac{h^3/h^2}{h}=1,\quad
-u_y(0,0)=\lim_{k\to0}\frac{u(0,k)-0}{k}
-=\lim_{k\to0}\frac{-k^3/k^2}{k}=-1,
-\]
-\[
-v_x(0,0)=\lim_{h\to0}\frac{v(h,0)-0}{h}
-=\lim_{h\to0}\frac{h^3/h^2}{h}=1,\quad
-v_y(0,0)=\lim_{k\to0}\frac{v(0,k)-0}{k}
-=\lim_{k\to0}\frac{k^3/k^2}{k}=1.
-\]
-Hence $u_x(0,0)=v_y(0,0)=1$ and $u_y(0,0)=-v_x(0,0)=-1$, so the Cauchy--Riemann equations hold at $0$.
-
-\emph{Not differentiable at $0$.}
-If $f$ were complex-differentiable at 0, then $f'(0)=u_x(0,0)+i v_x(0,0)=1+i$ and
-$\displaystyle \lim_{z\to0}\frac{f(z)}{z}$ would exist and equal $1+i$.
-However,
-\[
-\frac{f(x)}{x}\to 1+i\quad(y=0),\qquad
-\frac{f(x+ix)}{x+ix}=\frac{i x}{x(1+i)}=\frac{1+i}{2}\quad(y=x),
-\]
-so the limit depends on the path. Therefore $f$ is not differentiable at $0$.
-\end{solution}
-
-\begin{problem}[CP-IV-0081]
-\label{prob:cp-iv-0081}
+```tex
 \par\noindent\textbullet\quad (\textbf{Composition law})
 	Let $T(z)=Az+B\bar z$ and $S(z)=Cz+D\bar z$. Show
 	\[
@@ -12181,67 +6936,16 @@ so the limit depends on the path. Therefore $f$ is not differentiable at $0$.
 	Deduce that the set of real-linear maps $\mathbb{C}\to\mathbb{C}$ is closed under composition, and $S\circ T$ is complex-linear iff $CB+D\overline{A}=0$.
 	\emph{Solution.} Note $\overline{T(z)}=\overline{A}\bar z+\overline{B}z$ and compute
 	$S(T(z))=C\,T(z)+D\,\overline{T(z)}$; read off the $z,\bar z$ coefficients.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-T(z)=Az+B\overline z,
-\qquad
-S(z)=Cz+D\overline z.
-\]
-Then
-\[
-\overline{T(z)}
-=
-\overline A\,\overline z+\overline B\,z.
-\]
-Therefore
-\[
-\begin{aligned}
-(S\circ T)(z)
-&=
-C\,T(z)+D\,\overline{T(z)}\\
-&=
-C(Az+B\overline z)
-+
-D(\overline A\,\overline z+\overline B\,z)\\
-&=
-(CA+D\overline B)z
-+
-(CB+D\overline A)\overline z.
-\end{aligned}
-\]
-Hence
-\[
-\boxed{
-S\circ T(z)
-=
-(CA+D\overline B)z
-+
-(CB+D\overline A)\overline z.
-}
-\]
+### CP-IV-0083
 
-Thus the class of real-linear maps \(\mathbb C\to\mathbb C\) is closed under composition.
+- chapter line: 8131
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-A real-linear map
-\[
-Ez+F\overline z
-\]
-is complex-linear exactly when \(F=0\). Consequently
-\[
-S\circ T
-\]
-is complex-linear exactly when
-\[
-\boxed{CB+D\overline A=0}.
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0083]
-\label{prob:cp-iv-0083}
+```tex
 a circle mapped to the real axis
 
 As a concrete example, let $L$ be the unit circle
@@ -12270,208 +6974,49 @@ As a concrete example, let $L$ be the unit circle
 	distinguished according to the sign of $\Im\Phi(z)$. In
 	Figure~\ref{fig:crossratio-w-plane}, we see their images under $\Phi$,
 	which lie strictly above or below the real axis.
-\end{problem}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.78\textwidth]{figures/part04/cp_iv_0083_crossratio_circle_w_plane.png}
-  \caption{Source-backed Part IV figure: crossratio w plane.}
-  \label{fig:crossratio-w-plane}
-\end{figure}
+```
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.78\textwidth]{figures/part04/cp_iv_0083_crossratio_circle_z_plane.png}
-  \caption{Source-backed Part IV figure: crossratio z plane.}
-  \label{fig:crossratio-z-plane}
-\end{figure}
+### CP-IV-0085
 
-\begin{solution}
-With
-\[
-a=1,\qquad b=-1,\qquad c=i,
-\]
-the cross-ratio map is
-\[
-\Phi(z)
-=
-\frac{(z-1)(i+1)}{(z+1)(i-1)}.
-\]
-Since
-\[
-\frac{1+i}{i-1}=-i,
-\]
-this simplifies to
-\[
-\boxed{
-\Phi(z)
-=
--i\,\frac{z-1}{z+1}.
-}
-\]
-Directly,
-\[
-\Phi(1)=0,\qquad
-\Phi(-1)=\infty,\qquad
-\Phi(i)=1.
-\]
+- chapter line: 8177
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-A M\"obius transformation maps generalized circles to generalized circles. Since three distinct points of the unit circle are sent to
-\[
-0,\ \infty,\ 1\in\widehat{\mathbb R},
-\]
-the whole unit circle is sent to the extended real axis.
-
-To determine the two sides, test one point from each component. The point \(z=0\) lies inside the unit disk and
-\[
-\Phi(0)=i,
-\]
-so
-\[
-|z|<1
-\quad\Longrightarrow\quad
-\Im\Phi(z)>0.
-\]
-For example, \(z=2\) lies outside the circle and
-\[
-\Phi(2)=-\frac{i}{3},
-\]
-so
-\[
-|z|>1
-\quad\Longrightarrow\quad
-\Im\Phi(z)<0.
-\]
-
-Therefore
-\[
-\boxed{
-\Phi(\mathbb D)=\{\Im w>0\},
-\qquad
-\Phi(\widehat{\mathbb C}\setminus\overline{\mathbb D})
-=
-\{\Im w<0\}.
-}
-\]
-This is exactly the side separation illustrated by the two referenced figures.
-\end{solution}
-
-
-
-\begin{problem}[CP-IV-0085]
-\label{prob:cp-iv-0085}
+```tex
 \par\noindent\textbullet\quad $\{(x,0): 0< x< 1\}$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-S=\{(x,0):0<x<1\}\subset\mathbb R^2.
-\]
-The set is not open in \(\mathbb R^2\), because every Euclidean ball centered at a point of \(S\) contains points with nonzero \(y\)-coordinate.
+### CP-IV-0087
 
-It is also not closed. For example,
-\[
-\left(\frac1n,0\right)\in S
-\]
-for \(n\ge2\), but
-\[
-\left(\frac1n,0\right)\longrightarrow(0,0)\notin S.
-\]
-Similarly, points of \(S\) approach \((1,0)\), which is not included.
+- chapter line: 8182
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Thus
-\[
-\boxed{
-S\text{ is neither open nor closed in }\mathbb R^2.
-}
-\]
-Its closure is the closed segment
-\[
-\overline S=\{(x,0):0\le x\le1\}.
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0087]
-\label{prob:cp-iv-0087}
+```tex
 \par\noindent\textbullet\quad $\{(x,y): y>0\}$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-H=\{(x,y)\in\mathbb R^2:y>0\}.
-\]
-This is open because it is the inverse image
-\[
-H=\pi_2^{-1}((0,\infty))
-\]
-under the continuous projection
-\[
-\pi_2(x,y)=y.
-\]
+### CP-IV-0088
 
-It is not closed. For instance,
-\[
-(0,1/n)\in H
-\]
-for every \(n\), but
-\[
-(0,1/n)\longrightarrow(0,0)\notin H.
-\]
-Hence
-\[
-\boxed{
-H\text{ is open and not closed}.
-}
-\]
-Its closure is
-\[
-\overline H=\{(x,y):y\ge0\}.
-\]
-\end{solution}
+- chapter line: 8187
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0088]
-\label{prob:cp-iv-0088}
+```tex
 \par\noindent (i)\quad Show that $X$ is totally bounded.
-\end{problem}
+```
 
-\begin{solution}
-For the set \(X=\mathbb Q\cap[0,1]\) occurring in the surrounding exercise, let
-\(\varepsilon>0\). Choose \(N\in\mathbb N\) such that
-\[
-\frac1N<\varepsilon.
-\]
-Partition \([0,1]\) into the \(N\) intervals
-\[
-I_k=\left[\frac{k}{N},\frac{k+1}{N}\right],
-\qquad k=0,\ldots,N-1.
-\]
-Because \(\mathbb Q\) is dense in \(\mathbb R\), choose
-\[
-q_k\in \mathbb Q\cap I_k
-\]
-for every \(k\).
+### CP-IV-0091
 
-If \(x\in X\), then \(x\in I_k\) for some \(k\), and therefore
-\[
-|x-q_k|\le \frac1N<\varepsilon.
-\]
-Hence
-\[
-X\subset
-\bigcup_{k=0}^{N-1}B_X(q_k,\varepsilon).
-\]
-This is a finite \(\varepsilon\)-cover of \(X\). Since \(\varepsilon>0\) was arbitrary,
-\[
-\boxed{X\text{ is totally bounded}.}
-\]
-\end{solution}
+- chapter line: 8192
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0091]
-\label{prob:cp-iv-0091}
+```tex
 â€” constant curl, easy numbers
 
 Take $\mathbf F=(-y,x)$. Then $L=-y$, $M=x$ and
@@ -12506,141 +7051,32 @@ R^2\,dt,
 2\pi R^2.
 \]
 Both sides match: $2\pi R^2$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-\mathbf F=(L,M)=(-y,x)
-\]
-and let \(C=\partial D\) be the positively oriented circle
-\[
-x^2+y^2=R^2.
-\]
-Then
-\[
-M_x-L_y
-=
-\partial_x(x)-\partial_y(-y)
-=
-1-(-1)
-=
-2.
-\]
-Green's theorem therefore gives
-\[
-\oint_C(L\,dx+M\,dy)
-=
-\iint_D(M_x-L_y)\,dA
-=
-2\,\operatorname{Area}(D)
-=
-2\pi R^2.
-\]
+### CP-IV-0093
 
-Directly, parametrize
-\[
-x=R\cos t,\qquad y=R\sin t,\qquad 0\le t\le2\pi.
-\]
-Then
-\[
-dx=-R\sin t\,dt,\qquad dy=R\cos t\,dt,
-\]
-so
-\[
-\begin{aligned}
-L\,dx+M\,dy
-&=
-(-R\sin t)(-R\sin t)\,dt
-+
-(R\cos t)(R\cos t)\,dt\\
-&=
-R^2\,dt.
-\end{aligned}
-\]
-Hence
-\[
-\oint_C(L\,dx+M\,dy)
-=
-\int_0^{2\pi}R^2\,dt
-=
-\boxed{2\pi R^2},
-\]
-in agreement with Green's theorem.
-\end{solution}
+- chapter line: 8230
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-
-\begin{problem}[CP-IV-0093]
-\label{prob:cp-iv-0093}
+```tex
 \par\noindent\textbullet\quad (\textbf{Operator norm and singular values})
 	Show the maximal and minimal stretch factors (singular values) of $T$ are
 	\[
 	\sigma_{\max}=|A|+|B|,\qquad \sigma_{\min}=\bigl||A|-|B|\bigr|.
 	\]
 	\emph{Solution (sketch).} Write $T(z)=A\bigl(z+\tfrac{B}{A}\bar z\bigr)$ if $A\neq0$; by rotating/scaling the domain and range one reduces to $A\ge0$, $B\ge0$ real. Then $T$ acts by stretching along two orthogonal directions with factors $A\pm B$, giving the claim. General case follows by unitary conjugation.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-T(z)=Az+B\overline z.
-\]
-Multiplying the domain and range by complex numbers of modulus \(1\) does not change
-singular values. Hence, after rotations, we may reduce to
-\[
-A=a\ge0,\qquad B=b\ge0.
-\]
-Writing \(z=x+iy\),
-\[
-T(z)
-=
-a(x+iy)+b(x-iy)
-=
-(a+b)x+i(a-b)y.
-\]
-Thus, in suitable orthonormal coordinates, the real matrix is diagonal:
-\[
-\begin{pmatrix}
-a+b&0\\
-0&a-b
-\end{pmatrix}.
-\]
-The stretch factors along the two orthogonal principal directions are therefore
-\[
-|a+b|
-\quad\text{and}\quad
-|a-b|.
-\]
-Undoing the rotations gives
-\[
-\boxed{
-\sigma_{\max}=|A|+|B|,
-\qquad
-\sigma_{\min}=\bigl||A|-|B|\bigr|.
-}
-\]
+### CP-IV-0094
 
-In particular,
-\[
-T\text{ is invertible}
-\iff
-\sigma_{\min}>0
-\iff
-|A|\neq|B|,
-\]
-and its real Jacobian is
-\[
-\det_{\mathbb R}T
-=
-(|A|+|B|)(|A|-|B|)
-=
-|A|^2-|B|^2.
-\]
-\end{solution}
+- chapter line: 8240
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0094]
-\label{prob:cp-iv-0094}
+```tex
 \par\noindent\textbullet\quad \textbf{Derivative not continuous from $(C^1,\|\cdot\|_\infty)$ to $(C,\|\cdot\|_\infty)$.}
 
 	Take $f_n(x)=\tfrac{1}{n}\sin(n^2 x)$ on $[0,1]$.
@@ -12653,112 +7089,30 @@ and its real Jacobian is
 	Hence $D$ is discontinuous with these norms.
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-Consider the differentiation operator
-\[
-D:(C^1([0,1]),\|\cdot\|_\infty)
-\longrightarrow
-(C([0,1]),\|\cdot\|_\infty),
-\qquad
-Df=f'.
-\]
-Take
-\[
-f_n(x)=\frac1n\sin(n^2x).
-\]
-Then
-\[
-\|f_n\|_\infty\le\frac1n\longrightarrow0,
-\]
-so \(f_n\to0\) in the norm of the domain.
+### CP-IV-0095
 
-However,
-\[
-f_n'(x)=n\cos(n^2x),
-\]
-and hence
-\[
-\|Df_n-D0\|_\infty
-=
-\|f_n'\|_\infty
-=
-n\longrightarrow\infty.
-\]
-Thus \(f_n\to0\) in the domain while \(Df_n\not\to0\) in the codomain. Therefore
-\[
-\boxed{D\text{ is not continuous for these norms}.}
-\]
-\end{solution}
+- chapter line: 8256
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0095]
-\label{prob:cp-iv-0095}
+```tex
 $|x|^3$ is $C^2$ with
 $f'(x)=3x^2$ for $x>0$ and $f'(x)=-3x^2$ for $x<0$,
 $f''(x)=6x$ for $x>0$ and $f''(x)=-6x$ for $x<0$, both extending continuously at $0$ by $0$,
 while $f^{(3)}(x)=6$ for $x>0$ and $f^{(3)}(x)=-6$ for $x<0$, so $f^{(3)}$ has a jump at $0$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-f(x)=|x|^3.
-\]
-For \(x>0\),
-\[
-f(x)=x^3,
-\]
-whereas for \(x<0\),
-\[
-f(x)=-x^3.
-\]
-Thus
-\[
-f'(x)=
-\begin{cases}
-3x^2,&x>0,\\
--3x^2,&x<0,
-\end{cases}
-\qquad
-f'(0)=0,
-\]
-so \(f'\) is continuous at \(0\).
+### CP-IV-0100
 
-Differentiating again,
-\[
-f''(x)=
-\begin{cases}
-6x,&x>0,\\
--6x,&x<0,
-\end{cases}
-=
-6|x|
-\quad(x\neq0),
-\]
-and \(f''(0)=0\). Hence \(f''\) is continuous at \(0\), so
-\[
-f\in C^2(\mathbb R).
-\]
+- chapter line: 8264
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For \(x\neq0\),
-\[
-f'''(x)=
-\begin{cases}
-6,&x>0,\\
--6,&x<0.
-\end{cases}
-\]
-The one-sided limits at \(0\) are different, so \(f'''(0)\) does not exist. Therefore
-\[
-\boxed{|x|^3\in C^2(\mathbb R)\setminus C^3(\mathbb R).}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0100]
-\label{prob:cp-iv-0100}
+```tex
 \par\noindent\textbullet\quad \textbf{Integration map is Lipschitz $C^k\!\to C^{k+1}$.}
 
 	For $f,g\in C^k$ put $F=T(f)$ and $G=T(g)$ with
@@ -12780,132 +7134,29 @@ The one-sided limits at \(0\) are different, so \(f'''(0)\) does not exist. Ther
 	\]
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-T(f)(x)=\int_a^x f(y)\,dy.
-\]
-For \(f,g\in C^k([a,b])\), set \(h=f-g\). Then
-\[
-|T(f)(x)-T(g)(x)|
-=
-\left|\int_a^x h(y)\,dy\right|
-\le
-(b-a)\|h\|_\infty,
-\]
-and therefore
-\[
-\|T(f)-T(g)\|_\infty
-\le
-(b-a)\|f-g\|_\infty.
-\]
-Moreover, for \(1\le j\le k+1\),
-\[
-(Tf)^{(j)}=f^{(j-1)},
-\]
-so
-\[
-\|(Tf)^{(j)}-(Tg)^{(j)}\|_\infty
-=
-\|f^{(j-1)}-g^{(j-1)}\|_\infty.
-\]
+### CP-IV-0101
 
-With the sum metric
-\[
-d_{C^k}(f,g)
-=
-\sum_{j=0}^{k}\|f^{(j)}-g^{(j)}\|_\infty,
-\]
-we obtain
-\[
-\begin{aligned}
-d_{C^{k+1}}(Tf,Tg)
-&\le
-(b-a)\|f-g\|_\infty+d_{C^k}(f,g)\\
-&\le
-\bigl(1+b-a\bigr)d_{C^k}(f,g).
-\end{aligned}
-\]
-Hence \(T:C^k\to C^{k+1}\) is Lipschitz, and therefore continuous.
+- chapter line: 8289
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-If instead one uses the maximum norm
-\[
-\|f\|_{C^k,\max}
-=
-\max_{0\le j\le k}\|f^{(j)}\|_\infty,
-\]
-then the sharper constant stated in the migrated text is valid:
-\[
-\boxed{
-\|Tf-Tg\|_{C^{k+1},\max}
-\le
-\max\{1,b-a\}\,
-\|f-g\|_{C^k,\max}.
-}
-\]
-Thus the printed constant depends on which standard \(C^k\) metric is being used.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0101]
-\label{prob:cp-iv-0101}
+```tex
 \par\noindent\textbullet\quad (\textbf{Wirtinger derivatives})
 	For $T(z)=Az+B\bar z$, compute $\partial T/\partial z$ and $\partial T/\partial\bar z$.
 	\emph{Solution.} $\displaystyle \frac{\partial T}{\partial z}=A,\qquad \frac{\partial T}{\partial\bar z}=B$.
-\end{problem}
+```
 
-\begin{solution}
-Using the Wirtinger operators
-\[
-\frac{\partial}{\partial z}
-=
-\frac12\left(
-\frac{\partial}{\partial x}
--i\frac{\partial}{\partial y}
-\right),
-\qquad
-\frac{\partial}{\partial\overline z}
-=
-\frac12\left(
-\frac{\partial}{\partial x}
-+i\frac{\partial}{\partial y}
-\right),
-\]
-we have
-\[
-\frac{\partial z}{\partial z}=1,
-\qquad
-\frac{\partial\overline z}{\partial z}=0,
-\]
-and
-\[
-\frac{\partial z}{\partial\overline z}=0,
-\qquad
-\frac{\partial\overline z}{\partial\overline z}=1.
-\]
-Therefore, for
-\[
-T(z)=Az+B\overline z,
-\]
-\[
-\boxed{
-\frac{\partial T}{\partial z}=A,
-\qquad
-\frac{\partial T}{\partial\overline z}=B.
-}
-\]
-In particular, the Cauchy--Riemann condition is
-\[
-\frac{\partial T}{\partial\overline z}=0,
-\]
-so \(T\) is holomorphic exactly when \(B=0\).
-\end{solution}
+### CP-IV-0103
 
+- chapter line: 8296
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `YES`
 
-\begin{problem}[CP-IV-0103]
-\label{prob:cp-iv-0103}
+```tex
 \par\noindent\textbullet\quad (\textbf{Matrix from $A,B$})
 	Given $T(z)=Az+B\bar z$ with $A=\alpha+i\beta$, $B=\gamma+i\delta$ ($\alpha,\beta,\gamma,\delta\in\mathbb{R}$), show the real matrix is
 	\[
@@ -12915,334 +7166,47 @@ so \(T\) is holomorphic exactly when \(B=0\).
 	\end{pmatrix}.
 	\]
 	\emph{Solution.} Expand $Az+B\bar z$ with $z=x+iy$ and collect $(x,y)$ coefficients.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-A=\alpha+i\beta,
-\qquad
-B=\gamma+i\delta,
-\qquad
-z=x+iy.
-\]
-Then
-\[
-\begin{aligned}
-Az
-&=
-(\alpha x-\beta y)+i(\beta x+\alpha y),\\
-B\overline z
-&=
-(\gamma x+\delta y)+i(\delta x-\gamma y).
-\end{aligned}
-\]
-Adding,
-\[
-T(z)
-=
-\bigl((\alpha+\gamma)x+(-\beta+\delta)y\bigr)
-+
-i\bigl((\beta+\delta)x+(\alpha-\gamma)y\bigr).
-\]
-Hence the real matrix of \(T\) in the basis \((1,i)\) is
-\[
-\boxed{
-\begin{pmatrix}
-\alpha+\gamma&-\beta+\delta\\
-\beta+\delta&\alpha-\gamma
-\end{pmatrix}.
-}
-\]
-\end{solution}
+### CP-IV-0105
 
+- chapter line: 8336
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0104]
-\label{prob:cp-iv-0104}
-\par\noindent\textbullet\quad $B=\{f\in C([0,1]) : \int_0^1 f=0\}$.
-
-Does the answer change if we replace $d_\infty$ with the $L^1$ metric $d_1(f,g)=\int_0^1 |f-g|$?
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{Uniform (sup) metric.}\quad 
-
-	\par\noindent (a)\quad $A$ is \emph{closed} and not open. The evaluation map $\mathrm{ev}_{1/2}:f\mapsto f(1/2)$ is continuous on $(C([0,1]),\|\cdot\|_\infty)$, hence $A=\mathrm{ev}_{1/2}^{-1}(\{0\})$ is closed. It is not open: for any $f\in A$ and $\varepsilon>0$, add a small continuous bump supported near $1/2$ to obtain $g$ with $\|g-f\|_\infty<\varepsilon$ but $g(1/2)\ne 0$.
-	\par\noindent (b)\quad $B$ is \emph{closed} and not open. The functional $I(f)=\int_0^1 f$ is continuous since $|I(f)-I(g)|\le \int_0^1 |f-g|\le \|f-g\|_\infty$. Thus $B=I^{-1}(\{0\})$ is closed. It is not open: perturb $f$ by a small positive (or negative) bump of arbitrarily small height/support to change the integral while keeping $\|\,\cdot\,\|_\infty$ small.
-
-\par\medskip\noindent\textbf{$L^1$ metric.}\quad 
-
-	\par\noindent (a)\quad $A$ is \emph{neither open nor closed}. Evaluation at a point is not continuous in $L^1$.
-
-		\par\noindent\textbullet\quad Not closed: let $g\equiv 1$, and let $f_n$ be continuous functions with $f_n(1/2)=0$ and $f_n\equiv 1$ outside $(\tfrac12-\tfrac1n,\tfrac12+\tfrac1n)$ (linear ramps in between). Then $f_n\in A$ and $\int_0^1|f_n-g|\le 2/n\to0$, so $f_n\to g$ in $L^1$ with $g\notin A$.
-		\par\noindent\textbullet\quad Not open: given $f\in A$ and $\varepsilon>0$, add a very narrow spike near $1/2$ (choose height/width so its area $<\varepsilon$) producing $h$ with $d_1(h,f)<\varepsilon$ but $h(1/2)\ne 0$.
-
-	\par\noindent (b)\quad $B$ is \emph{closed} and not open. The map $I(f)=\int_0^1 f$ is continuous in $L^1$ because $|I(f)-I(g)|\le \int_0^1|f-g|$. Hence $B=I^{-1}(\{0\})$ is closed. As before, small-area bumps show $B$ is not open.
-
-\par\medskip\noindent\textbf{Summary.}\quad 
-Under $d_\infty$: $A$ closed/not open; $B$ closed/not open.
-Under $d_1$: $A$ neither open nor closed; $B$ closed/not open.
-\end{solution}
-
-\begin{problem}[CP-IV-0105]
-\label{prob:cp-iv-0105}
+```tex
 Show that the following functions do not have antiderivatives on the indicated domains:
 \[
 \text{(a)}\; f(z)=\frac{1}{z}-\frac{1}{z-1}\quad\text{on } \{\,0<|z|<1\,\},\qquad
 \text{(b)}\; g(z)=\frac{z}{1+z^{2}}\quad\text{on } \{\,1<|z|<\infty\,\}.
 \]
-\end{problem}
+```
 
-\begin{solution}
-A holomorphic function with an antiderivative has integral \(0\) around every closed curve.
+### CP-IV-0108
 
-For
-\[
-f(z)=\frac1z-\frac1{z-1}
-\]
-on
-\[
-D_1=\{0<|z|<1\},
-\]
-choose the positively oriented circle
-\[
-\gamma(t)=re^{it},
-\qquad 0<r<1.
-\]
-The term \(1/(z-1)\) is holomorphic inside this circle, while \(1/z\) has residue \(1\) at \(0\). Hence
-\[
-\oint_\gamma f(z)\,dz
-=
-2\pi i\neq0.
-\]
-Therefore \(f\) has no antiderivative on \(D_1\).
+- chapter line: 8345
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-For
-\[
-g(z)=\frac{z}{1+z^2}
-\]
-on
-\[
-D_2=\{|z|>1\},
-\]
-choose the circle \(|z|=R\) with \(R>1\). The poles \(i\) and \(-i\) lie inside it, and
-\[
-\operatorname{Res}(g;i)
-=
-\frac12,
-\qquad
-\operatorname{Res}(g;-i)
-=
-\frac12.
-\]
-Thus
-\[
-\oint_{|z|=R}g(z)\,dz
-=
-2\pi i\left(\frac12+\frac12\right)
-=
-2\pi i\neq0.
-\]
-The contour itself lies entirely in \(D_2\). Hence \(g\) also has no antiderivative on its stated domain.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0108]
-\label{prob:cp-iv-0108}
+```tex
 Let $T:\mathbb{R}^2\to\mathbb{R}^2$ be a real-linear map. Regard $T$ as a map $\mathbb{C}\to\mathbb{C}$ via $(x,y)\leftrightarrow x+iy$.
 	Show that there exist unique $A,B\in\mathbb{C}$ such that
 	\[
 	T(z)=Az+B\overline{z}\qquad(\forall\,z\in\mathbb{C}),
 	\]
 	and that $T$ is complex differentiable (i.e.\ $\mathbb{C}$-linear) iff $B=0$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-T(x+iy)=(ax+by)+i(cx+dy)
-\]
-be a real-linear map. Define
-\[
-A=\frac{a+d}{2}+i\,\frac{c-b}{2},
-\qquad
-B=\frac{a-d}{2}+i\,\frac{c+b}{2}.
-\]
-A direct expansion gives
-\[
-Az+B\overline z
-=
-(ax+by)+i(cx+dy)
-=
-T(z),
-\]
-so such \(A,B\) exist.
+### CP-IV-0115
 
-They are unique. Indeed, if
-\[
-Az+B\overline z
-=
-A'z+B'\overline z
-\]
-for every \(z\), then evaluating at \(z=1\) and \(z=i\) gives
-\[
-A+B=A'+B',
-\qquad
-A-B=A'-B',
-\]
-hence
-\[
-A=A',
-\qquad
-B=B'.
-\]
+- chapter line: 8470
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Finally, a real-linear map is complex-linear exactly when
-\[
-T(iz)=iT(z)
-\]
-for every \(z\). From
-\[
-T(z)=Az+B\overline z
-\]
-we get
-\[
-T(iz)=iAz-iB\overline z,
-\]
-whereas
-\[
-iT(z)=iAz+iB\overline z.
-\]
-Thus these are equal for all \(z\) exactly when
-\[
-B=0.
-\]
-Therefore
-\[
-\boxed{
-T\text{ is complex-linear (equivalently holomorphic) iff }B=0.
-}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0109]
-\label{prob:cp-iv-0109}
-\par\noindent\textbullet\quad $U=\displaystyle\bigcup_{n=1}^{\infty}(-n,\sin n)$.
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{Background (subspace).}\quad 
-If $Y\subset\mathbb{R}$ has the subspace metric, then $A\subset Y$ is open in $Y$ iff $A=Y\cap O$ for some open $O\subset\mathbb{R}$, and $A$ is closed in $Y$ iff $A=Y\cap F$ for some closed $F\subset\mathbb{R}$.
-
-\par\medskip\noindent\textbf{(a) $U=(0,1)\cup(2,3)$ in $\mathbb{R}$.}\quad 
-$U$ is a union of open intervals $\Rightarrow$ \emph{open}.
-It is \emph{not closed} since $1$ and $2$ are limit points not in $U$.
-
-\par\medskip\noindent\textbf{(b) $U=[0,1]$ under different ambients.}\quad 
-
-	\par\noindent\textbullet\quad In $\mathbb{R}$: $U$ is \emph{closed} (complement open), \emph{not open}.
-	\par\noindent\textbullet\quad In $[-1,1]$: $U=[-1,1]\cap(-\infty,1]$ $\Rightarrow$ \emph{closed}; \emph{not open} (any subspace ball at $0$ contains negatives).
-	\par\noindent\textbullet\quad In $(0,1)$: $U=[0,1]\cap(0,1)=(0,1)$ equals the whole space $\Rightarrow$ \emph{open and closed}.
-	\par\noindent\textbullet\quad In $[0,2]$: $U=[0,2]\cap(-\infty,1]$ $\Rightarrow$ \emph{closed}; \emph{not open} (neighborhoods of $1$ include points $>1$).
-
-\par\medskip\noindent\textbf{(c) $U=\displaystyle\bigcup_{n=1}^{\infty}(-n,\sin n)$ in $\mathbb{R}$.}\quad 
-Each $(-n,\sin n)$ is open, so $U$ is \emph{open}.
-Since $\{\sin n:n\in\mathbb{N}\}$ is dense in $[-1,1]$, every $y<1$ lies in some $(-n,\sin n)$, while $1\notin U$. Hence
-\[
-U=(-\infty,1),
-\]
-which is \emph{open} and \emph{not closed} (its closure is $(-\infty,1]$).
-\end{solution}
-
-\begin{problem}[CP-IV-0113]
-\label{prob:cp-iv-0113}
-Let $(X,d)$ be a metric space and $\{x_n\}_{n=1}^\infty\subset X$. We say $x_n\to x\in X$ if
-\[
-(\ast)\qquad \forall \varepsilon>0\ \exists N(\varepsilon)\in\mathbb{N}\ \text{ such that }\ d(x_n,x)<\varepsilon\ \text{ for all } n\ge N(\varepsilon).
-\]
-
-\par\noindent (a)\quad Show that $x_n\to x$ is equivalent to:
-\[
-(\ast\ast)\qquad \forall V\subset X\ \text{with }V\text{ a neighborhood of }x,\ \exists N(V)\ \text{ such that } x_n\in V\ \text{ for all } n\ge N(V).
-\]
-\par\noindent (b)\quad Using $(\ast)$, prove that if $\{x_n\}$ converges in $X$, then its limit is unique.
-
-A set $V\subset X$ is a neighborhood of $x$ if there exists $r>0$ with the open ball $B(x,r)=\{y\in X: d(x,y)<r\}$ contained in $V$. The triangle inequality states $d(x,y)\le d(x,z)+d(z,y)$, and $d(x,y)=0$ implies $x=y$.
-\end{problem}
-
-\begin{solution}
-\emph{($\ast\Rightarrow\ast\ast$)} Let $V$ be a neighborhood of $x$. Then $\exists r>0$ with $B(x,r)\subset V$. By $(\ast)$ with $\varepsilon=r$, there is $N(r)$ such that $d(x_n,x)<r$ for all $n\ge N(r)$, hence $x_n\in B(x,r)\subset V$. Set $N(V):=N(r)$.
-
-\smallskip
-\noindent
-\emph{($\ast\ast\Rightarrow\ast$)} Fix $\varepsilon>0$. The ball $B(x,\varepsilon)$ is a neighborhood of $x$, so by $(\ast\ast)$ there exists $N$ with $x_n\in B(x,\varepsilon)$ for all $n\ge N$, i.e.\ $d(x_n,x)<\varepsilon$. Thus $(\ast)$ holds.
-\end{solution}
-
-\begin{problem}[CP-IV-0114]
-\label{prob:cp-iv-0114}
-Let $f(z)=e^{-z^{2}}$. Using an appropriate contour and the Cauchy--Goursat theorem, show that for $b>0$,
-	\[
-	\int_{0}^{\infty} e^{-x^{2}}\cos(2bx)\,dx=\frac{\sqrt{\pi}}{2}\,e^{-b^{2}}.
-	\]
-	You may use $\int_{0}^{\infty} e^{-x^{2}}\,dx=\sqrt{\pi}/2$.
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0114_gaussian_shift_rectangle.tex}
-
-\begin{solution}
-\noindent\textbf{Step 1: The rectangle.}\;
-	Consider the rectangle with vertices $-R,\,R,\,R+ib,\,-R+ib$ oriented counterclockwise.
-	Since $e^{-z^{2}}$ is entire, Cauchy--Goursat gives
-	\[
-	\int_{-R}^{R} e^{-x^{2}}\,dx
-	+\int_{\text{right}} e^{-z^{2}}\,dz
-	-\int_{-R}^{R} e^{-(x+ib)^{2}}\,dx
-	+\int_{\text{left}} e^{-z^{2}}\,dz
-	=0 .
-	\]
-
-	\medskip
-	\noindent\textbf{Step 2: Vertical sides vanish.}\;
-	On $z=\pm R+iy$ with $0\le y\le b$,
-	\[
-	|e^{-z^{2}}|=e^{-(R^{2}-y^{2})}\le e^{-R^{2}}e^{b^{2}},
-	\]
-	so both vertical integrals tend to $0$ as $R\to\infty$.
-
-	\medskip
-	\noindent\textbf{Step 3: Shifted top edge.}\;
-	Letting $R\to\infty$ yields
-	\[
-	\int_{-\infty}^{\infty} e^{-x^{2}}\,dx
-	=\int_{-\infty}^{\infty} e^{-(x+ib)^{2}}\,dx .
-	\]
-	Since $e^{-(x+ib)^{2}}=e^{-x^{2}+b^{2}-i\,2bx}
-	= e^{b^{2}}\,e^{-x^{2}}\,e^{-i2bx}$, we get
-	\[
-	\int_{-\infty}^{\infty} e^{-x^{2}} e^{\,i2bx}\,dx
-	= e^{-b^{2}} \int_{-\infty}^{\infty} e^{-x^{2}}\,dx
-	= \sqrt{\pi}\,e^{-b^{2}} .
-	\]
-
-	\medskip
-	\noindent\textbf{Step 4: Take real parts and halve.}\;
-	Because the integrand is even,
-	\[
-	\setlength{\jot}{6pt}
-	\begin{aligned}
-		\int_{0}^{\infty} e^{-x^{2}}\cos(2bx)\,dx
-		&= \frac{1}{2}\int_{-\infty}^{\infty} e^{-x^{2}}\cos(2bx)\,dx \\[2pt]
-		&= \frac{1}{2}\,\Re\!\left(\int_{-\infty}^{\infty} e^{-x^{2}} e^{\,i2bx}\,dx\right) \\[2pt]
-		&= \frac{1}{2}\,\Re\!\big(\sqrt{\pi}\,e^{-b^{2}}\big)
-		= \frac{\sqrt{\pi}}{2}\,e^{-b^{2}} .
-	\end{aligned}
-	\]
-	\hfill$\square$
-\end{solution}
-
-\begin{problem}[CP-IV-0115]
-\label{prob:cp-iv-0115}
+```tex
 Take
 	\[
 	a = 0.5 + 0.2i, \qquad \theta = \frac{\pi}{4},
@@ -13257,192 +7221,45 @@ Take
 
 	Figures~\ref{fig:disk-auto-z} and \ref{fig:disk-auto-w} show the unit
 	disk and its image under $\phi$.
-\end{problem}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.78\textwidth]{figures/part04/cp_iv_0115_disk_auto_w_plane.png}
-  \caption{Source-backed Part IV figure: disk auto w.}
-  \label{fig:disk-auto-w}
-\end{figure}
+```
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.78\textwidth]{figures/part04/cp_iv_0115_disk_auto_z_plane.png}
-  \caption{Source-backed Part IV figure: disk auto z.}
-  \label{fig:disk-auto-z}
-\end{figure}
+### CP-IV-0119
 
-\begin{solution}
-Write
-\[
-a=0.5+0.2i,
-\qquad
-\theta=\frac{\pi}{4},
-\]
-and
-\[
-\phi(z)
-=
-e^{i\theta}\frac{z-a}{1-\overline a\,z}.
-\]
-Clearly
-\[
-\phi(a)=0.
-\]
+- chapter line: 8502
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The standard disk-automorphism identity is
-\[
-1-\left|
-\frac{z-a}{1-\overline a\,z}
-\right|^2
-=
-\frac{(1-|a|^2)(1-|z|^2)}
-{|1-\overline a\,z|^2}.
-\]
-Since
-\[
-|a|^2=0.5^2+0.2^2=0.29<1,
-\]
-the right-hand side is positive exactly when \(|z|<1\). Therefore
-\[
-|z|<1
-\quad\Longrightarrow\quad
-|\phi(z)|<1,
-\]
-while \(|z|=1\) gives \(|\phi(z)|=1\).
-
-The factor \(e^{i\theta}\) is a rotation and does not change moduli. The inverse map is again of disk-automorphism form, so \(\phi\) maps \(\mathbb D\) biholomorphically onto itself.
-
-Its derivative is
-\[
-\phi'(z)
-=
-e^{i\theta}
-\frac{1-|a|^2}
-{(1-\overline a\,z)^2},
-\]
-which never vanishes on \(\mathbb D\). Hence the map is conformal. Because \(a\neq0\), it does not preserve the concentric radial/circular grid, explaining the nontrivial distortion displayed in the referenced source-backed figures.
-\end{solution}
-
-
-
-\begin{problem}[CP-IV-0119]
-\label{prob:cp-iv-0119}
+```tex
 (Conjugation).
 
 Let $T(z)=\bar z$. Then $A=0$, $B=1$.
 The unit circle is fixed as a set, but orientation is reversed. $T$ is not complex-differentiable since $B\neq0$.
-\end{problem}
+```
 
-\begin{solution}
-For
-\[
-T(z)=\overline z,
-\]
-the decomposition
-\[
-T(z)=Az+B\overline z
-\]
-has
-\[
-A=0,\qquad B=1.
-\]
-Therefore
-\[
-\frac{\partial T}{\partial z}=0,
-\qquad
-\frac{\partial T}{\partial\overline z}=1,
-\]
-so \(T\) is not holomorphic.
+### CP-IV-0120
 
-If
-\[
-z=e^{it}
-\]
-lies on the unit circle, then
-\[
-T(z)=e^{-it},
-\]
-so the unit circle is fixed as a set, but the direction of traversal is reversed.
+- chapter line: 8510
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-The real matrix is
-\[
-\begin{pmatrix}
-1&0\\
-0&-1
-\end{pmatrix},
-\]
-whose determinant is \(-1\). Thus \(T\) reverses orientation. In fact, conjugation is the reflection of the plane across the real axis.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0120]
-\label{prob:cp-iv-0120}
+```tex
 \par\noindent\textbullet\quad \textbf{Total boundedness still fails (infinite dimension).}
 
 	Closed balls in $(C^k,d_{C^k})$ are complete but not totally bounded.
 	For instance, translate a fixed bump function to disjoint locations;
 	the resulting family lies in the unit ball and remains pairwise well separated.
-\end{problem}
+```
 
-\begin{solution}
-Closed balls in the infinite-dimensional normed space \(C^k([a,b])\) are complete, but they are not totally bounded.
+### CP-IV-0121
 
-Choose a nonzero function
-\[
-\psi\in C_c^\infty((-1,1))
-\]
-and normalize it so that
-\[
-\|\psi^{(k)}\|_\infty=1.
-\]
-Choose pairwise disjoint intervals
-\[
-I_n=(c_n-h_n,c_n+h_n)\subset(a,b)
-\]
-with \(0<h_n\le1\). Define
-\[
-f_n(x)
-=
-c\,h_n^k
-\psi\!\left(\frac{x-c_n}{h_n}\right),
-\]
-where \(c>0\) is chosen small enough that
-\[
-\|f_n\|_{C^k}\le1
-\]
-for every \(n\). Indeed,
-\[
-f_n^{(j)}(x)
-=
-c\,h_n^{k-j}
-\psi^{(j)}\!\left(\frac{x-c_n}{h_n}\right),
-\]
-so all derivatives through order \(k\) are uniformly bounded.
+- chapter line: 8519
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Because the supports are disjoint, if \(x_n\in I_n\) is chosen so that
-\[
-|f_n^{(k)}(x_n)|=c,
-\]
-then for \(m\neq n\),
-\[
-f_m^{(k)}(x_n)=0.
-\]
-Hence
-\[
-\|f_n-f_m\|_{C^k}
-\ge
-\|f_n^{(k)}-f_m^{(k)}\|_\infty
-\ge c.
-\]
-Thus the unit ball contains an infinite \(c\)-separated family. It cannot have a finite \(c/3\)-net, and therefore is not totally bounded.
-
-The informal phrase ``translate a fixed bump to disjoint locations'' from the problem text needs this rescaling on the compact interval: infinitely many fixed-width supports cannot be pairwise disjoint in \([a,b]\), but shrinking supports while scaling the amplitude as above gives the required example.
-\end{solution}
-
-
-\begin{problem}[CP-IV-0121]
-\label{prob:cp-iv-0121}
+```tex
 Compute $\displaystyle \int_{0}^{2\pi} e^{\,e^{it}}\,dt$.
 
 Let $z=e^{it}$ so that $|z|=1$ and $dt=\frac{dz}{iz}$. Then
@@ -13461,124 +7278,27 @@ Hence
 
 Since $e^{e^{it}}=\sum_{n=0}^\infty \frac{e^{int}}{n!}$, the integral over $[0,2\pi]$
 kills all terms with $n\neq0$ and equals $2\pi$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-z=e^{it},
-\qquad
-0\le t\le2\pi.
-\]
-Then
-\[
-dz=iz\,dt,
-\qquad
-dt=\frac{dz}{iz}.
-\]
-Therefore
-\[
-\int_0^{2\pi}e^{e^{it}}\,dt
-=
-\frac1i
-\oint_{|z|=1}\frac{e^z}{z}\,dz.
-\]
-By Cauchy's integral formula,
-\[
-\oint_{|z|=1}\frac{e^z}{z}\,dz
-=
-2\pi i\,e^0
-=
-2\pi i.
-\]
-Hence
-\[
-\boxed{
-\int_0^{2\pi}e^{e^{it}}\,dt=2\pi.
-}
-\]
+### CP-IV-0122
 
-Equivalently,
-\[
-e^{e^{it}}
-=
-\sum_{n=0}^{\infty}\frac{e^{int}}{n!},
-\]
-and uniform convergence allows termwise integration. Every Fourier mode with \(n\ge1\) integrates to \(0\), leaving only the constant term:
-\[
-\int_0^{2\pi}1\,dt=2\pi.
-\]
-\end{solution}
+- chapter line: 8541
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\begin{problem}[CP-IV-0122]
-\label{prob:cp-iv-0122}
+```tex
 \par\noindent\textbullet\quad $U=(0,1)\cup(2,3)$.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-U=(0,1)\cup(2,3)\subset\mathbb R.
-\]
-Each interval is open, so \(U\), being a union of open sets, is open.
+### CP-IV-0127
 
-It is not closed. For example,
-\[
-1-\frac1n\in(0,1)\subset U
-\]
-for every sufficiently large \(n\), but
-\[
-1-\frac1n\longrightarrow1,
-\qquad
-1\notin U.
-\]
-Thus \(U\) does not contain all of its limit points.
+- chapter line: 8575
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Therefore
-\[
-\boxed{
-U\text{ is open and not closed in }\mathbb R.
-}
-\]
-Its closure is
-\[
-\overline U=[0,1]\cup[2,3].
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0125]
-\label{prob:cp-iv-0125}
-Let $(X,d)$ be a metric space.
-
-		\par\noindent\textbullet\quad Show that $U\subset X$ is open in $X$ if and only if $U$ is a neighborhood of all of its points; i.e., for every $x\in U$ there exists $r>0$ with $B(x,r)\subset U$.
-		\par\noindent\textbullet\quad Show that $A\subset X$ is closed in $X$ if and only if
-		\[
-		A=\{x\in X:\ \inf_{y\in A} d(x,y)=0\}.
-		\]
-
-	For $E\subset X$ and $x\in X$, define the point-to-set distance
-	\[
-	d(x,E):=\inf\{d(x,y):y\in E\}\in[0,\infty].
-	\]
-	The open ball is $B(x,r)=\{y\in X: d(x,y)<r\}$. A set $U$ is \emph{open} if for each $x\in U$ there exists $r>0$ with $B(x,r)\subset U$. A set $F$ is \emph{closed} if $X\setminus F$ is open, equivalently if $F$ contains all of its limit points. The closure $\overline{E}$ is the set of all $x$ such that every open ball around $x$ meets $E$.
-
-	\bigskip
-\end{problem}
-
-\begin{solution}
-\emph{($\Rightarrow$)} Suppose $U$ is open and let $x\in U$. By the metric-space definition of open, there exists $r>0$ with $B(x,r)\subset U$. Thus $U$ is a neighborhood of $x$. Since $x$ was arbitrary, $U$ is a neighborhood of each of its points.
-
-	\smallskip
-	\noindent
-	\emph{($\Leftarrow$)} Conversely, assume that for every $x\in U$ there exists $r_x>0$ with $B(x,r_x)\subset U$. This is precisely the definition that $U$ is open in a metric space. Hence $U$ is open.
-
-	\bigskip
-\end{solution}
-
-\begin{problem}[CP-IV-0127]
-\label{prob:cp-iv-0127}
+```tex
 \par\noindent\textbullet\quad \textbf{Concrete identity.}
 
 	With $f(x)=\sin x$ on $[0,1]$,
@@ -13589,94 +7309,16 @@ Let $(X,d)$ be a metric space.
 	\[
 	T(D(f))(x)=\int_0^x \cos y\,dy=\sin x=f(x).
 	\]
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-T(f)(x)=\int_0^x f(y)\,dy
-\]
-and let
-\[
-D(f)=f'.
-\]
-For
-\[
-f(x)=\sin x,
-\]
-we obtain
-\[
-T(f)(x)
-=
-\int_0^x\sin y\,dy
-=
-1-\cos x.
-\]
-Therefore
-\[
-D(T(f))(x)=\sin x=f(x).
-\]
-Thus
-\[
-D\circ T=\operatorname{id}
-\]
-on continuous functions for which \(T\) is defined.
+### CP-IV-0130
 
-On the other hand,
-\[
-D(f)=\cos x,
-\]
-so
-\[
-T(D(f))(x)
-=
-\int_0^x\cos y\,dy
-=
-\sin x
-=
-f(x),
-\]
-because here \(f(0)=0\).
+- chapter line: 8614
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-More generally,
-\[
-T(Df)(x)
-=
-\int_0^x f'(y)\,dy
-=
-f(x)-f(0).
-\]
-Thus \(T\circ D\) is the identity precisely on functions satisfying the chosen base-point condition \(f(0)=0\).
-\end{solution}
-
-
-\begin{problem}[CP-IV-0128]
-\label{prob:cp-iv-0128}
-\par\noindent\textbullet\quad $\{(x,y): y/x\in\mathbb{Q}\}\ \cup\ \{(x,y): x=0\}$.
-\end{problem}
-
-\begin{solution}
-\par\medskip\noindent\textbf{(a) $\{y>0\}$.}\quad 
-Open, not closed. It is the preimage of $(0,\infty)$ under the continuous map $(x,y)\mapsto y$, and its closure is $\{y\ge0\}$.
-
-\par\medskip\noindent\textbf{(b) $\{y\ne0\}$.}\quad 
-Open, not closed. It is $\mathbb{R}^2\setminus\{y=0\}$; the $x$--axis $\{y=0\}$ is closed, hence the set is open. The axis is not open, so the set is not closed.
-
-\par\medskip\noindent\textbf{(c) $\{(x,0): 0\le x\le1\}$.}\quad 
-Closed, not open. It equals $\{y=0\}\cap\{0\le x\le1\}$ where both factors are closed (the latter is the preimage of $[0,1]$ under the $x$--projection). Any open ball in $\mathbb{R}^2$ leaves the $x$--axis, so the set is not open.
-
-\par\medskip\noindent\textbf{(d) $\{(x,0): 0<x<1\}$.}\quad 
-Neither open nor closed. It has empty interior in $\mathbb{R}^2$ (hence not open), and its closure is the closed segment in (c), so it is not closed.
-
-\par\medskip\noindent\textbf{(e) $\{y/x\in\mathbb{N}\}\cup\{x=0\}$.}\quad 
-Closed, not open. Each line $\{y=nx\}$ ($n\in\mathbb{N}$) and the axis $\{x=0\}$ is closed; to see the union is closed, let $(x_k,y_k)$ be in the union with $(x_k,y_k)\to (a,b)$. If $a=0$ the limit lies on $\{x=0\}$. If $a\ne0$, then $x_k\to a$, and the slopes $n_k=y_k/x_k\in\mathbb{N}$ cannot diverge (else $|y_k|=|n_k x_k|\to\infty$), so eventually $n_k$ is constant, say $n$, hence $b=na$. Thus the limit lies in the union. No line has interior, so the set is not open.
-
-\par\medskip\noindent\textbf{(f) $\{y/x\in\mathbb{Q}\}\cup\{x=0\}$.}\quad 
-Neither open nor closed. Not open because it is a union of lines with empty interior. Not closed because rationals are dense: pick $q_k\in\mathbb{Q}$ with $q_k\to \alpha\notin\mathbb{Q}$ and choose $x_k\to a\ne0$; then $(x_k,q_k x_k)$ belong to the set and $(x_k,q_k x_k)\to (a,\alpha a)\notin$ the set.
-\end{solution}
-
-\begin{problem}[CP-IV-0130]
-\label{prob:cp-iv-0130}
+```tex
 \par\noindent\textbullet\quad \textbf{Derivative map is $1$-Lipschitz $C^{k+1}\!\to C^{k}$.}
 
 	For $f,g\in C^{k+1}$ we have
@@ -13689,139 +7331,27 @@ Neither open nor closed. Not open because it is a union of lines with empty inte
 	\]
 
 	\medskip
-\end{problem}
+```
 
-\begin{solution}
-For \(f,g\in C^{k+1}([a,b])\),
-\[
-d_{C^k}(f',g')
-=
-\sum_{j=0}^{k}
-\left\|
-(f'-g')^{(j)}
-\right\|_\infty.
-\]
-Since
-\[
-(f'-g')^{(j)}
-=
-f^{(j+1)}-g^{(j+1)},
-\]
-we have
-\[
-d_{C^k}(f',g')
-=
-\sum_{j=0}^{k}
-\|f^{(j+1)}-g^{(j+1)}\|_\infty.
-\]
-This is obtained from
-\[
-d_{C^{k+1}}(f,g)
-=
-\sum_{j=0}^{k+1}
-\|f^{(j)}-g^{(j)}\|_\infty
-\]
-by omitting the nonnegative \(j=0\) term. Hence
-\[
-\boxed{
-d_{C^k}(f',g')
-\le
-d_{C^{k+1}}(f,g).
-}
-\]
-Therefore
-\[
-D:C^{k+1}([a,b])\to C^k([a,b])
-\]
-is \(1\)-Lipschitz, and in particular continuous.
-\end{solution}
+### CP-IV-0132
 
+- chapter line: 8663
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-\begin{problem}[CP-IV-0131]
-\label{prob:cp-iv-0131}
-Evaluate the principal value
-\[
-\operatorname{PV}\int_{-\infty}^{\infty}\frac{(x+1)\cos x}{x^{2}+1}\,dx.
-\]
-\end{problem}
-
-\begin{solution}
-Split the integrand:
-\[
-\frac{(x+1)\cos x}{x^{2}+1}
-=\frac{x\cos x}{x^{2}+1}+\frac{\cos x}{x^{2}+1}.
-\]
-The first term is odd, so its principal value integral over $\mathbb R$ is $0$.
-Therefore
-\[
-\operatorname{PV}\!\int_{-\infty}^{\infty}\frac{(x+1)\cos x}{x^{2}+1}\,dx
-=\int_{-\infty}^{\infty}\frac{\cos x}{x^{2}+1}\,dx
-=\pi e^{-1}
-=\frac{\pi}{e}.
-\]
-
-\par\medskip\noindent\textbf{(Residue check, optional).}\quad 
-Consider $f(z)=\dfrac{e^{iz}}{z^{2}+1}$ and integrate over the upper semicircle.
-The only enclosed pole is at $z=i$, with residue $\mathrm{Res}(f;i)=\dfrac{e^{i\cdot i}}{2i}
-=\dfrac{e^{-1}}{2i}$. Jordanâ€™s lemma gives
-\[
-\int_{-\infty}^{\infty}\frac{e^{ix}}{x^{2}+1}\,dx=2\pi i\cdot\frac{e^{-1}}{2i}=\pi e^{-1}.
-\]
-Taking real parts yields $\displaystyle \int_{-\infty}^{\infty}\frac{\cos x}{x^{2}+1}\,dx=\pi e^{-1}$.
-\end{solution}
-
-\begin{problem}[CP-IV-0132]
-\label{prob:cp-iv-0132}
+```tex
 $f_n(x)=\arctan(nx)$ (each UC) $\to$ a step function, which is not UC.
-\end{problem}
+```
 
-\begin{solution}
-For each fixed \(n\), let
-\[
-f_n(x)=\arctan(nx).
-\]
-Then
-\[
-f_n'(x)=\frac{n}{1+n^2x^2},
-\]
-so
-\[
-|f_n'(x)|\le n.
-\]
-Thus \(f_n\) is Lipschitz, hence uniformly continuous, on \(\mathbb R\).
+### CP-IV-0136
 
-For fixed \(x\),
-\[
-\lim_{n\to\infty}\arctan(nx)
-=
-\begin{cases}
-\frac{\pi}{2},&x>0,\\[1mm]
-0,&x=0,\\[1mm]
--\frac{\pi}{2},&x<0.
-\end{cases}
-\]
-Therefore the pointwise limit is the step function
-\[
-f(x)=
-\begin{cases}
-\frac{\pi}{2},&x>0,\\
-0,&x=0,\\
--\frac{\pi}{2},&x<0.
-\end{cases}
-\]
-This function is discontinuous at \(0\), hence cannot be uniformly continuous.
+- chapter line: 8668
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-Thus
-\[
-\boxed{
-\text{a pointwise limit of uniformly continuous functions need not be uniformly continuous}.
-}
-\]
-\end{solution}
-
-
-\begin{problem}[CP-IV-0136]
-\label{prob:cp-iv-0136}
+```tex
 â€” gradient field (curl $=0$), circulation $=0$
 
 Let $\phi(x,y)=x^2+y^3$ and $\mathbf F=\nabla\phi=(2x,\,3y^2)$.
@@ -13844,91 +7374,16 @@ so
 0.
 \]
 \emph{Interpretation:} exact/gradient fields do no net work around closed curves.
-\end{problem}
+```
 
-\begin{solution}
-Let
-\[
-\phi(x,y)=x^2+y^3.
-\]
-Then
-\[
-\nabla\phi=(2x,3y^2),
-\]
-so the \(1\)-form in the problem is exact:
-\[
-2x\,dx+3y^2\,dy=d\phi.
-\]
-Therefore its integral around any closed \(C^1\) curve \(C\) is
-\[
-\oint_C d\phi=0.
-\]
+### CP-IV-0060
 
-Equivalently, writing
-\[
-L=2x,\qquad M=3y^2,
-\]
-we have
-\[
-M_x-L_y
-=
-0-0
-=
-0.
-\]
-Green's theorem gives
-\[
-\oint_C(2x\,dx+3y^2\,dy)
-=
-\iint_D0\,dA
-=
-\boxed{0}.
-\]
-This is the usual path-independence of a gradient field.
-\end{solution}
+- chapter line: 8733
+- atlas source solution flag: `unknown`
+- linked source-solution candidates: `none`
+- embedded solution marker in problem body: `NO`
 
-
-\section{Elliptic Functions}
-
-\par\medskip\noindent\textbf{Related material.}\quad Volume IV, Chapters \texttt{IV/27--IV/31}.
-
-\begin{problem}[CP-IV-0020]
-\label{prob:cp-iv-0020}
-Prove uniform convergence for:
-\[
-\text{(a)}\quad \sum_{n=1}^\infty \sqrt{n}\,e^{-nz}\ \ \text{on}\ \ \{z: 0<r\le \Re z\},
-\qquad
-\text{(b)}\quad \sum_{n=1}^\infty \frac{2^n}{z^n+z^{-n}}\ \ \text{on}\ \ \{z: |z|\le r<\tfrac12\}.
-\]
-
-If $|f_n(z)|\le M_n$ on a set $E$ and $\sum M_n$ converges, then $\sum f_n$ converges uniformly on $E$.
-\end{problem}
-
-\begin{solution}
-\emph{(a)} For $\Re z\ge r>0$,
-\[
-\bigl|\sqrt{n}\,e^{-nz}\bigr|=\sqrt{n}\,e^{-n\Re z}\le \sqrt{n}\,e^{-nr}.
-\]
-Since $\sum_{n\ge1}\sqrt{n}\,e^{-nr}$ converges (e.g.\ ratio or root test), the M-test yields uniform convergence on $\{z:\Re z\ge r\}$.
-
-\medskip
-\emph{(b)} Rewrite
-\[
-\frac{2^n}{z^n+z^{-n}}=\frac{2^n z^n}{1+z^{2n}},
-\]
-which is entire (in particular, defined at $z=0$). For $|z|\le r<\tfrac12$,
-\[
-\left|\frac{2^n z^n}{1+z^{2n}}\right|
-\le \frac{2^n r^n}{\,1-|z|^{2n}\,}
-\le \frac{(2r)^n}{1-r^2}.
-\]
-Because $2r<1$, the series $\sum (2r)^n$ converges; hence, by the M-test, $\sum \dfrac{2^n}{z^n+z^{-n}}$ converges uniformly on $\{|z|\le r\}$.
-
-\clearpage
-\end{solution}
-
-\begin{problem}[CP-IV-0060]
-\label{prob:cp-iv-0060}
+```tex
 (Weierstrass data for catenoid and helicoid)
 
 We use the Weierstrass representation in the $(f,g)$-form:
@@ -13983,98 +7438,5 @@ We use the Weierstrass representation in the $(f,g)$-form:
 	(Geometrically: multiplying $f$ by $i$ rotates the Weierstrass integrand by $90^\circ$ in the associate family.)
 
 	\bigskip
-\end{problem}
-
-\input{figures/part04/designed/cp_iv_0060_catenoid_helicoid_associates.tex}
-
-\begin{solution}
-Use the Weierstrass representation
-\[
-X(z)
-=
-\Re\int^z
-\left(
-\frac12f(1-g^2),
-\frac{i}{2}f(1+g^2),
-fg
-\right)\,dz.
-\]
-Take
-\[
-z=v+iu,
-\qquad
-g(z)=e^z,
-\qquad
-f(z)=ae^{-z}.
-\]
-Then
-\[
-\frac12f(1-g^2)=-a\sinh z,
-\qquad
-\frac{i}{2}f(1+g^2)=ia\cosh z,
-\qquad
-fg=a.
-\]
-An antiderivative is
-\[
-\left(
--a\cosh z,\,
-ia\sinh z,\,
-az
-\right).
-\]
-Taking real parts with \(z=v+iu\) gives
-\[
-\left(
--a\cosh v\cos u,\,
--a\cosh v\sin u,\,
-av
-\right),
-\]
-which differs from
-\[
-\bigl(
-a\cosh v\cos u,\,
-a\cosh v\sin u,\,
-av
-\bigr)
-\]
-only by a rotation through \(\pi\) about the \(z\)-axis. Thus these data produce the catenoid.
-
-For the associated surface, replace \(f\) by
-\[
-f_\theta=e^{-i\theta}f.
-\]
-At
-\[
-\theta=\frac{\pi}{2},
-\]
-one may take
-\[
-f_{\pi/2}=-iae^{-z},
-\qquad
-g=e^z.
-\]
-The resulting immersion is, after a rotation in the \(xy\)-plane,
-\[
-\boxed{
-\bigl(
-a\sinh v\cos u,\,
-a\sinh v\sin u,\,
-au
-\bigr),
-}
-\]
-the standard helicoid.
-
-Multiplying \(f\) by a unit complex number does not change the metric because
-\[
-ds^2
-=
-\frac{|f|^2(1+|g|^2)^2}{4}|dz|^2
-\]
-depends only on \(|f|\). Hence the catenoid and helicoid are locally isometric members of the same associate family.
-
-With the opposite phase \(+i\) instead of \(-i\), one obtains the reflected helicoid; this is the same associate surface up to an ambient rigid reflection/orientation convention.
-\end{solution}
+```
 

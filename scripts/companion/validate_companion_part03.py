@@ -89,7 +89,34 @@ def main() -> int:
             errors.append(f"legacy residue {name}: {n}")
 
     if re.search(r"\\begin\{figure\*?\}", text):
-        errors.append("source figure environment survived content migration")
+        # Canonical Part III reader figures are allowed.  A figure float is
+        # considered canonical only when all of its raster assets live under
+        # figures/part03/ and it carries both a caption and a label.
+        figure_blocks = re.findall(
+            r"(?s)\\begin\{figure\*?\}(?:\[[^\]]*\])?.*?\\end\{figure\*?\}",
+            text,
+        )
+        bad_figure_blocks = []
+        for block in figure_blocks:
+            refs = re.findall(
+                r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}",
+                block,
+            )
+            canonical_refs = bool(refs) and all(
+                ref.replace("\\\\", "/").startswith("figures/part03/")
+                for ref in refs
+            )
+            canonical_metadata = (
+                r"\caption{" in block and r"\label{" in block
+            )
+            if not (canonical_refs and canonical_metadata):
+                bad_figure_blocks.append(block)
+
+        if bad_figure_blocks:
+            errors.append(
+                f"noncanonical source figure environment survived content migration: "
+                f"{len(bad_figure_blocks)} block(s)"
+            )
 
     with ledger.open("r", encoding="utf-8-sig", newline="") as f:
         rows = list(csv.DictReader(f, delimiter="\t"))
