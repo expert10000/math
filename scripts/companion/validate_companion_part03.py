@@ -153,7 +153,12 @@ def main() -> int:
     if reviews:
         errors.append("review-required generated rows: " + ", ".join(reviews))
 
-    expected_solutions = len(expected_solution_rows)
+    # The migration ledger tracks only the original source-backed solutions.
+    # The reader-facing Part III is now solution-complete, so validate against
+    # the number of rendered canonical problems while retaining the old count
+    # as provenance.
+    source_backed_solutions = len(expected_solution_rows)
+    expected_solutions = len(problems)
     if solutions != expected_solutions:
         errors.append(
             f"solution count mismatch: expected {expected_solutions}, got {solutions}"
@@ -171,6 +176,8 @@ def main() -> int:
     print("  atlas units/dispositions:", len(rows))
     print("  reader-facing problems:", len(problems))
     print("  solutions:", solutions)
+    print("  source-backed migrated solutions:", source_backed_solutions)
+    print("  canonical authored solutions:", solutions - source_backed_solutions)
     print("  editorial holds: 0")
     for theme in THEMES:
         print(f"  {theme}: {themes.get(theme, 0)}")

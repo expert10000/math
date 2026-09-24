@@ -1,0 +1,619 @@
+# Companion Part II cleanup audit
+
+- Problems: **570**
+- Paired solution environments: **165**
+- Problems without a paired solution: **405**
+- Problems with multiple solutions before the next problem: **0**
+- Mojibake-marker lines: **297**
+- List/math environment issues: **0**
+
+## Missing solutions
+
+- CP-II-0006 (line 13)
+- CP-II-0008 (line 38)
+- CP-II-0013 (line 47)
+- CP-II-0017 (line 94)
+- CP-II-0021 (line 137)
+- CP-II-0022 (line 144)
+- CP-II-0028 (line 179)
+- CP-II-0029 (line 187)
+- CP-II-0035 (line 300)
+- CP-II-0052 (line 307)
+- CP-II-0062 (line 445)
+- CP-II-0072 (line 521)
+- CP-II-0082 (line 624)
+- CP-II-0090 (line 1001)
+- CP-II-0092 (line 1010)
+- CP-II-0100 (line 1086)
+- CP-II-0122 (line 2304)
+- CP-II-0127 (line 2385)
+- CP-II-0131 (line 2557)
+- CP-II-0133 (line 2579)
+- CP-II-0136 (line 2654)
+- CP-II-0137 (line 2687)
+- CP-II-0138 (line 2716)
+- CP-II-0145 (line 2930)
+- CP-II-0146 (line 2935)
+- CP-II-0153 (line 2963)
+- CP-II-0166 (line 3160)
+- CP-II-0168 (line 3178)
+- CP-II-0180 (line 3205)
+- CP-II-0185 (line 3244)
+- CP-II-0191 (line 3303)
+- CP-II-0203 (line 3321)
+- CP-II-0218 (line 3400)
+- CP-II-0223 (line 3413)
+- CP-II-0229 (line 3421)
+- CP-II-0257 (line 4148)
+- CP-II-0265 (line 4205)
+- CP-II-0268 (line 4319)
+- CP-II-0269 (line 4364)
+- CP-II-0271 (line 4371)
+- CP-II-0282 (line 4379)
+- CP-II-0286 (line 4463)
+- CP-II-0291 (line 4475)
+- CP-II-0293 (line 4554)
+- CP-II-0297 (line 4566)
+- CP-II-0300 (line 4601)
+- CP-II-0303 (line 4712)
+- CP-II-0304 (line 4936)
+- CP-II-0309 (line 5227)
+- CP-II-0310 (line 5300)
+- CP-II-0321 (line 5618)
+- CP-II-0323 (line 5810)
+- CP-II-0326 (line 5820)
+- CP-II-0330 (line 5830)
+- CP-II-0332 (line 5836)
+- CP-II-0333 (line 5879)
+- CP-II-0334 (line 6121)
+- CP-II-0357 (line 6189)
+- CP-II-0365 (line 6212)
+- CP-II-0367 (line 6245)
+- CP-II-0372 (line 6256)
+- CP-II-0375 (line 6326)
+- CP-II-0393 (line 6543)
+- CP-II-0395 (line 6565)
+- CP-II-0396 (line 6757)
+- CP-II-0406 (line 6813)
+- CP-II-0411 (line 6966)
+- CP-II-0413 (line 7013)
+- CP-II-0415 (line 7233)
+- CP-II-0424 (line 7243)
+- CP-II-0426 (line 7300)
+- CP-II-0434 (line 7306)
+- CP-II-0441 (line 7311)
+- CP-II-0443 (line 7318)
+- CP-II-0445 (line 7324)
+- CP-II-0453 (line 7545)
+- CP-II-0458 (line 7599)
+- CP-II-0460 (line 7716)
+- CP-II-0467 (line 7728)
+- CP-II-0468 (line 7737)
+- CP-II-0471 (line 7744)
+- CP-II-0475 (line 7837)
+- CP-II-0494 (line 7879)
+- CP-II-0495 (line 7920)
+- CP-II-0498 (line 7979)
+- CP-II-0500 (line 7997)
+- CP-II-0506 (line 8075)
+- CP-II-0514 (line 8194)
+- CP-II-0523 (line 8320)
+- CP-II-0530 (line 8325)
+- CP-II-0532 (line 8450)
+- CP-II-0533 (line 8461)
+- CP-II-0539 (line 8473)
+- CP-II-0540 (line 8538)
+- CP-II-0544 (line 8606)
+- CP-II-0545 (line 8617)
+- CP-II-0547 (line 8623)
+- CP-II-0548 (line 8628)
+- CP-II-0549 (line 8733)
+- CP-II-0551 (line 8755)
+- CP-II-0554 (line 9179)
+- CP-II-0568 (line 9333)
+- CP-II-0010 (line 9578)
+- CP-II-0032 (line 9610)
+- CP-II-0048 (line 9704)
+- CP-II-0055 (line 9731)
+- CP-II-0059 (line 9737)
+- CP-II-0088 (line 9823)
+- CP-II-0132 (line 9978)
+- CP-II-0135 (line 10036)
+- CP-II-0212 (line 10353)
+- CP-II-0298 (line 10549)
+- CP-II-0325 (line 10627)
+- CP-II-0354 (line 10675)
+- CP-II-0417 (line 10768)
+- CP-II-0428 (line 10937)
+- CP-II-0433 (line 11044)
+- CP-II-0435 (line 11065)
+- CP-II-0436 (line 11098)
+- CP-II-0473 (line 11215)
+- CP-II-0477 (line 11262)
+- CP-II-0499 (line 11471)
+- CP-II-0559 (line 11544)
+- CP-II-0565 (line 11566)
+- CP-II-0003 (line 11664)
+- CP-II-0004 (line 11669)
+- CP-II-0009 (line 11715)
+- CP-II-0011 (line 11720)
+- CP-II-0015 (line 11730)
+- CP-II-0024 (line 11847)
+- CP-II-0025 (line 11853)
+- CP-II-0026 (line 11883)
+- CP-II-0027 (line 11962)
+- CP-II-0031 (line 11978)
+- CP-II-0033 (line 12000)
+- CP-II-0034 (line 12009)
+- CP-II-0036 (line 12017)
+- CP-II-0037 (line 12026)
+- CP-II-0039 (line 12074)
+- CP-II-0040 (line 12081)
+- CP-II-0042 (line 12088)
+- CP-II-0045 (line 12171)
+- CP-II-0046 (line 12182)
+- CP-II-0049 (line 12189)
+- CP-II-0050 (line 12194)
+- CP-II-0051 (line 12202)
+- CP-II-0053 (line 12241)
+- CP-II-0054 (line 12250)
+- CP-II-0056 (line 12259)
+- CP-II-0058 (line 12357)
+- CP-II-0060 (line 12362)
+- CP-II-0065 (line 12507)
+- CP-II-0067 (line 12591)
+- CP-II-0068 (line 12604)
+- CP-II-0074 (line 12666)
+- CP-II-0078 (line 12676)
+- CP-II-0079 (line 12685)
+- CP-II-0081 (line 12711)
+- CP-II-0084 (line 12718)
+- CP-II-0087 (line 12728)
+- CP-II-0089 (line 12737)
+- CP-II-0093 (line 12764)
+- CP-II-0094 (line 12772)
+- CP-II-0095 (line 12806)
+- CP-II-0097 (line 12813)
+- CP-II-0099 (line 12830)
+- CP-II-0101 (line 12880)
+- CP-II-0102 (line 12887)
+- CP-II-0107 (line 13085)
+- CP-II-0109 (line 13096)
+- CP-II-0110 (line 13108)
+- CP-II-0113 (line 13238)
+- CP-II-0120 (line 13556)
+- CP-II-0121 (line 13574)
+- CP-II-0123 (line 13584)
+- CP-II-0124 (line 13590)
+- CP-II-0134 (line 13712)
+- CP-II-0140 (line 13724)
+- CP-II-0142 (line 13807)
+- CP-II-0148 (line 13852)
+- CP-II-0149 (line 13857)
+- CP-II-0150 (line 13872)
+- CP-II-0151 (line 13885)
+- CP-II-0152 (line 13891)
+- CP-II-0154 (line 13991)
+- CP-II-0155 (line 13997)
+- CP-II-0157 (line 14473)
+- CP-II-0158 (line 14479)
+- CP-II-0161 (line 14522)
+- CP-II-0164 (line 14540)
+- CP-II-0165 (line 14545)
+- CP-II-0167 (line 14552)
+- CP-II-0170 (line 14713)
+- CP-II-0173 (line 14720)
+- CP-II-0175 (line 14727)
+- CP-II-0176 (line 14743)
+- CP-II-0178 (line 14770)
+- CP-II-0179 (line 14780)
+- CP-II-0186 (line 14922)
+- CP-II-0188 (line 14989)
+- CP-II-0189 (line 15001)
+- CP-II-0192 (line 15015)
+- CP-II-0194 (line 15041)
+- CP-II-0195 (line 15047)
+- CP-II-0196 (line 15053)
+- CP-II-0199 (line 15061)
+- CP-II-0201 (line 15083)
+- CP-II-0204 (line 15100)
+- CP-II-0205 (line 15118)
+- CP-II-0207 (line 15166)
+- CP-II-0208 (line 15177)
+- CP-II-0209 (line 15184)
+- CP-II-0210 (line 15189)
+- CP-II-0211 (line 15199)
+- CP-II-0213 (line 15226)
+- CP-II-0214 (line 15238)
+- CP-II-0219 (line 15251)
+- CP-II-0221 (line 15301)
+- CP-II-0224 (line 15363)
+- CP-II-0226 (line 15368)
+- CP-II-0228 (line 15394)
+- CP-II-0231 (line 15400)
+- CP-II-0232 (line 15406)
+- CP-II-0233 (line 15439)
+- CP-II-0234 (line 15446)
+- CP-II-0235 (line 15451)
+- CP-II-0236 (line 15470)
+- CP-II-0239 (line 15548)
+- CP-II-0240 (line 15561)
+- CP-II-0241 (line 15569)
+- CP-II-0243 (line 15605)
+- CP-II-0244 (line 15612)
+- CP-II-0245 (line 15657)
+- CP-II-0246 (line 15671)
+- CP-II-0247 (line 15678)
+- CP-II-0248 (line 15684)
+- CP-II-0255 (line 15896)
+- CP-II-0258 (line 15938)
+- CP-II-0259 (line 15958)
+- CP-II-0261 (line 15970)
+- CP-II-0263 (line 15978)
+- CP-II-0266 (line 16020)
+- CP-II-0270 (line 16217)
+- CP-II-0272 (line 16222)
+- CP-II-0274 (line 16316)
+- CP-II-0275 (line 16350)
+- CP-II-0277 (line 16418)
+- CP-II-0284 (line 16553)
+- CP-II-0285 (line 16559)
+- CP-II-0287 (line 16570)
+- CP-II-0288 (line 16579)
+- CP-II-0290 (line 16652)
+- CP-II-0292 (line 16657)
+- CP-II-0294 (line 16662)
+- CP-II-0295 (line 16700)
+- CP-II-0296 (line 16705)
+- CP-II-0302 (line 16730)
+- CP-II-0306 (line 16735)
+- CP-II-0307 (line 16741)
+- CP-II-0308 (line 16753)
+- CP-II-0312 (line 16765)
+- CP-II-0314 (line 16789)
+- CP-II-0316 (line 16795)
+- CP-II-0318 (line 16812)
+- CP-II-0319 (line 16817)
+- CP-II-0324 (line 16829)
+- CP-II-0327 (line 17102)
+- CP-II-0329 (line 17108)
+- CP-II-0335 (line 17113)
+- CP-II-0336 (line 17122)
+- CP-II-0337 (line 17203)
+- CP-II-0339 (line 17217)
+- CP-II-0343 (line 17289)
+- CP-II-0344 (line 17298)
+- CP-II-0347 (line 17315)
+- CP-II-0348 (line 17447)
+- CP-II-0351 (line 17653)
+- CP-II-0352 (line 17660)
+- CP-II-0356 (line 17711)
+- CP-II-0360 (line 17916)
+- CP-II-0361 (line 17928)
+- CP-II-0364 (line 17973)
+- CP-II-0366 (line 17983)
+- CP-II-0369 (line 18078)
+- CP-II-0370 (line 18084)
+- CP-II-0376 (line 18118)
+- CP-II-0379 (line 18176)
+- CP-II-0380 (line 18207)
+- CP-II-0381 (line 18231)
+- CP-II-0382 (line 18244)
+- CP-II-0384 (line 18257)
+- CP-II-0385 (line 18267)
+- CP-II-0386 (line 18286)
+- CP-II-0387 (line 18293)
+- CP-II-0388 (line 18335)
+- CP-II-0389 (line 18347)
+- CP-II-0390 (line 18352)
+- CP-II-0392 (line 18362)
+- CP-II-0394 (line 18384)
+- CP-II-0397 (line 18391)
+- CP-II-0398 (line 18398)
+- CP-II-0399 (line 18411)
+- CP-II-0402 (line 18480)
+- CP-II-0403 (line 18485)
+- CP-II-0404 (line 18523)
+- CP-II-0408 (line 18734)
+- CP-II-0409 (line 18744)
+- CP-II-0412 (line 18765)
+- CP-II-0414 (line 18771)
+- CP-II-0418 (line 18798)
+- CP-II-0419 (line 18808)
+- CP-II-0420 (line 18818)
+- CP-II-0422 (line 18913)
+- CP-II-0423 (line 18935)
+- CP-II-0427 (line 18964)
+- CP-II-0431 (line 19054)
+- CP-II-0432 (line 19063)
+- CP-II-0439 (line 19163)
+- CP-II-0440 (line 19178)
+- CP-II-0442 (line 19242)
+- CP-II-0444 (line 19250)
+- CP-II-0447 (line 19478)
+- CP-II-0448 (line 19488)
+- CP-II-0450 (line 19520)
+- CP-II-0451 (line 19527)
+- CP-II-0452 (line 19672)
+- CP-II-0455 (line 19716)
+- CP-II-0456 (line 19795)
+- CP-II-0463 (line 19866)
+- CP-II-0465 (line 19871)
+- CP-II-0470 (line 19881)
+- CP-II-0472 (line 19944)
+- CP-II-0474 (line 19949)
+- CP-II-0478 (line 19963)
+- CP-II-0482 (line 20032)
+- CP-II-0484 (line 20077)
+- CP-II-0486 (line 20123)
+- CP-II-0487 (line 20132)
+- CP-II-0488 (line 20139)
+- CP-II-0489 (line 20162)
+- CP-II-0490 (line 20167)
+- CP-II-0491 (line 20176)
+- CP-II-0497 (line 20211)
+- CP-II-0501 (line 20219)
+- CP-II-0503 (line 20311)
+- CP-II-0504 (line 20325)
+- CP-II-0505 (line 20348)
+- CP-II-0507 (line 20353)
+- CP-II-0509 (line 20361)
+- CP-II-0511 (line 20382)
+- CP-II-0512 (line 20392)
+- CP-II-0515 (line 20418)
+- CP-II-0516 (line 20423)
+- CP-II-0517 (line 20433)
+- CP-II-0518 (line 20441)
+- CP-II-0519 (line 20458)
+- CP-II-0521 (line 20466)
+- CP-II-0522 (line 20491)
+- CP-II-0525 (line 20539)
+- CP-II-0526 (line 20544)
+- CP-II-0527 (line 20563)
+- CP-II-0529 (line 20574)
+- CP-II-0531 (line 20587)
+- CP-II-0537 (line 20718)
+- CP-II-0538 (line 20725)
+- CP-II-0541 (line 20772)
+- CP-II-0543 (line 20801)
+- CP-II-0546 (line 20871)
+- CP-II-0553 (line 20927)
+- CP-II-0556 (line 20985)
+- CP-II-0557 (line 21025)
+- CP-II-0558 (line 21035)
+- CP-II-0560 (line 21040)
+- CP-II-0561 (line 21072)
+- CP-II-0563 (line 21204)
+- CP-II-0566 (line 21248)
+- CP-II-0018 (line 21316)
+- CP-II-0098 (line 21435)
+- CP-II-0112 (line 21531)
+- CP-II-0159 (line 21586)
+- CP-II-0174 (line 21608)
+- CP-II-0238 (line 21727)
+- CP-II-0242 (line 21738)
+- CP-II-0278 (line 21744)
+- CP-II-0311 (line 21769)
+- CP-II-0315 (line 21806)
+- CP-II-0349 (line 21974)
+- CP-II-0377 (line 22117)
+- CP-II-0462 (line 22184)
+- CP-II-0469 (line 22301)
+- CP-II-0005 (line 22438)
+- CP-II-0014 (line 22508)
+- CP-II-0038 (line 22558)
+- CP-II-0163 (line 22706)
+- CP-II-0217 (line 22780)
+- CP-II-0331 (line 22820)
+- CP-II-0340 (line 22847)
+- CP-II-0353 (line 23008)
+- CP-II-0363 (line 23180)
+- CP-II-0476 (line 23410)
+- CP-II-0480 (line 23440)
+- CP-II-0485 (line 23737)
+- CP-II-0496 (line 23842)
+- CP-II-0510 (line 23851)
+- CP-II-0550 (line 23900)
+
+## Mojibake candidates
+
+- L263: `Ă˘â‚¬â€ť Complete metric on $(0,1]$ with the usual topology`
+- L487: `Ă˘â‚¬â€ť Dual of a normed space is Banach; dual of the completion`
+- L632: `Ă˘â‚¬â€ť Slices of a distribution and smooth approximation`
+- L659: `Ă˘â‚¬â€ť Expanding maps on a compact space are onto`
+- L964: `	\par\noindent\textbullet\quad Order $m$: depends on derivatives up to order $m$ Ă˘â‚¬â€ť increasingly singular.`
+- L1088: `Ă˘â‚¬â€ť Global diffeomorphism under $\|Df - I\| \le \mu < 1$`
+- L1111: `\textbf{(TwoĂ˘â‚¬â€śsided Lipschitz via line integration).}\;`
+- L1153: `\textbf{Why not with Ă˘â‚¬Ĺ›$\le 1$Ă˘â‚¬ĹĄ only?}\quad`
+- L1158: `Then $f$ is not locally invertible near $0$, and the twoĂ˘â‚¬â€śsided Lipschitz bound can fail.`
+- L1237: `	\par\noindent\textbullet\quad FastĂ˘â‚¬â€śCauchy subsequence trick: from a Cauchy sequence choose a subsequence with`
+- L1720: `\textbf{Theory (what weĂ˘â‚¬â„˘ll use).}`
+- L1771: `The goal is to guide you through a proof of the StoneĂ˘â‚¬â€śWeierstrass (Bernstein) theorem in one variable:`
+- L1857: `By ChebyshevĂ˘â‚¬â„˘s inequality together with the variance identity,`
+- L1985: `	\textbf{Bounded \& equicontinuous $\Rightarrow$ totally bounded (Arzel\`aĂ˘â‚¬â€śAscoli).}`
+- L1998: `	On $[a,b]$, any bounded, equicontinuous family in $C([a,b])$ has a uniformly convergent subsequence (Arzel\`aĂ˘â‚¬â€śAscoli).`
+- L2306: `Ă˘â‚¬â€ť Extending a uniform polynomial limit from an annulus`
+- L2346: `	the condition Ă˘â‚¬Ĺ›holomorphic in the interiorĂ˘â‚¬ĹĄ is vacuous; every continuous $f$ on $K$`
+- L2374: `	\par\noindent\textbullet\quad Tools behind the proof include RungeĂ˘â‚¬â„˘s theorem, peak functions,`
+- L2570: `	\par\noindent\textbullet\quad On a finiteĂ˘â‚¬â€śmeasure set (here length $1$): $\displaystyle \|f\|_{1}\le \|f\|_{\infty}$.`
+- L2573: `	\par\noindent\textbullet\quad Uniform limits of bounded RiemannĂ˘â‚¬â€śintegrable functions are RiemannĂ˘â‚¬â€śintegrable (boundedness preserved).`
+- L2574: `	\par\noindent\textbullet\quad $C([0,1])$ is dense in $L^{1}([0,1])$; the $\|\cdot\|_{1}$Ă˘â‚¬â€ścompletion of $C([0,1])$ is $L^{1}$.`
+- L2581: `(Quickies) Ă˘â‚¬â€ť Statements and Theory`
+- L2689: `Ă˘â‚¬â€ť Positive distributions have order $0$`
+- L2965: `Ă˘â‚¬â€ť Positive separation`
+- L3056: `\par\noindent\textbullet\quad The Stone--Ă„Ĺšech compactification \(\beta\mathbb{N}\).`
+- L3207: `Ă˘â‚¬â€ť Which duals contain $u_f$ for $f(x)=e^x\cos(e^x)$?`
+- L3225: `Here $|f(x)|\le e^x$, so the growth is exponential. To see nonĂ˘â‚¬â€śtemperateness directly, set`
+- L3316: `	then discontinuities would produce separated image piecesĂ˘â‚¬â€ťcontradicting path-connectedness.`
+- L3497: `For the constantĂ˘â‚¬â€ścoefficient elliptic operator $-\Delta+I$ on $\mathbb{R}^n$`
+- L3601: `	\section*{Normal, Tychonoff ($T_{3\frac12}$), and SorgenfreyĂ˘â‚¬â€ťexamples and counterexamples}`
+- L3619: `		\par\noindent\textbullet\quad \textbf{Sorgenfrey line} $\mathbb{S}$ (base $[a,b)$): $T_6$ (perfectly normal), first countable, separable; not second countable, not LindelÄ‚Â¶f.`
+- L3719: `\noindent\textbf{Problem 3 Ă˘â‚¬â€ť Path-connected $\Rightarrow$ Connected.}`
+- L3768: `\noindent\textbf{Problem 4 Ă˘â‚¬â€ť Path-components form an equivalence.}`
+- L3817: `\par\medskip\noindent\textbf{Problem 5 Ă˘â‚¬â€ť Basic rules of multivariable differentiation}\par`
+- L3849: `\textbf{Theory (FrÄ‚Â©chet derivative).}`
+- L3940: `		Then, by the innerĂ˘â‚¬â€śproduct product rule, for $h=(h_1,h_2)$,`
+- L3969: `	\par\medskip\noindent\textbf{Fr\'echet derivative Ă˘â‚¬â€ť full picture}\par`
+- L4006: `	Ă˘â‚¬Ĺ›all partials exist and are continuousĂ˘â‚¬ĹĄ $\Rightarrow$ Fr\'echet ($C^1$).`
+- L4078: `	\textbf{G\^ateaux but not Fr\'echet Ă˘â‚¬â€ť two examples.}`
+- L4114: `	\par\medskip\noindent\textbf{Problem 6 Ă˘â‚¬â€ť Connectedness and Path-connectedness in $\mathbb{R}^2$}\par`
+- L4207: `Ă˘â‚¬â€ť Strict contractions on complete vs compact spaces; non-expansive maps`
+- L4221: `\noindent\textbf{Theory youĂ˘â‚¬â„˘ll use.}`
+- L4226: `	\par\noindent\textbullet\quad \emph{EdelsteinĂ˘â‚¬â„˘s fixed point theorem.} On a compact metric space, a map`
+- L4235: `\noindent\textbf{Part 1 Ă˘â‚¬â€ť Strictly contractive, complete, no fixed point (example).}`
+- L4265: `\noindent\textbf{Part 2 Ă˘â‚¬â€ť Compact $X\subset\mathbb{R}^n$: existence and uniqueness.}`
+- L4303: `\noindent\textbf{Part 3 Ă˘â‚¬â€ť Non-expansive maps ($\le$) need not have fixed points.}`
+- L4321: `Ă˘â‚¬â€ť Statements and Theory`
+- L4451: `		\par\noindent\textbullet\quad \textbf{SneiderĂ˘â‚¬â„˘s Theorem (compact case).}`
+- L4465: `Ă˘â‚¬â€ť Smoothness and bounds for $\widehat f$ with compact support`
+- L4477: `Ă˘â‚¬â€ť Distributions with zero derivative are constants`
+- L4638: `	Hence one of $A,B$ is emptyĂ˘â‚¬â€ťcontradiction. So $K$ is connected.`
+- L4670: `	\par\medskip\noindent\textbf{Problem 8 Ă˘â‚¬â€ť Antipodal Points on the Circle (BorsukĂ˘â‚¬â€śUlam in 1D)}\par`
+- L4675: `Ă˘â‚¬â€ť A bounded $L^1$ sequence with no weakly convergent subsequence`
+- L4714: `Ă˘â‚¬â€ť Compactness and sequential compactness in $C[0,1]$`
+- L4779: `	\par\noindent\textbullet\quad The family $X$ is bounded and closed but not equicontinuous; by the ArzelÄ‚Â Ă˘â‚¬â€śAscoli theorem it is not relatively compact.`
+- L4942: `	\par\noindent\textbullet\quad Show that $\widehat{f} \in C^{\infty}(\mathbb{R}^{n})$ and that for any multiĂ˘â‚¬â€śindex $\alpha$,`
+- L5010: `Since each derivative is obtained as an $L^1$Ă˘â‚¬â€ślimit under the integral,`
+- L5500: `	is $\,\mathbb{Z}^2$Ă˘â‚¬â€śperiodic and hence factors through the quotient, yielding a homeomorphism`
+- L5688: `Ă˘â‚¬â€ť StepĂ˘â‚¬â€śfunction limits by polynomials`
+- L5715: `(ii) Let $\Omega=\{ \Re z>0\}\cup\{ \Re z<0\}=\mathbb C\setminus i\mathbb R$ and define $f\equiv1$ on the right halfĂ˘â‚¬â€śplane and $f\equiv0$ on the left. Again $\mathbb C\setmi`
+- L5774: `\section*{Problem 5 Ă˘â‚¬â€ť Continued Fractions for $100/37$ and $\sqrt{7}$}`
+- L6128: `	\par\noindent\textbullet\quad \textbf{Boundedness of a subset of $X$} Ă˘â‚¬â€ť \emph{Not topological.}`
+- L6132: `	\par\noindent\textbullet\quad \textbf{Closedness of a subset of $X$} Ă˘â‚¬â€ť \emph{Topological.}`
+- L6136: `	\par\noindent\textbullet\quad \textbf{Ă˘â‚¬Ĺ›Closed and boundedĂ˘â‚¬ĹĄ for a subset of $X$} Ă˘â‚¬â€ť \emph{Not topological.}`
+- L6141: `	\par\noindent\textbullet\quad \textbf{Total boundedness of $X$} Ă˘â‚¬â€ť \emph{Not topological.}`
+- L6147: `	\par\noindent\textbullet\quad \textbf{Completeness of $X$} Ă˘â‚¬â€ť \emph{Not topological.}`
+- L6153: `	\par\noindent\textbullet\quad \textbf{Ă˘â‚¬Ĺ›$X$ is complete and totally bounded$\,\,$Ă˘â‚¬ĹĄ} Ă˘â‚¬â€ť \emph{Topological (for metric spaces).}`
+- L6160: `	(Neither completeness nor total boundedness alone is topological; see (iv)Ă˘â‚¬â€ś(v).)`
+- L6253: `which is a continuous Ă˘â‚¬Ĺ›rounded tentĂ˘â‚¬â„˘Ă˘â‚¬â„˘ supported in the interval $[-2,2]$.`
+- L6258: `Ă˘â‚¬â€ť Polynomial (vs.\ rational) approximation on a punctured disc`
+- L6275: `	\par\noindent\textbullet\quad \textbf{RungeĂ˘â‚¬â„˘s theorem (rational form).}`
+- L6281: `	\par\noindent\textbullet\quad \textbf{MergelyanĂ˘â‚¬â„˘s theorem (polynomial form).}`
+- L6292: `	$\overline{B_1(0)}$ (containing $0$). Thus RungeĂ˘â‚¬â„˘s theorem yields rational`
+- L6303: `By RungeĂ˘â‚¬â„˘s theorem, for every compact $K\Subset U$ there exist rational functions $r_n$`
+- L6314: `whereas for all polynomials $p_n$ we have $\int_\Gamma p_n(z)\,dz=0$ by CauchyĂ˘â‚¬â„˘s theorem,`
+- L6320: `By RungeĂ˘â‚¬â„˘s theorem (or MergelyanĂ˘â‚¬â„˘s theorem),`
+- L6571: `	By KakutaniĂ˘â‚¬â„˘s theorem (or JamesĂ˘â‚¬â„˘ criterion), $Y$ is reflexive.`
+- L6682: `	By HahnĂ˘â‚¬â€śBanach, separate $x$ from $A_k$ with $\varphi_k\in X'$, contradicting`
+- L6710: `		\par\noindent\textbullet\quad \emph{Closure of convex sets:} MazurĂ˘â‚¬â„˘s lemma $\Rightarrow$ weak and strong closures of convex sets coincide.`
+- L6711: `		\par\noindent\textbullet\quad \emph{Optimization:} Direct methodĂ˘â‚¬â€ťweak limits of minimizing sequences can be averaged to obtain strong convergence.`
+- L6861: `Over a field of characteristic \(2\), Ă˘â‚¬Ĺ›skew-symmetricĂ˘â‚¬ĹĄ and Ă˘â‚¬Ĺ›symmetricĂ˘â‚¬ĹĄ coincide, and one can no longer`
+- L6948: `Ă˘â‚¬â€ť Polynomial approximation of $1/z$ on a semicircle`
+- L6953: `By MergelyanĂ˘â‚¬â„˘s theorem, if $K$ is compact with connected complement and`
+- L7015: `Ă˘â‚¬â€ť Stability of translations and difference quotients`
+- L7237: `	generate the usual FrÄ‚Â©chet topology. Convergence $f_k\to f$ means`
+- L7772: `	\par\noindent\textbullet\quad MeanĂ˘â‚¬â€śValue Theorem: $|f(x)-f(t)|\le |x-t|\;\sup|f'|$.`
+- L7839: `\par\noindent\textbullet\quad The hypothesis Ă˘â‚¬Ĺ›every continuous $f:E\to\mathbb R$ is boundedĂ˘â‚¬â„˘Ă˘â‚¬â„˘ is called`
+- L7852: `	and the tail is dominated by a convergent $1/m^{2}$Ă˘â‚¬â€śtype series. Hence by the Weierstrass MĂ˘â‚¬â€śtest,`
+- L7983: `	\section*{Problem 12$^{\ast}$ Ă˘â‚¬â€ť Lebesgue decomposition}`
+- L8078: `	$\|\cdot\|_{\infty}$ is a norm on $R([0,1])$. If $(f_n)$ is $\|\cdot\|_{\infty}$Ă˘â‚¬â€śCauchy, then`
+- L8079: `	$f_n\to f$ uniformly for some bounded $f$, and uniform limits of RiemannĂ˘â‚¬â€śintegrable functions are`
+- L8080: `	RiemannĂ˘â‚¬â€śintegrable; thus $f\in R([0,1])$. Therefore $R([0,1])$ is closed in the complete space of bounded`
+- L8086: `Ă˘â‚¬â€ť Radial projection to $\partial D$ and continuity in the base point`
+- L8271: `	\par\medskip\noindent\textbf{Problem 7 Ă˘â‚¬â€ť Intersection of Nested Compact Connected Sets}\par`
+- L8327: `Ă˘â‚¬â€ť Wiener and Vitali covering lemmas`
+- L8463: `Let $(X,d)$ be a metric space. In the definition of the topology of $(X,d)$, why donĂ˘â‚¬â„˘t we require arbitrary (possibly infinite) intersections of open sets to be open? Give a`
+- L8735: `Ă˘â‚¬â€ť Characterization on a Runge domain`
+- L8742: `RungeĂ˘â‚¬â€śOkaĂ˘â‚¬â€śWeil theorem, holomorphic functions on $U$ can be uniformly approximated on compacts`
+- L8745: `($\Rightarrow$) For $f\in\mathcal O(U)$ and $K\Subset U$, RungeĂ˘â‚¬â€śOkaĂ˘â‚¬â€śWeil yields a polynomial $P$`
+- L8757: `Ă˘â‚¬â€ť Riesz' Lemma and non-compactness of the unit ball`
+- L8904: `		giving the RieszĂ˘â‚¬â€ślemma vector at step $k$ without any abstract selection.`
+- L9419: `				with the FrÄ‚Â©chet topology generated by seminorms`
+- L9482: `		FrÄ‚Â©chet topology: $p_{K,m}(\phi) =`
+- L9640: `Given $x_1,x_2\in\mathbb{R}^n$, by Picard--LindelÄ‚Â¶f there exist`
+- L9647: `(b) Now assume a HÄ‚Â¶lder condition: there are $K>0$ and $\alpha\in(0,1)$ with`
+- L9665: `	\par\noindent\textbullet\quad \textbf{GrÄ‚Â¶nwall (differential form).} If $u\ge0$ is absolutely continuous and`
+- L9667: `	\par\noindent\textbullet\quad \textbf{Osgood / generalized GrÄ‚Â¶nwall.} If $u'(t)\le Ku(t)^\alpha$ with`
+- L9683: `By GrÄ‚Â¶nwall, $u(t)\le u(0)e^{Kt}=\|x_1-x_2\|e^{Kt}$.`
+- L9686: `\emph{(b) HÄ‚Â¶lder case.}`
+- L9727: `	For $f(x)=x/\|x\|$ we use the scalarĂ˘â‚¬â€śvector product and the chain rule.`
+- L9906: `For (c), by SobolevĂ˘â‚¬â€śMorrey,`
+- L9980: `Ă˘â‚¬â€ť Matrix squaring and local square root`
+- L10245: `	\par\medskip\noindent\textbf{Problem 14 Ă˘â‚¬â€ť Convergence of Series of Functions}\par`
+- L10361: `Ă˘â‚¬â€ť Differentiation of an integral`
+- L10415: `Show using the PicardĂ˘â‚¬â€śLindelÄ‚Â¶f theorem that there exists $\varepsilon>0$ such that`
+- L10442: `	\par\noindent\textbullet\quad \textbf{Picard--LindelÄ‚Â¶f theorem.}`
+- L10466: `By PicardĂ˘â‚¬â€śLindelÄ‚Â¶f, there exists $\varepsilon>0$ and a unique $C^1$ function`
+- L10588: `Ă˘â‚¬â€ť Power Series with $\sum a_n$ Convergent`
+- L10621: `so $f(1)=\sum a_n$ and $f$ is continuous at $1$. For fixed $r<1$, uniform convergence on $[r,1]$ follows from DirichletĂ˘â‚¬â„˘s test with uniformly bounded $(s_n)$ and monotone $x`
+- L10770: `Ă˘â‚¬â€ť Local inversion on the curve $x^3+y^3-3xy=0$`
+- L10832: `\section*{Problem 14\textsuperscript{*} Ă˘â‚¬â€ť Maximum principles for C\textsuperscript{2} functions}`
+- L10939: `Ă˘â‚¬â€ť Differentiability of the determinant function`
+- L11023: `which generalize to FaÄ‚Â  di BrunoĂ˘â‚¬â„˘s formula for arbitrary order.`
+- L11046: `Ă˘â‚¬â€ť Bounded Derivative and a Classical Oscillating Example`
+- L11217: `Ă˘â‚¬â€ť One partial continuous near $a$ + the other exists at $a$ $\Rightarrow$ differentiability at $a$`
+- L11264: `Ă˘â‚¬â€ť Periodic GreenĂ˘â‚¬â„˘s function on the circle`
+- L11630: `$D^\alpha:H^s\to H^{s-k}=H^{\frac n2+\gamma}$. For $0<\gamma<1$ the (noninteger) MorreyĂ˘â‚¬â€śSobolev embedding yields`
+- L11732: `Ă˘â‚¬â€ť Moving points and uniform convergence`
+- L11784: `Ă˘â‚¬â€ť Irrationality of $\sqrt3+\sqrt5$ and $e^2$`
+- L11849: `\par\noindent\textbullet\quad If $\mu=m$ and $\nu=\gamma$ is the Cantor (middleĂ˘â‚¬â€śthird) probability measure, then`
+- L11885: `Ă˘â‚¬â€ť Minimal-matching distance on unordered $q$-tuples`
+- L11935: `Applying MinkowskiĂ˘â‚¬â„˘s inequality in $\mathbb{R}^{nq}$,`
+- L11980: `Ă˘â‚¬â€ť A pointwiseĂ˘â‚¬â€śvanishing polynomial sequence outside $0$`
+- L12028: `Ă˘â‚¬â€ť Which $(f_n)$ converge uniformly on $X$?`
+- L12121: `\section*{Problem 4. {L1} on $C([0,1])$ and on bounded RiemannĂ˘â‚¬â€śintegrable functions}`
+- L12204: `Ă˘â‚¬â€ť Powers preserve uniform convergence`
+- L12364: `Ă˘â‚¬â€ť Distributions annihilated by a power of $x$`
+- L12509: `Ă˘â‚¬â€ť Hat functions and piecewiseĂ˘â‚¬â€ślinear interpolation`
+- L12625: `By DirichletĂ˘â‚¬â„˘s approximation, for every $x\in(0,1)$ there are infinitely many $j$ with`
+- L12637: `Ă˘â‚¬â€ť Approximate identities`
+- L12889: `Ă˘â‚¬â€ť Weak-* limits of $\sin(nx)$ and $\sin^2(nx)$`
+- L13259: `A classic counterexample uses ``spikesĂ˘â‚¬â„˘Ă˘â‚¬â„˘ of increasing height but decreasing width, so that the area (integral) diverges even though each fixed $x$ eventually lies ou`
+- L13597: `Ă˘â‚¬â€ť Nonzero functionals are open mappings`
+- L13720: `	is the triangle inequality for the $L^p$--norm.  HÄ‚Â¶lder's inequality`
+- L13893: `Ă˘â‚¬â€ť Moving points vs.\ uniform convergence on $[a,b]$`
+- L13994: `		admits a weakly convergent subsequence (BanachĂ˘â‚¬â€śAlaoglu + reflexivity).`
+- L14130: `	\textbf{DiniĂ˘â‚¬â„˘s theorem (compact $X$).}`
+- L14217: `	\par\medskip\noindent\textbf{Problem 16 Ă˘â‚¬â€ť Implicit Function Theorem via a block map}\par`
+- L14237: `		This blockĂ˘â‚¬â€śtriangular matrix has`
+- L14504: `The summand $e^{-|x+k|^2/2}$ decays superĂ˘â‚¬â€śexponentially in $|k|$, so the series converges absolutely and defines`
+- L14505: `a smooth 1Ă˘â‚¬â€śperiodic function on $\mathbb T^n$.`
+- L14554: `Ă˘â‚¬â€ť A Schauder basis for $C([-1,1])$ from hat functions`
+- L14574: `	Consequently, for any $f\in C([-1,1])$ the piecewiseĂ˘â‚¬â€ślinear interpolant`
+- L14585: `	\par\noindent\textbullet\quad \textbf{Dyadic refinement and midpoint hats (FaberĂ˘â‚¬â€śSchauder atoms).}`
+- L14596: `	\par\noindent\textbullet\quad \textbf{Telescoping of piecewiseĂ˘â‚¬â€ślinear interpolants.}`
+- L14597: `	Let $g(u)=f(2u-1)$ and let $g_{2^K}$ be the piecewiseĂ˘â‚¬â€ślinear interpolant on the dyadic`
+- L14665: `Let $g_{2^K}$ be the piecewiseĂ˘â‚¬â€ślinear interpolant on the dyadic grid $\{j/2^K\}$.`
+- L14690: `	\par\noindent\textbullet\quad $f(x)=ax+b$: all detail coefficients $d_{k,m}$ vanish; only the lowĂ˘â‚¬â€śorder terms`
+- L14695: `The system $\{\phi_n\}$ is a Schauder basis for $C([-1,1])$ (the FaberĂ˘â‚¬â€śSchauder basis):`
+- L14701: `Ă˘â‚¬â€ť Removing $\mathbb Q$`
+- L14731: `	$c\|f\|_{\infty}\le \|f\|_{1}$ fails: take continuous Ă˘â‚¬Ĺ›spikesĂ˘â‚¬ĹĄ`
+- L14752: `Ă˘â‚¬â€ť Limsup of Open Dense Sets`
+- L14916: `		\par\noindent\textbullet\quad If $\mu=m$ and $\nu=\gamma$ is the Cantor (middleĂ˘â‚¬â€śthird) probability measure, then`
+- L15003: `Ă˘â‚¬â€ť Approximations of a RiemannĂ˘â‚¬â€śIntegrable Function on $[0,1]$`
+- L15007: `	\par\noindent\textbullet\quad \textbf{No.} A uniform limit of continuous functions is continuous; a RiemannĂ˘â‚¬â€śintegrable $f$ can be discontinuous.`
+- L15009: `	\par\noindent\textbullet\quad \textbf{Yes.} Since $f\in\mathcal R[0,1]$, upper/lower sums approximate $f$ in $L^1$. Step functions are $L^1$Ă˘â‚¬â€śapproximable by continuous func`
+- L15026: `Ă˘â‚¬â€ť Algebraic zeros and coefficients`
+- L15034: `(i) If $\sum_{k=0}^m a_k\alpha^k=0$ with $a_k\in\mathbb Z$, then certainly $\alpha$ is a root of a polynomial with rational coefficients. Conversely, if $\sum_{k=0}^m q_k\alpha^k=0`
+- L15141: `Ă˘â‚¬â€ť Uniform Continuity and Boundedness on $[0,\infty)$`
+- L15329: `Ă˘â‚¬â€ť Can a discontinuous function be uniformly approximated by polynomials?`
+- L15641: `where $q$ is the HÄ‚Â¶lder conjugate of $p$, i.e.\ $\frac1p+\frac1q=1$.`
+- L15686: `\par\noindent\textbullet\quad Applying HÄ‚Â¶lder's inequality to the right-hand side gives`
+- L15795: `Ă˘â‚¬â€ť Bounded $L^p$ sequence and convergence of means`
+- L15818: `	Since $(f_j)$ is bounded in $L^p$, HÄ‚Â¶lder gives`
+- L15831: `Ă˘â‚¬â€ť Moment conditions force $f\equiv0$`
+- L15905: `Consider ThomaeĂ˘â‚¬â„˘s function $f:[0,1]\to\mathbb{R}$:`
+- L15982: `		$\langle y,e_i\rangle\to0$ by BesselĂ˘â‚¬â„˘s inequality,`
+- L15990: `Ă˘â‚¬â€ť Limit at Infinity Implies Uniform Continuity on $[0,\infty)$`
+- L16014: `	\par\noindent\textbullet\quad the Ă˘â‚¬Ĺ›mixedĂ˘â‚¬ĹĄ case cannot occur, because $\lvert x-y\rvert<1$ forbids one point $\ge R+1$`
+- L16022: `Ă˘â‚¬â€ť Smooth Approximation of a Periodic $L^p$ Function`
+- L16112: `Ă˘â‚¬â€ť Fixed and antipodal points for a diskĂ˘â‚¬â€śextendable circle map`
+- L16136: `	If $g$ is \emph{nullĂ˘â‚¬â€śhomotopic} (homotopic to a constant), then $\deg g=0$.`
+- L16144: `	Hence $g$ is nullĂ˘â‚¬â€śhomotopic and $\deg g=0$.`
+- L16178: `	If $g$ is nullĂ˘â‚¬â€śhomotopic, then $\deg g=0$.`
+- L16182: `	from $g$ to the constant map $z\mapsto G(0)$. Hence $g$ is nullĂ˘â‚¬â€śhomotopic and $\deg g=0$.`
+- L16308: `	$\|z\|_\infty\ge \|z\|_2\ge \|z\|_1$ (HÄ‚Â¶lder).`
+- L16366: `Ă˘â‚¬â€ť Minkowski functional (gauge) of a convex $0$-neighborhood`
+- L16424: `	whose spatial FourierĂ˘â‚¬â€śPlancherel transform is given by`
+- L16432: `Ă˘â‚¬â€ť Prescribing values on a finite independent set`
+- L16449: `Ă˘â‚¬â€ť Sign, Heaviside, and principal values`
+- L16572: `\par\noindent\textbullet\quad The HÄ‚Â¶lder conjugate exponent $q$ of $p$ is defined by`
+- L16629: `	Applying HÄ‚Â¶lder ($p=q=2$) yields`
+- L16823: `\section*{Exercise 11 Ă˘â‚¬â€ť Haar system on $\mathbb{R}$}`
+- L17124: `Ă˘â‚¬â€ť A Heisenberg-type inequality and uncertainty`
+- L17222: `	so $1/h$ is unbounded on $E$Ă˘â‚¬â€ťthe same contradiction as above.`
+- L17264: `Ă˘â‚¬â€ť Absolutely Convergent Coefficients and Trig Series`
+- L17277: `(b) Since $|a_m\sin(mx)|\le|a_m|$ and $\sum|a_m|<\infty$, the MĂ˘â‚¬â€śtest yields uniform convergence of`
+- L17286: `\section*{Problem 8 Ă˘â‚¬â€ť Uniformity and Continuity of $\displaystyle f(x)=\sum_{m=1}^\infty (x-m)^{-2}$ on $X$}`
+- L17409: `	\par\medskip\noindent\textbf{Sequences vs Series of Functions Ă˘â‚¬â€ť Definitions}\par`
+- L17444: `	\par\medskip\noindent\textbf{Problem 15 Ă˘â‚¬â€ť The series $\sum_{n=1}^{\infty}(x-n)^{-2}$ on $X=\mathbb{R}\setminus\mathbb{N}$}\par`

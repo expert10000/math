@@ -1,0 +1,152 @@
+# Companion Part I cleanup audit
+
+- Problems: **123**
+- Paired solution environments: **85**
+- Problems without a paired solution: **38**
+- Problems with multiple solutions before the next problem: **0**
+- Mojibake-marker lines: **100**
+- List/math environment issues: **0**
+
+## Missing solutions
+
+- CP-I-0002 (line 13)
+- CP-I-0016 (line 264)
+- CP-I-0035 (line 554)
+- CP-I-0036 (line 575)
+- CP-I-0057 (line 1078)
+- CP-I-0076 (line 1735)
+- CP-I-0083 (line 1740)
+- CP-I-0105 (line 2504)
+- CP-I-0005 (line 3141)
+- CP-I-0007 (line 3149)
+- CP-I-0008 (line 3206)
+- CP-I-0015 (line 3958)
+- CP-I-0017 (line 3969)
+- CP-I-0023 (line 4133)
+- CP-I-0024 (line 4141)
+- CP-I-0029 (line 4526)
+- CP-I-0030 (line 5181)
+- CP-I-0034 (line 5324)
+- CP-I-0039 (line 5658)
+- CP-I-0044 (line 5870)
+- CP-I-0045 (line 5878)
+- CP-I-0075 (line 7429)
+- CP-I-0079 (line 7616)
+- CP-I-0081 (line 7763)
+- CP-I-0086 (line 7895)
+- CP-I-0089 (line 8011)
+- CP-I-0096 (line 8344)
+- CP-I-0098 (line 8350)
+- CP-I-0102 (line 8735)
+- CP-I-0107 (line 8811)
+- CP-I-0113 (line 9464)
+- CP-I-0118 (line 9695)
+- CP-I-0001 (line 9835)
+- CP-I-0006 (line 9909)
+- CP-I-0021 (line 9921)
+- CP-I-0068 (line 10724)
+- CP-I-0115 (line 10963)
+- CP-I-0116 (line 10971)
+
+## Mojibake candidates
+
+- L15: `Ă˘â‚¬â€ť Level Sets of a Cubic Surface`
+- L32: `		is a (not necessarily connected) smooth curve in the $(x,y)$Ă˘â‚¬â€śplane`
+- L173: `	oval lying in the $(x,y)$Ă˘â‚¬â€śplane.`
+- L277: `Ă˘â‚¬â€ť Sum of linear maps; images/kernels; idempotents`
+- L348: `Ă˘â‚¬â€ť Distance bounds from a disk (triangle inequalities)`
+- L404: `Ă˘â‚¬â€ť Common complementary subspace`
+- L444: `Ă˘â‚¬â€ť Fifth roots of unity factorization and a trig identity`
+- L503: `\section*{Problem 5 Ă˘â‚¬â€ť Solve \(\sin z=2\) in \(\mathbb{C}\)}`
+- L588: `Ă˘â‚¬â€ť Which modified lists are bases?`
+- L667: `Ă˘â‚¬â€ť Generalised Eigenspace Decomposition Theorem`
+- L1008: `Ă˘â‚¬â€ť Descending images, ascending kernels, and rank constraints`
+- L1096: `Ă˘â‚¬â€ť A real $\lambda$ with $\det(A+\lambda B)\neq 0$; real similarity`
+- L1139: `Ă˘â‚¬â€ť Concurrency of the altitudes (orthocenter) via vectors`
+- L1213: `Ă˘â‚¬â€ť Cross products in a triangle; sine rule; a converse`
+- L1314: `Ă˘â‚¬â€ť Image, kernel, and solvability of \(Mx=d\) (Vandermonde-type matrix)`
+- L1517: `Ă˘â‚¬â€ť Restriction and induced quotient map; block matrices`
+- L1570: `Ă˘â‚¬â€ť Dual of \(P\) as sequences; dual maps of \(D\) and \(S\)`
+- L1624: `Ă˘â‚¬â€ť Nondegenerate skew-symmetric forms and maximal isotropic dimension`
+- L1670: `Ă˘â‚¬â€ť Medians of a complex triangle are concurrent`
+- L1757: `Ă˘â‚¬â€ť Solving linear vector equations with \(\times\) and \(\cdot\)`
+- L1826: `Ă˘â‚¬â€ť Cyclic basis for a nilpotent map; commuting endomorphisms`
+- L1872: `Ă˘â‚¬â€ť Functionals and intersections of kernels`
+- L1991: `Ă˘â‚¬â€ť Bases for $U$, $W$, $U\cap W$, and a description of $U+W$ in $\mathbb R^5$`
+- L2064: `Ă˘â‚¬â€ť A vector equation with dotĂ˘â‚¬â€śproduct constraints and equality cases`
+- L2140: `Ă˘â‚¬â€ť LagrangeĂ˘â‚¬â„˘s identity, Jacobi identity, and scalar triple products`
+- L2292: `Ă˘â‚¬â€ť Geometric meaning of affine combinations (line and plane)`
+- L2353: `Ă˘â‚¬â€ť Characterizing trace; (non)existence of \([\,\alpha,\beta\,]=id\)`
+- L2424: `Ă˘â‚¬â€ť The subspace of maps sending $Y$ into $Z$`
+- L2458: `Ă˘â‚¬â€ť Equivalent characterizations of a direct sum`
+- L2607: `Ă˘â‚¬â€ť Realizing any \(P\in GL_n(\mathbb F)\) as a product of change-of-basis matrices`
+- L2630: `\subsection*{Problem 3 Ă˘â‚¬â€ť Rank factorization and \(\operatorname{rank}(A)=\operatorname{rank}(A^T)\)}`
+- L2681: `\subsection*{Problem 3 Ă˘â‚¬â€ť Rank factorization and \(\operatorname{rank}(A)=\operatorname{rank}(A^T)\)}`
+- L2694: `Ă˘â‚¬â€ť The composition operator $\Phi(\theta)=\beta\circ\theta\circ\alpha$`
+- L2824: `Ă˘â‚¬â€ť Trace zero endomorphisms: zero diagonal form and commutators`
+- L2866: `\subsection*{Problem 6 Ă˘â‚¬â€ť Adjugate identities and \(\operatorname{rk}(\operatorname{adj}A)\)}`
+- L3305: `Ă˘â‚¬â€ť Dual bases under basis changes in dimension 4`
+- L3341: `\subsection*{Problem 8 Ă˘â‚¬â€ť Trace pairing gives an isomorphism \(M_{n\times m}\cong (M_{m\times n})^*\)}`
+- L3485: `Ă˘â‚¬â€ť A linear system depending on a parameter \(t\)`
+- L3638: `Ă˘â‚¬â€ť Completing an orthogonal matrix`
+- L3681: `\section*{Problem 4 Ă˘â‚¬â€ť Spectral decomposition and $A^{-1}$}`
+- L3760: `Ă˘â‚¬â€ť Diagonalise a quadric; minimum distance to the origin`
+- L3976: `Ă˘â‚¬â€ť Determinant factorization by row operations`
+- L4096: `Ă˘â‚¬â€ť Eigenvalues of an upper triangular matrix`
+- L4156: `Ă˘â‚¬â€ť A circulant determinant and its factorization`
+- L4254: `Ă˘â‚¬â€ť Determinant of an odd-dimensional antisymmetric matrix`
+- L4277: `Ă˘â‚¬â€ť Hadamard's inequality (entrywise bound version)`
+- L4391: `\textbf{HadamardĂ˘â‚¬â„˘s inequality (row/column norm form).}`
+- L5230: `Ă˘â‚¬â€ť Cofactors, inverse, and solving a linear system`
+- L5415: `Ă˘â‚¬â€ť Matrices of a linear map in nonstandard bases (and change of basis)`
+- L5621: `Ă˘â‚¬â€ť Determinant of a Ă˘â‚¬Ĺ›\(p\) on diagonal, \(1\) elsewhereĂ˘â‚¬ĹĄ matrix`
+- L5672: `Ă˘â‚¬â€ť Eigenvalues of $\alpha^2$ and comparison of eigenspaces`
+- L5695: `\subsection*{Problem 6 Ă˘â‚¬â€ť Jordan form and $B^{1000}$}`
+- L5751: `Ă˘â‚¬â€ť Maximize a cyclic quadratic form under $\sum a_i=0$ and $\sum a_i^2=1$`
+- L5812: `Ă˘â‚¬â€ť Jordan form of $J_n(\lambda)^k$`
+- L5888: `Ă˘â‚¬â€ť Odd-dimensional orthogonal matrices with \(\det=1\) have eigenvalue \(1\)`
+- L5923: `Ă˘â‚¬â€ť Invertibility and inverse via elementary row operations`
+- L6032: `Ă˘â‚¬â€ť Cayley transform of an anti-Hermitian matrix`
+- L6097: `Ă˘â‚¬â€ť Inverses and transposes`
+- L6173: `Ă˘â‚¬â€ť Minimal polynomial over $\mathbb C$ has real coefficients`
+- L6194: `Ă˘â‚¬â€ť A Hermitian form on $\mathbb C^3$ and a roots-of-unity polarization identity`
+- L6294: `More generally, \emph{SylvesterĂ˘â‚¬â„˘s criterion} says:`
+- L6429: `This is the linear-algebra version of DarbouxĂ˘â‚¬â„˘s theorem in symplectic geometry.`
+- L6523: `Ă˘â‚¬â€ť A symmetric matrix of finite order is an involution`
+- L6563: `Ă˘â‚¬â€ť Eigenvalues, eigenspace dimensions, diagonalizability`
+- L6631: `\section*{Problem 13 Ă˘â‚¬â€ť Characteristic polynomial of \(A^{-1}\)}`
+- L6961: `Ă˘â‚¬â€ť ModulusĂ˘â‚¬â€śargument forms on the unit circle; a Cayley transform locus`
+- L6977: `\noindent\textbf{(i) ModulusĂ˘â‚¬â€śargument of \(1+z\).}`
+- L6987: `\noindent\textbf{(ii) ModulusĂ˘â‚¬â€śargument of \(1-\bar z\).}`
+- L7025: `\noindent\textbf{(i) ModulusĂ˘â‚¬â€śargument of \(1+z\).}`
+- L7035: `\noindent\textbf{(ii) ModulusĂ˘â‚¬â€śargument of \(1-\bar z\).}`
+- L7071: `Ă˘â‚¬â€ť Non-similarity of unipotent matrices; identify a given matrix`
+- L7160: `Ă˘â‚¬â€ť Eigenvalues and determinant of the ``$\lambda$ on diagonal, $1$ elsewhere'' matrix`
+- L7298: `Ă˘â‚¬â€ť Eigenvalues/eigenspaces; simultaneous diagonalisation`
+- L7436: `Ă˘â‚¬â€ť One eigenvalue, not diagonalizable`
+- L7517: `Ă˘â‚¬â€ť Anti-hermitian and unitary matrices: eigenvalues and orthogonality`
+- L7627: `Ă˘â‚¬â€ť Column operations on a block matrix and \(\det(AB)=\det(A)\det(B)\)`
+- L7902: `Ă˘â‚¬â€ť Congruence to the identity over $\mathbb R,\mathbb C,\mathbb Q$`
+- L7916: `\emph{Over $\mathbb R$.} By SylvesterĂ˘â‚¬â„˘s law of inertia, a real symmetric matrix is congruent to $I_2$ iff it is positive definite.`
+- L7964: `\emph{Over $\mathbb R$.} By SylvesterĂ˘â‚¬â„˘s law of inertia, a real symmetric matrix is congruent to $I_2$ iff it is positive definite.`
+- L8024: `Ă˘â‚¬â€ť Change of basis to a Jordan block; compute $A^n$`
+- L8164: `Ă˘â‚¬â€ť Basic identities for Hermitian matrices and unitary similarity`
+- L8282: `Ă˘â‚¬â€ť Char.\ and minimal polynomials do not determine JNF in $4\times 4$`
+- L8644: `Ă˘â‚¬â€ť Diagonalising a rotated quadratic form`
+- L8758: `Ă˘â‚¬â€ť Vandermonde determinant; evaluation functionals; Lagrange dual basis`
+- L8819: `Ă˘â‚¬â€ť Change-of-basis matrix of a linear map`
+- L8890: `Ă˘â‚¬â€ť Determinant of a circulant matrix`
+- L9097: `Ă˘â‚¬â€ť Normal operators and an orthonormal eigenbasis`
+- L9172: `Ă˘â‚¬â€ť Cayley--Hamilton for $2\times 2$, powers of a specific matrix`
+- L9328: `Ă˘â‚¬â€ť Rank and signature of quadratic forms; diagonalization to $\pm 1$`
+- L9386: `\section{Problem 3 Ă˘â‚¬â€ť The Frobenius trace inner product and the quadratic form $\mathrm{tr}(A^2)$}`
+- L9595: `Ă˘â‚¬â€ť Eigenvalues/eigenvectors; reality + orthogonality \(\Leftrightarrow\) Hermitian`
+- L9705: `Ă˘â‚¬â€ť Orthonormal eigenbases and quadric surfaces`
+- L9837: `Ă˘â‚¬â€ť Operator norm: basic and useful properties`
+- L9873: `Finite-dimensional Riesz: $\exists a$ with $Ax=\langle a,x\rangle$ and by CauchyĂ˘â‚¬â€śSchwarz`
+- L9902: `	\par\noindent\textbullet\quad RankĂ˘â‚¬â€śone matrix $A=uv^\top$: $\|A\|_{op}=\|u\|\,\|v\|=\|A\|_F$ (right equality case).`
+- L9955: `Ă˘â‚¬â€ť Apollonius circle; a coaxal family and orthogonal intersections`
+- L10115: `Ă˘â‚¬â€ť An $L^2[-1,1]$ inner product on $P_n$ and Legendre-type eigenvectors`
+- L10603: `Ă˘â‚¬â€ť Spherical unit vectors form an orthonormal right-handed frame`
+- L10758: `Ă˘â‚¬â€ť Positive definite operators: square roots and polar decomposition`
+- L10840: `Ă˘â‚¬â€ť A positive definite quadratic form; orthonormal basis; Gram--Schmidt`

@@ -1,0 +1,129 @@
+# Companion Part IV cleanup audit
+
+- Problems: **139**
+- Paired solution environments: **139**
+- Problems without a paired solution: **0**
+- Problems with multiple solutions before the next problem: **0**
+- Mojibake-marker lines: **118**
+- List/math environment issues: **0**
+
+## Mojibake candidates
+
+- L265: `\par\noindent\textbullet\quad \textbf{Holomorphic (MĂ¶bius) â€śinversionâ€ť} about $a$ with radius $r$:`
+- L270: `	This is a MĂ¶bius transformation (holomorphic on $\mathbb C\setminus\{a\}$).`
+- L333: `	exists, where $\Gamma$ is a simple smooth positively oriented curve, $f$ is continuously differentiable on $\Gamma^{\ast}$, and $\Gamma_{\varepsilon}$ is the part of $\Gamma$ that`
+- L512: `\par\noindent\textbullet\quad Use Cauchyâ€™s integral formula to compute`
+- L524: `Cauchyâ€™s integral formula: if $f$ is holomorphic on and inside a simple closed curve $\gamma$, then`
+- L1503: `the general threeâ€“boundaryâ€“points construction described earlier.  In`
+- L1660: `\paragraph{\textbf{Two maps that are both called â€śinversionâ€ť.}}`
+- L1721: `\paragraph{\textbf{Relation between them: â€śreflection + geometric inversionâ€ť.}}`
+- L1757: `\subsection*{\textbf{Three common â€śinversionsâ€ť in complex analysis and geometry}}`
+- L1759: `\paragraph{\textbf{(A) The basic MĂ¶bius inversion (unit-circle inversion).}}`
+- L1784: `\paragraph{\textbf{(C) Holomorphic â€ścircle inversionâ€ť (a MĂ¶bius map).}}`
+- L1815: `		Unit MĂ¶bius inversion & $J(z)=\dfrac1z$ &`
+- L1830: `	\subsection*{\textbf{Inversion as a MĂ¶bius transformation (and its geometric cousin)}}`
+- L1832: `	\paragraph{\textbf{MĂ¶bius transformations.}}`
+- L1833: `	A MĂ¶bius map is`
+- L1843: `	\subsection*{\textbf{1) Where is the simple inversion $1/z$ in MĂ¶bius form?}}`
+- L1854: `	\subsection*{\textbf{2) Where is the â€śradius-$r$â€ť holomorphic inversion $r^{2}/z$?}}`
+- L1896: `	\paragraph{\textbf{Not MĂ¶bius (anti-holomorphic).}}`
+- L1901: `	and it is \emph{not} MĂ¶bius because it depends on $\overline{z}$ (it is anti-holomorphic).`
+- L1903: `	\paragraph{\textbf{But it becomes MĂ¶bius after composing with a reflection.}}`
+- L1963: `	We want to prove: every MĂ¶bius map`
+- L1977: `	\paragraph{\textbf{Step 2: reduce an arbitrary MĂ¶bius map to generators.}}`
+- L2145: `	\par\noindent\textbullet\quad \textbf{(iii)} Zeros at $1/n\to 0$ in $D(0,2)\setminus\{-1\}$ force identity with a meromorphic function that has a pole at $-1$ â€” contradiction.`
+- L2190: `	\par\noindent\textbullet\quad Use Schwarz's Lemma to prove that any conformal equivalence $\Phi:D(0,1)\to D(0,1)$ is given by a MĂ¶bius transformation.`
+- L2220: `a MĂ¶bius automorphism of the disk.`
+- L3066: `By Cauchyâ€™s formula,`
+- L3086: `i.e. $f$ is constant on the circle $|z-a|=r$. For such an $r$, Cauchyâ€™s formula for $n\ge1$ gives`
+- L3128: `	But $\dfrac{z}{z+1}$ has a pole at $z=-1$, whereas $f$ is holomorphic there â€” a contradiction.`
+- L3519: `By Cauchyâ€™s integral formula, if $|z|<1$ then $F(z)=z^{m}$, while if $|z|>1$ then $F(z)=0$.`
+- L3561: `By Cauchyâ€™s integral formula,`
+- L3573: `By Cauchyâ€™s theorem,`
+- L3681: `(Rotationâ€“scaling; holomorphic).`
+- L3732: `We use: (a) \emph{Liouvilleâ€™s theorem}: a bounded entire function is constant; (b) \emph{Cauchy estimates}:`
+- L3759: `If $f=u+iv$ with $|u|>|v|$ everywhere, then $\Re\big(f^2\big)=u^2-v^2>0$, so $g:=f^2$ maps $\mathbb C$ into the right halfâ€“plane.`
+- L3792: `Then the Cauchyâ€“Riemann equations hold for $(u,v)$ and $f:=u+iv$ is holomorphic with $\Re f=u$.`
+- L3795: `On nonâ€“simply connected domains a closed form need not be exact; a certificate is a nonzero loop integral`
+- L3814: `Hence the Cauchyâ€“Riemann equations hold and`
+- L3889: `If $f$ omitted $b$ near $a$, then $g=1/(f-b)$ would be bounded near $a$, hence removable there by Riemannâ€™s theorem.`
+- L4283: `(Cauchyâ€™s derivative formula via residues).`
+- L4290: `\emph{Residue at a higherâ€“order pole.}`
+- L4323: `which yields the claimed formula. For $n=0$ this reduces to Cauchyâ€™s integral formula.`
+- L4330: `â€” area from a $1$-form (what $\tfrac12(x\,dy-y\,dx)$ measures)`
+- L4589: `	\par\noindent\textbullet\quad Using Cauchyâ€™s residue theorem applied to $\Gamma^{(N)}$, show that for $0\le\theta\le 2\pi$,`
+- L4628: `Cauchyâ€™s residue theorem states that for such a closed contour,`
+- L4936: `â€” Solution`
+- L5100: `By Cauchyâ€™s residue theorem,`
+- L5304: `	\subsection*{(a) \(f(x)=e^{-|x|}\) â€” Transform and step-by-step inverse}`
+- L5322: `		&&\text{(close upward; Jordanâ€™s lemma)}\\`
+- L5335: `	\subsection*{(b) \(f(x)=e^{-a^{2}x^{2}}\) (\(a>0\)) â€” Transform and step-by-step inverse}`
+- L5885: `Via $e^{2iz}=e^{-2y}e^{2ix}$ a horizontal strip $y\in(y_1,y_2)$ maps to an annulus; the MĂ¶bius map $w\mapsto i\frac{w+1}{w-1}$ then sends annuli to circular bands bounded by the c`
+- L6196: `\emph{Higherâ€“order pole.} If $g$ has a pole of order $m$ at $w$,`
+- L6324: `Temperature in a right halfâ€“plane with a removed disk`
+- L6335: `	Consider the real-parameter MĂ¶bius map`
+- L6344: `	so the $y$â€“axis maps to the unit circle $|\zeta|=1$.`
+- L6359: `	the $\cos\theta$â€“dependence must drop out:`
+- L6387: `	(right halfâ€“plane with the closed disk $\{|z-a|\le b\}$ removed) onto the concentric circular \emph{annulus}`
+- L6400: `	Let $U(\zeta)$ denote the temperature in the $\zeta$â€“plane. Harmonicity is preserved by conformal maps, so`
+- L6459: `	the MĂ¶bius map $\displaystyle \zeta=\frac{z-\alpha}{z+\alpha}$ carries`
+- L6746: `Thus strip $\leftrightarrow$ disk/exterior-disk mappings for $\tanh$ and $\coth$ are just the exponentialâ€™s strip-to-sector equivalences composed with a Cayley map.`
+- L6792: `For each inverse, the principal domain is obtained by slitting the $w$â€“plane along the images of the multiple values.`
+- L6947: `	Center via $\phi_a$ (item 3), then items (11)â€“(12).`
+- L6999: `	MĂ¶bius normalizes the circles; then a power map; then Cayley.`
+- L7013: `	\boxed{\,w=z+\frac{1}{z}\,}\ \ \text{then a real MĂ¶bius adjustment}.`
+- L7058: `Circles/lines orthogonal to $\partial\mathbb D$ map to \emph{vertical} lines in the $w$â€“plane.`
+- L7082: `is a MĂ¶bius map sending $L_1\!\to L_2$ with`
+- L7318: `â€” Conformal mappings`
+- L7325: `	from where use MĂ¶bius.`
+- L7351: `		\par\noindent\textbullet\quad \textbf{MĂ¶bius to exterior unit disk.} Use`
+- L7390: `		\par\noindent\textbullet\quad \textbf{Real MĂ¶bius to upper half-plane.}`
+- L7439: `	Seek a real-coefficient MĂ¶bius transformation`
+- L7805: `\par\noindent\textbullet\quad Inversion in a circle is \emph{anti-conformal} (it involves complex conjugation), and the composition of two inversions is conformal; in particular, a`
+- L8041: `If $f$ had a primitive on the annulus $0<|z|<1$, every closed integral would vanishâ€”a contradiction. Hence no primitive exists there.`
+- L8164: `\emph{Cauchyâ€™s root bound (polynomials).}`
+- L8172: `\emph{RouchĂ©â€™s theorem (context).}`
+- L8266: `\emph{Example 1 (Eulerâ€™s Beta integral).}`
+- L8403: `A holomorphic, nowhereâ€“vanishing function $g$ on a domain $D$ admits a holomorphic branch of $\Log g$ on $D$`
+- L8623: `\par\noindent\textbullet\quad Show that a MĂ¶bius map sends the unit disk $\mathbb D=\{z:|z|<1\}$ onto itself iff`
+- L8628: `	\par\noindent\textbullet\quad Find a MĂ¶bius map taking the region between the circles $\{|z|=1\}$ and $\{|z-1|=5/2\}$ to an annulus $\{1<|w|<R\}$.`
+- L8630: `	\par\noindent\textbullet\quad Find a conformal map from an infinite strip onto an annulus. Can such a map be the restriction of a MĂ¶bius map?`
+- L8632: `A MĂ¶bius map $M(z)=\dfrac{az+b}{cz+d}$ maps lines/circles to lines/circles and preserves angles.`
+- L8674: `This cannot be the restriction of a MĂ¶bius map: a MĂ¶bius map sends parallel boundary lines of a strip to two lines or to two circles meeting at one point, whereas the annulus is `
+- L8679: `Temperature in a right halfâ€“plane with a removed disk`
+- L8690: `	Consider the real-parameter MĂ¶bius map`
+- L8699: `	so the $y$â€“axis maps to the unit circle $|\zeta|=1$.`
+- L8714: `	the $\cos\theta$â€“dependence must drop out:`
+- L8742: `	(right halfâ€“plane with the closed disk $\{|z-a|\le b\}$ removed) onto the concentric circular \emph{annulus}`
+- L8755: `	Let $U(\zeta)$ denote the temperature in the $\zeta$â€“plane. Harmonicity is preserved by conformal maps, so`
+- L8814: `	the MĂ¶bius map $\displaystyle \zeta=\frac{z-\alpha}{z+\alpha}$ carries`
+- L9101: `Thus strip $\leftrightarrow$ disk/exterior-disk mappings for $\tanh$ and $\coth$ are just the exponentialâ€™s strip-to-sector equivalences composed with a Cayley map.`
+- L9208: `	Center via $\phi_a$ (item 3), then items (11)â€“(12).`
+- L9260: `	MĂ¶bius normalizes the circles; then a power map; then Cayley.`
+- L9274: `	\boxed{\,w=z+\frac{1}{z}\,}\ \ \text{then a real MĂ¶bius adjustment}.`
+- L9319: `Circles/lines orthogonal to $\partial\mathbb D$ map to \emph{vertical} lines in the $w$â€“plane.`
+- L9343: `is a MĂ¶bius map sending $L_1\!\to L_2$ with`
+- L9455: `Temperature in a right halfâ€“plane with a removed disk`
+- L9466: `	Consider the real-parameter MĂ¶bius map`
+- L9475: `	so the $y$â€“axis maps to the unit circle $|\zeta|=1$.`
+- L9490: `	the $\cos\theta$â€“dependence must drop out:`
+- L9518: `	(right halfâ€“plane with the closed disk $\{|z-a|\le b\}$ removed) onto the concentric circular \emph{annulus}`
+- L9531: `	Let $U(\zeta)$ denote the temperature in the $\zeta$â€“plane. Harmonicity is preserved by conformal maps, so`
+- L9590: `	the MĂ¶bius map $\displaystyle \zeta=\frac{z-\alpha}{z+\alpha}$ carries`
+- L9706: `	Center via $\phi_a$ (item 3), then items (11)â€“(12).`
+- L9758: `	MĂ¶bius normalizes the circles; then a power map; then Cayley.`
+- L9772: `	\boxed{\,w=z+\frac{1}{z}\,}\ \ \text{then a real MĂ¶bius adjustment}.`
+- L9817: `Circles/lines orthogonal to $\partial\mathbb D$ map to \emph{vertical} lines in the $w$â€“plane.`
+- L9841: `is a MĂ¶bius map sending $L_1\!\to L_2$ with`
+- L10104: `â€” Disk of radius \(R\)`
+- L10475: `	\emph{Solution.} Using Ex.\ 3â€™s matrix and a short computation:`
+- L10625: `	This is classical in singularâ€“integral theory (Calder\'onâ€“Zygmund): the Cauchy singular integral operator is bounded on $L^{p}(\Gamma)$ for $1<p<\infty$, and the nontangential`
+- L11093: `	Explain why \(a\) cannot be chosen arbitrarily, but is determined by the rectangleâ€™s aspect ratio.`
+- L11099: `	A rectangle has \(\alpha_k=\tfrac12\) at each vertex, so every factorâ€™s exponent is \(-\tfrac12\).`
+- L11118: `â€” Triangle with vertices \((0,0)\to(2,1)\to(1,3)\to(0,0)\)`
+- L11248: `For \(0<a<2\) the Betaâ€“Gamma identity gives`
+- L11728: `\emph{Reason.} Using the Mellinâ€“type formula`
+- L12475: `â€” constant curl, easy numbers`
+- L13453: `By Cauchyâ€™s integral formula for $f(z)=e^{z}$,`
+- L13766: `=\dfrac{e^{-1}}{2i}$. Jordanâ€™s lemma gives`
+- L13825: `â€” gradient field (curl $=0$), circulation $=0$`
