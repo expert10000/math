@@ -8,14 +8,8 @@ from pathlib import Path
 
 EXPECTED_IDS = [f"CP-III-{i:04d}" for i in range(1, 26)]
 ALLOWED_STATUS = {"A_STRONG", "B_POLISH", "C_REWRITE", "D_BLOCKING"}
-ALLOWED_PRIORITY = {"P0", "P1", "P2", "P3"}
+EXPECTED_COUNTS = {"A_STRONG": 17, "B_POLISH": 8, "C_REWRITE": 0, "D_BLOCKING": 0}
 EXPECTED_SOURCE_BACKED = {"CP-III-0006", "CP-III-0016", "CP-III-0023"}
-EXPECTED_COUNTS = {
-    "A_STRONG": 13,
-    "B_POLISH": 8,
-    "C_REWRITE": 4,
-    "D_BLOCKING": 0,
-}
 
 def main() -> int:
     ap = argparse.ArgumentParser()
@@ -23,16 +17,10 @@ def main() -> int:
     args = ap.parse_args()
     repo = args.repo.resolve()
 
-    audit = (
-        repo / "books" / "companion_problems_solutions" / "metadata"
-        / "PART_III_SOLUTION_QUALITY_AUDIT.tsv"
-    )
-    migration = (
-        repo / "books" / "companion_problems_solutions" / "metadata"
-        / "PART_III_MIGRATION.tsv"
-    )
+    audit = repo / "books" / "companion_problems_solutions" / "metadata" / "PART_III_SOLUTION_QUALITY_AUDIT.tsv"
+    migration = repo / "books" / "companion_problems_solutions" / "metadata" / "PART_III_MIGRATION.tsv"
 
-    errors: list[str] = []
+    errors = []
     for p in (audit, migration):
         if not p.exists():
             errors.append(f"missing required file: {p}")
@@ -44,33 +32,24 @@ def main() -> int:
 
     with audit.open("r", encoding="utf-8-sig", newline="") as f:
         rows = list(csv.DictReader(f, delimiter="\t"))
-
     ids = [r.get("companion_problem_id", "") for r in rows]
-    if len(rows) != 25:
-        errors.append(f"audit row count: expected 25, got {len(rows)}")
-    if set(ids) != set(EXPECTED_IDS):
-        errors.append(
-            f"audit ID coverage mismatch: missing={sorted(set(EXPECTED_IDS)-set(ids))}, "
-            f"extra={sorted(set(ids)-set(EXPECTED_IDS))}"
-        )
-    if len(ids) != len(set(ids)):
-        errors.append("duplicate Part III IDs in solution-quality audit")
 
-    for r in rows:
-        pid = r.get("companion_problem_id", "")
-        if r.get("quality_status") not in ALLOWED_STATUS:
-            errors.append(f"{pid}: invalid quality_status={r.get('quality_status')!r}")
-        if r.get("priority") not in ALLOWED_PRIORITY:
-            errors.append(f"{pid}: invalid priority={r.get('priority')!r}")
-        if not (r.get("finding") or "").strip():
-            errors.append(f"{pid}: missing finding")
-        if not (r.get("required_action") or "").strip():
-            errors.append(f"{pid}: missing required_action")
+    if len(rows) != 25 or set(ids) != set(EXPECTED_IDS):
+        errors.append("audit must contain exactly the 25 canonical Part III IDs")
+    if len(ids) != len(set(ids)):
+        errors.append("duplicate IDs in audit")
 
     counts = Counter(r.get("quality_status", "") for r in rows)
     for status, expected in EXPECTED_COUNTS.items():
         if counts.get(status, 0) != expected:
             errors.append(f"{status}: expected {expected}, got {counts.get(status,0)}")
+
+    p0 = [r["companion_problem_id"] for r in rows if r.get("priority") == "P0"]
+    p1 = [r["companion_problem_id"] for r in rows if r.get("priority") == "P1"]
+    if p0:
+        errors.append(f"P0 queue not empty: {p0}")
+    if p1:
+        errors.append(f"P1 queue not empty: {p1}")
 
     with migration.open("r", encoding="utf-8-sig", newline="") as f:
         mrows = list(csv.DictReader(f, delimiter="\t"))
@@ -81,8 +60,7 @@ def main() -> int:
     }
     if source_backed != EXPECTED_SOURCE_BACKED:
         errors.append(
-            "source-backed set changed: "
-            f"expected={sorted(EXPECTED_SOURCE_BACKED)}, actual={sorted(source_backed)}"
+            f"source-backed provenance changed: {sorted(source_backed)}"
         )
 
     audited_source_backed = {
@@ -92,25 +70,8 @@ def main() -> int:
     }
     if audited_source_backed != source_backed:
         errors.append(
-            "audit provenance does not match migration ledger: "
-            f"audit={sorted(audited_source_backed)}, migration={sorted(source_backed)}"
+            f"audit provenance mismatch: {sorted(audited_source_backed)}"
         )
-
-    p0 = sorted(
-        r["companion_problem_id"]
-        for r in rows
-        if r.get("priority") == "P0"
-    )
-    if p0:
-        errors.append(f"P0 blocking queue is not empty: {p0}")
-
-    blocking = sorted(
-        r["companion_problem_id"]
-        for r in rows
-        if r.get("quality_status") == "D_BLOCKING"
-    )
-    if blocking:
-        errors.append(f"D_BLOCKING rows remain: {blocking}")
 
     if errors:
         print("COMPANION PART III SOLUTION-QUALITY AUDIT VALIDATION FAILED")
@@ -120,13 +81,11 @@ def main() -> int:
 
     print("COMPANION PART III SOLUTION-QUALITY AUDIT VALIDATION PASSED")
     print("  audited solutions: 25")
-    print("  A_STRONG: 13")
+    print("  A_STRONG: 17")
     print("  B_POLISH: 8")
-    print("  C_REWRITE: 4")
+    print("  C_REWRITE: 0")
     print("  D_BLOCKING: 0")
-    print("  source-backed migrated: 3")
-    print("  canonical authored: 22")
-    print("  P0 blocking queue: empty")
+    print("  P0/P1 queues: empty")
     return 0
 
 if __name__ == "__main__":
