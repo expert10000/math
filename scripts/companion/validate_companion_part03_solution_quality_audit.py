@@ -11,10 +11,10 @@ ALLOWED_STATUS = {"A_STRONG", "B_POLISH", "C_REWRITE", "D_BLOCKING"}
 ALLOWED_PRIORITY = {"P0", "P1", "P2", "P3"}
 EXPECTED_SOURCE_BACKED = {"CP-III-0006", "CP-III-0016", "CP-III-0023"}
 EXPECTED_COUNTS = {
-    "A_STRONG": 11,
+    "A_STRONG": 13,
     "B_POLISH": 8,
     "C_REWRITE": 4,
-    "D_BLOCKING": 2,
+    "D_BLOCKING": 0,
 }
 
 def main() -> int:
@@ -70,9 +70,7 @@ def main() -> int:
     counts = Counter(r.get("quality_status", "") for r in rows)
     for status, expected in EXPECTED_COUNTS.items():
         if counts.get(status, 0) != expected:
-            errors.append(
-                f"{status}: expected {expected}, got {counts.get(status,0)}"
-            )
+            errors.append(f"{status}: expected {expected}, got {counts.get(status,0)}")
 
     with migration.open("r", encoding="utf-8-sig", newline="") as f:
         mrows = list(csv.DictReader(f, delimiter="\t"))
@@ -103,8 +101,16 @@ def main() -> int:
         for r in rows
         if r.get("priority") == "P0"
     )
-    if p0 != ["CP-III-0006", "CP-III-0023"]:
-        errors.append(f"P0 queue changed unexpectedly: {p0}")
+    if p0:
+        errors.append(f"P0 blocking queue is not empty: {p0}")
+
+    blocking = sorted(
+        r["companion_problem_id"]
+        for r in rows
+        if r.get("quality_status") == "D_BLOCKING"
+    )
+    if blocking:
+        errors.append(f"D_BLOCKING rows remain: {blocking}")
 
     if errors:
         print("COMPANION PART III SOLUTION-QUALITY AUDIT VALIDATION FAILED")
@@ -114,13 +120,13 @@ def main() -> int:
 
     print("COMPANION PART III SOLUTION-QUALITY AUDIT VALIDATION PASSED")
     print("  audited solutions: 25")
-    print("  A_STRONG: 11")
+    print("  A_STRONG: 13")
     print("  B_POLISH: 8")
     print("  C_REWRITE: 4")
-    print("  D_BLOCKING: 2")
+    print("  D_BLOCKING: 0")
     print("  source-backed migrated: 3")
     print("  canonical authored: 22")
-    print("  P0 blocking queue: CP-III-0006, CP-III-0023")
+    print("  P0 blocking queue: empty")
     return 0
 
 if __name__ == "__main__":
