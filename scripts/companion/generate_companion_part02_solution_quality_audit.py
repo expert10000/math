@@ -12,7 +12,7 @@ ALLOWED = ("A_STRONG", "B_POLISH", "C_REWRITE", "D_BLOCKING")
 KNOWN_GATES = {
     # Important mathematical/source corrections from the Part II completion pass.
     "CP-II-0315": [
-        ("SIGN_CORRECTION", ("converges to -", "D_i")),
+        ("SIGN_CORRECTION", ("-D_i u",)),
     ],
     "CP-II-0494": [
         ("DOMAIN_CORRECTION", ("does not define a map",)),
@@ -156,7 +156,7 @@ def classify(pid: str, problem: str, solution: str, sol_count: int):
         if overmerge or fragment or (terse and pw > 250):
             status = "C_REWRITE"
             priority = "P1"
-        elif terse or weak_proof or not title or source_note:
+        elif terse or weak_proof or not title:
             status = "B_POLISH"
             priority = "P2"
         else:
