@@ -36,8 +36,14 @@ KNOWN_GATES = {
 }
 
 FRAGMENT_PATTERNS = re.compile(
-    r"\b(fragment|excerpt|omitted|missing context|cannot reconstruct|"
-    r"not enough information|source does not include|source fragment)\b",
+    r"\b(?:"
+    r"source fragment|source excerpt|"
+    r"missing context|cannot reconstruct|not enough information|"
+    r"source does not include|"
+    r"formula (?:is|was) omitted|"
+    r"definition (?:is|was) omitted|"
+    r"statement (?:is|was) omitted"
+    r")\b",
     re.I,
 )
 WEAK_PHRASES = re.compile(
