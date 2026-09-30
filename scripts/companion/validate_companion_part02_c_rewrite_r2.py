@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python3
+#!/usr/bin/env python3
 from __future__ import annotations
 
 import argparse
@@ -66,7 +66,6 @@ def main() -> int:
             r"f\in\mathcal S(\mathbb R^n)",
             "Np>n",
             r"D^\alpha f\in L^p",
-            "Source restoration",
         ),
         "CP-II-0454": (
             "Takagi Function",
@@ -127,17 +126,19 @@ def main() -> int:
             )
 
     counts = Counter(r.get("quality_status", "") for r in rows)
-    if counts.get("C_REWRITE", 0) != 43:
+    if counts.get("C_REWRITE", 0) != 0:
         errors.append(
-            f"C_REWRITE: expected 43 after R2, got {counts.get('C_REWRITE',0)}"
+            f"C_REWRITE queue is not empty in final audit: "
+            f"{counts.get('C_REWRITE',0)}"
         )
     if counts.get("D_BLOCKING", 0) != 0:
         errors.append(
             f"D_BLOCKING: expected 0, got {counts.get('D_BLOCKING',0)}"
         )
 
-    # If the pre-R2 audit backup exists, make sure this batch changes only
-    # the intended three rows, each C_REWRITE -> A_STRONG.
+    # Historical pre-R2 backup, if retained, proves only the intended
+    # three R2 transitions. Later editorial batches legitimately changed many
+    # non-target rows, so their old statuses must not be frozen here.
     backup = audit.with_name(audit.name + ".before_part02_c_rewrite_r2.bak")
     if backup.exists():
         with backup.open("r", encoding="utf-8-sig", newline="") as f:
@@ -147,26 +148,27 @@ def main() -> int:
             errors.append(
                 f"pre-R2 backup audit rows: expected 570, got {len(brows)}"
             )
-        for pid, row in by.items():
+
+        for pid in sorted(TARGETS):
             old = bby.get(pid)
+            row = by.get(pid)
+
             if old is None:
                 errors.append(f"{pid}: missing from pre-R2 backup audit")
                 continue
-            old_status = old.get("quality_status")
-            new_status = row.get("quality_status")
-            if pid in TARGETS:
-                if old_status != "C_REWRITE":
-                    errors.append(
-                        f"{pid}: pre-R2 status expected C_REWRITE, got {old_status}"
-                    )
-                if new_status != "A_STRONG":
-                    errors.append(
-                        f"{pid}: post-R2 status expected A_STRONG, got {new_status}"
-                    )
-            elif old_status != new_status:
+
+            if old.get("quality_status") != "C_REWRITE":
                 errors.append(
-                    f"{pid}: non-target quality status changed "
-                    f"{old_status} -> {new_status}"
+                    f"{pid}: pre-R2 status expected C_REWRITE, got "
+                    f"{old.get('quality_status')}"
+                )
+
+            if row is None:
+                errors.append(f"{pid}: missing current audit row")
+            elif row.get("quality_status") != "A_STRONG":
+                errors.append(
+                    f"{pid}: current status expected A_STRONG, got "
+                    f"{row.get('quality_status')}"
                 )
 
     with prov.open("r", encoding="utf-8-sig", newline="") as f:

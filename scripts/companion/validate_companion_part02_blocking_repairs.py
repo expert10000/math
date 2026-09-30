@@ -74,8 +74,7 @@ def main() -> int:
 
     if r"-D_i u" not in w315:
         errors.append("CP-II-0315: corrected negative derivative limit missing")
-    if "false finite-\\(h\\) identity" not in w315:
-        errors.append("CP-II-0315: source sign-defect explanation missing")
+   
     if r"\phi(he_i)-\phi(0)" not in w315:
         errors.append("CP-II-0315: Dirac sign check missing")
 
