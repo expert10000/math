@@ -168,7 +168,10 @@ def main() -> int:
     expected_solutions = sum(
         1
         for r in migration_rows
-        if r.get("solution_status", "").startswith("MIGRATED_PRIMARY_SOLUTION")
+        if (
+            r.get("solution_status", "").startswith("MIGRATED_PRIMARY_SOLUTION")
+            or r.get("solution_status", "") == "CANONICAL_AUTHORED_SOLUTION"
+        )
     )
     solution_count = len(re.findall(r"\\begin\{solution\}", tex))
 
@@ -277,3 +280,4 @@ def main() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
+
