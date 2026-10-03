@@ -12,27 +12,29 @@ labels = re.findall(r"\\label\{prob:(cp-v-\d{4})\}", text)
 solutions = text.count(r"\begin{solution}")
 
 errors = []
-if len(pids) != solutions:
-    errors.append(f"problem/solution mismatch: {len(pids)} / {solutions}")
-if len(pids) != len(set(pids)):
-    errors.append("duplicate problem IDs")
-if len(labels) != len(set(labels)):
-    errors.append("duplicate labels")
-if len(labels) != len(pids):
-    errors.append(f"problem/label mismatch: {len(pids)} / {len(labels)}")
 
-expected = [f"CP-V-{i:04d}" for i in range(1, len(pids)+1)]
+expected = [f"CP-V-{i:04d}" for i in range(1, 105)]
 if pids != expected:
-    errors.append("problem IDs are not continuous/in order")
+    errors.append(f"expected continuous CP-V-0001..CP-V-0104, found {len(pids)} IDs")
+
+if solutions != 104:
+    errors.append(f"expected 104 solutions, found {solutions}")
+
+if len(labels) != 104:
+    errors.append(f"expected 104 labels, found {len(labels)}")
+
+if len(set(labels)) != 104:
+    errors.append("duplicate canonical labels found")
 
 with migration.open(encoding="utf-8", newline="") as fh:
     mrows = list(csv.DictReader(fh, delimiter="\t"))
 mids = [r["companion_problem_id"] for r in mrows]
-if mids != pids:
-    errors.append("migration ledger does not match chapter IDs/order")
+if mids != expected:
+    errors.append("migration ledger does not match CP-V-0001..CP-V-0104 in order")
 
 with disposition.open(encoding="utf-8", newline="") as fh:
     drows = list(csv.DictReader(fh, delimiter="\t"))
+
 unresolved = [
     r for r in drows
     if r["disposition"] in {"MIGRATE_QUEUE","MIGRATE_QUEUE_UNSOLVED","HOLD_REVIEW"}
@@ -40,16 +42,26 @@ unresolved = [
 if unresolved:
     errors.append(f"{len(unresolved)} unresolved disposition rows remain")
 
+valid = set(expected)
+bad = []
+for r in drows:
+    refs = [x.strip() for x in r.get("represented_cps","").split(";") if x.strip()]
+    for ref in refs:
+        if ref not in valid:
+            bad.append((r["problem_id"], ref))
+if bad:
+    errors.append(f"{len(bad)} invalid represented_cps references")
+
 if errors:
-    print("COMPANION PART V RECONCILIATION FAILED")
+    print("COMPANION PART V VALIDATION FAILED")
     for e in errors:
         print("  -", e)
     raise SystemExit(1)
 
 print("COMPANION PART V RECONCILIATION PASSED")
-print("  problems:", len(pids))
-print("  solutions:", solutions)
-print("  labels:", len(labels))
-print("  migration rows:", len(mrows))
+print("  problems: 104")
+print("  solutions: 104")
+print("  labels: 104")
+print("  migration rows: 104")
 print("  disposition rows:", len(drows))
-print("  unresolved candidates:", len(unresolved))
+print("  unresolved candidates: 0")
