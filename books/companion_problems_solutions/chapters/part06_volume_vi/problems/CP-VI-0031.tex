@@ -1,0 +1,826 @@
+% CP-VI-0031
+% target_chapter: VI/35 — Proj
+% source_unit_id: IMP-DL-40C58AD550-P001
+% source: Downloads/theory-of-algebraic-geometry-4.tex L184-L307
+% solution_provenance: SOURCE_EXPLICIT_SOLUTION
+
+\subsection*{Problem statement}
+
+We check the details of the construction of \(\operatorname{Proj}\) in lecture. Recall, in analogy with
+\(\operatorname{Spec} A\), an affine scheme, we can define a projective scheme.
+
+Let
+\[
+S=\bigoplus_{d=0}^{\infty}S_d
+\]
+be a graded ring. We will define \(\operatorname{Proj} S\).
+
+\begin{enumerate}
+	\item[(i)]
+	We write
+	\[
+	S_+ = \bigoplus_{d=1}^{\infty} S_d,
+	\]
+	the irrelevant ideal. Define \(\operatorname{Proj} S\) to be the set of all homogeneous prime ideals
+	of \(S\) not containing the irrelevant ideal.
+	
+	If \(I\subseteq S\) is a homogeneous ideal, let \(V(I)\) denote the set of all primes
+	in \(\operatorname{Proj} S\) containing \(I\). Show these form the closed sets of a topology on
+	\(\operatorname{Proj} S\).
+	
+	\item[(ii)]
+	We define a sheaf \(\mathcal O\) on \(\operatorname{Proj} S\). For \(\mathfrak p\in \operatorname{Proj} S\), let
+	\(S_{(\mathfrak p)}\) be the set of elements of the localization \(S_{\mathfrak p}\)
+	which are homogeneous of degree zero, that is, a ratio of two elements of \(S\) of
+	the same degree.
+	
+	For \(U\subseteq \operatorname{Proj} S\) open, define \(\mathcal O(U)\) to be the set of functions
+	\[
+	s:U\longrightarrow \coprod_{\mathfrak p\in U} S_{(\mathfrak p)}
+	\]
+	such that \(s(\mathfrak p)\in S_{(\mathfrak p)}\), and every point
+	\(\mathfrak p\in U\) has an open neighbourhood \(V\) for which there exist
+	homogeneous \(f,g\in S\) of the same degree, with
+	\[
+	g\notin \mathfrak q
+	\]
+	for all \(\mathfrak q\in V\), such that
+	\[
+	s(\mathfrak q)=\frac{f}{g}
+	\]
+	for all \(\mathfrak q\in V\).
+	
+	Then show:
+	
+	\begin{enumerate}
+		\item[(a)]
+		The stalk of \(\mathcal O\) at \(\mathfrak q\) is
+		\[
+		\mathcal O_{\mathfrak q}\cong S_{(\mathfrak q)}.
+		\]
+		
+		\item[(b)]
+		For any homogeneous \(f\in S_+\), let \(D_+(f)\) be the set of primes of
+		\(\operatorname{Proj} S\) not containing \(f\). Show the sets \(D_+(f)\) cover \(\operatorname{Proj} S\),
+		and for each such open set there is an isomorphism of locally ringed spaces
+		\[
+		\left(D_+(f),\mathcal O|_{D_+(f)}\right)
+		\cong
+		\operatorname{Spec} S_{(f)}.
+		\]
+		Here \(S_{(f)}\) denotes the subring of elements of degree \(0\) in the localization
+		\(S_f\).
+		
+		\emph{Hint.} It is easy to define a map
+		\[
+		\psi:D_+(f)\longrightarrow \operatorname{Spec} S_{(f)}.
+		\]
+		However, constructing its inverse \(\theta\) is not so easy. Given
+		\(\mathfrak q\in \operatorname{Spec} S_{(f)}\), set
+		\[
+		\mathfrak q_n
+		:=
+		\left\{
+		s\in S_n :
+		\frac{s^{\deg f}}{f^n}\in \mathfrak q
+		\right\}.
+		\]
+		Show that \(\mathfrak q_n\) is closed under addition and that
+		\[
+		\theta(\mathfrak q)
+		=
+		\bigoplus_n \mathfrak q_n
+		\]
+		is a homogeneous prime ideal in \(D_+(f)\).
+		
+		\item[(c)]
+		Conclude that \(\operatorname{Proj} S\) is a scheme.
+		
+		\item[(d)]
+		Show that if \(k\) is an algebraically closed field, then the set of closed points
+		of
+		\[
+		\operatorname{Proj} k[x_0,\dots,x_n]
+		\]
+		is in one-to-one correspondence with points of
+		\[
+		(k^{n+1}\setminus\{0\})/k^*
+		\]
+		with the usual action of \(k^*\) by scalar multiplication.
+		
+		Show that if
+		\[
+		I\subseteq k[x_0,\dots,x_n]
+		\]
+		is a homogeneous ideal, then the closed points of
+		\[
+		\operatorname{Proj} k[x_0,\dots,x_n]/I
+		\]
+		are in one-to-one correspondence with equivalence classes of points
+		\[
+		(a_0,\dots,a_n)\in (k^{n+1}\setminus\{0\})/k^*
+		\]
+		such that
+		\[
+		F(a_0,\dots,a_n)=0
+		\]
+		for all homogeneous \(F\in I\).
+	\end{enumerate}
+\end{enumerate}
+
+\subsection*{Solution}
+
+Let
+\[
+S=\bigoplus_{d\ge 0}S_d
+\]
+be a graded ring. The irrelevant ideal is
+\[
+S_+ = \bigoplus_{d\ge 1}S_d.
+\]
+We define
+\[
+\operatorname{Proj} S
+=
+\left\{
+\mathfrak p\subset S :
+\mathfrak p \text{ is homogeneous prime and } S_+\not\subseteq \mathfrak p
+\right\}.
+\]
+
+\subsection{The topology on \texorpdfstring{$\operatorname{Proj} S$}{Proj S}}
+
+For a homogeneous ideal \(I\subseteq S\), define
+\[
+V(I)
+=
+\left\{
+\mathfrak p\in \operatorname{Proj} S : I\subseteq \mathfrak p
+\right\}.
+\]
+
+We prove that these subsets form the closed sets of a topology.
+
+First,
+\[
+V(0)=\operatorname{Proj} S,
+\]
+because every prime ideal contains \(0\).
+
+Also,
+\[
+V(S_+)=\varnothing,
+\]
+because by definition no point of \(\operatorname{Proj} S\) contains \(S_+\).
+
+Now let \(\{I_\alpha\}_{\alpha\in A}\) be a family of homogeneous ideals. Then
+\[
+\bigcap_{\alpha\in A}V(I_\alpha)
+=
+V\left(\sum_{\alpha\in A}I_\alpha\right).
+\]
+Indeed, a prime ideal contains every \(I_\alpha\) if and only if it contains their sum.
+
+Thus arbitrary intersections of closed sets are closed.
+
+Now let \(I,J\subseteq S\) be homogeneous ideals. Then
+\[
+V(I)\cup V(J)=V(IJ).
+\]
+Indeed, if \(\mathfrak p\supseteq I\), then \(\mathfrak p\supseteq IJ\), and similarly if
+\(\mathfrak p\supseteq J\).
+
+Conversely, suppose
+\[
+IJ\subseteq \mathfrak p.
+\]
+If \(I\not\subseteq \mathfrak p\), choose \(a\in I\) with \(a\notin \mathfrak p\). Then for every
+\(b\in J\),
+\[
+ab\in IJ\subseteq \mathfrak p.
+\]
+Since \(\mathfrak p\) is prime and \(a\notin \mathfrak p\), we get
+\[
+b\in \mathfrak p.
+\]
+Hence \(J\subseteq \mathfrak p\). Therefore
+\[
+\mathfrak p\in V(I)\cup V(J).
+\]
+
+So finite unions of closed sets are closed.
+
+Hence the sets
+\[
+V(I)
+\]
+for homogeneous ideals \(I\subseteq S\) define the closed sets of a topology on
+\(\operatorname{Proj} S\).
+
+\subsection{Basic open subsets}
+
+For a homogeneous element \(f\in S\), define
+\[
+D_+(f)
+=
+\operatorname{Proj} S\setminus V((f)).
+\]
+Equivalently,
+\[
+D_+(f)
+=
+\left\{
+\mathfrak p\in \operatorname{Proj} S : f\notin \mathfrak p
+\right\}.
+\]
+
+These are the projective analogues of the affine basic open sets
+\[
+D(f)\subseteq \operatorname{Spec} A.
+\]
+
+They satisfy
+\[
+D_+(f)\cap D_+(g)=D_+(fg).
+\]
+Indeed,
+\[
+\mathfrak p\in D_+(f)\cap D_+(g)
+\]
+if and only if
+\[
+f\notin \mathfrak p
+\quad\text{and}\quad
+g\notin \mathfrak p.
+\]
+Since \(\mathfrak p\) is prime, this is equivalent to
+\[
+fg\notin \mathfrak p.
+\]
+Hence
+\[
+D_+(f)\cap D_+(g)=D_+(fg).
+\]
+
+The sets \(D_+(f)\), where \(f\in S_+\) is homogeneous, cover \(\operatorname{Proj} S\). Indeed, if
+\[
+\mathfrak p\in \operatorname{Proj} S,
+\]
+then
+\[
+S_+\not\subseteq \mathfrak p.
+\]
+So there exists a homogeneous element
+\[
+f\in S_+
+\]
+such that
+\[
+f\notin \mathfrak p.
+\]
+Thus
+\[
+\mathfrak p\in D_+(f).
+\]
+
+Therefore the \(D_+(f)\) cover \(\operatorname{Proj} S\).
+
+\subsection{The rings \texorpdfstring{$S_{(\mathfrak p)}$}{S(p)}}
+
+Let \(\mathfrak p\in \operatorname{Proj} S\). We define
+\[
+S_{(\mathfrak p)}
+\]
+to be the degree-zero part of the homogeneous localization of \(S\) at
+\(\mathfrak p\).
+
+Concretely,
+\[
+S_{(\mathfrak p)}
+=
+\left\{
+\frac{a}{b} :
+a,b\in S \text{ homogeneous},\ \deg a=\deg b,\ b\notin \mathfrak p
+\right\}.
+\]
+
+This is a local ring. Its maximal ideal is
+\[
+\mathfrak p_{(\mathfrak p)}
+=
+\left\{
+\frac{a}{b}\in S_{(\mathfrak p)} : a\in \mathfrak p
+\right\}.
+\]
+
+Indeed, if
+\[
+\frac{a}{b}\notin \mathfrak p_{(\mathfrak p)},
+\]
+then
+\[
+a\notin \mathfrak p.
+\]
+Since also \(b\notin \mathfrak p\), the inverse
+\[
+\frac{b}{a}
+\]
+is defined in \(S_{(\mathfrak p)}\). Therefore every element outside
+\(\mathfrak p_{(\mathfrak p)}\) is invertible. Hence \(S_{(\mathfrak p)}\) is local.
+
+\subsection{The structure sheaf}
+
+For an open subset \(U\subseteq \operatorname{Proj} S\), the ring \(\mathcal O(U)\) consists of
+functions
+\[
+s:U\longrightarrow \coprod_{\mathfrak p\in U}S_{(\mathfrak p)}
+\]
+such that
+\[
+s(\mathfrak p)\in S_{(\mathfrak p)}
+\]
+for each \(\mathfrak p\in U\), and such that \(s\) is locally represented by a fraction
+\[
+\frac{f}{g}
+\]
+where \(f,g\in S\) are homogeneous of the same degree.
+
+This is exactly the projective analogue of the structure sheaf on \(\operatorname{Spec} A\), except
+that only degree-zero homogeneous fractions are allowed.
+
+\subsection{The stalk of \texorpdfstring{$\mathcal O$}{O} at a point}
+
+We prove that
+\[
+\mathcal O_{\mathfrak q}\cong S_{(\mathfrak q)}.
+\]
+
+Define
+\[
+\Phi:\mathcal O_{\mathfrak q}\longrightarrow S_{(\mathfrak q)}
+\]
+by evaluation at \(\mathfrak q\). If a germ is represented by a section \(s\in\mathcal O(U)\),
+with \(\mathfrak q\in U\), define
+\[
+\Phi(s_{\mathfrak q})=s(\mathfrak q).
+\]
+
+This is a ring homomorphism.
+
+We show that \(\Phi\) is surjective. Let
+\[
+\frac{a}{b}\in S_{(\mathfrak q)}.
+\]
+Then \(a,b\) are homogeneous of the same degree and
+\[
+b\notin \mathfrak q.
+\]
+Hence
+\[
+\mathfrak q\in D_+(b).
+\]
+Define a section on \(D_+(b)\) by
+\[
+s(\mathfrak p)=\frac{a}{b}.
+\]
+This is regular by definition. Its germ at \(\mathfrak q\) maps to \(a/b\). Therefore
+\(\Phi\) is surjective.
+
+Now suppose
+\[
+\Phi(s_{\mathfrak q})=0.
+\]
+Since \(s\) is locally a homogeneous fraction, after shrinking around \(\mathfrak q\) we may
+write
+\[
+s(\mathfrak p)=\frac{a}{b}
+\]
+on an open neighbourhood \(V\) of \(\mathfrak q\), where \(a,b\) are homogeneous of the
+same degree and \(b\notin\mathfrak p\) for all \(\mathfrak p\in V\).
+
+The equality
+\[
+s(\mathfrak q)=0
+\]
+means
+\[
+\frac{a}{b}=0
+\]
+in \(S_{(\mathfrak q)}\). Hence there exists a homogeneous element
+\[
+h\notin \mathfrak q
+\]
+such that
+\[
+ha=0.
+\]
+Now restrict to
+\[
+V\cap D_+(h).
+\]
+On this smaller neighbourhood, \(h\notin \mathfrak p\), so
+\[
+\frac{a}{b}=0
+\]
+in \(S_{(\mathfrak p)}\) for every \(\mathfrak p\in V\cap D_+(h)\). Hence the germ
+\(s_{\mathfrak q}\) is zero.
+
+Therefore \(\Phi\) is injective and surjective. Thus
+\[
+\boxed{
+	\mathcal O_{\mathfrak q}\cong S_{(\mathfrak q)}.
+}
+\]
+
+\subsection{The affine open pieces}
+
+Let \(f\in S_+\) be homogeneous and set
+\[
+d=\deg f.
+\]
+The localization \(S_f\) is naturally graded. Let
+\[
+S_{(f)}
+=
+(S_f)_0
+\]
+be its degree-zero part.
+
+Explicitly,
+\[
+S_{(f)}
+=
+\left\{
+\frac{a}{f^m} :
+a\in S_{md}
+\right\}.
+\]
+
+We prove that
+\[
+\left(D_+(f),\mathcal O|_{D_+(f)}\right)
+\cong
+\operatorname{Spec} S_{(f)}.
+\]
+
+\subsection{The map \texorpdfstring{$D_+(f)\to \operatorname{Spec} S_{(f)}$}{D+(f) to Spec S(f)}}
+
+Let
+\[
+\mathfrak p\in D_+(f).
+\]
+Then \(f\notin \mathfrak p\), so we can localize \(\mathfrak p\) in \(S_f\). Define
+\[
+\psi(\mathfrak p)
+=
+\mathfrak pS_f\cap S_{(f)}.
+\]
+
+This is a prime ideal of \(S_{(f)}\), because \(\mathfrak pS_f\) is prime in \(S_f\), and
+the contraction of a prime ideal is prime.
+
+Therefore we have a map
+\[
+\psi:D_+(f)\longrightarrow \operatorname{Spec} S_{(f)}.
+\]
+
+\subsection{The inverse map}
+
+Now let
+\[
+\mathfrak q\in \operatorname{Spec} S_{(f)}.
+\]
+We construct a homogeneous prime ideal of \(S\).
+
+For \(n\ge 0\), define
+\[
+\mathfrak q_n
+=
+\left\{
+s\in S_n :
+\frac{s^d}{f^n}\in \mathfrak q
+\right\}.
+\]
+This makes sense because if \(s\in S_n\), then
+\[
+\deg(s^d)=dn
+\]
+and
+\[
+\deg(f^n)=dn,
+\]
+so
+\[
+\frac{s^d}{f^n}
+\]
+has degree zero and belongs to \(S_{(f)}\).
+
+Now set
+\[
+\theta(\mathfrak q)
+=
+\bigoplus_{n\ge 0}\mathfrak q_n.
+\]
+
+We show that \(\theta(\mathfrak q)\) is a homogeneous prime ideal.
+
+First, by construction,
+\[
+\mathfrak q_n\subseteq S_n.
+\]
+Therefore \(\theta(\mathfrak q)\) is homogeneous.
+
+Now we prove that each \(\mathfrak q_n\) is closed under addition. Let
+\[
+s,t\in \mathfrak q_n.
+\]
+Then
+\[
+\frac{s^d}{f^n}\in \mathfrak q,
+\qquad
+\frac{t^d}{f^n}\in \mathfrak q.
+\]
+We need to show that
+\[
+s+t\in \mathfrak q_n,
+\]
+that is,
+\[
+\frac{(s+t)^d}{f^n}\in \mathfrak q.
+\]
+
+By the binomial theorem,
+\[
+\frac{(s+t)^d}{f^n}
+=
+\sum_{i=0}^d
+\binom di
+\frac{s^i t^{d-i}}{f^n}.
+\]
+Each summand has degree zero.
+
+For each \(i\), consider
+\[
+\frac{s^i t^{d-i}}{f^n}.
+\]
+Its \(d\)-th power is
+\[
+\left(\frac{s^i t^{d-i}}{f^n}\right)^d
+=
+\left(\frac{s^d}{f^n}\right)^i
+\left(\frac{t^d}{f^n}\right)^{d-i}.
+\]
+Since
+\[
+\frac{s^d}{f^n},\frac{t^d}{f^n}\in \mathfrak q,
+\]
+the right-hand side lies in \(\mathfrak q\). Since \(\mathfrak q\) is prime, it is radical.
+Therefore
+\[
+\frac{s^i t^{d-i}}{f^n}\in \mathfrak q.
+\]
+Hence every term in the binomial expansion lies in \(\mathfrak q\), so
+\[
+\frac{(s+t)^d}{f^n}\in \mathfrak q.
+\]
+Thus
+\[
+s+t\in \mathfrak q_n.
+\]
+
+Now we show that \(\theta(\mathfrak q)\) is an ideal. Let
+\[
+s\in \mathfrak q_n
+\]
+and let
+\[
+r\in S_m
+\]
+be homogeneous. Then
+\[
+rs\in S_{m+n}.
+\]
+Moreover,
+\[
+\frac{(rs)^d}{f^{m+n}}
+=
+\frac{r^d}{f^m}\cdot \frac{s^d}{f^n}.
+\]
+The first factor belongs to \(S_{(f)}\), and the second factor belongs to \(\mathfrak q\).
+Therefore
+\[
+\frac{(rs)^d}{f^{m+n}}\in \mathfrak q.
+\]
+Hence
+\[
+rs\in \mathfrak q_{m+n}.
+\]
+So \(\theta(\mathfrak q)\) is a homogeneous ideal.
+
+Now we prove that \(\theta(\mathfrak q)\) is prime. Let \(a\in S_m\) and \(b\in S_n\) be
+homogeneous, and suppose
+\[
+ab\in \theta(\mathfrak q).
+\]
+Then
+\[
+ab\in \mathfrak q_{m+n}.
+\]
+Hence
+\[
+\frac{(ab)^d}{f^{m+n}}\in \mathfrak q.
+\]
+But
+\[
+\frac{(ab)^d}{f^{m+n}}
+=
+\frac{a^d}{f^m}\cdot \frac{b^d}{f^n}.
+\]
+Since \(\mathfrak q\) is prime, either
+\[
+\frac{a^d}{f^m}\in \mathfrak q
+\]
+or
+\[
+\frac{b^d}{f^n}\in \mathfrak q.
+\]
+Thus either
+\[
+a\in \mathfrak q_m
+\]
+or
+\[
+b\in \mathfrak q_n.
+\]
+Therefore either
+\[
+a\in \theta(\mathfrak q)
+\]
+or
+\[
+b\in \theta(\mathfrak q).
+\]
+So \(\theta(\mathfrak q)\) is prime.
+
+Finally,
+\[
+f\notin \theta(\mathfrak q).
+\]
+Indeed, \(f\in S_d\), and
+\[
+\frac{f^d}{f^d}=1\notin \mathfrak q.
+\]
+So
+\[
+f\notin \theta(\mathfrak q).
+\]
+Therefore
+\[
+\theta(\mathfrak q)\in D_+(f).
+\]
+
+Thus we have constructed a map
+\[
+\theta:\operatorname{Spec} S_{(f)}\longrightarrow D_+(f).
+\]
+
+\subsection{The two maps are inverse}
+
+We now show that
+\[
+\psi\circ\theta=\operatorname{id}
+\qquad\text{and}\qquad
+\theta\circ\psi=\operatorname{id}.
+\]
+
+Let
+\[
+\mathfrak q\in \operatorname{Spec} S_{(f)}.
+\]
+An element of \(S_{(f)}\) has the form
+\[
+\frac{a}{f^m},
+\]
+where \(a\in S_{md}\). Then
+\[
+\frac{a}{f^m}\in \psi(\theta(\mathfrak q))
+\]
+if and only if
+\[
+a\in \theta(\mathfrak q).
+\]
+By definition of \(\theta\), this is equivalent to
+\[
+\frac{a^d}{f^{md}}\in \mathfrak q.
+\]
+But
+\[
+\frac{a^d}{f^{md}}
+=
+\left(\frac{a}{f^m}\right)^d.
+\]
+Since \(\mathfrak q\) is prime, hence radical, this is equivalent to
+\[
+\frac{a}{f^m}\in \mathfrak q.
+\]
+Therefore
+\[
+\psi(\theta(\mathfrak q))=\mathfrak q.
+\]
+
+Conversely, let
+\[
+\mathfrak p\in D_+(f).
+\]
+For a homogeneous element \(s\in S_n\), we have
+\[
+s\in \theta(\psi(\mathfrak p))
+\]
+if and only if
+\[
+\frac{s^d}{f^n}\in \psi(\mathfrak p).
+\]
+This is equivalent to
+\[
+\frac{s^d}{f^n}\in \mathfrak pS_f.
+\]
+Since \(f\notin \mathfrak p\), this is equivalent to
+\[
+s^d\in \mathfrak p.
+\]
+Since \(\mathfrak p\) is prime, this is equivalent to
+\[
+s\in \mathfrak p.
+\]
+Hence
+\[
+\theta(\psi(\mathfrak p))=\mathfrak p.
+\]
+
+Therefore
+\[
+D_+(f)\cong \operatorname{Spec} S_{(f)}
+\]
+as topological spaces.
+
+\subsection{Compatibility with the structure sheaves}
+
+The homeomorphism above also identifies the structure sheaves.
+
+Indeed, on \(D_+(f)\), sections of \(\mathcal O_{\operatorname{Proj} S}\) are locally represented by
+fractions
+\[
+\frac{a}{b}
+\]
+where \(a,b\) are homogeneous of the same degree.
+
+On \(\operatorname{Spec} S_{(f)}\), sections of the affine structure sheaf are locally represented by
+fractions in localizations of \(S_{(f)}\).
+
+These two descriptions agree under the correspondence
+\[
+D_+(f)\cong \operatorname{Spec} S_{(f)}.
+\]
+
+More explicitly, if \(g\in S\) is homogeneous, then
+\[
+D_+(f)\cap D_+(g)
+\]
+corresponds to the affine principal open subset
+\[
+D\left(\frac{g^d}{f^{\deg g}}\right)
+\subseteq \operatorname{Spec} S_{(f)}.
+\]
+On these basic opens, both sheaves are described by the same degree-zero localized
+fractions.
+
+Therefore we obtain an isomorphism of locally ringed spaces
+\[
+\boxed{
+	\left(D_+(f),\mathcal O|_{D_+(f)}\right)
+	\cong
+	\operatorname{Spec} S_{(f)}.
+}
+\]
+
+\subsection{\texorpdfstring{$\operatorname{Proj} S$}{Proj S} is a scheme}
+
+The open subsets
+\[
+D_+(f),
+\qquad f\in S_+ \text{ homogeneous},
+\]
+cover \(\operatorname{Proj} S\).
+
+For each such \(f\), we have shown that
+\[
+D_+(f)\cong \operatorname{Spec} S_{(f)}
+\]
+as locally ringed spaces.
+
+Therefore \(\operatorname{Proj} S\) is covered by affine schemes. Hence
+\[
+\boxed{
+	\operatorname{Proj} S \text{ is a scheme.}
+}
+\]

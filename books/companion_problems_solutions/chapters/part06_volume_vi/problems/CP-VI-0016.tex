@@ -1,0 +1,590 @@
+% CP-VI-0016
+% target_chapter: VI/14 — Sheafification
+% source_unit_id: IMP-DL-0E3E7EC766-P016
+% source: Downloads/theory-of-algebraic-geometry-1.tex L2904-L2955
+% solution_provenance: SOURCE_EXPLICIT_SOLUTION
+
+\subsection*{Exercise 4}
+
+Let $\mathcal F$ be a presheaf of abelian groups on a topological space $X$.
+Complete the proof of the existence of the associated sheaf $\mathcal F^+$
+by showing:
+
+\begin{enumerate}
+	\item $\mathcal F^+$ is a sheaf.
+	\item There is a natural morphism of presheaves
+	\[
+	\theta : \mathcal F \longrightarrow \mathcal F^+
+	\]
+	such that the pair $(\mathcal F^+,\theta)$ satisfies the desired universal property.
+\end{enumerate}
+
+Further, show that
+\[
+(\mathcal F^+)_p = \mathcal F_p
+\qquad \text{for every } p \in X.
+\]
+Show that if
+\[
+f : \mathcal F \longrightarrow \mathcal G
+\]
+is a morphism of presheaves, then there is an induced morphism
+\[
+f^+ : \mathcal F^+ \longrightarrow \mathcal G^+
+\]
+with
+\[
+(f^+)_p = f_p.
+\]
+
+The universal property can be rephrased in terms of adjoint functors. Let
+$\operatorname{PreSh}_X$ denote the category of presheaves of abelian groups on
+$X$, and let $\operatorname{Sh}_X$ denote the category of sheaves of abelian
+groups on $X$. There is an obvious inclusion functor
+\[
+i : \operatorname{Sh}_X \longrightarrow \operatorname{PreSh}_X.
+\]
+The above construction tells us that $i$ has an adjoint functor given by
+\[
+a(\mathcal F) = \mathcal F^+.
+\]
+This means that, for $\mathcal F$ a presheaf and $\mathcal G$ a sheaf, there
+are natural bijections
+\[
+\operatorname{Hom}_{\operatorname{Sh}_X}(\mathcal F^+,\mathcal G)
+\cong
+\operatorname{Hom}_{\operatorname{PreSh}_X}(\mathcal F,i\mathcal G).
+\]
+
+\subsection*{Solution}
+
+We construct the sheafification of $\mathcal F$ by using stalks.
+
+For each point $p \in X$, let
+\[
+\mathcal F_p
+=
+\varinjlim_{p \in U} \mathcal F(U)
+\]
+be the stalk of $\mathcal F$ at $p$.
+
+Elements of $\mathcal F_p$ are germs. If $s \in \mathcal F(U)$ and
+$p \in U$, we denote its germ at $p$ by
+\[
+s_p \in \mathcal F_p.
+\]
+
+Define the disjoint union
+\[
+E_{\mathcal F}
+:=
+\coprod_{p \in X} \mathcal F_p.
+\]
+There is a natural projection
+\[
+\pi : E_{\mathcal F} \longrightarrow X,
+\qquad
+\pi(a) = p
+\quad \text{if } a \in \mathcal F_p.
+\]
+
+For every open set $U \subseteq X$ and every section $s \in \mathcal F(U)$,
+define a map
+\[
+\widetilde{s} : U \longrightarrow E_{\mathcal F}
+\]
+by
+\[
+\widetilde{s}(p) = s_p.
+\]
+
+We topologize $E_{\mathcal F}$ by declaring the sets
+\[
+\widetilde{s}(U)
+=
+\{s_p : p \in U\}
+\]
+to be a basis of open sets.
+
+Then define
+\[
+\mathcal F^+(U)
+\]
+to be the set of all continuous sections of $\pi$ over $U$, i.e.
+\[
+\mathcal F^+(U)
+=
+\{\sigma : U \to E_{\mathcal F}
+\mid \pi \circ \sigma = \operatorname{id}_U,\ \sigma
+\text{ is continuous}\}.
+\]
+
+For an inclusion $V \subseteq U$, the restriction map is ordinary restriction:
+\[
+\rho^U_V : \mathcal F^+(U) \longrightarrow \mathcal F^+(V),
+\qquad
+\sigma \longmapsto \sigma|_V.
+\]
+
+Thus $\mathcal F^+$ is at least a presheaf.
+
+\subsection*{1. The presheaf $\mathcal F^+$ is a sheaf}
+
+Let $U \subseteq X$ be open and let $\{U_i\}_{i \in I}$ be an open cover of $U$.
+
+Suppose we have sections
+\[
+\sigma_i \in \mathcal F^+(U_i)
+\]
+such that
+\[
+\sigma_i|_{U_i \cap U_j}
+=
+\sigma_j|_{U_i \cap U_j}
+\]
+for all $i,j$.
+
+We define a map
+\[
+\sigma : U \longrightarrow E_{\mathcal F}
+\]
+by setting
+\[
+\sigma(p) = \sigma_i(p)
+\quad \text{if } p \in U_i.
+\]
+
+This is well-defined because if $p \in U_i \cap U_j$, then
+\[
+\sigma_i(p) = \sigma_j(p).
+\]
+
+Also
+\[
+\pi(\sigma(p)) = p,
+\]
+because each $\sigma_i$ is a section of $\pi$.
+
+It remains to show that $\sigma$ is continuous.
+
+Continuity is local on the domain. Since each $\sigma_i$ is continuous and
+\[
+\sigma|_{U_i} = \sigma_i,
+\]
+it follows that $\sigma$ is continuous.
+
+Hence
+\[
+\sigma \in \mathcal F^+(U).
+\]
+
+Moreover, $\sigma$ is the unique section with
+\[
+\sigma|_{U_i} = \sigma_i
+\]
+for every $i$, because the $U_i$ cover $U$.
+
+Therefore $\mathcal F^+$ satisfies the sheaf gluing axiom.
+
+The locality axiom is also immediate: if
+\[
+\sigma,\tau \in \mathcal F^+(U)
+\]
+and
+\[
+\sigma|_{U_i} = \tau|_{U_i}
+\]
+for every $i$, then for every $p \in U$ there exists $i$ with $p \in U_i$,
+so
+\[
+\sigma(p) = \tau(p).
+\]
+Thus $\sigma=\tau$.
+
+Therefore $\mathcal F^+$ is a sheaf.
+
+\subsection*{2. The natural morphism $\theta : \mathcal F \to \mathcal F^+$}
+
+For every open set $U \subseteq X$, define
+\[
+\theta_U : \mathcal F(U) \longrightarrow \mathcal F^+(U)
+\]
+by
+\[
+\theta_U(s) = \widetilde{s},
+\]
+where
+\[
+\widetilde{s}(p) = s_p.
+\]
+
+This is well-defined because $\widetilde{s}$ is continuous by construction of
+the topology on $E_{\mathcal F}$.
+
+The maps $\theta_U$ are compatible with restrictions. Indeed, if
+$V \subseteq U$, then for $s \in \mathcal F(U)$ and $p \in V$,
+\[
+\theta_V(s|_V)(p)
+=
+(s|_V)_p
+=
+s_p
+=
+\theta_U(s)(p).
+\]
+Hence
+\[
+\theta_V(s|_V)
+=
+\theta_U(s)|_V.
+\]
+
+Thus $\theta$ is a morphism of presheaves:
+\[
+\theta : \mathcal F \longrightarrow \mathcal F^+.
+\]
+
+\subsection*{3. The stalks of $\mathcal F^+$}
+
+We now show that
+\[
+(\mathcal F^+)_p \cong \mathcal F_p.
+\]
+
+Define
+\[
+\Phi_p : (\mathcal F^+)_p \longrightarrow \mathcal F_p
+\]
+by
+\[
+\Phi_p(\sigma_p) = \sigma(p).
+\]
+
+This makes sense because if
+\[
+\sigma \in \mathcal F^+(U)
+\]
+and $p \in U$, then
+\[
+\sigma(p) \in \mathcal F_p.
+\]
+
+We show that $\Phi_p$ is an isomorphism.
+
+\subsubsection*{Surjectivity}
+
+Let
+\[
+a \in \mathcal F_p.
+\]
+Then $a$ is represented by some section
+\[
+s \in \mathcal F(U)
+\]
+with $p \in U$, so
+\[
+a = s_p.
+\]
+
+Consider
+\[
+\widetilde{s} \in \mathcal F^+(U).
+\]
+Then
+\[
+\Phi_p((\widetilde{s})_p)
+=
+\widetilde{s}(p)
+=
+s_p
+=
+a.
+\]
+
+Thus $\Phi_p$ is surjective.
+
+\subsubsection*{Injectivity}
+
+Suppose
+\[
+\sigma,\tau \in \mathcal F^+(U)
+\]
+and suppose their germs at $p$ satisfy
+\[
+\Phi_p(\sigma_p) = \Phi_p(\tau_p).
+\]
+That means
+\[
+\sigma(p) = \tau(p)
+\quad \text{in } \mathcal F_p.
+\]
+
+Because $\sigma$ and $\tau$ are continuous sections of the espace étalé,
+there exist neighborhoods $V,W \subseteq U$ of $p$ and presheaf sections
+\[
+s \in \mathcal F(V),
+\qquad
+t \in \mathcal F(W),
+\]
+such that
+\[
+\sigma|_V = \widetilde{s},
+\qquad
+\tau|_W = \widetilde{t}.
+\]
+
+The equality
+\[
+\sigma(p)=\tau(p)
+\]
+means
+\[
+s_p = t_p
+\quad \text{in } \mathcal F_p.
+\]
+Therefore there exists an open neighborhood
+\[
+N \subseteq V \cap W
+\]
+of $p$ such that
+\[
+s|_N = t|_N.
+\]
+
+Consequently
+\[
+\sigma|_N = \widetilde{s}|_N
+=
+\widetilde{t}|_N
+=
+\tau|_N.
+\]
+
+Thus $\sigma_p=\tau_p$ in $(\mathcal F^+)_p$.
+
+Therefore $\Phi_p$ is injective.
+
+Hence
+\[
+(\mathcal F^+)_p \cong \mathcal F_p.
+\]
+
+Under this identification,
+\[
+\theta_p : \mathcal F_p \longrightarrow (\mathcal F^+)_p
+\]
+is the identity map.
+
+So one usually writes
+\[
+(\mathcal F^+)_p = \mathcal F_p.
+\]
+
+\subsection*{4. Universal property}
+
+Let $\mathcal G$ be a sheaf and let
+\[
+\varphi : \mathcal F \longrightarrow \mathcal G
+\]
+be a morphism of presheaves.
+
+We must construct a unique morphism of sheaves
+\[
+\varphi^+ : \mathcal F^+ \longrightarrow \mathcal G
+\]
+such that
+\[
+\varphi^+ \circ \theta = \varphi.
+\]
+
+Let $U \subseteq X$ be open and let
+\[
+\sigma \in \mathcal F^+(U).
+\]
+
+For each point $p \in U$, the value $\sigma(p)$ lies in $\mathcal F_p$.
+The morphism $\varphi$ induces a morphism on stalks
+\[
+\varphi_p : \mathcal F_p \longrightarrow \mathcal G_p.
+\]
+
+We would like to define a section of $\mathcal G$ whose germ at $p$ is
+\[
+\varphi_p(\sigma(p)).
+\]
+
+This is possible because $\mathcal G$ is a sheaf.
+
+Indeed, since $\sigma$ is continuous, for every $p \in U$ there is an open
+neighborhood $U_p \subseteq U$ and a section
+\[
+s_p \in \mathcal F(U_p)
+\]
+such that
+\[
+\sigma|_{U_p} = \widetilde{s_p}.
+\]
+
+Then define locally
+\[
+g_p := \varphi_{U_p}(s_p) \in \mathcal G(U_p).
+\]
+
+On overlaps $U_p \cap U_q$, the local sections $g_p$ and $g_q$ have the same
+germs at every point. Since $\mathcal G$ is a sheaf, equality of germs at every
+point implies equality locally, and therefore the $g_p$ glue uniquely to a
+section
+\[
+g \in \mathcal G(U).
+\]
+
+Define
+\[
+\varphi^+_U(\sigma) := g.
+\]
+
+Equivalently, $\varphi^+_U(\sigma)$ is the unique section of $\mathcal G(U)$
+satisfying
+\[
+\bigl(\varphi^+_U(\sigma)\bigr)_p
+=
+\varphi_p(\sigma(p))
+\qquad
+\text{for all } p \in U.
+\]
+
+This construction is compatible with restrictions, so it gives a morphism of
+sheaves
+\[
+\varphi^+ : \mathcal F^+ \longrightarrow \mathcal G.
+\]
+
+Now let $s \in \mathcal F(U)$. Then
+\[
+\theta_U(s)=\widetilde{s}.
+\]
+For every $p \in U$,
+\[
+\bigl(\varphi^+_U(\widetilde{s})\bigr)_p
+=
+\varphi_p(s_p)
+=
+(\varphi_U(s))_p.
+\]
+Since $\mathcal G$ is a sheaf, sections with the same germs at all points are
+equal. Hence
+\[
+\varphi^+_U(\theta_U(s))
+=
+\varphi_U(s).
+\]
+Therefore
+\[
+\varphi^+ \circ \theta = \varphi.
+\]
+
+Finally, uniqueness follows because the local sections $\widetilde{s}$ generate
+$\mathcal F^+$ locally. More explicitly, every section of $\mathcal F^+$ is
+locally of the form $\widetilde{s}$. Therefore any morphism
+\[
+\psi : \mathcal F^+ \to \mathcal G
+\]
+satisfying
+\[
+\psi \circ \theta = \varphi
+\]
+must agree with $\varphi^+$ locally, hence globally by the sheaf axiom.
+
+Thus $(\mathcal F^+,\theta)$ satisfies the universal property of
+sheafification.
+
+\subsection*{5. Functoriality}
+
+Let
+\[
+f : \mathcal F \longrightarrow \mathcal G
+\]
+be a morphism of presheaves.
+
+Applying the universal property to the morphism
+\[
+\mathcal F \xrightarrow{f} \mathcal G
+\xrightarrow{\theta_{\mathcal G}} \mathcal G^+
+\]
+gives a unique morphism of sheaves
+\[
+f^+ : \mathcal F^+ \longrightarrow \mathcal G^+
+\]
+such that
+\[
+f^+ \circ \theta_{\mathcal F}
+=
+\theta_{\mathcal G} \circ f.
+\]
+
+On stalks this gives
+\[
+(f^+)_p = f_p.
+\]
+
+Indeed, under the identifications
+\[
+(\mathcal F^+)_p \cong \mathcal F_p,
+\qquad
+(\mathcal G^+)_p \cong \mathcal G_p,
+\]
+the induced map is exactly the map on germs
+\[
+f_p : \mathcal F_p \longrightarrow \mathcal G_p.
+\]
+
+Therefore sheafification is functorial:
+\[
+\mathcal F \longmapsto \mathcal F^+,
+\qquad
+f \longmapsto f^+.
+\]
+
+\subsection*{6. Adjointness}
+
+Let
+\[
+i : \operatorname{Sh}_X \longrightarrow \operatorname{PreSh}_X
+\]
+be the inclusion functor.
+
+The universal property says exactly that for every presheaf $\mathcal F$ and
+every sheaf $\mathcal G$, composition with
+\[
+\theta : \mathcal F \to i(\mathcal F^+)
+\]
+induces a bijection
+\[
+\operatorname{Hom}_{\operatorname{Sh}_X}(\mathcal F^+,\mathcal G)
+\cong
+\operatorname{Hom}_{\operatorname{PreSh}_X}(\mathcal F,i\mathcal G).
+\]
+
+Hence the sheafification functor
+\[
+a : \operatorname{PreSh}_X \longrightarrow \operatorname{Sh}_X,
+\qquad
+a(\mathcal F)=\mathcal F^+
+\]
+is left adjoint to the inclusion functor:
+\[
+a \dashv i.
+\]
+
+Thus sheafification is the best sheaf approximation to a presheaf.
+
+\[
+\boxed{
+	\operatorname{Hom}_{\operatorname{Sh}_X}(\mathcal F^+,\mathcal G)
+	\cong
+	\operatorname{Hom}_{\operatorname{PreSh}_X}(\mathcal F,\mathcal G)
+}
+\]
+whenever $\mathcal G$ is already a sheaf.
+
+\newpage
