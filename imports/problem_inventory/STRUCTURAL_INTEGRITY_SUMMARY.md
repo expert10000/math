@@ -3,13 +3,13 @@
 This is review-only. It does not modify `PROBLEM_LEDGER.tsv`.
 
 ## Global ledger segmentation
-- Ledger rows inspected: **5120**
-- Flagged rows: **683**
-- High severity: **375**
-- Medium severity: **308**
-- Spans >=250 lines: **303**
-- Rows with >=3 problem/exercise/example headings: **110**
-- Rows with >=2 solution markers: **142**
+- Ledger rows inspected: **6133**
+- Flagged rows: **661**
+- High severity: **311**
+- Medium severity: **350**
+- Spans >=250 lines: **249**
+- Rows with >=3 problem/exercise/example headings: **34**
+- Rows with >=2 solution markers: **114**
 
 ## Known Tier-2 structural recoveries
 - Recovery previews found: **5/5**
