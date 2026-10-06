@@ -6,21 +6,20 @@ Title: Algebraic Topology
 Reader-facing problems: 92
 Reader-facing solutions: 92
 Diagram placeholders: 0
+Full-book pages: 1722
 
 Chapter SHA256:
-5DA845A08335A3556CF1D974B9B0D0E236521D098DC76578F58FFF4F8E5A7920
+4CF83D6F61BA0430C5D521D81D913C5F0DC741B7ED045531B745CE2E90B2C154
 
 Freeze date: 2026-10-07
 
 Status:
-- primary source-family inventory complete
-- content-first extraction complete
-- source reconciliation complete
-- exact/near deduplication complete
-- canonical reader-facing corpus complete
-- pre-migration LaTeX sanitation complete
-- environment compatibility cleanup complete
+- source-family reconciliation complete
+- deduplication complete
+- overmerge cleanup complete
+- problem/solution boundary QA complete
+- LaTeX sanitation complete
 - diagram restoration complete
-- typography/layout cleanup complete
-- full-book compile passed
-- Part VIII warning scan passed
+- typography cleanup complete
+- full-book compile passed twice
+- Part VIII warning scan clean
