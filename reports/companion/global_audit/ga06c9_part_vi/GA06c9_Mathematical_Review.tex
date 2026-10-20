@@ -1,0 +1,118 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern,amsmath,amssymb,amsthm,mathtools,microtype,booktabs,array,longtable}
+\usepackage[margin=22mm,headheight=15pt]{geometry}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor,fancyhdr,enumitem}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\cO}{\mathcal O}
+\newcommand{\cF}{\mathcal F}
+\newcommand{\cU}{\mathcal U}
+\newcommand{\cC}{\mathcal C}
+\newcommand{\GG}{\Gamma}
+\newcommand{\CP}[1]{\texttt{CP-VI-#1}}
+\definecolor{heading}{HTML}{173B63}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small GA-06c9 \textbullet\ Part VI evidence review}\fancyhead[R]{\small 20 October 2026}\fancyfoot[C]{\thepage}
+\newtheorem{proposition}{Proposition}
+\newtheorem{remark}{Remark}
+\begin{document}
+\begin{center}
+{\Large\bfseries\color{heading} GA-06c9 --- Historical Source Identity\\ and Mathematical Second-Reading Notes}\\[6pt]
+{\normalsize Companion Problems \& Solutions --- Part VI}\\[4pt]
+{\small Technical evidence report; not a publication certificate}
+\end{center}
+\vspace{3pt}\hrule\vspace{8pt}
+
+\section{Scope and evidentiary status}
+The Part VI corpus has \emph{108 canonical problems in 49 canonical chapters}. The nine GA-06b review batches and their fourteen corrections have passed the latest reported consolidation checks; the later correction to \CP{0021} is tracked separately. This technical note makes an additional, strictly delimited advance: the historical identity of the two recovered source references, \CP{0048} and \CP{0049}, can be checked by an exact comparison of their full normalized original-source ranges with the canonical versions recorded in the immutable baseline commit
+\begin{center}\texttt{410a7ff3edf4d46d74eee85634c286d59319389a}.\end{center}
+The comparisons are much stronger than keyword overlap or title similarity, but they are \emph{not} proof approvals, and they do not verify mathematical changes made after that commit. The current canonical TeX and the immutable imported originals must also pass independent SHA-256 checks.
+
+\begin{center}\begin{tabular}{>{\raggedright\arraybackslash}p{0.30\linewidth}>{\raggedright\arraybackslash}p{0.43\linewidth}>{\raggedright\arraybackslash}p{0.18\linewidth}}
+\toprule\textbf{Issue}&\textbf{Established evidence}&\textbf{Remaining gate}\\\midrule
+\CP{0048} recovery&Historical full-body match after explicit macro/title normalization&Reviewer identity signoff\\
+\CP{0049} recovery&Historical full-body match after title normalization&Current corrected proof review\\
+47 other imported IDs&Original-file digest, source location, and declared ID checks&Semantic comparison\\
+25 canonical solutions&Identified review corpus, current-file integrity&Full second reading\\
+\CP{0047} supplement&Main explicitly includes supplement; no independent exercise heading&Editorial disposition\\
+PDF/build&No current build/visual signoff asserted&Build and page review\\\bottomrule
+\end{tabular}\end{center}
+
+\section{Exact recovery is not mathematical certification}
+For \CP{0048}, the original is \texttt{Downloads/theory-of-algebraic-geometry-2.tex}, lines 557--836. The source abbreviates sheaves by \verb|\F|, \verb|\Fp| and \verb|\Fpp| and uses \verb|\im|. The canonical historical TeX expands these macros into \(\mathcal F\), \(\mathcal F'\), \(\mathcal F''\), and \(\operatorname{im}\), and uses a PDF-safe subsection title. The comparison applies \emph{only} those transformations, maps the top-level source heading to the canonical subsection, deletes canonical header comments, and ignores whitespace. Every remaining normalized character must match, including equations and explanatory prose.
+
+For \CP{0049}, the original is \texttt{Downloads/theory-of-algebraic-geometry-11.tex}, lines 1527--1752. No algebraic macro expansion is needed: converting the source heading to the corresponding canonical subsection and omitting comments/whitespace gives the exact historical canonical text. This is particularly important because the \emph{source's cohomology basis was subsequently corrected}. Provenance identity is not an endorsement of the old basis. Neither recovered label is silently replaced by an invented \texttt{IMP-*} identifier.
+
+The companion script \texttt{ga06c9\_exact\_provenance.py} re-performs both entire-text comparisons \emph{inside the user's repository}, records normalized SHA-256 values for both sides, verifies the current 108-file manifest, and prepares evidence rows without filling in the original decisions sheet.
+
+\section{Second reading: left exactness of sections (\CP{0048})}
+Consider an exact sequence of sheaves of abelian groups
+\[
+0\longrightarrow\cF'\xrightarrow{i}\cF\xrightarrow{p}\cF''.
+\]
+For an arbitrary open \(U\), a section \(s\in\cF'(U)\) with \(i_U(s)=0\) has zero germ at every \(x\in U\), since each stalk map \(i_x\) is injective. The sheaf locality axiom implies \(s=0\). Likewise, if \(t\in\cF(U)\) satisfies \(p_U(t)=0\), then every germ \(t_x\) lies in \(\ker p_x=\operatorname{im}i_x\). Locally lift the germ to sections \(s_x\) of \(\cF'\). On intersections these local lifts coincide because \(i\) is injective, and sheaf gluing produces a unique global lift \(s\in\cF'(U)\) with \(i_U(s)=t\). Consequently
+\[
+0\longrightarrow\cF'(U)\longrightarrow\cF(U)\longrightarrow\cF''(U)
+\]
+is exact: \(\GG(U,-)\) is \emph{left exact}.
+
+Its right exactness cannot be inferred from stalkwise surjectivity. A concrete algebraic counterexample is the standard short exact sequence on \(\mathbb P^1_k\):
+\[
+0\longrightarrow\cO_{\mathbb P^1}(-2)
+\longrightarrow\cO_{\mathbb P^1}(-1)^{\oplus2}
+\xrightarrow{\,(X,Y)\,}\cO_{\mathbb P^1}\longrightarrow0.
+\]
+The last map is surjective as a \emph{sheaf} because \(X\) and \(Y\) never vanish simultaneously on the projective line. However
+\[
+H^0(\mathbb P^1,\cO(-1)^{\oplus2})=0,
+\qquad H^0(\mathbb P^1,\cO)=k,
+\]
+so it is not surjective on global sections. This independent example confirms the distinction emphasized in the recovered original.
+
+\section{Second reading: the plane-curve Cech quotient (\CP{0049})}
+Let \(X\subset\mathbb P^2_k\) be cut out by a nonzero homogeneous polynomial \(F\) of degree \(d\ge1\), with \([1:0:0]\notin X\). The two standard affine opens
+\(U=X\cap D_+(x_1)\), \(V=X\cap D_+(x_2)\)
+cover \(X\), and their intersection is affine. Write
+\[
+u=x_0/x_1,\quad v=x_2/x_1,\quad s=u/v,\quad w=1/v.\]
+After scaling the leading coefficient, \(F(u,1,v)\) is monic of degree \(d\) in \(u\), whence
+\[
+R=\cO_X(U\cap V)=k[u,v,v^{-1}]/(F(u,1,v))
+\]
+is free over \(k[v,v^{-1}]\) with basis \(1,u,\ldots,u^{d-1}\). The \(U\)-chart eliminates all terms \(u^rv^j\) with \(j\ge0\), while the \(V\)-chart contains \(s^r w^{m-r}=u^rv^{-m}\) for \(m\ge r\). Higher powers of \(u\) reduce by the monic relation, preserving that bound for \(V\)-chart terms. Consequently a basis of the quotient is
+\[
+\boxed{\left\{[u^rv^{-m}]\,:\,2\le r\le d-1,\ 1\le m<r\right\}}.
+\]
+Thus
+\[
+\dim_k H^1(X,\cO_X)=\sum_{r=2}^{d-1}(r-1)=\frac{(d-1)(d-2)}2.
+\]
+For \(d=3\), the surviving class is \([u^2/v]\). The earlier proposed \([u/v]\) is \([s]\), a section already extending over \(V\), and hence represents zero. For \(d=4\), the basis has three elements \([u^2/v], [u^3/v], [u^3/v^2]\). This gives a direct, falsifiable test of the correction: it is \emph{not} a rubber stamp on the original imported proof.
+
+\section{Second reading: sheaf Cech resolution (\CP{0021})}
+Given an open cover \(\cU=\{U_i\}\), set \(U_I=U_{i_0}\cap\cdots\cap U_{i_p}\) and denote the open immersion by \(j_I:U_I\hookrightarrow X\). The correct sheaf on \(X\) is
+\[
+\cC^p(\cU,\cF)=\prod_I (j_I)_*(\cF|_{U_I}).
+\]
+In particular, for an open \(W\subset X\),
+\[
+\GG(W,\cC^p)=\prod_I\cF(W\cap U_I).
+\]
+If \(\cF\) is flabby, then \((j_I)_*(\cF|_{U_I})\) is flabby: for \(W'\subset W\), the restriction
+\(\cF(W\cap U_I)\to\cF(W'\cap U_I)\) is surjective. Products preserve flabbiness. The usual insertion-of-an-index contracting homotopy verifies the exactness of the augmented sheaf Cech complex on stalks; taking global sections then gives \(\check H^{p}(\cU,\cF)=0\) for \(p>0\). The additional editorial heading removal and the chained EOF checksum must be inspected separately, as recorded by GA-06c7 and GA-06c7b.
+
+\section{Duplicate-name evidence and remaining decisions}
+The main \CP{0047} source explicitly inputs \texttt{supplementary/CP-VI-0047\_theory\_examples.tex}. Its filename alone cannot establish a second canonical problem. The earlier structural scan reported no independent problem/exercise environment, label, or titled problem in the roughly 79\,KB supplement; its long theory/examples headings and any unconventional imperatives still require a deliberate editorial decision. \emph{Recommendation:} a filename-only false positive, subject to full content inspection.
+
+The other 47 imported-reference records require explicit comparison of the complete originating statement with each current canonical statement; original-file SHA-256 and existence of the \texttt{IMP-*} token are necessary but not sufficient. Every reviewer entry should retain a canonical digest, an original source digest and range, an explanation of any changed hypotheses or mathematical conclusion, the reviewer, and the approval decision.
+
+\section{Release boundary}
+This technical report establishes \emph{new reproducible source-identity evidence for two recovered references} and documents independent mathematical sanity checks. It does not declare all 25 full solutions correct, reconcile all 47 imported references, perform the user's current full-book PDF build, or sign the CP-VI-0047 and editorial decisions. Maintain \texttt{CERTIFICATION\_NOT\_READY} until these independent gates pass. Part V remains frozen and must not be modified by the scripts.
+
+\vspace{7pt}\hrule\vspace{6pt}
+{\footnotesize\textbf{Reproducibility.} Execute \texttt{ga06c9\_exact\_provenance.py} on the MATH repository, using its historical baseline Git commit, \texttt{SOURCE\_FILES.tsv}, and the current GA-06c source manifest. Its checksum-verified TSV/Markdown artifacts are evidence reports, not signed reviewer worksheets.}
+\end{document}
