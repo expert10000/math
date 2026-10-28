@@ -1,0 +1,28 @@
+% Companion Part VI: local display-only repair for retained legacy headings.
+% IMPORTANT: The audited CP-VI-0024, CP-VI-0026 and CP-VI-0047 source files
+% are included unchanged.  This wrapper changes only their rendered titles.
+% Requires a current LaTeX2e release (xparse document commands) and etoolbox.
+\providecommand{\CompanionVIInputWithHeading}[4]{%
+  \begingroup
+  % For CP-VI-0024, render the four example-step paragraphs as display
+  % subsubsections rather than inline/run-in paragraph headings.
+  \ifnum#4=1\relax\let\paragraph\subsubsection\fi
+  \let\CompanionVIOriginalSubsection\subsection
+  \RenewDocumentCommand{\subsection}{s o m}{%
+    \IfBooleanTF{##1}{%
+      \ifstrequal{##3}{#2}{%
+        \CompanionVIOriginalSubsection*{#3}%
+      }{%
+        \CompanionVIOriginalSubsection*{##3}%
+      }%
+    }{%
+      \IfNoValueTF{##2}{%
+        \CompanionVIOriginalSubsection{##3}%
+      }{%
+        \CompanionVIOriginalSubsection[##2]{##3}%
+      }%
+    }%
+  }%
+  \input{#1}%
+  \endgroup
+}

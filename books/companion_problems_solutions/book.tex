@@ -35,7 +35,7 @@
 
 \title{Theory of Mathematics\\[0.5em]\Large Companion Volume: Problems, Solutions, and Worked Examples}
 \author{}
-\date{Development scaffold --- September 2026}
+\date{Editorial review edition --- October 2026}
 \hypersetup{
   pdftitle={Theory of Mathematics --- Companion Volume: Problems, Solutions, and Worked Examples},
   pdfsubject={Companion problem volume for the Theory of Mathematics series}
@@ -82,6 +82,7 @@
 % END COMPANION TOC PAGE-NUMBER SPACING
 
 \begin{document}
+\input{companion_prose_typography.tex}% no first-line indent in proof prose
 \pagenumbering{gobble}
 \maketitle
 \clearpage
@@ -118,7 +119,22 @@
 \include{chapters/part05_volume_v/chapter}
 
 \part{Companion to Volume VI: Algebraic Geometry and Sheaf Theory}
+% BEGIN COMPANION PART VI TOC REFINEMENT
+% Keep numbered VI/01--VI/49 sections in the global Contents. Omit
+% proof subsections/subsubsections from TOC ONLY; all book headings, labels,
+% counters, and mathematical source files remain unchanged.
+% Restore the exact original writer before starting Part VII.
+\let\CompanionOriginalAddcontentsline\addcontentsline
+\renewcommand{\addcontentsline}[3]{%
+  \ifstrequal{#1}{toc}{%
+    \ifstrequal{#2}{subsection}{}{%
+      \ifstrequal{#2}{subsubsection}{}{\CompanionOriginalAddcontentsline{#1}{#2}{#3}}%
+    }%
+  }{\CompanionOriginalAddcontentsline{#1}{#2}{#3}}%
+}
 \include{chapters/part06_volume_vi/chapter}
+\let\addcontentsline\CompanionOriginalAddcontentsline
+% END COMPANION PART VI TOC REFINEMENT
 
 \part{Companion to Volume VII: Differential, Riemannian and Hyperbolic Geometry}
 \include{chapters/part07_volume_vii/chapter}
