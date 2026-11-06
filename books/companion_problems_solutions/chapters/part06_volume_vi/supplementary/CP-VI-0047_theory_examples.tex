@@ -43,7 +43,7 @@ multiplicity \(-1\), representing a pole, along \(D_2\).
 
 \subsubsection{Why normality is important}
 
-Suppose that \(X\) is normal and integral. The local ring
+Suppose that \(X\) is normal, integral, and Noetherian. The local ring
 \(\mathcal{O}_{X,\eta_D}\) at the generic point \(\eta_D\) of a prime
 divisor \(D\) is then a discrete valuation ring. Consequently, each
 nonzero rational function \(f\in K(X)^\times\) has a well-defined
@@ -112,7 +112,7 @@ are UFDs, so their spectra have trivial class group.
 
 A powerful method for computing divisor class groups is to remove a closed subset until the remaining open subscheme becomes factorial.
 
-Let \(X\) be normal and integral, and let
+Let \(X\) be a normal integral Noetherian scheme, and let
 \[
 U=X\setminus \bigcup_{i=1}^{r}D_i,
 \]
@@ -148,7 +148,14 @@ Hence the removed divisors generate \(\operatorname{Cl}(X)\):
 \langle [D_1],\dots,[D_r]\rangle.
 \]
 
-The remaining question is to find all relations among those generators. These relations arise from principal divisors of rational functions whose zero and pole loci lie in the removed boundary.
+The remaining question is to find all relations among those generators.
+More precisely, a principal divisor supported on the boundary comes from
+a rational function that restricts to a unit on \(U\). Conversely,
+every unit on \(U\) is a rational function on the integral scheme
+\(X\), with divisor supported on the boundary. Hence the relations
+among the \([D_i]\) are exactly the boundary-valuations of
+\(\Gamma(U,\mathcal O_U)^\times\). This is the relation calculation
+used below; it is not enough merely to exhibit some principal divisors.
 
 \subsubsection{Units on the factorial open subset}
 
@@ -269,7 +276,11 @@ Consider
 X=\operatorname{Spec} k[x,y,z]/(xy-z^2).
 \]
 
-This is a two-dimensional affine cone. Away from the origin it is smooth, but the vertex creates nontrivial divisor-class behavior.
+This is a two-dimensional affine cone. Its coordinate ring is a
+normal Noetherian domain: as a hypersurface it satisfies
+Serre's \(S_2\) condition, and it is regular in codimension one.
+The possible singularity at the vertex therefore does not obstruct
+using Weil divisors and their discrete valuations.
 
 If we invert \(x\), then
 \[
@@ -312,10 +323,19 @@ Hence the class \([D]\) is not necessarily zero, but twice the class is zero:
 2[D]=0.
 \]
 
-This is the geometric origin of the torsion class
+To see that this is the \emph{only} relation, use the localization
+sequence. The open \(U=D(x)\) is factorial, and its units are
 \[
-\operatorname{Cl}(X)\cong \mathbb{Z}/2\mathbb{Z}.
+\Gamma(U,\mathcal O_U)^\times=k^\times x^{\mathbb Z}.
 \]
+Every principal divisor supported on \(D\) therefore comes from
+\(c x^m\), with \(c\in k^\times\) and \(m\in\mathbb Z\).
+Its boundary divisor is \(2mD\). Consequently the relation
+subgroup of \(\mathbb Z[D]\) is exactly \(2\mathbb Z[D]\), giving
+\[
+\operatorname{Cl}(X)\cong\mathbb Z/2\mathbb Z.
+\]
+This also proves that \(D\) itself is not principal.
 
 The cone has a divisor which behaves like ``half'' of a principal divisor: the function \(x\) defines twice the ruling divisor.
 
@@ -357,6 +377,11 @@ This gives the relation
 \[
 [D]+[E]=0.
 \]
+Because \(\Gamma(D(x),\mathcal O_X)^\times
+=k^\times x^{\mathbb Z}\), every rational function whose
+principal divisor is supported on \(D\cup E\) restricts to
+\(c x^m\) on \(D(x)\). Its boundary divisor is
+\(m(D+E)\). Thus there is no second independent relation.
 
 Unlike the surface cone \(xy=z^2\), there is no multiplicity \(2\) along a single divisor. Instead, one principal divisor splits into two different prime divisors. Therefore one divisor class remains freely generated:
 \[
@@ -440,7 +465,8 @@ that is, by homogeneous polynomials
 \[
 F_0,\dots,F_m
 \]
-of the same degree \(d\), with no common zero:
+of the same degree \(d\), with no common projective zero
+\emph{after extension to an algebraic closure of \(k\)}:
 \[
 \varphi([X_0:\cdots:X_n])
 =
@@ -885,17 +911,25 @@ then tensoring with \(B\) gives
 B^p\longrightarrow B^q\longrightarrow M\otimes_A B\longrightarrow 0.
 \]
 
-Hence finite presentation is preserved under pullback. In the standard Noetherian setting of coherent sheaves, this implies:
+Hence finite presentation is preserved under pullback.
+If the \emph{source scheme \(X\) is locally Noetherian}, locally
+finitely presented \(\mathcal O_X\)-modules are coherent. Under
+this hypothesis, pullback of a coherent sheaf is coherent:
 \[
 \boxed{
-	\mathcal{F}\text{ coherent}
-	\quad\Longrightarrow\quad
-	g^*\mathcal{F}\text{ coherent}.
+	\begin{gathered}
+	X\text{ locally Noetherian},\quad\mathcal F\text{ coherent}
+	\Longrightarrow g^*\mathcal F\text{ coherent}.
+	\end{gathered}
 }
 \]
 
 \begin{remark}
-	For arbitrary non-Noetherian schemes, coherence must be handled with care, because finite presentation and coherence need not coincide without additional hypotheses. In the usual locally Noetherian setting, the pullback statement above is exactly the required form.
+	The source condition matters: over an arbitrary noncoherent ring,
+	a finitely presented module need not be coherent. Thus finite
+	presentation is preserved by every base change, whereas coherence
+	requires hypotheses on the rings of the source. The theorem should
+	not be asserted for an arbitrary scheme \(X\).
 \end{remark}
 
 \subsubsection{Pushforward and the loss of finiteness}
@@ -1922,7 +1956,13 @@ Hence
 n[D]=0.
 \]
 
-The same unit calculation as before shows that this is the only relation. Consequently,
+This is the only relation: the factorial open set \(D(x)\) has
+unit group \(k^\times x^{\mathbb Z}\), so every principal divisor
+supported on \(D\) is \(mnD\) for some \(m\in\mathbb Z\).
+Here the hypersurface ring is normal: it is Cohen--Macaulay
+and regular away from the codimension-two vertex, so the
+normal Noetherian divisor-class localization sequence applies.
+Consequently,
 \[
 \boxed{
 	\operatorname{Cl}(X_n)\cong\mathbf Z/n\mathbf Z.
@@ -2042,7 +2082,11 @@ Consequently,
 [D]+[E]=0.
 \]
 
-This is the only relation between the two generators, and hence
+To justify that there is no further relation, note that
+\(\Gamma(D(x),\mathcal O_X)^\times=k^\times x^{\mathbb Z}\).
+The boundary valuations of \(x^m\) are \(m(D+E)\).
+Thus the relation subgroup of \(\mathbb Z[D]\oplus\mathbb Z[E]\)
+is exactly \(\mathbb Z(D+E)\), and hence
 \[
 \boxed{
 	\operatorname{Cl}(X)\cong\mathbf Z.
